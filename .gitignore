@@ -1,0 +1,10 @@
+bin
+obj
+build
+output
+*.user
+*.suo
+*.Cache
+TestResult.xml
+coverage.*
+_ReSharper*
