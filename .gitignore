@@ -4,6 +4,7 @@ output
 *.user
 *.suo
 *.Cache
+*.ncb
 TestResult.xml
 coverage.*
 _ReSharper*
