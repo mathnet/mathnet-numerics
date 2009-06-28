@@ -1,6 +1,8 @@
 output
 *.Cache
+*.cache
 *.ncb
 TestResult.xml
 coverage.*
 _ReSharper*
+*.marcus
