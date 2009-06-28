@@ -1,0 +1,104 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Math.RowVector</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Math.html'>Microsoft.FSharp.Math</a>.RowVector </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ The type of row vectors.  
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type RowVector&lt;'T&gt;
+with
+  interface IEnumerable&lt;'T&gt;
+  interface <a href='../FSharp.Core/Microsoft.FSharp.Core.type_IStructuralEquatable.html'>IStructuralEquatable</a>
+  interface <a href='../FSharp.Core/Microsoft.FSharp.Core.type_IStructuralComparable.html'>IStructuralComparable</a>
+  interface <a href='http://msdn2.microsoft.com/en-us/library/System.IComparable.aspx'>IComparable</a>
+  member Copy : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  override Equals : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+  override GetHashCode : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member GetSlice : start:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  member Permute : permutation:(<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  member SetSlice : start:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * src:<a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  member ToArray : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a>
+  member ElementOps : <a href='Microsoft.FSharp.Math.type_INumeric-1.html'>INumeric</a>&lt;'T&gt;
+  member InternalValues : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a>
+  member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with get
+  member Length : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member NumCols : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member Transpose : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;
+  member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with set
+  static member ( + ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  static member ( .* ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  static member ( * ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  static member ( * ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * 'T -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  static member ( * ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> 'T
+  static member ( * ) : 'T * <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  static member ( - ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  static member ( ~- ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  static member ( ~+ ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Copy : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a new matrix that is a copy of the given array
+</summary></td></tr>
+<tr valign="top"><td><pre>member ElementOps : <a href='Microsoft.FSharp.Math.type_INumeric-1.html'>INumeric</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>override Equals : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>override GetHashCode : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member GetSlice : start:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td><summary>
+ Supports the slicing syntax 'rv.[idx1..idx2]'
+</summary></td></tr>
+<tr valign="top"><td><pre>member InternalValues : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a></pre></td><td><summary>
+ Get the underlying internal array of values for the vector. This property 
+ should only be used when interoperating with other matrix libraries.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with get</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with set</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Length : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member NumCols : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Permute : permutation:(<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td><summary>
+ Permute the elements of the row vector.
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  SetSlice : start:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * src:<a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; ->
+               <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Supports the slicing syntax 'rv.[idx1..idx2] &lt;- rv2'
+</summary></td></tr>
+<tr valign="top"><td><pre>member ToArray : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a></pre></td><td><summary>
+ Return a new array containing a copy of the elements of the given vector
+</summary></td></tr>
+<tr valign="top"><td><pre>member Transpose : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Get the transpose of the row vector.
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member ( * ) : 'T * <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * 'T -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ( + ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ( - ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ( .* ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ( ~+ ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ( ~- ) : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Math.html">Microsoft.FSharp.Math</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

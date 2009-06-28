@@ -1,0 +1,128 @@
+{
+(* (c) Microsoft Corporation 2005-2008.  *)
+  
+open Fsyaccast
+open Fsyaccpars
+open System.Text
+open Internal.Utilities.Text.Lexing
+
+let lexeme  (lexbuf : LexBuffer<char>) = new System.String(lexbuf.Lexeme)
+let newline (lexbuf:LexBuffer<_>) = lexbuf.EndPos <- lexbuf.EndPos.NextLine
+
+let unexpected_char lexbuf =
+  failwith ("Unexpected character '"^(lexeme lexbuf)^"'")
+
+let gettype (s:string) = 
+    if s.Contains("<") then 
+        let n = s.IndexOf("<")in 
+        let m = s.IndexOf(">")in 
+        Some s.[n+1 .. m-1] 
+    else None
+
+} 
+
+let letter = ['A'-'Z'] | ['a'-'z']
+let digit = ['0'-'9']
+let whitespace = [' ' '\t']
+let newline = ('\n' | '\r' '\n')
+let ident_start_char = letter       
+let ident_char = ( ident_start_char| digit | ['\'' '_'] )
+let ident = ident_start_char ident_char*
+let typ = '<' [^ '\n' '\r' '>']+ '>' 
+
+rule token = parse
+ | "%{" { let p = lexbuf.StartPos in header p (new StringBuilder 100) lexbuf }
+ | "%%" { PERCENT_PERCENT }
+ | "%token" ((whitespace* typ)?) { TOKEN (gettype (lexeme lexbuf)) }
+ | "%start"{ START }
+ | "%prec"{ PREC }
+ | "%type" (whitespace* typ) { TYPE (match gettype (lexeme lexbuf) with Some x -> x | None -> failwith "gettype") }
+ | "%left" { LEFT }
+ | "%right" { RIGHT }
+ | "%nonassoc" { NONASSOC }
+ | "error" { ERROR }
+ | '<' { LESS }
+ | '>' { GREATER }
+ | ';' { SEMI }
+ | '{' { let p = lexbuf.StartPos in code p (new StringBuilder 100) lexbuf }
+ | whitespace+  { token lexbuf }
+ | newline { newline lexbuf; token lexbuf }
+ | ident_start_char ident_char* { IDENT (lexeme lexbuf) }
+ | '|' { BAR }
+ | "/*" { ignore(comment lexbuf); token lexbuf }
+ | "//" [^'\n''\r']* {  token lexbuf  }
+ | ':' { COLON }
+ | _ { unexpected_char lexbuf }     
+ | eof { EOF  }                                     
+and header p buff = parse
+ | "%}" { HEADER (buff.ToString(), p) }
+ | newline { newline lexbuf; 
+             ignore <| buff.Append System.Environment.NewLine; 
+             header p buff lexbuf }
+ | (whitespace | letter | digit) +  
+      { ignore <| buff.Append (lexeme lexbuf); 
+        header p buff lexbuf }
+ | "//" [^'\n''\r']*
+      { ignore <| buff.Append (lexeme lexbuf); 
+        header p buff lexbuf }
+ | "'\"'" | "'\\\"'"
+      { ignore <| buff.Append (lexeme lexbuf); 
+        header p buff lexbuf }
+ | "\"" 
+      { ignore <| buff.Append (lexeme lexbuf); 
+        ignore(codestring buff lexbuf); 
+        header p buff lexbuf }
+ | eof { EOF }
+ | _ { ignore <| buff.Append(lexeme lexbuf).[0]; 
+       header p buff lexbuf }
+and code p buff = parse
+ | "}" { CODE (buff.ToString(), p) }
+ | "{" { ignore <| buff.Append (lexeme lexbuf); 
+         ignore(code p buff lexbuf); 
+         ignore <| buff.Append "}"; 
+         code p buff lexbuf }
+ | newline { newline lexbuf; 
+             ignore <| buff.Append System.Environment.NewLine; 
+             code p buff lexbuf }
+ | "'\"'" | "'\\\"'"
+      { ignore <| buff.Append (lexeme lexbuf); 
+        code p buff lexbuf }
+ | "\"" { ignore <| buff.Append (lexeme lexbuf); 
+          ignore(codestring buff lexbuf); 
+          code p buff lexbuf }
+ | (whitespace | letter | digit) +  
+   { ignore <| buff.Append (lexeme lexbuf); 
+     code p buff lexbuf }
+ | "//" [^'\n''\r']*
+   { ignore <| buff.Append (lexeme lexbuf); 
+     code p buff lexbuf }
+ | eof { EOF }
+ | _ { ignore <| buff.Append(lexeme lexbuf).[0]; 
+       code p buff lexbuf }
+
+
+and codestring buff = parse
+ |  '\\' ('"' | '\\')
+   { ignore <| buff.Append (lexeme lexbuf); 
+     codestring buff lexbuf } 
+ | '"' { ignore <| buff.Append (lexeme lexbuf); 
+         buff.ToString() }
+ | newline { newline lexbuf; 
+             ignore <| buff.Append System.Environment.NewLine; 
+             codestring buff lexbuf }
+ | (whitespace | letter | digit) +  
+   { ignore <| buff.Append (lexeme lexbuf); 
+     codestring buff lexbuf }
+ | eof { failwith "unterminated string in code" }
+ | _ { ignore <| buff.Append(lexeme lexbuf).[0]; 
+       codestring buff lexbuf }
+
+
+and comment = parse
+ | "/*" { ignore(comment lexbuf); comment lexbuf }
+ | newline { newline lexbuf; comment lexbuf }
+ | "*/" { () }
+ | eof { failwith "end of file in comment" }
+ | [^ '/' '*' '\n' '\r' '"' '/' ]+  { comment lexbuf }
+ | _  { comment lexbuf }
+

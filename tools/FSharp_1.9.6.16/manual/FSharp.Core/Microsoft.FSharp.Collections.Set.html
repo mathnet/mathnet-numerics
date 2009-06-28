@@ -1,0 +1,118 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections.Set</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Collections.html'>Microsoft.FSharp.Collections</a>.Set </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Functional programming operators related to the <tt>Set&lt;_&gt;</tt> type.
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val add : 'T -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+ Return a new set with an element added to the set.  No exception is raised if
+ the set already contains the given element.
+</summary></td></tr>
+<tr valign="top"><td><pre>val contains : 'T -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Evaluates to "true" if the given element is in the given set
+</summary></td></tr>
+<tr valign="top"><td><pre>val count : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+Return the number of elements in the set.  Same as <tt>size</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_GeneralizableValueAttribute.html'>GeneralizableValueAttribute</a> ()>]
+val empty&lt;'T&gt; : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+ The empty set for the type 'T .
+</summary></td></tr>
+<tr valign="top"><td><pre>val exists : ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Test if any element of the collection satisfies the given predicate.
+If the input function is <tt>f</tt> and the elements are <tt>i0...iN</tt> 
+then computes <tt>p i0 or ... or p iN</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val filter : ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+ Return a new collection containing only the elements of the collection
+ for which the given predicate returns <tt>true</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>val fold : ('State -> 'T -> 'State) -> 'State -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> 'State</pre></td><td><summary>
+ Apply the given accumulating function to all the elements of the set
+</summary></td></tr>
+<tr valign="top"><td><pre>val foldBack : ('T -> 'State -> 'State) -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> 'State -> 'State</pre></td><td><summary>
+ Apply the given accumulating function to all the elements of the set
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("This F# library function has been renamed. Use 'forall' instead")>]
+val for_all : ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val forall : ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Test if all elements of the collection satisfy the given predicate.
+ If the input function is <tt>f</tt> and the elements are <tt>i0...iN</tt> and "j0...jN"
+ then computes <tt>p i0 &amp;&amp; ... &amp;&amp; p iN</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val intersect : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+ Compute the intersection of the two sets.
+</summary></td></tr>
+<tr valign="top"><td><pre>val intersectMany : <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+Compute the intersection of a sequence of sets. The sequence must be non-empty
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("This F# library function has been renamed. Use 'isEmpty' instead")>]
+val is_empty : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val isEmpty : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Return "true" if the set is empty
+</summary></td></tr>
+<tr valign="top"><td><pre>val iter : ('T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Apply the given function to each element of the set, in order according
+to the comparison function
+</summary></td></tr>
+<tr valign="top"><td><pre>val map : ('T -> 'U) -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'U&gt;</pre></td><td><summary>
+ Return a new collection containing the results of applying the
+ given function to each element of the input set
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_array : 'T <a href='Microsoft.FSharp.Core.type__array-1.html'>array</a> -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+ Build a set that contains the same elements as the given array
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_list : 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+ Build a set that contains the same elements as the given list
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_seq : <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+ Build a new collection from the given enumerable object
+</summary></td></tr>
+<tr valign="top"><td><pre>val partition : ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+Split the set into two sets containing the elements for which the given predicate
+returns true and false respectively
+</summary></td></tr>
+<tr valign="top"><td><pre>val remove : 'T -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+Return a new set with the given element removed.  No exception is raised in 
+the set doesn't contain the given element.
+</summary></td></tr>
+<tr valign="top"><td><pre>val singleton : 'T -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+ The set containing the given one element.
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_array : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> 'T <a href='Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td><summary>
+ Build an array that contains the elements of the set in order
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_list : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Build a list that contains the elements of the set in order
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_seq : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;'T&gt;</pre></td><td><summary>
+ Return a view of the collection as an enumerable object
+</summary></td></tr>
+<tr valign="top"><td><pre>val union : <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+Compute the union of the two sets.
+</summary></td></tr>
+<tr valign="top"><td><pre>val unionMany : <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;&gt; -> <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+Compute the union of a sequence of sets.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Collections.html">Microsoft.FSharp.Collections</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

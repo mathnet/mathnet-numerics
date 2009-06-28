@@ -1,0 +1,42 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections.LazyList</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Collections.html'>Microsoft.FSharp.Collections</a>.LazyList </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ LazyLists are possibly-infinite, cached sequences.  See also IEnumerable/Seq for
+ uncached sequences. Calling "get" on the same lazy list value you will keep 
+ getting the same (cached) result.  LazyLists normally involve delayed computations
+ without side-effects, and calling "get" may cause these computations to be executed.  The results 
+ of these computations are cached - evaluations will be performed 
+ only once for each element of the lazy list.  This is different to IEnumerable/Seq where
+ recomputation happens each time an enumerator is created and the sequence traversed.
+
+ LazyLists can represent cached potentially-infinite computations.  Because they are cached they may cause 
+ memory leaks if some part of your code maintains a live reference to
+ the head of an infinite or very large lazy list while iterating it, or if a reference is
+ maintained after the list is no longer required.
+
+ Although lazy lists are an abstract type you may pattern match against them using the
+ LazyList.Cons and LazyList.Nil active patterns. These may force the computation of elements
+ of the list.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type LazyList&lt;'T&gt;
+with
+  interface <a href='http://msdn2.microsoft.com/en-us/library/System.Collections.IEnumerable.aspx'>IEnumerable</a>
+  interface IEnumerable&lt;'T&gt;
+end</pre>  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Collections.html">Microsoft.FSharp.Collections</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

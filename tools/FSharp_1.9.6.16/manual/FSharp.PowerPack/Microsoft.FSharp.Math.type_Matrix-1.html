@@ -1,0 +1,225 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Math.Matrix</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Math.html'>Microsoft.FSharp.Math</a>.Matrix </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ The type of matrices. The arithmetic operations on the element type are determined by inspection on the element type itself.
+ Two representations are supported: sparse and dense. 
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type Matrix&lt;'T&gt;
+with
+  interface IEnumerable&lt;'T&gt;
+  interface <a href='../FSharp.Core/Microsoft.FSharp.Core.type_IStructuralEquatable.html'>IStructuralEquatable</a>
+  interface <a href='../FSharp.Core/Microsoft.FSharp.Core.type_IStructuralComparable.html'>IStructuralComparable</a>
+  interface <a href='http://msdn2.microsoft.com/en-us/library/System.IComparable.aspx'>IComparable</a>
+  member Column : index:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;
+  member Columns : start:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * length:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  member Copy : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  override Equals : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+  member GetDiagonal : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;
+  override GetHashCode : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member GetSlice : start1:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish1:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * start2:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish2:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  member PermuteColumns : permutation:(<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  member PermuteRows : permutation:(<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  member Region : starti:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * startj:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * lengthi:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * lengthj:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  member Row : index:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  member Rows : start:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * length:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  member
+    SetSlice : start1:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish1:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * start2:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish2:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; ->
+                 <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  member ToArray2 : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a>
+  member ToRowVector : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;
+  member ToVector : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;
+  member Diagonal : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;
+  member Dimensions : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member ElementOps : <a href='Microsoft.FSharp.Math.type_INumeric-1.html'>INumeric</a>&lt;'T&gt;
+  member InternalDenseValues : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a>
+  member InternalSparseColumnValues : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a>
+  member InternalSparseRowOffsets : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a>
+  member InternalSparseValues : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a>
+  member IsDense : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+  member IsSparse : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+  member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with get
+  member NonZeroEntries : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * 'T&gt;
+  member Norm : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>
+  member NumCols : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member NumRows : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member Transpose : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with set
+  static member ( + ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  static member ( .* ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  static member ( * ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  static member ( * ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * 'T -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  static member ( * ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;
+  static member ( * ) : 'T * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  static member ( - ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  static member ( ~- ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+  static member ( ~+ ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;
+end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Column : index:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Select a column from a matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member Columns : start:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * length:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Select a range of columns from a matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member Copy : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a new matrix that is a copy of the given array
+</summary></td></tr>
+<tr valign="top"><td><pre>member Diagonal : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Get the main diagonal of a matrix, as a vector
+</summary></td></tr>
+<tr valign="top"><td><pre>member Dimensions : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Get the number of (rows,columns) in the matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member ElementOps : <a href='Microsoft.FSharp.Math.type_INumeric-1.html'>INumeric</a>&lt;'T&gt;</pre></td><td><summary>
+ Retrieve the dictionary of numeric operations associated with the element
+ type of this matrix.  Accessing the property may raise an NotSupportedException if the element
+ type doesn't support any numeric operations.  The object returned
+ may support additional numeric operations such as IFractional: 
+ this can be determined by a dynamic type test against the object
+ returned.
+</summary></td></tr>
+<tr valign="top"><td><pre>override Equals : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member GetDiagonal : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Return the nth diagonal of a matrix, as a vector.  Diagonal 0 is the primary
+ diagonal, positive diagonals are further to the upper-right of the matrix.
+</summary></td></tr>
+<tr valign="top"><td><pre>override GetHashCode : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member
+  GetSlice : start1:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish1:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * start2:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> *
+             finish2:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Supports the slicing syntax 'A.[idx1..idx2,idx1..idx2]'
+</summary></td></tr>
+<tr valign="top"><td><pre>member InternalDenseValues : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a></pre></td><td><summary>
+ Get the internal array of values for a dense matrix. This property 
+ should only be used when interoperating with other matrix libraries.
+</summary></td></tr>
+<tr valign="top"><td><pre>member InternalSparseColumnValues : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a></pre></td><td><summary>
+ Get the internal array of column values for a sparse matrix. This property 
+ should only be used when interoperating with other matrix libraries.
+</summary></td></tr>
+<tr valign="top"><td><pre>member InternalSparseRowOffsets : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a></pre></td><td><summary>
+ Get the internal array of row offsets for a sparse matrix. This property 
+ should only be used when interoperating with other matrix libraries.
+</summary></td></tr>
+<tr valign="top"><td><pre>member InternalSparseValues : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a></pre></td><td><summary>
+ Get the internal array of values for a sparse matrix. This property 
+ should only be used when interoperating with other matrix libraries.
+</summary></td></tr>
+<tr valign="top"><td><pre>member IsDense : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Indicates if the matrix uses the dense representation.
+</summary></td></tr>
+<tr valign="top"><td><pre>member IsSparse : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Indicates if the matrix uses the sparse representation.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with get</pre></td><td><summary>
+ Get the item at the given position in the matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with set</pre></td><td><summary>
+ Get the item at the given position in the matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member NonZeroEntries : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * 'T&gt;</pre></td><td><summary>
+ Return the non-zero entries of a sparse or dense matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member Norm : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ Returns sqrt(sum(norm(x)*(norm(x))) of all the elements of a matrix.
+ The element type of the matrix must have an associated instance of INormFloat&lt;'T&gt; (see <tt>GlobalAssociations</tt>) ((else NotSupportedException)).
+</summary></td></tr>
+<tr valign="top"><td><pre>member NumCols : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Get the number of columns in the matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member NumRows : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Get the number of rows in the matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member PermuteColumns : permutation:(<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Permutes the columns of the matrix.
+</summary></td></tr>
+<tr valign="top"><td><pre>member PermuteRows : permutation:(<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Permutes the rows of the matrix.
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  Region : starti:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * startj:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * lengthi:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * lengthj:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> ->
+             <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Select a region from a matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member Row : index:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td><summary>
+ Select a row from a matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member Rows : start:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * length:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Select a range of rows from a matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  SetSlice : start1:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * finish1:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * start2:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> *
+             finish2:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Supports the slicing syntax 'A.[idx1..idx2,idx1..idx2] &lt;- B'
+</summary></td></tr>
+<tr valign="top"><td><pre>member ToArray2 : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a></pre></td><td><summary>
+ Return a new array containing the elements of the given matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>member ToRowVector : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td><summary>
+ Convert the matrix to a row vector
+</summary></td></tr>
+<tr valign="top"><td><pre>member ToVector : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Convert the matrix to a column vector
+</summary></td></tr>
+<tr valign="top"><td><pre>member Transpose : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Get the transpose of the matrix.
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member ( * ) : 'T * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Multiply each element of a matrix by the given scalar value
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * 'T -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Multiply each element of a matrix by the given scalar value
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Matrix-vector multiplication.   
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Matrix multiplication.   An InvalidArgument exception will be
+ raised if the dimensions do not match.
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( + ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Point-wise addition of two matrices.  An InvalidArgument exception will be
+ raised if the dimensions do not match.
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( - ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Point-wise subtraction of two matrices. An InvalidArgument exception will be
+ raised if the dimensions do not match.
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( .* ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Pointwise matrix multiplication.   An InvalidArgument exception will be
+ raised if the dimensions do not match.
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( ~+ ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Prefix '+' operator. A nop.
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( ~- ) : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Matrix negation.   
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Math.html">Microsoft.FSharp.Math</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

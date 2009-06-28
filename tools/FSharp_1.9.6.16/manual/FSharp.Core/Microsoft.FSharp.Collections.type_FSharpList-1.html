@@ -1,0 +1,73 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections.FSharpList</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Collections.html'>Microsoft.FSharp.Collections</a>.FSharpList </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ The type of immutable singly-linked lists.  
+
+ Use the constructors <tt>[]</tt> and <tt>::</tt> (infix) to create values of this type, or
+ the notation <tt>[1;2;3]</tt>.   Use the values in the <tt>List</tt> module to manipulate 
+ values of this type, or pattern match against the values directly.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>type FSharpList&lt;'T&gt; =
+  | ( [] )
+  | ( :: ) of 'T * 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+  with
+    interface <a href='http://msdn2.microsoft.com/en-us/library/System.Collections.IEnumerable.aspx'>IEnumerable</a>
+    interface IEnumerable&lt;'T&gt;
+    member Head : 'T
+    member IsEmpty : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member Item : index:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with get
+    member Length : <a href='Microsoft.FSharp.Core.type__int.html'>int</a>
+    member Tail : 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    static member Cons : head:'T * tail:'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    static member Empty : 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Head : 'T</pre></td><td><summary>
+ Gets the first element of the list
+</summary></td></tr>
+<tr valign="top"><td><pre>member IsEmpty : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Gets a value indicating if the list contains no entries
+</summary></td></tr>
+<tr valign="top"><td><pre>member Item : index:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with get</pre></td><td><summary>
+ Get the element of the list at the given position. Note lists are represented
+ as linked lists so this is an O(n) operation.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Length : <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Gets the number of items contained in the list
+</summary></td></tr>
+<tr valign="top"><td><pre>member Tail : 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Gets the tail of the list, which is a list containing all the elements of the list, excluding the first element 
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Cons : head:'T * tail:'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Returns a list with <tt>head</tt> as its first element and <tt>tail</tt> as its subsequent elements
+</summary></td></tr>
+<tr valign="top"><td><pre>member Empty : 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Returns an empty list of a particular type
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Collections.html">Microsoft.FSharp.Collections</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

@@ -1,0 +1,21 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+         ToolsVersion="3.5">
+
+
+  <!-- Define all ProjectFiles here -->
+  <ItemGroup>
+    <ProjectFiles Include="fsharp\FSharp.Core\FSharp.Core.fsproj"/>
+    <ProjectFiles Include="fsharp\FSharp.Build\FSharp.Build.fsproj"/>
+    <ProjectFiles Include="fsharp\FSharp.Compiler\FSharp.Compiler.fsproj"/>
+    <ProjectFiles Include="fsharp\FSharp.Compiler.Server.Shared\FSharp.Compiler.Server.Shared.fsproj"/>
+    <ProjectFiles Include="fsharp\FSharp.Compiler.Interactive.Settings\FSharp.Compiler.Interactive.Settings.fsproj"/>
+    <ProjectFiles Include="fsharp\Fsc\Fsc.fsproj"/>
+    <ProjectFiles Include="fsharp\Fsi\Fsi.fsproj"/>
+  </ItemGroup>
+
+  <Import Project="root.traversal.targets"/>
+
+  <!-- Insert any customizations for targets here -->
+
+</Project>
+

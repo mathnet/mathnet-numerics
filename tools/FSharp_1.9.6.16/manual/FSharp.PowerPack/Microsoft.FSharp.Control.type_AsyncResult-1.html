@@ -1,0 +1,38 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Control.AsyncResult</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Control.html'>Microsoft.FSharp.Control</a>.AsyncResult </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Represents the reified result of an asynchronous computation
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>type AsyncResult&lt;'T&gt; =
+  | AsyncOk of 'T
+  | AsyncException of <a href='../FSharp.Core/Microsoft.FSharp.Core.type__exn.html'>exn</a>
+  | AsyncCanceled of <a href='http://msdn2.microsoft.com/en-us/library/System.OperationCanceledException.aspx'>OperationCanceledException</a>
+  with
+    static member Commit : <a href='Microsoft.FSharp.Control.type_AsyncResult-1.html'>AsyncResult</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt;
+  end</pre>  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Commit : <a href='Microsoft.FSharp.Control.type_AsyncResult-1.html'>AsyncResult</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt;</pre></td><td><summary>
+ Return an asynchronous computation that, when run, either returns a value, raises an exception 
+ of cancels according to the value of the asynchronous result.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Control.html">Microsoft.FSharp.Control</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

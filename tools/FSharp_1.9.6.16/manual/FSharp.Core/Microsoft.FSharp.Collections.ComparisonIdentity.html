@@ -1,0 +1,41 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections.ComparisonIdentity</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Collections.html'>Microsoft.FSharp.Collections</a>.ComparisonIdentity </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Common notions of comparison identity used with sorted data structures.
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val FromFunction : ('T -> 'T -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a>) -> IComparer&lt;'T&gt;</pre></td><td><summary>
+ Compare using the given comparer function
+</summary></td></tr>
+<tr valign="top"><td><pre>val GetFastComparisonFunction :
+  IComparer&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.OptimizedClosures.type_FastFunc2-3.html'>FastFunc2</a>&lt;'T,'T,<a href='Microsoft.FSharp.Core.type__int.html'>int</a>&gt;</pre></td><td><summary>
+ Convert an existing IComparer object into a comparison function with a fast entry point
+ If comparer was originally built using ComparisonIdentity.FromFunction then the original function will be
+ returned
+</summary></td></tr>
+<tr valign="top"><td><pre>val GetFastStructuralComparisonFunction : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Core.OptimizedClosures.type_FastFunc2-3.html'>FastFunc2</a>&lt;'T,'T,<a href='Microsoft.FSharp.Core.type__int.html'>int</a>&gt;</pre></td><td><summary>
+ Convert an existing IComparer object into a comparison function with a fast entry point
+</summary></td></tr>
+<tr valign="top"><td><pre>val Structural&lt;'T&gt; : IComparer&lt;'T&gt;</pre></td><td><summary>
+ Structural comparison.  Compare using Operators.compare.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Collections.html">Microsoft.FSharp.Collections</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

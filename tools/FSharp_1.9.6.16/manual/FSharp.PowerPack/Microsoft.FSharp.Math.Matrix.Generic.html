@@ -1,0 +1,117 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Math.Matrix.Generic</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Math.html'>Microsoft.FSharp.Math</a>.<a href='Microsoft.FSharp.Math.Matrix.html'>Matrix</a>.Generic </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Operations to manipulate matrix types carrying
+ arbitrary element types.  The names and types of the operations match those
+ in the containing module Math.Matrix.  
+
+ The numeric operations on the element type (add, zero etc.) are inferred from the type
+ argument itself. That is, for some operations 
+ the element type of the matrix must have an associated instance of INumeric&lt;'T&gt; 
+ or some more specific numeric association (see <tt>GlobalAssociations</tt>) ((else NotSupportedException)).
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val copy : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a new matrix that is a copy of the given array
+</summary></td></tr>
+<tr valign="top"><td><pre>val cptMax : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+Take the pointwise maximum of two matrices
+</summary></td></tr>
+<tr valign="top"><td><pre>val cptMin : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+Take the pointwise maximum of two matrices
+</summary></td></tr>
+<tr valign="top"><td><pre>val create : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a matrix containing the given value at every element.
+</summary></td></tr>
+<tr valign="top"><td><pre>val dot : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> 'T</pre></td><td><summary>
+ Sum of the point-wise multiple of the two matrices.
+ The element type of the matrix must have an associated instance of INumeric&lt;'T&gt; (see <tt>GlobalAssociations</tt>) ((else NotSupportedException)).
+</summary></td></tr>
+<tr valign="top"><td><pre>val exists : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val existsi : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fold : ('State -> 'T -> 'State) -> 'State -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> 'State</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val foldi :
+  (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'State -> 'T -> 'State) -> 'State -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> 'State</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val forall : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val foralli : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val get : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T</pre></td><td><summary>
+ Get an element from a matrix.  The indexes are given in row/column order.
+</summary></td></tr>
+<tr valign="top"><td><pre>val identity : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a square matrix with the one for the element type lying on diagonal
+ The element type of the matrix must have an associated instance of INumeric&lt;'T&gt; (see <tt>GlobalAssociations</tt>) ((else NotSupportedException)).
+</summary></td></tr>
+<tr valign="top"><td><pre>val init : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a matrix using the given function to compute the item at each index.
+</summary></td></tr>
+<tr valign="top"><td><pre>val initDense : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * 'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val initDiagonal : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a matrix containing the given vector along the diagonal.
+ The element type of the matrix must have an associated instance of INumeric&lt;'T&gt; (see <tt>GlobalAssociations</tt>) ((else NotSupportedException)).
+</summary></td></tr>
+<tr valign="top"><td><pre>val initNumeric :
+  <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> (<a href='Microsoft.FSharp.Math.type_INumeric-1.html'>INumeric</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a matrix using the given function to compute the item at each index.
+ The element type of the matrix must have an associated instance of INumeric&lt;'T&gt; (see <tt>GlobalAssociations</tt>) ((else NotSupportedException)).
+ The function is passed the dictionary of associated operations in addition to the index pair.
+</summary></td></tr>
+<tr valign="top"><td><pre>val initSparse : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * 'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val inplace_add : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val inplace_sub : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val map : ('T -> 'T) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val mapi : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> 'T) -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val norm : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ Returns sqrt(sum(norm(x)*(norm(x))) of all the elements of a matrix.
+ The element type of the matrix must have an associated instance of INormFloat&lt;'T&gt; (see <tt>GlobalAssociations</tt>) ((else NotSupportedException)).
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_array2 : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a matrix from the given (usually constant) data  
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_list : 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a matrix from the given (usually constant) data  
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_rowvec : <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val of_scalar : 'T -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a 1x1 matrix containing the given value 
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_seq : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;#<a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;'T&gt;&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val of_vector : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val prod : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val set : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set an element in a matrix.  The indexes are given in row/column order.
+</summary></td></tr>
+<tr valign="top"><td><pre>val sum : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val to_array2 : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a></pre></td><td><summary>
+ Return a new array containing the elements of the given matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_rowvec : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val to_scalar : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val to_vector : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val trace : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val transpose : <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Return a new matrix which is the transpose of the input matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>val zero : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Matrix-1.html'>Matrix</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a matrix containing the zero element at each index.
+ The element type of the matrix must have an associated instance of INumeric&lt;'T&gt; (see <tt>GlobalAssociations</tt>) ((else NotSupportedException)).
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Math.Matrix.html">Microsoft.FSharp.Math.Matrix</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

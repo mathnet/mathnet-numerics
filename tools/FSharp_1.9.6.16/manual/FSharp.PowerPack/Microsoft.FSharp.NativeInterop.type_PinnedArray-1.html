@@ -1,0 +1,55 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.NativeInterop.PinnedArray</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.NativeInterop.html'>Microsoft.FSharp.NativeInterop</a>.PinnedArray </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Represents a pinned handle to a structure with an underlying 1D array, i.e. an underlying NativeArray.
+ Used when interfacing with native code math libraries such as LAPACK.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type PinnedArray&lt;'T&gt; =
+  class
+    interface <a href='http://msdn2.microsoft.com/en-us/library/System.IDisposable.aspx'>IDisposable</a>
+    new : <a href='Microsoft.FSharp.NativeInterop.type_NativeArray-1.html'>NativeArray</a>&lt;'T&gt; * <a href='http://msdn2.microsoft.com/en-us/library/System.Runtime.InteropServices.GCHandle.aspx'>GCHandle</a> -> <a href='Microsoft.FSharp.NativeInterop.type_PinnedArray-1.html'>PinnedArray</a>&lt;'T&gt;
+    member Free : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    member Length : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+    member NativeArray : <a href='Microsoft.FSharp.NativeInterop.type_NativeArray-1.html'>NativeArray</a>&lt;'T&gt;
+    member Ptr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt;
+    [<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+    static member of_array : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.NativeInterop.type_PinnedArray-1.html'>PinnedArray</a>&lt;'T&gt;
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Free : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Length : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member NativeArray : <a href='Microsoft.FSharp.NativeInterop.type_NativeArray-1.html'>NativeArray</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Ptr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt;</pre></td><td></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>new : <a href='Microsoft.FSharp.NativeInterop.type_NativeArray-1.html'>NativeArray</a>&lt;'T&gt; * <a href='http://msdn2.microsoft.com/en-us/library/System.Runtime.InteropServices.GCHandle.aspx'>GCHandle</a> -> <a href='Microsoft.FSharp.NativeInterop.type_PinnedArray-1.html'>PinnedArray</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+member of_array : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.NativeInterop.type_PinnedArray-1.html'>PinnedArray</a>&lt;'T&gt;</pre></td><td><summary>
+ For native interop. Pin the given object
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.NativeInterop.html">Microsoft.FSharp.NativeInterop</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

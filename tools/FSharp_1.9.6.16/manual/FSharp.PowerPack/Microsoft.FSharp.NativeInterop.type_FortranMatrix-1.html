@@ -1,0 +1,72 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.NativeInterop.FortranMatrix</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.NativeInterop.html'>Microsoft.FSharp.NativeInterop</a>.FortranMatrix </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ This type wraps a pointer to a blob of unmanaged memory assumed to contain
+ a Fortran-style column major two-dimensional matrix of items compatible with the (presumably blittable) 
+ type 'T. The blob of memory must be allocated and managed externally, 
+ e.g. by a computation routine written in C.
+
+ All operations on this type are marked inlined
+ because the code used to implement the operations is not verifiable.  
+
+ Any code that uses these operations will be unverifiable and may 
+ cause memory corruption if not used with extreme care.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type FortranMatrix&lt;'T&gt; =
+  class
+    new : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; * nrows:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * ncols:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.NativeInterop.type_FortranMatrix-1.html'>FortranMatrix</a>&lt;'T&gt;
+    [<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+    member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with get
+    member NativeTranspose : <a href='Microsoft.FSharp.NativeInterop.type_CMatrix-1.html'>CMatrix</a>&lt;'T&gt;
+    member NumCols : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+    member NumRows : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+    member Ptr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt;
+    [<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+    member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with set
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with get</pre></td><td><summary>
+ WARNING: use of this function may lead to unverifiable or invalid code
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+member Item : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T with set</pre></td><td><summary>
+ WARNING: use of this function may lead to unverifiable or invalid code
+</summary></td></tr>
+<tr valign="top"><td><pre>member NativeTranspose : <a href='Microsoft.FSharp.NativeInterop.type_CMatrix-1.html'>CMatrix</a>&lt;'T&gt;</pre></td><td><summary>
+ View a FortranMatrix as a CMatrix.  Doesn't actually allocate
+ a new matirx - just gives a different label to the same bits, and swaps the
+ row/column count information associated with the bits.
+</summary></td></tr>
+<tr valign="top"><td><pre>member NumCols : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member NumRows : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Ptr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt;</pre></td><td></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>new : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; * nrows:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * ncols:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.NativeInterop.type_FortranMatrix-1.html'>FortranMatrix</a>&lt;'T&gt;</pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.NativeInterop.html">Microsoft.FSharp.NativeInterop</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

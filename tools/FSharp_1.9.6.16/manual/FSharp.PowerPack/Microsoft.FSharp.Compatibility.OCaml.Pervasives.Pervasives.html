@@ -1,0 +1,246 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Compatibility.OCaml.Pervasives.Pervasives</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Compatibility.html'>Microsoft.FSharp.Compatibility</a>.<a href='Microsoft.FSharp.Compatibility.OCaml.html'>OCaml</a>.<a href='Microsoft.FSharp.Compatibility.OCaml.Pervasives.html'>Pervasives</a>.Pervasives </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.OCaml.Pervasives.Pervasives.type__exn.html'>exn</a></td><td> Note: an abbreviation for <tt><a href='http://msdn2.microsoft.com/en-us/library/System.Exception.aspx'>Exception</a></tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.OCaml.Pervasives.Pervasives.type__list-1.html'>list</a></td><td><summary>
+The type of simple immutable lists 
+</summary> Note: an abbreviation for <tt><a href='../FSharp.Core/Microsoft.FSharp.Collections.type_List-1.html'>List</a>&lt;'a&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.OCaml.Pervasives.Pervasives.type__option-1.html'>option</a></td><td><summary>
+The type of None/Some options
+</summary> Note: an abbreviation for <tt><a href='../FSharp.Core/Microsoft.FSharp.Core.type_Option-1.html'>Option</a>&lt;'a&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.OCaml.Pervasives.Pervasives.type__ref-1.html'>ref</a></td><td><summary>
+The type of pointers to mutable reference cells
+</summary> Note: an abbreviation for <tt><a href='../FSharp.Core/Microsoft.FSharp.Core.type_Ref-1.html'>Ref</a>&lt;'a&gt;</tt></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Exceptions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=40%>Exception</th><th>Description</th></tr>
+<tr valign="top"><td>exception <a href='Microsoft.FSharp.Compatibility.OCaml.Pervasives.Pervasives.type_Failure.html'>Failure</a></td><td><summary>
+ The exception thrown by <tt>failure</tt> and many other F# functions
+ A future release of F# may map this exception to a corresponding .NET exception.
+</summary> Note: an abbreviation for <tt>= <a href='../FSharp.Core/Microsoft.FSharp.Core.type_Failure.html'>Failure</a></tt></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( ! ) : 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> 'a</pre></td><td><summary>
+Dereference a mutable reference cell
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( * ) : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( ** ) : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( + ) : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( - ) : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( / ) : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( := ) : 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Assign to a mutable reference cell
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( < ) : 'a -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural less-than comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( <= ) : 'a -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural less-than-or-equal comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( <> ) : 'a -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural inequality
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( = ) : 'a -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural equality
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( > ) : 'a -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural greater-than
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( >= ) : 'a -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural greater-than-or-equal
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( @ ) : 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Concatenate two lists.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ( ^ ) : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Concatenate two strings. The overlaoded operator '+' may also be used.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val abs : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+Absolute value of the given integer
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val acos : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val asin : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val atan : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val atan2 : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ceil : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val compare : 'a -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+Structural comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val cos : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val cosh : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val decr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Decrement a mutable reference cell containing an integer
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val exit : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a</pre></td><td><summary>
+Exit the current hardware isolated process, if security settings permit,
+otherwise raise an exception. Calls System.Environment.Exit.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val exp : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val failwith : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> 'a</pre></td><td><summary>
+ Throw a 'Failure' exception
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val float : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val floor : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val fst : ('a * 'b) -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val hash : 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+The "hash" function is a structural hash function. It is 
+designed to return equal hash values for items that are 
+equal according to the polymorphic equality 
+function Pervasives.(=) (i.e. the standard "=" operator).
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ignore : 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val incr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Increment a mutable reference cell containing an integer
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val infinity : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val log : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val log10 : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val max : 'a -> 'a -> 'a</pre></td><td><summary>
+Maximum based on structural comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val min : 'a -> 'a -> 'a</pre></td><td><summary>
+Minimum based on structural comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val nan : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val not : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val raise : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__exn.html'>exn</a> -> 'a</pre></td><td><summary>
+ Throw an exception
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val ref : 'a -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__ref-1.html'>ref</a></pre></td><td><summary>
+Create a mutable reference cell
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val sin : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val sinh : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val snd : ('a * 'b) -> 'b</pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val sqrt : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val tan : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val tanh : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider replacing uses of the functions accessible via Pervasives.* with their F# equivalents, usually by deleting 'Pervasives.'")>]
+val truncate : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Compatibility.OCaml.Pervasives.html">Microsoft.FSharp.Compatibility.OCaml.Pervasives</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

@@ -1,0 +1,31 @@
+<HTML><HEAD><TITLE>FSharp.PowerPack.Metadata.Reader.Internal.Tast.typ</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='FSharp.PowerPack.Metadata.html'>FSharp.PowerPack.Metadata</a>.<a href='FSharp.PowerPack.Metadata.Reader.html'>Reader</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.html'>Internal</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.html'>Tast</a>.typ </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ The algebra of types
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_StructuralEqualityAttribute.html'>StructuralEqualityAttribute</a> (false); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_StructuralComparisonAttribute.html'>StructuralComparisonAttribute</a> (false)>]
+type typ =
+  | TType_forall of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typars.html'>typars</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a>
+  | TType_app of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRef.html'>TyconRef</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__tinst.html'>tinst</a>
+  | TType_tuple of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+  | TType_fun of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a>
+  | TType_ucase of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCaseRef.html'>UnionCaseRef</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__tinst.html'>tinst</a>
+  | TType_var of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Typar.html'>Typar</a>
+  | TType_modul_bindings
+  | TType_measure of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__measure.html'>measure</a></pre>  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="FSharp.PowerPack.Metadata.Reader.Internal.Tast.html">FSharp.PowerPack.Metadata.Reader.Internal.Tast</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack.Metadata, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

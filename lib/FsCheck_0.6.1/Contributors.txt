@@ -1,0 +1,11 @@
+Contributors:
+Neil Mitchell (the first version of reflective generators and shrinker)
+Ganesh Sittampalam (various improvements and fixes in the property DSL)
+toyvo (Makefile for mono users)
+Steve Gilham (byte arbitrary instance)
+David Crocker (first version of replay mechanism, bug fix)
+(my sincerest apologies to anyone I overlooked - feel free to protest!)
+
+Thanks to:
+Howard Mansell and team from Credit Suisse, for taking the time to clear up legal stuff and donate code, and being enthusiastic early adopters :).
+Everyone that takes the time to report bugs or send feedback.

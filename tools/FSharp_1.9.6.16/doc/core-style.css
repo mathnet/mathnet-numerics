@@ -1,0 +1,64 @@
+<STYLE type="text/css">
+BODY
+{
+	font-family: verdana;
+}
+
+
+H1, H2, H3 { font-family: Verdana, Helvetica, sans-serif;}
+H1 {color: maroon; text-decoration: underline;}
+
+H1
+{
+	font-family: tahoma;
+	font-weight: bold;
+	font-size: 100%;
+	color: #000000;
+}
+H2
+{
+	font-family: tahoma;
+	font-weight: bold;
+	font-size: 90%;
+	color: #000000;
+}
+H3
+{
+	font-family: tahoma;
+	font-weight: bold;
+	font-size: 90%;
+	color: #000000;
+}
+P
+{
+	font-family: verdana;
+	color: #000000;
+}
+P P
+{
+	font-size: 80%;
+}
+HR
+{
+	color: #cccccc;
+	height: 1px;
+}
+
+LI
+{
+	font-family: Verdana;	
+	font-size: 80%;
+}
+LI LI
+{
+	font-size: 90%;
+}
+LI A
+{
+	font-size: 90%;
+}
+
+
+SUP {font-size: x-small; color: #666666;}
+.link {text-decoration: underline;}
+</STYLE>

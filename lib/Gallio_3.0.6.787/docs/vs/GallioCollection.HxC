@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HelpCollection[]>
+<HelpCollection DTDVersion="1.0" FileVersion="1.0.0.0" LangId="1033" Title="Gallio API Documentation" Copyright="Copyright 2005-2009 Gallio Project - http://www.gallio.org/">
+  <TOCDef File="GallioCollection.HxT" />
+  <KeywordIndexDef File="GallioCollection_K.HxK" />
+  <KeywordIndexDef File="GallioCollection_F.HxK" />
+  <KeywordIndexDef File="GallioCollection_A.HxK" />
+  <ItemMoniker Name="!DefaultFullTextSearch" ProgId="HxDs.HxFullTextSearch" InitData="FTS" />
+  <ItemMoniker Name="!DefaultAssociativeIndex" ProgId="HxDs.HxIndex" InitData="A" />
+  <ItemMoniker Name="!DefaultContextWindowIndex" ProgId="HxDs.HxIndex" InitData="F" />
+  <ItemMoniker Name="!DefaultKeywordIndex" ProgId="HxDs.HxIndex" InitData="K" />
+  <ItemMoniker Name="!DefaultTOC" ProgId="HxDs.HxHierarchy" InitData="" />
+  <ItemMoniker Name="!DefaultNamedUrlIndex" ProgId="HxDs.HxIndex" InitData="" />
+</HelpCollection>

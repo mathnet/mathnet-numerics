@@ -1,0 +1,66 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.NativeInterop.NativePtr</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.NativeInterop.html'>Microsoft.FSharp.NativeInterop</a>.NativePtr </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Contains operations on native pointers.  Use of these operators may
+ result in the generation of unverifiable code.
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val add : <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt;</pre></td><td><summary>
+ Return a typed native pointer by adding index * sizeof&lt;'T&gt; to the 
+ given input pointer 
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val get : <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T</pre></td><td><summary>
+ Dereference the typed native pointer computed by adding index * sizeof&lt;'T&gt; to the 
+ given input pointer 
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val of_array : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt;</pre></td><td><summary>
+ Get the address of an element of a pinned array
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val of_array2 : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt;</pre></td><td><summary>
+ Get the address of an element of a pinned 2-dimensional array
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val of_nativeint : <a href='Microsoft.FSharp.Core.type__nativeint.html'>nativeint</a> -> <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt;</pre></td><td><summary>
+ Return a typed native pointer for a given machine address
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val read : <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; -> 'T</pre></td><td><summary>
+ Dereference the given typed native pointer 
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val set : <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Assign the <tt>value</tt> into the memory location referenced by the typed native 
+ pointer computed by adding index * sizeof&lt;'T&gt; to the given input pointer 
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val to_nativeint : <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__nativeint.html'>nativeint</a></pre></td><td><summary>
+ Return a machine address for a given typed native pointer 
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val write : <a href='Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; -> 'T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Assign the <tt>value</tt> into the memory location referenced by the given typed native pointer 
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.NativeInterop.html">Microsoft.FSharp.NativeInterop</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

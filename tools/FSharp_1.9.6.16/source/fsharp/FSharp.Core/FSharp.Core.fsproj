@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FSharpSourcesRoot>..\..</FSharpSourcesRoot>
+  </PropertyGroup>
+  <Import Project="$(FSharpSourcesRoot)\FSharpTeam.Settings.targets" Condition=" Exists('$(FSharpSourcesRoot)\FSharpTeam.targets') " />
+  <Import Project="$(FSharpSourcesRoot)\fsppack\CodePlex.Settings.targets" Condition=" !Exists('$(FSharpSourcesRoot)\FSharpTeam.targets') " />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DED3BBD7-53F4-428A-8C9F-27968E768605}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>FSharp.Core</AssemblyName>
+    <DefineConstants>RUNTIME;$(DefineConstants)</DefineConstants>
+    <NoWarn>9;35;40;44;51;57;58;60;62;65;76;77;56</NoWarn>
+    <BaseAddress>0x05000000</BaseAddress>
+    <CompilingFsLib>true</CompilingFsLib>
+    <AllowCrossTargeting>true</AllowCrossTargeting>
+	  <TargetFrameworkVersion Condition=" '$(TargetFrameworkVersion)' == '' ">v2.0</TargetFrameworkVersion>
+    <OtherFlags>$(OtherFlags) --compiling-fslib --optimize --maxerrors:20 --extraoptimizationloops:1 </OtherFlags>
+  </PropertyGroup>
+  <PropertyGroup Condition=" Exists('$(FSharpSourcesRoot)\FSharpTeam.targets') ">
+      <OtherFlags>$(OtherFlags) --generatehtml --htmloutputdir:..\..\..\src\WWW\microsoft.com\projects\fsharp\manual --htmlnamespacefile:namespaces.html</OtherFlags>
+  </PropertyGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Include="$(FSharpSourcesRoot)\..\Proto\built\bin\fsc-proto.exe">
+      <Visible>false</Visible>
+    </CustomAdditionalCompileInputs>
+    <Compile Include="prim-types.fsi">
+      <Link>prim-types.fsi</Link>
+    </Compile>
+    <Compile Include="prim-types.fs">
+      <Link>prim-types.fs</Link>
+    </Compile>
+    <Compile Include="local.fsi">
+      <Link>local.fsi</Link>
+    </Compile>
+    <Compile Include="local.fs">
+      <Link>local.fs</Link>
+    </Compile>
+    <Compile Include="array2.fsi">
+      <Link>array2.fsi</Link>
+    </Compile>
+    <Compile Include="array2.fs">
+      <Link>array2.fs</Link>
+    </Compile>
+    <Compile Include="option.fsi">
+      <Link>option.fsi</Link>
+    </Compile>
+    <Compile Include="option.fs">
+      <Link>option.fs</Link>
+    </Compile>
+    <Compile Include="collections.fsi">
+      <Link>collections.fsi</Link>
+    </Compile>
+    <Compile Include="collections.fs">
+      <Link>collections.fs</Link>
+    </Compile>
+    <Compile Include="seq.fsi">
+      <Link>seq.fsi</Link>
+    </Compile>
+    <Compile Include="seq.fs">
+      <Link>seq.fs</Link>
+    </Compile>
+    <Compile Include="string.fsi">
+      <Link>string.fsi</Link>
+    </Compile>
+    <Compile Include="string.fs">
+      <Link>string.fs</Link>
+    </Compile>
+    <Compile Include="list.fsi">
+      <Link>list.fsi</Link>
+    </Compile>
+    <Compile Include="list.fs">
+      <Link>list.fs</Link>
+    </Compile>
+    <Compile Include="array.fsi">
+      <Link>array.fsi</Link>
+    </Compile>
+    <Compile Include="array.fs">
+      <Link>array.fs</Link>
+    </Compile>
+    <Compile Include="array3.fsi">
+      <Link>array3.fsi</Link>
+    </Compile>
+    <Compile Include="array3.fs">
+      <Link>array3.fs</Link>
+    </Compile>
+    <Compile Include="map.fsi">
+      <Link>map.fsi</Link>
+    </Compile>
+    <Compile Include="map.fs">
+      <Link>map.fs</Link>
+    </Compile>
+    <Compile Include="set.fsi">
+      <Link>set.fsi</Link>
+    </Compile>
+    <Compile Include="set.fs">
+      <Link>set.fs</Link>
+    </Compile>
+    <Compile Include="reflect.fsi">
+      <Link>reflect.fsi</Link>
+    </Compile>
+    <Compile Include="reflect.fs">
+      <Link>reflect.fs</Link>
+    </Compile>
+    <Compile Include="event.fsi">
+      <Link>event.fsi</Link>
+    </Compile>
+    <Compile Include="event.fs">
+      <Link>event.fs</Link>
+    </Compile>
+    <Compile Include="math/n.fsi">
+      <Link>n.fsi</Link>
+    </Compile>
+    <Compile Include="math/n.fs">
+      <Link>n.fs</Link>
+    </Compile>
+    <Compile Include="math/z.fsi">
+      <Link>z.fsi</Link>
+    </Compile>
+    <Compile Include="math/z.fs">
+      <Link>z.fs</Link>
+    </Compile>
+    <Compile Include="..\..\fsppack\FSharp.PowerPack\sformat.fsi">
+      <Link>sformat.fsi</Link>
+    </Compile>
+    <Compile Include="..\..\fsppack\FSharp.PowerPack\sformat.fs">
+      <Link>sformat.fs</Link>
+    </Compile>
+    <Compile Include="printf.fsi">
+      <Link>printf.fsi</Link>
+    </Compile>
+    <Compile Include="printf.fs">
+      <Link>printf.fs</Link>
+    </Compile>
+    <Compile Include="quotations.fsi">
+      <Link>quotations.fsi</Link>
+    </Compile>
+    <Compile Include="quotations.fs">
+      <Link>quotations.fs</Link>
+    </Compile>
+    <Compile Include="nativeptr.fsi">
+      <Link>nativeptr.fsi</Link>
+    </Compile>
+    <Compile Include="nativeptr.fs">
+      <Link>nativeptr.fs</Link>
+    </Compile>
+    <Compile Include="control.fsi">
+      <Link>control.fsi</Link>
+    </Compile>
+    <Compile Include="control.fs">
+      <Link>control.fs</Link>
+    </Compile>
+    <Compile Include="fslib-extra-pervasives.fsi">
+      <Link>fslib-extra-pervasives.fsi</Link>
+    </Compile>
+    <Compile Include="fslib-extra-pervasives.fs">
+      <Link>fslib-extra-pervasives.fs</Link>
+    </Compile>
+    <Compile Include="..\..\assemblyinfo\assemblyinfo.FSharp.Core.dll.fs">
+      <Link>assemblyinfo.FSharp.Core.dll.fs</Link>
+    </Compile>
+  </ItemGroup>
+  <!-- References -->
+  <Import Project="$(FSharpSourcesRoot)\FSharpTeam.targets" Condition=" Exists('$(FSharpSourcesRoot)\FSharpTeam.targets') " />
+  <Import Project="$(FSharpSourcesRoot)\fsharp\FSharpSourceBuild.targets" Condition=" !Exists('$(FSharpSourcesRoot)\FSharpTeam.targets') " />
+  <Import Project="$(MSBuildExtensionsPath)\FSharp\1.0\Microsoft.FSharp.Targets" Condition=" !Exists('$(FSharpSourcesRoot)\FSharpTeam.targets') "/>
+  <!-- Hook compilation phase to do custom work -->
+  <!-- 
+  <PropertyGroup>
+    <PrepareForRunDependsOn>$(PrepareForRunDependsOn);CopyToBuiltBin</PrepareForRunDependsOn>
+  </PropertyGroup>
+  fsc-proto.exe needs its own copy of FSharp.Core.dll in its directory.
+  However this doesn't seem to copy to the Proto directory, so I'm not convinced this is doing anything useful
+  <Target Name="CopyToBuiltBin">
+    <Copy SourceFiles="$(IntermediateOutputPath)\FSharp.Core.dll" DestinationFolder="$(FSharpSourcesRoot)\..\$(Configuration)\built\bin" SkipUnchangedFiles="true">
+      <Output TaskParameter="DestinationFiles" ItemName="FileWrites" />
+    </Copy>
+  </Target>
+        -->
+</Project>

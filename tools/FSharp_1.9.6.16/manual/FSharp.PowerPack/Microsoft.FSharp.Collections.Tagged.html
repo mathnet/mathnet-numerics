@@ -1,0 +1,55 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections.Tagged</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Namespace <a href='Microsoft.FSharp.Collections.html'>Microsoft.FSharp.Collections</a>.Tagged </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.Tagged.type_HashMultiMap-3.html'>HashMultiMap</a></td><td><summary>
+ HashMultiMap, but where a constraint tag tracks information about the hash/equality functions used
+ for the hashing. When the tag is Tags.StructuralHash this is identical to HashMultiMap.
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.Tagged.type_HashMultiMap-2.html'>HashMultiMap</a></td><td> Note: an abbreviation for <tt><a href='Microsoft.FSharp.Collections.Tagged.type_HashMultiMap-3.html'>HashMultiMap</a>&lt;'key,'a,IEqualityComparer&lt;'key&gt;&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.Tagged.type_HashSet-2.html'>HashSet</a></td><td><summary>
+ Mutable hash sets based on F# structural "hash" and (=) functions. Implemented via a hash table and/or Dictionary.
+ Mutable hash sets where a constraint tag tracks information about the hash/equality functions used
+ for the hashing. When the tag is Tags.StructuralHash this is identical to HashSet.
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.Tagged.type_HashSet-1.html'>HashSet</a></td><td> Note: an abbreviation for <tt><a href='Microsoft.FSharp.Collections.Tagged.type_HashSet-2.html'>HashSet</a>&lt;'a,IEqualityComparer&lt;'a&gt;&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.Tagged.type_Map-3.html'>Map</a></td><td><summary>
+ Immutable maps.  A constraint tag carries information about the class of key-comparers being used.  
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.Tagged.type_Map-2.html'>Map</a></td><td><summary>
+ Immutable maps.  Keys are ordered by construction function specified
+ when creating empty maps or by F# structural comparison if no
+ construction function is specified.
+
+ <performance> 
+   Maps based on structural comparison are  
+   efficient for small keys. They are not a suitable choice if keys are recursive data structures 
+   or require non-structural comparison semantics.
+ </performance>
+</summary> Note: an abbreviation for <tt><a href='Microsoft.FSharp.Collections.Tagged.type_Map-3.html'>Map</a>&lt;'key,'a,IComparer&lt;'key&gt;&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a></td><td><summary>
+ Immutable sets where a constraint tag carries information about the class of key-comparer being used.  
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.Tagged.type_Set-1.html'>Set</a></td><td><summary>
+ Immutable sets based on binary trees, default tag
+</summary> Note: an abbreviation for <tt><a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'a,IComparer&lt;'a&gt;&gt;</tt></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="../namespaces.html">Namespaces</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

@@ -1,0 +1,80 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Compatibility.Set.Provider</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Compatibility.html'>Microsoft.FSharp.Compatibility</a>.<a href='Microsoft.FSharp.Compatibility.Set.html'>Set</a>.Provider </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+A collection of operations for creating and using sets based on a particular comparison function.
+The 'Tag' type parameter is used to track information about the comparison function.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+type Provider&lt;'T,'Tag (requires 'Tag :> IComparer&lt;'T&gt;)&gt; =
+  interface
+    abstract member add : 'T -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+    abstract member cardinal : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+    abstract member choose : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'T
+    abstract member compare : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+    abstract member diff : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+    abstract member elements : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    abstract member equal : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    abstract member exists : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    abstract member filter : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+    abstract member fold : ('T -> 'State -> 'State) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'State -> 'State
+    abstract member for_all : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    abstract member empty : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+    abstract member inter : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+    abstract member is_empty : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    abstract member iter : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    abstract member max_elt : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'T
+    abstract member mem : 'T -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    abstract member min_elt : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'T
+    abstract member partition : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; * <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+    abstract member remove : 'T -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+    abstract member singleton : 'T -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+    abstract member subset : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    abstract member union : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member add : 'T -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member cardinal : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member choose : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member compare : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member diff : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member elements : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member empty : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member equal : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member exists : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member filter : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member fold : ('T -> 'State -> 'State) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'State -> 'State</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member for_all : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member inter : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member is_empty : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member iter : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member max_elt : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member mem : 'T -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member min_elt : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member
+  partition : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) ->
+                <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; * <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member remove : 'T -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member singleton : 'T -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member subset : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member union : <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt; -> <a href='Microsoft.FSharp.Collections.Tagged.type_Set-2.html'>Set</a>&lt;'T,'Tag&gt;</pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Compatibility.Set.html">Microsoft.FSharp.Compatibility.Set</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

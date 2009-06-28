@@ -1,0 +1,61 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Compatibility.Lazy</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Compatibility.html'>Microsoft.FSharp.Compatibility</a>.Lazy </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.Lazy.type__t-1.html'>t</a></td><td> Note: an abbreviation for <tt><a href='../FSharp.Core/Microsoft.FSharp.Control.type_Lazy-1.html'>Lazy</a>&lt;'T&gt;</tt></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Exceptions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=40%>Exception</th><th>Description</th></tr>
+<tr valign="top"><td>exception <a href='Microsoft.FSharp.Compatibility.Lazy.type_Undefined.html'>Undefined</a></td><td> Note: an abbreviation for <tt>= <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Undefined.html'>Undefined</a></tt></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ("Consider using Lazy.Create instead")>]
+val create : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T) -> <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Lazy-1.html'>Lazy</a>&lt;'T&gt;</pre></td><td><summary>
+ Build a lazy (delayed) value from the given computation
+</summary></td></tr>
+<tr valign="top"><td><pre>val force : <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Lazy-1.html'>Lazy</a>&lt;'T&gt; -> 'T</pre></td><td><summary>
+ See Lazy.Force
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ("Consider using 'v.Force()' instead")>]
+val force_val : <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Lazy-1.html'>Lazy</a>&lt;'T&gt; -> 'T</pre></td><td><summary>
+ See Lazy.Force.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ("Consider using 'lazy' instead")>]
+val lazy_from_fun : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T) -> <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Lazy-1.html'>Lazy</a>&lt;'T&gt;</pre></td><td><summary>
+ Build a lazy (delayed) value from the given computation
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ("Consider using 'Lazy.CreateFromValue' instead")>]
+val lazy_from_val : 'T -> <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Lazy-1.html'>Lazy</a>&lt;'T&gt;</pre></td><td><summary>
+ Build a lazy (delayed) value from the given pre-computed value.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ("Consider using 'Lazy.IsForced' instead")>]
+val lazy_is_val : <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Lazy-1.html'>Lazy</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Check if a lazy (delayed) value has already been computed
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Compatibility.html">Microsoft.FSharp.Compatibility</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

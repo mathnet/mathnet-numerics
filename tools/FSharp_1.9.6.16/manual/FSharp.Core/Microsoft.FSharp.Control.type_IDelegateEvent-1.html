@@ -1,0 +1,42 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Control.IDelegateEvent</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Control.html'>Microsoft.FSharp.Control</a>.IDelegateEvent </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ F# gives special status to non-virtual instance member properties compatible with type IDelegateEvent, 
+ generating approriate .NET metadata to make the member appear to other .NET languages as a
+ .NET event.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>type IDelegateEvent&lt;'Del (requires 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)&gt; =
+  interface
+    abstract member AddHandler : handler:'Del -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    abstract member RemoveHandler : handler:'Del -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member AddHandler : handler:'Del -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Connect a handler delegate object to the event.  A handler can
+ be later removed using RemoveHandler.  The listener will
+ be invoked when the event is fired.
+</summary></td></tr>
+<tr valign="top"><td><pre>member RemoveHandler : handler:'Del -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Remove a listener delegate from an event listener store
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Control.html">Microsoft.FSharp.Control</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

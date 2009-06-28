@@ -1,0 +1,73 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Compatibility.Set</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Compatibility.html'>Microsoft.FSharp.Compatibility</a>.Set </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Immutable sets implemented via binary trees
+</summary>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.Set.type_Provider-2.html'>Provider</a></td><td><summary>
+A collection of operations for creating and using sets based on a particular comparison function.
+The 'Tag' type parameter is used to track information about the comparison function.
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.Set.type_Provider-1.html'>Provider</a></td><td> Note: an abbreviation for <tt><a href='Microsoft.FSharp.Compatibility.Set.type_Provider-2.html'>Provider</a>&lt;'T,IComparer&lt;'T&gt;&gt;</tt></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val cardinal : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val elements : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+The elements of the set as a list.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val inter : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_Set-1.html'>Set</a>&lt;'T&gt;</pre></td><td><summary>
+Compute the intersection of the two sets.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val Make : ('T -> 'T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Compatibility.Set.type_Provider-1.html'>Provider</a>&lt;'T&gt;</pre></td><td><summary>
+ Build a collection of operations for creating and using 
+ maps based on a single consistent comparison function. This returns a record
+ that contains the functions you use to create and manipulate maps all of which 
+ use this comparison function.  The returned value is much like an ML module. 
+
+ Use MakeTagged if you want additional type safety that guarantees that two sets
+ based on different comparison functions can never be combined in inconsistent ways.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val MakeTagged :
+  'Tag -> <a href='Microsoft.FSharp.Compatibility.Set.type_Provider-2.html'>Provider</a>&lt;'T,'Tag&gt; (requires 'Tag :> IComparer&lt;'T&gt;)</pre></td><td><summary>
+A functor to build a collection of operations for creating and using 
+ sets based on the given comparison function. This returns a record that 
+ contains the functions you use to create and manipulate maps of
+ this kind.  The returned value is much like an ML module. 
+
+ To use this function you need to define a new named class that implements IComparer and
+ pass an instance of that class as the first argument. For example:
+      type MyComparer() = 
+          interface IComparer&lt;string&gt; with 
+            member self.Compare(x,y) = ...
+
+ let MyStringSetProvider = Set.MakeTagged(new MyComparer())
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Compatibility.html">Microsoft.FSharp.Compatibility</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

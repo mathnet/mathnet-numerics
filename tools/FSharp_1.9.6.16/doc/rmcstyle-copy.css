@@ -1,0 +1,287 @@
+.title_2ndLvl
+{
+	font-family: tahoma;
+	font-size: 120%;
+	color: #FFFFFF;
+	padding-left: 5px;
+}
+.BODY
+{
+	font-family:verdana;
+}
+A
+{
+	color: #003399;
+}
+.VR
+{
+	background-color: #cccccc;
+	width: 1px;
+}
+.HR
+{
+	background-color: #cccccc;
+	height: 1px;
+}
+.link1
+{
+	font-size:70%;
+	font-family: verdana;
+}
+.link2
+{
+	font-size: 70%;
+	font-family:Verdana;
+	font-style:italic;
+}
+.link3
+{
+	font-style: italic;
+	font-family: Verdana;
+	color: #000000;
+	font-weight: bold;
+}
+.link4
+{
+	font: italic 70% Verdana;
+	color: #000000;
+	text-decoration: none;
+}
+.link5
+{
+	font: 70% Verdana;
+	color: #003399;
+	text-decoration: none;
+}
+.link6
+{
+	font: 70% verdana;
+	color: #003399;
+}
+.text1
+{
+	font: 70% Verdana;
+}
+.text2
+{
+	padding-bottom: 10px;
+	font: 70% Verdana;
+}
+.text3
+{
+	font-size: 120%;
+	font-family:Verdana;
+	color: #000000;
+}
+.text3_w_padding
+{
+	font: 120% Verdana;
+	color: #000000;
+	padding-left:20px;
+}
+.text4
+{
+	font-weight: bold;
+	font-size: 70%;
+	font-family: Verdana;
+	color: #000000;
+}
+.text5
+{
+	padding-left: 5px;
+	font-weight: bold;
+	font-size: 70%;
+	font-family: Verdana;
+	color: #ffffff;
+}
+.text6
+{
+	font: 70%;
+	font-family: verdana;
+}
+.newsTitle
+{
+	font-family: tahoma;
+	font-size: 120%;
+	color: #CCCCCC;
+}
+.areaTitle
+{
+	font-family: tahoma;
+	font-size: 120%;
+	color: #FFFFFF;
+}
+.newsContentTitle
+{
+	font-family: tahoma;
+	font-size: 120%;
+	color: #FFFFFF;
+}
+.areaContentTitle
+{
+	font-family: verdana;
+	font-size: 140%;
+	color: #000000;
+}
+.areaContentTitle_w_pad
+{
+	font-family: verdana;
+	font-size: 140%;
+	color: #000000;
+	padding-left: 20px;
+	padding-top: 20px;
+}
+
+.newsArchiveTitle
+{
+	font-family: verdana;
+	font-size: 150%;
+	color: #000000;
+}
+.FeatureStoryTitle
+{
+	font-family: verdana;
+	font-size: 130%;
+	color: #000000;
+}
+.FeatureStoryByLine
+{
+	font-family: verdana;
+	font-size: 80%;
+	color: #000000;
+}
+.SideBarLink
+{
+	font-family: verdana;
+	font-size: 80%;
+	color: #000000;
+}
+.newsArchiveSubTitle
+{
+	font-family: verdana;
+	font-size: 118%;
+	color: #666666;
+}
+.newsArchiveYear
+{
+	font: bold 80% Verdana;
+	color: #000000;
+	border-bottom: #cccccc 1px solid;
+	border-top: #cccccc 1px solid;
+}
+
+.newsHeadlineTitle
+{
+	font-family: verdana;
+	font-size: 140%;
+	color: #000000;
+}
+
+.newsPublicationDate
+{
+	font-family: Verdana;
+	font-size: 60%;
+	color: #000000;
+	font-weight: bold;
+}
+.newsPublicationSource
+{
+	font-family: Verdana;
+	font-size: 60%;
+	color: #000000;
+	font-weight: bold;
+}
+H1
+{
+	font-family: tahoma;
+	font-weight: bold;
+	font-size: 120%;
+	color: #000000;
+}
+H3
+{
+	font-family: tahoma;
+	font-weight: bold;
+	font-size: 110%;
+	color: #000000;
+}
+P
+{
+	font-family: verdana;
+	font-size: 70%;
+	color: #000000;
+}
+P P
+{
+	font-size: 100%;
+}
+HR
+{
+	color: #cccccc;
+	height: 1px;
+}
+
+
+.groupheading
+{
+	padding-left: 20px;
+	padding-top: 40px;
+	padding-bottom: 10px;
+	font-size: 1.4em;
+	color: #0065CF;
+	font-family:verdana;
+}
+.GroupTitle
+{
+	padding-left: 20px;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	font-size: 1.4em;
+	color: #0065CF;
+}
+LI
+{
+	font-size: 70%;
+	font-family: Verdana;	
+}
+LI LI
+{
+	font-size: 100%;
+}
+LI A
+{
+	font-size: 100%;
+}
+.linkbox
+{
+	margin-left: 20px;
+	margin-right: 30px;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	width: 175px;
+	float: right;
+	border-right: #0066CC 1px solid;
+	background: #f1f1f1;
+	border-left: #0066CC 1px solid;
+	border-bottom: #0066CC 1px solid;
+}
+.outlineDivTitle
+{
+	background-color: #0066CC;
+	color: #FFFFFF;
+	padding-left: 15px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	font: bold 70% Verdana;
+	color: #ffffff;
+}
+.outlineDiv
+{
+	padding-left: 20px;
+	background-image: URL(/images/blueTriangle.gif);
+	background-repeat: no-repeat;
+	background-position: 6 8;
+	font: 70% verdana;
+	color: #003399;
+	line-height: 200%;
+}

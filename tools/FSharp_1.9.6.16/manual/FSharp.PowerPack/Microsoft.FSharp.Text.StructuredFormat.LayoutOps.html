@@ -1,0 +1,121 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Text.StructuredFormat.LayoutOps</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Text.StructuredFormat.html'>Microsoft.FSharp.Text.StructuredFormat</a>.LayoutOps </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ A layout is a sequence of strings which have been joined together.
+ The strings are classified as words, separators and left and right parenthesis.
+ This classification determines where spaces are inserted.
+ A joint is either unbreakable, breakable or broken.
+ If a joint is broken the RHS layout occurs on the next line with optional indentation.
+ A layout can be squashed to for given width which forces breaks as required.
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val ( $$ ) : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join, unbreakable. 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ++ ) : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join, possible break with indent=0
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( -- ) : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join, possible break with indent=1
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( --- ) : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join, possible break with indent=2 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( @@ ) : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join broken with ident=0
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( @@- ) : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join broken with ident=1 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( @@-- ) : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join broken with ident=2 
+</summary></td></tr>
+<tr valign="top"><td><pre>val aboveL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Layout two vertically.
+</summary></td></tr>
+<tr valign="top"><td><pre>val aboveListL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Layout list vertically.    
+</summary></td></tr>
+<tr valign="top"><td><pre>val braceL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Wrap braces around layout.        
+</summary></td></tr>
+<tr valign="top"><td><pre>val bracketL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Wrap round brackets around Layout.
+</summary></td></tr>
+<tr valign="top"><td><pre>val commaListL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join layouts into a comma separated list.
+</summary></td></tr>
+<tr valign="top"><td><pre>val emptyL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ The empty layout
+</summary></td></tr>
+<tr valign="top"><td><pre>val isEmptyL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Is it the empty layout?
+</summary></td></tr>
+<tr valign="top"><td><pre>val leftL : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ An string which is left  parenthesis (no space on the right).
+</summary></td></tr>
+<tr valign="top"><td><pre>val listL : ('T -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a>) -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Layout like an F# list.    
+</summary></td></tr>
+<tr valign="top"><td><pre>val objL : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ An uninterpreted leaf, to be interpreted into a string
+ by the layout engine. This allows leaf layouts for numbers, strings and
+ other atoms to be customized according to culture.
+</summary></td></tr>
+<tr valign="top"><td><pre>val optionL : ('T -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a>) -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Layout like an F# option.
+</summary></td></tr>
+<tr valign="top"><td><pre>val rightL : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ An string which is right parenthesis (no space on it's left).
+</summary></td></tr>
+<tr valign="top"><td><pre>val semiListL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join layouts into a semi-colon separated list.
+</summary></td></tr>
+<tr valign="top"><td><pre>val sepL : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ An string which requires no spaces either side.
+</summary></td></tr>
+<tr valign="top"><td><pre>val sepListL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join layouts into a list separated using the given Layout.
+</summary></td></tr>
+<tr valign="top"><td><pre>val spaceListL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Join layouts into a space separated list.    
+</summary></td></tr>
+<tr valign="top"><td><pre>val squareBracketL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Wrap square brackets around layout.    
+</summary></td></tr>
+<tr valign="top"><td><pre>val tagAttrL : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ See tagL
+</summary></td></tr>
+<tr valign="top"><td><pre>val tupleL : <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ Form tuple of layouts.            
+</summary></td></tr>
+<tr valign="top"><td><pre>val unfoldL :
+  ('T -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a>) ->
+    ('State -> ('T * 'State) <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>) -> 'State -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ For limitting layout of list-like sequences (lists,arrays,etc).
+ unfold a list of items using (project and z) making layout list via itemL.
+ If reach maxLength (before exhausting) then truncate.
+</summary></td></tr>
+<tr valign="top"><td><pre>val wordL : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Text.StructuredFormat.type_Layout.html'>Layout</a></pre></td><td><summary>
+ An string leaf 
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Text.StructuredFormat.html">Microsoft.FSharp.Text.StructuredFormat</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

@@ -1,0 +1,169 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Math.BigInt</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Math.html'>Microsoft.FSharp.Math</a>.BigInt </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ The type of arbitrary-sized integers
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='Microsoft.FSharp.Core.type_StructuralEqualityAttribute.html'>StructuralEqualityAttribute</a> (false); <a href='Microsoft.FSharp.Core.type_StructuralComparisonAttribute.html'>StructuralComparisonAttribute</a> (false)>]
+type BigInt =
+  struct
+    interface <a href='http://msdn2.microsoft.com/en-us/library/System.IComparable.aspx'>IComparable</a>
+    new : x:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    new : x:<a href='Microsoft.FSharp.Core.type__int64.html'>int64</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    override Equals : <a href='Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    override GetHashCode : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a>
+    override ToString : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a>
+    member IsOne : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsZero : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member Sign : <a href='Microsoft.FSharp.Core.type__int.html'>int</a>
+    static member Abs : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member DivRem : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member Factorial : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member Gcd : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member Parse : text:<a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member Pow : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member ToDouble : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__float.html'>float</a>
+    static member ToInt32 : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__int32.html'>int32</a>
+    static member ToInt64 : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__int64.html'>int64</a>
+    static member One : <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member Zero : <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member ( + ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member ( / ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member ( = ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    static member ( > ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    static member ( >= ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    static member op_Inequality : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    static member ( < ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    static member ( <= ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    static member ( % ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member ( * ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member ( .. ) : start:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * finish:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>&gt;
+    static member ( .. .. ) : start:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * step:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * finish:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>&gt;
+    static member ( - ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member ( ~- ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+    static member ( ~+ ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>override Equals : <a href='Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>override GetHashCode : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsOne : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Return true if a big integer is 'one'
+</summary></td></tr>
+<tr valign="top"><td><pre>member IsZero : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Return true if a big integer is 'zero'
+</summary></td></tr>
+<tr valign="top"><td><pre>member Sign : <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the sign of a big integer: 0, +1 or -1
+</summary></td></tr>
+<tr valign="top"><td><pre>override ToString : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member ( % ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return the modulus of big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( * ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return the product of big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( + ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return the sum of two big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( - ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return the difference of big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( .. ) : start:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * finish:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>&gt;</pre></td><td><summary>
+ Generate a range of big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  ( .. .. ) : start:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * step:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * finish:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a>&gt;</pre></td><td><summary>
+ Generate a range of big integers, with a step
+</summary></td></tr>
+<tr valign="top"><td><pre>new : x:<a href='Microsoft.FSharp.Core.type__int64.html'>int64</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Construct a BigInt value for the given 64-bit integer
+</summary></td></tr>
+<tr valign="top"><td><pre>new : x:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Construct a BigInt value for the given integer
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( / ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return the ratio of big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( < ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ This operator is for use from other .NET languages
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( <= ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ This operator is for use from other .NET languages
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( = ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ This operator is for use from other .NET languages
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( > ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ This operator is for use from other .NET languages
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( >= ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ This operator is for use from other .NET languages
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( ~+ ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return the given big integer
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( ~- ) : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return the negation of a big integer
+</summary></td></tr>
+<tr valign="top"><td><pre>member Abs : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Compute the absolute value of a big integer 
+</summary></td></tr>
+<tr valign="top"><td><pre>member DivRem : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Compute the ratio and remainder of two big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member Factorial : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Compute the factorial function as a big integer
+</summary></td></tr>
+<tr valign="top"><td><pre>member Gcd : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return the greatest common divisor of two big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member One : <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Get the big integer for one
+</summary></td></tr>
+<tr valign="top"><td><pre>member op_Inequality : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ This operator is for use from other .NET languages
+</summary></td></tr>
+<tr valign="top"><td><pre>member Parse : text:<a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Parse a big integer from a string format
+</summary></td></tr>
+<tr valign="top"><td><pre>member Pow : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> * y:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Return n^m for two big integers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ToDouble : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ Convert a big integer to a floating point number
+</summary></td></tr>
+<tr valign="top"><td><pre>member ToInt32 : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__int32.html'>int32</a></pre></td><td><summary>
+ Convert a big integer to a 32-bit signed integer
+</summary></td></tr>
+<tr valign="top"><td><pre>member ToInt64 : x:<a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a> -> <a href='Microsoft.FSharp.Core.type__int64.html'>int64</a></pre></td><td><summary>
+ Convert a big integer to a 64-bit signed integer
+</summary></td></tr>
+<tr valign="top"><td><pre>member Zero : <a href='Microsoft.FSharp.Math.type_BigInt.html'>BigInt</a></pre></td><td><summary>
+ Get the big integer for zero
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Math.html">Microsoft.FSharp.Math</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

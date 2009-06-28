@@ -1,0 +1,516 @@
+﻿<html>
+
+<head>
+    <Attribute>
+<title>The F# May 2009  Community Technology Preview, 1.9.6.16</title>
+
+  <link type="text/css" rel="Stylesheet" href="/rmcstyle.css"><link type="text/css" rel="Stylesheet" href="doc/rmcstyle-copy.css">
+  <link type="text/css" rel="Stylesheet" href="/groupStyle.css"><link type="text/css" rel="Stylesheet" href="doc/groupStyle-copy.css">
+
+  <style type="text/css">
+  TT { font-weight: bold; color: blue; font-size: 10pt; }
+  PRE { font-weight: bold; color: blue; font-size: 10pt;  }
+      .style1
+      {
+          text-indent: -18.0pt;
+          line-height: 130%;
+          font-size: 10.0pt;
+          font-family: "Calisto MT", serif;
+          margin-left: 71.85pt;
+          margin-right: 0cm;
+          margin-top: 0cm;
+          margin-bottom: 6.0pt;
+      }
+      .style2
+      {
+          font-size: 10.0pt;
+          font-family: Consolas;
+          color: #4F81BD;
+          margin-left: 14.2pt;
+          margin-right: 0cm;
+          margin-top: 0cm;
+          margin-bottom: .0001pt;
+      }
+      .style3
+      {
+          font-family: Consolas;
+          color: #4F81BD;
+      }
+      .style4
+      {
+          font-size: 10.0pt;
+          font-family: Consolas;
+          color: #4F81BD;
+          margin-left: 14.2pt;
+          margin-right: 0cm;
+          margin-top: 0cm;
+          margin-bottom: 6.0pt;
+      }
+      .style5
+      {
+          font-family: Verdana;
+          font-size: 80%;
+      }
+      .style6
+      {
+          font-family: Verdana;
+      }
+      .style7
+      {
+          text-indent: -18.0pt;
+          line-height: 130%;
+          font-size: 80%;
+          font-family: Verdana;
+          margin-left: 71.85pt;
+          margin-right: 0cm;
+          margin-top: 0cm;
+          margin-bottom: 6.0pt;
+      }
+
+  </style>
+</head>
+
+
+<body>
+
+<h1> The F# May 2009 Community Technology Preview, 1.9.6.16</h1>
+
+<p>Welcome to the F# May 2009
+    Community Technology Preview (CTP).  F# is a typesafe, scalable, succinct, typed, efficient 
+    programming language for the .NET platform.  This release represents an important step in 
+    the evolution of the F# language as we progress it towards product quality. 
+    The release contains:</p>
+
+<ul> <li>The F# command-line compiler</li>
+     <li>F# Interactive, for dynamic execution and interactive evaluation</li>
+     <li>The F# library components</li>
+     <li>The F# Visual Studio 2008 components</li>
+     <li>Tools such as the F# lexer and parser generators and the value-add &quot;F# 
+         PowerPack&quot;</li>
+</ul>
+<p>Full details can be found 
+  at the <a href="http://msdn.microsoft.com/fsharp">F# Developer Center</a> or the <a href="http://research.microsoft.com/fsharp">F# website</a> .
+  There you can find additional F# learning resources, links to the F# community and 
+    more.&nbsp;  
+  You may be interested in
+  tracking <a href="http://blogs.msdn.com/dsyme">Don Syme's F# blog</a>
+  and/or  blogging about your experiences with using F#. If you are getting started with F#, try the following sites:</p>
+<ul> <li> The <a href="http://msdn.microsoft.com/fsharp">F# developer center</a></li>
+     <li> The F# community site at <a href="http://cs.hubfs.net/">hubFS</a></li>
+     <li> The <a href="http://code.msdn.com/fsharpsamples">F# samples</a></li>
+</ul>
+
+
+    <h3><b>Table of Contents</b></h3>
+<ul> <li> <a href="#Requirements">Requirements</a></li>
+     <li> <a href="#ProvidingFeedback>Providing Feedback</a></li>
+     <li> <a href="#Support>Support</a></li>
+     <li> <a href="#UsingMono">Using F# with Mono</a></li>
+     <li> <a href="#Changes">Changes</a></li>
+</ul>     
+
+<h3><a name="Requirements"></a>Requirements</h3>
+
+<ul>
+  <li>To compile F# programs you need one of:
+      
+      <ul>
+        <li>The .NET Framework SDK or .NET Framework Redistributable Components.
+            Versions 2.0, 3.0 and 3.5 are supported.</li>
+        <li>Visual Studio 2008 Standard Edition or above. </li>
+          <li>The freely available Visual Studio 2008 Shell. </li>
+        <li>The Microsoft SSCLI Shared-Source implementation of the CLR.</li>
+        <li>Another CLI implementation (e.g. Mono).  See the notes on <a href="#UsingMono">using Mono</a> below.  Always ensure you have the
+           latest stable Mono release installed (e.g. the Mono 2.0 preview release or later as of the time of writing) - 
+           some versions of Linux come with very old Mono releases.
+      </ul>
+  </li>
+    <li>If you are not using Visual Studio, you will need an alternate editor.  If you use Emacs you will probably want to use the
+      <a href="http://cs.hubfs.net/forums/thread/5922.aspx">Emacs F# mode.</a>. 
+      You will also need a command line prompt to run F# Interactive and the command line compiler.</li>
+
+  <li>A sense of adventure and discovery!</li>
+
+</ul>
+
+
+
+
+<h3><a name="ProvidingFeedback"></a> Providing Feedback</h3>
+
+<p>
+    Your feedback is highly valuable to the F# team.&nbsp; Please send any comments 
+    to <a href="mailto:fsbugs@microsoft.com">fsbugs@microsoft.com</a>.  Your positive 
+    and negative feedback, as well as suggestions, comments, feature requests, and 
+    bug reports are warmly welcomed.</p>
+<p>
+    If you have questions for the F# user community, post them to one of the sites 
+    listed in the Support section below.</p>
+
+
+
+<h3><a name="Support"></a>Support</h3>
+
+<p>
+    This F# CTP is pre-release software and is not officially supported by Microsoft 
+    product support.&nbsp; If you have issues or questions that require support, you 
+    can use one of the following resources:</p>
+<ul>
+    <li>The <a href="http://cs.hubfs.net/forums/default.aspx">F# Forums</a> at hubFS</li>
+    <li>Send mail to <a href="mailto:fsbugs@microsoft.com">fsbugs@microsoft.com</a>.</li>
+    <li>Find other F# community resources at <a href="http://msdn.microsoft.com/fsharp">http://msdn.microsoft.com/fsharp</a></li>
+</ul>
+
+<h3><a name="UsingMono"> </a>Using F# with Mono</h3>
+
+<p>
+You may run F# programs  <a href="manual/compiler.html#OtherCLIs">in conjunction
+  with other CLI implementations</a> such as <a href="http://www.go-mono.com">Mono</a>.  
+Please read the notes below.  Some more information is 
+available at the <a href="http://strangelights.com/fsharp/Wiki/default.aspx/FSharpWiki.MonoLinux">F# Wiki</a>.
+          
+</p>
+<ul>
+  <li> Mono version 2.0 or later is required.
+  <li> Install the F# libraries to the GAC using <tt>install-mono.sh</tt>.  This script also contains the commands to  trigger
+       pre-compilation, but since some versions of Mono have had problems with pre-compilation the code is commented out.
+     
+  <li> Run the compiler using <tt>mono bin/fsc.exe</tt>. You will want to make an alias for this.  
+
+  <li> Run F# Interactive compiler using <tt>mono bin/fsi.exe</tt>.  You may wish to make an alias for this.
+
+  <li> Ahead-of-time compilation can be useful for F# assemblies, but there have been reports of issues with using this on Mono.
+       If you find out that it works on your version of Mono, go ahead and run it on <tt>fsc.exe</tt>, <tt>fsi.exe</tt>,
+       <tt>FSharp.Compiler.dll</tt>, and <tt>FSharp.Core.dll</tt>  to improve startup times for <tt>mono bin/fsc.exe</tt>.
+
+  <li> Debugging symbols are not generated.  Using the <tt>-g</tt> flag will generate a warning.
+
+  <li> Strong name signing is now available in the F# compiler via the <tt>--keyfile</tt> command line option.
+
+  <li> F# has in the past exposed Mono bugs in corner cases.  If you see a problem, this is likely
+       to be the result of a bug in Mono. Please
+       be sure to investigate and report these to both the F# team and through the Mono bug reporting process.
+</ul>
+
+
+
+<h3><a name="Changes"></a>Changes: F# CTP 2009 Release</h3>
+
+<p>This release makes many improvements to the core experience provided with the last F# CTP, 
+with improved debugging support, performance and scalability improvements in the language, 
+libraries and Visual Studio, many minor language extensions, and a release of Visual Studio 2010 Beta1 with F# integrated.  
+</p>
+
+<p>The changes in this release are documented briefly below. More details are contained 
+in the <a href="http://msdn.microsoft.com/fsharp">blog announcements</a> coinciding with this release.</p>
+    <p>
+    <h4>Summary</h4>
+    <ul type="disc">
+        <li >
+            <b>Release</b>
+            <ul type="circle">
+                <li>F# is integrated into Visual Studio 2010 Beta1</li>
+                <li>F# in Visual Studio2010 can build applications for .NET 4.0 Beta1</li>
+                <li>Updated F# CTP for Visual Studio 2008 and .NET 2.0/3.0/3.5</li>
+                <li>F# PowerPack to be available on CodePlex and also in the CTP Update for this release</li>
+            </ul>
+        </li>
+        <li>
+            <b>F# Language</b>
+            <ul type="circle">
+                <li><tt>#light</tt> is the default</li>
+                <li>Support for calling and exposing .NET ParamArray parameters (‘params’ in C#)</li>
+                <li>Performance improvement for Sequence Expressions</li>
+                <li>Units of measure support for signed integral types</li>
+                <li>Support for custom numeric types (<tt>123X</tt>, <tt>1.0R</tt>, etc.)</li>
+                <li>Overloading tie-breaker rules result in fewer ambiguity errors when calling overloaded members</li>
+                <li><tt>?</tt> operator enables definition of dynamic member lookup</li>
+                <li>Attributes can be placed on implicit class constructors</li>
+                <li>Let bindings and implicit constructor parameters in type definitions only generate fields when necessary</li>
+                <li>Curried members are generated as un-curried .NET members</li>
+                <li>Support for <tt>InternalsVisibleTo</tt></li>
+                <li>Support for all <tt>Assembly*Attributes</tt></li>
+            </ul>
+        </li>
+        <li>
+            <b>F# Compiler</b>
+            <ul type="circle">
+                <li><tt>Fsc.exe</tt> command line compiler options cleanup and standardization</li>
+                <li>Passing <tt>mscorlib</tt> and <tt>FSharp.Core.dll</tt> explicitly is supported, and defines the targeted runtime</li>
+            </ul>
+        </li>
+        <li>
+            <b>F# Core Libraries</b>
+            <ul type="circle">
+                <li><tt>FSharp.Core.dll</tt> API naming standardization resulting in a handful of API changes </li>
+                <li>Silverlight2 version of <tt>FSharp.Core.dll</tt> available in the CTP Update</li>
+                <li>RequiresQualifiedAccess applied to many of the modules in <tt>FSharp.Core.dll</tt> to prevent opening the module in client code</li>
+                <li><tt>BigInteger</tt>/<tt>BigRational</tt> changes</li>
+                <li><tt>ResizeArray</tt> module moved to F# Power Pack</li>
+                <li><tt>IStructuralHash</tt> removed, <tt>IStructuralEquatable</tt> and <tt>IStructuralComparable added</tt></li>
+                <li>[.Net 4.0] <tt>FSharp.Core.dll</tt> is SecurityTransparent and can be used in partial trust</li>
+                <li>[.Net 4.0] F# uses new .NET4.0 <tt>Lazy</tt> and <tt>Tuple</tt> types</li>
+                <li>[.Net 4.0] <tt>Async.StartAsTask</tt> and <tt>Task&lt;&gt;.AwaitValue</tt> convert between F# <tt>Async</tt> and .NET4.0 <tt>Task</tt></li>
+                <li>[.Net 4.0] <tt>Array.Parallel.*</tt> functions provide data parallel versions of common array operations</li>
+            </ul>
+        </li>
+        <li>
+            <b>Visual Studio</b>
+            <ul type="circle">
+                <li>Error List populated by results of Build as well as background errors</li>
+                <li>Performance improvements in F# Visual Studio language service</li>
+                <li>Many improvements to debugging in Visual Studio, including breakpoint setting and data visualization. </li>
+                <li>More reliable F# Intellisense in the face of incomplete or incorrect code</li>
+                <li>Improved project build and rebuild performance and reliability</li>
+                <li>QuickInfo on <tt>#r</tt> shows details of the referenced assembly</li>
+            </ul>
+        </li>
+        <li>
+            <b>F# Interactive</b>
+            <ul type="circle">
+                <li>F# Interactive displays all bound values </li>
+                <li>Simplified command line format for <tt>fsi.exe</tt> makes it easy to execute simple F# scripts with <tt>fsi.exe script.fsx a1 a2</tt></li>
+                <li><tt>Fsi.exe</tt> emits debug symbols, so can be attached to, to debug a running script</li>
+            </ul>
+        </li>
+        <li>
+            <b>F# PowerPack</b>
+            <ul type="circle">
+                <li>Additional <tt>Async</tt> utility functions</li>
+                <li>An API for accessing F#-specific metadata from F# assemblies - <tt>FSharp.PowerPack.Metadata.dll</tt> </li>
+            </ul>
+        </li>
+        <li>
+            <b>Miscellaneous</b>
+            <ul type="circle">
+                <li>Beta F# Language and Compiler documentation on MSDN</li>
+                <li>Deletion of features deprecated in previous F# releases</li>
+                <li>Plus many, many more minor fixes and improvements</li>
+            </ul>
+        </li>
+    </ul>
+    <p>
+    <h4>F# Language</h4>
+    <h5>#light is the default </h5>
+    </p>
+    <p>
+        All F# source files now use the whitespace-aware <tt>#light</tt> 
+        syntax by default. This may be 
+        turned off with <tt>#light off</tt> at the top of a source file.</p>
+    <p>
+        <h5>.NET ParamArray parameters (‘params’ in C#)</h5></p>
+    <p>
+        F# can call methods with ParamArray parameters defined in 
+        other .NET languages such as:</p>
+        <pre>
+        System.Console.WriteLine("a","b","c","d","e","f")
+        // Results in the following call:
+        //   System.Console.WriteLine("a", [|"b";"c";"d";"e";"f"|])
+        </pre>
+        <p>
+        F# types can also expose ParamArray parameters themselves 
+        using <tt>System.ParamArrayAttribute</tt>:</p>
+        <pre>
+        open System
+        type MyType() = 
+            member this.M([<ParamArray>] args : string[]) = 
+                args |> Array.iter (printfn "%A")
+        </pre>
+   
+    <h5>Performance of Sequence Expressions</h5>
+    <p>
+        Sequence expressions are now compiled to state machines, 
+        instead of as a collection of API calls. This results in improved performance of F# code which works with seq. Many of the Seq.* library functions 
+        also have improved performance as a result of this change.</p>
+    <h5>Units of measure support for signed integral types</h5>
+    <p>
+        Units of measure may now be applied to integral types such as <tt>int</tt> and <tt>int64</tt>, as 
+        well as existing floating point types such as <tt>float</tt> and <tt>decimal</tt>.</p>
+    <pre>
+        [&lt;Measure&gt;]
+        type clicks
+
+        let x = 64&lt;clicks&gt; </pre>
+    <p>Also, a few bugs fixes to enable definitions of OO types annotated with measures to have the full 
+        range of overloaded operators (e.g. Vector, Matrix etc.).</p>
+    <h5>Support for custom numeric types (123X, 1.0R, etc.)</h5>
+    <p>
+        It is now possible to bind numeric literals to custom numeric 
+        types. Custom numeric literals, with 
+        a numeric constant followed by a single letter, are treated as syntactic sugar 
+        for API calls. 
+    </p>
+    <p>
+        In particular, <tt>123X</tt> is now syntactic sugar for</p>
+    <pre>
+        NumericLiteralX.FromInt32(123)</pre>
+    <p>Likewise</p>
+    <pre>
+        NumericLiteralX.FromZero()
+        NumericLiteralX.FromOne()
+        NumericLiteralX.FromInt32(6)
+        NumericLiteralX.FromInt64(…)
+        NumericLiteralX.FromString(…)
+    </pre>
+    <p>Depending on the input constant.</p>
+    <h5>"?" operator enables definition of 
+        dynamic member lookup</h5>
+    <p> The <tt>?</tt> and <tt>?&lt;-</tt> operators now treat their right-hand argument as a parse-time 
+        symbol, and pass this symbol to the operator definition as a string argument. This enables the definition of 
+        dynamic lookup as a library implementation of the <tt>?</tt> operator.
+    </p>
+    <pre>
+        open System.Reflection
+        
+        let (?) (x: 'a) (prop: string) : 'b =
+            // A simplified '?' operator for dynamic property
+            // lookup using reflection
+            let pi = typeof<'a>.GetProperty(prop)
+            pi.GetValue(x, [||]) :?> 'b
+
+        let statically        = "hello".Length
+        let dynamically : int = "hello"?Length
+    </pre>
+    
+    
+    <h4>F# Compiler</h4>
+    <h5>Compiler command line option normalization</h5>
+    <p>
+        
+        The command line options for the F# compiler have been further aligned with 
+        standard .NET compiler practice. Here are a few notable changes:</p>
+    <ul type="disc">
+        <li>All long-form compiler options taking parameters now require a ':', as in <tt>--target:exe</tt></li>
+        <li>Tailcalls is now set based on a separate <tt>--tailcalls[+/-]</tt> flag, which is on by default</li>
+        <li>Cross-module optimization is now set based on a separate <tt>--crossoptimize[+/-]</tt> flag, which is on by default</li>
+    </ul>
+    <p>To see the full list of compiler options, use <tt>fsc.exe -?</tt></p>
+    <h4>F# Core Libraries</h4>
+    <h5>FSharp.Core.dll API naming standardization resulting in a handful of API changes </h5>
+    <p>The camelCase naming scheme has been adopted in place of 
+        under_scores in the compositional functional programming modules.
+    </p>
+    <p>A few other functions have been renamed to align better with 
+        this naming convention.</p>
+    <h5>BigInteger/BigRational </h5>
+    <p> F# BigInteger has been aligned with the new .NET4.0 BigInteger type. On .NET 2.0, a matching BigInteger 
+        implementation is included in <tt>FSharp.Core.dll</tt>.</p>
+    <p>
+        The BigRational type has been moved into the F# PowerPack.</p>
+    <h5>Structured Formatting Customization</h5>
+    <p>Two tools for customizing structured formatting of values with 
+        %A or in the F# Interactive have been added to this release.</p>
+        <ul>
+            <li>Width and node count parameters on %A format
+        <pre>
+        %&lt;width&gt;.&lt;node-count&gt;A
+                </pre>
+                A width of 0 will mean "no line splitting", i.e. 1-dimensional layout.
+                <p></p>
+            </li>
+            <li>Extensibility via an attribute:
+            <pre>
+        [&lt;StructuredFormatDisplay("matrix {StructuredDisplayAsArray}")&gt;]
+        type Matrix<'T>(width,height,generator:int->int->'T) = 
+       
+            ///...Matrix members...
+       
+            member private this.StructuredDisplayAsArray = 
+                Array2D.init width height generator
+            </pre>
+            </li>
+        </ul>
+    <p>
+        This attribute is used to mark how a type is displayed by 
+        default when using <tt>%A</tt> printf formatting patterns and other two-dimensional 
+        text-based display layouts. In version 1 of F# the only valid values will be of 
+        the form <tt>PreText {PropertyName} PostText. </tt>The property name indicates a 
+        property to evaluate and to display instead of the object itself.
+    </p>
+    <p>As a library developer:
+        <ul>
+            <li>Override <tt>ToString</tt> for simple types</li>
+            <li>Consider implementing <tt>DebuggerDisplay</tt>
+                <ul>
+                    <li>if you expect users to often see this type in the debgugger</li>
+                    <li>AND overriding <tt>ToString</tt> is not adequate for this purpose</li>
+                </ul>
+            </li>
+            <li>Consider implementing <tt>StructuredFormatDisplay</tt> if </li>
+                <ul>
+                    <li>you expect users to see this type in a console or other textual display</li>
+                    <li>and the default results of <tt>printf %A</tt> for the type is not adequate</li>
+                    <li>and overriding <tt>ToString</tt> is not adequate </li>
+                </ul>
+            </li>
+            <li>It is OK to implement all three</li>
+        </ul>
+    <p>As a library developer:
+        <ul>
+            <li>Use <tt>%A</tt> for structured formatting</li>
+            <li>Use <tt>fsi.AddPrinter</tt> to make adhoc changes to how FSI displays data</li>
+        </ul>
+    <h5>[.Net 4.0] F# uses new .NET4.0 Lazy and Tuple types</h5>
+    <p> F# compiled for .NET4.0 uses the new <tt>System.Tuple</tt> and <tt>System.Lazy</tt> types in place 
+        of F#-specific types.</p>
+    <h5>[.Net 4.0] Converting between F# Async 
+        and .NET4.0 Tasks</h5>
+    <p> F# Async workflows can be used to compose together .NET4.0 Tasks, using the 
+        <tt>Task&lt;'T&gt;.AsyncValue</tt> and <tt>Async.StartAsTask</tt> functions.</p>
+    <pre>
+        async { // Await the value from some future we've been given
+                // This is effectively "ContinueWith"
+                let! v1 = someFuture.AsyncValue 
+                ... }
+
+        async { // Set a sub-async program running as a future
+                let! subtask = Async.StartChildAsTask ( async { ... } )
+                // Await the value from the future (don't block the thread!)
+                // This is effectively "ContinueWith"
+                let! v1 = subtask.AsyncValue 
+                ... }
+
+        let mytask = async { ... } |> Async.StartAsTask </pre>
+ <h5>[.Net 4.0] Array.Parallel </h5>
+    <p> Data parallel versions of some of the common Array operations are available in 
+        the <tt>Array.Parallel</tt> module. These can 
+        be used to quickly parallelize key loops in F# code. The performance profile of these 
+        operations is derived from the <tt>System.Threading.Parallel.For</tt> API in .NET4.0.</p>
+    <pre>
+        let random = new System.Random()
+        let numPoints = 10000000
+        let points = Array.init numPoints (fun _ -> random.NextDouble(), random.NextDouble())
+        let numInCircle = 
+            points
+            |> Array.Parallel.choose (fun (x,y) ->
+                 if x*x + y*y <= 1.0 then Some (x,y) else None)
+            |> Array.length
+        let pi = 4.0 * float numInCircle / float numPoints </pre>
+   <h4> F# PowerPack</h4>
+   <h5>Additional Async utility functions</h5>
+    <p>The following Async utility functions have been added to the PowerPack:
+        <ul>
+            <li><tt>Async.AwaitEvent</tt></li>
+            <li><tt>Async.AsBeginEnd</tt></li>
+            <li><tt>AsyncResult<_></tt></li>
+            <li><tt>AsyncResultCell<_></tt></li>
+            <li><tt>System.Net.WebClient.AsyncDownloadString</tt></li>
+        </ul>
+    
+    <h5>FSharp.PowerPack.Metadata.dll </h5>
+    <p>The API in this assembly 
+        provides access to the F#-specific metadata. This can be used to get information about F# notions such as type 
+        abbreviations, units of measure, and currying or parameters.</p>
+    <pre>
+        #r "FSharp.PowerPack.Metadata.dll"
+        open FSharp.PowerPack.Metadata
+
+        let assm = FSharpAssembly.FromFile(@"FSharp.Core.dll")
+        let entities = assm.Entities
+        let allAbbreviations = 
+            [ for e in entities do
+                if e.IsAbbreviation 
+                then yield e.Name ]</pre>
+    
+</body>
+</html>

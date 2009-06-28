@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  
+  <PropertyGroup>
+    <!-- Tail calls on, even in debug -->
+    <Tailcalls>true</Tailcalls>
+    <LkgVersion>1.9.6.15</LkgVersion>
+    <VersionFile>$(FSharpSourcesRoot)\source-build-version</VersionFile>
+    <FsLexUnicode>true</FsLexUnicode>
+    <OutputPath>$(FSharpSourcesRoot)\$(Configuration)\bin</OutputPath>
+    <DefineConstants>NO_STRONG_NAMES;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Selecting the correct key pair -->
+
+  
+  <PropertyGroup Condition=" '$(BuildWith)' == '' and '$(TargetFrameworkVersion)' != 'vSilverlight20'">
+          <!-- <OtherFlags>-keyfile:$(FSharpSourcesRoot)\fsppack\fs.pubkey -delaysign $(OtherFlags)</OtherFlags>  -->
+  </PropertyGroup>
+
+
+  <!-- Build with LKG fslex/fsyacc -->
+  <PropertyGroup Condition=" '$(BuildWith)' == 'LKG'  ">
+
+    <FSharpTargetsDir>$(FSharpSourcesRoot)\..\lkg\FSharp-$(LkgVersion)\bin</FSharpTargetsDir>
+
+    <FscToolPath>$(FSharpSourcesRoot)\..\lkg\FSharp-$(LkgVersion)\bin</FscToolPath>
+    <FscToolExe>fsc.exe</FscToolExe>
+    <FsLexToolPath>$(FSharpSourcesRoot)\..\lkg\FSharp-$(LkgVersion)\bin</FsLexToolPath>
+    <FsLexToolExe>fslex.exe</FsLexToolExe>
+    <FsYaccToolPath>$(FSharpSourcesRoot)\..\lkg\FSharp-$(LkgVersion)\bin</FsYaccToolPath>
+    <FsYaccToolExe>fsyacc.exe</FsYaccToolExe>
+  </PropertyGroup>
+
+  <!-- The real build, with prototype compiler -->
+  <PropertyGroup Condition=" '$(BuildWith)' == ''">
+    <FSharpTargetsDir>$(FSharpSourcesRoot)\Proto\bin</FSharpTargetsDir>
+
+    <FscToolPath>$(FSharpSourcesRoot)\Proto\bin</FscToolPath>
+    <FscToolExe>fsc-proto.exe</FscToolExe>
+    <FsLexToolPath>$(FSharpSourcesRoot)\Proto\bin</FsLexToolPath>
+    <FsLexToolExe>fslex-proto.exe</FsLexToolExe>
+    <FsYaccToolPath>$(FSharpSourcesRoot)\Proto\bin</FsYaccToolPath>
+    <FsYaccToolExe>fsyacc-proto.exe</FsYaccToolExe>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Hook compilation phase to do custom work -->
+    <CompileDependsOn>$(CompileDependsOn);ValidateConfiguration;CustomCopyLocalFiles</CompileDependsOn>
+  </PropertyGroup>
+
+  <Target Name="ValidateConfiguration">
+    <Error
+            Text="Configuration '$(Configuration)' is not one of the supported configurations: Debug, Release or Proto"
+            Condition="'$(Configuration)'!='Release' and '$(Configuration)'!='Debug' and '$(Configuration)'!='Proto'"/>
+  </Target>
+
+  <!-- This build step copies files to the output folder while replacing build variables in the text of those file. -->
+  <Target
+          Name="CustomCopyLocalFiles"
+          Inputs="@(CustomCopyLocal)"
+          Outputs="@(CustomCopyLocal->'$(OutDir)%(TargetFilename)')"
+                >
+    <Exec Command="$(FSharpSourcesRoot)\fsharp\FSharp.Build\subst.exe {LkgVersion} $(LkgVersion) {BuildSuffix} &quot;$(FsBuildSuffix)&quot; &quot;%(CustomCopyLocal.FullPath)&quot; &gt; $(OutDir)%(CustomCopyLocal.TargetFilename)  "/>
+    <!-- Make sure it will get cleaned  -->
+    <CreateItem Include="$(OutDir)%(CustomCopyLocal.TargetFilename)">
+      <Output TaskParameter="Include" ItemName="FileWrites"/>
+    </CreateItem>
+  </Target>
+
+
+</Project>

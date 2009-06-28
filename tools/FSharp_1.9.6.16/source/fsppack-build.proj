@@ -1,0 +1,40 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+         ToolsVersion="3.5">
+
+  <PropertyGroup>
+    <FSharpSourcesRoot>.</FSharpSourcesRoot>
+  </PropertyGroup>
+
+  <!-- Define all ProjectFiles here -->
+
+  <ItemGroup>
+    <ProjectFiles Include="fsppack\FSharp.PowerPack\FSharp.PowerPack.fsproj"/>
+  </ItemGroup>
+
+  <!-- Only build these for a build targeting the Desktop CLR (not Silverlight or CompactFramework) -->
+  <ItemGroup Condition=" '$(targetCLIDir)' == '' ">
+    <ProjectFiles Include="fsppack\FsLex\FsLex.fsproj"/>
+    <ProjectFiles Include="fsppack\FsYacc\FsYacc.fsproj"/>
+    <ProjectFiles Include="fsppack\FSharp.PowerPack.Linq\FSharp.PowerPack.Linq.fsproj"/>
+    <ProjectFiles Include="fsppack\FSharp.PowerPack\math\lapack\FSharp.PowerPack.Math.Providers.fsproj"/>
+    <ProjectFiles Include="fsppack\FSharp.PowerPack.Metadata\FSharp.PowerPack.Metadata.fsproj"/>
+    <ProjectFiles Include="fsppack\FSharp.PowerPack.Build.Tasks\FSharp.PowerPack.Build.Tasks.fsproj"/>
+    <ProjectFiles Include="fsppack\FSharp.Compiler.CodeDom\FSharp.Compiler.CodeDom.fsproj"/>
+  </ItemGroup>
+
+  <!-- Only build these for a build targeting the Desktop CLR (not Silverlight or CompactFramework) -->
+  <!-- Only build these for an F# team build -->
+  <ItemGroup Condition=" '$(targetCLIDir)' == '' and  Exists('$(FSharpSourcesRoot)\FSharpTeam.targets') ">
+    <ProjectFiles Include="fsppack\Unittests\Unittests.PowerPack.fsproj"/>
+    <ProjectFiles Include="fsppack\charting\FSharp.PowerPack.Plot.fsproj"/>
+    <ProjectFiles Include="fsppack\charting\FSharp.PowerPack.Plot.Neutral.fsproj"/>
+    <ProjectFiles Include="fsppack\charting\FSharp.PowerPack.Plot.Xceed.fsproj"/>
+    <ProjectFiles Include="fsppack\charting\FSharp.PowerPack.Plot.Excel.fsproj"/>
+  </ItemGroup>
+
+  <Import Project="root.traversal.targets"/>
+
+  <!-- Insert any customizations for targets here -->
+
+</Project>
+

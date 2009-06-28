@@ -1,0 +1,139 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Math.Complex</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Math.html'>Microsoft.FSharp.Math</a>.Complex </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ The type of complex numbers stored as pairs of 64-bit floating point numbers in rectangular coordinates
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_StructuralEqualityAttribute.html'>StructuralEqualityAttribute</a> (false); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_StructuralComparisonAttribute.html'>StructuralComparisonAttribute</a> (false)>]
+type Complex =
+  struct
+    interface <a href='http://msdn2.microsoft.com/en-us/library/System.IComparable.aspx'>IComparable</a>
+    override Equals : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    override ToString : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+    member ToString : format:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+    member ToString : format:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> * provider:<a href='http://msdn2.microsoft.com/en-us/library/System.IFormatProvider.aspx'>IFormatProvider</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+    member Conjugate : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    member ImaginaryPart : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>
+    member Magnitude : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>
+    member Phase : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>
+    member RealPart : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>
+    member i : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>
+    member r : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>
+    static member Abs : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>
+    static member Cos : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member Create : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member CreatePolar : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member Exp : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member Log : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member Sin : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member Sqrt : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member Tan : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member One : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member OneI : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member Zero : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member ( + ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member ( / ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member ( * ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member ( * ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member ( * ) : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member ( - ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+    static member ( ~- ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Conjugate : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ The conjugate of a complex number, i.e. x-yi
+</summary></td></tr>
+<tr valign="top"><td><pre>override Equals : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member i : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ The imaginary part of a complex number
+</summary></td></tr>
+<tr valign="top"><td><pre>member ImaginaryPart : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ The imaginary part of a complex number
+</summary></td></tr>
+<tr valign="top"><td><pre>member Magnitude : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ The polar-coordinate magnitude of a complex number
+</summary></td></tr>
+<tr valign="top"><td><pre>member Phase : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ The polar-coordinate phase of a complex number
+</summary></td></tr>
+<tr valign="top"><td><pre>member r : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ The real part of a complex number
+</summary></td></tr>
+<tr valign="top"><td><pre>member RealPart : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ The real part of a complex number
+</summary></td></tr>
+<tr valign="top"><td><pre>member ToString : format:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> * provider:<a href='http://msdn2.microsoft.com/en-us/library/System.IFormatProvider.aspx'>IFormatProvider</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToString : format:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>override ToString : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Multiply a complex number by a scalar
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Multiply a scalar by a complex number 
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( * ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Multiply two complex numbers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( + ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Add two complex numbers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( - ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Subtract one complex number from another
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( / ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> * <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Complex division of two complex numbers
+</summary></td></tr>
+<tr valign="top"><td><pre>member ( ~- ) : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Unary negation of a complex number
+</summary></td></tr>
+<tr valign="top"><td><pre>member Abs : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ Computes the absolute value of a complex number: e.g. Abs x+iy = sqrt(x**2.0 + y**2.0.)
+ Note: Complex.Abs(z) is the same as z.Magnitude
+</summary></td></tr>
+<tr valign="top"><td><pre>member Cos : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Create : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Create a complex number x+ij using rectangular coordinates
+</summary></td></tr>
+<tr valign="top"><td><pre>member CreatePolar : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ Create a complex number using magnitude/phase polar coordinates
+</summary></td></tr>
+<tr valign="top"><td><pre>member Exp : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Log : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member One : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ The complex number 1+0i
+</summary></td></tr>
+<tr valign="top"><td><pre>member OneI : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ The complex number 0+1i
+</summary></td></tr>
+<tr valign="top"><td><pre>member Sin : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Sqrt : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Tan : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a> -> <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Zero : <a href='Microsoft.FSharp.Math.type_Complex.html'>Complex</a></pre></td><td><summary>
+ The complex number 0+0i
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Math.html">Microsoft.FSharp.Math</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

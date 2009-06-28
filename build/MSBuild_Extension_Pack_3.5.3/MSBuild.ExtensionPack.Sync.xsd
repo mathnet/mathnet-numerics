@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+// <copyright file="MSBuild.ExtensionPack.Sync.xsd">(c) http://www.codeplex.com/MSBuildExtensionPack. This source is subject to the Microsoft Permissive License. See http://www.microsoft.com/resources/sharedsource/licensingbasics/sharedsourcelicenses.mspx. All other rights reserved.</copyright>
+-->
+<xs:schema xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="Microsoft.Build.Core.xsd" />
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.Sync" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="SyncFolders"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Destination"/>
+                    <xs:attribute name="Source"/>
+                    <xs:attribute name="IdFileName"/>
+                    <xs:attribute name="ExclusionFilters"/>
+                    <xs:attribute name="SyncOptions"/>
+                    <xs:attribute name="Direction"/>                    
+                    <xs:attribute name="ShowOutput" type="msb:boolean"/>
+                    <xs:attribute name="LogExceptionStack" type="msb:boolean"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

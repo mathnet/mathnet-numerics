@@ -1,0 +1,99 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Text.Lexing.LexBuffer</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Text.Lexing.html'>Microsoft.FSharp.Text.Lexing</a>.LexBuffer </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type LexBuffer&lt;'char&gt;
+with
+  member DiscardInput : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  member LexemeChar : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'char
+  member BufferLocalStore : IDictionary&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>,<a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a>&gt;
+  member EndPos : <a href='Microsoft.FSharp.Text.Lexing.type_Position.html'>Position</a>
+  member IsPastEndOfStream : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+  member Lexeme : 'char <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a>
+  member LexemeLength : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member StartPos : <a href='Microsoft.FSharp.Text.Lexing.type_Position.html'>Position</a>
+  member EndPos : <a href='Microsoft.FSharp.Text.Lexing.type_Position.html'>Position</a> with set
+  member IsPastEndOfStream : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> with set
+  member StartPos : <a href='Microsoft.FSharp.Text.Lexing.type_Position.html'>Position</a> with set
+  static member FromAsyncFunction : ('char <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>&gt;) -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;'char&gt;
+  static member FromBinaryReader : <a href='http://msdn2.microsoft.com/en-us/library/System.IO.BinaryReader.aspx'>BinaryReader</a> -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a>&gt;
+  static member FromBytes : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a>&gt;
+  static member FromChars : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a>&gt;
+  static member FromFunction : ('char <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;'char&gt;
+  static member FromTextReader : <a href='http://msdn2.microsoft.com/en-us/library/System.IO.TextReader.aspx'>TextReader</a> -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a>&gt;
+  static member LexemeString : <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a>&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member BufferLocalStore : IDictionary&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>,<a href='../FSharp.Core/Microsoft.FSharp.Core.type__obj.html'>obj</a>&gt;</pre></td><td><summary>
+ Dynamically typed, non-lexically scoped parameter table
+</summary></td></tr>
+<tr valign="top"><td><pre>member DiscardInput : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Remove all input, though don't discard the current lexeme 
+</summary></td></tr>
+<tr valign="top"><td><pre>member EndPos : <a href='Microsoft.FSharp.Text.Lexing.type_Position.html'>Position</a></pre></td><td><summary>
+ The end position for the lexeme
+</summary></td></tr>
+<tr valign="top"><td><pre>member EndPos : <a href='Microsoft.FSharp.Text.Lexing.type_Position.html'>Position</a> with set</pre></td><td><summary>
+ The end position for the lexeme
+</summary></td></tr>
+<tr valign="top"><td><pre>member IsPastEndOfStream : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ True if the refill of the buffer ever failed , or if explicitly set to true.
+</summary></td></tr>
+<tr valign="top"><td><pre>member IsPastEndOfStream : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> with set</pre></td><td><summary>
+ True if the refill of the buffer ever failed , or if explicitly set to true.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Lexeme : 'char <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td><summary>
+ The matched string 
+</summary></td></tr>
+<tr valign="top"><td><pre>member LexemeChar : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'char</pre></td><td><summary>
+ Fetch a particular character in the matched string 
+</summary></td></tr>
+<tr valign="top"><td><pre>member LexemeLength : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ The length of the matched string 
+</summary></td></tr>
+<tr valign="top"><td><pre>member StartPos : <a href='Microsoft.FSharp.Text.Lexing.type_Position.html'>Position</a></pre></td><td><summary>
+ The start position for the lexeme
+</summary></td></tr>
+<tr valign="top"><td><pre>member StartPos : <a href='Microsoft.FSharp.Text.Lexing.type_Position.html'>Position</a> with set</pre></td><td><summary>
+ The start position for the lexeme
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member
+  FromAsyncFunction : ('char <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>&gt;) ->
+                        <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;'char&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member FromBinaryReader : <a href='http://msdn2.microsoft.com/en-us/library/System.IO.BinaryReader.aspx'>BinaryReader</a> -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a>&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member FromBytes : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a>&gt;</pre></td><td><summary>
+ Adjust the start position associated with the lexbuf
+</summary></td></tr>
+<tr valign="top"><td><pre>member FromChars : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a>&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member FromFunction : ('char <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;'char&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member FromTextReader : <a href='http://msdn2.microsoft.com/en-us/library/System.IO.TextReader.aspx'>TextReader</a> -> <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a>&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member LexemeString : <a href='Microsoft.FSharp.Text.Lexing.type_LexBuffer-1.html'>LexBuffer</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a>&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Fast helper to turn the matched characters into a string, avoiding an intermediate array
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Text.Lexing.html">Microsoft.FSharp.Text.Lexing</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

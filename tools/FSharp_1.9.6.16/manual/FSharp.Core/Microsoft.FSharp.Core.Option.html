@@ -1,0 +1,50 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Core.Option</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Core.html'>Microsoft.FSharp.Core</a>.Option </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Basic operations on options.  
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val bind : ('T -> 'U <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>) -> 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'U <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td> <tt>bind f inp</tt> evaluates to <tt>match inp with None -> None | Some x -> f x</tt></td></tr>
+<tr valign="top"><td><pre>val count : 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td> <tt>length inp</tt> evaluates to <tt>match inp with None -> 0 | Some _ -> 1</tt></td></tr>
+<tr valign="top"><td><pre>val exists : ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td> <tt>exists p inp</tt> evaluates to <tt>match inp with None -> false | Some x -> p x</tt></td></tr>
+<tr valign="top"><td><pre>val fold : ('State -> 'T -> 'State) -> 'State -> 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'State</pre></td><td> <tt>fold_left f s inp</tt> evaluates to <tt>match inp with None -> s | Some x -> f s x</tt></td></tr>
+<tr valign="top"><td><pre>val foldBack : ('T -> 'State -> 'State) -> 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'State -> 'State</pre></td><td> <tt>fold_right f inp s</tt> evaluates to "match inp with None -> s | Some x -> f x s"</td></tr>
+<tr valign="top"><td><pre>val forall : ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td> <tt>forall p inp" evaluates to "match inp with None -> true | Some x -> p x</tt></td></tr>
+<tr valign="top"><td><pre>val get : 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'T</pre></td><td><summary>
+ Gets the value associated with the option.  If the option is None then
+ raises ArgumentException
+</summary></td></tr>
+<tr valign="top"><td><pre>val isNone : 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Returns true if the option is None
+</summary></td></tr>
+<tr valign="top"><td><pre>val isSome : 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Returns true if the option is not None
+</summary></td></tr>
+<tr valign="top"><td><pre>val iter : ('T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td> <tt>iter f inp</tt> executes <tt>match inp with None -> () | Some x -> f x</tt></td></tr>
+<tr valign="top"><td><pre>val map : ('T -> 'U) -> 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'U <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td> <tt>map f inp</tt> evaluates to <tt>match inp with None -> None | Some x -> Some (f x)</tt></td></tr>
+<tr valign="top"><td><pre>val to_array : 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'T <a href='Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td><summary>
+ Convert the option to an array of length 0 or 1
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_list : 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Convert the option to a list of length 0 or 1
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Core.html">Microsoft.FSharp.Core</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

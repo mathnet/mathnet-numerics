@@ -1,0 +1,54 @@
+%{
+(* (c) Microsoft Corporation 2005-2008.  *)
+
+open Fslexast
+
+%} 
+
+%type <Fslexast.Spec> spec
+%token <string> STRING IDENT
+%token <Fslexast.Code> CODE 
+%token <char> CHAR
+%token <string> UNICODE_CATEGORY
+%token RULE PARSE LET  AND LPAREN RPAREN
+%token EOF BAR DOT PLUS STAR QMARK EQUALS UNDERSCORE LBRACK RBRACK HAT DASH
+%start spec
+%left BAR
+%left regexp_alt
+%left regexp_seq
+%nonassoc regexp_opt
+%nonassoc regexp_plus regexp_star
+%%      
+
+spec: codeopt Macros RULE Rules codeopt { { TopCode=$1;Macros=$2;Rules=$4;BottomCode=$5 } }
+codeopt: CODE { $1 } | { "", (parseState.ResultRange |> fst) }
+Macros:  { [] } | macro Macros { $1 :: $2 }
+macro: LET IDENT EQUALS regexp { ($2, $4) }
+Rules: rule AND Rules { $1 :: $3 } | rule { [$1] }
+rule: IDENT args EQUALS PARSE optbar clauses { ($1,$2,$6) }
+args: { [] } | IDENT args { $1 :: $2 } 
+optbar: { } | BAR { }
+clauses: clause BAR clauses {$1 :: $3 } | clause { [$1] }
+clause: regexp CODE { $1, $2 }
+regexp: 
+| CHAR { Inp(Alphabet(EncodeChar $1)) }
+| UNICODE_CATEGORY { Inp(UnicodeCategory $1) }
+| EOF { Inp(Alphabet(Eof)) }
+| UNDERSCORE { Inp Any }
+| STRING { Seq([ for n in 0 .. $1.Length - 1 -> Inp(Alphabet(EncodeChar $1.[n]))]) }
+| IDENT { Macro($1) }
+| regexp regexp %prec regexp_seq  { Seq[$1;$2] }
+| regexp PLUS %prec regexp_plus  { Seq[$1;Star $1] }
+| regexp STAR %prec regexp_star  { Star $1 }
+| regexp QMARK %prec regexp_opt  { Alt[Seq[];$1] }
+| regexp BAR regexp %prec regexp_alt  { Alt[$1;$3] }
+| LPAREN regexp RPAREN  { $2 }
+| LBRACK charset RBRACK   { Alt [ for c in $2 -> Inp(Alphabet(c)) ] }
+| LBRACK HAT charset RBRACK   { Inp(NotCharSet($3)) }
+
+charset: 
+ | CHAR { Set.singleton(EncodeChar $1) } 
+ | CHAR DASH CHAR { Set.of_seq [ for c in $1 .. $3 -> EncodeChar c ] }
+ | charset charset { Set.union $1 $2  }
+
+
