@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ArgumentHistogramContainsNot" xml:space="preserve">
+    <value>The histogram does not contains the value {0}.</value>
+  </data>
+  <data name="ArgumentInIntervalXYInclusive" xml:space="preserve">
+    <value>Value is expected to be between {0} and {1} (including {0} and {1}).</value>
+  </data>
+  <data name="ArgumentMatrixIndexOutOfRange" xml:space="preserve">
+    <value>The matrix indices must not be out of range of the given matrix.</value>
+  </data>
+  <data name="ArgumentMatrixNotRankDeficient" xml:space="preserve">
+    <value>Matrix must not be rank deficient.</value>
+  </data>
+  <data name="ArgumentMatrixNotSingular" xml:space="preserve">
+    <value>Matrix must not be singular.</value>
+  </data>
+  <data name="ArgumentMatrixSameColumnDimension" xml:space="preserve">
+    <value>Matrix column dimensions must agree.</value>
+  </data>
+  <data name="ArgumentMatrixSameDimensions" xml:space="preserve">
+    <value>Matrix dimensions must agree.</value>
+  </data>
+  <data name="ArgumentMatrixSameRowDimension" xml:space="preserve">
+    <value>Matrix row dimensions must agree.</value>
+  </data>
+  <data name="ArgumentMatrixSingleColumn" xml:space="preserve">
+    <value>Matrix must have exactly one column.</value>
+  </data>
+  <data name="ArgumentMatrixSingleColumnRow" xml:space="preserve">
+    <value>Matrix must have exactly one column and row, thus have only one cell.</value>
+  </data>
+  <data name="ArgumentMatrixSingleRow" xml:space="preserve">
+    <value>Matrix must have exactly one row.</value>
+  </data>
+  <data name="ArgumentMatrixSquare" xml:space="preserve">
+    <value>Matrix must be square.</value>
+  </data>
+  <data name="ArgumentMatrixSymmetric" xml:space="preserve">
+    <value>Matrix must be symmetric.</value>
+  </data>
+  <data name="ArgumentMatrixSymmetricPositiveDefinite" xml:space="preserve">
+    <value>Matrix must be symmetric positive definite.</value>
+  </data>
+  <data name="ArgumentNotInfinityNaN" xml:space="preserve">
+    <value>Value must neither be infinite nor NaN.</value>
+  </data>
+  <data name="ArgumentNotNegative" xml:space="preserve">
+    <value>Value must not be negative (zero is ok).</value>
+  </data>
+  <data name="ArgumentNull" xml:space="preserve">
+    <value>{0} is a null reference (Nothing in Visual Basic).</value>
+  </data>
+  <data name="ArgumentOutOfRangeGreater" xml:space="preserve">
+    <value>{0} must be greater than {1}.</value>
+  </data>
+  <data name="ArgumentOutOfRangeGreaterEqual" xml:space="preserve">
+    <value>{0} must be greater than or equal to {1}.</value>
+  </data>
+  <data name="ArgumentParameterSetInvalid" xml:space="preserve">
+    <value>The chosen parameter set is invalid (probably some value is out of range).</value>
+  </data>
+  <data name="ArgumentParseComplexNumber" xml:space="preserve">
+    <value>The given expression does not represent a complex number.</value>
+  </data>
+  <data name="ArgumentPositive" xml:space="preserve">
+    <value>Value must be positive (and not zero).</value>
+  </data>
+  <data name="ArgumentPowerOfTwo" xml:space="preserve">
+    <value>Size must be a Power of Two.</value>
+  </data>
+  <data name="ArgumentPowerOfTwoEveryDimension" xml:space="preserve">
+    <value>Size must be a Power of Two in every dimension.</value>
+  </data>
+  <data name="ArgumentRangeLessEqual" xml:space="preserve">
+    <value>The range between {0} and {1} must be less than or equal to {2}.</value>
+  </data>
+  <data name="ArgumentSingleDimensionArray" xml:space="preserve">
+    <value>Array must have exactly one dimension (and not be null).</value>
+  </data>
+  <data name="ArgumentTooLarge" xml:space="preserve">
+    <value>Value is too large.</value>
+  </data>
+  <data name="ArgumentTooLargeForIterationLimit" xml:space="preserve">
+    <value>Value is too large for the current iteration limit.</value>
+  </data>
+  <data name="ArgumentTypeMismatch" xml:space="preserve">
+    <value>Type mismatch.</value>
+  </data>
+  <data name="ArgumentVectorLengthsMultipleOf" xml:space="preserve">
+    <value>Array length must be a multiple of {0}.</value>
+  </data>
+  <data name="ArgumentVectorsSameLengths" xml:space="preserve">
+    <value>All vectors must have the same dimensionality.</value>
+  </data>
+  <data name="ArgumentVectorThreeDimensional" xml:space="preserve">
+    <value>The vector must have 3 dimensions.</value>
+  </data>
+  <data name="FeaturePlannedButNotImplementedYet" xml:space="preserve">
+    <value>This feature is not implemented yet (but is planned).</value>
+  </data>
+  <data name="InvalidLeftBoundaryCondition" xml:space="preserve">
+    <value>Invalid Left Boundary Condition.</value>
+  </data>
+  <data name="InvalidOperationAccumulatorEmpty" xml:space="preserve">
+    <value>The operation could not be performed because the accumulator is empty.</value>
+  </data>
+  <data name="InvalidOperationHistogramEmpty" xml:space="preserve">
+    <value>The operation could not be performed because the histogram is empty.</value>
+  </data>
+  <data name="InvalidOperationHistogramNotEnoughPoints" xml:space="preserve">
+    <value>Not enough points in the distribution.</value>
+  </data>
+  <data name="InvalidOperationNoSamplesProvided" xml:space="preserve">
+    <value>No Samples Provided. Preparation Required.</value>
+  </data>
+  <data name="InvalidRightBoundaryCondition" xml:space="preserve">
+    <value>Invalid Right Boundary Condition.</value>
+  </data>
+  <data name="SpecialCasePlannedButNotImplementedYet" xml:space="preserve">
+    <value>This special case is not supported yet (but is planned).</value>
+  </data>
+</root>
