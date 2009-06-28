@@ -1,0 +1,123 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Quotations.Patterns</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Quotations.html'>Microsoft.FSharp.Quotations</a>.Patterns </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Contains a set of primitive F# active patterns to analyze F# expression objects
+</summary>
+  <dt><h3>Active Patterns</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Active Pattern</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val ( |AddressOf|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent getting the address of a value
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |AddressSet|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent setting the value held at an address 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Application|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent applications of first class function values
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Call|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='http://msdn2.microsoft.com/en-us/library/System.Reflection.MethodInfo.aspx'>MethodInfo</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent calls to static and instance methods, and functions defined in modules
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Coerce|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent coercions from one type to another
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |DefaultValue|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> <a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent invocations of a default constructor of a struct
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |FieldGet|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='http://msdn2.microsoft.com/en-us/library/System.Reflection.FieldInfo.aspx'>FieldInfo</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent getting a static or instance field 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |FieldSet|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='http://msdn2.microsoft.com/en-us/library/System.Reflection.FieldInfo.aspx'>FieldInfo</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent setting a static or instance field 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |ForIntegerRangeLoop|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent loops over integer ranges
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |IfThenElse|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent conditionals
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Lambda|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent first class function values
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |LetRec|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> ((<a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent recursive let bindings of one or more variables
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Let|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent let bindings
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |NewArray|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent the construction of arrays 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |NewDelegate|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a> * <a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent construction of delegate values
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |NewObject|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='http://msdn2.microsoft.com/en-us/library/System.Reflection.ConstructorInfo.aspx'>ConstructorInfo</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent invocation of object constructors
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |NewRecord|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent construction of record values
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |NewTuple|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent construction of tuple values
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |NewUnionCase|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Reflection.type_UnionCaseInfo.html'>UnionCaseInfo</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent construction of particular union case values
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |PropGet|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='http://msdn2.microsoft.com/en-us/library/System.Reflection.PropertyInfo.aspx'>PropertyInfo</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent the read of a static or instance property, or a non-function value declared in a module
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |PropSet|_| ) :
+  <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='http://msdn2.microsoft.com/en-us/library/System.Reflection.PropertyInfo.aspx'>PropertyInfo</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent setting a static or instance property, or a non-function value declared in a module
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Quote|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent a nested quotation literal
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Sequential|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent sequential exeuction of one expression followed by another
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |TryFinally|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent a try/finally construct 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |TryWith|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent a try/with construct for exception filtering and catching 
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |TupleGet|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent getting a tuple field
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |TypeTest|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent a dynamic type test
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |UnionCaseTest|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Reflection.type_UnionCaseInfo.html'>UnionCaseInfo</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent a test if a value is of a particular union case
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Value|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Core.type__obj.html'>obj</a> * <a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent a constant value
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |VarSet|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent setting a mutable variable
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |Var|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> <a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent a variable
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |WhileLoop|_| ) : <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> -> (<a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a> * <a href='Microsoft.FSharp.Quotations.type_Expr.html'>Expr</a>) <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ An active pattern to recognize expressions that represent while loops 
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Quotations.html">Microsoft.FSharp.Quotations</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

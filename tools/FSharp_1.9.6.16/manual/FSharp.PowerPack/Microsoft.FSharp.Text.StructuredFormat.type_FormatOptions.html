@@ -1,0 +1,63 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Text.StructuredFormat.FormatOptions</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Text.StructuredFormat.html'>Microsoft.FSharp.Text.StructuredFormat</a>.FormatOptions </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ A record of options to control structural formatting.
+ For F# Interactive properties matching those of this value can be accessed via the 'fsi'
+ value.
+ 
+ Floating Point format given in the same format accepted by System.Double.ToString,
+ e.g. f6 or g15.
+
+ If ShowProperties is set the printing process will evaluate properties of the values being
+ displayed.  This may cause additional computation.  
+
+ The ShowIEnumerable is set the printing process will force the evalution of IEnumerable objects
+ to a small, finite depth, as determined by the printing parameters.
+ This may lead to additional computation being performed during printing.
+
+ <example>
+ From F# Interactive the default settings can be adjusted using, for example, 
+ <pre>
+   open Microsoft.FSharp.Compiler.Interactive.Settings;;
+   setPrintWidth 120;;
+ </pre>
+ </example>
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_StructuralEqualityAttribute.html'>StructuralEqualityAttribute</a> (false); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_StructuralComparisonAttribute.html'>StructuralComparisonAttribute</a> (false)>]
+type FormatOptions =
+  {FloatingPointFormat: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>;
+   AttributeProcessor: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>;
+   FormatProvider: <a href='http://msdn2.microsoft.com/en-us/library/System.IFormatProvider.aspx'>IFormatProvider</a>;
+   BindingFlags: <a href='http://msdn2.microsoft.com/en-us/library/System.Reflection.BindingFlags.aspx'>BindingFlags</a>;
+   PrintWidth: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>;
+   PrintDepth: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>;
+   PrintLength: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>;
+   PrintSize: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>;
+   ShowProperties: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>;
+   ShowIEnumerable: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>;}
+  with
+    static member Default : <a href='Microsoft.FSharp.Text.StructuredFormat.type_FormatOptions.html'>FormatOptions</a>
+  end</pre>  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Default : <a href='Microsoft.FSharp.Text.StructuredFormat.type_FormatOptions.html'>FormatOptions</a></pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Text.StructuredFormat.html">Microsoft.FSharp.Text.StructuredFormat</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

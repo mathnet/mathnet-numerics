@@ -1,0 +1,96 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections.Tagged.HashMultiMap</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Collections.html'>Microsoft.FSharp.Collections</a>.<a href='Microsoft.FSharp.Collections.Tagged.html'>Tagged</a>.HashMultiMap </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ HashMultiMap, but where a constraint tag tracks information about the hash/equality functions used
+ for the hashing. When the tag is Tags.StructuralHash this is identical to HashMultiMap.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type HashMultiMap&lt;'key,'a,'hashTag (requires 'hashTag :> IEqualityComparer&lt;'key&gt;)&gt;
+with
+  member Add : 'key * 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  member Clear : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  member ContainsKey : 'key -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+  member Copy : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Collections.Tagged.type_HashMultiMap-3.html'>HashMultiMap</a>&lt;'key,'a,'hashTag&gt;
+  member FindAll : 'key -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+  member Fold : ('key -> 'a -> 'c -> 'c) -> 'c -> 'c
+  member Iterate : ('key -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  member Remove : 'key -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  member Replace : 'key * 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  member TryFind : 'key -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+  member Count : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  member Item : 'key -> 'a with get
+  member Item : 'key -> 'a with set
+  static member Create : 'hashTag * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Collections.Tagged.type_HashMultiMap-3.html'>HashMultiMap</a>&lt;'key,'a,'hashTag&gt;
+end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Add : 'key * 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Add a binding for the element to the table
+</summary></td></tr>
+<tr valign="top"><td><pre>member Clear : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Clear all elements from the collection
+</summary></td></tr>
+<tr valign="top"><td><pre>member ContainsKey : 'key -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Test if the collection contains any bindings for the given element
+</summary></td></tr>
+<tr valign="top"><td><pre>member Copy : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Collections.Tagged.type_HashMultiMap-3.html'>HashMultiMap</a>&lt;'key,'a,'hashTag&gt;</pre></td><td><summary>
+ Make a shallow copy of the collection
+</summary></td></tr>
+<tr valign="top"><td><pre>member Count : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ The number of bindings in the hash table
+</summary></td></tr>
+<tr valign="top"><td><pre>member FindAll : 'key -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Find all bindings for the given element in the table, if any
+</summary></td></tr>
+<tr valign="top"><td><pre>member Fold : ('key -> 'a -> 'c -> 'c) -> 'c -> 'c</pre></td><td><summary>
+ Apply the given function to each element in the collection threading the accumulating parameter
+ through the sequence of function applications
+</summary></td></tr>
+<tr valign="top"><td><pre>member Item : 'key -> 'a with get</pre></td><td><summary>
+ Lookup or set the given element in the table.  Raise <tt>KeyNotFoundException</tt> if the element is not found.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Item : 'key -> 'a with set</pre></td><td><summary>
+ Lookup or set the given element in the table.  Raise <tt>KeyNotFoundException</tt> if the element is not found.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Iterate : ('key -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Apply the given function to each binding in the hash table 
+</summary></td></tr>
+<tr valign="top"><td><pre>member Remove : 'key -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Remove the latest binding (if any) for the given element from the table
+</summary></td></tr>
+<tr valign="top"><td><pre>member Replace : 'key * 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Replace the latest binding (if any) for the given element.
+</summary></td></tr>
+<tr valign="top"><td><pre>member TryFind : 'key -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ Lookup the given element in the table, returning the result as an Option
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Create : 'hashTag * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Collections.Tagged.type_HashMultiMap-3.html'>HashMultiMap</a>&lt;'key,'a,'hashTag&gt;</pre></td><td><summary>
+ Create a new empty mutable hash table with an internal bucket array of the given approximate size
+ and with the given key hash/equality functions
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Collections.Tagged.html">Microsoft.FSharp.Collections.Tagged</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

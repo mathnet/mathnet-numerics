@@ -1,0 +1,36 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Control.IEvent</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Control.html'>Microsoft.FSharp.Control</a>.IEvent </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+The family of first class event values for delegate types that satisfy the F# delegate constraint.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>type IEvent&lt;'Del,'Args (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)&gt; =
+  interface
+    inherit <a href='Microsoft.FSharp.Control.type_IDelegateEvent-1.html'>IDelegateEvent</a>&lt;'Del&gt;
+    abstract member Add : callback:('Args -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Add : callback:('Args -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Connect a listener function to the event. The listener will
+ be invoked when the event is fired.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Control.html">Microsoft.FSharp.Control</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

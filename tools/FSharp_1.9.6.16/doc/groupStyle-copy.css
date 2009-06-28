@@ -1,0 +1,112 @@
+BODY
+{
+	font-family: verdana;
+}
+P
+{
+	padding-left: 20px;
+}
+.TitleHeader
+{
+	padding-left: 20px;
+	font-size: 1em;
+	font-weight: bold;
+}
+.linkbox
+{
+	margin-left: 20px;
+	margin-right: 30px;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	width: 175px;
+	float: right;
+	border-right: #0066CC 1px solid;
+	background: #f1f1f1;
+	border-left: #0066CC 1px solid;
+	border-bottom: #0066CC 1px solid;
+}
+.outlineDivTitle
+{
+	background-color: #0066CC;
+	color: #FFFFFF;
+	padding-left: 15px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	font: bold 70% Verdana;
+	color: #ffffff;
+}
+.outlineDiv
+{
+	padding-left: 20px;
+	background-image: URL(/images/blueTriangle.gif);
+	background-repeat: no-repeat;
+	background-position: 6 8;
+	font: 70% verdana;
+	color: #003399;
+	line-height: 200%;
+}
+
+.GroupContactTitle
+{
+	color: #003399;
+	font-size: .93em;
+}
+.GroupContact
+{
+	color: #003399;
+	font-size: .93em;
+	font-weight: bold;
+}
+A.GroupContactLink
+{
+	color: #003399;
+}
+.BlankPictureDiv
+{
+	background-color: #cccccc;
+	width: 75px;
+	height: 75px;
+	border: solid #999999 1px;
+	font-size: 70%;
+	font-weight: bold;
+	padding-left: 5px;
+	padding-top: 20px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+.PeopleGroupImage
+{
+	border-color: #999999;
+}
+A.PeopleLastNameLink
+{
+	color: #003399;
+}
+.PeopleLastNameLinked
+{
+	padding-top: 3px;
+	font-size: .82em;
+	font-weight: bold;
+}
+.PeopleFirstNameLinked
+{
+	color: #003399;
+	padding-top: 3px;
+	padding-bottom: 8px;
+	font-size: .82em;
+	text-decoration: none;
+}
+.PeopleLastName
+{
+	padding-top: 3px;
+	font-size: .82em;
+	font-weight: bold;
+}
+.PeopleFirstName
+{
+	padding-top: 3px;
+	padding-bottom: 8px;
+	font-size: .82em;
+	text-decoration: none;
+}
+

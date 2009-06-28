@@ -1,0 +1,66 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Compatibility.Arg</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Compatibility.html'>Microsoft.FSharp.Compatibility</a>.Arg </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ A simple command-line argument processor.
+</summary>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.Arg.type__argspec.html'>argspec</a></td><td> Note: an abbreviation for <tt><a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> * <a href='Microsoft.FSharp.Compatibility.Arg.type__spec.html'>spec</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.Arg.type__spec.html'>spec</a></td><td><summary>
+ The spec value describes the action of the argument,
+ and whether it expects a following parameter.
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Exceptions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=40%>Exception</th><th>Description</th></tr>
+<tr valign="top"><td>exception <a href='Microsoft.FSharp.Compatibility.Arg.type_Bad.html'>Bad</a></td><td></td></tr>
+<tr valign="top"><td>exception <a href='Microsoft.FSharp.Compatibility.Arg.type_Help.html'>Help</a></td><td></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val parse : <a href='Microsoft.FSharp.Compatibility.Arg.type__argspec.html'>argspec</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ "parse specs f use" parses the arguments given by Sys.argv
+ according to the argument processing specifications "specs".
+ Arguments begin with "-". Non-arguments are passed to "f" in
+ order.  "use" is printed as part of the usage line if an error occurs.
+
+ Permitted arguments are specified using triples: (arg, action, help).
+ Actions are:
+   Unit(f): call f, no subseq. arg
+   Set(br): set ref to 'true', no subseq. arg.
+   Clear(br): set ref to 'false, no subseq. arg.
+   String(f): pass the subseq. arg to f
+   Int(f): pass the subseq. arg to f
+   Float(f): pass the subseq. arg to f
+   Rest(f): pass all subseq. args to f in order
+</summary></td></tr>
+<tr valign="top"><td><pre>val parse_argv :
+  <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> -> <a href='Microsoft.FSharp.Compatibility.Arg.type__argspec.html'>argspec</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val usage : <a href='Microsoft.FSharp.Compatibility.Arg.type__argspec.html'>argspec</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ "usage specs use" prints the help for each argument.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Compatibility.html">Microsoft.FSharp.Compatibility</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

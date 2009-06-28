@@ -1,6 +1,5 @@
 bin
 obj
-build
 output
 *.user
 *.suo

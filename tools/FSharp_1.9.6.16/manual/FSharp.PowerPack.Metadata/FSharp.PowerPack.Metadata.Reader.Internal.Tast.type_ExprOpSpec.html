@@ -1,0 +1,52 @@
+<HTML><HEAD><TITLE>FSharp.PowerPack.Metadata.Reader.Internal.Tast.ExprOpSpec</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='FSharp.PowerPack.Metadata.html'>FSharp.PowerPack.Metadata</a>.<a href='FSharp.PowerPack.Metadata.Reader.html'>Reader</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.html'>Internal</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.html'>Tast</a>.ExprOpSpec </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_StructuralEqualityAttribute.html'>StructuralEqualityAttribute</a> (false); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_StructuralComparisonAttribute.html'>StructuralComparisonAttribute</a> (false)>]
+type ExprOpSpec =
+  | TOp_ucase of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCaseRef.html'>UnionCaseRef</a>
+  | TOp_exnconstr of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRef.html'>TyconRef</a>
+  | TOp_tuple
+  | TOp_array
+  | TOp_bytes of <a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a>
+  | TOp_uint16s of <a href='../FSharp.Core/Microsoft.FSharp.Core.type__uint16.html'>uint16</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a>
+  | TOp_while of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_SequencePointInfoForWhileLoop.html'>SequencePointInfoForWhileLoop</a>
+  | TOp_for of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_SequencePointInfoForForLoop.html'>SequencePointInfoForForLoop</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ForLoopStyle.html'>ForLoopStyle</a>
+  | TOp_try_catch of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_SequencePointInfoForTry.html'>SequencePointInfoForTry</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_SequencePointInfoForWith.html'>SequencePointInfoForWith</a>
+  | TOp_try_finally of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_SequencePointInfoForTry.html'>SequencePointInfoForTry</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_SequencePointInfoForFinally.html'>SequencePointInfoForFinally</a>
+  | TOp_recd of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecordConstructionInfo.html'>RecordConstructionInfo</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRef.html'>TyconRef</a>
+  | TOp_rfield_set of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdFieldRef.html'>RecdFieldRef</a>
+  | TOp_rfield_get of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdFieldRef.html'>RecdFieldRef</a>
+  | TOp_field_get_addr of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdFieldRef.html'>RecdFieldRef</a>
+  | TOp_ucase_tag_get of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRef.html'>TyconRef</a>
+  | TOp_ucase_proof of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCaseRef.html'>UnionCaseRef</a>
+  | TOp_ucase_field_get of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCaseRef.html'>UnionCaseRef</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  | TOp_ucase_field_set of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCaseRef.html'>UnionCaseRef</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  | TOp_exnconstr_field_get of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRef.html'>TyconRef</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  | TOp_exnconstr_field_set of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRef.html'>TyconRef</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  | TOp_tuple_field_get of <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>
+  | TOp_asm of <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILInstr.html'>ILInstr</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+  | TOp_get_ref_lval
+  | TOp_coerce
+  | TOp_rethrow
+  | TOp_return
+  | TOp_trait_call of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TraitConstraintInfo.html'>TraitConstraintInfo</a>
+  | TOp_lval_op of <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_LValueOperation.html'>LValueOperation</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValRef.html'>ValRef</a>
+  | TOp_ilcall of
+    (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValUseFlag.html'>ValUseFlag</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a> * (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a>) <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodRef.html'>ILMethodRef</a>) * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> *
+    <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre>  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="FSharp.PowerPack.Metadata.Reader.Internal.Tast.html">FSharp.PowerPack.Metadata.Reader.Internal.Tast</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack.Metadata, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

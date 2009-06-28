@@ -1,0 +1,94 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Math.Vector.Generic</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Math.html'>Microsoft.FSharp.Math</a>.<a href='Microsoft.FSharp.Math.Vector.html'>Vector</a>.Generic </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Operations to manipulate column vectors carrying
+ arbitrary element types.  
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val copy : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val cptMax : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+Take the pointwise maximum of two vectors
+</summary></td></tr>
+<tr valign="top"><td><pre>val cptMin : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+Take the pointwise minimum of two vectors
+</summary></td></tr>
+<tr valign="top"><td><pre>val create : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Generate a vector of the given length where each entry contains the given value
+</summary></td></tr>
+<tr valign="top"><td><pre>val dot : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> 'T</pre></td><td><summary>
+Dot product
+</summary></td></tr>
+<tr valign="top"><td><pre>val exists : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val existsi : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fold : ('State -> 'T -> 'State) -> 'State -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> 'State</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val foldi :
+  (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'State -> 'T -> 'State) -> 'State -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> 'State</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val forall : ('T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val foralli : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val get : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T</pre></td><td><summary>
+ Get an element of a column vector
+</summary></td></tr>
+<tr valign="top"><td><pre>val init : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T) -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Creation: general
+</summary></td></tr>
+<tr valign="top"><td><pre>val initNumeric : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> (<a href='Microsoft.FSharp.Math.type_INumeric-1.html'>INumeric</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T) -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Creation: useful when the element type has associated operations.
+</summary></td></tr>
+<tr valign="top"><td><pre>val length : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Get the dimensions (number of rows) of a column vector.  Identical to <tt>nrows</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>val map : ('T -> 'T) -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val mapi : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> 'T) -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val norm : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ Computes the 2-norm of a vector: sqrt(x.Transpose*x).
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_array : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a vector from an array of elements
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_list : 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a vector from a list of numbers
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_scalar : 'T -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a 1-element vector
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_seq : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a vector from a sequence of numbers
+</summary></td></tr>
+<tr valign="top"><td><pre>val prod : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> 'T</pre></td><td><summary>
+Multiply all the elements of the matrix
+</summary></td></tr>
+<tr valign="top"><td><pre>val set : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set an element of a column vector
+</summary></td></tr>
+<tr valign="top"><td><pre>val sum : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> 'T</pre></td><td><summary>
+Sum all the elements of a vector
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_array : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a></pre></td><td><summary>
+ Return a new array containing a copy of the elements of the given vector
+</summary></td></tr>
+<tr valign="top"><td><pre>val transpose : <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Math.type_RowVector-1.html'>RowVector</a>&lt;'T&gt;</pre></td><td><summary>
+Transpose of a matrix.  Use also m.Transpose
+</summary></td></tr>
+<tr valign="top"><td><pre>val zero : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type_Vector-1.html'>Vector</a>&lt;'T&gt;</pre></td><td><summary>
+ Return a vector of the given length where every entry is zero.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Math.Vector.html">Microsoft.FSharp.Math.Vector</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

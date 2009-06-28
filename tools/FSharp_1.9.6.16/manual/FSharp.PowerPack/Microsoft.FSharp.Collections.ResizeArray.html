@@ -1,0 +1,258 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections.ResizeArray</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Collections.html'>Microsoft.FSharp.Collections</a>.ResizeArray </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Generic operations on the type System.Collections.Generic.List, which is called ResizeArray in the F# libraries.
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val append :
+  <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+Build a new array that contains the elements of the first array followed by the elements of the second array
+</summary></td></tr>
+<tr valign="top"><td><pre>val blit :
+  <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Read a range of elements from the first array and write them into the second.
+</summary></td></tr>
+<tr valign="top"><td><pre>val choose : ('a -> 'b <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt;</pre></td><td><summary>
+Apply the given function to each element of the array. Return
+the array comprised of the results "x" for each element where
+the function returns Some(x)
+</summary></td></tr>
+<tr valign="top"><td><pre>val combine :
+  <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a * 'b&gt;</pre></td><td><summary>
+Combine the two arrays into an array of pairs. The two arrays must have equal lengths.
+</summary></td></tr>
+<tr valign="top"><td><pre>val concat : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+Build a new array that contains the elements of each of the given list of arrays
+</summary></td></tr>
+<tr valign="top"><td><pre>val copy : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+Build a new array that contains the elements of the given array
+</summary></td></tr>
+<tr valign="top"><td><pre>val create : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+ Create an array whose elements are all initially the given value.
+</summary></td></tr>
+<tr valign="top"><td><pre>val exists : ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Test if any element of the array satisfies the given predicate.
+ If the input function is <tt>f</tt> and the elements are <tt>i0...iN</tt> 
+ then computes <tt>p i0 or ... or p iN</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val exists2 :
+  ('a -> 'b -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Test elements of the two arrays pairwise to see if any pair of element satisfies the given predicate.
+ Raise ArgumentException if the arrays have different lengths.
+</summary></td></tr>
+<tr valign="top"><td><pre>val fill : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Fill a range of the collection with the given element
+</summary></td></tr>
+<tr valign="top"><td><pre>val filter : ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+Return a new collection containing only the elements of the collection
+for which the given predicate returns <tt>true</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>val find : ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> 'a</pre></td><td><summary>
+Return the first element for which the given function returns <tt>true</tt>.
+Raise <tt>KeyNotFoundException</tt> if no such element exists.
+</summary></td></tr>
+<tr valign="top"><td><pre>val find_index : ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the index of the first element in the array
+ that satisfies the given predicate. Raise <tt>KeyNotFoundException</tt> if 
+ none of the elements satisy the predicate.
+</summary></td></tr>
+<tr valign="top"><td><pre>val find_indexi : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the index of the first element in the array
+ that satisfies the given predicate. Raise <tt>KeyNotFoundException</tt> if 
+ none of the elements satisy the predicate.
+</summary></td></tr>
+<tr valign="top"><td><pre>val first : ('a -> 'b <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> 'b <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+Apply the given function to successive elements, returning the first
+result where function returns "Some(x)" for some x.
+</summary></td></tr>
+<tr valign="top"><td><pre>val fold_left : ('a -> 'b -> 'a) -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> 'a</pre></td><td><summary>
+ Apply a function to each element of the collection, threading an accumulator argument
+ through the computation. If the input function is <tt>f</tt> and the elements are <tt>i0...iN</tt> 
+ then computes <tt>f (... (f s i0)...) iN</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>val fold_left2 :
+  ('state -> 'b1 -> 'b2 -> 'state) ->
+    'state -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b1&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b2&gt; -> 'state</pre></td><td><summary>
+ Apply a function to pairs of elements drawn from the two collections, 
+ left-to-right, threading an accumulator argument
+ through the computation.  The two input
+ arrays must have the same lengths, otherwise an <tt>ArgumentException</tt> is
+ raised.
+</summary></td></tr>
+<tr valign="top"><td><pre>val fold_right : ('a -> 'b -> 'b) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> 'b -> 'b</pre></td><td><summary>
+ Apply a function to each element of the array, threading an accumulator argument
+ through the computation. If the input function is <tt>f</tt> and the elements are <tt>i0...iN</tt> then 
+ computes <tt>f i0 (...(f iN s))</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val fold_right2 :
+  ('a1 -> 'a2 -> 'b -> 'b) ->
+    <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a1&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a2&gt; -> 'b -> 'b</pre></td><td><summary>
+ Apply a function to pairs of elements drawn from the two collections, right-to-left, 
+ threading an accumulator argument through the computation.  The two input
+ arrays must have the same lengths, otherwise an <tt>ArgumentException</tt> is
+ raised.
+</summary></td></tr>
+<tr valign="top"><td><pre>val for_all : ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Test if all elements of the array satisfy the given predicate.
+ If the input function is <tt>f</tt> and the elements are <tt>i0...iN</tt> and "j0...jN"
+ then computes <tt>p i0 &amp;&amp; ... &amp;&amp; p iN</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val for_all2 :
+  ('a -> 'b -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Test elements of the two arrays pairwise to see if all pairs of elements satisfy the given predicate.
+ Raise ArgumentException if the arrays have different lengths.
+</summary></td></tr>
+<tr valign="top"><td><pre>val get : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a</pre></td><td><summary>
+ Fetch an element from the collection.  You can also use the syntax <tt>arr.[idx]</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val init : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+ Create an array by calling the given generator on each index.
+</summary></td></tr>
+<tr valign="top"><td><pre>val is_empty : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Return true if the given array is empty, otherwise false
+</summary></td></tr>
+<tr valign="top"><td><pre>val iter : ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Apply the given function to each element of the array. 
+</summary></td></tr>
+<tr valign="top"><td><pre>val iter2 :
+  ('a -> 'b -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Apply the given function to two arrays simultaneously. The
+two arrays must have the same lengths, otherwise an Invalid_argument exception is
+raised.
+</summary></td></tr>
+<tr valign="top"><td><pre>val iteri : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+Apply the given function to each element of the array.  The integer passed to the
+function indicates the index of element.
+</summary></td></tr>
+<tr valign="top"><td><pre>val iteri2 :
+  (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> 'b -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) ->
+    <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Apply the given function to pair of elements drawn from matching indices in two arrays,
+ also passing the index of the elements. The two arrays must have the same lengths, 
+ otherwise an <tt>ArgumentException</tt> is raised.
+</summary></td></tr>
+<tr valign="top"><td><pre>val length : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the length of the collection.  You can also use property <tt>arr.Length</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val map : ('a -> 'b) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt;</pre></td><td><summary>
+Build a new array whose elements are the results of applying the given function
+to each of the elements of the array.
+</summary></td></tr>
+<tr valign="top"><td><pre>val map2 :
+  ('a -> 'b -> 'c) ->
+    <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'c&gt;</pre></td><td><summary>
+Build a new collection whose elements are the results of applying the given function
+to the corresponding elements of the two collections pairwise.  The two input
+arrays must have the same lengths.
+</summary></td></tr>
+<tr valign="top"><td><pre>val mapi : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> 'b) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt;</pre></td><td><summary>
+Build a new array whose elements are the results of applying the given function
+to each of the elements of the array. The integer index passed to the
+function indicates the index of element being transformed.
+</summary></td></tr>
+<tr valign="top"><td><pre>val mapi2 :
+  (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> 'b -> 'c) ->
+    <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'c&gt;</pre></td><td><summary>
+ Build a new collection whose elements are the results of applying the given function
+ to the corresponding elements of the two collections pairwise.  The two input
+ arrays must have the same lengths, otherwise an <tt>ArgumentException</tt> is
+ raised.
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_list : 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+Build an array from the given list
+</summary></td></tr>
+<tr valign="top"><td><pre>val partition :
+  ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) ->
+    <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; * <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+Split the collection into two collections, containing the 
+elements for which the given predicate returns <tt>true</tt> and <tt>false</tt>
+respectively 
+</summary></td></tr>
+<tr valign="top"><td><pre>val reduce_left : ('a -> 'a -> 'a) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> 'a</pre></td><td><summary>
+ Apply a function to each element of the array, threading an accumulator argument
+ through the computation. If the input function is <tt>f</tt> and the elements are <tt>i0...iN</tt> 
+ then computes <tt>f (... (f i0 i1)...) iN</tt>. Raises ArgumentException if the array has size zero.
+</summary></td></tr>
+<tr valign="top"><td><pre>val reduce_right : ('a -> 'a -> 'a) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> 'a</pre></td><td><summary>
+ Apply a function to each element of the array, threading an accumulator argument
+ through the computation. If the input function is <tt>f</tt> and the elements are <tt>i0...iN</tt> then 
+ computes <tt>f i0 (...(f iN-1 iN))</tt>. Raises ArgumentException if the array has size zero.
+</summary></td></tr>
+<tr valign="top"><td><pre>val rev : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+Return a new array with the elements in reverse order
+</summary></td></tr>
+<tr valign="top"><td><pre>val scan_left :
+  ('b -> 'a -> 'b) -> 'b -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt;</pre></td><td><summary>
+ Like <tt>fold_left</tt>, but return the intermediary and final results
+</summary></td></tr>
+<tr valign="top"><td><pre>val scan_right :
+  ('a -> 'c -> 'c) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> 'c -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'c&gt;</pre></td><td><summary>
+ Like <tt>fold_right</tt>, but return both the intermediary and final results
+</summary></td></tr>
+<tr valign="top"><td><pre>val set : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set the value of an element in the collection.  You can also use the syntax <tt>arr.[idx] &lt;- e</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val singleton : 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+ Return an array containing the given element
+</summary></td></tr>
+<tr valign="top"><td><pre>val sort : ('a -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Sort the elements using the given comparison function
+</summary></td></tr>
+<tr valign="top"><td><pre>val sort_by : ('a -> 'key) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Sort the elements using the key extractor and generic comparison on the keys
+</summary></td></tr>
+<tr valign="top"><td><pre>val split :
+  <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a * 'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; * <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt;</pre></td><td><summary>
+Split a list of pairs into two lists
+</summary></td></tr>
+<tr valign="top"><td><pre>val sub : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt;</pre></td><td><summary>
+Build a new array that contains the given subrange specified by
+starting index and length.
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_list : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+Build a list from the given array
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_seq : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;'a&gt;</pre></td><td><summary>
+ Return a view of the array as an enumerable object
+</summary></td></tr>
+<tr valign="top"><td><pre>val tryfind : ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+Return the first element for which the given function returns <tt>true</tt>.
+Return None if no such element exists.
+</summary></td></tr>
+<tr valign="top"><td><pre>val tryfind_index : ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ Return the index of the first element in the array
+ that satisfies the given predicate.
+</summary></td></tr>
+<tr valign="top"><td><pre>val tryfind_indexi : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ Return the index of the first element in the array
+ that satisfies the given predicate.
+</summary></td></tr>
+<tr valign="top"><td><pre>val unzip :
+  <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a * 'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; * <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt;</pre></td><td><summary>
+ Split an array of pairs into two arrays
+</summary></td></tr>
+<tr valign="top"><td><pre>val zip :
+  <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'b&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a>&lt;'a * 'b&gt;</pre></td><td><summary>
+ Combine the two arrays into an array of pairs. The two arrays must have equal lengths, otherwise an <tt>ArgumentException</tt> is
+ raised..
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Collections.html">Microsoft.FSharp.Collections</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

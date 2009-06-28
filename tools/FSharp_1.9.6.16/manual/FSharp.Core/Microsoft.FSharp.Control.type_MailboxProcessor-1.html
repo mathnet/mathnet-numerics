@@ -1,0 +1,146 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Control.MailboxProcessor</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Control.html'>Microsoft.FSharp.Control</a>.MailboxProcessor </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ A MailboxProcessor is a message-processing agent defined using an asynchronous workflow. 
+ The agent encapsulates a message queue that supports multiple-writers and the single reader agent.
+ Writers send messages to the agent by using the Post, PostAndReply or AsyncPostAndReply methods.
+
+ The reader agent is specified when creating the MailboxProcessor. The 
+ agent is usually an asychronous workflow that waits for messages
+ by using the Receive or TryReceive methods. 
+ A MailboxProcessor may also scan through all available messages by using the 
+ Scan or TryScan method. The encapsulated message queue only 
+ supports a single active reader, thus at most one concurrent call to Receive, TryReceive,
+ Scan and/or TryScan may be active at any one time.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type MailboxProcessor&lt;'Msg&gt; =
+  class
+    interface <a href='http://msdn2.microsoft.com/en-us/library/System.IDisposable.aspx'>IDisposable</a>
+    new : initial:(<a href='Microsoft.FSharp.Control.type_MailboxProcessor-1.html'>MailboxProcessor</a>&lt;'Msg&gt; -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;<a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>&gt;) * ?asyncGroup:<a href='Microsoft.FSharp.Control.type_AsyncGroup.html'>AsyncGroup</a> ->
+            <a href='Microsoft.FSharp.Control.type_MailboxProcessor-1.html'>MailboxProcessor</a>&lt;'Msg&gt;
+    member
+      AsyncPostAndReply : buildMessage:(<a href='Microsoft.FSharp.Control.type_AsyncReplyChannel-1.html'>AsyncReplyChannel</a>&lt;'Reply&gt; -> 'Msg) * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'Reply&gt;
+    member
+      AsyncTryPostAndReply : buildMessage:(<a href='Microsoft.FSharp.Control.type_AsyncReplyChannel-1.html'>AsyncReplyChannel</a>&lt;'Reply&gt; -> 'Msg) * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> ->
+                               <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'Reply <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>&gt;
+    member Post : message:'Msg -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    member PostAndReply : buildMessage:(<a href='Microsoft.FSharp.Control.type_AsyncReplyChannel-1.html'>AsyncReplyChannel</a>&lt;'Reply&gt; -> 'Msg) * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'Reply
+    member Receive : ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'Msg&gt;
+    member Scan : scanner:('Msg -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt; <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>) * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt;
+    member Start : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    member TryPostAndReply : buildMessage:(<a href='Microsoft.FSharp.Control.type_AsyncReplyChannel-1.html'>AsyncReplyChannel</a>&lt;'Reply&gt; -> 'Msg) * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'Reply <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member TryReceive : ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'Msg <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>&gt;
+    member TryScan : scanner:('Msg -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt; <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>) * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>&gt;
+    member DefaultTimeout : <a href='Microsoft.FSharp.Core.type__int.html'>int</a>
+    member DefaultTimeout : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> with set
+    static member
+      Start : initial:(<a href='Microsoft.FSharp.Control.type_MailboxProcessor-1.html'>MailboxProcessor</a>&lt;'Msg&gt; -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;<a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>&gt;) * ?asyncGroup:<a href='Microsoft.FSharp.Control.type_AsyncGroup.html'>AsyncGroup</a> ->
+                <a href='Microsoft.FSharp.Control.type_MailboxProcessor-1.html'>MailboxProcessor</a>&lt;'Msg&gt;
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member
+  AsyncPostAndReply : buildMessage:(<a href='Microsoft.FSharp.Control.type_AsyncReplyChannel-1.html'>AsyncReplyChannel</a>&lt;'Reply&gt; -> 'Msg) *
+                      ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'Reply&gt;</pre></td><td><summary>
+ Post a message to the message queue of the MailboxProcessor and await a reply on the channel asynchronously.
+ The message is produced by a single call to the first function which must build a message
+ containing the reply channel. The receiving MailboxProcessor must process this message and
+ invoke the Reply method on the reply channel precisly once.
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  AsyncTryPostAndReply : buildMessage:(<a href='Microsoft.FSharp.Control.type_AsyncReplyChannel-1.html'>AsyncReplyChannel</a>&lt;'Reply&gt; -> 'Msg) *
+                         ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'Reply <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>&gt;</pre></td><td><summary>
+ Like AsyncPostAndReply, but return None if no reply within the timeout period. 
+</summary></td></tr>
+<tr valign="top"><td><pre>member DefaultTimeout : <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Raise a timeout exception if a message not received in this amount of time. Default infinite.
+</summary></td></tr>
+<tr valign="top"><td><pre>member DefaultTimeout : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> with set</pre></td><td><summary>
+ Raise a timeout exception if a message not received in this amount of time. Default infinite.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Post : message:'Msg -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Post a message to the message queue of the MailboxProcessor, asynchronously
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  PostAndReply : buildMessage:(<a href='Microsoft.FSharp.Control.type_AsyncReplyChannel-1.html'>AsyncReplyChannel</a>&lt;'Reply&gt; -> 'Msg) *
+                 ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'Reply</pre></td><td><summary>
+ Post a message to the message queue of the MailboxProcessor and await a reply on the channel synchronously.
+ The message is produced by a single call to the first function which must build a message
+ containing the reply channel. The receiving MailboxProcessor must process this message and
+ invoke the Reply method on the reply channel precisly once.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Receive : ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'Msg&gt;</pre></td><td><summary>
+ Return an asynchronous computation which will 
+ consume the first message in arrival order. No thread
+ is blocked while waiting for further messages. Raise a TimeoutException
+ if the timeout is exceeded.
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  Scan : scanner:('Msg -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt; <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>) * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> ->
+           <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt;</pre></td><td><summary>
+ Return an asynchronous computation which will 
+ look through messages in arrival order until 'scanner' returns a Some value. No thread
+ is blocked while waiting for further messages. Raise a TimeoutException
+ if the timeout is exceeded.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Start : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Start the MailboxProcessor
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  TryPostAndReply : buildMessage:(<a href='Microsoft.FSharp.Control.type_AsyncReplyChannel-1.html'>AsyncReplyChannel</a>&lt;'Reply&gt; -> 'Msg) *
+                    ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'Reply <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ Like PostAndReply, but return None if no reply within the timeout period. 
+</summary></td></tr>
+<tr valign="top"><td><pre>member TryReceive : ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'Msg <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>&gt;</pre></td><td><summary>
+ Return an asynchronous computation which will 
+ consume the first message in arrival order. No thread
+ is blocked while waiting for further messages. Return None
+ if the timeout is exceeded.
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  TryScan : scanner:('Msg -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt; <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>) * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> ->
+              <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>&gt;</pre></td><td><summary>
+ Return an asynchronous computation which will 
+ look through messages in arrival order until 'scanner' returns a Some value. No thread
+ is blocked while waiting for further messages. Return None
+ if the timeout is exceeded.
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>new : initial:(<a href='Microsoft.FSharp.Control.type_MailboxProcessor-1.html'>MailboxProcessor</a>&lt;'Msg&gt; -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;<a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>&gt;) *
+      ?asyncGroup:<a href='Microsoft.FSharp.Control.type_AsyncGroup.html'>AsyncGroup</a> -> <a href='Microsoft.FSharp.Control.type_MailboxProcessor-1.html'>MailboxProcessor</a>&lt;'Msg&gt;</pre></td><td><summary>
+ Create an instance of a MailboxProcessor. The asynchronous computation executed by the
+ processor is the one returned by the 'initial' function. This function is not executed until
+ 'Start' is called.
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  Start : initial:(<a href='Microsoft.FSharp.Control.type_MailboxProcessor-1.html'>MailboxProcessor</a>&lt;'Msg&gt; -> <a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;<a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>&gt;) *
+          ?asyncGroup:<a href='Microsoft.FSharp.Control.type_AsyncGroup.html'>AsyncGroup</a> -> <a href='Microsoft.FSharp.Control.type_MailboxProcessor-1.html'>MailboxProcessor</a>&lt;'Msg&gt;</pre></td><td><summary>
+ Create and start an instance of a MailboxProcessor. The asynchronous computation executed by the
+ processor is the one returned by the 'initial' function. 
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Control.html">Microsoft.FSharp.Control</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

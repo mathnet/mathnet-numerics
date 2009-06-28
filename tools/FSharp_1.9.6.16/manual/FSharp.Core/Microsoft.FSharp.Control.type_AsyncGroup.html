@@ -1,0 +1,69 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Control.AsyncGroup</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Control.html'>Microsoft.FSharp.Control</a>.AsyncGroup </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ A handle to a capability to cancel a set of asynchronous computations.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type AsyncGroup =
+  class
+    new : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Control.type_AsyncGroup.html'>AsyncGroup</a>
+    member RunSynchronously : computation:<a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt; * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T
+    member
+      RunWithContinuations : continuation:('T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) * exceptionContinuation:(<a href='Microsoft.FSharp.Core.type__exn.html'>exn</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) *
+                             cancellationContinuation:(<a href='http://msdn2.microsoft.com/en-us/library/System.OperationCanceledException.aspx'>OperationCanceledException</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) * computation:<a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt; ->
+                               <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    member Start : computation:<a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;<a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>&gt; -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    member TriggerCancel : ?message:<a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member RunSynchronously : computation:<a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt; * ?timeout:<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T</pre></td><td><summary>
+ Run the asynchronous computation and await its result.
+
+ If an exception occurs in the asynchronous computation then an exception is re-raised by this
+ function.
+</summary></td></tr>
+<tr valign="top"><td><pre>member
+  RunWithContinuations : continuation:('T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) *
+                         exceptionContinuation:(<a href='Microsoft.FSharp.Core.type__exn.html'>exn</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) *
+                         cancellationContinuation:(<a href='http://msdn2.microsoft.com/en-us/library/System.OperationCanceledException.aspx'>OperationCanceledException</a> ->
+                                                     <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) *
+                         computation:<a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt; -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Start the asynchronous computation as a work item. 
+ Return a handle to the computation as an AsyncFuture.
+</summary></td></tr>
+<tr valign="top"><td><pre>member Start : computation:<a href='Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;<a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>&gt; -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Start the asynchronous computation as a work item. Do not await its result.
+</summary></td></tr>
+<tr valign="top"><td><pre>member TriggerCancel : ?message:<a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Raise the cancellation condition for this group of computations
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>new : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Control.type_AsyncGroup.html'>AsyncGroup</a></pre></td><td><summary>
+ Generate a new asynchronous group
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Control.html">Microsoft.FSharp.Control</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

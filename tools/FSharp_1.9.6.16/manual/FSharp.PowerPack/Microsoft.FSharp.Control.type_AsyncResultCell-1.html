@@ -1,0 +1,54 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Control.AsyncResultCell</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Control.html'>Microsoft.FSharp.Control</a>.AsyncResultCell </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ A helper type to store a single result from an asynchronous computation and asynchronously
+ access its result.
+ 
+ When using .NET 4.0 you can often use Task&lt;'T&gt; instead of this type
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type AsyncResultCell&lt;'T&gt; =
+  class
+    new : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Control.type_AsyncResultCell-1.html'>AsyncResultCell</a>&lt;'T&gt;
+    member RegisterResult : <a href='Microsoft.FSharp.Control.type_AsyncResult-1.html'>AsyncResult</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    member AsyncResult : <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt;
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member AsyncResult : <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Async-1.html'>Async</a>&lt;'T&gt;</pre></td><td><summary>
+ Wait for the result and commit it
+</summary></td></tr>
+<tr valign="top"><td><pre>member RegisterResult : <a href='Microsoft.FSharp.Control.type_AsyncResult-1.html'>AsyncResult</a>&lt;'T&gt; -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Record the result in the AsyncResultCell.
+ Subsequent sets of the result are ignored. This can happen, 
+ e.g. for a race between a cancellation and a success.
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>new : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='Microsoft.FSharp.Control.type_AsyncResultCell-1.html'>AsyncResultCell</a>&lt;'T&gt;</pre></td><td><summary>
+ Create a new result cell
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Control.html">Microsoft.FSharp.Control</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

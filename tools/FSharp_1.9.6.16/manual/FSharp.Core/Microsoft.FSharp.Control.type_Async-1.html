@@ -1,0 +1,54 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Control.Async</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Control.html'>Microsoft.FSharp.Control</a>.Async </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ An asynchronous computation, which, when run, will eventually produce a value 
+ of the given type, or else raise an exception. The value and/or exception is not returned 
+ to the caller immediately, but is rather passed to a success continuation, exception continuation 
+ or cancellation continuation. 
+
+ Asynchronous computations are normally specified using the F# 'workflow' syntax for building 
+ computations.
+
+ When run, asynchronous computations can normally be thought of as running run in one of
+ two modes: 'work item mode' or 'waiting mode'.
+
+    - 'work item mode' indicates that the computation is executing as a work item,
+      e.g. in the .NET Thread Pool via ThreadPool.QueueUserWorkItem, or is running
+      a brief event-response action on the GUI thread. 
+
+    - 'waiting mode' indicates the computations a waiting for asynchronous I/O completions,
+      typically suspended as thunks using ThreadPool.RegisterWaitForSingleObject. 
+
+ Asynchronous computations running as 'work items' should not generally perform blocking
+ operations, e.g. long running synchronous loops. However, some asynchronous 
+ computations may, out of necessity, need to execute blocking I/O operations: 
+ these should be run on new threads or a user-managed pool of threads specifically 
+ dedicated to resolving blocking conditions. For example, System.IO.OpenFile is, by 
+ design, a blocking operation. However frequently it is important to code as 
+ if this is asynchronous. This can be done by executing Async.SwitchToNewThread
+ as part of the workflow.
+
+ When run, asynchronous computations belong to an AsyncGroup. This can usually be specified 
+ when the async computation is started. The only action on an AsyncGroup is to raise a cancellation 
+ condition for the AsyncGroup. Async values check the cancellation condition for their AsyncGroup 
+ regularly, though synchronous computations within an asynchronous computation will not automatically 
+ check this condition. This gives a user-level cooperative cancellation protocol.
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> (); <a href='Microsoft.FSharp.Core.type_StructuralEqualityAttribute.html'>StructuralEqualityAttribute</a> (false); <a href='Microsoft.FSharp.Core.type_StructuralComparisonAttribute.html'>StructuralComparisonAttribute</a> (false)>]
+type Async&lt;'T&gt;</pre>  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Control.html">Microsoft.FSharp.Control</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

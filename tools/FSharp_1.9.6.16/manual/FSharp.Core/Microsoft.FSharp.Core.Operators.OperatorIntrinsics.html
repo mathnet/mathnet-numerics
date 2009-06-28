@@ -1,0 +1,68 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Core.Operators.OperatorIntrinsics</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Core.html'>Microsoft.FSharp.Core</a>.<a href='Microsoft.FSharp.Core.Operators.html'>Operators</a>.OperatorIntrinsics </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ A module of compiler intrinsic functions for efficient implementations of F# integer ranges
+ and dynamic invocations of other F# operators
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val GetArraySlice : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a></pre></td><td><summary>
+ Get a slice of an array
+</summary></td></tr>
+<tr valign="top"><td><pre>val GetArraySlice2D :
+  'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a></pre></td><td><summary>
+ Get a slice of an array
+</summary></td></tr>
+<tr valign="top"><td><pre>val GetArraySlice3D :
+  'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,]-1.html'>[,,]</a> ->
+    <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> ->
+      'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,]-1.html'>[,,]</a></pre></td><td><summary>
+ Get a slice of an array
+</summary></td></tr>
+<tr valign="top"><td><pre>val GetArraySlice4D :
+  'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> ->
+    <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> *
+    <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a></pre></td><td><summary>
+ Get a slice of an array
+</summary></td></tr>
+<tr valign="top"><td><pre>val GetStringSlice : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Get a slice from a string
+</summary></td></tr>
+<tr valign="top"><td><pre>val SetArraySlice : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set a slice of an array
+</summary></td></tr>
+<tr valign="top"><td><pre>val SetArraySlice2D :
+  'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,]-1.html'>[,]</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set a slice of an array
+</summary></td></tr>
+<tr valign="top"><td><pre>val SetArraySlice3D :
+  'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,]-1.html'>[,,]</a> ->
+    <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> *
+    'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,]-1.html'>[,,]</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set a slice of an array
+</summary></td></tr>
+<tr valign="top"><td><pre>val SetArraySlice4D :
+  'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> ->
+    <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> *
+    <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> * 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set a slice of an array
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Core.Operators.html">Microsoft.FSharp.Core.Operators</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

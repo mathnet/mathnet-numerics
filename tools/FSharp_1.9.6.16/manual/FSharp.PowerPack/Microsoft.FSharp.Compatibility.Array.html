@@ -1,0 +1,58 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Compatibility.Array</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Compatibility.html'>Microsoft.FSharp.Compatibility</a>.Array </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Compatibility operations on arrays.  
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val contains : 'T -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Is an element in the array, uses (=) equality.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("The F# name for this function is 'createJaggedMatrix'")>]
+val create_matrix : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val createJaggedMatrix : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td><summary>
+ Create a jagged 2 dimensional array.
+
+  This member is primarily provided for compatibility with implementations 
+  of ML. F# also supports non-jagged 2D arrays - see the Array2D module and 
+  types such as "int[,]".
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ("The F# name for this function is 'contains'")>]
+val mem : 'T -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val pin : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; -> 'b) -> 'b</pre></td><td><summary>
+ Pin the given array for the duration of a single call to the given function.  A native pointer to
+ the first element in the array is passed to the given function.  Cleanup the GCHandle associated with the 
+ pin when the function completes, even if an exception is raised.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_UnverifiableAttribute.html'>UnverifiableAttribute</a> (); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val pinUnscoped : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__nativeptr-1.html'>nativeptr</a>&lt;'T&gt; * <a href='http://msdn2.microsoft.com/en-us/library/System.Runtime.InteropServices.GCHandle.aspx'>GCHandle</a></pre></td><td><summary>
+ As for Array.pin, except that the caller is responsible for calling Free on the returned GCHandle in order
+ to release the pin.
+</summary></td></tr>
+<tr valign="top"><td><pre>val scanReduce : ('T -> 'T -> 'T) -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td><summary>
+ Like reduce, but return both the intermediary and final results
+</summary></td></tr>
+<tr valign="top"><td><pre>val scanReduceBack : ('T -> 'T -> 'T) -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td><summary>
+ Like reduceBack, but return both the intermediary and final results
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Compatibility.html">Microsoft.FSharp.Compatibility</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

@@ -1,0 +1,513 @@
+<HTML><HEAD><TITLE>FSharp.PowerPack.Metadata.Reader.Internal.Pickle</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='FSharp.PowerPack.Metadata.html'>FSharp.PowerPack.Metadata</a>.<a href='FSharp.PowerPack.Metadata.Reader.html'>Reader</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.html'>Internal</a>.Pickle </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a></td><td></td></tr>
+<tr valign="top"><td>type <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__osgn_inmap-2.html'>osgn_inmap</a></td><td></td></tr>
+<tr valign="top"><td>type <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_PickledDataWithReferences-1.html'>PickledDataWithReferences</a></td><td></td></tr>
+<tr valign="top"><td>type <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a></td><td></td></tr>
+<tr valign="top"><td>type <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__sizes.html'>sizes</a></td><td> Note: an abbreviation for <tt><a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></tt></td></tr>
+<tr valign="top"><td>type <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a></td><td></td></tr>
+<tr valign="top"><td>type <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a></td><td> Note: an abbreviation for <tt><a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a</tt></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val add_entry : 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val decode_ccuref : 'a -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val decode_nlpath :
+  <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__ccu.html'>ccu</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_NonLocalPath.html'>NonLocalPath</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val decode_pubpath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_PublicPath.html'>PublicPath</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val decode_simpletyp :
+  <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_NonLocalPath.html'>NonLocalPath</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val decode_string : 'a -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val decode_tab : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILInstr.html'>ILInstr</a>) <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val decoders : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILInstr.html'>ILInstr</a>)) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val dummy : 'a -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val encode_ccuref : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CcuThunk.html'>CcuThunk</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val encode_instr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILInstr.html'>ILInstr</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val encode_string : 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val encode_table : Dictionary&lt;<a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILInstr.html'>ILInstr</a>,<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a>&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val encode_uniq : 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val ffailwith : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_attribs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Attribs.html'>Attribs</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_binds : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Bindings.html'>Bindings</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_constraints : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_StaticOptimization.html'>StaticOptimization</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_Exprs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Exprs.html'>Exprs</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_FlatExprs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_FlatExprs.html'>FlatExprs</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_FlatVals : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_FlatVals.html'>FlatVals</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_iltyp : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_targets : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_DecisionTreeTarget.html'>DecisionTreeTarget</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_typ : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val fill_u_Vals : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Val.html'>Val</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val find_or_add_entry : 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a> -> 'a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val float32_of_bits : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float32.html'>float32</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val float_of_bits : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int64.html'>int64</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val get_tbl : 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val is_noarg_instr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILInstr.html'>ILInstr</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_add : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_add_ovf : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_add_ovf_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_and : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_arglist : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_beq : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_bge : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_bge_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_bgt : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_bgt_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ble : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ble_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_blt : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_blt_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_bne_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_box : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_br : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_break : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_brfalse : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_brtrue : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_call : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_callconstrained : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_calli : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_callvirt : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_castclass : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ceq : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_cgt : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_cgt_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ckfinite : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_clt : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_clt_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_constrained : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_conv : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_conv_ovf : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_conv_ovf_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_conv_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_cpblk : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_cpobj : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_div : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_div_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_dup : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_endfilter : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_endfinally : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ilzero : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_initblk : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_initobj : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_isinst : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_jmp : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldarg : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldarga : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldc : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldelem : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldelem_any : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldelema : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldfld : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldflda : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldftn : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldind : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldlen : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldlen_multi : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldloc : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldloca : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldnull : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldobj : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldsfld : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldsflda : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldstr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldtoken : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldunit : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ldvirtftn : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_leave : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_localloc : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_mkrefany : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_mul : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_mul_ovf : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_mul_ovf_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_neg : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_newarr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_newobj : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_nop : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_not : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_or : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_pop : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_readonly : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_refanytype : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_refanyval : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_rem : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_rem_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_ret : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_rethrow : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_shl : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_shr : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_shr_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_sizeof : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_starg : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_stelem : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_stelem_any : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_stfld : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_stind : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_stloc : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_stobj : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_stsfld : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_sub : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_sub_ovf : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_sub_ovf_un : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_switch : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_tail : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_throw : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_unaligned : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_unbox : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_unbox_any : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_volatile : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val itag_xor : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val lookup_ccuref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val lookup_nlpath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val lookup_pubpath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val lookup_simpletyp : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val lookup_string : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val lookup_uniq : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val new_itbl : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> -> 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__itbl-1.html'>itbl</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val new_osgn_inmap :
+  (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'a) ->
+    ('a -> 'b -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) ->
+      ('a -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__osgn_inmap-2.html'>osgn_inmap</a>&lt;'b,'a&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val new_tbl : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val prim_u_int32 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val simple_instrs : (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILInstr.html'>ILInstr</a>) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val tbl_size : 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__tbl-1.html'>tbl</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_access : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Accessibility.html'>Accessibility</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_alignment : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_Alignment.html'>Alignment</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_arg : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__expr.html'>expr</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_array : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_array_revi : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a> -> 'a) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_array_shape : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILArrayShape.html'>ILArrayShape</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_assref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILAssemblyRef.html'>ILAssemblyRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_attrib : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Attrib.html'>Attrib</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_attrib_arg : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_AttribNamedArg.html'>AttribNamedArg</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_attrib_expr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_AttribExpr.html'>AttribExpr</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_attribkind : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_AttribKind.html'>AttribKind</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_attribs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Attribs.html'>Attribs</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_basethis : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValBaseOrThisInfo.html'>ValBaseOrThisInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_basic_callconv : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILArgumentConvention.html'>ILArgumentConvention</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_bind : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Binding.html'>Binding</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_binds : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Bindings.html'>Bindings</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_bool : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_byte : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_bytes : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_callconv : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILCallingConv.html'>ILCallingConv</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_callsig : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILCallingSignature.html'>ILCallingSignature</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ccuref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CcuThunk.html'>CcuThunk</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_char : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_const : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Constant.html'>Constant</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_constraint : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_StaticOptimization.html'>StaticOptimization</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_constraints : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_StaticOptimization.html'>StaticOptimization</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_cpath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompilationPath.html'>CompilationPath</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_double : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_dtree : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_DecisionTree.html'>DecisionTree</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_dtree_case : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_DecisionTreeCase.html'>DecisionTreeCase</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_dtree_discrim : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_DecisionTreeDiscriminator.html'>DecisionTreeDiscriminator</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_dummy_range : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__range.html'>range</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_encoded_ccuref : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_encoded_nlpath : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_encoded_pubpath : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_encoded_simpletyp : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_encoded_string : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_entity_spec_data : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_EntityData.html'>EntityData</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_exnc_repr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ExceptionInfo.html'>ExceptionInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_exnc_spec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Tycon.html'>Tycon</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_exnc_spec_data : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_EntityData.html'>EntityData</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_expr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__expr.html'>expr</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_Exprs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Exprs.html'>Exprs</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_FlatExprs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_FlatExprs.html'>FlatExprs</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_FlatList : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_FlatVals : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_FlatVals.html'>FlatVals</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_hasthis : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILThisConvention.html'>ILThisConvention</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_hole : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> ('a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>) * (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ident : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__ident.html'>ident</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ieee64 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ilfref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILFieldRef.html'>ILFieldRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ilinstr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILInstr.html'>ILInstr</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ilmref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodRef.html'>ILMethodRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_iltref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeRef.html'>ILTypeRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_iltspec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeSpec.html'>ILTypeSpec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_iltyp : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_iltyps : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_immutable_ref : 'a <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__ref-1.html'>ref</a> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_int : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_int16 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int16.html'>int16</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_int32 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_int64 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int64.html'>int64</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_int8 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__sbyte.html'>sbyte</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_intf : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ObjExprMethod.html'>ObjExprMethod</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_intfs : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ObjExprMethod.html'>ObjExprMethod</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ints : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_istype : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ModuleOrNamespaceKind.html'>ModuleOrNamespaceKind</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_kind : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyparKind.html'>TyparKind</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_lazy : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Control.type_Lazy-1.html'>Lazy</a>&lt;'a&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ldc_info : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILConstSpec.html'>ILConstSpec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ldtoken_info : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTokenSpec.html'>ILTokenSpec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_list : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_list_revi : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int32.html'>int32</a> -> 'a) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_local_item_ref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__osgn_inmap-2.html'>osgn_inmap</a>&lt;'a,'b&gt; -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_lval_op_kind : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_LValueOperation.html'>LValueOperation</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_Map :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_Map-2.html'>Map</a>&lt;'a,'b&gt; <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_measure_expr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__measure.html'>measure</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_member_info : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValMemberInfo.html'>ValMemberInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_member_kind : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_MemberKind.html'>MemberKind</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_MemberFlags : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_MemberFlags.html'>MemberFlags</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_method : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ObjExprMethod.html'>ObjExprMethod</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_methods : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ObjExprMethod.html'>ObjExprMethod</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_modref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILModuleRef.html'>ILModuleRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_modul_typ : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ModuleOrNamespaceType.html'>ModuleOrNamespaceType</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_mustinline : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValInlineInfo.html'>ValInlineInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_namemap : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type_Map-2.html'>Map</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>,'a&gt; <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_nlpath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_NonLocalPath.html'>NonLocalPath</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_nonlocal_item_ref : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_NonLocalItemRef.html'>NonLocalItemRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_op : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ExprOpSpec.html'>ExprOpSpec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_option : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_osgn_decl :
+  <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__osgn_inmap-2.html'>osgn_inmap</a>&lt;'a,'b&gt; -> (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_osgn_ref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__osgn_inmap-2.html'>osgn_inmap</a>&lt;'a,'b&gt; -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_parentref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ParentRef.html'>ParentRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_pos : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__pos.html'>pos</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_prim_string : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_pubkey : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_PublicKey.html'>PublicKey</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_pubpath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_PublicPath.html'>PublicPath</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_range : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__range.html'>range</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ranges : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__range.html'>range</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__range.html'>range</a>) <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_readonly : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ReadonlySpec.html'>ReadonlySpec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_recdfield_spec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_recdInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecordConstructionInfo.html'>RecordConstructionInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_rfield_table : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRecdFields.html'>TyconRecdFields</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_rfref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdFieldRef.html'>RecdFieldRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_scoref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILScopeRef.html'>ILScopeRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_simpletyp : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_single : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float32.html'>float32</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_slotparam : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_SlotParam.html'>SlotParam</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_slotsig : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_SlotSig.html'>SlotSig</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_string : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_strings : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tailness : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_Tailcall.html'>Tailcall</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_target : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_DecisionTreeTarget.html'>DecisionTreeTarget</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_targets : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_DecisionTreeTarget.html'>DecisionTreeTarget</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tcaug : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconAugmentation.html'>TyconAugmentation</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tcref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_EntityRef.html'>EntityRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_TopArgInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TopArgInfo.html'>TopArgInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_TopTyparInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TopTyparInfo.html'>TopTyparInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tpref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Typar.html'>Typar</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_trait : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TraitConstraintInfo.html'>TraitConstraintInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_trait_sln : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TraitConstraintSln.html'>TraitConstraintSln</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tup2 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a * 'b</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tup3 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) -> (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a * 'b * 'c</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tup4 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a * 'b * 'c * 'd</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tup5 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a * 'b * 'c * 'd * 'e</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tup6 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a * 'b * 'c * 'd * 'e * 'f</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tycon_objmodel_data : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconObjModelData.html'>TyconObjModelData</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tycon_objmodel_kind : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconObjModelKind.html'>TyconObjModelKind</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tycon_repr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRepresentation.html'>TyconRepresentation</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_tycon_spec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Tycon.html'>Tycon</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_typ : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_typar_constraint : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyparConstraint.html'>TyparConstraint</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_typar_constraints : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyparConstraint.html'>TyparConstraint</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_typar_spec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Typar.html'>Typar</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_typar_spec_data : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyparData.html'>TyparData</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_typar_specs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Typar.html'>Typar</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_typs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ucref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCaseRef.html'>UnionCaseRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_uint16 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__uint16.html'>uint16</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_uint32 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__uint32.html'>uint32</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_uint64 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__uint64.html'>uint64</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_uint8 : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_unioncase_spec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCase.html'>UnionCase</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_unit : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_Val : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Val.html'>Val</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_val_repr : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__expr.html'>expr</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ValData : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValData.html'>ValData</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_Vals : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Val.html'>Val</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_ValTopReprInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValTopReprInfo.html'>ValTopReprInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_varargs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_version : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__uint16.html'>uint16</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__uint16.html'>uint16</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__uint16.html'>uint16</a> * <a href='../FSharp.Core/Microsoft.FSharp.Core.type__uint16.html'>uint16</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_void : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_volatility : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_Volatility.html'>Volatility</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_vref : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValRef.html'>ValRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_vrefFlags : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValUseFlag.html'>ValUseFlag</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_vrefs : (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ValRef.html'>ValRef</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_wrap : ('b -> 'a) -> 'b <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type__unpickler-1.html'>unpickler</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val u_xmldoc : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_XmlDoc.html'>XmlDoc</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val ubasic_type : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILBasicType.html'>ILBasicType</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val ufailwith : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> 'a</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val uilfspec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILFieldSpec.html'>ILFieldSpec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val uilmspec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodSpec.html'>ILMethodSpec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val unpickle_modul_spec : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Tycon.html'>Tycon</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val unpickle_obj_with_dangling_ccus :
+  <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> ->
+    <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILScopeRef.html'>ILScopeRef</a> ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__byte.html'>byte</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[]-1.html'>[]</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_PickledDataWithReferences-1.html'>PickledDataWithReferences</a>&lt;'a&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val UnpickleModuleInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_PickledModuleInfo.html'>PickledModuleInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup10 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'h) ->
+                  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'i) ->
+                    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'j) ->
+                      <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> ->
+                        'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h * 'i * 'j</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup11 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'h) ->
+                  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'i) ->
+                    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'j) ->
+                      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'k) ->
+                        <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> ->
+                          'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h * 'i * 'j * 'k</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup12 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'h) ->
+                  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'i) ->
+                    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'j) ->
+                      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'k) ->
+                        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'l) ->
+                          <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> ->
+                            'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h * 'i * 'j * 'k *
+                            'l</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup13 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'h) ->
+                  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'i) ->
+                    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'j) ->
+                      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'k) ->
+                        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'l) ->
+                          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'm) ->
+                            <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> ->
+                              'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h * 'i * 'j *
+                              'k * 'l * 'm</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup14 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'h) ->
+                  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'i) ->
+                    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'j) ->
+                      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'k) ->
+                        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'l) ->
+                          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'm) ->
+                            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'n) ->
+                              <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> ->
+                                'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h * 'i * 'j *
+                                'k * 'l * 'm * 'n</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup15 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'h) ->
+                  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'i) ->
+                    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'j) ->
+                      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'k) ->
+                        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'l) ->
+                          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'm) ->
+                            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'n) ->
+                              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'o) ->
+                                <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> ->
+                                  'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h * 'i *
+                                  'j * 'k * 'l * 'm * 'n * 'o</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup7 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a * 'b * 'c * 'd * 'e * 'f * 'g</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup8 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'h) ->
+                  <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val utup9 :
+  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a) ->
+    (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'b) ->
+      (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'c) ->
+        (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'd) ->
+          (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'e) ->
+            (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'f) ->
+              (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'g) ->
+                (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'h) ->
+                  (<a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'i) ->
+                    <a href='FSharp.PowerPack.Metadata.Reader.Internal.Pickle.type_ReaderState.html'>ReaderState</a> -> 'a * 'b * 'c * 'd * 'e * 'f * 'g * 'h * 'i</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val verbose : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="FSharp.PowerPack.Metadata.Reader.Internal.html">FSharp.PowerPack.Metadata.Reader.Internal</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack.Metadata, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

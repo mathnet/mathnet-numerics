@@ -1,0 +1,59 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Quotations.Var</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.Quotations.html'>Microsoft.FSharp.Quotations</a>.Var </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Information at the binding site of a variable
+</summary>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> ()>]
+type Var =
+  class
+    interface <a href='http://msdn2.microsoft.com/en-us/library/System.IComparable.aspx'>IComparable</a>
+    new : name:<a href='Microsoft.FSharp.Core.type__string.html'>string</a> * typ:<a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a> * ?isMutable:<a href='Microsoft.FSharp.Core.type__bool.html'>bool</a> -> <a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a>
+    member IsMutable : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member Name : <a href='Microsoft.FSharp.Core.type__string.html'>string</a>
+    member Type : <a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a>
+    static member Global : name:<a href='Microsoft.FSharp.Core.type__string.html'>string</a> * typ:<a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a> -> <a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member IsMutable : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Indicates if the variable represents a mutable storage location
+</summary></td></tr>
+<tr valign="top"><td><pre>member Name : <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ The declared name of the variable
+</summary></td></tr>
+<tr valign="top"><td><pre>member Type : <a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a></pre></td><td><summary>
+ The type associated with the variable
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>new : name:<a href='Microsoft.FSharp.Core.type__string.html'>string</a> * typ:<a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a> * ?isMutable:<a href='Microsoft.FSharp.Core.type__bool.html'>bool</a> -> <a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a></pre></td><td><summary>
+ Create a new variable with the given name, type and mutability
+</summary></td></tr>
+<tr valign="top"><td><pre>member Global : name:<a href='Microsoft.FSharp.Core.type__string.html'>string</a> * typ:<a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a> -> <a href='Microsoft.FSharp.Quotations.type_Var.html'>Var</a></pre></td><td><summary>
+ Fetch or create a new variable with the given name and type from a global pool of shared variables
+ indexed by name and type
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Quotations.html">Microsoft.FSharp.Quotations</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

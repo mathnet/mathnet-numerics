@@ -1,0 +1,105 @@
+<HTML><HEAD><TITLE>FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.ILTypeDef</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='FSharp.PowerPack.Metadata.html'>FSharp.PowerPack.Metadata</a>.<a href='FSharp.PowerPack.Metadata.Reader.html'>Reader</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.html'>Internal</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.html'>AbstractIL</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.html'>IL</a>.ILTypeDef </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>type ILTypeDef =
+  {tdKind: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefKind.html'>ILTypeDefKind</a>;
+   tdName: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>;
+   tdGenericParams: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILGenericParameterDefs.html'>ILGenericParameterDefs</a>;
+   tdAccess: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefAccess.html'>ILTypeDefAccess</a>;
+   tdAbstract: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>;
+   tdSealed: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>;
+   tdSerializable: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>;
+   tdComInterop: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>;
+   tdLayout: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefLayout.html'>ILTypeDefLayout</a>;
+   tdSpecialName: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>;
+   tdEncoding: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILDefaultPInvokeEncoding.html'>ILDefaultPInvokeEncoding</a>;
+   tdNested: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefs.html'>ILTypeDefs</a>;
+   tdImplements: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>;
+   tdExtends: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>;
+   tdMethodDefs: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodDefs.html'>ILMethodDefs</a>;
+   tdSecurityDecls: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILPermissions.html'>ILPermissions</a>;
+   tdHasSecurity: <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>;
+   tdFieldDefs: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILFieldDefs.html'>ILFieldDefs</a>;
+   tdMethodImpls: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodImplDefs.html'>ILMethodImplDefs</a>;
+   tdInitSemantics: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefInitSemantics.html'>ILTypeDefInitSemantics</a>;
+   tdEvents: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILEventDefs.html'>ILEventDefs</a>;
+   tdProperties: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_PropertyDefs.html'>PropertyDefs</a>;
+   tdCustomAttrs: <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILAttributes.html'>ILAttributes</a>;}
+  with
+    member Access : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefAccess.html'>ILTypeDefAccess</a>
+    member CustomAttrs : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILAttributes.html'>ILAttributes</a>
+    member Encoding : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILDefaultPInvokeEncoding.html'>ILDefaultPInvokeEncoding</a>
+    member Events : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILEventDefs.html'>ILEventDefs</a>
+    member Extends : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member Fields : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILFieldDefs.html'>ILFieldDefs</a>
+    member GenericParams : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILGenericParameterDefs.html'>ILGenericParameterDefs</a>
+    member HasSecurity : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member Implements : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    member InitSemantics : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefInitSemantics.html'>ILTypeDefInitSemantics</a>
+    member IsAbstract : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsClass : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsComInterop : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsDelegate : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsEnum : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsInterface : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsSealed : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsSerializable : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsSpecialName : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsValueType : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member Layout : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefLayout.html'>ILTypeDefLayout</a>
+    member MethodImpls : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodImplDefs.html'>ILMethodImplDefs</a>
+    member Methods : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodDefs.html'>ILMethodDefs</a>
+    member Name : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+    member NestedTypes : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefs.html'>ILTypeDefs</a>
+    member Properties : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_PropertyDefs.html'>PropertyDefs</a>
+    member SecurityDecls : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILPermissions.html'>ILPermissions</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Access : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefAccess.html'>ILTypeDefAccess</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member CustomAttrs : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILAttributes.html'>ILAttributes</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Encoding : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILDefaultPInvokeEncoding.html'>ILDefaultPInvokeEncoding</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Events : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILEventDefs.html'>ILEventDefs</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Extends : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Fields : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILFieldDefs.html'>ILFieldDefs</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member GenericParams : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILGenericParameterDefs.html'>ILGenericParameterDefs</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member HasSecurity : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Implements : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILType.html'>ILType</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member InitSemantics : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefInitSemantics.html'>ILTypeDefInitSemantics</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsAbstract : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsClass : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsComInterop : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsDelegate : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsEnum : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsInterface : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsSealed : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsSerializable : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsSpecialName : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsValueType : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Layout : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefLayout.html'>ILTypeDefLayout</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member MethodImpls : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodImplDefs.html'>ILMethodImplDefs</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Methods : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILMethodDefs.html'>ILMethodDefs</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Name : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member NestedTypes : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDefs.html'>ILTypeDefs</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Properties : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_PropertyDefs.html'>PropertyDefs</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member SecurityDecls : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILPermissions.html'>ILPermissions</a></pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.html">FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack.Metadata, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

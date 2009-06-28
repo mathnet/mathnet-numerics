@@ -1,0 +1,89 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Compatibility.List</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Compatibility.html'>Microsoft.FSharp.Compatibility</a>.List </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Compatibility operations on lists.  
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val assoc : 'Key -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T</pre></td><td><summary>
+ Lookup key's data in association list, uses (=) equality.
+ Raise <tt>System.IndexOutOfRangeException</tt> exception if key not found, in which case you should typically use <tt>try_assoc</tt> instead.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val assq : 'Key -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T</pre></td><td><summary>
+ See <tt>assoc</tt>, but uses the physical equality operator (==) for equality tests
+</summary></td></tr>
+<tr valign="top"><td><pre>val contains : 'T -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Is an element in the list. Elements are compared using generic equality.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ("The F# name for this function is 'contains'")>]
+val mem : 'T -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Is an element in the list. Elements are compared using generic equality.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val mem_assoc : 'Key -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Does the key have pair in the association list?
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val mem_assq : 'Key -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ See <tt>mem_assoc</tt>, but uses the physical equality operator (==) for equality tests.      
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val memq : 'Key -> 'Key <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ See <tt>mem</tt>, but uses the physical equality operator (==) for equality tests.        
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val remove_assoc : 'Key -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Remove pair for key from the association list (if it's there).
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val remove_assq : 'Key -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ See <tt>remove_assoc</tt>, but uses the physical equality operator (==) for equality tests.        
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val rev_append : 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ "rev_append l1 l2" evaluates to "append (rev l1) l2"
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val rev_map : ('T -> 'U) -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'U <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ "rev_map f l1" evaluates to "map f (rev l1)"
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val rev_map2 : ('T1 -> 'T2 -> 'U) -> 'T1 <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T2 <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'U <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ "rev_map2 f l1 l2" evaluates to "map2 f (rev l1) (rev l2)"
+</summary></td></tr>
+<tr valign="top"><td><pre>val scanReduce : ('T -> 'T -> 'T) -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Like reduce_left, but return both the intermediary and final results
+</summary></td></tr>
+<tr valign="top"><td><pre>val scanReduceBack : ('T -> 'T -> 'T) -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Like reduce_right, but return both the intermediary and final results
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val try_assoc : 'Key -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ Lookup key's data in association list, uses (=) equality,
+ returning "Some data" or "None".  
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ()>]
+val try_assq : 'Key -> ('Key * 'T) <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td><summary>
+ See <tt>try_assoc</tt>, but uses the physical equality operator (==) for equality tests.    
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Compatibility.html">Microsoft.FSharp.Compatibility</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

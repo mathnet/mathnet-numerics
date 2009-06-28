@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  
+  <PropertyGroup>
+          <!-- Tail calls on, even in debug -->
+          <Tailcalls>true</Tailcalls>
+          <LkgVersion>1.9.6.15</LkgVersion>
+          <VersionFile>$(FSharpSourcesRoot)\source-build-version</VersionFile> 
+          <FsLexUnicode>true</FsLexUnicode>
+          <OutputPath>$(FSharpSourcesRoot)\fsppack\$(Configuration)\bin</OutputPath>
+  </PropertyGroup>
+
+  <!-- Selecting the correct key pair -->
+
+  <PropertyGroup Condition=" '$(BuildWith)' == '' and '$(TargetFrameworkVersion)' != 'vSilverlight20'">
+          <!-- <OtherFlags>-keyfile:$(FSharpSourcesRoot)\fsppack\fs.pubkey -delaysign $(OtherFlags)</OtherFlags>  -->
+  </PropertyGroup>
+
+  <!-- Build with prototype compiler -->
+  <PropertyGroup Condition=" '$(BuildWith)' == ''">
+
+          <FsLexToolPath>$(FSharpSourcesRoot)\fsppack\Proto\bin</FsLexToolPath>
+          <FsLexToolExe>fslex-proto.exe</FsLexToolExe>
+          <FsYaccToolPath>$(FSharpSourcesRoot)\fsppack\Proto\bin</FsYaccToolPath>
+          <FsYaccToolExe>fsyacc-proto.exe</FsYaccToolExe>
+  </PropertyGroup>
+
+  <!-- Build with LKG fslex/fsyacc -->
+  <PropertyGroup Condition=" '$(BuildWith)' == 'LKG'  ">
+
+          <FSharpTargetsDir>$(FSharpSourcesRoot)\..\lkg\FSharp-$(LkgVersion)\bin</FSharpTargetsDir>
+
+          <FscToolPath>$(FSharpSourcesRoot)\..\lkg\FSharp-$(LkgVersion)\bin</FscToolPath>
+          <FscToolExe>fsc.exe</FscToolExe>
+          <FsLexToolPath>$(FSharpSourcesRoot)\..\lkg\FSharp-$(LkgVersion)\bin</FsLexToolPath>
+          <FsLexToolExe>fslex.exe</FsLexToolExe>
+          <FsYaccToolPath>$(FSharpSourcesRoot)\..\lkg\FSharp-$(LkgVersion)\bin</FsYaccToolPath>
+          <FsYaccToolExe>fsyacc.exe</FsYaccToolExe>
+  </PropertyGroup>
+
+</Project>

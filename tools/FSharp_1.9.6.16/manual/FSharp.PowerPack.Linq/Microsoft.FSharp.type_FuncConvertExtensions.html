@@ -1,0 +1,69 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.FuncConvertExtensions</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='Microsoft.FSharp.html'>Microsoft.FSharp</a>.FuncConvertExtensions </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>[<<a href='../FSharp.Core/Microsoft.FSharp.Core.type_SealedAttribute.html'>SealedAttribute</a> (); <a href='../FSharp.Core/Microsoft.FSharp.Core.type_AbstractClassAttribute.html'>AbstractClassAttribute</a> ()>]
+type FuncConvertExtensions =
+  class
+    static member ToFastFunc : Action&lt;'T1,'T2&gt; -> ('T1 -> 'T2 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)
+    static member ToFastFunc : Action&lt;'T1,'T2,'T3&gt; -> ('T1 -> 'T2 -> 'T3 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)
+    static member ToFastFunc : Action&lt;'T1,'T2,'T3,'T4&gt; -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)
+    static member ToFastFunc : Func&lt;'U&gt; -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'U)
+    static member ToFastFunc : Func&lt;'T1,'U&gt; -> ('T1 -> 'U)
+    static member ToFastFunc : Func&lt;'T1,'T2,'U&gt; -> ('T1 -> 'T2 -> 'U)
+    static member ToFastFunc : Func&lt;'T1,'T2,'T3,'U&gt; -> ('T1 -> 'T2 -> 'T3 -> 'U)
+    static member ToFastFunc : Func&lt;'T1,'T2,'T3,'T4,'U&gt; -> ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'U)
+    static member ToTupledFastFunc : Action&lt;'T1,'T2&gt; -> ('T1 * 'T2 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)
+    static member ToTupledFastFunc : Action&lt;'T1,'T2,'T3&gt; -> ('T1 * 'T2 * 'T3 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)
+    static member ToTupledFastFunc : Action&lt;'T1,'T2,'T3,'T4&gt; -> ('T1 * 'T2 * 'T3 * 'T4 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)
+    static member ToTupledFastFunc : Func&lt;'U&gt; -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'U)
+    static member ToTupledFastFunc : Func&lt;'T1,'U&gt; -> ('T1 -> 'U)
+    static member ToTupledFastFunc : Func&lt;'T1,'T2,'U&gt; -> ('T1 * 'T2 -> 'U)
+    static member ToTupledFastFunc : Func&lt;'T1,'T2,'T3,'U&gt; -> ('T1 * 'T2 * 'T3 -> 'U)
+    static member ToTupledFastFunc : Func&lt;'T1,'T2,'T3,'T4,'U&gt; -> ('T1 * 'T2 * 'T3 * 'T4 -> 'U)
+  end</pre>  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member
+  ToFastFunc : Func&lt;'T1,'T2,'T3,'T4,'U&gt; ->
+                 ('T1 -> 'T2 -> 'T3 -> 'T4 -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member
+  ToFastFunc : Action&lt;'T1,'T2,'T3,'T4&gt; ->
+                 ('T1 -> 'T2 -> 'T3 -> 'T4 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToFastFunc : Func&lt;'T1,'T2,'T3,'U&gt; -> ('T1 -> 'T2 -> 'T3 -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToFastFunc : Action&lt;'T1,'T2,'T3&gt; -> ('T1 -> 'T2 -> 'T3 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToFastFunc : Func&lt;'T1,'T2,'U&gt; -> ('T1 -> 'T2 -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToFastFunc : Action&lt;'T1,'T2&gt; -> ('T1 -> 'T2 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToFastFunc : Func&lt;'T1,'U&gt; -> ('T1 -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToFastFunc : Func&lt;'U&gt; -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member
+  ToTupledFastFunc : Func&lt;'T1,'T2,'T3,'T4,'U&gt; ->
+                       ('T1 * 'T2 * 'T3 * 'T4 -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member
+  ToTupledFastFunc : Action&lt;'T1,'T2,'T3,'T4&gt; ->
+                       ('T1 * 'T2 * 'T3 * 'T4 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToTupledFastFunc : Func&lt;'T1,'T2,'T3,'U&gt; -> ('T1 * 'T2 * 'T3 -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToTupledFastFunc : Action&lt;'T1,'T2,'T3&gt; -> ('T1 * 'T2 * 'T3 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToTupledFastFunc : Func&lt;'T1,'T2,'U&gt; -> ('T1 * 'T2 -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToTupledFastFunc : Action&lt;'T1,'T2&gt; -> ('T1 * 'T2 -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToTupledFastFunc : Func&lt;'T1,'U&gt; -> ('T1 -> 'U)</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ToTupledFastFunc : Func&lt;'U&gt; -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'U)</pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.html">Microsoft.FSharp</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack.Linq, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

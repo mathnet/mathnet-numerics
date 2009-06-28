@@ -1,0 +1,68 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Math.RowVector</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Math.html'>Microsoft.FSharp.Math</a>.RowVector </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Operations to manipulate floating
+ point row vectors.  These are included for completeness and are
+ nearly always transposed to column vectors.
+</summary>
+  <dt><h3>Modules (as contributed by assembly 'FSharp.PowerPack')</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Module</th><th>Description</th></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Math.RowVector.Generic.html'>Microsoft.FSharp.Math.RowVector.Generic</a></td><td><summary>
+ Operations to manipulate row vectors types carrying
+ arbitrary element types. 
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val copy : <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a> -> <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val create : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a></pre></td><td><summary>
+ Create by constant initialization
+</summary></td></tr>
+<tr valign="top"><td><pre>val get : <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ Get an element of a column vector
+</summary></td></tr>
+<tr valign="top"><td><pre>val init : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> (<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>) -> <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a></pre></td><td><summary>
+ Create by comprehension
+</summary></td></tr>
+<tr valign="top"><td><pre>val length : <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Get the dimensions (number of rows) of a column rowvec.  
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_array : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a> -> <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a></pre></td><td><summary>
+ Create a vector from an array of double precision floats
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_list : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a></pre></td><td><summary>
+ Create a vector from a list of numbers
+</summary></td></tr>
+<tr valign="top"><td><pre>val of_seq : <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a>&gt; -> <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val set : <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set an element of a column rowvec
+</summary></td></tr>
+<tr valign="top"><td><pre>val to_array : <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__float.html'>float</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td><summary>
+ Return a new array containing a copy of the elements of the given vector
+</summary></td></tr>
+<tr valign="top"><td><pre>val transpose : <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a> -> <a href='Microsoft.FSharp.Math.type__vector.html'>vector</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val zero : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Math.type__rowvec.html'>rowvec</a></pre></td><td><summary>
+ Return a vector of the given length where every entry is zero.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Math.html">Microsoft.FSharp.Math</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

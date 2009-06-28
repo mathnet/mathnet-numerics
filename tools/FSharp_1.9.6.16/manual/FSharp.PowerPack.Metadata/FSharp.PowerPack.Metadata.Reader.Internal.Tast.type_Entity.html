@@ -1,0 +1,166 @@
+<HTML><HEAD><TITLE>FSharp.PowerPack.Metadata.Reader.Internal.Tast.Entity</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Type <a href='FSharp.PowerPack.Metadata.html'>FSharp.PowerPack.Metadata</a>.<a href='FSharp.PowerPack.Metadata.Reader.html'>Reader</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.html'>Internal</a>.<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.html'>Tast</a>.Entity </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Full Type Signature</h3></dt><dd>
+<pre>type Entity =
+  {mutable Data: <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_EntityData.html'>EntityData</a>;}
+  with
+    member GetFieldByIndex : n:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a>
+    member GetFieldByName : n:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member GetUnionCaseByName : n:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCase.html'>UnionCase</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member Link : tg:<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_EntityData.html'>EntityData</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    member Typars : m:<a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__range.html'>range</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Typar.html'>Typar</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    member Accessibility : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Accessibility.html'>Accessibility</a>
+    member AllFieldTable : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRecdFields.html'>TyconRecdFields</a>
+    member AllFieldsArray : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a>
+    member AllFieldsAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    member AllInstanceFieldsAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    member Attribs : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Attribs.html'>Attribs</a>
+    member CompilationPath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompilationPath.html'>CompilationPath</a>
+    member CompilationPathOpt : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompilationPath.html'>CompilationPath</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member CompiledReprCache : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__cache-1.html'>cache</a>&lt;<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompiledTypeRepr.html'>CompiledTypeRepr</a>&gt;
+    member CompiledRepresentation : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompiledTypeRepr.html'>CompiledTypeRepr</a>
+    member CompiledRepresentationForTyrepNamed : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeRef.html'>ILTypeRef</a>
+    member DemangledExceptionName : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+    member DisplayName : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+    member DisplayNameWithUnderscoreTypars : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+    member ExceptionInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ExceptionInfo.html'>ExceptionInfo</a>
+    member FSharpObjectModelTypeInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconObjModelData.html'>TyconObjModelData</a>
+    member ILTyconInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILScopeRef.html'>ILScopeRef</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDef.html'>ILTypeDef</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDef.html'>ILTypeDef</a>
+    member ILTyconRawMetadata : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDef.html'>ILTypeDef</a>
+    member Id : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__ident.html'>ident</a>
+    member IsAsmReprTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsExceptionDecl : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsFSharpDelegateTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsFSharpEnumTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsFSharpInterfaceTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsFSharpObjectModelTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsFSharpStructTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsHiddenReprTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsILStructTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsILTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsLinked : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsMeasureableReprTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsModule : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsModuleOrNamespace : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsNamespace : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsPrefixDisplay : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsRecordTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsStructTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsTypeAbbrev : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member IsUnionTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a>
+    member MangledName : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a>
+    member ModuleOrNamespaceType : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ModuleOrNamespaceType.html'>ModuleOrNamespaceType</a>
+    member PublicPath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_PublicPath.html'>PublicPath</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member Range : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__range.html'>range</a>
+    member Stamp : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__stamp.html'>stamp</a>
+    member TrueFieldsAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    member TrueInstanceFieldsAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    member TyparsNoRange : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Typar.html'>Typar</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    member TypeAbbrev : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member TypeContents : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconAugmentation.html'>TyconAugmentation</a>
+    member TypeOrMeasureKind : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyparKind.html'>TyparKind</a>
+    member TypeReprAccessibility : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Accessibility.html'>Accessibility</a>
+    member TypeReprInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRepresentation.html'>TyconRepresentation</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member UnionCasesArray : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCase.html'>UnionCase</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a>
+    member UnionCasesAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCase.html'>UnionCase</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a>
+    member UnionInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconUnionData.html'>TyconUnionData</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member UnionTypeInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconUnionData.html'>TyconUnionData</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a>
+    member XmlDoc : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_XmlDoc.html'>XmlDoc</a>
+    static member New : reason:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> data:<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_EntityData.html'>EntityData</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Entity.html'>Entity</a>
+    static member NewUnlinked : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Entity.html'>Entity</a>
+  end</pre>  </dd>
+  <dt><h3>Instance Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member Accessibility : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Accessibility.html'>Accessibility</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member AllFieldsArray : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member AllFieldsAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member AllFieldTable : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRecdFields.html'>TyconRecdFields</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member AllInstanceFieldsAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Attribs : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Attribs.html'>Attribs</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member CompilationPath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompilationPath.html'>CompilationPath</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member CompilationPathOpt : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompilationPath.html'>CompilationPath</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member CompiledReprCache : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__cache-1.html'>cache</a>&lt;<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompiledTypeRepr.html'>CompiledTypeRepr</a>&gt;</pre></td><td></td></tr>
+<tr valign="top"><td><pre>member CompiledRepresentation : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_CompiledTypeRepr.html'>CompiledTypeRepr</a></pre></td><td><summary>
+ From TAST TyconRef to IL ILTypeRef
+</summary></td></tr>
+<tr valign="top"><td><pre>member CompiledRepresentationForTyrepNamed : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeRef.html'>ILTypeRef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member DemangledExceptionName : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member DisplayName : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member DisplayNameWithUnderscoreTypars : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ExceptionInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ExceptionInfo.html'>ExceptionInfo</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member FSharpObjectModelTypeInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconObjModelData.html'>TyconObjModelData</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member GetFieldByIndex : n:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member GetFieldByName : n:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member GetUnionCaseByName : n:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCase.html'>UnionCase</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Id : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__ident.html'>ident</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ILTyconInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILScopeRef.html'>ILScopeRef</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDef.html'>ILTypeDef</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a> * <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDef.html'>ILTypeDef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ILTyconRawMetadata : <a href='FSharp.PowerPack.Metadata.Reader.Internal.AbstractIL.IL.type_ILTypeDef.html'>ILTypeDef</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsAsmReprTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsExceptionDecl : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsFSharpDelegateTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsFSharpEnumTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsFSharpInterfaceTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsFSharpObjectModelTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsFSharpStructTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsHiddenReprTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsILStructTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsILTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsLinked : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsMeasureableReprTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsModule : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsModuleOrNamespace : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsNamespace : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsPrefixDisplay : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsRecordTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsStructTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsTypeAbbrev : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member IsUnionTycon : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Link : tg:<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_EntityData.html'>EntityData</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member MangledName : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member ModuleOrNamespaceType : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_ModuleOrNamespaceType.html'>ModuleOrNamespaceType</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member PublicPath : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_PublicPath.html'>PublicPath</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Range : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__range.html'>range</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Stamp : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__stamp.html'>stamp</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>override ToString : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member TrueFieldsAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member TrueInstanceFieldsAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_RecdField.html'>RecdField</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member Typars : m:<a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type__range.html'>range</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Typar.html'>Typar</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member TyparsNoRange : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Typar.html'>Typar</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member TypeAbbrev : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type__typ.html'>typ</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member TypeContents : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconAugmentation.html'>TyconAugmentation</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member TypeOrMeasureKind : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyparKind.html'>TyparKind</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member TypeReprAccessibility : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Accessibility.html'>Accessibility</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member TypeReprInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconRepresentation.html'>TyconRepresentation</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member UnionCasesArray : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCase.html'>UnionCase</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__array-1.html'>array</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member UnionCasesAsList : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_UnionCase.html'>UnionCase</a> <a href='../FSharp.Core/Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member UnionInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconUnionData.html'>TyconUnionData</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member UnionTypeInfo : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_TyconUnionData.html'>TyconUnionData</a> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__option-1.html'>option</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member XmlDoc : <a href='FSharp.PowerPack.Metadata.Reader.Internal.Prelude.type_XmlDoc.html'>XmlDoc</a></pre></td><td></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Static Members</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Member</th><th>Description</th></tr>
+<tr valign="top"><td><pre>member New : reason:<a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> data:<a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_EntityData.html'>EntityData</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Entity.html'>Entity</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>member NewUnlinked : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> <a href='FSharp.PowerPack.Metadata.Reader.Internal.Tast.type_Entity.html'>Entity</a></pre></td><td></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="FSharp.PowerPack.Metadata.Reader.Internal.Tast.html">FSharp.PowerPack.Metadata.Reader.Internal.Tast</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack.Metadata, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

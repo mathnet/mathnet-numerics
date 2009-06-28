@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+// <copyright file="MSBuild.ExtensionPack.MSTFSBuild2008.xsd">(c) http://www.codeplex.com/MSBuildExtensionPack. This source is subject to the Microsoft Permissive License. See http://www.microsoft.com/resources/sharedsource/licensingbasics/sharedsourcelicenses.mspx. All other rights reserved.</copyright>
+-->
+<xs:schema xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="Microsoft.Build.Core.xsd" />
+    <xs:element name="Get" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The Get task retrieves a read-only copy of the files and folders in a workspace by using specified options.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildUri">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The build URI.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Workspace" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The workspace name.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Version">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The file versionspec. By default the versionspec used is T, or the latest version.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Filespec">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The items in the workspace. By default, Team Foundation Build gets all items in the workspace specified by the WorkspaceName property.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Overwrite" type="msb:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Specifies whether to overwrite writable files that are not checked out.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="PopulateOutput" type="msb:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Populate the Gets, Replaces, Deletes and GetWarnings Item Groups
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Preview" type="msb:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Specifies whether to display what would occur without actually performing the Get operation.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Recursive" type="msb:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Specifies whether files are retrieved recursively.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Force" type="msb:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Specifies whether the files are retrieved incrementally.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Label" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The Label task attaches a label to the latest version of the files in the workspace.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Name" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The label name. By default, the name of the label created by Team Foundation Build is the same as the BuildNumber property.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Version">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The version of the file or folder.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Scope">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Specifies the scope of the label
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Files" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The items to be labeled.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Child">
+                        <xs:annotation>
+                            <xs:documentation>
+                                This corresponds to the /child option of tf.exe label command.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Recursive" type="msb:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Specifies whether the files are labeled recursively.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Comments">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The comment used for the label by Team Foundation Build.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GenCheckinNotesUpdateWorkItems" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The GenCheckinNotesUpdateWorkItems task associates changesets and work items with a specified build.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildUri" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The URI for the build definition.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildNumber">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The Team Foundation Build build number.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="CurrentLabel" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The version number label to which the changesets and work items are associated.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="LastLabel">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The starting version number label from which the changesets and work items are associated.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="UpdateWorkItems" type="msb:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Boolean property that specifies whether the Microsoft.VSTS.Build.IntegrationBuild of the associated work items should be updated with the build number.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CreateNewWorkItem" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The CreateNewWorkItem task creates a new work item of the specified type and with the specified title and description.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildNumber">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The Team Foundation Build build number.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Description" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The work item description.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="TeamProject" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The team project name.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Title" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The work item title.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="WorkItemFieldValues">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Specifies a list of field names and values for the created work item.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="WorkItemType">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The work item type.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CreateWorkspaceTask" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The CreateWorkspaceTask task creates a workspace with the name and mapping file specified in the TFSBuild.proj file.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildUri" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The URI for the build definition.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildDirectory" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The build directory.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="SourcesDirectory" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The solution root for directory for source files.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Name" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The workspace name.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Comment">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The comment used for the workspace.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="DeleteWorkspaceTask" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The DeleteWorkspaceTask task deletes the workspace left by the previous build.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="DeleteLocalItems">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Indicates whether local items that are specified in the workspace mappings are deleted or not.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Name" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The workspace name.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TestToolsTask" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The TestToolsTask task runs tests for an end-to-end build or for a desktop build.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="BuildFlavor">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The build configuration e.g. debug
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Platform">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The platform e.g. x86
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="PublishServer">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="PublishBuild">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The build number for the build.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="SearchPathRoot">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The search path for test files.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="PathToResultsFilesRoot">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Specifies where test results get uploaded.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="MetaDataFile">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The test metadata file.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="RunConfigFile">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The test configuration file.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="TestLists">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The test list that is contained in the test metadata file.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="TeamProject">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The team project name.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="TestContainers">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The files that contain tests.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="UpdateBuildNumberDropLocation" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The UpdateBuildNumberDropLocation updates the build number and drop location in the Team Foundation version control database.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildUri" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The URI for the build definition.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildNumber" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The new build number.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="DropLocation" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The new drop location.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="BuildStep" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The BuildStep task is a convenience task that adds, and potentially updates via the output ID property, a BuildStep.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Id" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                If specified, this is the Id of the build step that is updated. If not specified, a new build step is created.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildUri" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The URI for the build definition.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Name">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The name of the build step that this task adds.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Message">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The message that is displayed in the build report in the build steps section.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Status">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The status for the build step.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetBuildProperties" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The GetBuildProperties task outputs the initial values for the build properties.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildUri" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The URI for the build definition.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="SetBuildProperties" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The SetBuildProperty task sets various properties for a build.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildUri" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The URI for the build definition.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="BuildNumber">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The build number.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="LabelName">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The label name.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="LogLocation">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The Log Location.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="SourceGetVersion"/>
+                    <xs:attribute name="CompilationStatus">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The compilation status. Valid values are Succeeded, Failed and Unknown.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Succeeded"/>
+                                <xs:enumeration value="Failed"/>
+                                <xs:enumeration value="Unknown"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="DropLocation">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The drop location.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Quality">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The build quality.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Status">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The build status. Valid values are NotStarted, InProgress, Succeeded, PartiallySucceeded, Failed, and Stopped.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="NotStarted"/>
+                                <xs:enumeration value="InProgress"/>
+                                <xs:enumeration value="Succeeded"/>
+                                <xs:enumeration value="PartiallySucceeded"/>
+                                <xs:enumeration value="Failed"/>
+                                <xs:enumeration value="Stopped"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="TestStatus">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The test status. Valid values are Succeeded, Failed, and Unknown.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Succeeded"/>
+                                <xs:enumeration value="Failed"/>
+                                <xs:enumeration value="Unknown"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="WorkspaceItemConverterTask" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>
+                The WorkspaceItemConverterTask task converts server items to local items and local items to server items.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TeamFoundationServerUrl" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. Team Foundation Server URL.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="WorkspaceName" type="msb:non_empty_string" use="required">
+                        <xs:annotation>
+                            <xs:documentation>
+                                REQUIRED. The workspace name.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="WorkspaceOwner">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The workspace owner.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="ServerItems">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The server items that are converted to local items.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="LocalItems">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The local items that are converted to server items.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,96 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Control.Event</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Control.html'>Microsoft.FSharp.Control</a>.Event </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Basic operations on first class event objects.  
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val choose :
+  ('T -> 'U <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a>) -> <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'Del,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'U&gt;
+    (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Return a new event which fires on a selection of messages from the original event.
+ The selection function takes an original message to an optional new message.
+</summary></td></tr>
+<tr valign="top"><td><pre>val create : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> ('T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) * <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'T&gt;</pre></td><td><summary>
+ Create an IEvent with no initial listeners. Two items are returned: 
+ a function to invoke (trigger) the event, and the event that clients 
+ can plug listeners into.
+</summary></td></tr>
+<tr valign="top"><td><pre>val filter :
+  ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'Del,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'T&gt;
+    (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Return a new event that listens to the original event and triggers the resulting
+ event only when the argument to the event passes the given function
+</summary></td></tr>
+<tr valign="top"><td><pre>val listen :
+  ('T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'Del,'T&gt; -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>
+    (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Run the given function each time the given event is triggered.
+</summary></td></tr>
+<tr valign="top"><td><pre>val map :
+  ('T -> 'U) -> <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'Del,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'U&gt;
+    (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Return a new event that passes values transformed by the given function
+</summary></td></tr>
+<tr valign="top"><td><pre>val merge :
+  <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'del1,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'del2,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'T&gt;
+    (requires delegate and 'del1 :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a> and delegate and 'del2 :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Fire the output event when either of the input events fire
+</summary></td></tr>
+<tr valign="top"><td><pre>val pairwise :
+  <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'Del,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'T * 'T&gt;
+    (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Return a new event that triggers on the second and subsequent triggerings of the input event.
+ The Nth triggering of the input event passes the arguments from the N-1th and Nth triggering as
+ a pair. The argument passed to the N-1th triggering is held in hidden internal state until the 
+ Nth triggering occurs.
+
+ You should ensure that the contents of the values being sent down the event are
+ not mutable. Note that many EventArgs types are mutable, e.g. MouseEventArgs, and
+ each firing of an event using this argument type may reuse the same physical 
+ argument obejct with different values. In this case you should extract the necessary
+ information from the argument before using this combinator.    
+</summary></td></tr>
+<tr valign="top"><td><pre>val partition :
+  ('T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'Del,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'T&gt; * <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'T&gt;
+    (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Return a new event that listens to the original event and triggers the 
+ first resulting event if the application of the predicate to the event arguments
+ returned true, and the second event if it returned false
+</summary></td></tr>
+<tr valign="top"><td><pre>val scan :
+  ('U -> 'T -> 'U) -> 'U -> <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'Del,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'U&gt;
+    (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Return a new event consisting of the results of applying the given accumulating function
+ to successive values triggered on the input event.  An item of internal state
+ records the current value of the state parameter.  The internal state is not locked during the
+ execution of the accumulation function, so care should be taken that the 
+ input IEvent not triggered by multiple threads simultaneously.
+</summary></td></tr>
+<tr valign="top"><td><pre>val split :
+  ('T -> <a href='Microsoft.FSharp.Core.type_Choice-2.html'>Choice</a>&lt;'U1,'U2&gt;) ->
+    <a href='Microsoft.FSharp.Control.type_IEvent-2.html'>IEvent</a>&lt;'Del,'T&gt; -> <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'U1&gt; * <a href='Microsoft.FSharp.Control.type_IEvent-1.html'>IEvent</a>&lt;'U2&gt;
+    (requires delegate and 'Del :> <a href='http://msdn2.microsoft.com/en-us/library/System.Delegate.aspx'>Delegate</a>)</pre></td><td><summary>
+ Return a new event that listens to the original event and triggers the 
+ first resulting event if the application of the function to the event arguments
+ returned a Choice1Of2, and the second event if it returns a Choice2Of2
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Control.html">Microsoft.FSharp.Control</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

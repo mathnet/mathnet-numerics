@@ -1,0 +1,67 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Compatibility.OCaml.Buffer</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Compatibility.html'>Microsoft.FSharp.Compatibility</a>.<a href='Microsoft.FSharp.Compatibility.OCaml.html'>OCaml</a>.Buffer </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Imperative buffers for building strings, a shallow interface to <tt>System.Text.StringBuilder</tt>
+</summary>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a></td><td> Note: an abbreviation for <tt><a href='http://msdn2.microsoft.com/en-us/library/System.Text.StringBuilder.aspx'>StringBuilder</a></tt></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val add_buffer : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Add second buffer to the first.
+</summary></td></tr>
+<tr valign="top"><td><pre>val add_channel : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='Microsoft.FSharp.Compatibility.OCaml.Pervasives.type__in_channel.html'>in_channel</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Read the given number of bytes as ASCII and add the resulting string 
+ to the buffer.  Warning: this assumes an ASCII encoding for the I/O channel, i.e. it uses 
+ Pervasives.really_input and then use ascii_to_string to produce the string 
+ to add.  
+</summary></td></tr>
+<tr valign="top"><td><pre>val add_char : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__char.html'>char</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Add character to the buffer.
+</summary></td></tr>
+<tr valign="top"><td><pre>val add_string : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Add string to the buffer.
+</summary></td></tr>
+<tr valign="top"><td><pre>val add_substring : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Given a string, start position and length add that substring to the buffer.
+</summary></td></tr>
+<tr valign="top"><td><pre>val clear : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Clears the buffer.
+</summary></td></tr>
+<tr valign="top"><td><pre>val contents : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Gets the string built from the buffer.
+</summary></td></tr>
+<tr valign="top"><td><pre>val create : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a></pre></td><td><summary>
+ Create a buffer with suggested size.
+</summary></td></tr>
+<tr valign="top"><td><pre>val length : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Number of characters in the buffer.
+</summary></td></tr>
+<tr valign="top"><td><pre>val output_buffer : <a href='Microsoft.FSharp.Compatibility.OCaml.Pervasives.type__out_channel.html'>out_channel</a> -> <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td></td></tr>
+<tr valign="top"><td><pre>val reset : <a href='Microsoft.FSharp.Compatibility.OCaml.Buffer.type__t.html'>t</a> -> <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Clears the buffer (same as Buffer.clear).
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Compatibility.OCaml.html">Microsoft.FSharp.Compatibility.OCaml</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

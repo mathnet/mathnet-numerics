@@ -1,0 +1,423 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Core.Operators</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Core.html'>Microsoft.FSharp.Core</a>.Operators </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Basic F# Operators. This module is automatically opened in all F# code.
+</summary>
+  <dt><h3>Modules (as contributed by assembly 'FSharp.Core')</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Module</th><th>Description</th></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Core.Operators.Checked.html'>Microsoft.FSharp.Core.Operators.Checked</a></td><td><summary>
+ This module contains the basic arithmetic operations with overflow checks.
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Core.Operators.OperatorIntrinsics.html'>Microsoft.FSharp.Core.Operators.OperatorIntrinsics</a></td><td><summary>
+ A module of compiler intrinsic functions for efficient implementations of F# integer ranges
+ and dynamic invocations of other F# operators
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Core.Operators.Unchecked.html'>Microsoft.FSharp.Core.Operators.Unchecked</a></td><td><summary>
+ This module contains basic operations which do not apply runtime and/or static checks
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val ( ! ) : 'T <a href='Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> 'T</pre></td><td><summary>
+ Dereference a mutable reference cell
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( % ) : overloaded</pre></td><td><summary>
+ Overloaded modulo operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( &&& ) : overloaded</pre></td><td><summary>
+ Overloaded logical-AND operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( * ) : overloaded</pre></td><td><summary>
+ Overloaded multiplication operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ** ) : overloaded</pre></td><td><summary>
+ Overloaded power operator.
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( + ) : overloaded</pre></td><td><summary>
+ Overloaded addition operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( - ) : overloaded</pre></td><td><summary>
+ Overloaded subtraction operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( .. ) : overloaded</pre></td><td><summary>
+ The standard overloaded range operator, e.g. <tt>[n..m]</tt> for lists, <tt>seq {n..m}</tt> for sequences
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( .. .. ) : overloaded</pre></td><td><summary>
+ The standard overloaded skip range operator, e.g. <tt>[n..skip..m]</tt> for lists, <tt>seq {n..skip..m}</tt> for sequences
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( / ) : overloaded</pre></td><td><summary>
+ Overloaded division operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( := ) : 'T <a href='Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> 'T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Assign to a mutable reference cell
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( < ) : 'T -> 'T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Structural less-than comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( << ) : ('U -> 'V) -> ('T -> 'U) -> ('T -> 'V)</pre></td><td><summary>
+ Compose two functions, the function on the right being applied first
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( <<< ) : overloaded</pre></td><td><summary>
+ Overloaded byte-shift left operator by a specified number of bits
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( <= ) : 'T -> 'T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural less-than-or-equal comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( <> ) : 'T -> 'T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural inequality
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( <| ) : ('T -> 'U) -> 'T -> 'U</pre></td><td><summary>
+ Apply a function to a value, the value being on the right, the function on the left
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( <|| ) : ('T1 -> 'T2 -> 'U) -> 'T1 * 'T2 -> 'U</pre></td><td><summary>
+ Apply a function to two values, the values being a pair on the right, the function on the left
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( <||| ) : ('T1 -> 'T2 -> 'T3 -> 'U) -> 'T1 * 'T2 * 'T3 -> 'U</pre></td><td><summary>
+ Apply a function to three values, the values being a triple on the right, the function on the left
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( = ) : 'T -> 'T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural equality
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( > ) : 'T -> 'T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Structural greater-than
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( >= ) : 'T -> 'T -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+Structural greater-than-or-equal
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( >> ) : ('T -> 'U) -> ('U -> 'V) -> ('T -> 'V)</pre></td><td><summary>
+ Compose two functions, the function on the left being applied first
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( >>> ) : overloaded</pre></td><td><summary>
+ Overloaded byte-shift right operator by a specified number of bits
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( @ ) : 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a> -> 'T <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a></pre></td><td><summary>
+ Concatenate two lists.
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ^ ) : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Concatenate two strings.  The overlaoded operator '+' may also be used.
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ^^^ ) : overloaded</pre></td><td><summary>
+ Overloaded logical-XOR operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |> ) : 'T -> ('T -> 'U) -> 'U</pre></td><td><summary>
+ Apply a function to a value, the value being on the left, the function on the right
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ||> ) : 'T1 * 'T2 -> ('T1 -> 'T2 -> 'U) -> 'U</pre></td><td><summary>
+ Apply a function to two values, the values being a pair on the left, the function on the right
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ||| ) : overloaded</pre></td><td><summary>
+ Overloaded logical-OR operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( |||> ) : 'T1 * 'T2 * 'T3 -> ('T1 -> 'T2 -> 'T3 -> 'U) -> 'U</pre></td><td><summary>
+ Apply a function to three values, the values being a triple on the left, the function on the right
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ~+ ) : overloaded</pre></td><td><summary>
+ Overloaded prefix=plus operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ~- ) : overloaded</pre></td><td><summary>
+ Overloaded unary negation.
+</summary></td></tr>
+<tr valign="top"><td><pre>val ( ~~~ ) : overloaded</pre></td><td><summary>
+ Overloaded logical-NOT operator
+</summary></td></tr>
+<tr valign="top"><td><pre>val abs : overloaded</pre></td><td><summary>
+ Absolute value of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val acos : overloaded</pre></td><td><summary>
+ Inverse cosine of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val asin : overloaded</pre></td><td><summary>
+ Inverse sine of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val atan : overloaded</pre></td><td><summary>
+ Inverse tangent of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val atan2 : overloaded</pre></td><td><summary>
+ Inverse tangent of <tt>x/y</tt> where <tt>x</tt> and <tt>y</tt> are specified separately
+</summary></td></tr>
+<tr valign="top"><td><pre>val box : 'T -> <a href='Microsoft.FSharp.Core.type__obj.html'>obj</a></pre></td><td><summary>
+ Boxes a strongly typed value.
+</summary></td></tr>
+<tr valign="top"><td><pre>val byte : overloaded</pre></td><td><summary>
+ Converts the argument to byte. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Byte.Parse()</tt> on strings and otherwise requires a <tt>ToByte</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val ceil : overloaded</pre></td><td><summary>
+ Ceiling of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val char : overloaded</pre></td><td><summary>
+ Converts the argument to character. Numeric inputs are converted according to the UTF-16 
+ encoding for characters. String inputs must be exactly one character long.
+ For other types a static member ToChar must exist on the type.
+</summary></td></tr>
+<tr valign="top"><td><pre>val compare : 'T -> 'T -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Generic comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>val cos : overloaded</pre></td><td><summary>
+ Cosine of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val cosh : overloaded</pre></td><td><summary>
+ Hyperbolic cosine  of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val decimal : overloaded</pre></td><td><summary>
+ Converts the argument to System.Decimal using a direct conversion for all 
+ primitive numeric types and requiring a <tt>ToDecimal</tt> method otherwise
+</summary></td></tr>
+<tr valign="top"><td><pre>val decr : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Decrement a mutable reference cell containing an integer
+</summary></td></tr>
+<tr valign="top"><td><pre>val defaultArg : 'T <a href='Microsoft.FSharp.Core.type__option-1.html'>option</a> -> 'T -> 'T</pre></td><td><summary>
+ Used to specify a default value for an optional argument in the implementation of a function
+</summary></td></tr>
+<tr valign="top"><td><pre>val double : overloaded</pre></td><td><summary>
+ Converts the argument to 64-bit float. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Double.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToDouble</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val enum : <a href='Microsoft.FSharp.Core.type__int32.html'>int32</a> -> 'U (requires enum)</pre></td><td><summary>
+ Converts the argument to a particular enum type.
+</summary></td></tr>
+<tr valign="top"><td><pre>val exit : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T</pre></td><td><summary>
+ Exit the current hardware isolated process, if security settings permit,
+ otherwise raise an exception.  Calls <tt>System.Environment.Exit</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val exp : overloaded</pre></td><td><summary>
+ Exponential of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val failwith : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> 'T</pre></td><td><summary>
+ Throw a <tt>FailureException</tt> exception
+</summary></td></tr>
+<tr valign="top"><td><pre>val float : overloaded</pre></td><td><summary>
+ Converts the argument to 64-bit float. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Double.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToDouble</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val float32 : overloaded</pre></td><td><summary>
+ Converts the argument to 32-bit float. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Single.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToSingle</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val floor : overloaded</pre></td><td><summary>
+ Floor of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val fst : ('T1 * 'T2) -> 'T1</pre></td><td><summary>
+ Return the first element of a tuple, <tt>fst (a,b) = a</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val hash : 'T -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ A generic hash function, designed to return equal hash values for items that are 
+ equal according to the "=" operator. By default it will use structural hashing
+ for F# union, record and tuple types, hashing the complete contents of the 
+ type. The exact behaviour of the function can be adjusted on a 
+ type-by-type basis by implementing GetHashCode for each type.
+</summary></td></tr>
+<tr valign="top"><td><pre>val id : 'T -> 'T</pre></td><td><summary>
+ The identity function
+</summary></td></tr>
+<tr valign="top"><td><pre>val ignore : 'T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Ignore the passed value. This is often used to throw away results of a computation.
+</summary></td></tr>
+<tr valign="top"><td><pre>val incr : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> <a href='Microsoft.FSharp.Core.type__ref-1.html'>ref</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Increment a mutable reference cell containing an integer
+</summary></td></tr>
+<tr valign="top"><td><pre>val infinity : <a href='Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ Equivalent to <tt>System.Double.PositiveInfinity</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>val infinityf : <a href='Microsoft.FSharp.Core.type__float32.html'>float32</a></pre></td><td><summary>
+ Equivalent to <tt>System.Single.PositiveInfinity</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>val int : overloaded</pre></td><td><summary>
+ Converts the argument to signed 32-bit integer. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Int32.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToInt32</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val int16 : overloaded</pre></td><td><summary>
+ Converts the argument to signed 16-bit integer. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Int16.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToInt16</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val int32 : overloaded</pre></td><td><summary>
+ Converts the argument to signed 32-bit integer. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Int32.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToInt32</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val int64 : overloaded</pre></td><td><summary>
+ Converts the argument to signed 64-bit integer. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Int64.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToInt64</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a> ("Consider using 'invalidArg' instead")>]
+val invalid_arg : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> 'T</pre></td><td></td></tr>
+<tr valign="top"><td><pre>val invalidArg : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> 'T</pre></td><td><summary>
+ Throw an <tt>ArgumentException</tt> exception
+</summary></td></tr>
+<tr valign="top"><td><pre>val invalidOp : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> 'T</pre></td><td><summary>
+ Throw an <tt>InvalidOperationException</tt> exception
+</summary></td></tr>
+<tr valign="top"><td><pre>val limitedHash : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ A generic hash function. This function has the same behaviour as 'hash', 
+ however the default structural hashing for F# union, record and tuple 
+ types stops when the given limit of nodes is reached. The exact behaviour of 
+ the function can be adjusted on a type-by-type basis by implementing 
+ GetHashCode for each type.
+</summary></td></tr>
+<tr valign="top"><td><pre>val lock : 'lock -> (<a href='Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T) -> 'T (requires reference type)</pre></td><td><summary>
+ Execute the function as a mutual-exlcusion region using the input value as a lock. 
+</summary></td></tr>
+<tr valign="top"><td><pre>val log : overloaded</pre></td><td><summary>
+ Natural logarithm of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val log10 : overloaded</pre></td><td><summary>
+ Logarithm to base 10 of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val max : 'T -> 'T -> 'T</pre></td><td><summary>
+ Maximum based on generic comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>val min : 'T -> 'T -> 'T</pre></td><td><summary>
+ Minimum based on generic comparison
+</summary></td></tr>
+<tr valign="top"><td><pre>val nan : <a href='Microsoft.FSharp.Core.type__float.html'>float</a></pre></td><td><summary>
+ Equivalent to <tt>System.Double.NaN</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>val nanf : <a href='Microsoft.FSharp.Core.type__float32.html'>float32</a></pre></td><td><summary>
+ Equivalent to <tt>System.Single.NaN</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>val nativeint : overloaded</pre></td><td><summary>
+ Converts the argument to signed native integer. This is a direct conversion for all 
+ primitive numeric types and <tt>ToIntPtr</tt> method otherwise)
+</summary></td></tr>
+<tr valign="top"><td><pre>val not : <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Negate a logical value. <tt>not true</tt> equals <tt>false</tt> and <tt>not false</tt> equals <tt>true</tt>
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_OCamlCompatibilityAttribute.html'>OCamlCompatibilityAttribute</a>
+  ("Consider using 'raise (KeyNotFoundException(message))' instead")>]
+val not_found : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T</pre></td><td><summary>
+ Throw an <tt>KeyNotFoundException</tt> exception
+</summary></td></tr>
+<tr valign="top"><td><pre>val nullArg : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> 'T</pre></td><td><summary>
+ Throw an <tt>ArgumentNullException</tt> exception
+</summary></td></tr>
+<tr valign="top"><td><pre>val pown : overloaded</pre></td><td><summary>
+ Overloaded power operator. If <tt>n > 0</tt> then equivalent to <tt>x*...*x</tt> for <tt>n</tt> occurrences of <tt>x</tt>. 
+</summary></td></tr>
+<tr valign="top"><td><pre>val raise : <a href='http://msdn2.microsoft.com/en-us/library/System.Exception.aspx'>Exception</a> -> 'T</pre></td><td><summary>
+ Raises an exception
+</summary></td></tr>
+<tr valign="top"><td><pre>val ref : 'T -> 'T <a href='Microsoft.FSharp.Core.type__ref-1.html'>ref</a></pre></td><td><summary>
+ Create a mutable reference cell
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_NoDynamicInvocationAttribute.html'>NoDynamicInvocationAttribute</a> ()>]
+val rethrow : <a href='../FSharp.Core/Microsoft.FSharp.Core.type__unit.html'>unit</a> -> 'T</pre></td><td><summary>
+ Rethrows an exception. This should only be used when handling an exception
+</summary></td></tr>
+<tr valign="top"><td><pre>val round : overloaded</pre></td><td><summary>
+ Round the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val sbyte : overloaded</pre></td><td><summary>
+ Converts the argument to signed byte. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>SByte.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToSByte</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val sign : overloaded</pre></td><td><summary>
+ Sign of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val sin : overloaded</pre></td><td><summary>
+ Sine of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val single : overloaded</pre></td><td><summary>
+ Converts the argument to 32-bit float. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>Single.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToSingle</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val sinh : overloaded</pre></td><td><summary>
+ Hyperbolic sine of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_RequiresExplicitTypeArgumentsAttribute.html'>RequiresExplicitTypeArgumentsAttribute</a> ()>]
+val sizeof&lt;'T&gt; : <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Returns the internal size of a type in bytes. For example, <tt>sizeof&lt;int&gt;</tt> returns 4.
+</summary></td></tr>
+<tr valign="top"><td><pre>val snd : ('T1 * 'T2) -> 'T2</pre></td><td><summary>
+ Return the second element of a tuple, <tt>snd (a,b) = b</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val sqrt : overloaded</pre></td><td><summary>
+ Square root of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val stderr&lt;'T&gt; : <a href='http://msdn2.microsoft.com/en-us/library/System.IO.TextWriter.aspx'>TextWriter</a></pre></td><td><summary>
+ Reads the value of the property <tt>System.Console.Error</tt>. 
+</summary></td></tr>
+<tr valign="top"><td><pre>val stdin&lt;'T&gt; : <a href='http://msdn2.microsoft.com/en-us/library/System.IO.TextReader.aspx'>TextReader</a></pre></td><td><summary>
+ Reads the value of the property <tt>System.Console.In</tt>. 
+</summary></td></tr>
+<tr valign="top"><td><pre>val stdout&lt;'T&gt; : <a href='http://msdn2.microsoft.com/en-us/library/System.IO.TextWriter.aspx'>TextWriter</a></pre></td><td><summary>
+ Reads the value of the property <tt>System.Console.Out</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val string : 'T -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Converts the argument to a string using <tt>ToString</tt>.
+ For standard integer and floating point values the <tt>ToString</tt> conversion uses <tt>CultureInfo.InvariantCulture</tt>.
+ Note, native integer <tt>ToString</tt> does not support specifying <tt>CultureInfo</tt>.
+</summary></td></tr>
+<tr valign="top"><td><pre>val tan : overloaded</pre></td><td><summary>
+ Tangent of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val tanh : overloaded</pre></td><td><summary>
+ Hyperbolic tangent of the given number
+</summary></td></tr>
+<tr valign="top"><td><pre>val truncate : overloaded</pre></td><td><summary>
+ Overloaded truncate operator.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_RequiresExplicitTypeArgumentsAttribute.html'>RequiresExplicitTypeArgumentsAttribute</a> ()>]
+val typedefof&lt;'T&gt; : <a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a></pre></td><td><summary>
+ Generate a System.Type representation for a type definition. If the
+ input type is a generic type instantiation then return the 
+ generic type definition associated with all such instantiations.
+</summary></td></tr>
+<tr valign="top"><td><pre>[<<a href='Microsoft.FSharp.Core.type_RequiresExplicitTypeArgumentsAttribute.html'>RequiresExplicitTypeArgumentsAttribute</a> ()>]
+val typeof&lt;'T&gt; : <a href='http://msdn2.microsoft.com/en-us/library/System.Type.aspx'>Type</a></pre></td><td><summary>
+ Generate a System.Type runtime represenation of a static type.
+ The static type is still maintained on the value returned.
+</summary></td></tr>
+<tr valign="top"><td><pre>val uint16 : overloaded</pre></td><td><summary>
+ Converts the argument to unsigned 16-bit integer. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>UInt16.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToUInt16</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val uint32 : overloaded</pre></td><td><summary>
+ Converts the argument to unsigned 32-bit integer. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>UInt32.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToUInt32</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val uint64 : overloaded</pre></td><td><summary>
+ Converts the argument to unsigned 64-bit integer. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using <tt>UInt64.Parse()</tt>  with InvariantCulture settings. Otherwise the operation requires and invokes a <tt>ToUInt64</tt> method on the input type
+</summary></td></tr>
+<tr valign="top"><td><pre>val unativeint : overloaded</pre></td><td><summary>
+ Converts the argument to unsigned native integer using a direct conversion for all 
+ primitive numeric types and requiring a <tt>ToUintPtr</tt> method otherwise
+</summary></td></tr>
+<tr valign="top"><td><pre>val unbox : <a href='Microsoft.FSharp.Core.type__obj.html'>obj</a> -> 'T</pre></td><td><summary>
+ Unboxes a strongly typed value. This is the inverse of <tt>box</tt>, unbox&lt;t&gt;(box&lt;t&gt; a) equals a.
+</summary></td></tr>
+<tr valign="top"><td><pre>val using : 'T -> ('T -> 'U) -> 'U (requires 'T :> <a href='http://msdn2.microsoft.com/en-us/library/System.IDisposable.aspx'>IDisposable</a>)</pre></td><td><summary>
+ Clean up resources associated with the input object after the completion of the given function.
+ Cleanup occurs even when an exception is raised by the protected
+ code. 
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Active Patterns</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Active Pattern</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val ( |KeyValue| ) : KeyValuePair&lt;'T,'U&gt; -> 'T * 'U</pre></td><td><summary>
+ An active pattern to match values of type <tt>System.Collections.Generic.KeyValuePair</tt>
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Core.html">Microsoft.FSharp.Core</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

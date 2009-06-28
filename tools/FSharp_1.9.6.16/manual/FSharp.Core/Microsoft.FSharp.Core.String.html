@@ -1,0 +1,69 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Core.String</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Core.html'>Microsoft.FSharp.Core</a>.String </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Functional programming operators for string processing.  Further string operations
+ are available via the member functions on strings and other functionality in
+  <a href="http://msdn2.microsoft.com/en-us/library/system.string.aspx">System.String</a> 
+ and <a href="http://msdn2.microsoft.com/library/system.text.regularexpressions.aspx">System.Text.RegularExpressions</a> types.
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val collect : (<a href='Microsoft.FSharp.Core.type__char.html'>char</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a>) -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Build a new string whose characters are the results of applying the function <tt>mapping</tt>
+ to each of the characters of the input string and concatenating the resulting
+ strings.
+</summary></td></tr>
+<tr valign="top"><td><pre>val concat : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a>&lt;<a href='Microsoft.FSharp.Core.type__string.html'>string</a>&gt; -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Return a new string made by concatenating the given strings
+ with separator 'sep', i.e. 'a1 + sep + ... + sep + aN'
+</summary></td></tr>
+<tr valign="top"><td><pre>val exists : (<a href='Microsoft.FSharp.Core.type__char.html'>char</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Test if any character of the string satisfies the given predicate.
+</summary></td></tr>
+<tr valign="top"><td><pre>val forall : (<a href='Microsoft.FSharp.Core.type__char.html'>char</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a>) -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__bool.html'>bool</a></pre></td><td><summary>
+ Test if all characters in the string satisfy the given predicate.
+</summary></td></tr>
+<tr valign="top"><td><pre>val init : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> (<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a>) -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Build a new string whose characters are the results of applying the function <tt>mapping</tt>
+ to each index from <tt>0</tt> to <tt>count-1</tt> and concatenating the resulting
+ strings.
+</summary></td></tr>
+<tr valign="top"><td><pre>val iter : (<a href='Microsoft.FSharp.Core.type__char.html'>char</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Apply the function <tt>action</tt> to each character in the string.
+</summary></td></tr>
+<tr valign="top"><td><pre>val iteri : (<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__char.html'>char</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a>) -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Apply the function <tt>action</tt> to the index of each character in the string and the character itself.
+</summary></td></tr>
+<tr valign="top"><td><pre>val length : <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the length of the string.
+</summary></td></tr>
+<tr valign="top"><td><pre>val map : (<a href='Microsoft.FSharp.Core.type__char.html'>char</a> -> <a href='Microsoft.FSharp.Core.type__char.html'>char</a>) -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Build a new string whose characters are the results of applying the function <tt>mapping</tt>
+ to each of the characters of the input string.
+</summary></td></tr>
+<tr valign="top"><td><pre>val mapi : (<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__char.html'>char</a> -> <a href='Microsoft.FSharp.Core.type__char.html'>char</a>) -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Build a new string whose characters are the results of applying the function <tt>mapping</tt>
+ to each character in the string and the character itself.
+</summary></td></tr>
+<tr valign="top"><td><pre>val replicate : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a> -> <a href='Microsoft.FSharp.Core.type__string.html'>string</a></pre></td><td><summary>
+ Return a string by concatenating <tt>count</tt> instances of <tt>str</tt>.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Core.html">Microsoft.FSharp.Core</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

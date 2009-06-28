@@ -1,0 +1,114 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Namespace Microsoft.FSharp.Collections </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Modules (as contributed by assembly 'FSharp.Core')</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Module</th><th>Description</th></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.Array.html'>Microsoft.FSharp.Collections.Array</a></td><td><summary>
+ Basic operations on arrays
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.Array2D.html'>Microsoft.FSharp.Collections.Array2D</a></td><td><summary>
+ Basic operations on 2-dimensional arrays. 
+
+ F# and .NET multi-dimensional arrays are typically zero-based. 
+ However, .NET multi-dimensional arrays used in conjunction with external
+ libraries (e.g. libraries associated with Visual Basic) be 
+ non-zero based, using a potentially different base for each dimension.
+ The operations in this module will accept such arrays, and
+ the basing on an input array will be propogated to a matching output
+ array on the <tt>Array2D.map</tt> and <tt>Array2D.mapi</tt> operations.
+ Non-zero-based arrays can also be created using <tt>Array2D.zero_create_based</tt>, 
+ <tt>Array2D.create_based</tt> and <tt>Array2D.init_based</tt>.
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.Array3D.html'>Microsoft.FSharp.Collections.Array3D</a></td><td><summary>
+ Basic operations on rank 3 arrays.  
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.Array4D.html'>Microsoft.FSharp.Collections.Array4D</a></td><td><summary>
+ Basic operations on rank 4 arrays.  
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.ComparisonIdentity.html'>Microsoft.FSharp.Collections.ComparisonIdentity</a></td><td><summary>
+ Common notions of comparison identity used with sorted data structures.
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.HashIdentity.html'>Microsoft.FSharp.Collections.HashIdentity</a></td><td><summary>
+ Common notions of value identity used with hash tables.
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.List.html'>Microsoft.FSharp.Collections.List</a></td><td><summary>
+ Basic operations on lists.  
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.Map.html'>Microsoft.FSharp.Collections.Map</a></td><td><summary>
+ Functional programming operators related to the <tt>Map&lt;_,_&gt;</tt> type.
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.Seq.html'>Microsoft.FSharp.Collections.Seq</a></td><td><summary>
+ Basic operations on IEnumerables.  
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.SequenceExpressionHelpers.html'>Microsoft.FSharp.Collections.SequenceExpressionHelpers</a></td><td><summary>
+ A group of functions used as part of the compiled representation of F# sequence expressions
+</summary></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.Set.html'>Microsoft.FSharp.Collections.Set</a></td><td><summary>
+ Functional programming operators related to the <tt>Set&lt;_&gt;</tt> type.
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type_FSharpList-1.html'>FSharpList</a></td><td><summary>
+ The type of immutable singly-linked lists.  
+
+ Use the constructors <tt>[]</tt> and <tt>::</tt> (infix) to create values of this type, or
+ the notation <tt>[1;2;3]</tt>.   Use the values in the <tt>List</tt> module to manipulate 
+ values of this type, or pattern match against the values directly.
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type__list-1.html'>list</a></td><td><summary>
+ An abbreviation for the type of immutable singly-linked lists.  
+
+ Use the constructors <tt>[]</tt> and <tt>::</tt> (infix) to create values of this type, or
+ the notation <tt>[1;2;3]</tt>.   Use the values in the <tt>List</tt> module to manipulate 
+ values of this type, or pattern match against the values directly.
+</summary> Note: an abbreviation for <tt><a href='Microsoft.FSharp.Collections.type_FSharpList-1.html'>FSharpList</a>&lt;'T&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type_List-1.html'>List</a></td><td><summary>
+ An abbreviation for the type of immutable singly-linked lists.  
+</summary> Note: an abbreviation for <tt><a href='Microsoft.FSharp.Collections.type_FSharpList-1.html'>FSharpList</a>&lt;'T&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type_Map-2.html'>Map</a></td><td><summary>
+ Immutable maps.  Keys are ordered by F# generic comparison.
+
+ <performance> 
+   Maps based on generic comparison are efficient for small keys. They are not a suitable choice if keys are recursive data structures 
+   or if keys require bespoke comparison semantics.
+ </performance>
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type_ResizeArray-1.html'>ResizeArray</a></td><td><summary>
+ An abbreviation for the .NET type <tt>System.Collections.Generic.List&lt;_&gt;</tt>
+</summary> Note: an abbreviation for <tt>List&lt;'T&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type__seq-1.html'>seq</a></td><td><summary>
+ An abbreviation for the .NET type <tt>System.Collections.Generic.IEnumerable&lt;_&gt;</tt>
+</summary> Note: an abbreviation for <tt>IEnumerable&lt;'T&gt;</tt></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type_Set-1.html'>Set</a></td><td><summary>
+ Immutable sets based on binary trees, where comparison is the
+ F# structural comparison function, potentially using implementations
+ of the IComparable interface on key values.
+
+ See the Set module for further operations on sets.
+
+ These sets can be used with elements of any type, but you should check that
+ structural hashing and equality on the element type are correct for your type.  
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="../namespaces.html">Namespaces</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

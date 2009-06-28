@@ -1,0 +1,55 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections.Array4D</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Module <a href='Microsoft.FSharp.Collections.html'>Microsoft.FSharp.Collections</a>.Array4D </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td><summary>
+ Basic operations on rank 4 arrays.  
+</summary>
+  <dt><h3>Values</h3></dt><dd>
+<table width="100%%">
+<tr><th width=60%>Value</th><th>Description</th></tr>
+<tr valign="top"><td><pre>val create : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a></pre></td><td><summary>
+ Create an array whose elements are all initially the given value
+</summary></td></tr>
+<tr valign="top"><td><pre>val get : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T</pre></td><td><summary>
+ Fetch an element from a 4D array.  You can also use the syntax 'array.[index1,index2,index3,index4]'
+</summary></td></tr>
+<tr valign="top"><td><pre>val init :
+  <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> (<a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T) -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a></pre></td><td><summary>
+ Create an array given the dimensions and a generator function to compute the elements.
+</summary></td></tr>
+<tr valign="top"><td><pre>val length1 : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the length of an array in the first dimension  
+</summary></td></tr>
+<tr valign="top"><td><pre>val length2 : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the length of an array in the second dimension  
+</summary></td></tr>
+<tr valign="top"><td><pre>val length3 : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the length of an array in the third dimension  
+</summary></td></tr>
+<tr valign="top"><td><pre>val length4 : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a></pre></td><td><summary>
+ Return the length of an array in the fourth dimension  
+</summary></td></tr>
+<tr valign="top"><td><pre>val set : 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T -> <a href='Microsoft.FSharp.Core.type__unit.html'>unit</a></pre></td><td><summary>
+ Set the value of an element in an array.  You can also 
+ use the syntax 'array.[index1,index2,index3,index4] &lt;- value'.
+</summary></td></tr>
+<tr valign="top"><td><pre>val zeroCreate : <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> <a href='Microsoft.FSharp.Core.type__int.html'>int</a> -> 'T <a href='../FSharp.Core/Microsoft.FSharp.Core.type__[,,,]-1.html'>[,,,]</a></pre></td><td><summary>
+ Create an array where the entries are initially the "default" value. 
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="Microsoft.FSharp.Collections.html">Microsoft.FSharp.Collections</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.Core, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>

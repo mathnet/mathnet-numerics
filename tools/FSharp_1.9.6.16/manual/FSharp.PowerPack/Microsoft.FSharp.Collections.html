@@ -1,0 +1,59 @@
+<HTML><HEAD><TITLE>Microsoft.FSharp.Collections</TITLE><link rel="stylesheet" type="text/css"href="../msdn.css"></link></HEAD><BODY>
+<br><dl>
+<dt></dt><dd>
+<h1>[<a href='../namespaces.html'>Home</a>] Namespace Microsoft.FSharp.Collections </h1><br>
+</dd>
+<dt></dt><dd>
+<table>
+  <tr valign='top'><td>
+  <dt><h3>Modules (as contributed by assembly 'FSharp.PowerPack')</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Module</th><th>Description</th></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.LazyList.html'>Microsoft.FSharp.Collections.LazyList</a></td><td></td></tr>
+<tr valign="top"><td><a href='Microsoft.FSharp.Collections.ResizeArray.html'>Microsoft.FSharp.Collections.ResizeArray</a></td><td><summary>
+ Generic operations on the type System.Collections.Generic.List, which is called ResizeArray in the F# libraries.
+</summary></td></tr>
+
+</table>
+  </dd>
+  <dt><h3>Type Definitions</h3></dt><dd>
+<table width="100%%">
+<tr><th width=30%>Type</th><th>Description</th></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type_HashMultiMap-2.html'>HashMultiMap</a></td><td><summary>
+ Hash tables, by default based on F# structural "hash" and (=) functions. 
+ The table may map a single key to multiple bindings.
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type_HashSet-1.html'>HashSet</a></td><td><summary>
+ Mutable hash sets based by default on F# structural "hash" and (=) functions. Implemented via a hash table and/or Dictionary.
+</summary></td></tr>
+<tr valign="top"><td>type <a href='Microsoft.FSharp.Collections.type_LazyList-1.html'>LazyList</a></td><td><summary>
+ LazyLists are possibly-infinite, cached sequences.  See also IEnumerable/Seq for
+ uncached sequences. Calling "get" on the same lazy list value you will keep 
+ getting the same (cached) result.  LazyLists normally involve delayed computations
+ without side-effects, and calling "get" may cause these computations to be executed.  The results 
+ of these computations are cached - evaluations will be performed 
+ only once for each element of the lazy list.  This is different to IEnumerable/Seq where
+ recomputation happens each time an enumerator is created and the sequence traversed.
+
+ LazyLists can represent cached potentially-infinite computations.  Because they are cached they may cause 
+ memory leaks if some part of your code maintains a live reference to
+ the head of an infinite or very large lazy list while iterating it, or if a reference is
+ maintained after the list is no longer required.
+
+ Although lazy lists are an abstract type you may pattern match against them using the
+ LazyList.Cons and LazyList.Nil active patterns. These may force the computation of elements
+ of the list.
+</summary></td></tr>
+
+</table>
+  </dd>
+  </td></tr>
+  <tr valign='top'><td>
+  <dt><h3>See Also</h3></dt><dd>
+<a href="../namespaces.html">Namespaces</a>  </dd>
+  </td></tr>
+</table>
+</dd>
+</dl>
+<br /> <br/><p><i>Documentation for assembly FSharp.PowerPack, version 1.9.6.16, generated using <a href='http://research.microsoft.com/fsharp/'>F# Programming Language</a> version 1.9.6.16</i></p>
+</BODY></HTML>
