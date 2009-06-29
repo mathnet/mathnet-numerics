@@ -1,8 +1,4 @@
-bin
-obj
 output
-*.user
-*.suo
 *.Cache
 *.ncb
 TestResult.xml
