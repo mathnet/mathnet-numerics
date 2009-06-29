@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <gallio>
+    <assemblies>
+      <assembly file="Gallio.VisualStudio.Tip90.dll" />
+      <assembly gac="Gallio.VisualStudio.Tip90.Proxy" />
+    </assemblies>
+
+    <runtime>
+      <components>
+        <component id="Tip90.ShellExtension"
+                   service="Gallio.VisualStudio.Shell.IShellExtension, Gallio.VisualStudio.Shell"
+                   type="Gallio.VisualStudio.Tip.TipShellExtension, Gallio.VisualStudio.Tip90" />
+
+        <component id="Tip90.ProxyHandler"
+                   service="Gallio.VisualStudio.Tip.IProxyHandler, Gallio.VisualStudio.Tip90.Proxy, Version=3.0.6.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL"
+                   type="Gallio.VisualStudio.Tip.DefaultProxyHandler, Gallio.VisualStudio.Tip90" />	   
+      </components>
+    </runtime>
+  </gallio>
+</configuration>

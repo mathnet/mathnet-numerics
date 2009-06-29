@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <gallio>
+    <assemblies>
+      <assembly file="Gallio.XunitAdapter.dll" />
+      <assembly file="xunit.dll" />
+    </assemblies>
+
+    <runtime>
+      <components>
+        <component id="XunitAdapter.TestFramework"
+                   service="Gallio.Model.ITestFramework, Gallio"
+                   type="Gallio.XunitAdapter.Model.XunitTestFramework, Gallio.XunitAdapter" />
+      </components>
+    </runtime>
+  </gallio>
+</configuration>

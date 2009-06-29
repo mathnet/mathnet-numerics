@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <gallio>
+    <assemblies>
+      <assembly file="MbUnit.dll" />
+    </assemblies>
+
+    <runtime>
+      <components>
+        <component id="MbUnit.MbUnitTestFrameworkExtension"
+                   service="Gallio.Framework.Pattern.IPatternTestFrameworkExtension, Gallio"
+                   type="MbUnit.Core.MbUnitTestFrameworkExtension, MbUnit" />
+      </components>
+    </runtime>
+  </gallio>
+</configuration>

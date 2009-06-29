@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <gallio>
+    <assemblies>
+      <assembly file="Gallio.VisualStudio.Sail.dll" />
+    </assemblies>
+
+    <runtime>
+      <components>
+        <component id="Sail.ShellExtension"
+                   service="Gallio.VisualStudio.Shell.IShellExtension, Gallio.VisualStudio.Shell"
+                   type="Gallio.VisualStudio.Sail.SailShellExtension, Gallio.VisualStudio.Sail" />
+      </components>
+    </runtime>
+  </gallio>
+</configuration>
