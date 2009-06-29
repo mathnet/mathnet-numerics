@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Gallio.Ambience</name>
+  </assembly>
+  <members>
+    <member name="T:Gallio.Ambience.AmbienceClient">
+      <summary>The Ambience client accesses shared data provided by a remote <see cref="T:Gallio.Ambience.AmbienceServer" />. This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
+    </member>
+    <member name="P:Gallio.Ambience.AmbienceClient.Container">
+      <summary>Gets the client's data container.</summary>
+      <exception cref="T:System.ObjectDisposedException">Thrown if the client has been disposed</exception>
+    </member>
+    <member name="M:Gallio.Ambience.AmbienceClient.Connect(Gallio.Ambience.AmbienceClientConfiguration)">
+      <summary>Connects the client to the remote server.</summary>
+      <param name="configuration">The client configuration</param>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="configuration" /> is null</exception>
+      <exception cref="T:Gallio.Ambience.AmbienceException">Thrown if the operation failed</exception>
+    </member>
+    <member name="M:Gallio.Ambience.AmbienceClient.Dispose">
+      <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" nolink="true" />.</summary>
+      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" nolink="true" />; otherwise, false.</returns>
+    </member>
+    <member name="T:Gallio.Ambience.AmbienceClientConfiguration">
+      <summary>Provides configuration data for <see cref="T:Gallio.Ambience.AmbienceClient" />.</summary>
+    </member>
+    <member name="P:Gallio.Ambience.AmbienceClientConfiguration.Credential">
+      <summary>Gets or sets the Ambient server username and password.</summary>
+      <value>The username and password, defaults to an anonymous credential.</value>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is null</exception>
+    </member>
+    <member name="P:Gallio.Ambience.AmbienceClientConfiguration.HostName">
+      <summary>Gets or sets the Ambient server hostname.</summary>
+      <value>The hostname, defaults to "localhost".</value>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is null</exception>
+      <exception cref="T:System.ArgumentException">Thrown if <paramref name="value" /> is empty</exception>
+    </member>
+    <member name="P:Gallio.Ambience.AmbienceClientConfiguration.Port">
+      <summary>Gets or sets the Ambient server port number.</summary>
+      <value>The port number, defaults to 7822.</value>
+      <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the port number is not in the range 1..65535</exception>
+    </member>
+    <member name="T:Gallio.Ambience.AmbienceException">
+      <summary>Describes a problem accessing Gallio Ambience.</summary>
+    </member>
+    <member name="T:Gallio.Ambience.AmbienceSectionHandler">
+      <summary>Recognizes and processes the &lt;ambience&gt; configuration section.</summary>
+    </member>
+    <member name="F:Gallio.Ambience.AmbienceSectionHandler.SectionName">
+      <summary>The name of the Ambience section: "ambience". This field is constant and read-only.</summary>
+    </member>
+    <member name="M:Gallio.Ambience.AmbienceSectionHandler.Create(System.Object,System.Object,System.Xml.XmlNode)">
+      <summary>Serves as a hash function for a particular type. <see cref="M:System.Object.GetHashCode" /> is suitable for use in hashing algorithms and data structures like a hash table.</summary>
+      <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:Gallio.Ambience.AmbienceServer">
+      <summary>The Ambience server provides shared data to remote <see cref="T:Gallio.Ambience.AmbienceClient" />s.</summary>
+    </member>
+    <member name="M:Gallio.Ambience.AmbienceServer.Dispose">
+      <summary>Stops and disposes the server.</summary>
+    </member>
+    <member name="M:Gallio.Ambience.AmbienceServer.Dispose(System.Boolean)">
+      <summary>Stops and disposes the server.</summary>
+      <param name="disposing">True if disposing</param>
+    </member>
+    <member name="M:Gallio.Ambience.AmbienceServer.Start">
+      <summary>Starts the server.</summary>
+      <exception cref="T:System.InvalidOperationException">Thrown if the server has already been started</exception>
+      <exception cref="T:System.ObjectDisposedException">Thrown if the server has been disposed</exception>
+      <exception cref="T:Gallio.Ambience.AmbienceException">Thrown if the operation failed</exception>
+    </member>
+    <member name="M:Gallio.Ambience.AmbienceServer.Stop">
+      <summary>Stops the server. Does nothing if the server has already been stopped.</summary>
+      <exception cref="T:System.ObjectDisposedException">Thrown if the server has been disposed</exception>
+    </member>
+    <member name="T:Gallio.Ambience.AmbienceServerConfiguration">
+      <summary>Provides configuration data for <see cref="T:Gallio.Ambience.AmbienceServer" />.</summary>
+    </member>
+    <member name="P:Gallio.Ambience.AmbienceServerConfiguration.Credential">
+      <summary>Gets or sets the Ambient server username and password.</summary>
+      <value>The username and password, defaults to an anonymous credential.</value>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is null</exception>
+    </member>
+    <member name="P:Gallio.Ambience.AmbienceServerConfiguration.DatabasePath">
+      <summary>Gets or sets the database file path.</summary>
+      <value>The database file path, the default is a file called Default.db in the Gallio.Ambient subdirectory of the Common Application Data folder.</value>
+    </member>
+    <member name="P:Gallio.Ambience.AmbienceServerConfiguration.Port">
+      <summary>Gets or sets the Ambient server port number.</summary>
+      <value>The port number, defaults to 7822.</value>
+      <exception cref="T:System.ArgumentOutOfRangeException">Thrown if the port number is not in the range 1..65535</exception>
+    </member>
+    <member name="T:Gallio.Ambience.Ambient">
+      <summary>
+        <para> The Ambient object store is a shared lightweight repository for intermediate test data. It is like a persistent whiteboard used to pass information from one test to another or to store it for subsequent analysis. </para>
+        <para> The Ambient object store may be used to model the persistent state of the testing environment for end-to-end black-box integration testing. It is particularly useful for decoupling tests that incorporate stateful components such as databases (that are not wiped and restored each time) or time-sensitive processes such as asynchronous jobs. </para>This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
+    </member>
+    <member name="P:Gallio.Ambience.Ambient.Data">
+      <summary>Gets the default ambient data container.</summary>
+      <exception cref="T:Gallio.Ambience.AmbienceException">Thrown if the operation failed</exception>
+    </member>
+    <member name="P:Gallio.Ambience.Ambient.DefaultClientConfiguration">
+      <summary>Gets or sets the default client configuration.</summary>
+      <value>The default client configuration. The initial value is populated from the contents of the Ambience configuration section in the application's or test's configuration file. See also <seealso cref="T:Gallio.Ambience.AmbienceSectionHandler" />.</value>
+      <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is null</exception>
+    </member>
+    <member name="T:Gallio.Ambience.AmbientDataContainerExtensions">
+      <summary>Extension methods for LINQ syntax over Ambient data containers. This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
+    </member>
+    <member name="M:Gallio.Ambience.AmbientDataContainerExtensions.Cast``1(Gallio.Ambience.IAmbientDataContainer)">
+      <summary>Obtains a query over a data container.</summary>
+      <typeparam name="T">The result type</typeparam>
+      <param name="container">The container</param>
+      <returns>The query object</returns>
+    </member>
+    <member name="T:Gallio.Ambience.AmbientDataQueryExtensions">
+      <summary>Extension methods for LINQ syntax over Ambient data queries. This is a <see langword="static class" /> and so cannot be inherited or instantiated.</summary>
+    </member>
+    <member name="M:Gallio.Ambience.AmbientDataQueryExtensions.Count``1(Gallio.Ambience.IAmbientDataQuery{``0})">
+      <summary>Counts the number of objects produced by the query.</summary>
+      <typeparam name="TSource">The type of object being queried</typeparam>
+      <param name="self">The query</param>
+      <returns>The number of objects</returns>
+    </member>
+    <member name="M:Gallio.Ambience.AmbientDataQueryExtensions.OrderBy``2(Gallio.Ambience.IAmbientDataQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+      <summary>Produces a new query ordered by a comparison expression in ascending order.</summary>
+      <typeparam name="TSource">The type of object being queried</typeparam>
+      <typeparam name="TKey">The sort key type</typeparam>
+      <param name="self">The query</param>
+      <param name="expression">The sort comparison expression</param>
+      <returns>The ordered query</returns>
+    </member>
+    <member name="M:Gallio.Ambience.AmbientDataQueryExtensions.OrderByDescending``2(Gallio.Ambience.IAmbientDataQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+      <summary>Produces a new query ordered by a comparison expression in descending order.</summary>
+      <typeparam name="TSource">The type of object being queried</typeparam>
+      <typeparam name="TKey">The sort key type</typeparam>
+      <param name="self">The query</param>
+      <param name="expression">The sort comparison expression</param>
+      <returns>The ordered query</returns>
+    </member>
+    <member name="M:Gallio.Ambience.AmbientDataQueryExtensions.Select``2(Gallio.Ambience.IAmbientDataQuery{``0},System.Func{``0,``1})">
+      <summary>Produces a new query to select a projection of a component of another query.</summary>
+      <typeparam name="TSource">The type of object being queried</typeparam>
+      <typeparam name="TRet">The projection result type</typeparam>
+      <param name="self">The query</param>
+      <param name="selector">The selection expression</param>
+      <returns>The projected query</returns>
+    </member>
+    <member name="M:Gallio.Ambience.AmbientDataQueryExtensions.ThenBy``2(Gallio.Ambience.IAmbientDataQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+      <summary>Produces a new query ordered by an additional comparison expression in ascending order.</summary>
+      <typeparam name="TSource">The type of object being queried</typeparam>
+      <typeparam name="TKey">The sort key type</typeparam>
+      <param name="self">The query</param>
+      <param name="expression">The sort comparison expression</param>
+      <returns>The ordered query</returns>
+    </member>
+    <member name="M:Gallio.Ambience.AmbientDataQueryExtensions.ThenByDescending``2(Gallio.Ambience.IAmbientDataQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+      <summary>Produces a new query ordered by an additional comparison expression in descending order.</summary>
+      <typeparam name="TSource">The type of object being queried</typeparam>
+      <typeparam name="TKey">The sort key type</typeparam>
+      <param name="self">The query</param>
+      <param name="expression">The sort comparison expression</param>
+      <returns>The ordered query</returns>
+    </member>
+    <member name="M:Gallio.Ambience.AmbientDataQueryExtensions.Where``1(Gallio.Ambience.IAmbientDataQuery{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+      <summary>Produces a new query to filter another query by a criteria.</summary>
+      <typeparam name="TSource">The type of object being queried</typeparam>
+      <param name="self">The query</param>
+      <param name="expression">The filter expression</param>
+      <returns>The filtered query</returns>
+    </member>
+    <member name="T:Gallio.Ambience.IAmbientDataContainer">
+      <summary>Represents a container of Ambient data and providers operations to query, store and update its contents.</summary>
+    </member>
+    <member name="M:Gallio.Ambience.IAmbientDataContainer.Delete(System.Object)">
+      <summary>Deletes the object from the container.</summary>
+      <param name="obj">The object to delete</param>
+      <exception cref="T:Gallio.Ambience.AmbienceException">Thrown if the operation failed</exception>
+    </member>
+    <member name="M:Gallio.Ambience.IAmbientDataContainer.DeleteAll">
+      <summary>Deletes all objects in the container. (Use with caution!)</summary>
+      <exception cref="T:Gallio.Ambience.AmbienceException">Thrown if the operation failed</exception>
+    </member>
+    <member name="M:Gallio.Ambience.IAmbientDataContainer.Query``1">
+      <summary>Gets all objects of a particular type in the container.</summary>
+      <typeparam name="T">The object type</typeparam>
+      <returns>The data set</returns>
+      <exception cref="T:Gallio.Ambience.AmbienceException">Thrown if the operation failed</exception>
+    </member>
+    <member name="M:Gallio.Ambience.IAmbientDataContainer.Query``1(System.Predicate{``0})">
+      <summary>Gets all objects of a particular type in the container that match a particular filtering criteria.</summary>
+      <typeparam name="T">The object type</typeparam>
+      <param name="predicate">The filtering criteria</param>
+      <returns>The data set</returns>
+      <exception cref="T:Gallio.Ambience.AmbienceException">Thrown if the operation failed</exception>
+    </member>
+    <member name="M:Gallio.Ambience.IAmbientDataContainer.Store(System.Object)">
+      <summary>Stores or updates an object in the container.</summary>
+      <param name="obj">The object to store</param>
+      <exception cref="T:Gallio.Ambience.AmbienceException">Thrown if the operation failed</exception>
+    </member>
+    <member name="T:Gallio.Ambience.IAmbientDataQuery`1">
+      <summary>Represents a lazily evaluated query over Ambient data for use with the LINQ query syntax.</summary>
+    </member>
+    <member name="T:Gallio.Ambience.IAmbientDataSet`1">
+      <summary>A data set containing Ambient objects.</summary>
+    </member>
+  </members>
+</doc>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Gallio.UI</name>
+  </assembly>
+  <members>
+    <member name="T:Gallio.UI.TestStepRunViewer">
+      <summary>
+        <para> Displays a summary of a set of test step runs. </para>
+        <para> This control is optimized to display individual test run results to the user on demand more quickly than could be done if we had to show the whole report at once. </para>
+      </summary>
+    </member>
+    <member name="M:Gallio.UI.TestStepRunViewer.Clear">
+      <summary>Clears the contents of the report viewer and discards all cached content.</summary>
+    </member>
+    <member name="M:Gallio.UI.TestStepRunViewer.Dispose(System.Boolean)">
+      <summary>Clean up any resources being used.</summary>
+      <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    </member>
+    <member name="M:Gallio.UI.TestStepRunViewer.Show(System.Collections.Generic.ICollection{Gallio.Runner.Reports.TestStepRun})">
+      <summary>Displays information about a set of test step run.</summary>
+      <param name="testStepRuns">The test step runs</param>
+    </member>
+    <member name="M:Gallio.UI.TestStepRunViewer.Show(System.Collections.Generic.ICollection{Gallio.Runner.Reports.TestStepRun},Gallio.Model.Serialization.TestModelData)">
+      <summary>Displays information about a set of test step runs, using additional information from the test model when available.</summary>
+      <param name="testStepRuns">The test step runs</param>
+      <param name="testModelData">The test model data, or null if not available</param>
+    </member>
+  </members>
+</doc>

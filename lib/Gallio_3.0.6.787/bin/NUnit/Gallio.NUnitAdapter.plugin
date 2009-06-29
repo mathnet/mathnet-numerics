@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <gallio>
+    <assemblies>
+      <assembly file="Gallio.NUnitAdapter.dll" />
+      <assembly file="nunit.core.dll" />
+      <assembly file="nunit.core.extensions.dll" />
+      <assembly file="nunit.core.interfaces.dll" />
+      <assembly file="nunit.util.dll" />
+    </assemblies>
+
+    <runtime>
+      <components>
+        <component id="NUnitAdapter.TestFramework"
+                   service="Gallio.Model.ITestFramework, Gallio"
+                   type="Gallio.NUnitAdapter.Model.NUnitTestFramework, Gallio.NUnitAdapter" />
+      </components>
+    </runtime>
+  </gallio>
+</configuration>
