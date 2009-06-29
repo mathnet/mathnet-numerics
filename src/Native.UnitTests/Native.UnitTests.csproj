@@ -8,8 +8,8 @@
     <ProjectGuid>{0FCA7B04-D5B7-45B9-A7A5-423BEAD29114}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Native.UnitTests</RootNamespace>
-    <AssemblyName>Native.UnitTests</AssemblyName>
+    <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
+    <AssemblyName>MathNet.Numerics.Native.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
