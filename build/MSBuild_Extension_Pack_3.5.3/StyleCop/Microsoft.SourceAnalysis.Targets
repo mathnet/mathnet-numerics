@@ -1,0 +1,5 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- This targets file is obsolete and will be removed in a future version of StyleCop. -->
+  <!-- Redirect your imports to the Microsoft.StyleCop.Targets file. -->
+  <Import Project="Microsoft.StyleCop.Targets" />
+</Project>
