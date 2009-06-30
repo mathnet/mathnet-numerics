@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Managed.UnitTests\CombinatoricsTests\CombinatoricsCountingTest.cs">
+      <Link>CombinatoricsTests\CombinatoricsCountingTest.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed.UnitTests\ComplexTest.cs">
+      <Link>ComplexTest.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
