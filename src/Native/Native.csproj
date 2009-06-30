@@ -38,6 +38,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Managed\Combinatorics.cs">
+      <Link>Combinatorics.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Complex.cs">
       <Link>Complex.cs</Link>
     </Compile>
