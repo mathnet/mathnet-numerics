@@ -71,6 +71,18 @@
     <Compile Include="..\Managed\Distributions\IDistribution.cs">
       <Link>Distributions\IDistribution.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Interpolation\Algorithms\BarycentricInterpolation.cs">
+      <Link>Interpolation\Algorithms\BarycentricInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Interpolation\Algorithms\LinearSplineInterpolation.cs">
+      <Link>Interpolation\Algorithms\LinearSplineInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Interpolation\Algorithms\RationalPoleFreeInterpolation.cs">
+      <Link>Interpolation\Algorithms\RationalPoleFreeInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Interpolation\Algorithms\SplineInterpolation.cs">
+      <Link>Interpolation\Algorithms\SplineInterpolation.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Interpolation\IInterpolation.cs">
       <Link>Interpolation\IInterpolation.cs</Link>
     </Compile>
