@@ -1,2 +1,0 @@
-Math.NET Numerics License
-=========================
