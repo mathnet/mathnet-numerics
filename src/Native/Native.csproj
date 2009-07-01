@@ -71,9 +71,15 @@
     <Compile Include="..\Managed\Distributions\IDistribution.cs">
       <Link>Distributions\IDistribution.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Interpolation\IInterpolation.cs">
+      <Link>Interpolation\IInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Interpolation\Interpolation.cs">
+      <Link>Interpolation\Interpolation.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Precision.cs">
       <Link>Precision.cs</Link>
-    </Compile>
+	</Compile>
     <Compile Include="..\Managed\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
     </Compile>
