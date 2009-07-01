@@ -47,8 +47,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Initializes a new instance of the RationalPoleFreeInterpolation class.
         /// </summary>
-        public
-        RationalPoleFreeInterpolation()
+        public RationalPoleFreeInterpolation()
         {
             this.barycentric = new BarycentricInterpolation();
         }
@@ -80,9 +79,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </remarks>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public
-        void
-        Initialize(
+        public void Initialize(
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
@@ -98,9 +95,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
         /// In most cases a value between 3 and 8 gives good results.
         /// </param>
-        public
-        void
-        Initialize(
+        public void Initialize(
             IList<double> samplePoints,
             IList<double> sampleValues,
             int order)
@@ -198,9 +193,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
-        public
-        double
-        Interpolate(double t)
+        public double Interpolate(double t)
         {
             return this.barycentric.Interpolate(t);
         }

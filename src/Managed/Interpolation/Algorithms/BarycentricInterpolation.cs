@@ -79,9 +79,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <param name="barycentricWeights">Barycentric weights w(t)</param>
-        public
-        void
-        Initialize(
+        public void Initialize(
             IList<double> samplePoints,
             IList<double> sampleValues,
             IList<double> barycentricWeights)
@@ -126,9 +124,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
-        public
-        double
-        Interpolate(double t)
+        public double Interpolate(double t)
         {
             // trivial case: only one sample?
             if (this.points.Count == 1)

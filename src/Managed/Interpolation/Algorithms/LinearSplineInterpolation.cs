@@ -47,8 +47,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Initializes a new instance of the LinearSplineInterpolation class.
         /// </summary>
-        public
-        LinearSplineInterpolation()
+        public LinearSplineInterpolation()
         {
             this.spline = new SplineInterpolation();
         }
@@ -77,9 +76,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(samplePoints)</param>
-        public
-        void
-        Initialize(
+        public void Initialize(
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
@@ -127,9 +124,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
-        public
-        double
-        Interpolate(double t)
+        public double Interpolate(double t)
         {
             return this.spline.Interpolate(t);
         }

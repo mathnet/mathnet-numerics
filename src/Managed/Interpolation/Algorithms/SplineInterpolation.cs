@@ -78,9 +78,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="samplePoints">Sample Points t (length: N)</param>
         /// <param name="splineCoefficients">Spline Coefficients (length: 4*(N-1))</param>
-        public
-        void
-        Initialize(
+        public void Initialize(
             IList<double> samplePoints,
             IList<double> splineCoefficients)
         {
@@ -114,9 +112,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
-        public
-        double
-        Interpolate(double t)
+        public double Interpolate(double t)
         {
             // Binary search in the [ t[0], ..., t[n-2] ] (t[n-1] is not included)
             int low = 0;
