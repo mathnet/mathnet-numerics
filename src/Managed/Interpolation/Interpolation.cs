@@ -30,6 +30,7 @@ namespace MathNet.Numerics.Interpolation
 {
     using System;
     using System.Collections.Generic;
+    using Algorithms;
 
     /// <summary>
     /// Interpolation Factory.
@@ -37,7 +38,7 @@ namespace MathNet.Numerics.Interpolation
     public static class Interpolation
     {
         /// <summary>
-        /// Create a rational pole-free interpolation based on arbitrary points. This is the default interpolation scheme.
+        /// Creates an interpolation based on arbitrary points.
         /// </summary>
         /// <param name="points">The sample points t. Supports both lists and arrays.</param>
         /// <param name="values">The sample point values x(t). Supports both lists and arrays.</param>
@@ -50,7 +51,7 @@ namespace MathNet.Numerics.Interpolation
             IList<double> points,
             IList<double> values)
         {
-            throw new NotImplementedException();
+            return CreateRationalPoleFree(points, values);
         }
 
         /// <summary>
@@ -67,7 +68,9 @@ namespace MathNet.Numerics.Interpolation
             IList<double> points,
             IList<double> values)
         {
-            throw new NotImplementedException();
+            LinearSplineInterpolation method = new LinearSplineInterpolation();
+            method.Initialize(points, values);
+            return method;
         }
 
         /// <summary>
@@ -84,7 +87,9 @@ namespace MathNet.Numerics.Interpolation
             IList<double> points,
             IList<double> values)
         {
-            throw new NotImplementedException();
+            RationalPoleFreeInterpolation method = new RationalPoleFreeInterpolation();
+            method.Initialize(points, values);
+            return method;
         }
     }
 }
