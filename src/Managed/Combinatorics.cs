@@ -43,7 +43,7 @@ namespace MathNet.Numerics
         /// <returns>Maximum number of distinct variations.</returns>
         public static double Variations(int n, int k)
         {
-            if(k < 0 || n < 0 || k > n)
+            if (k < 0 || n < 0 || k > n)
             {
                 return 0;
             }
@@ -59,7 +59,7 @@ namespace MathNet.Numerics
         /// <returns>Maximum number of distinct variations with repetition.</returns>
         public static double VariationsWithRepetition(int n, int k)
         {
-            if(k < 0 || n < 0)
+            if (k < 0 || n < 0)
             {
                 return 0;
             }
