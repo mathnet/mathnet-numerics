@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>FSharp.PowerPack.Linq</name></assembly>
+<members>
+<member name="T:Assembly">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToTupledFastFunc``1(System.Func`1{``0})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToTupledFastFunc``2(System.Func`2{``0,``1})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToTupledFastFunc``2(System.Action`2{``0,``1})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToTupledFastFunc``3(System.Func`3{``0,``1,``2})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToTupledFastFunc``3(System.Action`3{``0,``1,``2})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToTupledFastFunc``4(System.Func`4{``0,``1,``2,``3})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToTupledFastFunc``4(System.Action`4{``0,``1,``2,``3})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToTupledFastFunc``5(System.Func`5{``0,``1,``2,``3,``4})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToFastFunc``1(System.Func`1{``0})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToFastFunc``2(System.Func`2{``0,``1})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToFastFunc``2(System.Action`2{``0,``1})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToFastFunc``3(System.Func`3{``0,``1,``2})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToFastFunc``3(System.Action`3{``0,``1,``2})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToFastFunc``4(System.Func`4{``0,``1,``2,``3})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToFastFunc``4(System.Action`4{``0,``1,``2,``3})">
+
+</member>
+<member name="M:Microsoft.FSharp.FuncConvertExtensions.ToFastFunc``5(System.Func`5{``0,``1,``2,``3,``4})">
+
+</member>
+<member name="T:Microsoft.FSharp.FuncConvertExtensions">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.contains``1(``0,System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ When used in queries, this operator corresponds to the LINQ Min operator and the <c>query</c> convertor recognises it as such
+ It differs in return type from <c>Seq.min_by</c>
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.groupBy``2(Microsoft.FSharp.Core.FastFunc`2{``0,``1},System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ When used in queries, this operator corresponds to the LINQ Join operator and the <c>query</c> convertor recognises it as such
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.groupJoin``4(System.Collections.Generic.IEnumerable`1{``0},System.Collections.Generic.IEnumerable`1{``1},Microsoft.FSharp.Core.FastFunc`2{``0,``2},Microsoft.FSharp.Core.FastFunc`2{``1,``2},Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{System.Collections.Generic.IEnumerable`1{``1},``3}})">
+<summary>
+ This join operator implements the LINQ GroupJoin operator and the <c>query</c> convertor recognises it as such
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.group_by``2(Microsoft.FSharp.Core.FastFunc`2{``0,``1},System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ When used in queries, this operator corresponds to the LINQ Join operator and the <c>query</c> convertor recognises it as such
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.group_join``4(System.Collections.Generic.IEnumerable`1{``0},System.Collections.Generic.IEnumerable`1{``1},Microsoft.FSharp.Core.FastFunc`2{``0,``2},Microsoft.FSharp.Core.FastFunc`2{``1,``2},Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{System.Collections.Generic.IEnumerable`1{``1},``3}})">
+<summary>
+ This join operator implements the LINQ GroupJoin operator and the <c>query</c> convertor recognises it as such
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.join``4(System.Collections.Generic.IEnumerable`1{``0},System.Collections.Generic.IEnumerable`1{``1},Microsoft.FSharp.Core.FastFunc`2{``0,``2},Microsoft.FSharp.Core.FastFunc`2{``1,``2},Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``1,``3}})">
+<summary>
+ This join operator corresponds to the LINQ Join operator and the <c>query</c> convertor recognises it as such
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.maxBy``2(Microsoft.FSharp.Core.FastFunc`2{``0,``1},System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ When used in queries, this operator corresponds to the LINQ Max operator and the <c>query</c> convertor recognises it as such
+ It differs in return type from <c>Seq.max_by</c>
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.max_by``2(Microsoft.FSharp.Core.FastFunc`2{``0,``1},System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ When used in queries, this operator corresponds to the LINQ Max operator and the <c>query</c> convertor recognises it as such
+ It differs in return type from <c>Seq.max_by</c>
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.minBy``2(Microsoft.FSharp.Core.FastFunc`2{``0,``1},System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ When used in queries, this operator corresponds to the LINQ Min operator and the <c>query</c> convertor recognises it as such
+ It differs in return type from <c>Seq.min_by</c>
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.min_by``2(Microsoft.FSharp.Core.FastFunc`2{``0,``1},System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ When used in queries, this operator corresponds to the LINQ Min operator and the <c>query</c> convertor recognises it as such
+ It differs in return type from <c>Seq.min_by</c>
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.Query.query``1(Microsoft.FSharp.Quotations.Expr`1{``0})">
+<summary>
+ Evaluate the quotation expression by first converting to a LINQ expression tree
+ making use of IQueryable operators and then executing expression tree
+
+ Exceptions: <c>InvalidArgumentException</c> will be raised if the input expression is
+ not in the subset that can be converted to a LINQ expression tree
+</summary>
+</member>
+<member name="T:Microsoft.FSharp.Linq.Query">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.LinqExpressionHelper``1(``0)">
+<summary>
+ This function should not be called directly. 
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`10.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`10">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`11.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`11">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`12.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`12">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`13.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`13">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`14.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`14">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`15.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`15">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`16.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`16">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`17.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`17">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`18.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16,``17)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`18">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`19.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16,``17,``18)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`19">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`20.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16,``17,``18,``19)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`20">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`5.Invoke(``0,``1,``2,``3,``4)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`5">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`6.Invoke(``0,``1,``2,``3,``4,``5)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`6">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`7.Invoke(``0,``1,``2,``3,``4,``5,``6)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`7">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`8.Invoke(``0,``1,``2,``3,``4,``5,``6,``7)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`8">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`9.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.ActionHelper`9">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`10.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`10">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`11.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`11">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`12.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`12">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`13.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`13">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`14.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`14">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`15.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`15">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`16.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`16">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`17.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`17">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`18.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`18">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`19.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16,``17)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`19">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`20.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16,``17,``18)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`20">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`21.Invoke(``0,``1,``2,``3,``4,``5,``6,``7,``8,``9,``10,``11,``12,``13,``14,``15,``16,``17,``18,``19)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`21">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`6.Invoke(``0,``1,``2,``3,``4)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`6">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`7.Invoke(``0,``1,``2,``3,``4,``5)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`7">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`8.Invoke(``0,``1,``2,``3,``4,``5,``6)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`8">
+
+</member>
+<member name="M:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`9.Invoke(``0,``1,``2,``3,``4,``5,``6,``7)">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes.FuncHelper`9">
+
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation.HelperTypes">
+<summary>
+ A set of types used for implementing quotation conversions.
+ These are public only because targets of Linq Lambda expressions require them to be so
+</summary>
+</member>
+<member name="T:Microsoft.FSharp.Linq.QuotationEvaluation">
+<summary>
+ This module provides Compile and Eval extension members
+ for F# quotation values, implemented by translating to LINQ
+ expression trees and using the LINQ dynamic compiler.
+</summary>
+</member>
+</members>
+</doc>
