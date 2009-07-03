@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>FSharp.PowerPack.Build.Tasks</name></assembly>
+<members>
+<member name="P:Internal.Utilities.FSharpEnvironment.FSharpRunningBinFolder">
+<summary>
+ The default location of FSharp.Core.dll and fsc.exe based on the version of fsc.exe that is running
+</summary>
+</member>
+<member name="P:Internal.Utilities.FSharpEnvironment.FSharpRunningVersion">
+
+</member>
+<member name="P:Internal.Utilities.FSharpEnvironment.location">
+
+</member>
+<member name="T:Internal.Utilities.FSharpEnvironment">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsLex.Unicode(System.Boolean)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsLex.ToolPath(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsLex.ToolExe(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsLex.OutputFile(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsLex.OtherFlags(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsLex.InputFile(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsLex.CodePage(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsLex.ToolName">
+
+</member>
+<member name="M:Microsoft.FSharp.Build.FsLex.InternalGenerateCommandLineCommands">
+
+</member>
+<member name="M:Microsoft.FSharp.Build.FsLex.GenerateFullPathToTool">
+
+</member>
+<member name="M:Microsoft.FSharp.Build.FsLex.GenerateCommandLineCommands">
+
+</member>
+<member name="M:Microsoft.FSharp.Build.FsLex..ctor">
+
+</member>
+<member name="T:Microsoft.FSharp.Build.FsLex">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.ToolPath(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.ToolExe(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.OutputFile(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.OtherFlags(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.Open(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.Module(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.MLCompatibility(System.Boolean)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.InputFile(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.CodePage(System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Build.FsYacc.ToolName">
+
+</member>
+<member name="M:Microsoft.FSharp.Build.FsYacc.InternalGenerateCommandLineCommands">
+
+</member>
+<member name="M:Microsoft.FSharp.Build.FsYacc.GenerateFullPathToTool">
+
+</member>
+<member name="M:Microsoft.FSharp.Build.FsYacc.GenerateCommandLineCommands">
+
+</member>
+<member name="M:Microsoft.FSharp.Build.FsYacc..ctor">
+
+</member>
+<member name="T:Microsoft.FSharp.Build.FsYacc">
+
+</member>
+</members>
+</doc>

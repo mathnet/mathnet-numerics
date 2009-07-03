@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>FSharp.Compiler.CodeDom</name></assembly>
+<members>
+<member name="P:Internal.Utilities.HashSet`1.Count">
+<summary>
+ The total number of elements in the set
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Remove(``0)">
+<summary>
+ Remove the given element from the set
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Iterate(Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.Unit})">
+<summary>
+ Apply the given function to each binding in the hash table 
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Fold``1(Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``1,``1}},``1)">
+<summary>
+ Apply the given function to the set threading the accumulating parameter
+ through the sequence of function applications
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Create">
+<summary>
+ Create a new empty mutable hash set 
+ with key hash/equality based on the F# structural "hash" and (=) functions
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Create(System.Int32)">
+<summary>
+ Create a new empty mutable hash set with an internal bucket array of the given approximate size
+ and with key hash/equality based on the F# structural "hash" and (=) functions
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Create(System.Int32,System.Collections.Generic.IEqualityComparer`1{``0})">
+<summary>
+ Create a new empty mutable hash set with an internal bucket array of the given approximate size
+ and with the given key hash/equality functions 
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Create(System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ Create a new mutable hash set containing elements drawn from the given sequence
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Copy">
+<summary>
+ Make a shallow copy of the set
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Contains(``0)">
+<summary>
+ Test if the set contains the given element
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Clear">
+<summary>
+ Clear all elements from the set
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1.Add(``0)">
+<summary>
+ Add an element to the collection
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1..ctor">
+<summary>
+ Create a new empty mutable hash set 
+ with key hash/equality based on the F# structural "hash" and (=) functions
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1..ctor(System.Int32)">
+<summary>
+ Create a new empty mutable hash set with an internal bucket array of the given approximate size
+ and with key hash/equality based on the F# structural "hash" and (=) functions
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1..ctor(System.Int32,System.Collections.Generic.IEqualityComparer`1{``0})">
+<summary>
+ Create a new empty mutable hash set with an internal bucket array of the given approximate size
+ and with the given key hash/equality functions 
+</summary>
+</member>
+<member name="M:Internal.Utilities.HashSet`1..ctor(System.Collections.Generic.IEnumerable`1{``0})">
+<summary>
+ Create a new mutable hash set containing elements drawn from the given sequence
+</summary>
+</member>
+<member name="T:Internal.Utilities.HashSet`1">
+<summary>
+ Mutable hash sets based by default on F# structural "hash" and (=) functions. Implemented via a hash table and/or Dictionary.
+</summary>
+</member>
+<member name="P:Internal.Utilities.FSharpEnvironment.FSharpRunningBinFolder">
+<summary>
+ The default location of FSharp.Core.dll and fsc.exe based on the version of fsc.exe that is running
+</summary>
+</member>
+<member name="P:Internal.Utilities.FSharpEnvironment.FSharpRunningVersion">
+
+</member>
+<member name="P:Internal.Utilities.FSharpEnvironment.location">
+
+</member>
+<member name="T:Internal.Utilities.FSharpEnvironment">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.FSharpAspNetCodeProvider..ctor">
+
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.FSharpAspNetCodeProvider">
+<summary>
+ Implementation of the CodeDomProvider for the F# language.
+ This is specialized version that can be used with ASP.NET.
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.FSharpCodeProvider..ctor">
+
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.FSharpCodeProvider">
+<summary>
+ Implementation of the CodeDomProvider for the F# language.
+ If you intend to use CodeDom with ASP.NET you should use <c>FSharpAspNetCodeProvider</c> instead.
+</summary>
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.AssemblyAttributes">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler.cmdArgsFromParameters(System.CodeDom.Compiler.CompilerParameters,System.String[]`1)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler.compileAssemblyFromFileBatch(System.CodeDom.Compiler.CompilerParameters,System.String[]`1,System.CodeDom.Compiler.CompilerResults,Microsoft.FSharp.Core.FastFunc`2{System.String[]`1,System.String[]`1})">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler.compileFiles(System.String,System.CodeDom.Compiler.CompilerResults)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler.id``1(``0)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler.op_MinusMinus(System.Text.StringBuilder,System.String)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler.op_PlusGreater(System.Text.StringBuilder,Microsoft.FSharp.Core.FastFunc`2{System.Text.StringBuilder,System.Text.StringBuilder})">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler.processMsg(System.String,System.CodeDom.Compiler.CompilerResults)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler.untyped_fold``2(Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``1,``0}},System.Collections.IEnumerable,``0)">
+
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.Compiler">
+
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.AdditionalOptions">
+
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context">
+
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.MemberGenerateType">
+<summary>
+ Where are we generating member?
+</summary>
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.ResizeArray`1">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.binaryOp(System.CodeDom.CodeBinaryOperatorType,Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context})">
+<summary>
+ Generates code for binary operator using function for left and right operand
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.col``1(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},System.Collections.IEnumerable,Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context}},Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Process collection - keeps context through the whole processing
+ calls 'f' for every element in sequence and 'fs' between every two elements 
+ as a separator
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.colFilter``1(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},System.Collections.IEnumerable,Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context}},Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.colFilterT``1(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},System.Collections.IEnumerable,Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context}},Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Call specified function only on elements of specified type.
+ (performs dynamic type test using x.GetType())
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.colT``1(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},System.Collections.Generic.IEnumerable`1{``0},Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context}},Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Process collection - keeps context through the whole processing
+ calls 'f' for every element in sequence and 'fs' between every two elements 
+ as a separator. This is a variant that works on typed collections.
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.convertFunc(System.Type)">
+<summary>
+ Returns F# conversion function for the specified type (or empty string)
+</summary>
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.coreAssemblies">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.createContext(System.IO.TextWriter,System.CodeDom.Compiler.CodeGeneratorOptions,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.AdditionalOptions)">
+<summary>
+ Create context using specified text writer and options
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.createCounter">
+<summary>
+ Create closure to do the counting 
+ (this is usend when we need indexing during collection processing)
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.decIndent(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.delay``2(Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``0,``1}},``0)">
+<summary>
+ Call function, but give it context as an argument      
+</summary>
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.dict">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.freshName">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.fsKeyWords">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateAbstractParamDecl(System.CodeDom.CodeParameterDeclarationExpression)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateArrayCreateExpr(System.CodeDom.CodeArrayCreateExpression)">
+<summary>
+ Generate array initializer. Checks generator options for ASP.NET workaround.
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateAttributeArg(System.CodeDom.CodeAttributeArgument)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateBoxedExpression(System.CodeDom.CodeExpression)">
+<summary>
+ Generates expression which is casted to the inferred type using "(unbox (box e))"
+ this is useful if the environment where it is used specifies the type explicitly
+ for example in array initializers
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateCatchClause(System.CodeDom.CodeCatchClause)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateClassMember(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.MemberGenerateType,System.CodeDom.CodeTypeMember)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateClassMemberMethod(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.MemberGenerateType,System.CodeDom.CodeMemberMethod,System.Int32)">
+<summary>
+ Generates method code, adds OverloadID attribute when index isn't "-1"
+ Generates comments and than calls 'generatMethod'
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateClassOrStruct(System.String,Microsoft.FSharp.Collections.FSharpList`1{System.String},System.CodeDom.CodeTypeDeclaration,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateClassProperty(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.MemberGenerateType,System.CodeDom.CodeMemberProperty)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateCodeSnippetMember(System.CodeDom.CodeSnippetTypeMember)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateComment(System.CodeDom.CodeComment)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateCompileUnit(System.CodeDom.CodeCompileUnit,Microsoft.FSharp.Core.FastFunc`2{System.CodeDom.CodeCompileUnit,Microsoft.FSharp.Core.Unit})">
+<summary>
+ Generate code for compile unit (file)                
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateConstructor(System.CodeDom.CodeConstructor)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateCustomAttrDecl(System.CodeDom.CodeAttributeDeclaration)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateCustomAttrDecls(System.CodeDom.CodeAttributeDeclarationCollection)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateCustomAttrDeclsForType(Microsoft.FSharp.Collections.FSharpList`1{System.CodeDom.CodeAttributeDeclaration},System.Reflection.TypeAttributes)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateCustomAttrDeclsList(Microsoft.FSharp.Collections.FSharpList`1{System.CodeDom.CodeAttributeDeclaration})">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateDefaultValue(System.CodeDom.CodeTypeReference)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateDelegate(Microsoft.FSharp.Collections.FSharpList`1{System.String},System.CodeDom.CodeTypeDelegate)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateEntryPointMethod(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.MemberGenerateType,System.CodeDom.CodeEntryPointMethod)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateEnum(Microsoft.FSharp.Collections.FSharpList`1{System.String},System.CodeDom.CodeTypeDeclaration)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateEnumField(System.Int32,System.CodeDom.CodeMemberField)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateEvent(System.CodeDom.CodeMemberEvent)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateEventField(System.CodeDom.CodeMemberEvent)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateExpression(System.CodeDom.CodeExpression)">
+<summary>
+ Generate expression - with unkonw type
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateExpressionDefaultThis(System.CodeDom.CodeExpression)">
+<summary>
+ Generates expression, but generates "this" if the expression is null
+ (used in field reference etc. because some CodeDOM generators do this 
+  though I believe it is a mistake)
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateExpressionTyped(Microsoft.FSharp.Core.Option`1{System.Type},System.CodeDom.CodeExpression,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateField(System.CodeDom.CodeMemberField)">
+<summary>
+ fields 
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateImport(System.CodeDom.CodeNamespaceImport)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateInterface(Microsoft.FSharp.Collections.FSharpList`1{System.String},System.CodeDom.CodeTypeDeclaration)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateInterfaceImplementation``2(System.Collections.Generic.KeyValuePair`2{System.String,``0})">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateInterfaceMemberMethod(System.CodeDom.CodeMemberMethod,System.Int32)">
+<summary>
+ Abstract method in the interface
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateInterfaceMemberProperty(System.CodeDom.CodeMemberProperty)">
+<summary>
+ Abstract property in the interface 
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateLinePragma``1(System.CodeDom.CodeLinePragma)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateMainMethod(System.CodeDom.CodeEntryPointMethod,System.CodeDom.CodeTypeDeclaration,System.CodeDom.CodeNamespace)">
+<summary>
+ Generates a main method.
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateMethod(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.MemberGenerateType,System.CodeDom.CodeMemberMethod,Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context})">
+<summary>
+ By default all CodeDOM generated methods are 'virtual' which means that 
+ we have to generate "abstract and default" (unless we're in struct or
+ we're implementing an interface, or the method is overriden)
+ (NOTE: the same logic isn't properly implemented for properties)
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateNamespace(System.CodeDom.CodeNamespace)">
+<summary>
+ Generate code for namespace without compilation unit  
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateNamespaceInternal``1(Microsoft.FSharp.Core.Tuple`3{System.CodeDom.CodeNamespace,Microsoft.FSharp.Collections.FSharpList`1{Microsoft.FSharp.Core.Tuple`2{Microsoft.FSharp.Collections.FSharpList`1{System.String},System.CodeDom.CodeTypeDeclaration}},``0},System.Collections.Generic.IEnumerable`1{System.String})">
+<summary>
+ Generates namespace code - takes output from 'preprocessNamespace'
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateParamDecl(System.CodeDom.CodeParameterDeclarationExpression)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generatePrimitiveExpr(Microsoft.FSharp.Core.Option`1{System.Type},System.CodeDom.CodePrimitiveExpression)">
+<summary>
+ Generate value of primitive expression  
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateStatement(System.CodeDom.CodeStatement)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateStatementBlock(Microsoft.FSharp.Core.Option`1{System.CodeDom.CodeTypeReference},System.CodeDom.CodeStatementCollection)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateStatements(System.CodeDom.CodeStatementCollection)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateTypeArgs(System.CodeDom.CodeTypeReferenceCollection)">
+<summary>
+ Generate type arguments using context
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateTypeDecl(System.Int32,Microsoft.FSharp.Collections.FSharpList`1{System.String},System.CodeDom.CodeTypeDeclaration)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateTypeDeclOnly(System.CodeDom.CodeTypeDeclaration)">
+<summary>
+ Generate code for type declaration (not included in namespace)                 
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateTypeRef(System.CodeDom.CodeTypeReference)">
+<summary>
+ Generate type reference using context
+ (this is most commonly used method)  
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateTypeRefNet(System.CodeDom.CodeTypeReference)">
+<summary>
+ Get type reference, but don't rename .NET types to F# types
+ (this is only needed when calling static methods on the type)
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.generateVariableDeclStmt(System.CodeDom.CodeVariableDeclarationStatement)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.getBaseTypeRef(System.CodeDom.CodeTypeReference,Microsoft.FSharp.Collections.Map`2{System.String,System.String},System.String,Microsoft.FSharp.Collections.Set`1{System.String},System.Boolean)">
+<summary>
+ Generates type reference (not for arrays)
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.getBaseTypeRefString(System.String)">
+<summary>
+ Generate type reference with empty context
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.getMethodOverloads``1(System.CodeDom.CodeTypeMemberCollection)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.getTypeArgs(System.CodeDom.CodeTypeReferenceCollection,Microsoft.FSharp.Collections.Map`2{System.String,System.String},System.String,Microsoft.FSharp.Collections.Set`1{System.String},System.Boolean)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.getTypeRef(System.CodeDom.CodeTypeReference,Microsoft.FSharp.Collections.Map`2{System.String,System.String},System.String,Microsoft.FSharp.Collections.Set`1{System.String},System.Boolean)">
+<summary>
+ Get full type reference using information from context  
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.getTypeRefSimple(System.CodeDom.CodeTypeReference)">
+<summary>
+ Get full type reference string using empty context
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.id``1(``0)">
+<summary>
+ Identity function
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.incIndent(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.isInterface(System.CodeDom.CodeTypeReference,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.isNumericConversion(System.Type,System.Type)">
+<summary>
+ Are both types numerical types where numeric conversion function can be applied?
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.isValidIdentifier(System.String)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.makeEscapedIdentifier(System.String)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.makeValidIdentifier(System.String)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.mapFilter``2(Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.Option`1{``1}},Microsoft.FSharp.Collections.FSharpList`1{``0})">
+<summary>
+ Perform map and filter operations in one 
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.op_MinusBang(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},System.String,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Output string as a valid F# identifier
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.op_MinusMinus(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},System.String,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Append specified string without line-break
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.op_PlusGreater(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Function composition operator
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.op_PlusPlus(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},System.String,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Break-line and append specified string
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.preprocessNamespace(System.CodeDom.CodeNamespace)">
+<summary>
+ Returns CodeNamespace, list of classes with scope (which includes class names 
+ of containing classes and sequence of class renames)
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.processTypeArgs(System.CodeDom.CodeTypeParameterCollection)">
+<summary>
+ Preprocess collection with type parameters
+ Returns array to be used with <c>usingTyParams</c> and
+ function to be called to generate &lt; ... &gt; code
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.resolveHierarchy(System.CodeDom.CodeTypeDeclaration,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepArgs">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepArgsSemi">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepDot">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepNln">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepNlnSemiSpace">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepNone``1">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepSpace">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepStar">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.sepWordAnd">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.str``1(``0,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Print object converted to string
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.tryAddVariableType(System.String,System.CodeDom.CodeTypeReference,Microsoft.FSharp.Collections.Map`2{System.String,System.Type})">
+<summary>
+ Tries to resolve type of a variable and adds it to the Context dictionary
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.tryGetExpressionType(System.CodeDom.CodeExpression,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Tries to resolve type of an expression using a few tricks:
+ * Fields of current type may have known type
+ * Properties of current type as well
+ * We can also try to resolve other properties (sometimes it helps)
+ * Resolve type for local variables or argument reference 
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.tryGetSystemType(Microsoft.FSharp.Core.Option`1{System.CodeDom.CodeTypeReference})">
+<summary>
+ Get System.Type of know type (either standard type or resolved)  
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.tryIsExpressionArray(System.CodeDom.CodeExpression,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Tries to resolve if type is an array, so we can generate 
+ appropriate code (it can be either indexer or array, but we need to generate
+ .Item call for indexers (no overloading is supported by .[]).
+ Returns: "None" - can't resolve, "Some" resovled (true/false - is it an array?)
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.uniqid(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Print unique id using: "+> uniqid"
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.usingTyParams(System.Collections.Generic.IEnumerable`1{System.String},Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context},Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context)">
+<summary>
+ Record specified type parameters in the context, call generating function
+ and then restore the original type parameters
+ (this works if someone uses nested type parameters with the same name)
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.|CodeArrayAccessOrIndexer|_|(Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.Context,System.CodeDom.CodeExpression)">
+<summary>
+ Matches array or indexer expression and corrects it if the generated CodeDOM is incorrect
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator.|FoundSystemType|_|(System.String)">
+<summary>
+ Tries to find .NET type for specified type name
+ This is used when we need to know type in order to generate something correctly,
+ but it's just a fallback case
+</summary>
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.Generator">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.FSharpBinFromEnvironmentVariable">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.FSharpBinFromInstallLocationGuess">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.FSharpBinFromRegistry">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.FSharpRunningVersion">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.FscExeBaseName">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.FscPath">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.debug_commandline_args">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.op_PlusPlus(System.String,System.String)">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.regParseFsOutput">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Global.regParseFsOutputNoNum">
+
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.Global">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Visitor.children``1(``0)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Visitor.codeDomCallBackNoScope``3(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``1,``0}},Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{System.Object,``0}}},``0,``2)">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Visitor.codeDomCallbackWithScope``4(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``1,Microsoft.FSharp.Core.FastFunc`2{``2,``1}}},Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``1,Microsoft.FSharp.Core.FastFunc`2{System.Object,``1}}}},``0,``1,``3)">
+<summary>
+ Walks through the CodeDom tree and keeps current "scope" and the result.
+ The result is collected through entire tree, but the modified scope is 
+ passed only to sub-nodes of the current node.
+
+ First argument is a function that is called for nodes and has a 
+ function as a first argument, scope and result as a second and current node as a third.
+ The function argument can be used to walk deeper in the tree if wanted.
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Visitor.codeDomCallbackWithScope'``4(Microsoft.FSharp.Core.FastFunc`2{Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``1,Microsoft.FSharp.Core.FastFunc`2{``2,``1}}},Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{``1,Microsoft.FSharp.Core.FastFunc`2{System.Object,``1}}}})">
+
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Visitor.codeDomFlatFilter``1(Microsoft.FSharp.Core.FastFunc`2{System.Object,Microsoft.FSharp.Core.Tuple`2{System.Boolean,System.Boolean}},``0)">
+<summary>
+ Search for members and return flat list of selected members
+ Function given as an argument returns tuple - first item specifies
+ if the current element should be included in the result, the second
+ specifies if we should walk through child members of the current object
+</summary>
+</member>
+<member name="M:Microsoft.FSharp.Compiler.CodeDom.Internal.Visitor.codeDomFold'``1(Microsoft.FSharp.Core.FastFunc`2{``0,Microsoft.FSharp.Core.FastFunc`2{System.Object,Microsoft.FSharp.Core.Tuple`2{``0,System.Boolean}}},``0,System.Object)">
+
+</member>
+<member name="P:Microsoft.FSharp.Compiler.CodeDom.Internal.Visitor.memberMap">
+
+</member>
+<member name="T:Microsoft.FSharp.Compiler.CodeDom.Internal.Visitor">
+
+</member>
+</members>
+</doc>
