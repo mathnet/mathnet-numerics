@@ -53,6 +53,19 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         }
 
         /// <summary>
+        /// Initializes a new instance of the RationalPoleFreeInterpolation class.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
+        public RationalPoleFreeInterpolation(
+            IList<double> samplePoints,
+            IList<double> sampleValues)
+        {
+            this.barycentric = new BarycentricInterpolation();
+            this.Initialize(samplePoints, sampleValues);
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="IInterpolation.Differentiate(double)"/>

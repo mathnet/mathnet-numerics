@@ -53,6 +53,19 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         }
 
         /// <summary>
+        /// Initializes a new instance of the LinearSplineInterpolation class.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t</param>
+        /// <param name="sampleValues">Sample Values x(samplePoints)</param>
+        public LinearSplineInterpolation(
+            IList<double> samplePoints,
+            IList<double> sampleValues)
+        {
+            this.spline = new SplineInterpolation();
+            this.Initialize(samplePoints, sampleValues);
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="Differentiate(double)"/>
