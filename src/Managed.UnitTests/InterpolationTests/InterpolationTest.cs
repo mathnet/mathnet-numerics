@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [VerifyContract]
         public readonly IContract LinearSplineTests = new InterpolationContract<LinearSplineInterpolation>()
         {
-            Factory = Interpolation.CreateLinearSpline,
+            Factory = Interpolation.CreateLinearBetweenPoints,
             Order = new[] { 2, 3, 6 }
         };
 

@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Interpolation
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation CreateLinearSpline(
+        public static IInterpolation CreateLinearBetweenPoints(
             IList<double> points,
             IList<double> values)
         {
