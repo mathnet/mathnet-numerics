@@ -55,6 +55,27 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         private IList<double> weights;
 
         /// <summary>
+        /// Initializes a new instance of the BarycentricInterpolation class.
+        /// </summary>
+        public BarycentricInterpolation()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the BarycentricInterpolation class.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <param name="barycentricWeights">Barycentric weights w(t)</param>
+        public BarycentricInterpolation(
+            IList<double> samplePoints,
+            IList<double> sampleValues,
+            IList<double> barycentricWeights)
+        {
+            this.Initialize(samplePoints, sampleValues, barycentricWeights);
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="IInterpolation.Differentiate(double)"/>

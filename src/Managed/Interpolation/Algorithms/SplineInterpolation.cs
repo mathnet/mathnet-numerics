@@ -55,6 +55,25 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         private int sampleCount;
 
         /// <summary>
+        /// Initializes a new instance of the SplineInterpolation class.
+        /// </summary>
+        public SplineInterpolation()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SplineInterpolation class.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t (length: N)</param>
+        /// <param name="splineCoefficients">Spline Coefficients (length: 4*(N-1))</param>
+        public SplineInterpolation(
+            IList<double> samplePoints,
+            IList<double> splineCoefficients)
+        {
+            this.Initialize(samplePoints, splineCoefficients);
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="Differentiate(double)"/>
