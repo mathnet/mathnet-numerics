@@ -50,5 +50,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             Factory = Interpolation.CreateRationalPoleFree,
             Order = new[] { 1, 2, 6 }
         };
+
+        [VerifyContract]
+        public readonly IContract NevillePolynomialContractTests = new InterpolationContract<NevillePolynomialInterpolation>()
+        {
+            Factory = (t, x) => new NevillePolynomialInterpolation(t, x),
+            Order = new[] { 1, 2, 6 }
+        };
     }
 }

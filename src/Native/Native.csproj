@@ -77,6 +77,9 @@
     <Compile Include="..\Managed\Interpolation\Algorithms\LinearSplineInterpolation.cs">
       <Link>Interpolation\Algorithms\LinearSplineInterpolation.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Interpolation\Algorithms\NevillePolynomialInterpolation.cs">
+      <Link>Interpolation\Algorithms\NevillePolynomialInterpolation.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Interpolation\Algorithms\RationalPoleFreeInterpolation.cs">
       <Link>Interpolation\Algorithms\RationalPoleFreeInterpolation.cs</Link>
     </Compile>
