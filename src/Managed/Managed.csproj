@@ -56,6 +56,7 @@
     <Compile Include="Distributions\IDistribution.cs" />
     <Compile Include="Interpolation\Algorithms\BarycentricInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\LinearSplineInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\NevillePolynomialInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\RationalPoleFreeInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\SplineInterpolation.cs" />
     <Compile Include="Interpolation\IInterpolation.cs" />
