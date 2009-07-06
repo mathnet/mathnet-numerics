@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <remarks>
         /// The interpolation scheme order will be set to 3.
         /// </remarks>
-        /// <param name="samplePoints">Sample Points t</param>
+        /// <param name="samplePoints">Sample Points t (no sorting assumed)</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         public void Initialize(
             IList<double> samplePoints,
@@ -100,7 +100,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         }
 
         /// <summary>
-        /// Initialize the interpolation method with the given sample set.
+        /// Initialize the interpolation method with the given sample set (no sorting assumed).
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>

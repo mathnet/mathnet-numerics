@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Initializes a new instance of the BarycentricInterpolation class.
         /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
+        /// <param name="samplePoints">Sample Points t (no sorting assumed)</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         /// <param name="barycentricWeights">Barycentric weights w(t)</param>
         public BarycentricInterpolation(
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         }
 
         /// <summary>
-        /// Initialize the interpolation method with the given sample set.
+        /// Initialize the interpolation method with the given sample set (no sorting assumed).
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
@@ -153,7 +153,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 return this.values[0];
             }
 
-            // evaluate closest point and offset from that point
+            // evaluate closest point and offset from that point (no sorting assumed)
             int closestPoint = 0;
             double offset = t - this.points[0];
             for (int i = 1; i < this.points.Count; i++)
