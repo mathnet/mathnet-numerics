@@ -63,6 +63,9 @@
     <Compile Include="..\Managed.UnitTests\ComplexTest.cs">
       <Link>ComplexTest.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\NormalTests.cs">
+      <Link>DistributionTests\Continuous\NormalTests.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +73,10 @@
       <Project>{4FE24723-A98A-4EB6-B266-03E35967695B}</Project>
       <Name>Native</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DistributionTests\Discrete\" />
+    <Folder Include="DistributionTests\Multivariate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
