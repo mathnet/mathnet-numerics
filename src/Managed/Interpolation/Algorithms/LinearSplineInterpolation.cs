@@ -88,7 +88,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// Initialize the interpolation method with the given spline coefficients.
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
-        /// <param name="sampleValues">Sample Values x(samplePoints)</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
         public void Initialize(
             IList<double> samplePoints,
             IList<double> sampleValues)

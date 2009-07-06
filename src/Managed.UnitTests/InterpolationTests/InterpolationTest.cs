@@ -29,23 +29,23 @@
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
     using System;
-    using MbUnit.Framework;
-    using MbUnit.Framework.ContractVerifiers;
     using Interpolation;
     using Interpolation.Algorithms;
+    using MbUnit.Framework;
+    using MbUnit.Framework.ContractVerifiers;
 
     [TestFixture]
     public class InterpolationTest
     {
         [VerifyContract]
-        public readonly IContract LinearSplineTests = new InterpolationContract<LinearSplineInterpolation>()
+        public readonly IContract LinearSplineContractTests = new InterpolationContract<LinearSplineInterpolation>()
         {
             Factory = Interpolation.CreateLinearBetweenPoints,
             Order = new[] { 2, 3, 6 }
         };
 
         [VerifyContract]
-        public readonly IContract RationalPoleFreeTests = new InterpolationContract<RationalPoleFreeInterpolation>()
+        public readonly IContract RationalPoleFreeContractTests = new InterpolationContract<RationalPoleFreeInterpolation>()
         {
             Factory = Interpolation.CreateRationalPoleFree,
             Order = new[] { 1, 2, 6 }
