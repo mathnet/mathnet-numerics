@@ -41,21 +41,24 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract LinearSplineContractTests = new InterpolationContract<LinearSplineInterpolation>()
         {
             Factory = Interpolation.CreateLinearBetweenPoints,
-            Order = new[] { 2, 3, 6 }
+            Order = new[] { 2, 3, 6 },
+            PolynomialBehavior = false
         };
 
         [VerifyContract]
         public readonly IContract RationalPoleFreeContractTests = new InterpolationContract<RationalPoleFreeInterpolation>()
         {
             Factory = Interpolation.CreateRationalPoleFree,
-            Order = new[] { 1, 2, 6 }
+            Order = new[] { 1, 2, 6 },
+            PolynomialBehavior = true
         };
 
         [VerifyContract]
         public readonly IContract NevillePolynomialContractTests = new InterpolationContract<NevillePolynomialInterpolation>()
         {
             Factory = (t, x) => new NevillePolynomialInterpolation(t, x),
-            Order = new[] { 1, 2, 6 }
+            Order = new[] { 1, 2, 6 },
+            PolynomialBehavior = true
         };
     }
 }

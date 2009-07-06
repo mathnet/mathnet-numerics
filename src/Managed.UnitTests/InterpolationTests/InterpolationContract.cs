@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     {
         public Func<IList<double>, IList<double>, IInterpolation> Factory { get; set; }
         public int[] Order { get; set; }
+        public bool PolynomialBehavior { get; set; }
 
         public InterpolationContract()
         {
@@ -52,6 +53,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             yield return CreateConsistentCapabilityBehaviorTest("ConsistentCapabilityBehavior");
             yield return CreateInterpolationMatchesNodePointsTest("InterpolationMatchesNodePoints");
             yield return CreateLinearBehaviorTest("LinearBehavior");
+
+            if (PolynomialBehavior)
+            {
+                yield return CreatePolynomialBehaviorTest("PolynomialBehavior");
+            }
         }
 
         private Test CreateFactoryReturnsCorrectTypeTest(string name)
@@ -186,6 +192,28 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                             1e-12);
                     }
                 }
+            });
+        }
+
+        private Test CreatePolynomialBehaviorTest(string name)
+        {
+            return new TestCase(name, () =>
+            {
+                var points = new List<double> { -2.0, -1.0, 0.0, 1.0, 2.0 };
+                var values = new List<double> { 1.0, 2.0, -1.0, 0.0, 1.0 };
+                var interpolation = Factory(points, values);
+
+                // Maple: "with(CurveFitting);"
+                // Maple: "PolynomialInterpolation([[-2,1],[-1,2],[0,-1],[1,0],[2,1]], x);"
+                Assert.AreApproximatelyEqual(-4.5968, interpolation.Interpolate(-2.4), 1e-6, "A -2.4");
+                Assert.AreApproximatelyEqual(1.65395, interpolation.Interpolate(-0.9), 1e-6, "A -0.9");
+                Assert.AreApproximatelyEqual(0.21875, interpolation.Interpolate(-0.5), 1e-6, "A -0.5");
+                Assert.AreApproximatelyEqual(-0.84205, interpolation.Interpolate(-0.1), 1e-6, "A -0.1");
+                Assert.AreApproximatelyEqual(-1.10805, interpolation.Interpolate(0.1), 1e-6, "A 0.1");
+                Assert.AreApproximatelyEqual(-1.1248, interpolation.Interpolate(0.4), 1e-6, "A 0.4");
+                Assert.AreApproximatelyEqual(0.5392, interpolation.Interpolate(1.2), 1e-6, "A 1.2");
+                Assert.AreApproximatelyEqual(-4431.0, interpolation.Interpolate(10.0), 1e-6, "A 10.0");
+                Assert.AreApproximatelyEqual(-5071.0, interpolation.Interpolate(-10.0), 1e-6, "A -10.0");
             });
         }
     }
