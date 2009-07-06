@@ -42,7 +42,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             Factory = Interpolation.CreateLinearBetweenPoints,
             Order = new[] { 2, 3, 6 },
-            PolynomialBehavior = false
+            PolynomialBehavior = false,
+            RationalBehavior = false
         };
 
         [VerifyContract]
@@ -50,7 +51,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             Factory = Interpolation.CreateRationalPoleFree,
             Order = new[] { 1, 2, 6 },
-            PolynomialBehavior = true
+            PolynomialBehavior = true,
+            RationalBehavior = true
         };
 
         [VerifyContract]
@@ -58,7 +60,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             Factory = (t, x) => new NevillePolynomialInterpolation(t, x),
             Order = new[] { 1, 2, 6 },
-            PolynomialBehavior = true
+            PolynomialBehavior = true,
+            RationalBehavior = false
         };
     }
 }
