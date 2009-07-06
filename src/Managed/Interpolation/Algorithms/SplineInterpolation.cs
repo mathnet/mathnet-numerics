@@ -64,8 +64,8 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Initializes a new instance of the SplineInterpolation class.
         /// </summary>
-        /// <param name="samplePoints">Sample Points t (length: N)</param>
-        /// <param name="splineCoefficients">Spline Coefficients (length: 4*(N-1))</param>
+        /// <param name="samplePoints">Sample Points t (length: N), sorted ascending.</param>
+        /// <param name="splineCoefficients">Spline Coefficients (length: 4*(N-1)).</param>
         public SplineInterpolation(
             IList<double> samplePoints,
             IList<double> splineCoefficients)
@@ -93,10 +93,10 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         }
 
         /// <summary>
-        /// Initialize the interpolation method with the given spline coefficients.
+        /// Initialize the interpolation method with the given spline coefficients (sorted by the sample points t).
         /// </summary>
-        /// <param name="samplePoints">Sample Points t (length: N)</param>
-        /// <param name="splineCoefficients">Spline Coefficients (length: 4*(N-1))</param>
+        /// <param name="samplePoints">Sample Points t (length: N), sorted ascending.</param>
+        /// <param name="splineCoefficients">Spline Coefficients (length: 4*(N-1)).</param>
         public void Initialize(
             IList<double> samplePoints,
             IList<double> splineCoefficients)

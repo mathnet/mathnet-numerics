@@ -55,8 +55,8 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Initializes a new instance of the LinearSplineInterpolation class.
         /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
-        /// <param name="sampleValues">Sample Values x(samplePoints)</param>
+        /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
         public LinearSplineInterpolation(
             IList<double> samplePoints,
             IList<double> sampleValues)
@@ -85,9 +85,9 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         }
 
         /// <summary>
-        /// Initialize the interpolation method with the given spline coefficients.
+        /// Initialize the interpolation method with the given spline coefficients (sorted by the sample points t).
         /// </summary>
-        /// <param name="samplePoints">Sample Points t</param>
+        /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
         public void Initialize(
             IList<double> samplePoints,
@@ -114,22 +114,16 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             }
 
             double[] coefficients = new double[4 * (samplePoints.Count - 1)];
-            double[] sortedPoints = new double[samplePoints.Count];
-            samplePoints.CopyTo(sortedPoints, 0);
-            double[] sortedValues = new double[sampleValues.Count];
-            sampleValues.CopyTo(sortedValues, 0);
 
-            /* TODO: Sorting.Sort(sortedPoints, sortedValues); */
-
-            for (int i = 0, j = 0; i < sortedPoints.Length - 1; i++, j += 4)
+            for (int i = 0, j = 0; i < samplePoints.Count - 1; i++, j += 4)
             {
-                coefficients[j] = sortedValues[i];
-                coefficients[j + 1] = (sortedValues[i + 1] - sortedValues[i]) / (sortedPoints[i + 1] - sortedPoints[i]);
+                coefficients[j] = sampleValues[i];
+                coefficients[j + 1] = (sampleValues[i + 1] - sampleValues[i]) / (samplePoints[i + 1] - samplePoints[i]);
                 coefficients[j + 2] = 0;
                 coefficients[j + 3] = 0;
             }
 
-            this.spline.Initialize(sortedPoints, coefficients);
+            this.spline.Initialize(samplePoints, coefficients);
         }
 
         /// <summary>

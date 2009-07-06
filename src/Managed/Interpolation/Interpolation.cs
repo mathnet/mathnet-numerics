@@ -54,9 +54,9 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Create a linear spline interpolation based on arbitrary points.
+        /// Create a linear spline interpolation based on arbitrary points (sorted ascending).
         /// </summary>
-        /// <param name="points">The sample points t. Supports both lists and arrays.</param>
+        /// <param name="points">The sample points t, sorted ascending. Supports both lists and arrays.</param>
         /// <param name="values">The sample point values x(t). Supports both lists and arrays.</param>
         /// <returns>
         /// An interpolation scheme optimized for the given sample points and values,
