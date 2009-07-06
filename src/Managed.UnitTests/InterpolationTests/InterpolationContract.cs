@@ -41,6 +41,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public Func<IList<double>, IList<double>, IInterpolation> Factory { get; set; }
         public int[] Order { get; set; }
         public bool PolynomialBehavior { get; set; }
+        public bool RationalBehavior { get; set; }
 
         public InterpolationContract()
         {
@@ -57,6 +58,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             if (PolynomialBehavior)
             {
                 yield return CreatePolynomialBehaviorTest("PolynomialBehavior");
+            }
+
+            if (RationalBehavior)
+            {
+                yield return CreateRationalBehaviorTest("RationalBehavior");
             }
         }
 
@@ -215,6 +221,57 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 Assert.AreApproximatelyEqual(-4431.0, interpolation.Interpolate(10.0), 1e-6, "A 10.0");
                 Assert.AreApproximatelyEqual(-5071.0, interpolation.Interpolate(-10.0), 1e-6, "A -10.0");
             });
+        }
+
+        private Test CreateRationalBehaviorTest(string name)
+        {
+            return new TestCase(name, () =>
+            {
+                double[] points, values;
+                SampleFunctionEquidistant(t => 1 / (1 + (t * t)), -5.0, 5.0, 41, out points, out values);
+                var interpolation = Factory(points, values);
+
+                for (int i = 0; i < points.Length; i++)
+                {
+                    Assert.AreApproximatelyEqual(
+                        values[i],
+                        interpolation.Interpolate(points[i]),
+                        1e-12,
+                        "Match on knots");
+                }
+
+                double[] testPoints, testValues;
+                SampleFunctionEquidistant(t => 1 / (1 + (t * t)), -5.0, 5.0, 81, out testPoints, out testValues);
+
+                for (int i = 0; i < testPoints.Length; i++)
+                {
+                    Assert.AreApproximatelyEqual(
+                        testValues[i],
+                        interpolation.Interpolate(testPoints[i]),
+                        1e-5,
+                        "Match between knots");
+                }
+            });
+        }
+
+        private static void SampleFunctionEquidistant(
+            Func<double, double> f,
+            double start,
+            double stop,
+            int samples,
+            out double[] points,
+            out double[] values)
+        {
+            points = new double[samples];
+            values = new double[samples];
+
+            double step = (stop - start) / (samples - 1);
+            for (int i = 0; i < points.Length; i++)
+            {
+                double t = start + (i * step);
+                points[i] = t;
+                values[i] = f(t);
+            }
         }
     }
 }
