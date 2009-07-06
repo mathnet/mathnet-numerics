@@ -28,7 +28,6 @@
 
 namespace MathNet.Numerics.Interpolation
 {
-    using System;
     using System.Collections.Generic;
     using Algorithms;
 

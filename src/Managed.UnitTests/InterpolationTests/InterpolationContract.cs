@@ -31,9 +31,9 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using System;
     using System.Collections.Generic;
     using Gallio.Framework.Assertions;
+    using Interpolation;
     using MbUnit.Framework;
     using MbUnit.Framework.ContractVerifiers;
-    using Interpolation;
 
     internal class InterpolationContract<TInterpolation> : AbstractContract
         where TInterpolation : IInterpolation
@@ -51,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             yield return CreateFactoryReturnsCorrectTypeTest("FactoryReturnsCorrectType");
             yield return CreateConsistentCapabilityBehaviorTest("ConsistentCapabilityBehavior");
             yield return CreateInterpolationMatchesNodePointsTest("InterpolationMatchesNodePoints");
-            yield return CreateCanDealWithLinearSamplesTest("CanDealWithLinearSamples");
+            yield return CreateLinearBehaviorTest("LinearBehavior");
         }
 
         private Test CreateFactoryReturnsCorrectTypeTest(string name)
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             });
         }
 
-        private Test CreateCanDealWithLinearSamplesTest(string name)
+        private Test CreateLinearBehaviorTest(string name)
         {
             return new TestCase(name, () =>
             {
@@ -156,6 +156,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                         values[i] = yOffset + i;
                     }
 
+                    var interpolation = Factory(points, values);
+
                     // build linear test vectors randomly between the sample points
                     double[] testPoints = new double[order + 1];
                     double[] testValues = new double[order + 1];
@@ -175,8 +177,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                         }
                     }
 
-                    var interpolation = Factory(points, values);
-
+                    // verify interpolation with test samples
                     for (int i = 0; i < testPoints.Length; i++)
                     {
                         Assert.AreApproximatelyEqual(
