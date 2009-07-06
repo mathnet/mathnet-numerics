@@ -44,6 +44,18 @@
     <Compile Include="..\Managed\Complex.cs">
       <Link>Complex.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Distributions\Continuous\Normal.cs">
+      <Link>Distributions\Continuous\Normal.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Distributions\IContinuousDistribution.cs">
+      <Link>Distributions\IContinuousDistribution.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Distributions\IDiscreteDistribution.cs">
+      <Link>Distributions\IDiscreteDistribution.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Distributions\IDistribution.cs">
+      <Link>Distributions\IDistribution.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
     </Compile>
@@ -58,6 +70,10 @@
     <None Include="..\MathNet.Numerics.snk">
       <Link>MathNet.Numerics.snk</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Distributions\Discrete\" />
+    <Folder Include="Distributions\Multivariate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

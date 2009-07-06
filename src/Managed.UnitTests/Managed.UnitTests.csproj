@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
     <Compile Include="ComplexTest.cs" />
+    <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +67,10 @@
       <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
       <Name>Managed</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DistributionTests\Discrete\" />
+    <Folder Include="DistributionTests\Multivariate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

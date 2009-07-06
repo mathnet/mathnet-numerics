@@ -43,6 +43,10 @@
   <ItemGroup>
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Complex.cs" />
+    <Compile Include="Distributions\Continuous\Normal.cs" />
+    <Compile Include="Distributions\IContinuousDistribution.cs" />
+    <Compile Include="Distributions\IDiscreteDistribution.cs" />
+    <Compile Include="Distributions\IDistribution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -60,6 +64,10 @@
     <None Include="..\MathNet.Numerics.snk">
       <Link>MathNet.Numerics.snk</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Distributions\Discrete\" />
+    <Folder Include="Distributions\Multivariate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
