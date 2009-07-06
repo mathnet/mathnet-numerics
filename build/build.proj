@@ -23,7 +23,14 @@
 			ShowOutput="true" 
 			ForceFullAnalysis="true" 
 			CacheResults="false" 
-			ContinueOnError="false" />
+			ContinueOnError="false">
+			  <Output TaskParameter="Succeeded" PropertyName="AllPassed"/>
+        <Output TaskParameter="ViolationCount" PropertyName="Violations"/>
+        <Output TaskParameter="FailedFiles" ItemName="Failures"/>  
+      </MSBuild.ExtensionPack.CodeQuality.StyleCop> 
+	    <Message Text="StyleCop Succeeded: $(AllPassed), Violations: $(Violations)"/>
+      <Warning Text="%(Failures.Identity) - Failed on Line %(Failures.LineNumber). %(Failures.CheckId): %(Failures.Message)"/>
+      <!--Error Text="StyleCop analysis warnings occured" Condition="'$(AllPassed)' == 'False'"  /-->
 	</Target>
 	
 	<Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged"></Target>
