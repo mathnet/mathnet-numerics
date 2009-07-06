@@ -133,26 +133,16 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            // Binary search in the [ t[0], ..., t[n-2] ] (t[n-1] is not included)
-            int low = 0;
-            int high = this.sampleCount - 1;
-            while (low != high - 1)
-            {
-                int middle = (low + high) / 2;
-                if (this.points[middle] > t)
-                {
-                    high = middle;
-                }
-                else
-                {
-                    low = middle;
-                }
-            }
+            int closestLeftIndex = IndexOfClosestPointLeftOf(t);
 
             // Interpolation
-            t = t - this.points[low];
-            int k = low << 2;
-            return this.coefficients[k] + (t * (this.coefficients[k + 1] + (t * (this.coefficients[k + 2] + (t * this.coefficients[k + 3])))));
+            double offset = t - this.points[closestLeftIndex];
+            int k = closestLeftIndex << 2;
+
+            return this.coefficients[k]
+                + (offset * (this.coefficients[k + 1]
+                + (offset * (this.coefficients[k + 2]
+                + (offset * this.coefficients[k + 3])))));
         }
 
         /// <summary>
@@ -164,26 +154,15 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <seealso cref="Differentiate(double, out double, out double)"/>
         public double Differentiate(double t)
         {
-            // Binary search in the [ t[0], ..., t[n-2] ] (t[n-1] is not included)
-            int low = 0;
-            int high = this.sampleCount - 1;
-            while (low != high - 1)
-            {
-                int middle = (low + high) / 2;
-                if (this.points[middle] > t)
-                {
-                    high = middle;
-                }
-                else
-                {
-                    low = middle;
-                }
-            }
+            int closestLeftIndex = IndexOfClosestPointLeftOf(t);
 
             // Differentiation
-            t = t - this.points[low];
-            int k = low << 2;
-            return this.coefficients[k + 1] + (2 * t * this.coefficients[k + 2]) + (3 * t * t * this.coefficients[k + 3]);
+            double offset = t - this.points[closestLeftIndex];
+            int k = closestLeftIndex << 2;
+
+            return this.coefficients[k + 1]
+                + (2 * offset * this.coefficients[k + 2])
+                + (3 * offset * offset * this.coefficients[k + 3]);
         }
 
         /// <summary>
@@ -200,28 +179,23 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             out double interpolatedValue,
             out double secondDerivative)
         {
-            // Binary search in the [ t[0], ..., t[n-2] ] (t[n-1] is not included)
-            int low = 0;
-            int high = this.sampleCount - 1;
-            while (low != high - 1)
-            {
-                int middle = (low + high) / 2;
-                if (this.points[middle] > t)
-                {
-                    high = middle;
-                }
-                else
-                {
-                    low = middle;
-                }
-            }
+            int closestLeftIndex = IndexOfClosestPointLeftOf(t);
 
             // Differentiation
-            t = t - this.points[low];
-            int k = low << 2;
-            interpolatedValue = this.coefficients[k] + (t * (this.coefficients[k + 1] + (t * (this.coefficients[k + 2] + (t * this.coefficients[k + 3])))));
-            secondDerivative = (2 * this.coefficients[k + 2]) + (6 * t * this.coefficients[k + 3]);
-            return this.coefficients[k + 1] + (2 * t * this.coefficients[k + 2]) + (3 * t * t * this.coefficients[k + 3]);
+            double offset = t - this.points[closestLeftIndex];
+            int k = closestLeftIndex << 2;
+
+            interpolatedValue = this.coefficients[k]
+                + (offset * (this.coefficients[k + 1]
+                + (offset * (this.coefficients[k + 2]
+                + (offset * this.coefficients[k + 3])))));
+
+            secondDerivative = (2 * this.coefficients[k + 2])
+                + (6 * offset * this.coefficients[k + 3]);
+
+            return this.coefficients[k + 1]
+                + (2 * offset * this.coefficients[k + 2])
+                + (3 * offset * offset * this.coefficients[k + 3]);
         }
 
         /// <summary>
@@ -231,6 +205,36 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated definite integral over the interval [a,t].</returns>
         /// <seealso cref="IInterpolation.SupportsIntegration"/>
         public double Integrate(double t)
+        {
+            int closestLeftIndex = IndexOfClosestPointLeftOf(t);
+
+            // Integration
+            double result = 0;
+            for (int i = 0, j = 0; i < closestLeftIndex; i++, j += 4)
+            {
+                double w = this.points[i + 1] - this.points[i];
+                result += w * (this.coefficients[j]
+                    + ((w * (this.coefficients[j + 1] * 0.5))
+                    + (w * ((this.coefficients[j + 2] / 3)
+                    + (w * this.coefficients[j + 3] * 0.25)))));
+            }
+
+            double offset = t - this.points[closestLeftIndex];
+            int k = closestLeftIndex << 2;
+
+            return result
+                + (offset * (this.coefficients[k]
+                + ((offset * (this.coefficients[k + 1] * 0.5))
+                + (offset * (this.coefficients[k + 2] / 3))
+                + (offset * this.coefficients[k + 3] * 0.25))));
+        }
+
+        /// <summary>
+        /// Find the index of the greatest sample point smaller than t.
+        /// </summary>
+        /// <param name="t">The value to look for.</param>
+        /// <returns>The sample point index.</returns>
+        private int IndexOfClosestPointLeftOf(double t)
         {
             // Binary search in the [ t[0], ..., t[n-2] ] (t[n-1] is not included)
             int low = 0;
@@ -248,17 +252,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 }
             }
 
-            // Integration
-            double result = 0;
-            for (int i = 0, j = 0; i < low; i++, j += 4)
-            {
-                double w = this.points[i + 1] - this.points[i];
-                result += w * (this.coefficients[j] + ((w * (this.coefficients[j + 1] * 0.5)) + (w * ((this.coefficients[j + 2] / 3) + (w * this.coefficients[j + 3] * 0.25)))));
-            }
-
-            t = t - this.points[low];
-            int k = low << 2;
-            return result + (t * (this.coefficients[k] + ((t * (this.coefficients[k + 1] * 0.5)) + (t * (this.coefficients[k + 2] / 3)) + (t * this.coefficients[k + 3] * 0.25))));
+            return low;
         }
     }
 }

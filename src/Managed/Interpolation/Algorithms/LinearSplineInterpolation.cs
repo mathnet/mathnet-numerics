@@ -119,7 +119,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             double[] sortedValues = new double[sampleValues.Count];
             sampleValues.CopyTo(sortedValues, 0);
 
-            // TODO: Sorting.Sort(sortedPoints, sortedValues);
+            /* TODO: Sorting.Sort(sortedPoints, sortedValues); */
 
             for (int i = 0, j = 0; i < sortedPoints.Length - 1; i++, j += 4)
             {
