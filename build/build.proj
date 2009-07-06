@@ -1,10 +1,12 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildAndTestManaged" ToolsVersion="3.5">
 	<UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.3\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
 	<UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.0.6.787\bin\Gallio.MSBuildTasks.dll" />
+	
 	<Target Name="CompileManaged">
-		<MSBuild Projects="C:\source\mathnet-numerics\src\Managed.UnitTests\Managed.UnitTests.csproj">
+		<MSBuild Projects="../src/Managed.UnitTests/Managed.UnitTests.csproj">
 		</MSBuild>
 	</Target>
+	
 	<Target Name="TestManaged" DependsOnTargets="CompileManaged">
 		<Gallio.MSBuildTasks.Gallio ContinueOnError="False" Assemblies="../src/Managed.UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" />
 	</Target>
@@ -23,5 +25,6 @@
 			CacheResults="false" 
 			ContinueOnError="false" />
 	</Target>
+	
 	<Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged"></Target>
 </Project>
