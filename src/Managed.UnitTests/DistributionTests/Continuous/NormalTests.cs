@@ -133,13 +133,20 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
+        public void CanSetRandomNumberGenerator()
+        {
+            var n = new Normal();
+            n.RandomNumberGenerator = new Random();
+        }
+
+        [Test]
         [Row(-0.0)]
         [Row(0.0)]
         [Row(0.1)]
         [Row(1.0)]
         [Row(10.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void CanSetRandomNumberGenerator(double prec)
+        [Row(Double.PositiveInfinity)]
+        public void CanSetPrecision(double prec)
         {
             var n = new Normal();
             n.Precision = prec;
@@ -151,6 +158,62 @@ namespace MathNet.Numerics.UnitTests
         {
             var n = new Normal();
             n.Precision = -1.0;
+        }
+
+        [Test]
+        [Row(-0.0)]
+        [Row(0.0)]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void CanSetVariance(double var)
+        {
+            var n = new Normal();
+            n.Variance = var;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SetVarianceFailsWithNegativeVariance()
+        {
+            var n = new Normal();
+            n.Variance = -1.0;
+        }
+
+        [Test]
+        [Row(-0.0)]
+        [Row(0.0)]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void CanSetStdDev(double sdev)
+        {
+            var n = new Normal();
+            n.StdDev = sdev;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SetStdDevFailsWithNegativeStdDev()
+        {
+            var n = new Normal();
+            n.StdDev = -1.0;
+        }
+
+        [Test]
+        [Row(Double.NegativeInfinity)]
+        [Row(-0.0)]
+        [Row(0.0)]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void CanSetMean(double mean)
+        {
+            var n = new Normal();
+            n.Mean = mean;
         }
     }
 }
