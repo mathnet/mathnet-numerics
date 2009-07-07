@@ -44,6 +44,9 @@
     <Compile Include="..\Managed\Complex.cs">
       <Link>Complex.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Distributions\Continuous\Normal.cs">
       <Link>Distributions\Continuous\Normal.cs</Link>
     </Compile>
@@ -58,6 +61,12 @@
     </Compile>
     <Compile Include="..\Managed\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\SiConstants.cs">
+      <Link>SiConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\SiPrefixes.cs">
+      <Link>SiPrefixes.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

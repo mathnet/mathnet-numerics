@@ -144,7 +144,7 @@ namespace MathNet.Numerics.Distributions
         public double Precision
         {
             get { return 1.0 / (mStdDev * mStdDev); }
-            set { throw new NotImplementedException(); }
+            set { SetParameters(mMean, 1.0/Math.Sqrt(value)); }
         }
 
         #region IDistribution implementation
@@ -153,17 +153,17 @@ namespace MathNet.Numerics.Distributions
         public double Mean
         {
             get { return mMean; }
-            set { throw new NotImplementedException(); }
+            set { SetParameters(value, mStdDev); }
         }
         public double Variance
         {
             get { return mStdDev * mStdDev; }
-            set { throw new NotImplementedException(); }
+            set { SetParameters(mMean, value); }
         }
         public double StdDev
         {
             get { return mStdDev; }
-            set { throw new NotImplementedException(); }
+            set { SetParameters(mMean, value); }
         }
         public double Entropy { get { throw new NotImplementedException(); } }
         public double Skewness { get { throw new NotImplementedException(); } }
