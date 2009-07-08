@@ -32,7 +32,8 @@ namespace MathNet.Numerics.Distributions
     using System.Collections.Generic;
 
     /// <summary>
-    /// Implements the univariate Normal (or Gaussian) distribution.
+    /// Implements the univariate Normal (or Gaussian) distribution. For details about this distribution, see 
+    /// <a href="http://en.wikipedia.org/wiki/Normal_distribution">Wikipedia - Normal distribution</a>.
     /// </summary>
     public class Normal : IContinuousDistribution
     {
@@ -43,24 +44,28 @@ namespace MathNet.Numerics.Distributions
 
         /// <summary>
         /// Constructs a standard normal distribution. This is a normal distribution with mean 0.0
-        /// and standard deviation 1.0.
+        /// and standard deviation 1.0. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         public Normal() : this(0.0, 1.0)
         {
         }
 
         /// <summary>
-        /// Construct a normal distribution with a particular mean and standard deviation.
+        /// Construct a normal distribution with a particular mean and standard deviation. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="stddev">The standard deviation of the normal distribution.</param>
         public Normal(double mean, double stddev)
         {
             SetParameters(mean, stddev);
+            RandomSource = new Random();
         }
 
         /// <summary>
-        /// Constructs a normal distribution from a mean and standard deviation.
+        /// Constructs a normal distribution from a mean and standard deviation. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="stddev">The standard deviation of the normal distribution.</param>
@@ -70,7 +75,8 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Constructs a normal distribution from a mean and variance.
+        /// Constructs a normal distribution from a mean and variance. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="stddev">The variance of the normal distribution.</param>
@@ -80,7 +86,8 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Constructs a normal distribution from a mean and precision.
+        /// Constructs a normal distribution from a mean and precision. The distribution will
+        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="stddev">The precision of the normal distribution.</param>
@@ -141,6 +148,9 @@ namespace MathNet.Numerics.Distributions
             }
         }
         
+        /// <summary>
+        /// The precision of the normal distribution.
+        /// </summary>
         public double Precision
         {
             get { return 1.0 / (mStdDev * mStdDev); }
@@ -148,38 +158,117 @@ namespace MathNet.Numerics.Distributions
         }
 
         #region IDistribution implementation
-        public Random RandomNumberGenerator { get; set; }
 
+        /// <summary>
+        /// The random number generator which is used to draw random samples.
+        /// </summary>
+        public Random RandomSource { get; set; }
+
+        /// <summary>
+        /// The mean of the normal distribution.
+        /// </summary>
         public double Mean
         {
             get { return mMean; }
             set { SetParameters(value, mStdDev); }
         }
+
+        /// <summary>
+        /// The variance of the normal distribution.
+        /// </summary>
         public double Variance
         {
             get { return mStdDev * mStdDev; }
             set { SetParameters(mMean, value); }
         }
+
+        /// <summary>
+        /// The standard deviation of the normal distribution.
+        /// </summary>
         public double StdDev
         {
             get { return mStdDev; }
             set { SetParameters(mMean, value); }
         }
-        public double Entropy { get { throw new NotImplementedException(); } }
-        public double Skewness { get { throw new NotImplementedException(); } }
+
+        /// <summary>
+        /// The entropy of the normal distribution.
+        /// </summary>
+        public double Entropy { get { return Math.Log(mStdDev) + Constants.LogSqrt2PiE; } }
+
+        /// <summary>
+        /// The skewness of the normal distribution.
+        /// </summary>
+        public double Skewness { get { return 0.0; } }
         #endregion
 
         #region IContinuousDistribution implementation
-        public double Mode { get { throw new NotImplementedException(); } }
-        public double Median { get { throw new NotImplementedException(); } }
-        public double Minimum { get { throw new NotImplementedException(); } }
-        public double Maximum { get { throw new NotImplementedException(); } }
-        public double Density(double x) { throw new NotImplementedException(); }
-        public double DensityLn(double x) { throw new NotImplementedException(); }
+
+        /// <summary>
+        /// The mode of the normal distribution.
+        /// </summary>
+        public double Mode { get { return mMean; } }
+
+        /// <summary>
+        /// The median of the normal distribution.
+        /// </summary>
+        public double Median { get { return mMean; } }
+
+        /// <summary>
+        /// The minimum of the normal distribution.
+        /// </summary>
+        public double Minimum { get { return System.Double.NegativeInfinity; } }
+
+        /// <summary>
+        /// The maximum of the normal distribution.
+        /// </summary>
+        public double Maximum { get { return System.Double.PositiveInfinity; } }
+
+        /// <summary>
+        /// Computes the density of the normal distribution.
+        /// </summary>
+        /// <param name="x">The location at which to compute the density.</param>
+        public double Density(double x)
+        {
+            double d = (x - mMean) / mStdDev;
+            return Math.Exp(-0.5*d*d) / (Constants.Sqrt2Pi*mStdDev);
+        }
+
+        /// <summary>
+        /// Computes the log density of the normal distribution.
+        /// </summary>
+        /// <param name="x">The location at which to compute the log density.</param>
+        public double DensityLn(double x)
+        {
+            double d = (x - mMean) / mStdDev;
+            return -0.5 * d * d - Math.Log(mStdDev) - Constants.LogSqrt2Pi;
+        }
+
         public double CumulativeDistribution(double x) { throw new NotImplementedException(); }
 
-        public double Sample() { throw new NotImplementedException(); }
-        public IEnumerable<double> Samples() { throw new NotImplementedException(); }
+        /// <summary>
+        /// Generates a sample from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        public double Sample()
+        {
+            double r2;
+            return mMean + mStdDev * SampleBoxMuller(rng, r2);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        public IEnumerable<double> Samples()
+        {
+            double r2;
+
+            while (true)
+            {
+                double r1 = SampleBoxMuller(rng, r2);
+                yield return mean + stddev * r1;
+                yield return mean + stddev * r2;
+            }
+        }
         #endregion
 
         public double InverseCumulativeDistribution(double p)
@@ -187,7 +276,55 @@ namespace MathNet.Numerics.Distributions
             throw new NotImplementedException();
         }
 
-        public static double Sample(System.Random rng, double mean, double stddev) { throw new NotImplementedException(); }
-        public static IEnumerable<double> Samples(System.Random rng, double mean, double stddev) { throw new NotImplementedException(); }
+        /// <summary>
+        /// Generates a sample from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="mean">The mean of the normal distribution from which to generate samples.</param>
+        /// <param name="stddev">The standard deviation of the normal distribution from which to generate samples.</param>
+        public static double Sample(System.Random rng, double mean, double stddev)
+        {
+            double r2;
+            return mean + stddev * SampleBoxMuller(rng, r2);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="rng">The random number generator to use.</param>
+        /// <param name="mean">The mean of the normal distribution from which to generate samples.</param>
+        /// <param name="stddev">The standard deviation of the normal distribution from which to generate samples.</param>
+        public static IEnumerable<double> Samples(System.Random rng, double mean, double stddev)
+        {
+            double r2;
+
+            while(true)
+            {
+                double r1 = SampleBoxMuller(rng, r2);
+                yield return mean + stddev * r1;
+                yield return mean + stddev * r2;
+            }
+        }
+
+        /// <summary>
+        /// Samples a pair of standard normal distributed random variables using the <i>Box-Muller</i> algorithm.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="r2">The second random number.</param>
+        internal static double SampleBoxMuller(System.Random rnd, out double r2)
+        {
+            double v1 = 2.0 * rnd.NextDouble() - 1.0;
+            double v2 = 2.0 * rnd.NextDouble() - 1.0;
+            double r = v1 * v1 + v2 * v2;
+            while (r >= 1.0 || r == 0.0)
+            {
+                v1 = 2.0 * rnd.NextDouble() - 1.0;
+                v2 = 2.0 * rnd.NextDouble() - 1.0;
+                r = v1 * v1 + v2 * v2;
+            }
+            double fac = System.Math.Sqrt(-2.0 * System.Math.Log(r) / r);
+            r2 = v2 * fac;
+            return v1 * fac;
+        }
     }
 }

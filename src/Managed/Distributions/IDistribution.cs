@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to generate random samples from the distribution.
         /// </summary>
-        Random RandomNumberGenerator { get; set; }
+        Random RandomSource { get; set; }
 
         /// <summary>
         /// The mean of the distribution.
