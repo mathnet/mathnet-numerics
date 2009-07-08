@@ -215,5 +215,115 @@ namespace MathNet.Numerics.UnitTests
             var n = new Normal();
             n.Mean = mean;
         }
+
+        [Test]
+        [Row(-0.0)]
+        [Row(0.0)]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void ValidateEntropy(double sdev)
+        {
+            var n = new Normal(1.0, sdev);
+            AssertEx.AreEqual<double>(MathNet.Numerics.Constants.LogSqrt2PiE + Math.Log(n.StdDev), n.Entropy);
+        }
+
+        [Test]
+        [Row(-0.0)]
+        [Row(0.0)]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void ValidateSkewness(double sdev)
+        {
+            var n = new Normal(1.0, sdev);
+            AssertEx.AreEqual<double>(0.0, n.Skewness);
+        }
+
+        [Test]
+        [Row(Double.NegativeInfinity)]
+        [Row(-0.0)]
+        [Row(0.0)]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void ValidateMode(double mean)
+        {
+            var n = new Normal(mean, 1.0);
+            AssertEx.AreEqual<double>(mean, n.Mode);
+        }
+
+        [Test]
+        [Row(Double.NegativeInfinity)]
+        [Row(-0.0)]
+        [Row(0.0)]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void ValidateMedian(double mean)
+        {
+            var n = new Normal(mean, 1.0);
+            AssertEx.AreEqual<double>(mean, n.Median);
+        }
+
+        [Test]
+        public void ValidateMinimum()
+        {
+            var n = new Normal();
+            AssertEx.AreEqual<double>(System.Double.NegativeInfinity, n.Minimum);
+        }
+
+        [Test]
+        public void ValidateMaximum()
+        {
+            var n = new Normal();
+            AssertEx.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
+        }
+
+        [Test]
+        [Row(0.0, 0.0)]
+        [Row(0.0, 0.1)]
+        [Row(0.0, 1.0)]
+        [Row(0.0, 10.0)]
+        [Row(10.0, 1.0)]
+        [Row(-5.0, 100.0)]
+        [Row(0.0, Double.PositiveInfinity)]
+        public void ValidateDensity(double mean, double sdev)
+        {
+            var n = Normal.WithMeanStdDev(mean, sdev);
+            for(int i = 0; i < 11; i++)
+            {
+                double x = i - 5.0;
+                double d = (mean - x)/sdev;
+                double pdf = Math.Exp(-0.5*d*d)/(sdev*Constants.Sqrt2Pi);
+                AssertEx.AreEqual<double>(pdf, n.Density(x));
+            }
+        }
+
+        [Test]
+        [Row(0.0, 0.0)]
+        [Row(0.0, 0.1)]
+        [Row(0.0, 1.0)]
+        [Row(0.0, 10.0)]
+        [Row(10.0, 1.0)]
+        [Row(-5.0, 100.0)]
+        [Row(0.0, Double.PositiveInfinity)]
+        public void ValidateDensityLn(double mean, double sdev)
+        {
+            var n = Normal.WithMeanStdDev(mean, sdev);
+            for (int i = 0; i < 11; i++)
+            {
+                double x = i - 5.0;
+                double d = (mean - x) / sdev;
+                double pdfln = -0.5 * d * d - Math.Log(sdev) - Constants.LogSqrt2Pi;
+                AssertEx.AreEqual<double>(pdfln, n.DensityLn(x));
+            }
+        }
+
+        test samplers
     }
 }
