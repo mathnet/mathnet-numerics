@@ -2,11 +2,15 @@
   <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.3\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
   <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.0.6.787\bin\Gallio.MSBuildTasks.dll" />
 
-  <Target Name="CompileManaged">
-    <MSBuild Projects="../src/Managed.UnitTests/Managed.UnitTests.csproj" />
+  <Target Name="CompileManagedDebug">
+    <MSBuild Projects="../src/Managed.UnitTests/Managed.UnitTests.csproj" Properties="Configuration=Debug"/>
   </Target>
 
-  <Target Name="TestManaged" DependsOnTargets="CompileManaged">
+  <Target Name="CompileManagedRelease">
+    <MSBuild Projects="../src/Managed.UnitTests/Managed.UnitTests.csproj" Properties="Configuration=Release;Optimize=True"/>
+  </Target>
+
+  <Target Name="TestManaged" DependsOnTargets="CompileManagedDebug">
     <Gallio.MSBuildTasks.Gallio
       ContinueOnError="False"
       IgnoreFailures="False"
@@ -37,9 +41,11 @@
   </Target>
   
   
-  <Target Name="BuildDocs">
+  <Target Name="BuildDocs" DependsOnTargets="CompileManagedRelease">
     <MSBuild Projects="./mathnet-numerics.shfbproj" />
   </Target>
 
-  <Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged; BuildDocs"></Target>
+  <Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged"></Target>
+  
+  <Target Name="Release" DependsOnTargets="BuildDocs"></Target>
 </Project>

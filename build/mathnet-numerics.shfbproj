@@ -21,8 +21,8 @@
     <SandcastlePath>..\tools\Sandcastle\</SandcastlePath>
     <WorkingPath>doc\</WorkingPath>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\src\Managed\bin\Debug\MathNet.Numerics.dll" xmlns="" />
-<DocumentationSource sourceFile="..\src\Managed\bin\Debug\MathNet.Numerics.XML" xmlns="" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\src\Managed\bin\Release\MathNet.Numerics.dll" />
+<DocumentationSource sourceFile="..\src\Managed\bin\Release\MathNet.Numerics.xml" /></DocumentationSources>
     <Preliminary>True</Preliminary>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
