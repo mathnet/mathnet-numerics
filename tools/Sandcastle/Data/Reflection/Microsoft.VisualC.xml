@@ -1,0 +1,722 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="Microsoft.VisualC">
+      <assemblydata version="8.0.0.0" culture="" key="002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>FinalPublicKey.snk</value>
+          </argument>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:Microsoft.VisualC.DebugInfoInPDBAttribute">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.DebugInfoInPDBAttribute" />
+      <apidata name="DebugInfoInPDBAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Attribute" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.AttributeUsageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.AttributeTargets" ref="false" />
+            <enumValue>
+              <field name="All" />
+            </enumValue>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_DebugInfoInPDBAttribute" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.DebugInfoInPDBAttribute">
+      <topicdata name="DebugInfoInPDBAttribute" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.DebugInfoInPDBAttribute" />
+      <apidata name="DebugInfoInPDBAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.DebugInfoInPDBAttribute.#ctor" />
+        <element api="M:System.Attribute.Equals(System.Object)" />
+        <element api="M:System.Attribute.GetHashCode" />
+        <element api="M:System.Attribute.IsDefaultAttribute" />
+        <element api="M:System.Attribute.Match(System.Object)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfoCount(System.UInt32@)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)" />
+        <element api="P:System.Attribute.TypeId" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_DebugInfoInPDBAttribute" />
+    </api>
+    <api id="M:Microsoft.VisualC.DebugInfoInPDBAttribute.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.DebugInfoInPDBAttribute" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_DebugInfoInPDBAttribute_ctor" />
+    </api>
+    <api id="T:Microsoft.VisualC.DecoratedNameAttribute">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.DecoratedNameAttribute" />
+      <apidata name="DecoratedNameAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Attribute" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.AttributeUsageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.AttributeTargets" ref="false" />
+            <enumValue>
+              <field name="All" />
+            </enumValue>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_DecoratedNameAttribute" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.DecoratedNameAttribute">
+      <topicdata name="DecoratedNameAttribute" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.DecoratedNameAttribute" />
+      <apidata name="DecoratedNameAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.VisualC.DecoratedNameAttribute.#ctor">
+          <element api="M:Microsoft.VisualC.DecoratedNameAttribute.#ctor" />
+          <element api="M:Microsoft.VisualC.DecoratedNameAttribute.#ctor(System.String)" />
+        </element>
+        <element api="M:System.Attribute.Equals(System.Object)" />
+        <element api="M:System.Attribute.GetHashCode" />
+        <element api="M:System.Attribute.IsDefaultAttribute" />
+        <element api="M:System.Attribute.Match(System.Object)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfoCount(System.UInt32@)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)" />
+        <element api="P:System.Attribute.TypeId" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_DecoratedNameAttribute" />
+    </api>
+    <api id="Overload:Microsoft.VisualC.DecoratedNameAttribute.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.VisualC.DecoratedNameAttribute" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:Microsoft.VisualC.DecoratedNameAttribute.#ctor" />
+        <element api="M:Microsoft.VisualC.DecoratedNameAttribute.#ctor(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.DecoratedNameAttribute" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_VisualC_DecoratedNameAttribute_ctor" />
+    </api>
+    <api id="M:Microsoft.VisualC.DecoratedNameAttribute.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:Microsoft.VisualC.DecoratedNameAttribute.#ctor" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.DecoratedNameAttribute" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_DecoratedNameAttribute_ctor" />
+    </api>
+    <api id="M:Microsoft.VisualC.DecoratedNameAttribute.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:Microsoft.VisualC.DecoratedNameAttribute.#ctor" />
+      <parameters>
+        <parameter name="decoratedName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.DecoratedNameAttribute" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_DecoratedNameAttribute_ctor_1_61b4e77c" />
+    </api>
+    <api id="T:Microsoft.VisualC.IsConstModifier">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.IsConstModifier" />
+      <apidata name="IsConstModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_IsConstModifier" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.IsConstModifier">
+      <topicdata name="IsConstModifier" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.IsConstModifier" />
+      <apidata name="IsConstModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.IsConstModifier.#ctor" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_IsConstModifier" />
+    </api>
+    <api id="M:Microsoft.VisualC.IsConstModifier.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.IsConstModifier" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_IsConstModifier_ctor" />
+    </api>
+    <api id="T:Microsoft.VisualC.IsCXXReferenceModifier">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.IsCXXReferenceModifier" />
+      <apidata name="IsCXXReferenceModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_IsCXXReferenceModifier" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.IsCXXReferenceModifier">
+      <topicdata name="IsCXXReferenceModifier" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.IsCXXReferenceModifier" />
+      <apidata name="IsCXXReferenceModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.IsCXXReferenceModifier.#ctor" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_IsCXXReferenceModifier" />
+    </api>
+    <api id="M:Microsoft.VisualC.IsCXXReferenceModifier.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.IsCXXReferenceModifier" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_IsCXXReferenceModifier_ctor" />
+    </api>
+    <api id="T:Microsoft.VisualC.IsLongModifier">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.IsLongModifier" />
+      <apidata name="IsLongModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_IsLongModifier" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.IsLongModifier">
+      <topicdata name="IsLongModifier" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.IsLongModifier" />
+      <apidata name="IsLongModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.IsLongModifier.#ctor" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_IsLongModifier" />
+    </api>
+    <api id="M:Microsoft.VisualC.IsLongModifier.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.IsLongModifier" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_IsLongModifier_ctor" />
+    </api>
+    <api id="T:Microsoft.VisualC.IsSignedModifier">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.IsSignedModifier" />
+      <apidata name="IsSignedModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_IsSignedModifier" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.IsSignedModifier">
+      <topicdata name="IsSignedModifier" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.IsSignedModifier" />
+      <apidata name="IsSignedModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.IsSignedModifier.#ctor" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_IsSignedModifier" />
+    </api>
+    <api id="M:Microsoft.VisualC.IsSignedModifier.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.IsSignedModifier" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_IsSignedModifier_ctor" />
+    </api>
+    <api id="T:Microsoft.VisualC.IsVolatileModifier">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.IsVolatileModifier" />
+      <apidata name="IsVolatileModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_IsVolatileModifier" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.IsVolatileModifier">
+      <topicdata name="IsVolatileModifier" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.IsVolatileModifier" />
+      <apidata name="IsVolatileModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.IsVolatileModifier.#ctor" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_IsVolatileModifier" />
+    </api>
+    <api id="M:Microsoft.VisualC.IsVolatileModifier.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.IsVolatileModifier" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_IsVolatileModifier_ctor" />
+    </api>
+    <api id="T:Microsoft.VisualC.MiscellaneousBitsAttribute">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.MiscellaneousBitsAttribute" />
+      <apidata name="MiscellaneousBitsAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Attribute" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.AttributeUsageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.AttributeTargets" ref="false" />
+            <enumValue>
+              <field name="All" />
+            </enumValue>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_MiscellaneousBitsAttribute" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.MiscellaneousBitsAttribute">
+      <topicdata name="MiscellaneousBitsAttribute" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.MiscellaneousBitsAttribute" />
+      <apidata name="MiscellaneousBitsAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.MiscellaneousBitsAttribute.#ctor(System.Int32)" />
+        <element api="F:Microsoft.VisualC.MiscellaneousBitsAttribute.m_dwAttrs" />
+        <element api="M:System.Attribute.Equals(System.Object)" />
+        <element api="M:System.Attribute.GetHashCode" />
+        <element api="M:System.Attribute.IsDefaultAttribute" />
+        <element api="M:System.Attribute.Match(System.Object)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfoCount(System.UInt32@)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)" />
+        <element api="P:System.Attribute.TypeId" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_MiscellaneousBitsAttribute" />
+    </api>
+    <api id="Fields.T:Microsoft.VisualC.MiscellaneousBitsAttribute">
+      <topicdata name="MiscellaneousBitsAttribute" group="list" subgroup="Fields" typeTopicId="T:Microsoft.VisualC.MiscellaneousBitsAttribute" />
+      <apidata name="MiscellaneousBitsAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:Microsoft.VisualC.MiscellaneousBitsAttribute.m_dwAttrs" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="Fields_T_Microsoft_VisualC_MiscellaneousBitsAttribute" />
+    </api>
+    <api id="M:Microsoft.VisualC.MiscellaneousBitsAttribute.#ctor(System.Int32)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <parameters>
+        <parameter name="miscellaneousBits">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.MiscellaneousBitsAttribute" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_MiscellaneousBitsAttribute_ctor_1_f9cace8a" />
+    </api>
+    <api id="F:Microsoft.VisualC.MiscellaneousBitsAttribute.m_dwAttrs">
+      <topicdata group="api" />
+      <apidata name="m_dwAttrs" group="member" subgroup="field" />
+      <memberdata visibility="public" />
+      <fielddata literal="false" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.MiscellaneousBitsAttribute" ref="true" />
+      </containers>
+      <file name="F_Microsoft_VisualC_MiscellaneousBitsAttribute_m_dwAttrs" />
+    </api>
+    <api id="T:Microsoft.VisualC.NeedsCopyConstructorModifier">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.NeedsCopyConstructorModifier" />
+      <apidata name="NeedsCopyConstructorModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_NeedsCopyConstructorModifier" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.NeedsCopyConstructorModifier">
+      <topicdata name="NeedsCopyConstructorModifier" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.NeedsCopyConstructorModifier" />
+      <apidata name="NeedsCopyConstructorModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.NeedsCopyConstructorModifier.#ctor" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_NeedsCopyConstructorModifier" />
+    </api>
+    <api id="M:Microsoft.VisualC.NeedsCopyConstructorModifier.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.NeedsCopyConstructorModifier" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_NeedsCopyConstructorModifier_ctor" />
+    </api>
+    <api id="T:Microsoft.VisualC.NoSignSpecifiedModifier">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.VisualC.NoSignSpecifiedModifier" />
+      <apidata name="NoSignSpecifiedModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.VisualC.dll is an obsolete assembly and exists only for backwards compatibility.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VisualC_NoSignSpecifiedModifier" />
+    </api>
+    <api id="AllMembers.T:Microsoft.VisualC.NoSignSpecifiedModifier">
+      <topicdata name="NoSignSpecifiedModifier" group="list" subgroup="members" typeTopicId="T:Microsoft.VisualC.NoSignSpecifiedModifier" />
+      <apidata name="NoSignSpecifiedModifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.VisualC.NoSignSpecifiedModifier.#ctor" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC" />
+        <namespace api="N:Microsoft.VisualC" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VisualC_NoSignSpecifiedModifier" />
+    </api>
+    <api id="M:Microsoft.VisualC.NoSignSpecifiedModifier.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.VisualC" module="Microsoft.VisualC">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.VisualC" />
+        <type api="T:Microsoft.VisualC.NoSignSpecifiedModifier" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VisualC_NoSignSpecifiedModifier_ctor" />
+    </api>
+  </apis>
+</reflection>

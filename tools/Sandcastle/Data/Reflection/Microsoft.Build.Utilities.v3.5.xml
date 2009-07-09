@@ -1,0 +1,2872 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="Microsoft.Build.Utilities.v3.5">
+      <assemblydata version="3.5.0.0" culture="" key="002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Build.Utilities.v3.5.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Build.Utilities.v3.5.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Build.Utilities.v3.5.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>f:\dd\tools\devdiv\FinalPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="RequestMinimum" />
+            </enumValue>
+          </argument>
+          <assignment name="Flags">
+            <type api="T:System.Security.Permissions.SecurityPermissionFlag" ref="false" />
+            <enumValue>
+              <field name="Execution" />
+            </enumValue>
+          </assignment>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:Microsoft.Build.Utilities.AppDomainIsolatedTask">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.AppDomainIsolatedTask" />
+      <apidata name="AppDomainIsolatedTask" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.MarshalByRefObject" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+        <descendents>
+          <type api="T:Microsoft.Build.Tasks.AppDomainIsolatedTaskExtension" ref="true" />
+        </descendents>
+      </family>
+      <implements>
+        <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.LoadInSeparateAppDomainAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_Build_Utilities_AppDomainIsolatedTask" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Utilities.AppDomainIsolatedTask">
+      <topicdata name="AppDomainIsolatedTask" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Utilities.AppDomainIsolatedTask" />
+      <apidata name="AppDomainIsolatedTask" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.Build.Utilities.AppDomainIsolatedTask.#ctor">
+          <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.#ctor" />
+          <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.#ctor(System.Resources.ResourceManager)" />
+          <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.#ctor(System.Resources.ResourceManager,System.String)" />
+        </element>
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.BuildEngine" />
+        <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.Execute" />
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.HostObject" />
+        <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.InitializeLifetimeService" />
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.Log" />
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.TaskResources" />
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="Overload:Microsoft.Build.Utilities.AppDomainIsolatedTask.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Utilities_AppDomainIsolatedTask" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Utilities.AppDomainIsolatedTask">
+      <topicdata name="AppDomainIsolatedTask" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Utilities.AppDomainIsolatedTask" />
+      <apidata name="AppDomainIsolatedTask" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.Execute" />
+        <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.InitializeLifetimeService" />
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="Overload:Microsoft.Build.Utilities.AppDomainIsolatedTask.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Utilities_AppDomainIsolatedTask" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Utilities.AppDomainIsolatedTask">
+      <topicdata name="AppDomainIsolatedTask" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Utilities.AppDomainIsolatedTask" />
+      <apidata name="AppDomainIsolatedTask" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.Log" />
+        <element api="P:Microsoft.Build.Utilities.AppDomainIsolatedTask.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Utilities_AppDomainIsolatedTask" />
+    </api>
+    <api id="Overload:Microsoft.Build.Utilities.AppDomainIsolatedTask.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.AppDomainIsolatedTask" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.#ctor" />
+        <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.#ctor(System.Resources.ResourceManager)" />
+        <element api="M:Microsoft.Build.Utilities.AppDomainIsolatedTask.#ctor(System.Resources.ResourceManager,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.AppDomainIsolatedTask" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_Build_Utilities_AppDomainIsolatedTask_ctor" />
+    </api>
+    <api id="Overload:Microsoft.Build.Utilities.AppDomainIsolatedTask.MemberwiseClone">
+      <topicdata name="MemberwiseClone" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.AppDomainIsolatedTask" allInherited="true" />
+      <apidata name="MemberwiseClone" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.AppDomainIsolatedTask" />
+      </containers>
+      <file name="O_T_Microsoft_Build_Utilities_AppDomainIsolatedTask_MemberwiseClone" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.#ctor" />
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Utilities_CommandLineBuilder_ctor" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNameIfNotNull(Microsoft.Build.Framework.ITaskItem)">
+      <topicdata group="api" />
+      <apidata name="AppendFileNameIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNameIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="fileItem">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendFileNameIfNotNull_1_ae5ecb8b" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNameIfNotNull(System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendFileNameIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNameIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="fileName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendFileNameIfNotNull_1_72eac341" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNamesIfNotNull(Microsoft.Build.Framework.ITaskItem[],System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendFileNamesIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNamesIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="fileItems">
+          <arrayOf rank="1">
+            <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="delimiter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendFileNamesIfNotNull_2_58e61b07" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNamesIfNotNull(System.String[],System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendFileNamesIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNamesIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="fileNames">
+          <arrayOf rank="1">
+            <type api="T:System.String" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="delimiter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendFileNamesIfNotNull_2_77b84f8e" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendFileNameWithQuoting(System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendFileNameWithQuoting" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="fileName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendFileNameWithQuoting_1_72eac341" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSpaceIfNotEmpty">
+      <topicdata group="api" />
+      <apidata name="AppendSpaceIfNotEmpty" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="false" />
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSpaceIfNotEmpty" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitch(System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitch" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitch_1_72eac341" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchIfNotNull(System.String,Microsoft.Build.Framework.ITaskItem)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitchIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameter">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitchIfNotNull_2_623f81f6" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchIfNotNull(System.String,Microsoft.Build.Framework.ITaskItem[],System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitchIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameters">
+          <arrayOf rank="1">
+            <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="delimiter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitchIfNotNull_3_528d99c2" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchIfNotNull(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitchIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitchIfNotNull_2_52fce4af" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchIfNotNull(System.String,System.String[],System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitchIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameters">
+          <arrayOf rank="1">
+            <type api="T:System.String" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="delimiter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitchIfNotNull_3_f15ae3ca" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchUnquotedIfNotNull(System.String,Microsoft.Build.Framework.ITaskItem)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitchUnquotedIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchUnquotedIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameter">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitchUnquotedIfNotNull_2_623f81f6" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchUnquotedIfNotNull(System.String,Microsoft.Build.Framework.ITaskItem[],System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitchUnquotedIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchUnquotedIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameters">
+          <arrayOf rank="1">
+            <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="delimiter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitchUnquotedIfNotNull_3_528d99c2" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchUnquotedIfNotNull(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitchUnquotedIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchUnquotedIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitchUnquotedIfNotNull_2_52fce4af" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchUnquotedIfNotNull(System.String,System.String[],System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendSwitchUnquotedIfNotNull" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.AppendSwitchUnquotedIfNotNull" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameters">
+          <arrayOf rank="1">
+            <type api="T:System.String" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="delimiter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendSwitchUnquotedIfNotNull_3_f15ae3ca" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendTextUnquoted(System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendTextUnquoted" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="textToAppend">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendTextUnquoted_1_72eac341" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendTextWithQuoting(System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendTextWithQuoting" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="textToAppend">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendTextWithQuoting_1_72eac341" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.CommandLineBuilder.CommandLine">
+      <topicdata group="api" />
+      <apidata name="CommandLine" group="member" subgroup="property" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Text.StringBuilder" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_CommandLineBuilder_CommandLine" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.IsQuotingRequired(System.String)">
+      <topicdata group="api" />
+      <apidata name="IsQuotingRequired" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="parameter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_IsQuotingRequired_1_72eac341" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.ToString">
+      <topicdata group="api" />
+      <apidata name="ToString" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.Object.ToString">
+          <type api="T:System.Object" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_ToString" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.VerifyThrowNoEmbeddedDoubleQuotes(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="VerifyThrowNoEmbeddedDoubleQuotes" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="switchName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="parameter">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_VerifyThrowNoEmbeddedDoubleQuotes_2_52fce4af" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.#ctor(System.Boolean)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:Microsoft.Build.Utilities.CommandLineBuilder.#ctor" />
+      <parameters>
+        <parameter name="quoteHyphensOnCommandLine">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Utilities_CommandLineBuilder_ctor_1_abc7a1d5" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.CommandLineBuilder.AppendQuotedTextToBuffer(System.Text.StringBuilder,System.String)">
+      <topicdata group="api" />
+      <apidata name="AppendQuotedTextToBuffer" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="buffer">
+          <type api="T:System.Text.StringBuilder" ref="true" />
+        </parameter>
+        <parameter name="unquotedTextToAppend">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.CommandLineBuilder" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_CommandLineBuilder_AppendQuotedTextToBuffer_2_290f502e" />
+    </api>
+    <api id="T:Microsoft.Build.Utilities.HostObjectInitializationStatus">
+      <topicdata group="api" />
+      <apidata name="HostObjectInitializationStatus" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:Microsoft.Build.Utilities.HostObjectInitializationStatus.UseHostObjectToExecute" />
+        <element api="F:Microsoft.Build.Utilities.HostObjectInitializationStatus.UseAlternateToolToExecute" />
+        <element api="F:Microsoft.Build.Utilities.HostObjectInitializationStatus.NoActionReturnSuccess" />
+        <element api="F:Microsoft.Build.Utilities.HostObjectInitializationStatus.NoActionReturnFailure" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="T_Microsoft_Build_Utilities_HostObjectInitializationStatus" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.Logger.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" />
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Logger" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Utilities_Logger_ctor" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.Logger.FormatErrorEvent(Microsoft.Build.Framework.BuildErrorEventArgs)">
+      <topicdata group="api" />
+      <apidata name="FormatErrorEvent" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="args">
+          <type api="T:Microsoft.Build.Framework.BuildErrorEventArgs" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Logger" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_Logger_FormatErrorEvent_1_85a6d2ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.Logger.FormatWarningEvent(Microsoft.Build.Framework.BuildWarningEventArgs)">
+      <topicdata group="api" />
+      <apidata name="FormatWarningEvent" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="args">
+          <type api="T:Microsoft.Build.Framework.BuildWarningEventArgs" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Logger" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_Logger_FormatWarningEvent_1_febc0ec4" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.Logger.Initialize(Microsoft.Build.Framework.IEventSource)">
+      <topicdata group="api" />
+      <apidata name="Initialize" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <parameters>
+        <parameter name="eventSource">
+          <type api="T:Microsoft.Build.Framework.IEventSource" ref="true" />
+        </parameter>
+      </parameters>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ILogger.Initialize(Microsoft.Build.Framework.IEventSource)">
+          <type api="T:Microsoft.Build.Framework.ILogger" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Logger" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_Logger_Initialize_1_0fcddca3" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.Logger.IsVerbosityAtLeast(Microsoft.Build.Framework.LoggerVerbosity)">
+      <topicdata group="api" />
+      <apidata name="IsVerbosityAtLeast" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="checkVerbosity">
+          <type api="T:Microsoft.Build.Framework.LoggerVerbosity" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Logger" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_Logger_IsVerbosityAtLeast_1_211115e9" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.Logger.Parameters">
+      <topicdata group="api" />
+      <apidata name="Parameters" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Build.Framework.ILogger.Parameters">
+          <type api="T:Microsoft.Build.Framework.ILogger" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Logger" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_Logger_Parameters" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.Logger.Shutdown">
+      <topicdata group="api" />
+      <apidata name="Shutdown" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ILogger.Shutdown">
+          <type api="T:Microsoft.Build.Framework.ILogger" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Logger" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_Logger_Shutdown" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.Logger.Verbosity">
+      <topicdata group="api" />
+      <apidata name="Verbosity" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:Microsoft.Build.Framework.LoggerVerbosity" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Build.Framework.ILogger.Verbosity">
+          <type api="T:Microsoft.Build.Framework.ILogger" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Logger" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_Logger_Verbosity" />
+    </api>
+    <api id="T:Microsoft.Build.Utilities.ProcessorArchitecture">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.ProcessorArchitecture" />
+      <apidata name="ProcessorArchitecture" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="T_Microsoft_Build_Utilities_ProcessorArchitecture" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Utilities.ProcessorArchitecture">
+      <topicdata name="ProcessorArchitecture" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Utilities.ProcessorArchitecture" />
+      <apidata name="ProcessorArchitecture" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:Microsoft.Build.Utilities.ProcessorArchitecture.AMD64" />
+        <element api="P:Microsoft.Build.Utilities.ProcessorArchitecture.CurrentProcessArchitecture" />
+        <element api="F:Microsoft.Build.Utilities.ProcessorArchitecture.IA64" />
+        <element api="F:Microsoft.Build.Utilities.ProcessorArchitecture.MSIL" />
+        <element api="F:Microsoft.Build.Utilities.ProcessorArchitecture.X86" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Utilities_ProcessorArchitecture" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Utilities.ProcessorArchitecture">
+      <topicdata name="ProcessorArchitecture" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Utilities.ProcessorArchitecture" />
+      <apidata name="ProcessorArchitecture" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Utilities.ProcessorArchitecture.CurrentProcessArchitecture" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Utilities_ProcessorArchitecture" />
+    </api>
+    <api id="Fields.T:Microsoft.Build.Utilities.ProcessorArchitecture">
+      <topicdata name="ProcessorArchitecture" group="list" subgroup="Fields" typeTopicId="T:Microsoft.Build.Utilities.ProcessorArchitecture" />
+      <apidata name="ProcessorArchitecture" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:Microsoft.Build.Utilities.ProcessorArchitecture.AMD64" />
+        <element api="F:Microsoft.Build.Utilities.ProcessorArchitecture.IA64" />
+        <element api="F:Microsoft.Build.Utilities.ProcessorArchitecture.MSIL" />
+        <element api="F:Microsoft.Build.Utilities.ProcessorArchitecture.X86" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Fields_T_Microsoft_Build_Utilities_ProcessorArchitecture" />
+    </api>
+    <api id="F:Microsoft.Build.Utilities.ProcessorArchitecture.AMD64">
+      <topicdata group="api" />
+      <apidata name="AMD64" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ProcessorArchitecture" ref="true" />
+      </containers>
+      <file name="F_Microsoft_Build_Utilities_ProcessorArchitecture_AMD64" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.ProcessorArchitecture.CurrentProcessArchitecture">
+      <topicdata group="api" />
+      <apidata name="CurrentProcessArchitecture" group="member" subgroup="property" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ProcessorArchitecture" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_ProcessorArchitecture_CurrentProcessArchitecture" />
+    </api>
+    <api id="F:Microsoft.Build.Utilities.ProcessorArchitecture.IA64">
+      <topicdata group="api" />
+      <apidata name="IA64" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ProcessorArchitecture" ref="true" />
+      </containers>
+      <file name="F_Microsoft_Build_Utilities_ProcessorArchitecture_IA64" />
+    </api>
+    <api id="F:Microsoft.Build.Utilities.ProcessorArchitecture.MSIL">
+      <topicdata group="api" />
+      <apidata name="MSIL" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ProcessorArchitecture" ref="true" />
+      </containers>
+      <file name="F_Microsoft_Build_Utilities_ProcessorArchitecture_MSIL" />
+    </api>
+    <api id="F:Microsoft.Build.Utilities.ProcessorArchitecture.X86">
+      <topicdata group="api" />
+      <apidata name="X86" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ProcessorArchitecture" ref="true" />
+      </containers>
+      <file name="F_Microsoft_Build_Utilities_ProcessorArchitecture_X86" />
+    </api>
+    <api id="T:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion">
+      <topicdata group="api" />
+      <apidata name="TargetDotNetFrameworkVersion" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion.Version11" />
+        <element api="F:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion.Version20" />
+        <element api="F:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion.Version30">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="F:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion.Version35">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="F:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion.VersionLatest" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="T_Microsoft_Build_Utilities_TargetDotNetFrameworkVersion" />
+    </api>
+    <api id="F:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion.Version30">
+      <topicdata group="api" notopic="" />
+      <apidata name="Version30" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion" ref="false" />
+      </returns>
+      <value>2</value>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion" ref="false" />
+      </containers>
+      <file name="F_Microsoft_Build_Utilities_TargetDotNetFrameworkVersion_Version30" />
+    </api>
+    <api id="F:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion.Version35">
+      <topicdata group="api" notopic="" />
+      <apidata name="Version35" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion" ref="false" />
+      </returns>
+      <value>3</value>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion" ref="false" />
+      </containers>
+      <file name="F_Microsoft_Build_Utilities_TargetDotNetFrameworkVersion_Version35" />
+    </api>
+    <api id="T:Microsoft.Build.Utilities.Task">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.Task" />
+      <apidata name="Task" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+        <descendents>
+          <type api="T:Microsoft.Build.Tasks.TaskExtension" ref="true" />
+          <type api="T:Microsoft.Build.Tasks.GenerateManifestBase" ref="true" />
+          <type api="T:Microsoft.Build.Tasks.SignFile" ref="true" />
+          <type api="T:Microsoft.Build.Tasks.UpdateManifest" ref="true" />
+          <type api="T:Microsoft.Build.Utilities.ToolTask" ref="true" />
+        </descendents>
+      </family>
+      <implements>
+        <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="T_Microsoft_Build_Utilities_Task" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Utilities.Task">
+      <topicdata name="Task" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Utilities.Task" />
+      <apidata name="Task" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.Build.Utilities.Task.#ctor">
+          <element api="M:Microsoft.Build.Utilities.Task.#ctor" />
+          <element api="M:Microsoft.Build.Utilities.Task.#ctor(System.Resources.ResourceManager)" />
+          <element api="M:Microsoft.Build.Utilities.Task.#ctor(System.Resources.ResourceManager,System.String)" />
+        </element>
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine2">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="M:Microsoft.Build.Utilities.Task.Execute" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Utilities_Task" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Utilities.Task">
+      <topicdata name="Task" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Utilities.Task" />
+      <apidata name="Task" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.Task.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Utilities_Task" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Utilities.Task">
+      <topicdata name="Task" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Utilities.Task" />
+      <apidata name="Task" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine2">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Utilities_Task" />
+    </api>
+    <api id="Overload:Microsoft.Build.Utilities.Task.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.Task" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.Task.#ctor" />
+        <element api="M:Microsoft.Build.Utilities.Task.#ctor(System.Resources.ResourceManager)" />
+        <element api="M:Microsoft.Build.Utilities.Task.#ctor(System.Resources.ResourceManager,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_Build_Utilities_Task_ctor" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.Task.BuildEngine2">
+      <topicdata group="api" />
+      <apidata name="BuildEngine2" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:Microsoft.Build.Framework.IBuildEngine2" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_Task_BuildEngine2" />
+    </api>
+    <api id="T:Microsoft.Build.Utilities.TaskItem">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.TaskItem" />
+      <apidata name="TaskItem" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.MarshalByRefObject" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="T_Microsoft_Build_Utilities_TaskItem" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Utilities.TaskItem">
+      <topicdata name="TaskItem" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Utilities.TaskItem" />
+      <apidata name="TaskItem" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.Build.Utilities.TaskItem.#ctor">
+          <element api="M:Microsoft.Build.Utilities.TaskItem.#ctor" />
+          <element api="M:Microsoft.Build.Utilities.TaskItem.#ctor(Microsoft.Build.Framework.ITaskItem)" />
+          <element api="M:Microsoft.Build.Utilities.TaskItem.#ctor(System.String)" />
+          <element api="M:Microsoft.Build.Utilities.TaskItem.#ctor(System.String,System.Collections.IDictionary)" />
+        </element>
+        <element api="M:Microsoft.Build.Utilities.TaskItem.CloneCustomMetadata" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.CopyMetadataTo(Microsoft.Build.Framework.ITaskItem)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.GetMetadata(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.InitializeLifetimeService" />
+        <element api="P:Microsoft.Build.Utilities.TaskItem.ItemSpec" />
+        <element api="P:Microsoft.Build.Utilities.TaskItem.MetadataCount" />
+        <element api="P:Microsoft.Build.Utilities.TaskItem.MetadataNames" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.op_Explicit(Microsoft.Build.Utilities.TaskItem)~System.String" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.RemoveMetadata(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.SetMetadata(System.String,System.String)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.ToString" />
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="Overload:Microsoft.Build.Utilities.TaskItem.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Utilities_TaskItem" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Utilities.TaskItem">
+      <topicdata name="TaskItem" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Utilities.TaskItem" />
+      <apidata name="TaskItem" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.TaskItem.CloneCustomMetadata" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.CopyMetadataTo(Microsoft.Build.Framework.ITaskItem)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.GetMetadata(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.InitializeLifetimeService" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.op_Explicit(Microsoft.Build.Utilities.TaskItem)~System.String" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.RemoveMetadata(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.SetMetadata(System.String,System.String)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.ToString" />
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="Overload:Microsoft.Build.Utilities.TaskItem.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Utilities_TaskItem" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Utilities.TaskItem">
+      <topicdata name="TaskItem" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Utilities.TaskItem" />
+      <apidata name="TaskItem" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Utilities.TaskItem.ItemSpec" />
+        <element api="P:Microsoft.Build.Utilities.TaskItem.MetadataCount" />
+        <element api="P:Microsoft.Build.Utilities.TaskItem.MetadataNames" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Utilities_TaskItem" />
+    </api>
+    <api id="Overload:Microsoft.Build.Utilities.TaskItem.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.TaskItem" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.TaskItem.#ctor" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.#ctor(Microsoft.Build.Framework.ITaskItem)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.#ctor(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.TaskItem.#ctor(System.String,System.Collections.IDictionary)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskItem" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_Build_Utilities_TaskItem_ctor" />
+    </api>
+    <api id="Overload:Microsoft.Build.Utilities.TaskItem.MemberwiseClone">
+      <topicdata name="MemberwiseClone" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.TaskItem" allInherited="true" />
+      <apidata name="MemberwiseClone" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskItem" />
+      </containers>
+      <file name="O_T_Microsoft_Build_Utilities_TaskItem_MemberwiseClone" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.#ctor(Microsoft.Build.Framework.ITask)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <parameters>
+        <parameter name="taskInstance">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Utilities_TaskLoggingHelper_ctor_1_77d639bf" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.TaskLoggingHelper.BuildEngine">
+      <topicdata group="api" />
+      <apidata name="BuildEngine" group="member" subgroup="property" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:Microsoft.Build.Framework.IBuildEngine" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_TaskLoggingHelper_BuildEngine" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.ExtractMessageCode(System.String,System.String@)">
+      <topicdata group="api" />
+      <apidata name="ExtractMessageCode" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageWithoutCodePrefix" out="true">
+          <referenceTo>
+            <type api="T:System.String" ref="true" />
+          </referenceTo>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_ExtractMessageCode_2_5315e508" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.FormatResourceString(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="FormatResourceString" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="resourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="args">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_FormatResourceString_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.FormatString(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="FormatString" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="unformatted">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="args">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_FormatString_2_8f98a8ad" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.TaskLoggingHelper.HasLoggedErrors">
+      <topicdata group="api" />
+      <apidata name="HasLoggedErrors" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_TaskLoggingHelper_HasLoggedErrors" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.TaskLoggingHelper.HelpKeywordPrefix">
+      <topicdata group="api" />
+      <apidata name="HelpKeywordPrefix" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_TaskLoggingHelper_HelpKeywordPrefix" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogCommandLine(Microsoft.Build.Framework.MessageImportance,System.String)">
+      <topicdata group="api" />
+      <apidata name="LogCommandLine" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogCommandLine" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="importance">
+          <type api="T:Microsoft.Build.Framework.MessageImportance" ref="false" />
+        </parameter>
+        <parameter name="commandLine">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogCommandLine_2_eca4e4a9" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogCommandLine(System.String)">
+      <topicdata group="api" />
+      <apidata name="LogCommandLine" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogCommandLine" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="commandLine">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogCommandLine_1_72eac341" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogError(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogError" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogError" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogError_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogError(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogError" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogError" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="subcategory">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="errorCode">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="helpKeyword">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="columnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endLineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endColumnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogError_10_a491bc59" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromException(System.Exception)">
+      <topicdata group="api" />
+      <apidata name="LogErrorFromException" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromException" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="exception">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogErrorFromException_1_2ffb7699" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromException(System.Exception,System.Boolean)">
+      <topicdata group="api" />
+      <apidata name="LogErrorFromException" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromException" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="exception">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+        <parameter name="showStackTrace">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogErrorFromException_2_35984c9e" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromException(System.Exception,System.Boolean,System.Boolean,System.String)">
+      <topicdata group="api" />
+      <apidata name="LogErrorFromException" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromException" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="exception">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+        <parameter name="showStackTrace">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+        <parameter name="showDetail">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogErrorFromException_4_800afd74" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromResources(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogErrorFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogErrorFromResources_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromResources(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogErrorFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="subcategoryResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="errorCode">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="helpKeyword">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="columnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endLineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endColumnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogErrorFromResources_10_a491bc59" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorWithCodeFromResources(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogErrorWithCodeFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorWithCodeFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogErrorWithCodeFromResources_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorWithCodeFromResources(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogErrorWithCodeFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogErrorWithCodeFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="subcategoryResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="columnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endLineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endColumnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogErrorWithCodeFromResources_8_2fd67a26" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogExternalProjectFinished(System.String,System.String,System.String,System.Boolean)">
+      <topicdata group="api" />
+      <apidata name="LogExternalProjectFinished" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="helpKeyword">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="projectFile">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="succeeded">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogExternalProjectFinished_4_e91548f3" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogExternalProjectStarted(System.String,System.String,System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="LogExternalProjectStarted" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="helpKeyword">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="projectFile">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="targetNames">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogExternalProjectStarted_4_193e86b9" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessage(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogMessage" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessage" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="importance">
+          <type api="T:Microsoft.Build.Framework.MessageImportance" ref="false" />
+        </parameter>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogMessage_3_7e4d8df5" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessage(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogMessage" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessage" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogMessage_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessageFromResources(Microsoft.Build.Framework.MessageImportance,System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogMessageFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessageFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="importance">
+          <type api="T:Microsoft.Build.Framework.MessageImportance" ref="false" />
+        </parameter>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogMessageFromResources_3_7e4d8df5" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessageFromResources(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogMessageFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessageFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogMessageFromResources_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessageFromText(System.String,Microsoft.Build.Framework.MessageImportance)">
+      <topicdata group="api" />
+      <apidata name="LogMessageFromText" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="lineOfText">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageImportance">
+          <type api="T:Microsoft.Build.Framework.MessageImportance" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogMessageFromText_2_0575a808" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessagesFromFile(System.String)">
+      <topicdata group="api" />
+      <apidata name="LogMessagesFromFile" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessagesFromFile" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="fileName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogMessagesFromFile_1_72eac341" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessagesFromFile(System.String,Microsoft.Build.Framework.MessageImportance)">
+      <topicdata group="api" />
+      <apidata name="LogMessagesFromFile" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessagesFromFile" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="fileName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageImportance">
+          <type api="T:Microsoft.Build.Framework.MessageImportance" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogMessagesFromFile_2_0575a808" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogMessagesFromStream(System.IO.TextReader,Microsoft.Build.Framework.MessageImportance)">
+      <topicdata group="api" />
+      <apidata name="LogMessagesFromStream" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="stream">
+          <type api="T:System.IO.TextReader" ref="true" />
+        </parameter>
+        <parameter name="messageImportance">
+          <type api="T:Microsoft.Build.Framework.MessageImportance" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogMessagesFromStream_2_647a68fb" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarning(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogWarning" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarning" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogWarning_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarning(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogWarning" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarning" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="subcategory">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="warningCode">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="helpKeyword">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="columnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endLineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endColumnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogWarning_10_a491bc59" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningFromException(System.Exception)">
+      <topicdata group="api" />
+      <apidata name="LogWarningFromException" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningFromException" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="exception">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogWarningFromException_1_2ffb7699" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningFromException(System.Exception,System.Boolean)">
+      <topicdata group="api" />
+      <apidata name="LogWarningFromException" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningFromException" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="exception">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+        <parameter name="showStackTrace">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogWarningFromException_2_35984c9e" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningFromResources(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogWarningFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogWarningFromResources_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningFromResources(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogWarningFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="subcategoryResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="warningCode">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="helpKeyword">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="columnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endLineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endColumnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogWarningFromResources_10_a491bc59" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningWithCodeFromResources(System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogWarningWithCodeFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningWithCodeFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogWarningWithCodeFromResources_2_8f98a8ad" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningWithCodeFromResources(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Object[])">
+      <topicdata group="api" />
+      <apidata name="LogWarningWithCodeFromResources" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Utilities.TaskLoggingHelper.LogWarningWithCodeFromResources" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="subcategoryResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="columnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endLineNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="endColumnNumber">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="messageResourceName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="messageArgs">
+          <arrayOf rank="1">
+            <type api="T:System.Object" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_TaskLoggingHelper_LogWarningWithCodeFromResources_8_2fd67a26" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.TaskLoggingHelper.TaskName">
+      <topicdata group="api" />
+      <apidata name="TaskName" group="member" subgroup="property" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_TaskLoggingHelper_TaskName" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.TaskLoggingHelper.TaskResources">
+      <topicdata group="api" />
+      <apidata name="TaskResources" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Resources.ResourceManager" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.TaskLoggingHelper" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_TaskLoggingHelper_TaskResources" />
+    </api>
+    <api id="T:Microsoft.Build.Utilities.ToolLocationHelper">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.ToolLocationHelper" />
+      <apidata name="ToolLocationHelper" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="T_Microsoft_Build_Utilities_ToolLocationHelper" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Utilities.ToolLocationHelper">
+      <topicdata name="ToolLocationHelper" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Utilities.ToolLocationHelper" />
+      <apidata name="ToolLocationHelper" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkRootRegistryKey(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkVersionFolderPrefix(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFramework(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkFile(System.String,Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkReferenceAssemblies(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkSdk(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkSdkFile(System.String,Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToSystemFile(System.String)" />
+        <element api="P:Microsoft.Build.Utilities.ToolLocationHelper.PathToSystem" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Utilities_ToolLocationHelper" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Utilities.ToolLocationHelper">
+      <topicdata name="ToolLocationHelper" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Utilities.ToolLocationHelper" />
+      <apidata name="ToolLocationHelper" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkRootRegistryKey(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkSdkInstallKeyValue(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkVersionFolderPrefix(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFramework(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkFile(System.String,Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkReferenceAssemblies(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkSdk(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkSdkFile(System.String,Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)" />
+        <element api="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToSystemFile(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Utilities_ToolLocationHelper" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Utilities.ToolLocationHelper">
+      <topicdata name="ToolLocationHelper" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Utilities.ToolLocationHelper" />
+      <apidata name="ToolLocationHelper" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Utilities.ToolLocationHelper.PathToSystem" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Utilities_ToolLocationHelper" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.ToolLocationHelper.GetDotNetFrameworkSdkRootRegistryKey(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)">
+      <topicdata group="api" />
+      <apidata name="GetDotNetFrameworkSdkRootRegistryKey" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="version">
+          <type api="T:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ToolLocationHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_ToolLocationHelper_GetDotNetFrameworkSdkRootRegistryKey_1_e8392694" />
+    </api>
+    <api id="M:Microsoft.Build.Utilities.ToolLocationHelper.GetPathToDotNetFrameworkReferenceAssemblies(Microsoft.Build.Utilities.TargetDotNetFrameworkVersion)">
+      <topicdata group="api" />
+      <apidata name="GetPathToDotNetFrameworkReferenceAssemblies" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="version">
+          <type api="T:Microsoft.Build.Utilities.TargetDotNetFrameworkVersion" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ToolLocationHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Utilities_ToolLocationHelper_GetPathToDotNetFrameworkReferenceAssemblies_1_e8392694" />
+    </api>
+    <api id="T:Microsoft.Build.Utilities.ToolTask">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.ToolTask" />
+      <apidata name="ToolTask" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+        <descendents>
+          <type api="T:Microsoft.Build.Tasks.ToolTaskExtension" ref="true" />
+        </descendents>
+      </family>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="T_Microsoft_Build_Utilities_ToolTask" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Utilities.ToolTask">
+      <topicdata name="ToolTask" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Utilities.ToolTask" />
+      <apidata name="ToolTask" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine2">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="Overload:Microsoft.Build.Utilities.ToolTask.#ctor">
+          <element api="M:Microsoft.Build.Utilities.ToolTask.#ctor" />
+          <element api="M:Microsoft.Build.Utilities.ToolTask.#ctor(System.Resources.ResourceManager)" />
+          <element api="M:Microsoft.Build.Utilities.ToolTask.#ctor(System.Resources.ResourceManager,System.String)" />
+        </element>
+        <element api="M:Microsoft.Build.Utilities.ToolTask.CallHostObjectToExecute" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.DeleteTempFile(System.String)" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.EnvironmentOverride" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.Execute" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.ExecuteTool(System.String,System.String,System.String)" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ExitCode" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GenerateCommandLineCommands" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GenerateFullPathToTool" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GenerateResponseFileCommands" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GetResponseFileSwitch(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GetWorkingDirectory" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.HandleTaskExecutionErrors" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.HasLoggedErrors">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="M:Microsoft.Build.Utilities.ToolTask.InitializeHostObject" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.LogEventsFromTextOutput(System.String,Microsoft.Build.Framework.MessageImportance)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.LogPathToTool(System.String,System.String)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.LogToolCommand(System.String)" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ResponseFileEncoding" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardErrorEncoding" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardErrorImportance">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardErrorLoggingImportance" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardOutputEncoding" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardOutputImportance">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardOutputLoggingImportance" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.Timeout" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ToolExe">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ToolName" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ToolPath" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.ValidateParameters" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Utilities_ToolTask" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Utilities.ToolTask">
+      <topicdata name="ToolTask" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Utilities.ToolTask" />
+      <apidata name="ToolTask" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.ToolTask.CallHostObjectToExecute" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.DeleteTempFile(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.Execute" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.ExecuteTool(System.String,System.String,System.String)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GenerateCommandLineCommands" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GenerateFullPathToTool" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GenerateResponseFileCommands" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GetResponseFileSwitch(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.GetWorkingDirectory" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.HandleTaskExecutionErrors" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.InitializeHostObject" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.LogEventsFromTextOutput(System.String,Microsoft.Build.Framework.MessageImportance)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.LogPathToTool(System.String,System.String)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.LogToolCommand(System.String)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.SkipTaskExecution" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.ValidateParameters" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Utilities_ToolTask" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Utilities.ToolTask">
+      <topicdata name="ToolTask" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Utilities.ToolTask" />
+      <apidata name="ToolTask" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine2">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.EnvironmentOverride" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ExitCode" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.HasLoggedErrors">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ResponseFileEncoding" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardErrorEncoding" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardErrorImportance">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardErrorLoggingImportance" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardOutputEncoding" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardOutputImportance">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.ToolTask.StandardOutputLoggingImportance" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.Timeout" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ToolExe">
+          <libraries>
+            <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+          </libraries>
+        </element>
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ToolName" />
+        <element api="P:Microsoft.Build.Utilities.ToolTask.ToolPath" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Utilities_ToolTask" />
+    </api>
+    <api id="Overload:Microsoft.Build.Utilities.ToolTask.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.Build.Utilities.ToolTask" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:Microsoft.Build.Utilities.ToolTask.#ctor" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.#ctor(System.Resources.ResourceManager)" />
+        <element api="M:Microsoft.Build.Utilities.ToolTask.#ctor(System.Resources.ResourceManager,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5" />
+        <library assembly="Microsoft.Build.Utilities" module="Microsoft.Build.Utilities" />
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ToolTask" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_Build_Utilities_ToolTask_ctor" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.ToolTask.HasLoggedErrors">
+      <topicdata group="api" />
+      <apidata name="HasLoggedErrors" group="member" subgroup="property" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ToolTask" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_ToolTask_HasLoggedErrors" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.ToolTask.StandardErrorImportance">
+      <topicdata group="api" />
+      <apidata name="StandardErrorImportance" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ToolTask" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_ToolTask_StandardErrorImportance" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.ToolTask.StandardOutputImportance">
+      <topicdata group="api" />
+      <apidata name="StandardOutputImportance" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ToolTask" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_ToolTask_StandardOutputImportance" />
+    </api>
+    <api id="P:Microsoft.Build.Utilities.ToolTask.ToolExe">
+      <topicdata group="api" />
+      <apidata name="ToolExe" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Utilities.v3.5" module="Microsoft.Build.Utilities.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Utilities" />
+        <type api="T:Microsoft.Build.Utilities.ToolTask" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Utilities_ToolTask_ToolExe" />
+    </api>
+  </apis>
+</reflection>

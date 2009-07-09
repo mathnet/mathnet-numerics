@@ -1,0 +1,2852 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="System.Data.DataSetExtensions">
+      <assemblydata version="3.5.0.0" culture="" key="00000000000000000400000000000000" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.AllowPartiallyTrustedCallersAttribute" ref="true" />
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Data.DataSetExtensions.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>f:\dd\tools\devdiv\EcmaPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Data.DataSetExtensions.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Data.DataSetExtensions.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.0.0</value>
+          </argument>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:System.Data.DataRowComparer">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.DataRowComparer" />
+      <apidata name="DataRowComparer" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_DataRowComparer" />
+    </api>
+    <api id="AllMembers.T:System.Data.DataRowComparer">
+      <topicdata name="DataRowComparer" group="list" subgroup="members" typeTopicId="T:System.Data.DataRowComparer" />
+      <apidata name="DataRowComparer" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Data.DataRowComparer.Default" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_DataRowComparer" />
+    </api>
+    <api id="Properties.T:System.Data.DataRowComparer">
+      <topicdata name="DataRowComparer" group="list" subgroup="Properties" typeTopicId="T:System.Data.DataRowComparer" />
+      <apidata name="DataRowComparer" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Data.DataRowComparer.Default" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Properties_T_System_Data_DataRowComparer" />
+    </api>
+    <api id="P:System.Data.DataRowComparer.Default">
+      <topicdata group="api" />
+      <apidata name="Default" group="member" subgroup="property" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Data.DataRowComparer`1" ref="true">
+          <specialization>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowComparer" ref="true" />
+      </containers>
+      <file name="P_System_Data_DataRowComparer_Default" />
+    </api>
+    <api id="T:System.Data.DataRowComparer`1">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.DataRowComparer`1" />
+      <apidata name="DataRowComparer" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <implements>
+        <type api="T:System.Collections.Generic.IEqualityComparer`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="T:System.Data.DataRowComparer`1" />
+          </specialization>
+        </type>
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_DataRowComparer`1" />
+    </api>
+    <api id="AllMembers.T:System.Data.DataRowComparer`1">
+      <topicdata name="DataRowComparer" group="list" subgroup="members" typeTopicId="T:System.Data.DataRowComparer`1" />
+      <apidata name="DataRowComparer" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <elements>
+        <element api="Overload:System.Data.DataRowComparer`1.Equals">
+          <element api="M:System.Object.Equals(System.Object)" />
+          <element api="M:System.Data.DataRowComparer`1.Equals(`0,`0)" />
+        </element>
+        <element api="M:System.Object.Finalize" />
+        <element api="Overload:System.Data.DataRowComparer`1.GetHashCode">
+          <element api="M:System.Object.GetHashCode" />
+          <element api="M:System.Data.DataRowComparer`1.GetHashCode(`0)" />
+        </element>
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="P:System.Data.DataRowComparer`1.Default" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_DataRowComparer`1" />
+    </api>
+    <api id="Methods.T:System.Data.DataRowComparer`1">
+      <topicdata name="DataRowComparer" group="list" subgroup="Methods" typeTopicId="T:System.Data.DataRowComparer`1" />
+      <apidata name="DataRowComparer" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <elements>
+        <element api="Overload:System.Data.DataRowComparer`1.Equals">
+          <element api="M:System.Object.Equals(System.Object)" />
+          <element api="M:System.Data.DataRowComparer`1.Equals(`0,`0)" />
+        </element>
+        <element api="M:System.Object.Finalize" />
+        <element api="Overload:System.Data.DataRowComparer`1.GetHashCode">
+          <element api="M:System.Object.GetHashCode" />
+          <element api="M:System.Data.DataRowComparer`1.GetHashCode(`0)" />
+        </element>
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Methods_T_System_Data_DataRowComparer`1" />
+    </api>
+    <api id="Properties.T:System.Data.DataRowComparer`1">
+      <topicdata name="DataRowComparer" group="list" subgroup="Properties" typeTopicId="T:System.Data.DataRowComparer`1" />
+      <apidata name="DataRowComparer" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <elements>
+        <element api="P:System.Data.DataRowComparer`1.Default" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Properties_T_System_Data_DataRowComparer`1" />
+    </api>
+    <api id="Overload:System.Data.DataRowComparer`1.Equals">
+      <topicdata name="Equals" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.DataRowComparer`1" />
+      <apidata name="Equals" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Data.DataRowComparer`1.Equals(`0,`0)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowComparer`1" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_DataRowComparer`1_Equals" />
+    </api>
+    <api id="Overload:System.Data.DataRowComparer`1.GetHashCode">
+      <topicdata name="GetHashCode" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.DataRowComparer`1" />
+      <apidata name="GetHashCode" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Data.DataRowComparer`1.GetHashCode(`0)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowComparer`1" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_DataRowComparer`1_GetHashCode" />
+    </api>
+    <api id="P:System.Data.DataRowComparer`1.Default">
+      <topicdata group="api" />
+      <apidata name="Default" group="member" subgroup="property" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Data.DataRowComparer`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="T:System.Data.DataRowComparer`1" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowComparer`1" ref="true" />
+      </containers>
+      <file name="P_System_Data_DataRowComparer`1_Default" />
+    </api>
+    <api id="M:System.Data.DataRowComparer`1.Equals(`0,`0)">
+      <topicdata group="api" />
+      <apidata name="Equals" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.Data.DataRowComparer`1.Equals" />
+      <proceduredata virtual="true" final="true" />
+      <parameters>
+        <parameter name="leftRow">
+          <template name="TRow" index="0" api="T:System.Data.DataRowComparer`1" />
+        </parameter>
+        <parameter name="rightRow">
+          <template name="TRow" index="0" api="T:System.Data.DataRowComparer`1" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)">
+          <type api="T:System.Collections.Generic.IEqualityComparer`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="T:System.Data.DataRowComparer`1" />
+            </specialization>
+          </type>
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowComparer`1" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowComparer`1_Equals_2_ec7e75d9" />
+    </api>
+    <api id="M:System.Data.DataRowComparer`1.GetHashCode(`0)">
+      <topicdata group="api" />
+      <apidata name="GetHashCode" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.Data.DataRowComparer`1.GetHashCode" />
+      <proceduredata virtual="true" final="true" />
+      <parameters>
+        <parameter name="row">
+          <template name="TRow" index="0" api="T:System.Data.DataRowComparer`1" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)">
+          <type api="T:System.Collections.Generic.IEqualityComparer`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="T:System.Data.DataRowComparer`1" />
+            </specialization>
+          </type>
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowComparer`1" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowComparer`1_GetHashCode_1_1a965722" />
+    </api>
+    <api id="T:System.Data.DataRowExtensions">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.DataRowExtensions" />
+      <apidata name="DataRowExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_DataRowExtensions" />
+    </api>
+    <api id="AllMembers.T:System.Data.DataRowExtensions">
+      <topicdata name="DataRowExtensions" group="list" subgroup="members" typeTopicId="T:System.Data.DataRowExtensions" />
+      <apidata name="DataRowExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.Data.DataRowExtensions.Field">
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn,System.Data.DataRowVersion)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32,System.Data.DataRowVersion)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String,System.Data.DataRowVersion)" />
+        </element>
+        <element api="Overload:System.Data.DataRowExtensions.SetField">
+          <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Data.DataColumn,``0)" />
+          <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Int32,``0)" />
+          <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.String,``0)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_DataRowExtensions" />
+    </api>
+    <api id="Methods.T:System.Data.DataRowExtensions">
+      <topicdata name="DataRowExtensions" group="list" subgroup="Methods" typeTopicId="T:System.Data.DataRowExtensions" />
+      <apidata name="DataRowExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.Data.DataRowExtensions.Field">
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn,System.Data.DataRowVersion)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32,System.Data.DataRowVersion)" />
+          <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String,System.Data.DataRowVersion)" />
+        </element>
+        <element api="Overload:System.Data.DataRowExtensions.SetField">
+          <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Data.DataColumn,``0)" />
+          <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Int32,``0)" />
+          <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.String,``0)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Methods_T_System_Data_DataRowExtensions" />
+    </api>
+    <api id="Overload:System.Data.DataRowExtensions.Field">
+      <topicdata name="Field" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.DataRowExtensions" />
+      <apidata name="Field" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn)" />
+        <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32)" />
+        <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String)" />
+        <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn,System.Data.DataRowVersion)" />
+        <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32,System.Data.DataRowVersion)" />
+        <element api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String,System.Data.DataRowVersion)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_DataRowExtensions_Field" />
+    </api>
+    <api id="Overload:System.Data.DataRowExtensions.SetField">
+      <topicdata name="SetField" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.DataRowExtensions" />
+      <apidata name="SetField" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Data.DataColumn,``0)" />
+        <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Int32,``0)" />
+        <element api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.String,``0)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_DataRowExtensions_SetField" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn)">
+      <topicdata group="api" />
+      <apidata name="Field" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.Field" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="column">
+          <type api="T:System.Data.DataColumn" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn)" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_Field``1_2_1b1b0e13" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn,System.Data.DataRowVersion)">
+      <topicdata group="api" />
+      <apidata name="Field" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.Field" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="column">
+          <type api="T:System.Data.DataColumn" ref="true" />
+        </parameter>
+        <parameter name="version">
+          <type api="T:System.Data.DataRowVersion" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Data.DataColumn,System.Data.DataRowVersion)" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_Field``1_3_a5cc602d" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32)">
+      <topicdata group="api" />
+      <apidata name="Field" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.Field" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="columnIndex">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32)" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_Field``1_2_c2dca8e4" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32,System.Data.DataRowVersion)">
+      <topicdata group="api" />
+      <apidata name="Field" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.Field" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="columnIndex">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="version">
+          <type api="T:System.Data.DataRowVersion" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.Int32,System.Data.DataRowVersion)" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_Field``1_3_5bc793f2" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String)">
+      <topicdata group="api" />
+      <apidata name="Field" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.Field" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="columnName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String)" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_Field``1_2_b44c1b56" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String,System.Data.DataRowVersion)">
+      <topicdata group="api" />
+      <apidata name="Field" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.Field" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="columnName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="version">
+          <type api="T:System.Data.DataRowVersion" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.Data.DataRowExtensions.Field``1(System.Data.DataRow,System.String,System.Data.DataRowVersion)" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_Field``1_3_03851254" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Data.DataColumn,``0)">
+      <topicdata group="api" />
+      <apidata name="SetField" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.SetField" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="column">
+          <type api="T:System.Data.DataColumn" ref="true" />
+        </parameter>
+        <parameter name="value">
+          <template name="T" index="0" api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Data.DataColumn,``0)" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_SetField``1_3_f0624acc" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Int32,``0)">
+      <topicdata group="api" />
+      <apidata name="SetField" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.SetField" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="columnIndex">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="value">
+          <template name="T" index="0" api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.Int32,``0)" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_SetField``1_3_14a8b6c6" />
+    </api>
+    <api id="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.String,``0)">
+      <topicdata group="api" />
+      <apidata name="SetField" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataRowExtensions.SetField" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="row">
+          <type api="T:System.Data.DataRow" ref="true" />
+        </parameter>
+        <parameter name="columnName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="value">
+          <template name="T" index="0" api="M:System.Data.DataRowExtensions.SetField``1(System.Data.DataRow,System.String,``0)" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataRowExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataRowExtensions_SetField``1_3_94f05c4e" />
+    </api>
+    <api id="T:System.Data.DataTableExtensions">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.DataTableExtensions" />
+      <apidata name="DataTableExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_DataTableExtensions" />
+    </api>
+    <api id="AllMembers.T:System.Data.DataTableExtensions">
+      <topicdata name="DataTableExtensions" group="list" subgroup="members" typeTopicId="T:System.Data.DataTableExtensions" />
+      <apidata name="DataTableExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.Data.DataTableExtensions.AsDataView">
+          <element api="M:System.Data.DataTableExtensions.AsDataView(System.Data.DataTable)" />
+          <element api="M:System.Data.DataTableExtensions.AsDataView``1(System.Data.EnumerableRowCollection{``0})" />
+        </element>
+        <element api="M:System.Data.DataTableExtensions.AsEnumerable(System.Data.DataTable)" />
+        <element api="Overload:System.Data.DataTableExtensions.CopyToDataTable">
+          <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0})" />
+          <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption)" />
+          <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption,System.Data.FillErrorEventHandler)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_DataTableExtensions" />
+    </api>
+    <api id="Methods.T:System.Data.DataTableExtensions">
+      <topicdata name="DataTableExtensions" group="list" subgroup="Methods" typeTopicId="T:System.Data.DataTableExtensions" />
+      <apidata name="DataTableExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.Data.DataTableExtensions.AsDataView">
+          <element api="M:System.Data.DataTableExtensions.AsDataView(System.Data.DataTable)" />
+          <element api="M:System.Data.DataTableExtensions.AsDataView``1(System.Data.EnumerableRowCollection{``0})" />
+        </element>
+        <element api="M:System.Data.DataTableExtensions.AsEnumerable(System.Data.DataTable)" />
+        <element api="Overload:System.Data.DataTableExtensions.CopyToDataTable">
+          <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0})" />
+          <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption)" />
+          <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption,System.Data.FillErrorEventHandler)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Methods_T_System_Data_DataTableExtensions" />
+    </api>
+    <api id="Overload:System.Data.DataTableExtensions.AsDataView">
+      <topicdata name="AsDataView" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.DataTableExtensions" />
+      <apidata name="AsDataView" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTableExtensions.AsDataView(System.Data.DataTable)" />
+        <element api="M:System.Data.DataTableExtensions.AsDataView``1(System.Data.EnumerableRowCollection{``0})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataTableExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_DataTableExtensions_AsDataView" />
+    </api>
+    <api id="Overload:System.Data.DataTableExtensions.CopyToDataTable">
+      <topicdata name="CopyToDataTable" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.DataTableExtensions" />
+      <apidata name="CopyToDataTable" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0})" />
+        <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption)" />
+        <element api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption,System.Data.FillErrorEventHandler)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataTableExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_DataTableExtensions_CopyToDataTable" />
+    </api>
+    <api id="M:System.Data.DataTableExtensions.AsDataView(System.Data.DataTable)">
+      <topicdata group="api" />
+      <apidata name="AsDataView" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataTableExtensions.AsDataView" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="table">
+          <type api="T:System.Data.DataTable" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.DataView" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataTableExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataTableExtensions_AsDataView_1_867a1e21" />
+    </api>
+    <api id="M:System.Data.DataTableExtensions.AsDataView``1(System.Data.EnumerableRowCollection{``0})">
+      <topicdata group="api" />
+      <apidata name="AsDataView" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataTableExtensions.AsDataView" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="T" index="0" api="M:System.Data.DataTableExtensions.AsDataView``1(System.Data.EnumerableRowCollection{``0})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.DataView" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataTableExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataTableExtensions_AsDataView``1_1_2a4d8e79" />
+    </api>
+    <api id="M:System.Data.DataTableExtensions.AsEnumerable(System.Data.DataTable)">
+      <topicdata group="api" />
+      <apidata name="AsEnumerable" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.DataTable" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+          <specialization>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataTableExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataTableExtensions_AsEnumerable_1_867a1e21" />
+    </api>
+    <api id="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0})">
+      <topicdata group="api" />
+      <apidata name="CopyToDataTable" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataTableExtensions.CopyToDataTable" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+            <specialization>
+              <template name="T" index="0" api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.DataTable" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataTableExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataTableExtensions_CopyToDataTable``1_1_d81add7c" />
+    </api>
+    <api id="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption)">
+      <topicdata group="api" />
+      <apidata name="CopyToDataTable" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataTableExtensions.CopyToDataTable" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+            <specialization>
+              <template name="T" index="0" api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption)" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="table">
+          <type api="T:System.Data.DataTable" ref="true" />
+        </parameter>
+        <parameter name="options">
+          <type api="T:System.Data.LoadOption" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataTableExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataTableExtensions_CopyToDataTable``1_3_e78a0b2e" />
+    </api>
+    <api id="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption,System.Data.FillErrorEventHandler)">
+      <topicdata group="api" />
+      <apidata name="CopyToDataTable" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.DataTableExtensions.CopyToDataTable" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+            <specialization>
+              <template name="T" index="0" api="M:System.Data.DataTableExtensions.CopyToDataTable``1(System.Collections.Generic.IEnumerable{``0},System.Data.DataTable,System.Data.LoadOption,System.Data.FillErrorEventHandler)" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="table">
+          <type api="T:System.Data.DataTable" ref="true" />
+        </parameter>
+        <parameter name="options">
+          <type api="T:System.Data.LoadOption" ref="false" />
+        </parameter>
+        <parameter name="errorHandler">
+          <type api="T:System.Data.FillErrorEventHandler" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.DataTableExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_DataTableExtensions_CopyToDataTable``1_4_e6da9760" />
+    </api>
+    <api id="T:System.Data.EnumerableRowCollection">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.EnumerableRowCollection" />
+      <apidata name="EnumerableRowCollection" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+        <descendents>
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true" />
+        </descendents>
+      </family>
+      <implements>
+        <type api="T:System.Collections.IEnumerable" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_EnumerableRowCollection" />
+    </api>
+    <api id="AllMembers.T:System.Data.EnumerableRowCollection">
+      <topicdata name="EnumerableRowCollection" group="list" subgroup="members" typeTopicId="T:System.Data.EnumerableRowCollection" />
+      <apidata name="EnumerableRowCollection" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Data.EnumerableRowCollection.System#Collections#IEnumerable#GetEnumerator" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_EnumerableRowCollection" />
+    </api>
+    <api id="Methods.T:System.Data.EnumerableRowCollection">
+      <topicdata name="EnumerableRowCollection" group="list" subgroup="Methods" typeTopicId="T:System.Data.EnumerableRowCollection" />
+      <apidata name="EnumerableRowCollection" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Data.EnumerableRowCollection.System#Collections#IEnumerable#GetEnumerator" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Methods_T_System_Data_EnumerableRowCollection" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollection.System#Collections#IEnumerable#GetEnumerator">
+      <topicdata group="api" />
+      <apidata name="GetEnumerator" group="member" subgroup="method" />
+      <memberdata visibility="private" />
+      <proceduredata virtual="true" final="true" eii="true" />
+      <returns>
+        <type api="T:System.Collections.IEnumerator" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:System.Collections.IEnumerable.GetEnumerator">
+          <type api="T:System.Collections.IEnumerable" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollection" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollection_System_Collections_IEnumerable_GetEnumerator" />
+    </api>
+    <api id="T:System.Data.EnumerableRowCollection`1">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.EnumerableRowCollection`1" />
+      <apidata name="EnumerableRowCollection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Data.EnumerableRowCollection" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+        <descendents>
+          <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true" />
+        </descendents>
+      </family>
+      <templates>
+        <template name="TRow" />
+      </templates>
+      <implements>
+        <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="T:System.Data.EnumerableRowCollection`1" />
+          </specialization>
+        </type>
+        <type api="T:System.Collections.IEnumerable" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_EnumerableRowCollection`1" />
+    </api>
+    <api id="AllMembers.T:System.Data.EnumerableRowCollection`1">
+      <topicdata name="EnumerableRowCollection" group="list" subgroup="members" typeTopicId="T:System.Data.EnumerableRowCollection`1" />
+      <apidata name="EnumerableRowCollection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <templates>
+        <template name="TRow" />
+      </templates>
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Data.EnumerableRowCollection`1.GetEnumerator" />
+        <element api="M:System.Data.EnumerableRowCollection`1.System#Collections#IEnumerable#GetEnumerator" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_EnumerableRowCollection`1" />
+    </api>
+    <api id="Methods.T:System.Data.EnumerableRowCollection`1">
+      <topicdata name="EnumerableRowCollection" group="list" subgroup="Methods" typeTopicId="T:System.Data.EnumerableRowCollection`1" />
+      <apidata name="EnumerableRowCollection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <templates>
+        <template name="TRow" />
+      </templates>
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Data.EnumerableRowCollection`1.GetEnumerator" />
+        <element api="M:System.Data.EnumerableRowCollection`1.System#Collections#IEnumerable#GetEnumerator" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Methods_T_System_Data_EnumerableRowCollection`1" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollection`1.GetEnumerator">
+      <topicdata group="api" />
+      <apidata name="GetEnumerator" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <returns>
+        <type api="T:System.Collections.Generic.IEnumerator`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="T:System.Data.EnumerableRowCollection`1" />
+          </specialization>
+        </type>
+      </returns>
+      <implements>
+        <member api="M:System.Collections.Generic.IEnumerable`1.GetEnumerator">
+          <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="T:System.Data.EnumerableRowCollection`1" />
+            </specialization>
+          </type>
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollection`1_GetEnumerator" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollection`1.System#Collections#IEnumerable#GetEnumerator">
+      <topicdata group="api" />
+      <apidata name="GetEnumerator" group="member" subgroup="method" />
+      <memberdata visibility="private" />
+      <proceduredata virtual="true" final="true" eii="true" />
+      <returns>
+        <type api="T:System.Collections.IEnumerator" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:System.Collections.IEnumerable.GetEnumerator">
+          <type api="T:System.Collections.IEnumerable" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollection`1_System_Collections_IEnumerable_GetEnumerator" />
+    </api>
+    <api id="T:System.Data.EnumerableRowCollectionExtensions">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.EnumerableRowCollectionExtensions" />
+      <apidata name="EnumerableRowCollectionExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_EnumerableRowCollectionExtensions" />
+    </api>
+    <api id="AllMembers.T:System.Data.EnumerableRowCollectionExtensions">
+      <topicdata name="EnumerableRowCollectionExtensions" group="list" subgroup="members" typeTopicId="T:System.Data.EnumerableRowCollectionExtensions" />
+      <apidata name="EnumerableRowCollectionExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.Cast``1(System.Data.EnumerableRowCollection)" />
+        <element api="Overload:System.Data.EnumerableRowCollectionExtensions.OrderBy">
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="Overload:System.Data.EnumerableRowCollectionExtensions.OrderByDescending">
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.Select``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+        <element api="Overload:System.Data.EnumerableRowCollectionExtensions.ThenBy">
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="Overload:System.Data.EnumerableRowCollectionExtensions.ThenByDescending">
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.Where``1(System.Data.EnumerableRowCollection{``0},System.Func{``0,System.Boolean})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_EnumerableRowCollectionExtensions" />
+    </api>
+    <api id="Methods.T:System.Data.EnumerableRowCollectionExtensions">
+      <topicdata name="EnumerableRowCollectionExtensions" group="list" subgroup="Methods" typeTopicId="T:System.Data.EnumerableRowCollectionExtensions" />
+      <apidata name="EnumerableRowCollectionExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.Cast``1(System.Data.EnumerableRowCollection)" />
+        <element api="Overload:System.Data.EnumerableRowCollectionExtensions.OrderBy">
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="Overload:System.Data.EnumerableRowCollectionExtensions.OrderByDescending">
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.Select``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+        <element api="Overload:System.Data.EnumerableRowCollectionExtensions.ThenBy">
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="Overload:System.Data.EnumerableRowCollectionExtensions.ThenByDescending">
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.Where``1(System.Data.EnumerableRowCollection{``0},System.Func{``0,System.Boolean})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Methods_T_System_Data_EnumerableRowCollectionExtensions" />
+    </api>
+    <api id="Overload:System.Data.EnumerableRowCollectionExtensions.OrderBy">
+      <topicdata name="OrderBy" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.EnumerableRowCollectionExtensions" />
+      <apidata name="OrderBy" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_EnumerableRowCollectionExtensions_OrderBy" />
+    </api>
+    <api id="Overload:System.Data.EnumerableRowCollectionExtensions.OrderByDescending">
+      <topicdata name="OrderByDescending" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.EnumerableRowCollectionExtensions" />
+      <apidata name="OrderByDescending" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_EnumerableRowCollectionExtensions_OrderByDescending" />
+    </api>
+    <api id="Overload:System.Data.EnumerableRowCollectionExtensions.ThenBy">
+      <topicdata name="ThenBy" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.EnumerableRowCollectionExtensions" />
+      <apidata name="ThenBy" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_EnumerableRowCollectionExtensions_ThenBy" />
+    </api>
+    <api id="Overload:System.Data.EnumerableRowCollectionExtensions.ThenByDescending">
+      <topicdata name="ThenByDescending" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.EnumerableRowCollectionExtensions" />
+      <apidata name="ThenByDescending" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+        <element api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_EnumerableRowCollectionExtensions_ThenByDescending" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.Cast``1(System.Data.EnumerableRowCollection)">
+      <topicdata group="api" />
+      <apidata name="Cast" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TResult" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.EnumerableRowCollection" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TResult" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.Cast``1(System.Data.EnumerableRowCollection)" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_Cast``1_1_2439749c" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})">
+      <topicdata group="api" />
+      <apidata name="OrderBy" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.EnumerableRowCollectionExtensions.OrderBy" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_OrderBy``2_3_ce4471a3" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
+      <topicdata group="api" />
+      <apidata name="OrderBy" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.EnumerableRowCollectionExtensions.OrderBy" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="comparer">
+          <type api="T:System.Collections.Generic.IComparer`1" ref="true">
+            <specialization>
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderBy``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_OrderBy``2_4_a04c8384" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})">
+      <topicdata group="api" />
+      <apidata name="OrderByDescending" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.EnumerableRowCollectionExtensions.OrderByDescending" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_OrderByDescending``2_3_ce4471a3" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
+      <topicdata group="api" />
+      <apidata name="OrderByDescending" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.EnumerableRowCollectionExtensions.OrderByDescending" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="comparer">
+          <type api="T:System.Collections.Generic.IComparer`1" ref="true">
+            <specialization>
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.OrderByDescending``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_OrderByDescending``2_4_a04c8384" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.Select``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})">
+      <topicdata group="api" />
+      <apidata name="Select" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="S" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.Select``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="selector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.Select``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+              <template name="S" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.Select``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="S" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.Select``2(System.Data.EnumerableRowCollection{``0},System.Func{``0,``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_Select``2_3_ce4471a3" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})">
+      <topicdata group="api" />
+      <apidata name="ThenBy" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.EnumerableRowCollectionExtensions.ThenBy" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_ThenBy``2_3_5623ff21" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
+      <topicdata group="api" />
+      <apidata name="ThenBy" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.EnumerableRowCollectionExtensions.ThenBy" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="comparer">
+          <type api="T:System.Collections.Generic.IComparer`1" ref="true">
+            <specialization>
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenBy``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_ThenBy``2_4_677552c1" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})">
+      <topicdata group="api" />
+      <apidata name="ThenByDescending" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.EnumerableRowCollectionExtensions.ThenByDescending" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_ThenByDescending``2_3_5623ff21" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
+      <topicdata group="api" />
+      <apidata name="ThenByDescending" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.EnumerableRowCollectionExtensions.ThenByDescending" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="comparer">
+          <type api="T:System.Collections.Generic.IComparer`1" ref="true">
+            <specialization>
+              <template name="TKey" index="1" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.ThenByDescending``2(System.Data.OrderedEnumerableRowCollection{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_ThenByDescending``2_4_677552c1" />
+    </api>
+    <api id="M:System.Data.EnumerableRowCollectionExtensions.Where``1(System.Data.EnumerableRowCollection{``0},System.Func{``0,System.Boolean})">
+      <topicdata group="api" />
+      <apidata name="Where" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.Where``1(System.Data.EnumerableRowCollection{``0},System.Func{``0,System.Boolean})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="predicate">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.Where``1(System.Data.EnumerableRowCollection{``0},System.Func{``0,System.Boolean})" />
+              <type api="T:System.Boolean" ref="false" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.EnumerableRowCollectionExtensions.Where``1(System.Data.EnumerableRowCollection{``0},System.Func{``0,System.Boolean})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.EnumerableRowCollectionExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_EnumerableRowCollectionExtensions_Where``1_3_c595c13e" />
+    </api>
+    <api id="T:System.Data.OrderedEnumerableRowCollection`1">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.OrderedEnumerableRowCollection`1" />
+      <apidata name="OrderedEnumerableRowCollection" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="T:System.Data.OrderedEnumerableRowCollection`1" />
+            </specialization>
+          </type>
+          <type api="T:System.Data.EnumerableRowCollection" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <templates>
+        <template name="TRow" />
+      </templates>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_OrderedEnumerableRowCollection`1" />
+    </api>
+    <api id="AllMembers.T:System.Data.OrderedEnumerableRowCollection`1">
+      <topicdata name="OrderedEnumerableRowCollection" group="list" subgroup="members" typeTopicId="T:System.Data.OrderedEnumerableRowCollection`1" />
+      <apidata name="OrderedEnumerableRowCollection" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <templates>
+        <template name="TRow" />
+      </templates>
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Data.EnumerableRowCollection`1.GetEnumerator" />
+        <element api="M:System.Data.EnumerableRowCollection`1.System#Collections#IEnumerable#GetEnumerator" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_OrderedEnumerableRowCollection`1" />
+    </api>
+    <api id="T:System.Data.TypedTableBase`1">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" />
+      <apidata name="TypedTableBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Data.DataTable" ref="true" />
+          <type api="T:System.ComponentModel.MarshalByValueComponent" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <templates>
+        <template name="T">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <implements>
+        <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="T:System.Data.EnumerableRowCollection`1" />
+          </specialization>
+        </type>
+        <type api="T:System.Collections.IEnumerable" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_TypedTableBase`1" />
+    </api>
+    <api id="AllMembers.T:System.Data.TypedTableBase`1">
+      <topicdata name="TypedTableBase" group="list" subgroup="members" typeTopicId="T:System.Data.TypedTableBase`1" />
+      <apidata name="TypedTableBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="true" layout="auto" format="ansi" />
+      <templates>
+        <template name="T">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="P:System.ComponentModel.MarshalByValueComponent.Container" />
+        <element api="P:System.ComponentModel.MarshalByValueComponent.DesignMode" />
+        <element api="Overload:System.Data.TypedTableBase`1.Dispose">
+          <element api="M:System.ComponentModel.MarshalByValueComponent.Dispose" />
+          <element api="M:System.ComponentModel.MarshalByValueComponent.Dispose(System.Boolean)" />
+        </element>
+        <element api="E:System.ComponentModel.MarshalByValueComponent.Disposed" />
+        <element api="P:System.ComponentModel.MarshalByValueComponent.Events" />
+        <element api="M:System.ComponentModel.MarshalByValueComponent.Finalize" />
+        <element api="M:System.ComponentModel.MarshalByValueComponent.GetService(System.Type)" />
+        <element api="M:System.Data.DataTable.AcceptChanges" />
+        <element api="M:System.Data.DataTable.BeginInit" />
+        <element api="M:System.Data.DataTable.BeginLoadData" />
+        <element api="P:System.Data.DataTable.CaseSensitive" />
+        <element api="P:System.Data.DataTable.ChildRelations" />
+        <element api="M:System.Data.DataTable.Clear" />
+        <element api="M:System.Data.DataTable.Clone" />
+        <element api="E:System.Data.DataTable.ColumnChanged" />
+        <element api="E:System.Data.DataTable.ColumnChanging" />
+        <element api="P:System.Data.DataTable.Columns" />
+        <element api="M:System.Data.DataTable.Compute(System.String,System.String)" />
+        <element api="P:System.Data.DataTable.Constraints" />
+        <element api="M:System.Data.DataTable.Copy" />
+        <element api="M:System.Data.DataTable.CreateDataReader" />
+        <element api="M:System.Data.DataTable.CreateInstance" />
+        <element api="P:System.Data.DataTable.DataSet" />
+        <element api="P:System.Data.DataTable.DefaultView" />
+        <element api="P:System.Data.DataTable.DisplayExpression" />
+        <element api="M:System.Data.DataTable.EndInit" />
+        <element api="M:System.Data.DataTable.EndLoadData" />
+        <element api="P:System.Data.DataTable.ExtendedProperties" />
+        <element api="F:System.Data.DataTable.fInitInProgress" />
+        <element api="Overload:System.Data.TypedTableBase`1.GetChanges">
+          <element api="M:System.Data.DataTable.GetChanges" />
+          <element api="M:System.Data.DataTable.GetChanges(System.Data.DataRowState)" />
+        </element>
+        <element api="M:System.Data.DataTable.GetErrors" />
+        <element api="M:System.Data.DataTable.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Data.DataTable.GetRowType" />
+        <element api="M:System.Data.DataTable.GetSchema" />
+        <element api="P:System.Data.DataTable.HasErrors" />
+        <element api="M:System.Data.DataTable.ImportRow(System.Data.DataRow)" />
+        <element api="E:System.Data.DataTable.Initialized" />
+        <element api="P:System.Data.DataTable.IsInitialized" />
+        <element api="Overload:System.Data.TypedTableBase`1.Load">
+          <element api="M:System.Data.DataTable.Load(System.Data.IDataReader)" />
+          <element api="M:System.Data.DataTable.Load(System.Data.IDataReader,System.Data.LoadOption)" />
+          <element api="M:System.Data.DataTable.Load(System.Data.IDataReader,System.Data.LoadOption,System.Data.FillErrorEventHandler)" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBase`1.LoadDataRow">
+          <element api="M:System.Data.DataTable.LoadDataRow(System.Object[],System.Boolean)" />
+          <element api="M:System.Data.DataTable.LoadDataRow(System.Object[],System.Data.LoadOption)" />
+        </element>
+        <element api="P:System.Data.DataTable.Locale" />
+        <element api="Overload:System.Data.TypedTableBase`1.Merge">
+          <element api="M:System.Data.DataTable.Merge(System.Data.DataTable)" />
+          <element api="M:System.Data.DataTable.Merge(System.Data.DataTable,System.Boolean)" />
+          <element api="M:System.Data.DataTable.Merge(System.Data.DataTable,System.Boolean,System.Data.MissingSchemaAction)" />
+        </element>
+        <element api="P:System.Data.DataTable.MinimumCapacity" />
+        <element api="P:System.Data.DataTable.Namespace" />
+        <element api="M:System.Data.DataTable.NewRow" />
+        <element api="M:System.Data.DataTable.NewRowArray(System.Int32)" />
+        <element api="M:System.Data.DataTable.NewRowFromBuilder(System.Data.DataRowBuilder)" />
+        <element api="M:System.Data.DataTable.OnColumnChanged(System.Data.DataColumnChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnColumnChanging(System.Data.DataColumnChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnPropertyChanging(System.ComponentModel.PropertyChangedEventArgs)" />
+        <element api="M:System.Data.DataTable.OnRemoveColumn(System.Data.DataColumn)" />
+        <element api="M:System.Data.DataTable.OnRowChanged(System.Data.DataRowChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnRowChanging(System.Data.DataRowChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnRowDeleted(System.Data.DataRowChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnRowDeleting(System.Data.DataRowChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnTableCleared(System.Data.DataTableClearEventArgs)" />
+        <element api="M:System.Data.DataTable.OnTableClearing(System.Data.DataTableClearEventArgs)" />
+        <element api="M:System.Data.DataTable.OnTableNewRow(System.Data.DataTableNewRowEventArgs)" />
+        <element api="P:System.Data.DataTable.ParentRelations" />
+        <element api="P:System.Data.DataTable.Prefix" />
+        <element api="P:System.Data.DataTable.PrimaryKey" />
+        <element api="Overload:System.Data.TypedTableBase`1.ReadXml">
+          <element api="M:System.Data.DataTable.ReadXml(System.IO.Stream)" />
+          <element api="M:System.Data.DataTable.ReadXml(System.String)" />
+          <element api="M:System.Data.DataTable.ReadXml(System.IO.TextReader)" />
+          <element api="M:System.Data.DataTable.ReadXml(System.Xml.XmlReader)" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBase`1.ReadXmlSchema">
+          <element api="M:System.Data.DataTable.ReadXmlSchema(System.IO.Stream)" />
+          <element api="M:System.Data.DataTable.ReadXmlSchema(System.String)" />
+          <element api="M:System.Data.DataTable.ReadXmlSchema(System.IO.TextReader)" />
+          <element api="M:System.Data.DataTable.ReadXmlSchema(System.Xml.XmlReader)" />
+        </element>
+        <element api="M:System.Data.DataTable.ReadXmlSerializable(System.Xml.XmlReader)" />
+        <element api="M:System.Data.DataTable.RejectChanges" />
+        <element api="P:System.Data.DataTable.RemotingFormat" />
+        <element api="M:System.Data.DataTable.Reset" />
+        <element api="E:System.Data.DataTable.RowChanged" />
+        <element api="E:System.Data.DataTable.RowChanging" />
+        <element api="E:System.Data.DataTable.RowDeleted" />
+        <element api="E:System.Data.DataTable.RowDeleting" />
+        <element api="P:System.Data.DataTable.Rows" />
+        <element api="Overload:System.Data.TypedTableBase`1.Select">
+          <element api="M:System.Data.DataTable.Select" />
+          <element api="M:System.Data.DataTable.Select(System.String)" />
+          <element api="M:System.Data.DataTable.Select(System.String,System.String)" />
+          <element api="M:System.Data.DataTable.Select(System.String,System.String,System.Data.DataViewRowState)" />
+        </element>
+        <element api="P:System.Data.DataTable.Site" />
+        <element api="P:System.Data.DataTable.System#ComponentModel#IListSource#ContainsListCollection" />
+        <element api="M:System.Data.DataTable.System#ComponentModel#IListSource#GetList" />
+        <element api="M:System.Data.DataTable.System#Xml#Serialization#IXmlSerializable#GetSchema" />
+        <element api="M:System.Data.DataTable.System#Xml#Serialization#IXmlSerializable#ReadXml(System.Xml.XmlReader)" />
+        <element api="M:System.Data.DataTable.System#Xml#Serialization#IXmlSerializable#WriteXml(System.Xml.XmlWriter)" />
+        <element api="E:System.Data.DataTable.TableCleared" />
+        <element api="E:System.Data.DataTable.TableClearing" />
+        <element api="P:System.Data.DataTable.TableName" />
+        <element api="E:System.Data.DataTable.TableNewRow" />
+        <element api="M:System.Data.DataTable.ToString" />
+        <element api="Overload:System.Data.TypedTableBase`1.WriteXml">
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.String)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Data.XmlWriteMode)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.String,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.String,System.Data.XmlWriteMode)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Data.XmlWriteMode)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Data.XmlWriteMode)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Data.XmlWriteMode,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.String,System.Data.XmlWriteMode,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Data.XmlWriteMode,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Data.XmlWriteMode,System.Boolean)" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBase`1.WriteXmlSchema">
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.Stream)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.String)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.TextWriter)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.Xml.XmlWriter)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.Stream,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.String,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.TextWriter,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.Xml.XmlWriter,System.Boolean)" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBase`1.#ctor">
+          <element api="M:System.Data.TypedTableBase`1.#ctor" />
+          <element api="M:System.Data.TypedTableBase`1.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        </element>
+        <element api="M:System.Data.TypedTableBase`1.Cast``1" />
+        <element api="M:System.Data.TypedTableBase`1.GetEnumerator" />
+        <element api="M:System.Data.TypedTableBase`1.System#Collections#IEnumerable#GetEnumerator" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_TypedTableBase`1" />
+    </api>
+    <api id="Methods.T:System.Data.TypedTableBase`1">
+      <topicdata name="TypedTableBase" group="list" subgroup="Methods" typeTopicId="T:System.Data.TypedTableBase`1" />
+      <apidata name="TypedTableBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="true" layout="auto" format="ansi" />
+      <templates>
+        <template name="T">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.Data.TypedTableBase`1.Dispose">
+          <element api="M:System.ComponentModel.MarshalByValueComponent.Dispose" />
+          <element api="M:System.ComponentModel.MarshalByValueComponent.Dispose(System.Boolean)" />
+        </element>
+        <element api="M:System.ComponentModel.MarshalByValueComponent.Finalize" />
+        <element api="M:System.ComponentModel.MarshalByValueComponent.GetService(System.Type)" />
+        <element api="M:System.Data.DataTable.AcceptChanges" />
+        <element api="M:System.Data.DataTable.BeginInit" />
+        <element api="M:System.Data.DataTable.BeginLoadData" />
+        <element api="M:System.Data.DataTable.Clear" />
+        <element api="M:System.Data.DataTable.Clone" />
+        <element api="M:System.Data.DataTable.Compute(System.String,System.String)" />
+        <element api="M:System.Data.DataTable.Copy" />
+        <element api="M:System.Data.DataTable.CreateDataReader" />
+        <element api="M:System.Data.DataTable.CreateInstance" />
+        <element api="M:System.Data.DataTable.EndInit" />
+        <element api="M:System.Data.DataTable.EndLoadData" />
+        <element api="Overload:System.Data.TypedTableBase`1.GetChanges">
+          <element api="M:System.Data.DataTable.GetChanges" />
+          <element api="M:System.Data.DataTable.GetChanges(System.Data.DataRowState)" />
+        </element>
+        <element api="M:System.Data.DataTable.GetErrors" />
+        <element api="M:System.Data.DataTable.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Data.DataTable.GetRowType" />
+        <element api="M:System.Data.DataTable.GetSchema" />
+        <element api="M:System.Data.DataTable.ImportRow(System.Data.DataRow)" />
+        <element api="Overload:System.Data.TypedTableBase`1.Load">
+          <element api="M:System.Data.DataTable.Load(System.Data.IDataReader)" />
+          <element api="M:System.Data.DataTable.Load(System.Data.IDataReader,System.Data.LoadOption)" />
+          <element api="M:System.Data.DataTable.Load(System.Data.IDataReader,System.Data.LoadOption,System.Data.FillErrorEventHandler)" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBase`1.LoadDataRow">
+          <element api="M:System.Data.DataTable.LoadDataRow(System.Object[],System.Boolean)" />
+          <element api="M:System.Data.DataTable.LoadDataRow(System.Object[],System.Data.LoadOption)" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBase`1.Merge">
+          <element api="M:System.Data.DataTable.Merge(System.Data.DataTable)" />
+          <element api="M:System.Data.DataTable.Merge(System.Data.DataTable,System.Boolean)" />
+          <element api="M:System.Data.DataTable.Merge(System.Data.DataTable,System.Boolean,System.Data.MissingSchemaAction)" />
+        </element>
+        <element api="M:System.Data.DataTable.NewRow" />
+        <element api="M:System.Data.DataTable.NewRowArray(System.Int32)" />
+        <element api="M:System.Data.DataTable.NewRowFromBuilder(System.Data.DataRowBuilder)" />
+        <element api="M:System.Data.DataTable.OnColumnChanged(System.Data.DataColumnChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnColumnChanging(System.Data.DataColumnChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnPropertyChanging(System.ComponentModel.PropertyChangedEventArgs)" />
+        <element api="M:System.Data.DataTable.OnRemoveColumn(System.Data.DataColumn)" />
+        <element api="M:System.Data.DataTable.OnRowChanged(System.Data.DataRowChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnRowChanging(System.Data.DataRowChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnRowDeleted(System.Data.DataRowChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnRowDeleting(System.Data.DataRowChangeEventArgs)" />
+        <element api="M:System.Data.DataTable.OnTableCleared(System.Data.DataTableClearEventArgs)" />
+        <element api="M:System.Data.DataTable.OnTableClearing(System.Data.DataTableClearEventArgs)" />
+        <element api="M:System.Data.DataTable.OnTableNewRow(System.Data.DataTableNewRowEventArgs)" />
+        <element api="Overload:System.Data.TypedTableBase`1.ReadXml">
+          <element api="M:System.Data.DataTable.ReadXml(System.IO.Stream)" />
+          <element api="M:System.Data.DataTable.ReadXml(System.String)" />
+          <element api="M:System.Data.DataTable.ReadXml(System.IO.TextReader)" />
+          <element api="M:System.Data.DataTable.ReadXml(System.Xml.XmlReader)" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBase`1.ReadXmlSchema">
+          <element api="M:System.Data.DataTable.ReadXmlSchema(System.IO.Stream)" />
+          <element api="M:System.Data.DataTable.ReadXmlSchema(System.String)" />
+          <element api="M:System.Data.DataTable.ReadXmlSchema(System.IO.TextReader)" />
+          <element api="M:System.Data.DataTable.ReadXmlSchema(System.Xml.XmlReader)" />
+        </element>
+        <element api="M:System.Data.DataTable.ReadXmlSerializable(System.Xml.XmlReader)" />
+        <element api="M:System.Data.DataTable.RejectChanges" />
+        <element api="M:System.Data.DataTable.Reset" />
+        <element api="Overload:System.Data.TypedTableBase`1.Select">
+          <element api="M:System.Data.DataTable.Select" />
+          <element api="M:System.Data.DataTable.Select(System.String)" />
+          <element api="M:System.Data.DataTable.Select(System.String,System.String)" />
+          <element api="M:System.Data.DataTable.Select(System.String,System.String,System.Data.DataViewRowState)" />
+        </element>
+        <element api="M:System.Data.DataTable.System#ComponentModel#IListSource#GetList" />
+        <element api="M:System.Data.DataTable.System#Xml#Serialization#IXmlSerializable#GetSchema" />
+        <element api="M:System.Data.DataTable.System#Xml#Serialization#IXmlSerializable#ReadXml(System.Xml.XmlReader)" />
+        <element api="M:System.Data.DataTable.System#Xml#Serialization#IXmlSerializable#WriteXml(System.Xml.XmlWriter)" />
+        <element api="M:System.Data.DataTable.ToString" />
+        <element api="Overload:System.Data.TypedTableBase`1.WriteXml">
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.String)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Data.XmlWriteMode)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.String,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.String,System.Data.XmlWriteMode)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Data.XmlWriteMode)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Data.XmlWriteMode)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Data.XmlWriteMode,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.String,System.Data.XmlWriteMode,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Data.XmlWriteMode,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Data.XmlWriteMode,System.Boolean)" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBase`1.WriteXmlSchema">
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.Stream)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.String)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.TextWriter)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.Xml.XmlWriter)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.Stream,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.String,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.TextWriter,System.Boolean)" />
+          <element api="M:System.Data.DataTable.WriteXmlSchema(System.Xml.XmlWriter,System.Boolean)" />
+        </element>
+        <element api="M:System.Data.TypedTableBase`1.Cast``1" />
+        <element api="M:System.Data.TypedTableBase`1.GetEnumerator" />
+        <element api="M:System.Data.TypedTableBase`1.System#Collections#IEnumerable#GetEnumerator" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Methods_T_System_Data_TypedTableBase`1" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.Dispose">
+      <topicdata name="Dispose" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="Dispose" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.ComponentModel.MarshalByValueComponent.Dispose" />
+        <element api="M:System.ComponentModel.MarshalByValueComponent.Dispose(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_Dispose" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.GetChanges">
+      <topicdata name="GetChanges" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="GetChanges" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.GetChanges" />
+        <element api="M:System.Data.DataTable.GetChanges(System.Data.DataRowState)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_GetChanges" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.Load">
+      <topicdata name="Load" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="Load" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.Load(System.Data.IDataReader)" />
+        <element api="M:System.Data.DataTable.Load(System.Data.IDataReader,System.Data.LoadOption)" />
+        <element api="M:System.Data.DataTable.Load(System.Data.IDataReader,System.Data.LoadOption,System.Data.FillErrorEventHandler)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_Load" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.LoadDataRow">
+      <topicdata name="LoadDataRow" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="LoadDataRow" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.LoadDataRow(System.Object[],System.Boolean)" />
+        <element api="M:System.Data.DataTable.LoadDataRow(System.Object[],System.Data.LoadOption)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_LoadDataRow" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.Merge">
+      <topicdata name="Merge" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="Merge" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.Merge(System.Data.DataTable)" />
+        <element api="M:System.Data.DataTable.Merge(System.Data.DataTable,System.Boolean)" />
+        <element api="M:System.Data.DataTable.Merge(System.Data.DataTable,System.Boolean,System.Data.MissingSchemaAction)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_Merge" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.ReadXml">
+      <topicdata name="ReadXml" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="ReadXml" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.ReadXml(System.IO.Stream)" />
+        <element api="M:System.Data.DataTable.ReadXml(System.String)" />
+        <element api="M:System.Data.DataTable.ReadXml(System.IO.TextReader)" />
+        <element api="M:System.Data.DataTable.ReadXml(System.Xml.XmlReader)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_ReadXml" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.ReadXmlSchema">
+      <topicdata name="ReadXmlSchema" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="ReadXmlSchema" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.ReadXmlSchema(System.IO.Stream)" />
+        <element api="M:System.Data.DataTable.ReadXmlSchema(System.String)" />
+        <element api="M:System.Data.DataTable.ReadXmlSchema(System.IO.TextReader)" />
+        <element api="M:System.Data.DataTable.ReadXmlSchema(System.Xml.XmlReader)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_ReadXmlSchema" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.Select">
+      <topicdata name="Select" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="Select" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.Select" />
+        <element api="M:System.Data.DataTable.Select(System.String)" />
+        <element api="M:System.Data.DataTable.Select(System.String,System.String)" />
+        <element api="M:System.Data.DataTable.Select(System.String,System.String,System.Data.DataViewRowState)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_Select" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.WriteXml">
+      <topicdata name="WriteXml" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="WriteXml" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.String)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Data.XmlWriteMode)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.String,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.String,System.Data.XmlWriteMode)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Data.XmlWriteMode)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Data.XmlWriteMode)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.IO.Stream,System.Data.XmlWriteMode,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.String,System.Data.XmlWriteMode,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.IO.TextWriter,System.Data.XmlWriteMode,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXml(System.Xml.XmlWriter,System.Data.XmlWriteMode,System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_WriteXml" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.WriteXmlSchema">
+      <topicdata name="WriteXmlSchema" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" allInherited="true" />
+      <apidata name="WriteXmlSchema" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.Stream)" />
+        <element api="M:System.Data.DataTable.WriteXmlSchema(System.String)" />
+        <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.TextWriter)" />
+        <element api="M:System.Data.DataTable.WriteXmlSchema(System.Xml.XmlWriter)" />
+        <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.Stream,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXmlSchema(System.String,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXmlSchema(System.IO.TextWriter,System.Boolean)" />
+        <element api="M:System.Data.DataTable.WriteXmlSchema(System.Xml.XmlWriter,System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_WriteXmlSchema" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBase`1.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBase`1" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.Data.TypedTableBase`1.#ctor" />
+        <element api="M:System.Data.TypedTableBase`1.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBase`1_ctor" />
+    </api>
+    <api id="M:System.Data.TypedTableBase`1.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.Data.TypedTableBase`1.#ctor" />
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" ref="true" />
+      </containers>
+      <file name="C_System_Data_TypedTableBase`1_ctor" />
+    </api>
+    <api id="M:System.Data.TypedTableBase`1.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.Data.TypedTableBase`1.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" ref="true" />
+      </containers>
+      <file name="C_System_Data_TypedTableBase`1_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.Data.TypedTableBase`1.Cast``1">
+      <topicdata group="api" />
+      <apidata name="Cast" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TResult" />
+      </templates>
+      <returns>
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TResult" index="0" api="M:System.Data.TypedTableBase`1.Cast``1" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBase`1_Cast``1" />
+    </api>
+    <api id="M:System.Data.TypedTableBase`1.GetEnumerator">
+      <topicdata group="api" />
+      <apidata name="GetEnumerator" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <returns>
+        <type api="T:System.Collections.Generic.IEnumerator`1" ref="true">
+          <specialization>
+            <template name="T" index="0" api="T:System.Data.TypedTableBase`1" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBase`1_GetEnumerator" />
+    </api>
+    <api id="M:System.Data.TypedTableBase`1.System#Collections#IEnumerable#GetEnumerator">
+      <topicdata group="api" />
+      <apidata name="GetEnumerator" group="member" subgroup="method" />
+      <memberdata visibility="private" />
+      <proceduredata virtual="true" final="true" eii="true" />
+      <returns>
+        <type api="T:System.Collections.IEnumerator" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:System.Collections.IEnumerable.GetEnumerator">
+          <type api="T:System.Collections.IEnumerable" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBase`1" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBase`1_System_Collections_IEnumerable_GetEnumerator" />
+    </api>
+    <api id="T:System.Data.TypedTableBaseExtensions">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Data.TypedTableBaseExtensions" />
+      <apidata name="TypedTableBaseExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="T_System_Data_TypedTableBaseExtensions" />
+    </api>
+    <api id="AllMembers.T:System.Data.TypedTableBaseExtensions">
+      <topicdata name="TypedTableBaseExtensions" group="list" subgroup="members" typeTopicId="T:System.Data.TypedTableBaseExtensions" />
+      <apidata name="TypedTableBaseExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Data.TypedTableBaseExtensions.AsEnumerable``1(System.Data.TypedTableBase{``0})" />
+        <element api="Overload:System.Data.TypedTableBaseExtensions.OrderBy">
+          <element api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBaseExtensions.OrderByDescending">
+          <element api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="M:System.Data.TypedTableBaseExtensions.Select``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+        <element api="M:System.Data.TypedTableBaseExtensions.Where``1(System.Data.TypedTableBase{``0},System.Func{``0,System.Boolean})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="AllMembers_T_System_Data_TypedTableBaseExtensions" />
+    </api>
+    <api id="Methods.T:System.Data.TypedTableBaseExtensions">
+      <topicdata name="TypedTableBaseExtensions" group="list" subgroup="Methods" typeTopicId="T:System.Data.TypedTableBaseExtensions" />
+      <apidata name="TypedTableBaseExtensions" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Data.TypedTableBaseExtensions.AsEnumerable``1(System.Data.TypedTableBase{``0})" />
+        <element api="Overload:System.Data.TypedTableBaseExtensions.OrderBy">
+          <element api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="Overload:System.Data.TypedTableBaseExtensions.OrderByDescending">
+          <element api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+          <element api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+        </element>
+        <element api="M:System.Data.TypedTableBaseExtensions.Select``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+        <element api="M:System.Data.TypedTableBaseExtensions.Where``1(System.Data.TypedTableBase{``0},System.Func{``0,System.Boolean})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+      </containers>
+      <file name="Methods_T_System_Data_TypedTableBaseExtensions" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBaseExtensions.OrderBy">
+      <topicdata name="OrderBy" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBaseExtensions" />
+      <apidata name="OrderBy" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+        <element api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBaseExtensions_OrderBy" />
+    </api>
+    <api id="Overload:System.Data.TypedTableBaseExtensions.OrderByDescending">
+      <topicdata name="OrderByDescending" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Data.TypedTableBaseExtensions" />
+      <apidata name="OrderByDescending" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+        <element api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+      </elements>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="O_T_System_Data_TypedTableBaseExtensions_OrderByDescending" />
+    </api>
+    <api id="M:System.Data.TypedTableBaseExtensions.AsEnumerable``1(System.Data.TypedTableBase{``0})">
+      <topicdata group="api" />
+      <apidata name="AsEnumerable" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.TypedTableBase`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.AsEnumerable``1(System.Data.TypedTableBase{``0})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.AsEnumerable``1(System.Data.TypedTableBase{``0})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBaseExtensions_AsEnumerable``1_1_7b91853c" />
+    </api>
+    <api id="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})">
+      <topicdata group="api" />
+      <apidata name="OrderBy" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.TypedTableBaseExtensions.OrderBy" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.TypedTableBase`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+              <template name="TKey" index="1" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBaseExtensions_OrderBy``2_3_fd39e122" />
+    </api>
+    <api id="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
+      <topicdata group="api" />
+      <apidata name="OrderBy" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.TypedTableBaseExtensions.OrderBy" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.TypedTableBase`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+              <template name="TKey" index="1" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="comparer">
+          <type api="T:System.Collections.Generic.IComparer`1" ref="true">
+            <specialization>
+              <template name="TKey" index="1" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderBy``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBaseExtensions_OrderBy``2_4_aff00f86" />
+    </api>
+    <api id="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})">
+      <topicdata group="api" />
+      <apidata name="OrderByDescending" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.TypedTableBaseExtensions.OrderByDescending" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.TypedTableBase`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+              <template name="TKey" index="1" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBaseExtensions_OrderByDescending``2_3_fd39e122" />
+    </api>
+    <api id="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
+      <topicdata group="api" />
+      <apidata name="OrderByDescending" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.Data.TypedTableBaseExtensions.OrderByDescending" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+        <template name="TKey" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.TypedTableBase`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="keySelector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+              <template name="TKey" index="1" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="comparer">
+          <type api="T:System.Collections.Generic.IComparer`1" ref="true">
+            <specialization>
+              <template name="TKey" index="1" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.OrderedEnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.OrderByDescending``2(System.Data.TypedTableBase{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBaseExtensions_OrderByDescending``2_4_aff00f86" />
+    </api>
+    <api id="M:System.Data.TypedTableBaseExtensions.Select``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})">
+      <topicdata group="api" />
+      <apidata name="Select" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+        <template name="S" />
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.TypedTableBase`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.Select``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="selector">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.Select``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+              <template name="S" index="1" api="M:System.Data.TypedTableBaseExtensions.Select``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="S" index="1" api="M:System.Data.TypedTableBaseExtensions.Select``2(System.Data.TypedTableBase{``0},System.Func{``0,``1})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBaseExtensions_Select``2_3_fd39e122" />
+    </api>
+    <api id="M:System.Data.TypedTableBaseExtensions.Where``1(System.Data.TypedTableBase{``0},System.Func{``0,System.Boolean})">
+      <topicdata group="api" />
+      <apidata name="Where" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TRow">
+          <constrained>
+            <type api="T:System.Data.DataRow" ref="true" />
+          </constrained>
+        </template>
+      </templates>
+      <parameters>
+        <parameter name="source">
+          <type api="T:System.Data.TypedTableBase`1" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.Where``1(System.Data.TypedTableBase{``0},System.Func{``0,System.Boolean})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="predicate">
+          <type api="T:System.Func`2" ref="true">
+            <specialization>
+              <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.Where``1(System.Data.TypedTableBase{``0},System.Func{``0,System.Boolean})" />
+              <type api="T:System.Boolean" ref="false" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Data.EnumerableRowCollection`1" ref="true">
+          <specialization>
+            <template name="TRow" index="0" api="M:System.Data.TypedTableBaseExtensions.Where``1(System.Data.TypedTableBase{``0},System.Func{``0,System.Boolean})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.Data.DataSetExtensions" module="System.Data.DataSetExtensions" />
+        <namespace api="N:System.Data" />
+        <type api="T:System.Data.TypedTableBaseExtensions" ref="true" />
+      </containers>
+      <file name="M_System_Data_TypedTableBaseExtensions_Where``1_3_fa54f790" />
+    </api>
+  </apis>
+</reflection>

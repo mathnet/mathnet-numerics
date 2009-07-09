@@ -1,0 +1,1068 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="Microsoft_VsaVb">
+      <assemblydata version="8.0.0.0" culture="" key="002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>4d41d426-01e5-4561-b9e7-7bced30011a4</value>
+          </argument>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:Microsoft_VsaVb.VsaDTEngine">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft_VsaVb.VsaDTEngine" />
+      <apidata name="VsaDTEngine" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <implements>
+        <type api="T:Microsoft.Vsa.IVsaDTEngine" ref="true" />
+      </implements>
+      <implementors>
+        <type api="T:Microsoft_VsaVb.VsaDTEngineClass" ref="true" />
+      </implementors>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>E0C0FFEE-7EEA-4EE5-B7E4-0080C7EB0B74</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VsaVb_VsaDTEngine" />
+    </api>
+    <api id="AllMembers.T:Microsoft_VsaVb.VsaDTEngine">
+      <topicdata name="VsaDTEngine" group="list" subgroup="members" typeTopicId="T:Microsoft_VsaVb.VsaDTEngine" />
+      <apidata name="VsaDTEngine" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Vsa.IVsaDTEngine.AttachDebugger(System.Boolean)" />
+        <element api="M:Microsoft.Vsa.IVsaDTEngine.GetIDE" />
+        <element api="M:Microsoft.Vsa.IVsaDTEngine.InitCompleted" />
+        <element api="P:Microsoft.Vsa.IVsaDTEngine.TargetURL" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VsaVb_VsaDTEngine" />
+    </api>
+    <api id="T:Microsoft_VsaVb.VsaDTEngineClass">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft_VsaVb.VsaDTEngineClass" />
+      <apidata name="VsaDTEngineClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:Microsoft.Vsa.IVsaDTEngine" ref="true" />
+        <type api="T:Microsoft_VsaVb.VsaDTEngine" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ClassInterfaceAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Int16" ref="false" />
+            <value>0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3089D50C-DDAC-4743-9FBF-C15743A32161</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VsaVb_VsaDTEngineClass" />
+    </api>
+    <api id="AllMembers.T:Microsoft_VsaVb.VsaDTEngineClass">
+      <topicdata name="VsaDTEngineClass" group="list" subgroup="members" typeTopicId="T:Microsoft_VsaVb.VsaDTEngineClass" />
+      <apidata name="VsaDTEngineClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft_VsaVb.VsaDTEngineClass.#ctor" />
+        <element api="M:Microsoft_VsaVb.VsaDTEngineClass.AttachDebugger(System.Boolean)" />
+        <element api="M:Microsoft_VsaVb.VsaDTEngineClass.GetIDE" />
+        <element api="M:Microsoft_VsaVb.VsaDTEngineClass.InitCompleted" />
+        <element api="P:Microsoft_VsaVb.VsaDTEngineClass.TargetURL" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VsaVb_VsaDTEngineClass" />
+    </api>
+    <api id="Methods.T:Microsoft_VsaVb.VsaDTEngineClass">
+      <topicdata name="VsaDTEngineClass" group="list" subgroup="Methods" typeTopicId="T:Microsoft_VsaVb.VsaDTEngineClass" />
+      <apidata name="VsaDTEngineClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft_VsaVb.VsaDTEngineClass.AttachDebugger(System.Boolean)" />
+        <element api="M:Microsoft_VsaVb.VsaDTEngineClass.GetIDE" />
+        <element api="M:Microsoft_VsaVb.VsaDTEngineClass.InitCompleted" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <file name="Methods_T_Microsoft_VsaVb_VsaDTEngineClass" />
+    </api>
+    <api id="Properties.T:Microsoft_VsaVb.VsaDTEngineClass">
+      <topicdata name="VsaDTEngineClass" group="list" subgroup="Properties" typeTopicId="T:Microsoft_VsaVb.VsaDTEngineClass" />
+      <apidata name="VsaDTEngineClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft_VsaVb.VsaDTEngineClass.TargetURL" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <file name="Properties_T_Microsoft_VsaVb_VsaDTEngineClass" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaDTEngineClass.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaDTEngineClass" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VsaVb_VsaDTEngineClass_ctor" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaDTEngineClass.AttachDebugger(System.Boolean)">
+      <topicdata group="api" />
+      <apidata name="AttachDebugger" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="isAttach" in="true">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+      </parameters>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaDTEngine.AttachDebugger(System.Boolean)">
+          <type api="T:Microsoft.Vsa.IVsaDTEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaDTEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaDTEngineClass_AttachDebugger_1_36d384f7" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaDTEngineClass.GetIDE">
+      <topicdata group="api" />
+      <apidata name="GetIDE" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <returns>
+        <type api="T:Microsoft.Vsa.IVsaIDE" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaDTEngine.GetIDE">
+          <type api="T:Microsoft.Vsa.IVsaDTEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaDTEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaDTEngineClass_GetIDE" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaDTEngineClass.InitCompleted">
+      <topicdata group="api" />
+      <apidata name="InitCompleted" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaDTEngine.InitCompleted">
+          <type api="T:Microsoft.Vsa.IVsaDTEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaDTEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaDTEngineClass_InitCompleted" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaDTEngineClass.TargetURL">
+      <topicdata group="api" />
+      <apidata name="TargetURL" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaDTEngine.TargetURL">
+          <type api="T:Microsoft.Vsa.IVsaDTEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaDTEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaDTEngineClass_TargetURL" />
+    </api>
+    <api id="T:Microsoft_VsaVb.VsaEngine">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft_VsaVb.VsaEngine" />
+      <apidata name="VsaEngine" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <implements>
+        <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+      </implements>
+      <implementors>
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </implementors>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>E0C0FFE1-7EEA-4EE2-B7E4-0080C7EB0B74</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VsaVb_VsaEngine" />
+    </api>
+    <api id="AllMembers.T:Microsoft_VsaVb.VsaEngine">
+      <topicdata name="VsaEngine" group="list" subgroup="members" typeTopicId="T:Microsoft_VsaVb.VsaEngine" />
+      <apidata name="VsaEngine" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Vsa.IVsaEngine.Assembly" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.Close" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.Compile" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.Evidence" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.GenerateDebugInfo" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.GetOption(System.String)" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.InitNew" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.IsCompiled" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.IsDirty" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.IsRunning" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.IsValidIdentifier(System.String)" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.Items" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.Language" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.LCID" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.LoadSourceState(Microsoft.Vsa.IVsaPersistSite)" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.Name" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.Reset" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.RevokeCache" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.RootMoniker" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.RootNamespace" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.Run" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.SaveCompiledState(System.Byte[]@,System.Byte[]@)" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.SaveSourceState(Microsoft.Vsa.IVsaPersistSite)" />
+        <element api="M:Microsoft.Vsa.IVsaEngine.SetOption(System.String,System.Object)" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.Site" />
+        <element api="P:Microsoft.Vsa.IVsaEngine.Version" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VsaVb_VsaEngine" />
+    </api>
+    <api id="T:Microsoft_VsaVb.VsaEngineClass">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft_VsaVb.VsaEngineClass" />
+      <apidata name="VsaEngineClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        <type api="T:Microsoft_VsaVb.VsaEngine" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ClassInterfaceAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Int16" ref="false" />
+            <value>0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>A138CF39-2CAE-42C2-ADB3-022658D79F2F</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_VsaVb_VsaEngineClass" />
+    </api>
+    <api id="AllMembers.T:Microsoft_VsaVb.VsaEngineClass">
+      <topicdata name="VsaEngineClass" group="list" subgroup="members" typeTopicId="T:Microsoft_VsaVb.VsaEngineClass" />
+      <apidata name="VsaEngineClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.#ctor" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Assembly" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.Close" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.Compile" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Evidence" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.GenerateDebugInfo" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.GetOption(System.String)" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.InitNew" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.IsCompiled" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.IsDirty" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.IsRunning" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.IsValidIdentifier(System.String)" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Items" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Language" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.LCID" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.LoadSourceState(Microsoft.Vsa.IVsaPersistSite)" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Name" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.Reset" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.RevokeCache" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.RootMoniker" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.RootNamespace" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.Run" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.SaveCompiledState(System.Byte[]@,System.Byte[]@)" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.SaveSourceState(Microsoft.Vsa.IVsaPersistSite)" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.SetOption(System.String,System.Object)" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Site" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Version" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_VsaVb_VsaEngineClass" />
+    </api>
+    <api id="Methods.T:Microsoft_VsaVb.VsaEngineClass">
+      <topicdata name="VsaEngineClass" group="list" subgroup="Methods" typeTopicId="T:Microsoft_VsaVb.VsaEngineClass" />
+      <apidata name="VsaEngineClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.Close" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.Compile" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.GetOption(System.String)" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.InitNew" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.IsValidIdentifier(System.String)" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.LoadSourceState(Microsoft.Vsa.IVsaPersistSite)" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.Reset" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.RevokeCache" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.Run" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.SaveCompiledState(System.Byte[]@,System.Byte[]@)" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.SaveSourceState(Microsoft.Vsa.IVsaPersistSite)" />
+        <element api="M:Microsoft_VsaVb.VsaEngineClass.SetOption(System.String,System.Object)" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <file name="Methods_T_Microsoft_VsaVb_VsaEngineClass" />
+    </api>
+    <api id="Properties.T:Microsoft_VsaVb.VsaEngineClass">
+      <topicdata name="VsaEngineClass" group="list" subgroup="Properties" typeTopicId="T:Microsoft_VsaVb.VsaEngineClass" />
+      <apidata name="VsaEngineClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Assembly" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Evidence" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.GenerateDebugInfo" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.IsCompiled" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.IsDirty" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.IsRunning" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Items" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Language" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.LCID" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Name" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.RootMoniker" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.RootNamespace" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Site" />
+        <element api="P:Microsoft_VsaVb.VsaEngineClass.Version" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb" />
+        <namespace api="N:Microsoft_VsaVb" />
+      </containers>
+      <file name="Properties_T_Microsoft_VsaVb_VsaEngineClass" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="C_Microsoft_VsaVb_VsaEngineClass_ctor" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.Assembly">
+      <topicdata group="api" />
+      <apidata name="Assembly" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Reflection.Assembly" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.Assembly">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_Assembly" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.Close">
+      <topicdata group="api" />
+      <apidata name="Close" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.Close">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_Close" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.Compile">
+      <topicdata group="api" />
+      <apidata name="Compile" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.Compile">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_Compile" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.Evidence">
+      <topicdata group="api" />
+      <apidata name="Evidence" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Security.Policy.Evidence" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.Evidence">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_Evidence" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.GenerateDebugInfo">
+      <topicdata group="api" />
+      <apidata name="GenerateDebugInfo" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.GenerateDebugInfo">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_GenerateDebugInfo" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.GetOption(System.String)">
+      <topicdata group="api" />
+      <apidata name="GetOption" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="Name" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Object" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.GetOption(System.String)">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_GetOption_1_72eac341" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.InitNew">
+      <topicdata group="api" />
+      <apidata name="InitNew" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.InitNew">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_InitNew" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.IsCompiled">
+      <topicdata group="api" />
+      <apidata name="IsCompiled" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.IsCompiled">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_IsCompiled" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.IsDirty">
+      <topicdata group="api" />
+      <apidata name="IsDirty" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.IsDirty">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_IsDirty" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.IsRunning">
+      <topicdata group="api" />
+      <apidata name="IsRunning" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.IsRunning">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_IsRunning" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.IsValidIdentifier(System.String)">
+      <topicdata group="api" />
+      <apidata name="IsValidIdentifier" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="identifier" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.IsValidIdentifier(System.String)">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_IsValidIdentifier_1_72eac341" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.Items">
+      <topicdata group="api" />
+      <apidata name="Items" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:Microsoft.Vsa.IVsaItems" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.Items">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_Items" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.Language">
+      <topicdata group="api" />
+      <apidata name="Language" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.Language">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_Language" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.LCID">
+      <topicdata group="api" />
+      <apidata name="LCID" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.LCID">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_LCID" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.LoadSourceState(Microsoft.Vsa.IVsaPersistSite)">
+      <topicdata group="api" />
+      <apidata name="LoadSourceState" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="Site" in="true">
+          <type api="T:Microsoft.Vsa.IVsaPersistSite" ref="true" />
+        </parameter>
+      </parameters>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.LoadSourceState(Microsoft.Vsa.IVsaPersistSite)">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_LoadSourceState_1_b23413ab" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.Name">
+      <topicdata group="api" />
+      <apidata name="Name" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.Name">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_Name" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.Reset">
+      <topicdata group="api" />
+      <apidata name="Reset" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.Reset">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_Reset" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.RevokeCache">
+      <topicdata group="api" />
+      <apidata name="RevokeCache" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.RevokeCache">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_RevokeCache" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.RootMoniker">
+      <topicdata group="api" />
+      <apidata name="RootMoniker" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.RootMoniker">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_RootMoniker" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.RootNamespace">
+      <topicdata group="api" />
+      <apidata name="RootNamespace" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.RootNamespace">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_RootNamespace" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.Run">
+      <topicdata group="api" />
+      <apidata name="Run" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.Run">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_Run" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.SaveCompiledState(System.Byte[]@,System.Byte[]@)">
+      <topicdata group="api" />
+      <apidata name="SaveCompiledState" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="pe" out="true">
+          <referenceTo>
+            <arrayOf rank="1">
+              <type api="T:System.Byte" ref="false" />
+            </arrayOf>
+          </referenceTo>
+        </parameter>
+        <parameter name="pdb" out="true">
+          <referenceTo>
+            <arrayOf rank="1">
+              <type api="T:System.Byte" ref="false" />
+            </arrayOf>
+          </referenceTo>
+        </parameter>
+      </parameters>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.SaveCompiledState(System.Byte[]@,System.Byte[]@)">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_SaveCompiledState_2_8bc9e2e2" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.SaveSourceState(Microsoft.Vsa.IVsaPersistSite)">
+      <topicdata group="api" />
+      <apidata name="SaveSourceState" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="Site" in="true">
+          <type api="T:Microsoft.Vsa.IVsaPersistSite" ref="true" />
+        </parameter>
+      </parameters>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.SaveSourceState(Microsoft.Vsa.IVsaPersistSite)">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_SaveSourceState_1_b23413ab" />
+    </api>
+    <api id="M:Microsoft_VsaVb.VsaEngineClass.SetOption(System.String,System.Object)">
+      <topicdata group="api" />
+      <apidata name="SetOption" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="Name" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="value" in="true">
+          <type api="T:System.Object" ref="true" />
+        </parameter>
+      </parameters>
+      <implements>
+        <member api="M:Microsoft.Vsa.IVsaEngine.SetOption(System.String,System.Object)">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_VsaVb_VsaEngineClass_SetOption_2_a8b2c272" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.Site">
+      <topicdata group="api" />
+      <apidata name="Site" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:Microsoft.Vsa.IVsaSite" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.Site">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_Site" />
+    </api>
+    <api id="P:Microsoft_VsaVb.VsaEngineClass.Version">
+      <topicdata group="api" />
+      <apidata name="Version" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.IVsaEngine.Version">
+          <type api="T:Microsoft.Vsa.IVsaEngine" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft_VsaVb" module="Microsoft_VsaVb">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft_VsaVb" />
+        <type api="T:Microsoft_VsaVb.VsaEngineClass" ref="true" />
+      </containers>
+      <file name="P_Microsoft_VsaVb_VsaEngineClass_Version" />
+    </api>
+  </apis>
+</reflection>

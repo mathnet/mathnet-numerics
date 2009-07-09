@@ -1,0 +1,618 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="Microsoft.Vsa.Vb.CodeDOMProcessor">
+      <assemblydata version="8.0.0.0" culture="" key="002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>C4F9D6EB-4FBB-3341-A582-AEA37ED6DA94</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>F:\RedBits\Tools\devdiv\FinalPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>8.0.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>8.0.50727.1426</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>8.0.50727.1426</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation. All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft (R) Visual Studio (R) 2005</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Vsa.Vb.CodeDOMProcessor.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Vsa.Vb.CodeDOMProcessor.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Vsa.Vb.CodeDOMProcessor.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor" />
+      <apidata name="_CodeDOMProcessor" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <implementors>
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor" ref="true" />
+      </implementors>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Use of this type is not recommended because it is being deprecated in Visual Studio 2005; there will be no replacement for this feature. Please see the ICodeCompiler documentation for additional help.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>C18BB007-0EF7-4c2b-B6D4-186B8D01514E</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_Vsa_Vb_CodeDOM__CodeDOMProcessor" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor">
+      <topicdata name="_CodeDOMProcessor" group="list" subgroup="members" typeTopicId="T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor" />
+      <apidata name="_CodeDOMProcessor" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor.CodeDOMFromXML(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Vsa_Vb_CodeDOM__CodeDOMProcessor" />
+    </api>
+    <api id="Methods.T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor">
+      <topicdata name="_CodeDOMProcessor" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor" />
+      <apidata name="_CodeDOMProcessor" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor.CodeDOMFromXML(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <file name="Methods_T_Microsoft_Vsa_Vb_CodeDOM__CodeDOMProcessor" />
+    </api>
+    <api id="M:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor.CodeDOMFromXML(System.String)">
+      <topicdata group="api" />
+      <apidata name="CodeDOMFromXML" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <parameters>
+        <parameter name="xmlStream">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.CodeDom.CodeCompileUnit" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Vsa_Vb_CodeDOM__CodeDOMProcessor_CodeDOMFromXML_1_72eac341" />
+    </api>
+    <api id="T:Microsoft.Vsa.Vb.CodeDOM._Location">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Vsa.Vb.CodeDOM._Location" />
+      <apidata name="_Location" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <implementors>
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.Location" ref="true" />
+      </implementors>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Use of this type is not recommended because it is being deprecated in Visual Studio 2005; there will be no replacement for this feature. Please see the ICodeCompiler documentation for additional help.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>FF5D372E-733C-46ed-ADF1-A4ECBAAF3E28</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_Vsa_Vb_CodeDOM__Location" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Vsa.Vb.CodeDOM._Location">
+      <topicdata name="_Location" group="list" subgroup="members" typeTopicId="T:Microsoft.Vsa.Vb.CodeDOM._Location" />
+      <apidata name="_Location" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM._Location.BeginningColumn" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM._Location.BeginningLine" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM._Location.EndColumn" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM._Location.EndLine" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Vsa_Vb_CodeDOM__Location" />
+    </api>
+    <api id="Properties.T:Microsoft.Vsa.Vb.CodeDOM._Location">
+      <topicdata name="_Location" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Vsa.Vb.CodeDOM._Location" />
+      <apidata name="_Location" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM._Location.BeginningColumn" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM._Location.BeginningLine" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM._Location.EndColumn" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM._Location.EndLine" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <file name="Properties_T_Microsoft_Vsa_Vb_CodeDOM__Location" />
+    </api>
+    <api id="P:Microsoft.Vsa.Vb.CodeDOM._Location.BeginningColumn">
+      <topicdata group="api" />
+      <apidata name="BeginningColumn" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.UInt32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Vsa_Vb_CodeDOM__Location_BeginningColumn" />
+    </api>
+    <api id="P:Microsoft.Vsa.Vb.CodeDOM._Location.BeginningLine">
+      <topicdata group="api" />
+      <apidata name="BeginningLine" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.UInt32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Vsa_Vb_CodeDOM__Location_BeginningLine" />
+    </api>
+    <api id="P:Microsoft.Vsa.Vb.CodeDOM._Location.EndColumn">
+      <topicdata group="api" />
+      <apidata name="EndColumn" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.UInt32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Vsa_Vb_CodeDOM__Location_EndColumn" />
+    </api>
+    <api id="P:Microsoft.Vsa.Vb.CodeDOM._Location.EndLine">
+      <topicdata group="api" />
+      <apidata name="EndLine" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.UInt32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Vsa_Vb_CodeDOM__Location_EndLine" />
+    </api>
+    <api id="T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor" />
+      <apidata name="CodeDOMProcessor" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Use of this type is not recommended because it is being deprecated in Visual Studio 2005; there will be no replacement for this feature. Please see the ICodeCompiler documentation for additional help.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>99749841-0D55-4cf4-8D0D-F212ECE9409A</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_Vsa_Vb_CodeDOM_CodeDOMProcessor" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor">
+      <topicdata name="CodeDOMProcessor" group="list" subgroup="members" typeTopicId="T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor" />
+      <apidata name="CodeDOMProcessor" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor.#ctor" />
+        <element api="M:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor.CodeDOMFromXML(System.String)" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Vsa_Vb_CodeDOM_CodeDOMProcessor" />
+    </api>
+    <api id="Methods.T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor">
+      <topicdata name="CodeDOMProcessor" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor" />
+      <apidata name="CodeDOMProcessor" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor.CodeDOMFromXML(System.String)" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <file name="Methods_T_Microsoft_Vsa_Vb_CodeDOM_CodeDOMProcessor" />
+    </api>
+    <api id="M:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Vsa_Vb_CodeDOM_CodeDOMProcessor_ctor" />
+    </api>
+    <api id="M:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor.CodeDOMFromXML(System.String)">
+      <topicdata group="api" />
+      <apidata name="CodeDOMFromXML" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <parameters>
+        <parameter name="xmlStream">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.CodeDom.CodeCompileUnit" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor.CodeDOMFromXML(System.String)">
+          <type api="T:Microsoft.Vsa.Vb.CodeDOM._CodeDOMProcessor" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.CodeDOMProcessor" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Vsa_Vb_CodeDOM_CodeDOMProcessor_CodeDOMFromXML_1_72eac341" />
+    </api>
+    <api id="T:Microsoft.Vsa.Vb.CodeDOM.Location">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Vsa.Vb.CodeDOM.Location" />
+      <apidata name="Location" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>0D17A350-6585-4f3d-B008-6827EBDE5D85</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Use of this type is not recommended because it is being deprecated in Visual Studio 2005; there will be no replacement for this feature. Please see the ICodeCompiler documentation for additional help.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_Vsa_Vb_CodeDOM_Location" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Vsa.Vb.CodeDOM.Location">
+      <topicdata name="Location" group="list" subgroup="members" typeTopicId="T:Microsoft.Vsa.Vb.CodeDOM.Location" />
+      <apidata name="Location" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Vsa.Vb.CodeDOM.Location.#ctor" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM.Location.BeginningColumn" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM.Location.BeginningLine" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM.Location.EndColumn" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM.Location.EndLine" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Vsa_Vb_CodeDOM_Location" />
+    </api>
+    <api id="Properties.T:Microsoft.Vsa.Vb.CodeDOM.Location">
+      <topicdata name="Location" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Vsa.Vb.CodeDOM.Location" />
+      <apidata name="Location" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM.Location.BeginningColumn" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM.Location.BeginningLine" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM.Location.EndColumn" />
+        <element api="P:Microsoft.Vsa.Vb.CodeDOM.Location.EndLine" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor" />
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+      </containers>
+      <file name="Properties_T_Microsoft_Vsa_Vb_CodeDOM_Location" />
+    </api>
+    <api id="M:Microsoft.Vsa.Vb.CodeDOM.Location.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.Location" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Vsa_Vb_CodeDOM_Location_ctor" />
+    </api>
+    <api id="P:Microsoft.Vsa.Vb.CodeDOM.Location.BeginningColumn">
+      <topicdata group="api" />
+      <apidata name="BeginningColumn" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.UInt32" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.Vb.CodeDOM._Location.BeginningColumn">
+          <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.Location" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Vsa_Vb_CodeDOM_Location_BeginningColumn" />
+    </api>
+    <api id="P:Microsoft.Vsa.Vb.CodeDOM.Location.BeginningLine">
+      <topicdata group="api" />
+      <apidata name="BeginningLine" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.UInt32" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.Vb.CodeDOM._Location.BeginningLine">
+          <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.Location" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Vsa_Vb_CodeDOM_Location_BeginningLine" />
+    </api>
+    <api id="P:Microsoft.Vsa.Vb.CodeDOM.Location.EndColumn">
+      <topicdata group="api" />
+      <apidata name="EndColumn" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.UInt32" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.Vb.CodeDOM._Location.EndColumn">
+          <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.Location" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Vsa_Vb_CodeDOM_Location_EndColumn" />
+    </api>
+    <api id="P:Microsoft.Vsa.Vb.CodeDOM.Location.EndLine">
+      <topicdata group="api" />
+      <apidata name="EndLine" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.UInt32" ref="false" />
+      </returns>
+      <implements>
+        <member api="P:Microsoft.Vsa.Vb.CodeDOM._Location.EndLine">
+          <type api="T:Microsoft.Vsa.Vb.CodeDOM._Location" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.Vsa.Vb.CodeDOMProcessor" module="Microsoft.Vsa.Vb.CodeDOMProcessor">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Vsa.Vb.CodeDOM" />
+        <type api="T:Microsoft.Vsa.Vb.CodeDOM.Location" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Vsa_Vb_CodeDOM_Location_EndLine" />
+    </api>
+  </apis>
+</reflection>

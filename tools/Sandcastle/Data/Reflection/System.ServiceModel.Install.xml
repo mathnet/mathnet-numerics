@@ -1,0 +1,1253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="System.ServiceModel.Install">
+      <assemblydata version="3.0.0.0" culture="" key="00000000000000000400000000000000" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.0.4506.641</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>F:\WinFXRed\Tools\devdiv\EcmaPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.0.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.0.4506.641</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.ServiceModel.Install.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.ServiceModel.Install.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.ServiceModel.Install.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="RequestMinimum" />
+            </enumValue>
+          </argument>
+          <assignment name="SkipVerification">
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </assignment>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" />
+      <apidata name="ServiceModelConfiguration" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="T_System_ServiceModel_Install_Configuration_ServiceModelConfiguration" />
+    </api>
+    <api id="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration">
+      <topicdata name="ServiceModelConfiguration" group="list" subgroup="members" typeTopicId="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" />
+      <apidata name="ServiceModelConfiguration" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor">
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor" />
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])" />
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[])" />
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[],System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])" />
+        </element>
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.SectionGroups" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.Sections" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="AllMembers_T_System_ServiceModel_Install_Configuration_ServiceModelConfiguration" />
+    </api>
+    <api id="Properties.T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration">
+      <topicdata name="ServiceModelConfiguration" group="list" subgroup="Properties" typeTopicId="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" />
+      <apidata name="ServiceModelConfiguration" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.SectionGroups" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.Sections" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="Properties_T_System_ServiceModel_Install_Configuration_ServiceModelConfiguration" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[])" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[],System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" ref="true" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfiguration_ctor" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor" />
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfiguration_ctor" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor" />
+      <parameters>
+        <parameter name="sections">
+          <arrayOf rank="1">
+            <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfiguration_ctor_1_87437f5d" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[])">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor" />
+      <parameters>
+        <parameter name="sectionGroups">
+          <arrayOf rank="1">
+            <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfiguration_ctor_1_70381425" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor(System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[],System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.#ctor" />
+      <parameters>
+        <parameter name="sectionGroups">
+          <arrayOf rank="1">
+            <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="sections">
+          <arrayOf rank="1">
+            <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfiguration_ctor_2_4c49466c" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.SectionGroups">
+      <topicdata group="api" />
+      <apidata name="SectionGroups" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfiguration_SectionGroups" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfiguration.Sections">
+      <topicdata group="api" />
+      <apidata name="Sections" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfiguration" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfiguration_Sections" />
+    </api>
+    <api id="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" />
+      <apidata name="ServiceModelConfigurationSection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection" />
+    </api>
+    <api id="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection">
+      <topicdata name="ServiceModelConfigurationSection" group="list" subgroup="members" typeTopicId="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" />
+      <apidata name="ServiceModelConfigurationSection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor">
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor" />
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor(System.String,System.String)" />
+        </element>
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.AllowDefinition" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.AllowExeDefinition" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.Name" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.Type" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="AllMembers_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection" />
+    </api>
+    <api id="Properties.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection">
+      <topicdata name="ServiceModelConfigurationSection" group="list" subgroup="Properties" typeTopicId="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" />
+      <apidata name="ServiceModelConfigurationSection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.AllowDefinition" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.AllowExeDefinition" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.Name" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.Type" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="Properties_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor(System.String,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection_ctor" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor" />
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection_ctor" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.#ctor" />
+      <parameters>
+        <parameter name="name">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="type">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection_ctor_2_6608d038" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.AllowDefinition">
+      <topicdata group="api" />
+      <apidata name="AllowDefinition" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection_AllowDefinition" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.AllowExeDefinition">
+      <topicdata group="api" />
+      <apidata name="AllowExeDefinition" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection_AllowExeDefinition" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.Name">
+      <topicdata group="api" />
+      <apidata name="Name" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection_Name" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection.Type">
+      <topicdata group="api" />
+      <apidata name="Type" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSection_Type" />
+    </api>
+    <api id="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      <apidata name="ServiceModelConfigurationSectionCollection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Collections.Generic.List`1" ref="true">
+            <specialization>
+              <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+            </specialization>
+          </type>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection" />
+    </api>
+    <api id="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection">
+      <topicdata name="ServiceModelConfigurationSectionCollection" group="list" subgroup="members" typeTopicId="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      <apidata name="ServiceModelConfigurationSectionCollection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Collections.Generic.List`1.Add(`0)" />
+        <element api="M:System.Collections.Generic.List`1.AddRange(System.Collections.Generic.IEnumerable{`0})" />
+        <element api="M:System.Collections.Generic.List`1.AsReadOnly" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.BinarySearch">
+          <element api="M:System.Collections.Generic.List`1.BinarySearch(`0)" />
+          <element api="M:System.Collections.Generic.List`1.BinarySearch(`0,System.Collections.Generic.IComparer{`0})" />
+          <element api="M:System.Collections.Generic.List`1.BinarySearch(System.Int32,System.Int32,`0,System.Collections.Generic.IComparer{`0})" />
+        </element>
+        <element api="P:System.Collections.Generic.List`1.Capacity" />
+        <element api="M:System.Collections.Generic.List`1.Clear" />
+        <element api="M:System.Collections.Generic.List`1.Contains(`0)" />
+        <element api="M:System.Collections.Generic.List`1.ConvertAll``1(System.Converter{`0,``0})" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.CopyTo">
+          <element api="M:System.Collections.Generic.List`1.CopyTo(`0[])" />
+          <element api="M:System.Collections.Generic.List`1.CopyTo(`0[],System.Int32)" />
+          <element api="M:System.Collections.Generic.List`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)" />
+        </element>
+        <element api="P:System.Collections.Generic.List`1.Count" />
+        <element api="M:System.Collections.Generic.List`1.Exists(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.Find(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindAll(System.Predicate{`0})" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.FindIndex">
+          <element api="M:System.Collections.Generic.List`1.FindIndex(System.Predicate{`0})" />
+          <element api="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Predicate{`0})" />
+          <element api="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Int32,System.Predicate{`0})" />
+        </element>
+        <element api="M:System.Collections.Generic.List`1.FindLast(System.Predicate{`0})" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.FindLastIndex">
+          <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Predicate{`0})" />
+          <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Predicate{`0})" />
+          <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Int32,System.Predicate{`0})" />
+        </element>
+        <element api="M:System.Collections.Generic.List`1.ForEach(System.Action{`0})" />
+        <element api="M:System.Collections.Generic.List`1.GetEnumerator" />
+        <element api="M:System.Collections.Generic.List`1.GetRange(System.Int32,System.Int32)" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.IndexOf">
+          <element api="M:System.Collections.Generic.List`1.IndexOf(`0)" />
+          <element api="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32)" />
+          <element api="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32,System.Int32)" />
+        </element>
+        <element api="M:System.Collections.Generic.List`1.Insert(System.Int32,`0)" />
+        <element api="M:System.Collections.Generic.List`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})" />
+        <element api="P:System.Collections.Generic.List`1.Item(System.Int32)" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.LastIndexOf">
+          <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0)" />
+          <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32)" />
+          <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32,System.Int32)" />
+        </element>
+        <element api="M:System.Collections.Generic.List`1.Remove(`0)" />
+        <element api="M:System.Collections.Generic.List`1.RemoveAll(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.RemoveAt(System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.RemoveRange(System.Int32,System.Int32)" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.Reverse">
+          <element api="M:System.Collections.Generic.List`1.Reverse" />
+          <element api="M:System.Collections.Generic.List`1.Reverse(System.Int32,System.Int32)" />
+        </element>
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.Sort">
+          <element api="M:System.Collections.Generic.List`1.Sort" />
+          <element api="M:System.Collections.Generic.List`1.Sort(System.Comparison{`0})" />
+          <element api="M:System.Collections.Generic.List`1.Sort(System.Collections.Generic.IComparer{`0})" />
+          <element api="M:System.Collections.Generic.List`1.Sort(System.Int32,System.Int32,System.Collections.Generic.IComparer{`0})" />
+        </element>
+        <element api="P:System.Collections.Generic.List`1.System#Collections#Generic#ICollection{`0}#IsReadOnly" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#Generic#IEnumerable{`0}#GetEnumerator" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#ICollection#IsSynchronized" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#ICollection#SyncRoot" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IEnumerable#GetEnumerator" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#Add(System.Object)" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#Contains(System.Object)" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#IndexOf(System.Object)" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#Insert(System.Int32,System.Object)" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#IList#IsFixedSize" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#IList#IsReadOnly" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#IList#Item(System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#Remove(System.Object)" />
+        <element api="M:System.Collections.Generic.List`1.ToArray" />
+        <element api="M:System.Collections.Generic.List`1.TrimExcess" />
+        <element api="M:System.Collections.Generic.List`1.TrueForAll(System.Predicate{`0})" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.#ctor" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="AllMembers_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.BinarySearch">
+      <topicdata name="BinarySearch" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" allInherited="true" />
+      <apidata name="BinarySearch" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.BinarySearch(`0)" />
+        <element api="M:System.Collections.Generic.List`1.BinarySearch(`0,System.Collections.Generic.IComparer{`0})" />
+        <element api="M:System.Collections.Generic.List`1.BinarySearch(System.Int32,System.Int32,`0,System.Collections.Generic.IComparer{`0})" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_BinarySearch" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.CopyTo">
+      <topicdata name="CopyTo" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" allInherited="true" />
+      <apidata name="CopyTo" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.CopyTo(`0[])" />
+        <element api="M:System.Collections.Generic.List`1.CopyTo(`0[],System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_CopyTo" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.FindIndex">
+      <topicdata name="FindIndex" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" allInherited="true" />
+      <apidata name="FindIndex" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.FindIndex(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Int32,System.Predicate{`0})" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_FindIndex" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.FindLastIndex">
+      <topicdata name="FindLastIndex" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" allInherited="true" />
+      <apidata name="FindLastIndex" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Int32,System.Predicate{`0})" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_FindLastIndex" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.IndexOf">
+      <topicdata name="IndexOf" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" allInherited="true" />
+      <apidata name="IndexOf" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.IndexOf(`0)" />
+        <element api="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32,System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_IndexOf" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.LastIndexOf">
+      <topicdata name="LastIndexOf" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" allInherited="true" />
+      <apidata name="LastIndexOf" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0)" />
+        <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32,System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_LastIndexOf" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.Reverse">
+      <topicdata name="Reverse" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" allInherited="true" />
+      <apidata name="Reverse" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.Reverse" />
+        <element api="M:System.Collections.Generic.List`1.Reverse(System.Int32,System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_Reverse" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.Sort">
+      <topicdata name="Sort" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" allInherited="true" />
+      <apidata name="Sort" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.Sort" />
+        <element api="M:System.Collections.Generic.List`1.Sort(System.Comparison{`0})" />
+        <element api="M:System.Collections.Generic.List`1.Sort(System.Collections.Generic.IComparer{`0})" />
+        <element api="M:System.Collections.Generic.List`1.Sort(System.Int32,System.Int32,System.Collections.Generic.IComparer{`0})" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_Sort" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionCollection_ctor" />
+    </api>
+    <api id="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" />
+      <apidata name="ServiceModelConfigurationSectionGroup" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup" />
+    </api>
+    <api id="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup">
+      <topicdata name="ServiceModelConfigurationSectionGroup" group="list" subgroup="members" typeTopicId="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" />
+      <apidata name="ServiceModelConfigurationSectionGroup" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor">
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor" />
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String)" />
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])" />
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[])" />
+          <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[],System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])" />
+        </element>
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Name" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.SectionGroups" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Sections" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Type" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="AllMembers_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup" />
+    </api>
+    <api id="Properties.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup">
+      <topicdata name="ServiceModelConfigurationSectionGroup" group="list" subgroup="Properties" typeTopicId="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" />
+      <apidata name="ServiceModelConfigurationSectionGroup" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Name" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.SectionGroups" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Sections" />
+        <element api="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Type" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="Properties_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String)" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[])" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[],System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_ctor" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor" />
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_ctor" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor" />
+      <parameters>
+        <parameter name="name">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="type">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_ctor_2_6608d038" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor" />
+      <parameters>
+        <parameter name="name">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="type">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="sections">
+          <arrayOf rank="1">
+            <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_ctor_3_821a1a47" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[])">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor" />
+      <parameters>
+        <parameter name="name">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="type">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="sectionGroups">
+          <arrayOf rank="1">
+            <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_ctor_3_d60bd5c4" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor(System.String,System.String,System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup[],System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection[])">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.#ctor" />
+      <parameters>
+        <parameter name="name">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="type">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="sectionGroups">
+          <arrayOf rank="1">
+            <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="sections">
+          <arrayOf rank="1">
+            <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSection" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_ctor_4_94856e97" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Name">
+      <topicdata group="api" />
+      <apidata name="Name" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_Name" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.SectionGroups">
+      <topicdata group="api" />
+      <apidata name="SectionGroups" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_SectionGroups" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Sections">
+      <topicdata group="api" />
+      <apidata name="Sections" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionCollection" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_Sections" />
+    </api>
+    <api id="P:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup.Type">
+      <topicdata group="api" />
+      <apidata name="Type" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+      </containers>
+      <file name="P_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroup_Type" />
+    </api>
+    <api id="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      <apidata name="ServiceModelConfigurationSectionGroupCollection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Collections.Generic.List`1" ref="true">
+            <specialization>
+              <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroup" ref="true" />
+            </specialization>
+          </type>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection" />
+    </api>
+    <api id="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection">
+      <topicdata name="ServiceModelConfigurationSectionGroupCollection" group="list" subgroup="members" typeTopicId="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      <apidata name="ServiceModelConfigurationSectionGroupCollection" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Collections.Generic.List`1.Add(`0)" />
+        <element api="M:System.Collections.Generic.List`1.AddRange(System.Collections.Generic.IEnumerable{`0})" />
+        <element api="M:System.Collections.Generic.List`1.AsReadOnly" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.BinarySearch">
+          <element api="M:System.Collections.Generic.List`1.BinarySearch(`0)" />
+          <element api="M:System.Collections.Generic.List`1.BinarySearch(`0,System.Collections.Generic.IComparer{`0})" />
+          <element api="M:System.Collections.Generic.List`1.BinarySearch(System.Int32,System.Int32,`0,System.Collections.Generic.IComparer{`0})" />
+        </element>
+        <element api="P:System.Collections.Generic.List`1.Capacity" />
+        <element api="M:System.Collections.Generic.List`1.Clear" />
+        <element api="M:System.Collections.Generic.List`1.Contains(`0)" />
+        <element api="M:System.Collections.Generic.List`1.ConvertAll``1(System.Converter{`0,``0})" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.CopyTo">
+          <element api="M:System.Collections.Generic.List`1.CopyTo(`0[])" />
+          <element api="M:System.Collections.Generic.List`1.CopyTo(`0[],System.Int32)" />
+          <element api="M:System.Collections.Generic.List`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)" />
+        </element>
+        <element api="P:System.Collections.Generic.List`1.Count" />
+        <element api="M:System.Collections.Generic.List`1.Exists(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.Find(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindAll(System.Predicate{`0})" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.FindIndex">
+          <element api="M:System.Collections.Generic.List`1.FindIndex(System.Predicate{`0})" />
+          <element api="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Predicate{`0})" />
+          <element api="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Int32,System.Predicate{`0})" />
+        </element>
+        <element api="M:System.Collections.Generic.List`1.FindLast(System.Predicate{`0})" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.FindLastIndex">
+          <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Predicate{`0})" />
+          <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Predicate{`0})" />
+          <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Int32,System.Predicate{`0})" />
+        </element>
+        <element api="M:System.Collections.Generic.List`1.ForEach(System.Action{`0})" />
+        <element api="M:System.Collections.Generic.List`1.GetEnumerator" />
+        <element api="M:System.Collections.Generic.List`1.GetRange(System.Int32,System.Int32)" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.IndexOf">
+          <element api="M:System.Collections.Generic.List`1.IndexOf(`0)" />
+          <element api="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32)" />
+          <element api="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32,System.Int32)" />
+        </element>
+        <element api="M:System.Collections.Generic.List`1.Insert(System.Int32,`0)" />
+        <element api="M:System.Collections.Generic.List`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})" />
+        <element api="P:System.Collections.Generic.List`1.Item(System.Int32)" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.LastIndexOf">
+          <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0)" />
+          <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32)" />
+          <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32,System.Int32)" />
+        </element>
+        <element api="M:System.Collections.Generic.List`1.Remove(`0)" />
+        <element api="M:System.Collections.Generic.List`1.RemoveAll(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.RemoveAt(System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.RemoveRange(System.Int32,System.Int32)" />
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.Reverse">
+          <element api="M:System.Collections.Generic.List`1.Reverse" />
+          <element api="M:System.Collections.Generic.List`1.Reverse(System.Int32,System.Int32)" />
+        </element>
+        <element api="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.Sort">
+          <element api="M:System.Collections.Generic.List`1.Sort" />
+          <element api="M:System.Collections.Generic.List`1.Sort(System.Comparison{`0})" />
+          <element api="M:System.Collections.Generic.List`1.Sort(System.Collections.Generic.IComparer{`0})" />
+          <element api="M:System.Collections.Generic.List`1.Sort(System.Int32,System.Int32,System.Collections.Generic.IComparer{`0})" />
+        </element>
+        <element api="P:System.Collections.Generic.List`1.System#Collections#Generic#ICollection{`0}#IsReadOnly" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#Generic#IEnumerable{`0}#GetEnumerator" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#ICollection#IsSynchronized" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#ICollection#SyncRoot" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IEnumerable#GetEnumerator" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#Add(System.Object)" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#Contains(System.Object)" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#IndexOf(System.Object)" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#Insert(System.Int32,System.Object)" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#IList#IsFixedSize" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#IList#IsReadOnly" />
+        <element api="P:System.Collections.Generic.List`1.System#Collections#IList#Item(System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.System#Collections#IList#Remove(System.Object)" />
+        <element api="M:System.Collections.Generic.List`1.ToArray" />
+        <element api="M:System.Collections.Generic.List`1.TrimExcess" />
+        <element api="M:System.Collections.Generic.List`1.TrueForAll(System.Predicate{`0})" />
+        <element api="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.#ctor" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+      </containers>
+      <file name="AllMembers_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.BinarySearch">
+      <topicdata name="BinarySearch" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" allInherited="true" />
+      <apidata name="BinarySearch" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.BinarySearch(`0)" />
+        <element api="M:System.Collections.Generic.List`1.BinarySearch(`0,System.Collections.Generic.IComparer{`0})" />
+        <element api="M:System.Collections.Generic.List`1.BinarySearch(System.Int32,System.Int32,`0,System.Collections.Generic.IComparer{`0})" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_BinarySearch" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.CopyTo">
+      <topicdata name="CopyTo" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" allInherited="true" />
+      <apidata name="CopyTo" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.CopyTo(`0[])" />
+        <element api="M:System.Collections.Generic.List`1.CopyTo(`0[],System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_CopyTo" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.FindIndex">
+      <topicdata name="FindIndex" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" allInherited="true" />
+      <apidata name="FindIndex" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.FindIndex(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindIndex(System.Int32,System.Int32,System.Predicate{`0})" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_FindIndex" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.FindLastIndex">
+      <topicdata name="FindLastIndex" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" allInherited="true" />
+      <apidata name="FindLastIndex" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Predicate{`0})" />
+        <element api="M:System.Collections.Generic.List`1.FindLastIndex(System.Int32,System.Int32,System.Predicate{`0})" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_FindLastIndex" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.IndexOf">
+      <topicdata name="IndexOf" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" allInherited="true" />
+      <apidata name="IndexOf" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.IndexOf(`0)" />
+        <element api="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.IndexOf(`0,System.Int32,System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_IndexOf" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.LastIndexOf">
+      <topicdata name="LastIndexOf" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" allInherited="true" />
+      <apidata name="LastIndexOf" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0)" />
+        <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32)" />
+        <element api="M:System.Collections.Generic.List`1.LastIndexOf(`0,System.Int32,System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_LastIndexOf" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.Reverse">
+      <topicdata name="Reverse" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" allInherited="true" />
+      <apidata name="Reverse" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.Reverse" />
+        <element api="M:System.Collections.Generic.List`1.Reverse(System.Int32,System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_Reverse" />
+    </api>
+    <api id="Overload:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.Sort">
+      <topicdata name="Sort" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" allInherited="true" />
+      <apidata name="Sort" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Collections.Generic.List`1.Sort" />
+        <element api="M:System.Collections.Generic.List`1.Sort(System.Comparison{`0})" />
+        <element api="M:System.Collections.Generic.List`1.Sort(System.Collections.Generic.IComparer{`0})" />
+        <element api="M:System.Collections.Generic.List`1.Sort(System.Int32,System.Int32,System.Collections.Generic.IComparer{`0})" />
+      </elements>
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install" />
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" />
+      </containers>
+      <file name="O_T_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_Sort" />
+    </api>
+    <api id="M:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.ServiceModel.Install" module="System.ServiceModel.Install">
+          <noAptca />
+        </library>
+        <namespace api="N:System.ServiceModel.Install.Configuration" />
+        <type api="T:System.ServiceModel.Install.Configuration.ServiceModelConfigurationSectionGroupCollection" ref="true" />
+      </containers>
+      <file name="C_System_ServiceModel_Install_Configuration_ServiceModelConfigurationSectionGroupCollection_ctor" />
+    </api>
+  </apis>
+</reflection>

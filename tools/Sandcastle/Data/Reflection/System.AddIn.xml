@@ -1,0 +1,3473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="System.AddIn">
+      <assemblydata version="3.5.0.0" culture="" key="00000000000000000400000000000000" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>f:\dd\tools\devdiv\EcmaPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.AddIn.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.AllowPartiallyTrustedCallersAttribute" ref="true" />
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.AddIn.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.AddIn.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="RequestMinimum" />
+            </enumValue>
+          </argument>
+          <assignment name="SkipVerification">
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </assignment>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:System.AddIn.AddInAttribute">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.AddInAttribute" />
+      <apidata name="AddInAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Attribute" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.AttributeUsageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.AttributeTargets" ref="false" />
+            <enumValue>
+              <field name="Class" />
+            </enumValue>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_System_AddIn_AddInAttribute" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.AddInAttribute">
+      <topicdata name="AddInAttribute" group="list" subgroup="members" typeTopicId="T:System.AddIn.AddInAttribute" />
+      <apidata name="AddInAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Attribute.Equals(System.Object)" />
+        <element api="M:System.Attribute.GetHashCode" />
+        <element api="M:System.Attribute.IsDefaultAttribute" />
+        <element api="M:System.Attribute.Match(System.Object)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfoCount(System.UInt32@)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)" />
+        <element api="P:System.Attribute.TypeId" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.AddInAttribute.#ctor(System.String)" />
+        <element api="P:System.AddIn.AddInAttribute.Description" />
+        <element api="P:System.AddIn.AddInAttribute.Name" />
+        <element api="P:System.AddIn.AddInAttribute.Publisher" />
+        <element api="P:System.AddIn.AddInAttribute.Version" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_AddInAttribute" />
+    </api>
+    <api id="Properties.T:System.AddIn.AddInAttribute">
+      <topicdata name="AddInAttribute" group="list" subgroup="Properties" typeTopicId="T:System.AddIn.AddInAttribute" />
+      <apidata name="AddInAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Attribute.TypeId" />
+        <element api="P:System.AddIn.AddInAttribute.Description" />
+        <element api="P:System.AddIn.AddInAttribute.Name" />
+        <element api="P:System.AddIn.AddInAttribute.Publisher" />
+        <element api="P:System.AddIn.AddInAttribute.Version" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn" />
+      </containers>
+      <file name="Properties_T_System_AddIn_AddInAttribute" />
+    </api>
+    <api id="M:System.AddIn.AddInAttribute.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <parameters>
+        <parameter name="name">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn" />
+        <type api="T:System.AddIn.AddInAttribute" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_AddInAttribute_ctor_1_61b4e77c" />
+    </api>
+    <api id="P:System.AddIn.AddInAttribute.Description">
+      <topicdata group="api" />
+      <apidata name="Description" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn" />
+        <type api="T:System.AddIn.AddInAttribute" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_AddInAttribute_Description" />
+    </api>
+    <api id="P:System.AddIn.AddInAttribute.Name">
+      <topicdata group="api" />
+      <apidata name="Name" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn" />
+        <type api="T:System.AddIn.AddInAttribute" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_AddInAttribute_Name" />
+    </api>
+    <api id="P:System.AddIn.AddInAttribute.Publisher">
+      <topicdata group="api" />
+      <apidata name="Publisher" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn" />
+        <type api="T:System.AddIn.AddInAttribute" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_AddInAttribute_Publisher" />
+    </api>
+    <api id="P:System.AddIn.AddInAttribute.Version">
+      <topicdata group="api" />
+      <apidata name="Version" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn" />
+        <type api="T:System.AddIn.AddInAttribute" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_AddInAttribute_Version" />
+    </api>
+    <api id="T:System.AddIn.Hosting.AddInController">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInController" />
+      <apidata name="AddInController" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_AddInController" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Hosting.AddInController">
+      <topicdata name="AddInController" group="list" subgroup="members" typeTopicId="T:System.AddIn.Hosting.AddInController" />
+      <apidata name="AddInController" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="P:System.AddIn.Hosting.AddInController.AddInEnvironment" />
+        <element api="P:System.AddIn.Hosting.AddInController.AppDomain" />
+        <element api="M:System.AddIn.Hosting.AddInController.GetAddInController(System.Object)" />
+        <element api="M:System.AddIn.Hosting.AddInController.Shutdown" />
+        <element api="P:System.AddIn.Hosting.AddInController.Token" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Hosting_AddInController" />
+    </api>
+    <api id="Methods.T:System.AddIn.Hosting.AddInController">
+      <topicdata name="AddInController" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Hosting.AddInController" />
+      <apidata name="AddInController" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Hosting.AddInController.GetAddInController(System.Object)" />
+        <element api="M:System.AddIn.Hosting.AddInController.Shutdown" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Hosting_AddInController" />
+    </api>
+    <api id="Properties.T:System.AddIn.Hosting.AddInController">
+      <topicdata name="AddInController" group="list" subgroup="Properties" typeTopicId="T:System.AddIn.Hosting.AddInController" />
+      <apidata name="AddInController" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.AddIn.Hosting.AddInController.AddInEnvironment" />
+        <element api="P:System.AddIn.Hosting.AddInController.AppDomain" />
+        <element api="P:System.AddIn.Hosting.AddInController.Token" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Properties_T_System_AddIn_Hosting_AddInController" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInController.AddInEnvironment">
+      <topicdata group="api" />
+      <apidata name="AddInEnvironment" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInEnvironment" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInController" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInController_AddInEnvironment" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInController.AppDomain">
+      <topicdata group="api" />
+      <apidata name="AppDomain" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.AppDomain" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInController" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInController_AppDomain" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInController.GetAddInController(System.Object)">
+      <topicdata group="api" />
+      <apidata name="GetAddInController" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="addIn">
+          <type api="T:System.Object" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInController" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInController" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInController_GetAddInController_1_2572741a" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInController.Shutdown">
+      <topicdata group="api" />
+      <apidata name="Shutdown" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInController" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInController_Shutdown" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInController.Token">
+      <topicdata group="api" />
+      <apidata name="Token" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInController" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInController_Token" />
+    </api>
+    <api id="T:System.AddIn.Hosting.AddInEnvironment">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInEnvironment" />
+      <apidata name="AddInEnvironment" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_AddInEnvironment" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Hosting.AddInEnvironment">
+      <topicdata name="AddInEnvironment" group="list" subgroup="members" typeTopicId="T:System.AddIn.Hosting.AddInEnvironment" />
+      <apidata name="AddInEnvironment" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Hosting.AddInEnvironment.#ctor(System.AppDomain)" />
+        <element api="P:System.AddIn.Hosting.AddInEnvironment.Process" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Hosting_AddInEnvironment" />
+    </api>
+    <api id="Properties.T:System.AddIn.Hosting.AddInEnvironment">
+      <topicdata name="AddInEnvironment" group="list" subgroup="Properties" typeTopicId="T:System.AddIn.Hosting.AddInEnvironment" />
+      <apidata name="AddInEnvironment" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.AddIn.Hosting.AddInEnvironment.Process" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Properties_T_System_AddIn_Hosting_AddInEnvironment" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInEnvironment.#ctor(System.AppDomain)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <parameters>
+        <parameter name="appDomain">
+          <type api="T:System.AppDomain" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInEnvironment" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_AddInEnvironment_ctor_1_6d8f6c7a" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInEnvironment.Process">
+      <topicdata group="api" />
+      <apidata name="Process" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInEnvironment" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInEnvironment_Process" />
+    </api>
+    <api id="T:System.AddIn.Hosting.AddInProcess">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInProcess" />
+      <apidata name="AddInProcess" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_AddInProcess" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Hosting.AddInProcess">
+      <topicdata name="AddInProcess" group="list" subgroup="members" typeTopicId="T:System.AddIn.Hosting.AddInProcess" />
+      <apidata name="AddInProcess" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Hosting.AddInProcess.#ctor" />
+        <element api="P:System.AddIn.Hosting.AddInProcess.IsCurrentProcess" />
+        <element api="P:System.AddIn.Hosting.AddInProcess.KeepAlive" />
+        <element api="P:System.AddIn.Hosting.AddInProcess.ProcessId" />
+        <element api="M:System.AddIn.Hosting.AddInProcess.Shutdown" />
+        <element api="E:System.AddIn.Hosting.AddInProcess.ShuttingDown" />
+        <element api="M:System.AddIn.Hosting.AddInProcess.Start" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Hosting_AddInProcess" />
+    </api>
+    <api id="Methods.T:System.AddIn.Hosting.AddInProcess">
+      <topicdata name="AddInProcess" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Hosting.AddInProcess" />
+      <apidata name="AddInProcess" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Hosting.AddInProcess.Shutdown" />
+        <element api="M:System.AddIn.Hosting.AddInProcess.Start" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Hosting_AddInProcess" />
+    </api>
+    <api id="Properties.T:System.AddIn.Hosting.AddInProcess">
+      <topicdata name="AddInProcess" group="list" subgroup="Properties" typeTopicId="T:System.AddIn.Hosting.AddInProcess" />
+      <apidata name="AddInProcess" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.AddIn.Hosting.AddInProcess.IsCurrentProcess" />
+        <element api="P:System.AddIn.Hosting.AddInProcess.KeepAlive" />
+        <element api="P:System.AddIn.Hosting.AddInProcess.ProcessId" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Properties_T_System_AddIn_Hosting_AddInProcess" />
+    </api>
+    <api id="Events.T:System.AddIn.Hosting.AddInProcess">
+      <topicdata name="AddInProcess" group="list" subgroup="Events" typeTopicId="T:System.AddIn.Hosting.AddInProcess" />
+      <apidata name="AddInProcess" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="E:System.AddIn.Hosting.AddInProcess.ShuttingDown" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Events_T_System_AddIn_Hosting_AddInProcess" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInProcess.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_AddInProcess_ctor" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInProcess.IsCurrentProcess">
+      <topicdata group="api" />
+      <apidata name="IsCurrentProcess" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInProcess_IsCurrentProcess" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInProcess.KeepAlive">
+      <topicdata group="api" />
+      <apidata name="KeepAlive" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInProcess_KeepAlive" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInProcess.ProcessId">
+      <topicdata group="api" />
+      <apidata name="ProcessId" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInProcess_ProcessId" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInProcess.Shutdown">
+      <topicdata group="api" />
+      <apidata name="Shutdown" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInProcess_Shutdown" />
+    </api>
+    <api id="E:System.AddIn.Hosting.AddInProcess.ShuttingDown">
+      <topicdata group="api" />
+      <apidata name="ShuttingDown" group="member" subgroup="event" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <eventdata add="true" remove="true" />
+      <eventhandler>
+        <type api="T:System.EventHandler`1" ref="true">
+          <specialization>
+            <type api="T:System.ComponentModel.CancelEventArgs" ref="true" />
+          </specialization>
+        </type>
+      </eventhandler>
+      <eventargs>
+        <type api="T:System.ComponentModel.CancelEventArgs" ref="true" />
+      </eventargs>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+      </containers>
+      <file name="E_System_AddIn_Hosting_AddInProcess_ShuttingDown" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInProcess.Start">
+      <topicdata group="api" />
+      <apidata name="Start" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInProcess_Start" />
+    </api>
+    <api id="T:System.AddIn.Hosting.AddInSecurityLevel">
+      <topicdata group="api" />
+      <apidata name="AddInSecurityLevel" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:System.AddIn.Hosting.AddInSecurityLevel.Internet" />
+        <element api="F:System.AddIn.Hosting.AddInSecurityLevel.Intranet" />
+        <element api="F:System.AddIn.Hosting.AddInSecurityLevel.FullTrust" />
+        <element api="F:System.AddIn.Hosting.AddInSecurityLevel.Host" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_AddInSecurityLevel" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSecurityLevel.FullTrust">
+      <topicdata group="api" notopic="" />
+      <apidata name="FullTrust" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+      </returns>
+      <value>2</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSecurityLevel_FullTrust" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSecurityLevel.Host">
+      <topicdata group="api" notopic="" />
+      <apidata name="Host" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+      </returns>
+      <value>3</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSecurityLevel_Host" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSecurityLevel.Internet">
+      <topicdata group="api" notopic="" />
+      <apidata name="Internet" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+      </returns>
+      <value>0</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSecurityLevel_Internet" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSecurityLevel.Intranet">
+      <topicdata group="api" notopic="" />
+      <apidata name="Intranet" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+      </returns>
+      <value>1</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSecurityLevel_Intranet" />
+    </api>
+    <api id="T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException" />
+      <apidata name="AddInSegmentDirectoryNotFoundException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_AddInSegmentDirectoryNotFoundException" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException">
+      <topicdata name="AddInSegmentDirectoryNotFoundException" group="list" subgroup="members" typeTopicId="T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException" />
+      <apidata name="AddInSegmentDirectoryNotFoundException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor">
+          <element api="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor" />
+          <element api="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.String)" />
+          <element api="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Hosting_AddInSegmentDirectoryNotFoundException" />
+    </api>
+    <api id="Overload:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor" />
+        <element api="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.String)" />
+        <element api="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Hosting_AddInSegmentDirectoryNotFoundException_ctor" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_AddInSegmentDirectoryNotFoundException_ctor" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_AddInSegmentDirectoryNotFoundException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_AddInSegmentDirectoryNotFoundException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentDirectoryNotFoundException" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_AddInSegmentDirectoryNotFoundException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.AddIn.Hosting.AddInSegmentType">
+      <topicdata group="api" />
+      <apidata name="AddInSegmentType" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:System.AddIn.Hosting.AddInSegmentType.HostViewOfAddIn" />
+        <element api="F:System.AddIn.Hosting.AddInSegmentType.HostSideAdapter" />
+        <element api="F:System.AddIn.Hosting.AddInSegmentType.Contract" />
+        <element api="F:System.AddIn.Hosting.AddInSegmentType.AddInSideAdapter" />
+        <element api="F:System.AddIn.Hosting.AddInSegmentType.AddInView" />
+        <element api="F:System.AddIn.Hosting.AddInSegmentType.AddIn" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_AddInSegmentType" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSegmentType.AddIn">
+      <topicdata group="api" notopic="" />
+      <apidata name="AddIn" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </returns>
+      <value>5</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSegmentType_AddIn" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSegmentType.AddInSideAdapter">
+      <topicdata group="api" notopic="" />
+      <apidata name="AddInSideAdapter" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </returns>
+      <value>3</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSegmentType_AddInSideAdapter" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSegmentType.AddInView">
+      <topicdata group="api" notopic="" />
+      <apidata name="AddInView" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </returns>
+      <value>4</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSegmentType_AddInView" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSegmentType.Contract">
+      <topicdata group="api" notopic="" />
+      <apidata name="Contract" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </returns>
+      <value>2</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSegmentType_Contract" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSegmentType.HostSideAdapter">
+      <topicdata group="api" notopic="" />
+      <apidata name="HostSideAdapter" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </returns>
+      <value>1</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSegmentType_HostSideAdapter" />
+    </api>
+    <api id="F:System.AddIn.Hosting.AddInSegmentType.HostViewOfAddIn">
+      <topicdata group="api" notopic="" />
+      <apidata name="HostViewOfAddIn" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </returns>
+      <value>0</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_AddInSegmentType_HostViewOfAddIn" />
+    </api>
+    <api id="T:System.AddIn.Hosting.AddInStore">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInStore" />
+      <apidata name="AddInStore" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_AddInStore" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Hosting.AddInStore">
+      <topicdata name="AddInStore" group="list" subgroup="members" typeTopicId="T:System.AddIn.Hosting.AddInStore" />
+      <apidata name="AddInStore" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.AddIn.Hosting.AddInStore.FindAddIn(System.Type,System.String,System.String,System.String)" />
+        <element api="Overload:System.AddIn.Hosting.AddInStore.FindAddIns">
+          <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.AddIn.Hosting.PipelineStoreLocation)" />
+          <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.AddIn.Hosting.PipelineStoreLocation,System.String[])" />
+          <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.String,System.String[])" />
+        </element>
+        <element api="Overload:System.AddIn.Hosting.AddInStore.Rebuild">
+          <element api="M:System.AddIn.Hosting.AddInStore.Rebuild(System.AddIn.Hosting.PipelineStoreLocation)" />
+          <element api="M:System.AddIn.Hosting.AddInStore.Rebuild(System.String)" />
+        </element>
+        <element api="M:System.AddIn.Hosting.AddInStore.RebuildAddIns(System.String)" />
+        <element api="Overload:System.AddIn.Hosting.AddInStore.Update">
+          <element api="M:System.AddIn.Hosting.AddInStore.Update(System.AddIn.Hosting.PipelineStoreLocation)" />
+          <element api="M:System.AddIn.Hosting.AddInStore.Update(System.String)" />
+        </element>
+        <element api="M:System.AddIn.Hosting.AddInStore.UpdateAddIns(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Hosting_AddInStore" />
+    </api>
+    <api id="Methods.T:System.AddIn.Hosting.AddInStore">
+      <topicdata name="AddInStore" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Hosting.AddInStore" />
+      <apidata name="AddInStore" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.AddIn.Hosting.AddInStore.FindAddIn(System.Type,System.String,System.String,System.String)" />
+        <element api="Overload:System.AddIn.Hosting.AddInStore.FindAddIns">
+          <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.AddIn.Hosting.PipelineStoreLocation)" />
+          <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.AddIn.Hosting.PipelineStoreLocation,System.String[])" />
+          <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.String,System.String[])" />
+        </element>
+        <element api="Overload:System.AddIn.Hosting.AddInStore.Rebuild">
+          <element api="M:System.AddIn.Hosting.AddInStore.Rebuild(System.AddIn.Hosting.PipelineStoreLocation)" />
+          <element api="M:System.AddIn.Hosting.AddInStore.Rebuild(System.String)" />
+        </element>
+        <element api="M:System.AddIn.Hosting.AddInStore.RebuildAddIns(System.String)" />
+        <element api="Overload:System.AddIn.Hosting.AddInStore.Update">
+          <element api="M:System.AddIn.Hosting.AddInStore.Update(System.AddIn.Hosting.PipelineStoreLocation)" />
+          <element api="M:System.AddIn.Hosting.AddInStore.Update(System.String)" />
+        </element>
+        <element api="M:System.AddIn.Hosting.AddInStore.UpdateAddIns(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Hosting_AddInStore" />
+    </api>
+    <api id="Overload:System.AddIn.Hosting.AddInStore.FindAddIns">
+      <topicdata name="FindAddIns" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInStore" />
+      <apidata name="FindAddIns" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.AddIn.Hosting.PipelineStoreLocation)" />
+        <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.AddIn.Hosting.PipelineStoreLocation,System.String[])" />
+        <element api="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.String,System.String[])" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Hosting_AddInStore_FindAddIns" />
+    </api>
+    <api id="Overload:System.AddIn.Hosting.AddInStore.Rebuild">
+      <topicdata name="Rebuild" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInStore" />
+      <apidata name="Rebuild" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.AddIn.Hosting.AddInStore.Rebuild(System.AddIn.Hosting.PipelineStoreLocation)" />
+        <element api="M:System.AddIn.Hosting.AddInStore.Rebuild(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Hosting_AddInStore_Rebuild" />
+    </api>
+    <api id="Overload:System.AddIn.Hosting.AddInStore.Update">
+      <topicdata name="Update" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInStore" />
+      <apidata name="Update" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.AddIn.Hosting.AddInStore.Update(System.AddIn.Hosting.PipelineStoreLocation)" />
+        <element api="M:System.AddIn.Hosting.AddInStore.Update(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Hosting_AddInStore_Update" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.FindAddIn(System.Type,System.String,System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="FindAddIn" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="hostViewOfAddIn">
+          <type api="T:System.Type" ref="true" />
+        </parameter>
+        <parameter name="pipelineRootFolderPath">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="addInFilePath">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="addInTypeName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Collections.ObjectModel.Collection`1" ref="true">
+          <specialization>
+            <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_FindAddIn_4_72d3cfe4" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.AddIn.Hosting.PipelineStoreLocation)">
+      <topicdata group="api" />
+      <apidata name="FindAddIns" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Hosting.AddInStore.FindAddIns" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="hostViewOfAddIn">
+          <type api="T:System.Type" ref="true" />
+        </parameter>
+        <parameter name="location">
+          <type api="T:System.AddIn.Hosting.PipelineStoreLocation" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Collections.ObjectModel.Collection`1" ref="true">
+          <specialization>
+            <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_FindAddIns_2_b35e4f28" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.AddIn.Hosting.PipelineStoreLocation,System.String[])">
+      <topicdata group="api" />
+      <apidata name="FindAddIns" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Hosting.AddInStore.FindAddIns" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="hostViewOfAddIn">
+          <type api="T:System.Type" ref="true" />
+        </parameter>
+        <parameter name="location">
+          <type api="T:System.AddIn.Hosting.PipelineStoreLocation" ref="false" />
+        </parameter>
+        <parameter name="addInFolderPaths">
+          <arrayOf rank="1">
+            <type api="T:System.String" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Collections.ObjectModel.Collection`1" ref="true">
+          <specialization>
+            <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_FindAddIns_3_96e4e11f" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.FindAddIns(System.Type,System.String,System.String[])">
+      <topicdata group="api" />
+      <apidata name="FindAddIns" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Hosting.AddInStore.FindAddIns" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="hostViewOfAddIn">
+          <type api="T:System.Type" ref="true" />
+        </parameter>
+        <parameter name="pipelineRootFolderPath">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="addInFolderPaths">
+          <arrayOf rank="1">
+            <type api="T:System.String" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Collections.ObjectModel.Collection`1" ref="true">
+          <specialization>
+            <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_FindAddIns_3_01765b1e" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.Rebuild(System.AddIn.Hosting.PipelineStoreLocation)">
+      <topicdata group="api" />
+      <apidata name="Rebuild" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Hosting.AddInStore.Rebuild" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="location">
+          <type api="T:System.AddIn.Hosting.PipelineStoreLocation" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_Rebuild_1_fdd05915" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.Rebuild(System.String)">
+      <topicdata group="api" />
+      <apidata name="Rebuild" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Hosting.AddInStore.Rebuild" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="pipelineRootFolderPath">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_Rebuild_1_72eac341" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.RebuildAddIns(System.String)">
+      <topicdata group="api" />
+      <apidata name="RebuildAddIns" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="addInsFolderPath">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_RebuildAddIns_1_72eac341" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.Update(System.AddIn.Hosting.PipelineStoreLocation)">
+      <topicdata group="api" />
+      <apidata name="Update" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Hosting.AddInStore.Update" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="location">
+          <type api="T:System.AddIn.Hosting.PipelineStoreLocation" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_Update_1_fdd05915" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.Update(System.String)">
+      <topicdata group="api" />
+      <apidata name="Update" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Hosting.AddInStore.Update" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="pipelineRootFolderPath">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_Update_1_72eac341" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInStore.UpdateAddIns(System.String)">
+      <topicdata group="api" />
+      <apidata name="UpdateAddIns" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="addInsFolderPath">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInStore" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInStore_UpdateAddIns_1_72eac341" />
+    </api>
+    <api id="T:System.AddIn.Hosting.AddInToken">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInToken" />
+      <apidata name="AddInToken" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+          <specialization>
+            <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+          </specialization>
+        </type>
+        <type api="T:System.Collections.IEnumerable" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_AddInToken" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Hosting.AddInToken">
+      <topicdata name="AddInToken" group="list" subgroup="members" typeTopicId="T:System.AddIn.Hosting.AddInToken" />
+      <apidata name="AddInToken" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.AddIn.Hosting.AddInToken.Activate">
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInEnvironment)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AppDomain)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.Security.PermissionSet)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.AddIn.Hosting.AddInSecurityLevel)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.Security.PermissionSet)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel,System.String)" />
+        </element>
+        <element api="P:System.AddIn.Hosting.AddInToken.AddInFullName" />
+        <element api="P:System.AddIn.Hosting.AddInToken.AssemblyName" />
+        <element api="P:System.AddIn.Hosting.AddInToken.Description" />
+        <element api="P:System.AddIn.Hosting.AddInToken.EnableDirectConnect" />
+        <element api="M:System.AddIn.Hosting.AddInToken.Equals(System.Object)" />
+        <element api="M:System.AddIn.Hosting.AddInToken.GetEnumerator" />
+        <element api="M:System.AddIn.Hosting.AddInToken.GetHashCode" />
+        <element api="P:System.AddIn.Hosting.AddInToken.Name" />
+        <element api="P:System.AddIn.Hosting.AddInToken.Publisher" />
+        <element api="P:System.AddIn.Hosting.AddInToken.QualificationData" />
+        <element api="M:System.AddIn.Hosting.AddInToken.System#Collections#IEnumerable#GetEnumerator" />
+        <element api="M:System.AddIn.Hosting.AddInToken.ToString" />
+        <element api="P:System.AddIn.Hosting.AddInToken.Version" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Hosting_AddInToken" />
+    </api>
+    <api id="Methods.T:System.AddIn.Hosting.AddInToken">
+      <topicdata name="AddInToken" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Hosting.AddInToken" />
+      <apidata name="AddInToken" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.AddIn.Hosting.AddInToken.Activate">
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInEnvironment)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AppDomain)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.Security.PermissionSet)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.AddIn.Hosting.AddInSecurityLevel)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.Security.PermissionSet)" />
+          <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel,System.String)" />
+        </element>
+        <element api="M:System.AddIn.Hosting.AddInToken.Equals(System.Object)" />
+        <element api="M:System.AddIn.Hosting.AddInToken.GetEnumerator" />
+        <element api="M:System.AddIn.Hosting.AddInToken.GetHashCode" />
+        <element api="M:System.AddIn.Hosting.AddInToken.System#Collections#IEnumerable#GetEnumerator" />
+        <element api="M:System.AddIn.Hosting.AddInToken.ToString" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Hosting_AddInToken" />
+    </api>
+    <api id="Properties.T:System.AddIn.Hosting.AddInToken">
+      <topicdata name="AddInToken" group="list" subgroup="Properties" typeTopicId="T:System.AddIn.Hosting.AddInToken" />
+      <apidata name="AddInToken" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.AddIn.Hosting.AddInToken.AddInFullName" />
+        <element api="P:System.AddIn.Hosting.AddInToken.AssemblyName" />
+        <element api="P:System.AddIn.Hosting.AddInToken.Description" />
+        <element api="P:System.AddIn.Hosting.AddInToken.EnableDirectConnect" />
+        <element api="P:System.AddIn.Hosting.AddInToken.Name" />
+        <element api="P:System.AddIn.Hosting.AddInToken.Publisher" />
+        <element api="P:System.AddIn.Hosting.AddInToken.QualificationData" />
+        <element api="P:System.AddIn.Hosting.AddInToken.Version" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Properties_T_System_AddIn_Hosting_AddInToken" />
+    </api>
+    <api id="Overload:System.AddIn.Hosting.AddInToken.Activate">
+      <topicdata name="Activate" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.AddInToken" />
+      <apidata name="Activate" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInEnvironment)" />
+        <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel)" />
+        <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AppDomain)" />
+        <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.Security.PermissionSet)" />
+        <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.AddIn.Hosting.AddInSecurityLevel)" />
+        <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.Security.PermissionSet)" />
+        <element api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Hosting_AddInToken_Activate" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInEnvironment)">
+      <topicdata group="api" />
+      <apidata name="Activate" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.AddIn.Hosting.AddInToken.Activate" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="environment">
+          <type api="T:System.AddIn.Hosting.AddInEnvironment" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInEnvironment)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_Activate``1_1_e2799ab4" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.AddIn.Hosting.AddInSecurityLevel)">
+      <topicdata group="api" />
+      <apidata name="Activate" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.AddIn.Hosting.AddInToken.Activate" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="process">
+          <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+        </parameter>
+        <parameter name="level">
+          <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.AddIn.Hosting.AddInSecurityLevel)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Security.Permissions.PermissionSetAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="Demand" />
+            </enumValue>
+          </argument>
+          <assignment name="Name">
+            <type api="T:System.String" ref="true" />
+            <value>FullTrust</value>
+          </assignment>
+        </attribute>
+      </attributes>
+      <file name="M_System_AddIn_Hosting_AddInToken_Activate``1_2_6ee4394b" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.Security.PermissionSet)">
+      <topicdata group="api" />
+      <apidata name="Activate" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.AddIn.Hosting.AddInToken.Activate" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="process">
+          <type api="T:System.AddIn.Hosting.AddInProcess" ref="true" />
+        </parameter>
+        <parameter name="permissionSet">
+          <type api="T:System.Security.PermissionSet" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInProcess,System.Security.PermissionSet)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Security.Permissions.PermissionSetAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="Demand" />
+            </enumValue>
+          </argument>
+          <assignment name="Name">
+            <type api="T:System.String" ref="true" />
+            <value>FullTrust</value>
+          </assignment>
+        </attribute>
+      </attributes>
+      <file name="M_System_AddIn_Hosting_AddInToken_Activate``1_2_a0005ecf" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel)">
+      <topicdata group="api" />
+      <apidata name="Activate" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.AddIn.Hosting.AddInToken.Activate" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="trustLevel">
+          <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_Activate``1_1_84397b1b" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel,System.String)">
+      <topicdata group="api" />
+      <apidata name="Activate" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.AddIn.Hosting.AddInToken.Activate" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="trustLevel">
+          <type api="T:System.AddIn.Hosting.AddInSecurityLevel" ref="false" />
+        </parameter>
+        <parameter name="appDomainName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AddIn.Hosting.AddInSecurityLevel,System.String)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_Activate``1_2_a9f2fea5" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AppDomain)">
+      <topicdata group="api" />
+      <apidata name="Activate" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.AddIn.Hosting.AddInToken.Activate" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="target">
+          <type api="T:System.AppDomain" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.AppDomain)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_Activate``1_1_6c3da7d5" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.Activate``1(System.Security.PermissionSet)">
+      <topicdata group="api" />
+      <apidata name="Activate" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.AddIn.Hosting.AddInToken.Activate" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="permissions">
+          <type api="T:System.Security.PermissionSet" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="T" index="0" api="M:System.AddIn.Hosting.AddInToken.Activate``1(System.Security.PermissionSet)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_Activate``1_1_44c7d0ca" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInToken.AddInFullName">
+      <topicdata group="api" />
+      <apidata name="AddInFullName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInToken_AddInFullName" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInToken.AssemblyName">
+      <topicdata group="api" />
+      <apidata name="AssemblyName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Reflection.AssemblyName" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInToken_AssemblyName" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInToken.Description">
+      <topicdata group="api" />
+      <apidata name="Description" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInToken_Description" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInToken.EnableDirectConnect">
+      <topicdata group="api" />
+      <apidata name="EnableDirectConnect" group="member" subgroup="property" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInToken_EnableDirectConnect" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.Equals(System.Object)">
+      <topicdata group="api" />
+      <apidata name="Equals" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.Object.Equals(System.Object)">
+          <type api="T:System.Object" ref="true" />
+        </member>
+      </overrides>
+      <parameters>
+        <parameter name="obj">
+          <type api="T:System.Object" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_Equals_1_2572741a" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.GetEnumerator">
+      <topicdata group="api" />
+      <apidata name="GetEnumerator" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <returns>
+        <type api="T:System.Collections.Generic.IEnumerator`1" ref="true">
+          <specialization>
+            <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+          </specialization>
+        </type>
+      </returns>
+      <implements>
+        <member api="M:System.Collections.Generic.IEnumerable`1.GetEnumerator">
+          <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+            <specialization>
+              <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+            </specialization>
+          </type>
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_GetEnumerator" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.GetHashCode">
+      <topicdata group="api" />
+      <apidata name="GetHashCode" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.Object.GetHashCode">
+          <type api="T:System.Object" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_GetHashCode" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInToken.Name">
+      <topicdata group="api" />
+      <apidata name="Name" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInToken_Name" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInToken.Publisher">
+      <topicdata group="api" />
+      <apidata name="Publisher" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInToken_Publisher" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInToken.QualificationData">
+      <topicdata group="api" />
+      <apidata name="QualificationData" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Collections.Generic.IDictionary`2" ref="true">
+          <specialization>
+            <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+            <type api="T:System.Collections.Generic.IDictionary`2" ref="true">
+              <specialization>
+                <type api="T:System.String" ref="true" />
+                <type api="T:System.String" ref="true" />
+              </specialization>
+            </type>
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInToken_QualificationData" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.System#Collections#IEnumerable#GetEnumerator">
+      <topicdata group="api" />
+      <apidata name="GetEnumerator" group="member" subgroup="method" />
+      <memberdata visibility="private" />
+      <proceduredata virtual="true" final="true" eii="true" />
+      <returns>
+        <type api="T:System.Collections.IEnumerator" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:System.Collections.IEnumerable.GetEnumerator">
+          <type api="T:System.Collections.IEnumerable" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_System_Collections_IEnumerable_GetEnumerator" />
+    </api>
+    <api id="M:System.AddIn.Hosting.AddInToken.ToString">
+      <topicdata group="api" />
+      <apidata name="ToString" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.Object.ToString">
+          <type api="T:System.Object" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_AddInToken_ToString" />
+    </api>
+    <api id="P:System.AddIn.Hosting.AddInToken.Version">
+      <topicdata group="api" />
+      <apidata name="Version" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.AddInToken" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_AddInToken_Version" />
+    </api>
+    <api id="T:System.AddIn.Hosting.InvalidPipelineStoreException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.InvalidPipelineStoreException" />
+      <apidata name="InvalidPipelineStoreException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_InvalidPipelineStoreException" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Hosting.InvalidPipelineStoreException">
+      <topicdata name="InvalidPipelineStoreException" group="list" subgroup="members" typeTopicId="T:System.AddIn.Hosting.InvalidPipelineStoreException" />
+      <apidata name="InvalidPipelineStoreException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor">
+          <element api="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor" />
+          <element api="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.String)" />
+          <element api="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Hosting_InvalidPipelineStoreException" />
+    </api>
+    <api id="Overload:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.InvalidPipelineStoreException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor" />
+        <element api="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.String)" />
+        <element api="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.InvalidPipelineStoreException" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Hosting_InvalidPipelineStoreException_ctor" />
+    </api>
+    <api id="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.InvalidPipelineStoreException" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_InvalidPipelineStoreException_ctor" />
+    </api>
+    <api id="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.InvalidPipelineStoreException" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_InvalidPipelineStoreException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.InvalidPipelineStoreException" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_InvalidPipelineStoreException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.AddIn.Hosting.InvalidPipelineStoreException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.InvalidPipelineStoreException" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Hosting_InvalidPipelineStoreException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.AddIn.Hosting.PipelineStoreLocation">
+      <topicdata group="api" />
+      <apidata name="PipelineStoreLocation" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:System.AddIn.Hosting.PipelineStoreLocation.ApplicationBase" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_PipelineStoreLocation" />
+    </api>
+    <api id="F:System.AddIn.Hosting.PipelineStoreLocation.ApplicationBase">
+      <topicdata group="api" notopic="" />
+      <apidata name="ApplicationBase" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.PipelineStoreLocation" ref="false" />
+      </returns>
+      <value>0</value>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.PipelineStoreLocation" ref="false" />
+      </containers>
+      <file name="F_System_AddIn_Hosting_PipelineStoreLocation_ApplicationBase" />
+    </api>
+    <api id="T:System.AddIn.Hosting.QualificationDataItem">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Hosting.QualificationDataItem" />
+      <apidata name="QualificationDataItem" group="type" subgroup="structure" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="sequential" format="ansi" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="T_System_AddIn_Hosting_QualificationDataItem" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Hosting.QualificationDataItem">
+      <topicdata name="QualificationDataItem" group="list" subgroup="members" typeTopicId="T:System.AddIn.Hosting.QualificationDataItem" />
+      <apidata name="QualificationDataItem" group="type" subgroup="structure" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="sequential" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.ValueType.ToString" />
+        <element api="M:System.AddIn.Hosting.QualificationDataItem.Equals(System.Object)" />
+        <element api="M:System.AddIn.Hosting.QualificationDataItem.GetHashCode" />
+        <element api="P:System.AddIn.Hosting.QualificationDataItem.Name" />
+        <element api="M:System.AddIn.Hosting.QualificationDataItem.op_Equality(System.AddIn.Hosting.QualificationDataItem,System.AddIn.Hosting.QualificationDataItem)" />
+        <element api="M:System.AddIn.Hosting.QualificationDataItem.op_Inequality(System.AddIn.Hosting.QualificationDataItem,System.AddIn.Hosting.QualificationDataItem)" />
+        <element api="P:System.AddIn.Hosting.QualificationDataItem.Segment" />
+        <element api="P:System.AddIn.Hosting.QualificationDataItem.Value" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Hosting_QualificationDataItem" />
+    </api>
+    <api id="Methods.T:System.AddIn.Hosting.QualificationDataItem">
+      <topicdata name="QualificationDataItem" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Hosting.QualificationDataItem" />
+      <apidata name="QualificationDataItem" group="type" subgroup="structure" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="sequential" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.ValueType.ToString" />
+        <element api="M:System.AddIn.Hosting.QualificationDataItem.Equals(System.Object)" />
+        <element api="M:System.AddIn.Hosting.QualificationDataItem.GetHashCode" />
+        <element api="M:System.AddIn.Hosting.QualificationDataItem.op_Equality(System.AddIn.Hosting.QualificationDataItem,System.AddIn.Hosting.QualificationDataItem)" />
+        <element api="M:System.AddIn.Hosting.QualificationDataItem.op_Inequality(System.AddIn.Hosting.QualificationDataItem,System.AddIn.Hosting.QualificationDataItem)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Hosting_QualificationDataItem" />
+    </api>
+    <api id="Properties.T:System.AddIn.Hosting.QualificationDataItem">
+      <topicdata name="QualificationDataItem" group="list" subgroup="Properties" typeTopicId="T:System.AddIn.Hosting.QualificationDataItem" />
+      <apidata name="QualificationDataItem" group="type" subgroup="structure" />
+      <typedata visibility="public" sealed="true" serializable="true" layout="sequential" format="ansi" />
+      <elements>
+        <element api="P:System.AddIn.Hosting.QualificationDataItem.Name" />
+        <element api="P:System.AddIn.Hosting.QualificationDataItem.Segment" />
+        <element api="P:System.AddIn.Hosting.QualificationDataItem.Value" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+      </containers>
+      <file name="Properties_T_System_AddIn_Hosting_QualificationDataItem" />
+    </api>
+    <api id="M:System.AddIn.Hosting.QualificationDataItem.Equals(System.Object)">
+      <topicdata group="api" />
+      <apidata name="Equals" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.ValueType.Equals(System.Object)">
+          <type api="T:System.ValueType" ref="true" />
+        </member>
+      </overrides>
+      <parameters>
+        <parameter name="obj">
+          <type api="T:System.Object" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_QualificationDataItem_Equals_1_2572741a" />
+    </api>
+    <api id="M:System.AddIn.Hosting.QualificationDataItem.GetHashCode">
+      <topicdata group="api" />
+      <apidata name="GetHashCode" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.ValueType.GetHashCode">
+          <type api="T:System.ValueType" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_QualificationDataItem_GetHashCode" />
+    </api>
+    <api id="P:System.AddIn.Hosting.QualificationDataItem.Name">
+      <topicdata group="api" />
+      <apidata name="Name" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_QualificationDataItem_Name" />
+    </api>
+    <api id="M:System.AddIn.Hosting.QualificationDataItem.op_Equality(System.AddIn.Hosting.QualificationDataItem,System.AddIn.Hosting.QualificationDataItem)">
+      <topicdata group="api" />
+      <apidata name="Equality" group="member" subgroup="method" subsubgroup="operator" />
+      <memberdata visibility="public" static="true" special="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="item1">
+          <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+        </parameter>
+        <parameter name="item2">
+          <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_QualificationDataItem_op_Equality_2_28e072cb" />
+    </api>
+    <api id="M:System.AddIn.Hosting.QualificationDataItem.op_Inequality(System.AddIn.Hosting.QualificationDataItem,System.AddIn.Hosting.QualificationDataItem)">
+      <topicdata group="api" />
+      <apidata name="Inequality" group="member" subgroup="method" subsubgroup="operator" />
+      <memberdata visibility="public" static="true" special="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="item1">
+          <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+        </parameter>
+        <parameter name="item2">
+          <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+      </containers>
+      <file name="M_System_AddIn_Hosting_QualificationDataItem_op_Inequality_2_28e072cb" />
+    </api>
+    <api id="P:System.AddIn.Hosting.QualificationDataItem.Segment">
+      <topicdata group="api" />
+      <apidata name="Segment" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.AddIn.Hosting.AddInSegmentType" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_QualificationDataItem_Segment" />
+    </api>
+    <api id="P:System.AddIn.Hosting.QualificationDataItem.Value">
+      <topicdata group="api" />
+      <apidata name="Value" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Hosting" />
+        <type api="T:System.AddIn.Hosting.QualificationDataItem" ref="false" />
+      </containers>
+      <file name="P_System_AddIn_Hosting_QualificationDataItem_Value" />
+    </api>
+    <api id="T:System.AddIn.Pipeline.AddInAdapterAttribute">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.AddInAdapterAttribute" />
+      <apidata name="AddInAdapterAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Attribute" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.AttributeUsageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.AttributeTargets" ref="false" />
+            <enumValue>
+              <field name="Class" />
+            </enumValue>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_System_AddIn_Pipeline_AddInAdapterAttribute" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Pipeline.AddInAdapterAttribute">
+      <topicdata name="AddInAdapterAttribute" group="list" subgroup="members" typeTopicId="T:System.AddIn.Pipeline.AddInAdapterAttribute" />
+      <apidata name="AddInAdapterAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Attribute.Equals(System.Object)" />
+        <element api="M:System.Attribute.GetHashCode" />
+        <element api="M:System.Attribute.IsDefaultAttribute" />
+        <element api="M:System.Attribute.Match(System.Object)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfoCount(System.UInt32@)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)" />
+        <element api="P:System.Attribute.TypeId" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Pipeline.AddInAdapterAttribute.#ctor" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Pipeline_AddInAdapterAttribute" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.AddInAdapterAttribute.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.AddInAdapterAttribute" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Pipeline_AddInAdapterAttribute_ctor" />
+    </api>
+    <api id="T:System.AddIn.Pipeline.AddInBaseAttribute">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.AddInBaseAttribute" />
+      <apidata name="AddInBaseAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Attribute" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.AttributeUsageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.AttributeTargets" ref="false" />
+            <enumValue>
+              <field name="Class" />
+              <field name="Interface" />
+            </enumValue>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_System_AddIn_Pipeline_AddInBaseAttribute" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Pipeline.AddInBaseAttribute">
+      <topicdata name="AddInBaseAttribute" group="list" subgroup="members" typeTopicId="T:System.AddIn.Pipeline.AddInBaseAttribute" />
+      <apidata name="AddInBaseAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Attribute.Equals(System.Object)" />
+        <element api="M:System.Attribute.GetHashCode" />
+        <element api="M:System.Attribute.IsDefaultAttribute" />
+        <element api="M:System.Attribute.Match(System.Object)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfoCount(System.UInt32@)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)" />
+        <element api="P:System.Attribute.TypeId" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Pipeline.AddInBaseAttribute.#ctor" />
+        <element api="P:System.AddIn.Pipeline.AddInBaseAttribute.ActivatableAs" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Pipeline_AddInBaseAttribute" />
+    </api>
+    <api id="Properties.T:System.AddIn.Pipeline.AddInBaseAttribute">
+      <topicdata name="AddInBaseAttribute" group="list" subgroup="Properties" typeTopicId="T:System.AddIn.Pipeline.AddInBaseAttribute" />
+      <apidata name="AddInBaseAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Attribute.TypeId" />
+        <element api="P:System.AddIn.Pipeline.AddInBaseAttribute.ActivatableAs" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="Properties_T_System_AddIn_Pipeline_AddInBaseAttribute" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.AddInBaseAttribute.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.AddInBaseAttribute" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Pipeline_AddInBaseAttribute_ctor" />
+    </api>
+    <api id="P:System.AddIn.Pipeline.AddInBaseAttribute.ActivatableAs">
+      <topicdata group="api" />
+      <apidata name="ActivatableAs" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.Type" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.AddInBaseAttribute" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Pipeline_AddInBaseAttribute_ActivatableAs" />
+    </api>
+    <api id="T:System.AddIn.Pipeline.CollectionAdapters">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.CollectionAdapters" />
+      <apidata name="CollectionAdapters" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="T_System_AddIn_Pipeline_CollectionAdapters" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Pipeline.CollectionAdapters">
+      <topicdata name="CollectionAdapters" group="list" subgroup="members" typeTopicId="T:System.AddIn.Pipeline.CollectionAdapters" />
+      <apidata name="CollectionAdapters" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIList">
+          <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``1(System.AddIn.Contract.IListContract{``0})" />
+          <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+        </element>
+        <element api="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIListContract">
+          <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``1(System.Collections.Generic.IList{``0})" />
+          <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Pipeline_CollectionAdapters" />
+    </api>
+    <api id="Methods.T:System.AddIn.Pipeline.CollectionAdapters">
+      <topicdata name="CollectionAdapters" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Pipeline.CollectionAdapters" />
+      <apidata name="CollectionAdapters" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIList">
+          <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``1(System.AddIn.Contract.IListContract{``0})" />
+          <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+        </element>
+        <element api="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIListContract">
+          <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``1(System.Collections.Generic.IList{``0})" />
+          <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Pipeline_CollectionAdapters" />
+    </api>
+    <api id="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIList">
+      <topicdata name="ToIList" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.CollectionAdapters" />
+      <apidata name="ToIList" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``1(System.AddIn.Contract.IListContract{``0})" />
+        <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.CollectionAdapters" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Pipeline_CollectionAdapters_ToIList" />
+    </api>
+    <api id="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIListContract">
+      <topicdata name="ToIListContract" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.CollectionAdapters" />
+      <apidata name="ToIListContract" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``1(System.Collections.Generic.IList{``0})" />
+        <element api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.CollectionAdapters" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Pipeline_CollectionAdapters_ToIListContract" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``1(System.AddIn.Contract.IListContract{``0})">
+      <topicdata group="api" />
+      <apidata name="ToIList" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIList" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="collection">
+          <type api="T:System.AddIn.Contract.IListContract`1" ref="true">
+            <specialization>
+              <template name="T" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``1(System.AddIn.Contract.IListContract{``0})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Collections.Generic.IList`1" ref="true">
+          <specialization>
+            <template name="T" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``1(System.AddIn.Contract.IListContract{``0})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.CollectionAdapters" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_CollectionAdapters_ToIList``1_1_ed758c92" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})">
+      <topicdata group="api" />
+      <apidata name="ToIList" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIList" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TContract" />
+        <template name="TView" />
+      </templates>
+      <parameters>
+        <parameter name="collection">
+          <type api="T:System.AddIn.Contract.IListContract`1" ref="true">
+            <specialization>
+              <template name="TContract" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="contractViewAdapter">
+          <type api="T:System.Converter`2" ref="true">
+            <specialization>
+              <template name="TContract" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+              <template name="TView" index="1" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="viewContractAdapter">
+          <type api="T:System.Converter`2" ref="true">
+            <specialization>
+              <template name="TView" index="1" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+              <template name="TContract" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Collections.Generic.IList`1" ref="true">
+          <specialization>
+            <template name="TView" index="1" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIList``2(System.AddIn.Contract.IListContract{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.CollectionAdapters" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_CollectionAdapters_ToIList``2_5_f9237f4d" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``1(System.Collections.Generic.IList{``0})">
+      <topicdata group="api" />
+      <apidata name="ToIListContract" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIListContract" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="T" />
+      </templates>
+      <parameters>
+        <parameter name="collection">
+          <type api="T:System.Collections.Generic.IList`1" ref="true">
+            <specialization>
+              <template name="T" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``1(System.Collections.Generic.IList{``0})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.AddIn.Contract.IListContract`1" ref="true">
+          <specialization>
+            <template name="T" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``1(System.Collections.Generic.IList{``0})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.CollectionAdapters" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_CollectionAdapters_ToIListContract``1_1_56e88014" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})">
+      <topicdata group="api" />
+      <apidata name="ToIListContract" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Pipeline.CollectionAdapters.ToIListContract" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TView" />
+        <template name="TContract" />
+      </templates>
+      <parameters>
+        <parameter name="collection">
+          <type api="T:System.Collections.Generic.IList`1" ref="true">
+            <specialization>
+              <template name="TView" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="viewContractAdapter">
+          <type api="T:System.Converter`2" ref="true">
+            <specialization>
+              <template name="TView" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+              <template name="TContract" index="1" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="contractViewAdapter">
+          <type api="T:System.Converter`2" ref="true">
+            <specialization>
+              <template name="TContract" index="1" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+              <template name="TView" index="0" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+            </specialization>
+          </type>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.AddIn.Contract.IListContract`1" ref="true">
+          <specialization>
+            <template name="TContract" index="1" api="M:System.AddIn.Pipeline.CollectionAdapters.ToIListContract``2(System.Collections.Generic.IList{``0},System.Converter{``0,``1},System.Converter{``1,``0})" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.CollectionAdapters" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_CollectionAdapters_ToIListContract``2_5_a515c007" />
+    </api>
+    <api id="T:System.AddIn.Pipeline.ContractAdapter">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.ContractAdapter" />
+      <apidata name="ContractAdapter" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="T_System_AddIn_Pipeline_ContractAdapter" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Pipeline.ContractAdapter">
+      <topicdata name="ContractAdapter" group="list" subgroup="members" typeTopicId="T:System.AddIn.Pipeline.ContractAdapter" />
+      <apidata name="ContractAdapter" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter">
+          <element api="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.AddIn.Hosting.PipelineStoreLocation)" />
+          <element api="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.String)" />
+        </element>
+        <element api="M:System.AddIn.Pipeline.ContractAdapter.ViewToContractAdapter(System.Object)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Pipeline_ContractAdapter" />
+    </api>
+    <api id="Methods.T:System.AddIn.Pipeline.ContractAdapter">
+      <topicdata name="ContractAdapter" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Pipeline.ContractAdapter" />
+      <apidata name="ContractAdapter" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter">
+          <element api="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.AddIn.Hosting.PipelineStoreLocation)" />
+          <element api="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.String)" />
+        </element>
+        <element api="M:System.AddIn.Pipeline.ContractAdapter.ViewToContractAdapter(System.Object)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Pipeline_ContractAdapter" />
+    </api>
+    <api id="Overload:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter">
+      <topicdata name="ContractToViewAdapter" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.ContractAdapter" />
+      <apidata name="ContractToViewAdapter" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.AddIn.Hosting.PipelineStoreLocation)" />
+        <element api="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractAdapter" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Pipeline_ContractAdapter_ContractToViewAdapter" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.AddIn.Hosting.PipelineStoreLocation)">
+      <topicdata group="api" />
+      <apidata name="ContractToViewAdapter" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TView" />
+      </templates>
+      <parameters>
+        <parameter name="contract">
+          <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+        </parameter>
+        <parameter name="location">
+          <type api="T:System.AddIn.Hosting.PipelineStoreLocation" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="TView" index="0" api="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.AddIn.Hosting.PipelineStoreLocation)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractAdapter" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractAdapter_ContractToViewAdapter``1_2_5f3799d0" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.String)">
+      <topicdata group="api" />
+      <apidata name="ContractToViewAdapter" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter" />
+      <proceduredata virtual="false" />
+      <templates>
+        <template name="TView" />
+      </templates>
+      <parameters>
+        <parameter name="contract">
+          <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+        </parameter>
+        <parameter name="pipelineRoot">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <template name="TView" index="0" api="M:System.AddIn.Pipeline.ContractAdapter.ContractToViewAdapter``1(System.AddIn.Pipeline.ContractHandle,System.String)" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractAdapter" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractAdapter_ContractToViewAdapter``1_2_ce630a1e" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractAdapter.ViewToContractAdapter(System.Object)">
+      <topicdata group="api" />
+      <apidata name="ViewToContractAdapter" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="view">
+          <type api="T:System.Object" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractAdapter" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractAdapter_ViewToContractAdapter_1_2572741a" />
+    </api>
+    <api id="T:System.AddIn.Pipeline.ContractBase">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.ContractBase" />
+      <apidata name="ContractBase" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.MarshalByRefObject" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        <type api="T:System.Runtime.Remoting.Lifetime.ISponsor" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="T_System_AddIn_Pipeline_ContractBase" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Pipeline.ContractBase">
+      <topicdata name="ContractBase" group="list" subgroup="members" typeTopicId="T:System.AddIn.Pipeline.ContractBase" />
+      <apidata name="ContractBase" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="M:System.MarshalByRefObject.InitializeLifetimeService" />
+        <element api="Overload:System.AddIn.Pipeline.ContractBase.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.#ctor" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.AcquireLifetimeToken" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.GetRemoteHashCode" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.OnFinalRevoke" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.QueryContract(System.String)" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.RemoteEquals(System.AddIn.Contract.IContract)" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.RemoteToString" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.Renewal(System.Runtime.Remoting.Lifetime.ILease)" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.RevokeLifetimeToken(System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Pipeline_ContractBase" />
+    </api>
+    <api id="Methods.T:System.AddIn.Pipeline.ContractBase">
+      <topicdata name="ContractBase" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Pipeline.ContractBase" />
+      <apidata name="ContractBase" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="M:System.MarshalByRefObject.InitializeLifetimeService" />
+        <element api="Overload:System.AddIn.Pipeline.ContractBase.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.AcquireLifetimeToken" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.GetRemoteHashCode" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.OnFinalRevoke" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.QueryContract(System.String)" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.RemoteEquals(System.AddIn.Contract.IContract)" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.RemoteToString" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.Renewal(System.Runtime.Remoting.Lifetime.ILease)" />
+        <element api="M:System.AddIn.Pipeline.ContractBase.RevokeLifetimeToken(System.Int32)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Pipeline_ContractBase" />
+    </api>
+    <api id="Overload:System.AddIn.Pipeline.ContractBase.MemberwiseClone">
+      <topicdata name="MemberwiseClone" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.ContractBase" allInherited="true" />
+      <apidata name="MemberwiseClone" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" />
+      </containers>
+      <file name="O_T_System_AddIn_Pipeline_ContractBase_MemberwiseClone" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Pipeline_ContractBase_ctor" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.AcquireLifetimeToken">
+      <topicdata group="api" />
+      <apidata name="AcquireLifetimeToken" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:System.AddIn.Contract.IContract.AcquireLifetimeToken">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractBase_AcquireLifetimeToken" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.GetRemoteHashCode">
+      <topicdata group="api" />
+      <apidata name="GetRemoteHashCode" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:System.AddIn.Contract.IContract.GetRemoteHashCode">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractBase_GetRemoteHashCode" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.OnFinalRevoke">
+      <topicdata group="api" />
+      <apidata name="OnFinalRevoke" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="true" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractBase_OnFinalRevoke" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.QueryContract(System.String)">
+      <topicdata group="api" />
+      <apidata name="QueryContract" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="contractIdentifier">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.AddIn.Contract.IContract" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:System.AddIn.Contract.IContract.QueryContract(System.String)">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractBase_QueryContract_1_72eac341" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.RemoteEquals(System.AddIn.Contract.IContract)">
+      <topicdata group="api" />
+      <apidata name="RemoteEquals" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="contract">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:System.AddIn.Contract.IContract.RemoteEquals(System.AddIn.Contract.IContract)">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractBase_RemoteEquals_1_612feec4" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.RemoteToString">
+      <topicdata group="api" />
+      <apidata name="RemoteToString" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:System.AddIn.Contract.IContract.RemoteToString">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractBase_RemoteToString" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.Renewal(System.Runtime.Remoting.Lifetime.ILease)">
+      <topicdata group="api" />
+      <apidata name="Renewal" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <parameters>
+        <parameter name="lease">
+          <type api="T:System.Runtime.Remoting.Lifetime.ILease" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.TimeSpan" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:System.Runtime.Remoting.Lifetime.ISponsor.Renewal(System.Runtime.Remoting.Lifetime.ILease)">
+          <type api="T:System.Runtime.Remoting.Lifetime.ISponsor" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="LinkDemand" />
+            </enumValue>
+          </argument>
+          <assignment name="Flags">
+            <type api="T:System.Security.Permissions.SecurityPermissionFlag" ref="false" />
+            <enumValue>
+              <field name="Infrastructure" />
+            </enumValue>
+          </assignment>
+        </attribute>
+      </attributes>
+      <file name="M_System_AddIn_Pipeline_ContractBase_Renewal_1_d057827f" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractBase.RevokeLifetimeToken(System.Int32)">
+      <topicdata group="api" />
+      <apidata name="RevokeLifetimeToken" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" final="true" />
+      <parameters>
+        <parameter name="token">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+      </parameters>
+      <implements>
+        <member api="M:System.AddIn.Contract.IContract.RevokeLifetimeToken(System.Int32)">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractBase" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractBase_RevokeLifetimeToken_1_cd2d7ec9" />
+    </api>
+    <api id="T:System.AddIn.Pipeline.ContractHandle">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.ContractHandle" />
+      <apidata name="ContractHandle" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:System.IDisposable" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="T_System_AddIn_Pipeline_ContractHandle" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Pipeline.ContractHandle">
+      <topicdata name="ContractHandle" group="list" subgroup="members" typeTopicId="T:System.AddIn.Pipeline.ContractHandle" />
+      <apidata name="ContractHandle" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Pipeline.ContractHandle.#ctor(System.AddIn.Contract.IContract)" />
+        <element api="M:System.AddIn.Pipeline.ContractHandle.AppDomainOwner(System.AppDomain)" />
+        <element api="P:System.AddIn.Pipeline.ContractHandle.Contract" />
+        <element api="M:System.AddIn.Pipeline.ContractHandle.ContractOwnsAppDomain(System.AddIn.Contract.IContract,System.AppDomain)" />
+        <element api="Overload:System.AddIn.Pipeline.ContractHandle.Dispose">
+          <element api="M:System.AddIn.Pipeline.ContractHandle.Dispose" />
+          <element api="M:System.AddIn.Pipeline.ContractHandle.Dispose(System.Boolean)" />
+        </element>
+        <element api="M:System.AddIn.Pipeline.ContractHandle.Finalize" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Pipeline_ContractHandle" />
+    </api>
+    <api id="Methods.T:System.AddIn.Pipeline.ContractHandle">
+      <topicdata name="ContractHandle" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Pipeline.ContractHandle" />
+      <apidata name="ContractHandle" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Pipeline.ContractHandle.AppDomainOwner(System.AppDomain)" />
+        <element api="M:System.AddIn.Pipeline.ContractHandle.ContractOwnsAppDomain(System.AddIn.Contract.IContract,System.AppDomain)" />
+        <element api="Overload:System.AddIn.Pipeline.ContractHandle.Dispose">
+          <element api="M:System.AddIn.Pipeline.ContractHandle.Dispose" />
+          <element api="M:System.AddIn.Pipeline.ContractHandle.Dispose(System.Boolean)" />
+        </element>
+        <element api="M:System.AddIn.Pipeline.ContractHandle.Finalize" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Pipeline_ContractHandle" />
+    </api>
+    <api id="Properties.T:System.AddIn.Pipeline.ContractHandle">
+      <topicdata name="ContractHandle" group="list" subgroup="Properties" typeTopicId="T:System.AddIn.Pipeline.ContractHandle" />
+      <apidata name="ContractHandle" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.AddIn.Pipeline.ContractHandle.Contract" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="Properties_T_System_AddIn_Pipeline_ContractHandle" />
+    </api>
+    <api id="Overload:System.AddIn.Pipeline.ContractHandle.Dispose">
+      <topicdata name="Dispose" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.ContractHandle" />
+      <apidata name="Dispose" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.AddIn.Pipeline.ContractHandle.Dispose" />
+        <element api="M:System.AddIn.Pipeline.ContractHandle.Dispose(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </containers>
+      <file name="O_T_System_AddIn_Pipeline_ContractHandle_Dispose" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractHandle.#ctor(System.AddIn.Contract.IContract)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <parameters>
+        <parameter name="contract">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Pipeline_ContractHandle_ctor_1_e1b7b96d" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractHandle.AppDomainOwner(System.AppDomain)">
+      <topicdata group="api" />
+      <apidata name="AppDomainOwner" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="domain">
+          <type api="T:System.AppDomain" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.AddIn.Contract.IContract" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractHandle_AppDomainOwner_1_6c3da7d5" />
+    </api>
+    <api id="P:System.AddIn.Pipeline.ContractHandle.Contract">
+      <topicdata group="api" />
+      <apidata name="Contract" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.AddIn.Contract.IContract" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </containers>
+      <file name="P_System_AddIn_Pipeline_ContractHandle_Contract" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractHandle.ContractOwnsAppDomain(System.AddIn.Contract.IContract,System.AppDomain)">
+      <topicdata group="api" />
+      <apidata name="ContractOwnsAppDomain" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="contract">
+          <type api="T:System.AddIn.Contract.IContract" ref="true" />
+        </parameter>
+        <parameter name="domain">
+          <type api="T:System.AppDomain" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractHandle_ContractOwnsAppDomain_2_87ec5f46" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractHandle.Dispose">
+      <topicdata group="api" />
+      <apidata name="Dispose" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:System.AddIn.Pipeline.ContractHandle.Dispose" />
+      <proceduredata virtual="true" final="true" />
+      <implements>
+        <member api="M:System.IDisposable.Dispose">
+          <type api="T:System.IDisposable" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractHandle_Dispose" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractHandle.Dispose(System.Boolean)">
+      <topicdata group="api" />
+      <apidata name="Dispose" group="member" subgroup="method" />
+      <memberdata visibility="family" overload="Overload:System.AddIn.Pipeline.ContractHandle.Dispose" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="disposing">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractHandle_Dispose_1_36d384f7" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.ContractHandle.Finalize">
+      <topicdata group="api" />
+      <apidata name="Finalize" group="member" subgroup="method" />
+      <memberdata visibility="family" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.Object.Finalize">
+          <type api="T:System.Object" ref="true" />
+        </member>
+      </overrides>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.ContractHandle" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_ContractHandle_Finalize" />
+    </api>
+    <api id="T:System.AddIn.Pipeline.HostAdapterAttribute">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.HostAdapterAttribute" />
+      <apidata name="HostAdapterAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Attribute" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.AttributeUsageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.AttributeTargets" ref="false" />
+            <enumValue>
+              <field name="Class" />
+            </enumValue>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_System_AddIn_Pipeline_HostAdapterAttribute" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Pipeline.HostAdapterAttribute">
+      <topicdata name="HostAdapterAttribute" group="list" subgroup="members" typeTopicId="T:System.AddIn.Pipeline.HostAdapterAttribute" />
+      <apidata name="HostAdapterAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Attribute.Equals(System.Object)" />
+        <element api="M:System.Attribute.GetHashCode" />
+        <element api="M:System.Attribute.IsDefaultAttribute" />
+        <element api="M:System.Attribute.Match(System.Object)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfoCount(System.UInt32@)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)" />
+        <element api="P:System.Attribute.TypeId" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.AddIn.Pipeline.HostAdapterAttribute.#ctor" />
+      </elements>
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Pipeline_HostAdapterAttribute" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.HostAdapterAttribute.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.AddIn" module="System.AddIn" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.HostAdapterAttribute" ref="true" />
+      </containers>
+      <file name="C_System_AddIn_Pipeline_HostAdapterAttribute_ctor" />
+    </api>
+  </apis>
+</reflection>

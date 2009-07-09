@@ -35,6 +35,11 @@
     <Warning Text="%(Failures.Identity) - Failed on Line %(Failures.LineNumber). %(Failures.CheckId): %(Failures.Message)"/>
     <!--Error Text="StyleCop analysis warnings occured" Condition="'$(AllPassed)' == 'False'"  /-->
   </Target>
+  
+  
+  <Target Name="BuildDocs">
+    <MSBuild Projects="./mathnet-numerics.shfbproj" />
+  </Target>
 
-  <Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged"></Target>
+  <Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged; BuildDocs"></Target>
 </Project>

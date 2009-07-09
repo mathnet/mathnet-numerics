@@ -1,0 +1,679 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="IIEHost">
+      <assemblydata version="2.0.0.0" culture="" key="002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>05eba305-0164-11d3-8729-00c04f79ed0d</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.50727.1426</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>IIEHost.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>F:\RedBits\Tools\devdiv\FinalPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.50727.1426</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>IIEHost.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>IIEHost.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.0.0</value>
+          </argument>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:Microsoft.IE.IHostEx">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.IE.IHostEx" />
+      <apidata name="IHostEx" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <implementors>
+        <type api="T:Microsoft.IE.Manager" ref="true" />
+        <type api="T:Microsoft.IE.IHostStubClass" ref="true" />
+        <type api="T:Microsoft.IE.IHostStub" ref="true" />
+      </implementors>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>FC3DA537-C144-42C3-92F8-EA88267EC73B</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.InterfaceTypeAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Int16" ref="false" />
+            <value>1</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_IE_IHostEx" />
+    </api>
+    <api id="AllMembers.T:Microsoft.IE.IHostEx">
+      <topicdata name="IHostEx" group="list" subgroup="members" typeTopicId="T:Microsoft.IE.IHostEx" />
+      <apidata name="IHostEx" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.IE.IHostEx.GetClassFactory(System.String,System.String)" />
+        <element api="M:Microsoft.IE.IHostEx.GetSecuredClassFactory(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_IE_IHostEx" />
+    </api>
+    <api id="Methods.T:Microsoft.IE.IHostEx">
+      <topicdata name="IHostEx" group="list" subgroup="Methods" typeTopicId="T:Microsoft.IE.IHostEx" />
+      <apidata name="IHostEx" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.IE.IHostEx.GetClassFactory(System.String,System.String)" />
+        <element api="M:Microsoft.IE.IHostEx.GetSecuredClassFactory(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="Methods_T_Microsoft_IE_IHostEx" />
+    </api>
+    <api id="M:Microsoft.IE.IHostEx.GetClassFactory(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="GetClassFactory" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <parameters>
+        <parameter name="className" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="fileName" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:Microsoft.IE.ISecureFactory" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.IE" />
+        <type api="T:Microsoft.IE.IHostEx" ref="true" />
+      </containers>
+      <file name="M_Microsoft_IE_IHostEx_GetClassFactory_2_52fce4af" />
+    </api>
+    <api id="M:Microsoft.IE.IHostEx.GetSecuredClassFactory(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="GetSecuredClassFactory" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <parameters>
+        <parameter name="dwIdentityFlags" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="dwZone" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="lpSite" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="pbSecurityId" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lpHash" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="className" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="fileName" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:Microsoft.IE.ISecureFactory" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.IE" />
+        <type api="T:Microsoft.IE.IHostEx" ref="true" />
+      </containers>
+      <file name="M_Microsoft_IE_IHostEx_GetSecuredClassFactory_7_84bc1bde" />
+    </api>
+    <api id="T:Microsoft.IE.IHostStub">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.IE.IHostStub" />
+      <apidata name="IHostStub" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <implements>
+        <type api="T:Microsoft.IE.IHostEx" ref="true" />
+      </implements>
+      <implementors>
+        <type api="T:Microsoft.IE.IHostStubClass" ref="true" />
+      </implementors>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>FC3DA537-C144-42C3-92F8-EA88267EC73B</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_IE_IHostStub" />
+    </api>
+    <api id="AllMembers.T:Microsoft.IE.IHostStub">
+      <topicdata name="IHostStub" group="list" subgroup="members" typeTopicId="T:Microsoft.IE.IHostStub" />
+      <apidata name="IHostStub" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.IE.IHostEx.GetClassFactory(System.String,System.String)" />
+        <element api="M:Microsoft.IE.IHostEx.GetSecuredClassFactory(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_IE_IHostStub" />
+    </api>
+    <api id="T:Microsoft.IE.IHostStubClass">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.IE.IHostStubClass" />
+      <apidata name="IHostStubClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <implements>
+        <type api="T:Microsoft.IE.IHostEx" ref="true" />
+        <type api="T:Microsoft.IE.IHostStub" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ClassInterfaceAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Int16" ref="false" />
+            <value>0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>05EBA30A-0164-11D3-8729-00C04F79ED0D</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_IE_IHostStubClass" />
+    </api>
+    <api id="AllMembers.T:Microsoft.IE.IHostStubClass">
+      <topicdata name="IHostStubClass" group="list" subgroup="members" typeTopicId="T:Microsoft.IE.IHostStubClass" />
+      <apidata name="IHostStubClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.IE.IHostStubClass.#ctor" />
+        <element api="M:Microsoft.IE.IHostStubClass.GetClassFactory(System.String,System.String)" />
+        <element api="M:Microsoft.IE.IHostStubClass.GetSecuredClassFactory(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_IE_IHostStubClass" />
+    </api>
+    <api id="Methods.T:Microsoft.IE.IHostStubClass">
+      <topicdata name="IHostStubClass" group="list" subgroup="Methods" typeTopicId="T:Microsoft.IE.IHostStubClass" />
+      <apidata name="IHostStubClass" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.IE.IHostStubClass.GetClassFactory(System.String,System.String)" />
+        <element api="M:Microsoft.IE.IHostStubClass.GetSecuredClassFactory(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="Methods_T_Microsoft_IE_IHostStubClass" />
+    </api>
+    <api id="M:Microsoft.IE.IHostStubClass.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="IIEHost" module="IIEHost">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.IE" />
+        <type api="T:Microsoft.IE.IHostStubClass" ref="true" />
+      </containers>
+      <file name="C_Microsoft_IE_IHostStubClass_ctor" />
+    </api>
+    <api id="M:Microsoft.IE.IHostStubClass.GetClassFactory(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="GetClassFactory" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="className" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="fileName" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:Microsoft.IE.ISecureFactory" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.IE.IHostEx.GetClassFactory(System.String,System.String)">
+          <type api="T:Microsoft.IE.IHostEx" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.IE" />
+        <type api="T:Microsoft.IE.IHostStubClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_IE_IHostStubClass_GetClassFactory_2_52fce4af" />
+    </api>
+    <api id="M:Microsoft.IE.IHostStubClass.GetSecuredClassFactory(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="GetSecuredClassFactory" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="dwIdentityFlags" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="dwZone" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="lpSite" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="pbSecurityId" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lpHash" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="className" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="fileName" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:Microsoft.IE.ISecureFactory" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.IE.IHostEx.GetSecuredClassFactory(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)">
+          <type api="T:Microsoft.IE.IHostEx" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.IE" />
+        <type api="T:Microsoft.IE.IHostStubClass" ref="true" />
+      </containers>
+      <file name="M_Microsoft_IE_IHostStubClass_GetSecuredClassFactory_7_84bc1bde" />
+    </api>
+    <api id="T:Microsoft.IE.ISecureFactory">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.IE.ISecureFactory" />
+      <apidata name="ISecureFactory" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <implementors>
+        <type api="T:Microsoft.IE.SecureFactory" ref="true" />
+        <type api="T:Microsoft.IE.ISecureFactory2" ref="true" />
+      </implementors>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>391E0341-00C2-11D3-8ED9-83406C1D3D30</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.InterfaceTypeAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Int16" ref="false" />
+            <value>1</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_IE_ISecureFactory" />
+    </api>
+    <api id="AllMembers.T:Microsoft.IE.ISecureFactory">
+      <topicdata name="ISecureFactory" group="list" subgroup="members" typeTopicId="T:Microsoft.IE.ISecureFactory" />
+      <apidata name="ISecureFactory" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.IE.ISecureFactory.CreateInstanceWithSecurity(System.Int32,System.Int32,System.String,System.String,System.String,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_IE_ISecureFactory" />
+    </api>
+    <api id="Methods.T:Microsoft.IE.ISecureFactory">
+      <topicdata name="ISecureFactory" group="list" subgroup="Methods" typeTopicId="T:Microsoft.IE.ISecureFactory" />
+      <apidata name="ISecureFactory" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.IE.ISecureFactory.CreateInstanceWithSecurity(System.Int32,System.Int32,System.String,System.String,System.String,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="Methods_T_Microsoft_IE_ISecureFactory" />
+    </api>
+    <api id="M:Microsoft.IE.ISecureFactory.CreateInstanceWithSecurity(System.Int32,System.Int32,System.String,System.String,System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="CreateInstanceWithSecurity" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <parameters>
+        <parameter name="dwIdentityFlag" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="dwZone" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="lpSite" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lpId" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lpLink" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lpLicenses" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Object" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.IE" />
+        <type api="T:Microsoft.IE.ISecureFactory" ref="true" />
+      </containers>
+      <file name="M_Microsoft_IE_ISecureFactory_CreateInstanceWithSecurity_6_2a91757c" />
+    </api>
+    <api id="T:Microsoft.IE.ISecureFactory2">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.IE.ISecureFactory2" />
+      <apidata name="ISecureFactory2" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <implements>
+        <type api="T:Microsoft.IE.ISecureFactory" ref="true" />
+      </implements>
+      <implementors>
+        <type api="T:Microsoft.IE.SecureFactory" ref="true" />
+      </implementors>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>DA068387-8323-0812-AB50-D3DB2FA0CC21</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.InterfaceTypeAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Int16" ref="false" />
+            <value>1</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_Microsoft_IE_ISecureFactory2" />
+    </api>
+    <api id="AllMembers.T:Microsoft.IE.ISecureFactory2">
+      <topicdata name="ISecureFactory2" group="list" subgroup="members" typeTopicId="T:Microsoft.IE.ISecureFactory2" />
+      <apidata name="ISecureFactory2" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element signatureset="" api="M:Microsoft.IE.ISecureFactory.CreateInstanceWithSecurity(System.Int32,System.Int32,System.String,System.String,System.String,System.String)" />
+        <element api="M:Microsoft.IE.ISecureFactory2.CreateInstanceWithSecurity2(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_IE_ISecureFactory2" />
+    </api>
+    <api id="Methods.T:Microsoft.IE.ISecureFactory2">
+      <topicdata name="ISecureFactory2" group="list" subgroup="Methods" typeTopicId="T:Microsoft.IE.ISecureFactory2" />
+      <apidata name="ISecureFactory2" group="type" subgroup="interface" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element signatureset="" api="M:Microsoft.IE.ISecureFactory.CreateInstanceWithSecurity(System.Int32,System.Int32,System.String,System.String,System.String,System.String)" />
+        <element api="M:Microsoft.IE.ISecureFactory2.CreateInstanceWithSecurity2(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)" />
+      </elements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost" />
+        <namespace api="N:Microsoft.IE" />
+      </containers>
+      <file name="Methods_T_Microsoft_IE_ISecureFactory2" />
+    </api>
+    <api id="M:Microsoft.IE.ISecureFactory2.CreateInstanceWithSecurity(System.Int32,System.Int32,System.String,System.String,System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="CreateInstanceWithSecurity" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <parameters>
+        <parameter name="dwIdentityFlag" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="dwZone" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="lpSite" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lpId" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lpLink" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="lpLicenses" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Object" ref="true" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.IE.ISecureFactory.CreateInstanceWithSecurity(System.Int32,System.Int32,System.String,System.String,System.String,System.String)">
+          <type api="T:Microsoft.IE.ISecureFactory" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.IE" />
+        <type api="T:Microsoft.IE.ISecureFactory2" ref="true" />
+      </containers>
+      <file name="M_Microsoft_IE_ISecureFactory2_CreateInstanceWithSecurity_6_2a91757c" />
+    </api>
+    <api id="M:Microsoft.IE.ISecureFactory2.CreateInstanceWithSecurity2(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="CreateInstanceWithSecurity2" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <parameters>
+        <parameter name="dwFlags" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="dwZone" in="true">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="wszSite" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="wszId" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="wszConfig" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="wszLicenses" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="wszDeploymentManifest" in="true">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Object" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="IIEHost" module="IIEHost">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.IE" />
+        <type api="T:Microsoft.IE.ISecureFactory2" ref="true" />
+      </containers>
+      <file name="M_Microsoft_IE_ISecureFactory2_CreateInstanceWithSecurity2_7_84bc1bde" />
+    </api>
+  </apis>
+</reflection>

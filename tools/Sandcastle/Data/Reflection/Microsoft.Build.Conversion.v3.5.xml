@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="Microsoft.Build.Conversion.v3.5">
+      <assemblydata version="3.5.0.0" culture="" key="002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Build.Conversion.v3.5.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Build.Conversion.v3.5.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft.Build.Conversion.v3.5.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>f:\dd\tools\devdiv\FinalPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>634AFA8F-4271-4e2c-9525-D0B75DAA821A</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="RequestMinimum" />
+            </enumValue>
+          </argument>
+          <assignment name="Flags">
+            <type api="T:System.Security.Permissions.SecurityPermissionFlag" ref="false" />
+            <enumValue>
+              <field name="Execution" />
+            </enumValue>
+          </assignment>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:Microsoft.Build.Conversion.ProjectFileConverter">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Conversion.ProjectFileConverter" />
+      <apidata name="ProjectFileConverter" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5" />
+        <namespace api="N:Microsoft.Build.Conversion" />
+      </containers>
+      <file name="T_Microsoft_Build_Conversion_ProjectFileConverter" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Conversion.ProjectFileConverter">
+      <topicdata name="ProjectFileConverter" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Conversion.ProjectFileConverter" />
+      <apidata name="ProjectFileConverter" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.#ctor" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.ConversionSkippedBecauseProjectAlreadyConverted" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.ConversionWarnings" />
+        <element api="Overload:Microsoft.Build.Conversion.ProjectFileConverter.Convert">
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert" />
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert(Microsoft.Build.BuildEngine.ProjectLoadSettings)" />
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert(System.String)" />
+        </element>
+        <element api="Overload:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory">
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory(Microsoft.Build.BuildEngine.Engine)" />
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory(Microsoft.Build.BuildEngine.Engine,Microsoft.Build.BuildEngine.ProjectLoadSettings)" />
+        </element>
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.IsUserFile" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.NewProjectFile" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.OldProjectFile" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.SolutionFile" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5" />
+        <namespace api="N:Microsoft.Build.Conversion" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Conversion_ProjectFileConverter" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Conversion.ProjectFileConverter">
+      <topicdata name="ProjectFileConverter" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Conversion.ProjectFileConverter" />
+      <apidata name="ProjectFileConverter" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.Build.Conversion.ProjectFileConverter.Convert">
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert" />
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert(Microsoft.Build.BuildEngine.ProjectLoadSettings)" />
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert(System.String)" />
+        </element>
+        <element api="Overload:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory">
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory(Microsoft.Build.BuildEngine.Engine)" />
+          <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory(Microsoft.Build.BuildEngine.Engine,Microsoft.Build.BuildEngine.ProjectLoadSettings)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5" />
+        <namespace api="N:Microsoft.Build.Conversion" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Conversion_ProjectFileConverter" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Conversion.ProjectFileConverter">
+      <topicdata name="ProjectFileConverter" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Conversion.ProjectFileConverter" />
+      <apidata name="ProjectFileConverter" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.ConversionSkippedBecauseProjectAlreadyConverted" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.ConversionWarnings" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.IsUserFile" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.NewProjectFile" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.OldProjectFile" />
+        <element api="P:Microsoft.Build.Conversion.ProjectFileConverter.SolutionFile" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5" />
+        <namespace api="N:Microsoft.Build.Conversion" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Conversion_ProjectFileConverter" />
+    </api>
+    <api id="Overload:Microsoft.Build.Conversion.ProjectFileConverter.Convert">
+      <topicdata name="Convert" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.Build.Conversion.ProjectFileConverter" />
+      <apidata name="Convert" group="member" subgroup="method" />
+      <elements>
+        <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert" />
+        <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert(Microsoft.Build.BuildEngine.ProjectLoadSettings)" />
+        <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5" />
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_Build_Conversion_ProjectFileConverter_Convert" />
+    </api>
+    <api id="Overload:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory">
+      <topicdata name="ConvertInMemory" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.Build.Conversion.ProjectFileConverter" />
+      <apidata name="ConvertInMemory" group="member" subgroup="method" />
+      <elements>
+        <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory(Microsoft.Build.BuildEngine.Engine)" />
+        <element api="M:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory(Microsoft.Build.BuildEngine.Engine,Microsoft.Build.BuildEngine.ProjectLoadSettings)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5" />
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_Build_Conversion_ProjectFileConverter_ConvertInMemory" />
+    </api>
+    <api id="M:Microsoft.Build.Conversion.ProjectFileConverter.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Conversion_ProjectFileConverter_ctor" />
+    </api>
+    <api id="P:Microsoft.Build.Conversion.ProjectFileConverter.ConversionSkippedBecauseProjectAlreadyConverted">
+      <topicdata group="api" />
+      <apidata name="ConversionSkippedBecauseProjectAlreadyConverted" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Conversion_ProjectFileConverter_ConversionSkippedBecauseProjectAlreadyConverted" />
+    </api>
+    <api id="P:Microsoft.Build.Conversion.ProjectFileConverter.ConversionWarnings">
+      <topicdata group="api" />
+      <apidata name="ConversionWarnings" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Conversion_ProjectFileConverter_ConversionWarnings" />
+    </api>
+    <api id="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert">
+      <topicdata group="api" />
+      <apidata name="Convert" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Conversion.ProjectFileConverter.Convert" />
+      <proceduredata virtual="false" />
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Conversion_ProjectFileConverter_Convert" />
+    </api>
+    <api id="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert(Microsoft.Build.BuildEngine.ProjectLoadSettings)">
+      <topicdata group="api" />
+      <apidata name="Convert" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Conversion.ProjectFileConverter.Convert" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="projectLoadSettings">
+          <type api="T:Microsoft.Build.BuildEngine.ProjectLoadSettings" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Conversion_ProjectFileConverter_Convert_1_a1fcd2f7" />
+    </api>
+    <api id="M:Microsoft.Build.Conversion.ProjectFileConverter.Convert(System.String)">
+      <topicdata group="api" />
+      <apidata name="Convert" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Conversion.ProjectFileConverter.Convert" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="msbuildBinPath">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.ObsoleteAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Use parameterless overload instead.</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="M_Microsoft_Build_Conversion_ProjectFileConverter_Convert_1_72eac341" />
+    </api>
+    <api id="M:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory(Microsoft.Build.BuildEngine.Engine)">
+      <topicdata group="api" />
+      <apidata name="ConvertInMemory" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="engine">
+          <type api="T:Microsoft.Build.BuildEngine.Engine" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:Microsoft.Build.BuildEngine.Project" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Conversion_ProjectFileConverter_ConvertInMemory_1_d535595f" />
+    </api>
+    <api id="M:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory(Microsoft.Build.BuildEngine.Engine,Microsoft.Build.BuildEngine.ProjectLoadSettings)">
+      <topicdata group="api" />
+      <apidata name="ConvertInMemory" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.Build.Conversion.ProjectFileConverter.ConvertInMemory" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="engine">
+          <type api="T:Microsoft.Build.BuildEngine.Engine" ref="true" />
+        </parameter>
+        <parameter name="projectLoadSettings">
+          <type api="T:Microsoft.Build.BuildEngine.ProjectLoadSettings" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:Microsoft.Build.BuildEngine.Project" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Conversion_ProjectFileConverter_ConvertInMemory_2_e98d0c54" />
+    </api>
+    <api id="P:Microsoft.Build.Conversion.ProjectFileConverter.IsUserFile">
+      <topicdata group="api" />
+      <apidata name="IsUserFile" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Conversion_ProjectFileConverter_IsUserFile" />
+    </api>
+    <api id="P:Microsoft.Build.Conversion.ProjectFileConverter.NewProjectFile">
+      <topicdata group="api" />
+      <apidata name="NewProjectFile" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Conversion_ProjectFileConverter_NewProjectFile" />
+    </api>
+    <api id="P:Microsoft.Build.Conversion.ProjectFileConverter.OldProjectFile">
+      <topicdata group="api" />
+      <apidata name="OldProjectFile" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Conversion_ProjectFileConverter_OldProjectFile" />
+    </api>
+    <api id="P:Microsoft.Build.Conversion.ProjectFileConverter.SolutionFile">
+      <topicdata group="api" />
+      <apidata name="SolutionFile" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.Build.Conversion.v3.5" module="Microsoft.Build.Conversion.v3.5">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Conversion" />
+        <type api="T:Microsoft.Build.Conversion.ProjectFileConverter" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Conversion_ProjectFileConverter_SolutionFile" />
+    </api>
+  </apis>
+</reflection>

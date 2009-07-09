@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="IEExecRemote">
+      <assemblydata version="2.0.0.0" culture="" key="002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>F:\RedBits\Tools\devdiv\FinalPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.50727.1426</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.50727.1426</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>IEExecRemote.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>IEExecRemote.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>IEExecRemote.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.AllowPartiallyTrustedCallersAttribute" ref="true" />
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:IEHost.Execute.IEExecuteRemote">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:IEHost.Execute.IEExecuteRemote" />
+      <apidata name="IEExecuteRemote" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.MarshalByRefObject" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+      </containers>
+      <file name="T_IEHost_Execute_IEExecuteRemote" />
+    </api>
+    <api id="AllMembers.T:IEHost.Execute.IEExecuteRemote">
+      <topicdata name="IEExecuteRemote" group="list" subgroup="members" typeTopicId="T:IEHost.Execute.IEExecuteRemote" />
+      <apidata name="IEExecuteRemote" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:IEHost.Execute.IEExecuteRemote.#ctor" />
+        <element api="P:IEHost.Execute.IEExecuteRemote.Exception" />
+        <element api="M:IEHost.Execute.IEExecuteRemote.ExecuteAsAssembly(System.String,System.Security.Policy.Evidence,System.Byte[],System.Configuration.Assemblies.AssemblyHashAlgorithm)" />
+        <element api="M:IEHost.Execute.IEExecuteRemote.ExecuteAsDll(System.String,System.Security.Policy.Evidence,System.Object)" />
+        <element api="M:IEHost.Execute.IEExecuteRemote.InitializeLifetimeService" />
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="Overload:IEHost.Execute.IEExecuteRemote.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+      </containers>
+      <file name="AllMembers_T_IEHost_Execute_IEExecuteRemote" />
+    </api>
+    <api id="Methods.T:IEHost.Execute.IEExecuteRemote">
+      <topicdata name="IEExecuteRemote" group="list" subgroup="Methods" typeTopicId="T:IEHost.Execute.IEExecuteRemote" />
+      <apidata name="IEExecuteRemote" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:IEHost.Execute.IEExecuteRemote.ExecuteAsAssembly(System.String,System.Security.Policy.Evidence,System.Byte[],System.Configuration.Assemblies.AssemblyHashAlgorithm)" />
+        <element api="M:IEHost.Execute.IEExecuteRemote.ExecuteAsDll(System.String,System.Security.Policy.Evidence,System.Object)" />
+        <element api="M:IEHost.Execute.IEExecuteRemote.InitializeLifetimeService" />
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="Overload:IEHost.Execute.IEExecuteRemote.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+      </containers>
+      <file name="Methods_T_IEHost_Execute_IEExecuteRemote" />
+    </api>
+    <api id="Properties.T:IEHost.Execute.IEExecuteRemote">
+      <topicdata name="IEExecuteRemote" group="list" subgroup="Properties" typeTopicId="T:IEHost.Execute.IEExecuteRemote" />
+      <apidata name="IEExecuteRemote" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:IEHost.Execute.IEExecuteRemote.Exception" />
+      </elements>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+      </containers>
+      <file name="Properties_T_IEHost_Execute_IEExecuteRemote" />
+    </api>
+    <api id="Overload:IEHost.Execute.IEExecuteRemote.MemberwiseClone">
+      <topicdata name="MemberwiseClone" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:IEHost.Execute.IEExecuteRemote" allInherited="true" />
+      <apidata name="MemberwiseClone" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+        <type api="T:IEHost.Execute.IEExecuteRemote" />
+      </containers>
+      <file name="O_T_IEHost_Execute_IEExecuteRemote_MemberwiseClone" />
+    </api>
+    <api id="M:IEHost.Execute.IEExecuteRemote.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+        <type api="T:IEHost.Execute.IEExecuteRemote" ref="true" />
+      </containers>
+      <file name="C_IEHost_Execute_IEExecuteRemote_ctor" />
+    </api>
+    <api id="P:IEHost.Execute.IEExecuteRemote.Exception">
+      <topicdata group="api" />
+      <apidata name="Exception" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.IO.Stream" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+        <type api="T:IEHost.Execute.IEExecuteRemote" ref="true" />
+      </containers>
+      <file name="P_IEHost_Execute_IEExecuteRemote_Exception" />
+    </api>
+    <api id="M:IEHost.Execute.IEExecuteRemote.ExecuteAsAssembly(System.String,System.Security.Policy.Evidence,System.Byte[],System.Configuration.Assemblies.AssemblyHashAlgorithm)">
+      <topicdata group="api" />
+      <apidata name="ExecuteAsAssembly" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="evidence">
+          <type api="T:System.Security.Policy.Evidence" ref="true" />
+        </parameter>
+        <parameter name="hash">
+          <arrayOf rank="1">
+            <type api="T:System.Byte" ref="false" />
+          </arrayOf>
+        </parameter>
+        <parameter name="id">
+          <type api="T:System.Configuration.Assemblies.AssemblyHashAlgorithm" ref="false" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+        <type api="T:IEHost.Execute.IEExecuteRemote" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Security.Permissions.StrongNameIdentityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="LinkDemand" />
+            </enumValue>
+          </argument>
+          <assignment name="PublicKey">
+            <type api="T:System.String" ref="true" />
+            <value>0x002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293</value>
+          </assignment>
+        </attribute>
+      </attributes>
+      <file name="M_IEHost_Execute_IEExecuteRemote_ExecuteAsAssembly_4_0618739c" />
+    </api>
+    <api id="M:IEHost.Execute.IEExecuteRemote.ExecuteAsDll(System.String,System.Security.Policy.Evidence,System.Object)">
+      <topicdata group="api" />
+      <apidata name="ExecuteAsDll" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="file">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="evidence">
+          <type api="T:System.Security.Policy.Evidence" ref="true" />
+        </parameter>
+        <parameter name="pars">
+          <type api="T:System.Object" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+        <type api="T:IEHost.Execute.IEExecuteRemote" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Security.Permissions.StrongNameIdentityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="LinkDemand" />
+            </enumValue>
+          </argument>
+          <assignment name="PublicKey">
+            <type api="T:System.String" ref="true" />
+            <value>0x002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293</value>
+          </assignment>
+        </attribute>
+      </attributes>
+      <file name="M_IEHost_Execute_IEExecuteRemote_ExecuteAsDll_3_0e12f57c" />
+    </api>
+    <api id="M:IEHost.Execute.IEExecuteRemote.InitializeLifetimeService">
+      <topicdata group="api" />
+      <apidata name="InitializeLifetimeService" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.MarshalByRefObject.InitializeLifetimeService">
+          <type api="T:System.MarshalByRefObject" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Object" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="IEExecRemote" module="IEExecRemote" />
+        <namespace api="N:IEHost.Execute" />
+        <type api="T:IEHost.Execute.IEExecuteRemote" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="LinkDemand" />
+            </enumValue>
+          </argument>
+          <assignment name="Flags">
+            <type api="T:System.Security.Permissions.SecurityPermissionFlag" ref="false" />
+            <enumValue>
+              <field name="Infrastructure" />
+            </enumValue>
+          </assignment>
+        </attribute>
+      </attributes>
+      <file name="M_IEHost_Execute_IEExecuteRemote_InitializeLifetimeService" />
+    </api>
+  </apis>
+</reflection>

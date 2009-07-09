@@ -1,0 +1,2805 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="PresentationBuildTasks">
+      <assemblydata version="3.0.0.0" culture="" key="0024000004800000940000000602000000240000525341310004000001000100B5FC90E7027F67871E773A8FDE8938C81DD402BA65B9201D60593E96C492651E889CC13F1415EBB53FAC1131AE0BD333C5EE6021672D9718EA31A8AEBD0DA0072F25D87DBA6FC90FFD598ED4DA35E44C398C454307E8E33B8426143DAEC9F596836F97C8F74750E5975C64E2189F45DEF46B2A2B1247ADC3652BF5C308055DA9" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>6.0.6001.17000</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Copyright (c) Microsoft Corporation. All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>d:\sp1.public.x86fre\internal\strongnamekeys\fake\windows.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft (R) Windows (R) Operating System</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="RequestMinimum" />
+            </enumValue>
+          </argument>
+          <assignment name="SkipVerification">
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </assignment>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:Microsoft.Build.Tasks.Windows.FileClassifier">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.FileClassifier" />
+      <apidata name="FileClassifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_FileClassifier" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.FileClassifier">
+      <topicdata name="FileClassifier" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.FileClassifier" />
+      <apidata name="FileClassifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.FileClassifier.#ctor" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLREmbeddedResource" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLRResourceFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLRSatelliteEmbeddedResource" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.Culture" />
+        <element api="M:Microsoft.Build.Tasks.Windows.FileClassifier.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.MainEmbeddedFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.OutputType" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.SatelliteEmbeddedFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.SourceFiles" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_FileClassifier" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.FileClassifier">
+      <topicdata name="FileClassifier" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.FileClassifier" />
+      <apidata name="FileClassifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.FileClassifier.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_FileClassifier" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.FileClassifier">
+      <topicdata name="FileClassifier" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.FileClassifier" />
+      <apidata name="FileClassifier" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLREmbeddedResource" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLRResourceFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLRSatelliteEmbeddedResource" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.Culture" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.MainEmbeddedFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.OutputType" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.SatelliteEmbeddedFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.FileClassifier.SourceFiles" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_FileClassifier" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.FileClassifier.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_FileClassifier_ctor" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLREmbeddedResource">
+      <topicdata group="api" />
+      <apidata name="CLREmbeddedResource" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_FileClassifier_CLREmbeddedResource" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLRResourceFiles">
+      <topicdata group="api" />
+      <apidata name="CLRResourceFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_FileClassifier_CLRResourceFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.FileClassifier.CLRSatelliteEmbeddedResource">
+      <topicdata group="api" />
+      <apidata name="CLRSatelliteEmbeddedResource" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_FileClassifier_CLRSatelliteEmbeddedResource" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.FileClassifier.Culture">
+      <topicdata group="api" />
+      <apidata name="Culture" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_FileClassifier_Culture" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.FileClassifier.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_FileClassifier_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.FileClassifier.MainEmbeddedFiles">
+      <topicdata group="api" />
+      <apidata name="MainEmbeddedFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_FileClassifier_MainEmbeddedFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.FileClassifier.OutputType">
+      <topicdata group="api" />
+      <apidata name="OutputType" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_FileClassifier_OutputType" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.FileClassifier.SatelliteEmbeddedFiles">
+      <topicdata group="api" />
+      <apidata name="SatelliteEmbeddedFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_FileClassifier_SatelliteEmbeddedFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.FileClassifier.SourceFiles">
+      <topicdata group="api" />
+      <apidata name="SourceFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.FileClassifier" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_FileClassifier_SourceFiles" />
+    </api>
+    <api id="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" />
+      <apidata name="GenerateTemporaryTargetAssembly" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly">
+      <topicdata name="GenerateTemporaryTargetAssembly" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" />
+      <apidata name="GenerateTemporaryTargetAssembly" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.#ctor" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.AssemblyName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CompileTargetName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CompileTypeName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CurrentProject" />
+        <element api="M:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.GeneratedCodeFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.IntermediateOutputPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.MSBuildBinPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.ReferencePath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.ReferencePathTypeName" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly">
+      <topicdata name="GenerateTemporaryTargetAssembly" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" />
+      <apidata name="GenerateTemporaryTargetAssembly" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly">
+      <topicdata name="GenerateTemporaryTargetAssembly" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" />
+      <apidata name="GenerateTemporaryTargetAssembly" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.AssemblyName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CompileTargetName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CompileTypeName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CurrentProject" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.GeneratedCodeFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.IntermediateOutputPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.MSBuildBinPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.ReferencePath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.ReferencePathTypeName" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_ctor" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.AssemblyName">
+      <topicdata group="api" />
+      <apidata name="AssemblyName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_AssemblyName" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CompileTargetName">
+      <topicdata group="api" />
+      <apidata name="CompileTargetName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_CompileTargetName" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CompileTypeName">
+      <topicdata group="api" />
+      <apidata name="CompileTypeName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_CompileTypeName" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.CurrentProject">
+      <topicdata group="api" />
+      <apidata name="CurrentProject" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_CurrentProject" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.GeneratedCodeFiles">
+      <topicdata group="api" />
+      <apidata name="GeneratedCodeFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_GeneratedCodeFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.IntermediateOutputPath">
+      <topicdata group="api" />
+      <apidata name="IntermediateOutputPath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_IntermediateOutputPath" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.MSBuildBinPath">
+      <topicdata group="api" />
+      <apidata name="MSBuildBinPath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_MSBuildBinPath" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.ReferencePath">
+      <topicdata group="api" />
+      <apidata name="ReferencePath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_ReferencePath" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly.ReferencePathTypeName">
+      <topicdata group="api" />
+      <apidata name="ReferencePathTypeName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GenerateTemporaryTargetAssembly" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GenerateTemporaryTargetAssembly_ReferencePathTypeName" />
+    </api>
+    <api id="T:Microsoft.Build.Tasks.Windows.GetWinFXPath">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.GetWinFXPath" />
+      <apidata name="GetWinFXPath" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_GetWinFXPath" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.GetWinFXPath">
+      <topicdata name="GetWinFXPath" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.GetWinFXPath" />
+      <apidata name="GetWinFXPath" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.GetWinFXPath.#ctor" />
+        <element api="M:Microsoft.Build.Tasks.Windows.GetWinFXPath.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXNativePath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXWowPath" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_GetWinFXPath" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.GetWinFXPath">
+      <topicdata name="GetWinFXPath" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.GetWinFXPath" />
+      <apidata name="GetWinFXPath" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.GetWinFXPath.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_GetWinFXPath" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.GetWinFXPath">
+      <topicdata name="GetWinFXPath" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.GetWinFXPath" />
+      <apidata name="GetWinFXPath" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXNativePath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXWowPath" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_GetWinFXPath" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.GetWinFXPath.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GetWinFXPath" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_GetWinFXPath_ctor" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.GetWinFXPath.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GetWinFXPath" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_GetWinFXPath_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXNativePath">
+      <topicdata group="api" />
+      <apidata name="WinFXNativePath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GetWinFXPath" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GetWinFXPath_WinFXNativePath" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXPath">
+      <topicdata group="api" />
+      <apidata name="WinFXPath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GetWinFXPath" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GetWinFXPath_WinFXPath" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.GetWinFXPath.WinFXWowPath">
+      <topicdata group="api" />
+      <apidata name="WinFXWowPath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.GetWinFXPath" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_GetWinFXPath_WinFXWowPath" />
+    </api>
+    <api id="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" />
+      <apidata name="MarkupCompilePass1" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_MarkupCompilePass1" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1">
+      <topicdata name="MarkupCompilePass1" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" />
+      <apidata name="MarkupCompilePass1" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.#ctor" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AllGeneratedFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AlwaysCompileMarkupFilesInSeparateDomain" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ApplicationMarkup" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssembliesGeneratedDuringBuild" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyPublicKeyToken" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyVersion" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ContentFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.DefineConstants" />
+        <element api="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ExtraBuildControlFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedBamlFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedCodeFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedLocalizationFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.HostInBrowser" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.KnownReferencePaths" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.Language" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.LanguageSourceExtension" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.LocalizationDirectivesToLocFile" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.OutputPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.OutputType" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.PageMarkup" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.References" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RequirePass2ForMainAssembly" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RequirePass2ForSatelliteAssembly" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RootNamespace" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.SourceCodeFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.UICulture" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.XamlDebuggingInformation" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_MarkupCompilePass1" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1">
+      <topicdata name="MarkupCompilePass1" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" />
+      <apidata name="MarkupCompilePass1" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_MarkupCompilePass1" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1">
+      <topicdata name="MarkupCompilePass1" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" />
+      <apidata name="MarkupCompilePass1" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AllGeneratedFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AlwaysCompileMarkupFilesInSeparateDomain" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ApplicationMarkup" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssembliesGeneratedDuringBuild" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyPublicKeyToken" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyVersion" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ContentFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.DefineConstants" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ExtraBuildControlFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedBamlFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedCodeFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedLocalizationFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.HostInBrowser" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.KnownReferencePaths" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.Language" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.LanguageSourceExtension" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.LocalizationDirectivesToLocFile" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.OutputPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.OutputType" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.PageMarkup" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.References" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RequirePass2ForMainAssembly" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RequirePass2ForSatelliteAssembly" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RootNamespace" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.SourceCodeFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.UICulture" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.XamlDebuggingInformation" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_MarkupCompilePass1" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_ctor" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AllGeneratedFiles">
+      <topicdata group="api" />
+      <apidata name="AllGeneratedFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_AllGeneratedFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AlwaysCompileMarkupFilesInSeparateDomain">
+      <topicdata group="api" />
+      <apidata name="AlwaysCompileMarkupFilesInSeparateDomain" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_AlwaysCompileMarkupFilesInSeparateDomain" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ApplicationMarkup">
+      <topicdata group="api" />
+      <apidata name="ApplicationMarkup" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_ApplicationMarkup" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssembliesGeneratedDuringBuild">
+      <topicdata group="api" />
+      <apidata name="AssembliesGeneratedDuringBuild" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_AssembliesGeneratedDuringBuild" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyName">
+      <topicdata group="api" />
+      <apidata name="AssemblyName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_AssemblyName" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyPublicKeyToken">
+      <topicdata group="api" />
+      <apidata name="AssemblyPublicKeyToken" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_AssemblyPublicKeyToken" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.AssemblyVersion">
+      <topicdata group="api" />
+      <apidata name="AssemblyVersion" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_AssemblyVersion" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ContentFiles">
+      <topicdata group="api" />
+      <apidata name="ContentFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_ContentFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.DefineConstants">
+      <topicdata group="api" />
+      <apidata name="DefineConstants" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_DefineConstants" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.ExtraBuildControlFiles">
+      <topicdata group="api" />
+      <apidata name="ExtraBuildControlFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_ExtraBuildControlFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedBamlFiles">
+      <topicdata group="api" />
+      <apidata name="GeneratedBamlFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_GeneratedBamlFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedCodeFiles">
+      <topicdata group="api" />
+      <apidata name="GeneratedCodeFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_GeneratedCodeFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.GeneratedLocalizationFiles">
+      <topicdata group="api" />
+      <apidata name="GeneratedLocalizationFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_GeneratedLocalizationFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.HostInBrowser">
+      <topicdata group="api" />
+      <apidata name="HostInBrowser" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_HostInBrowser" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.KnownReferencePaths">
+      <topicdata group="api" />
+      <apidata name="KnownReferencePaths" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_KnownReferencePaths" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.Language">
+      <topicdata group="api" />
+      <apidata name="Language" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_Language" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.LanguageSourceExtension">
+      <topicdata group="api" />
+      <apidata name="LanguageSourceExtension" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_LanguageSourceExtension" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.LocalizationDirectivesToLocFile">
+      <topicdata group="api" />
+      <apidata name="LocalizationDirectivesToLocFile" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_LocalizationDirectivesToLocFile" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.OutputPath">
+      <topicdata group="api" />
+      <apidata name="OutputPath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_OutputPath" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.OutputType">
+      <topicdata group="api" />
+      <apidata name="OutputType" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_OutputType" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.PageMarkup">
+      <topicdata group="api" />
+      <apidata name="PageMarkup" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_PageMarkup" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.References">
+      <topicdata group="api" />
+      <apidata name="References" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_References" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RequirePass2ForMainAssembly">
+      <topicdata group="api" />
+      <apidata name="RequirePass2ForMainAssembly" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_RequirePass2ForMainAssembly" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RequirePass2ForSatelliteAssembly">
+      <topicdata group="api" />
+      <apidata name="RequirePass2ForSatelliteAssembly" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_RequirePass2ForSatelliteAssembly" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.RootNamespace">
+      <topicdata group="api" />
+      <apidata name="RootNamespace" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_RootNamespace" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.SourceCodeFiles">
+      <topicdata group="api" />
+      <apidata name="SourceCodeFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_SourceCodeFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.UICulture">
+      <topicdata group="api" />
+      <apidata name="UICulture" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_UICulture" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass1.XamlDebuggingInformation">
+      <topicdata group="api" />
+      <apidata name="XamlDebuggingInformation" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass1" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass1_XamlDebuggingInformation" />
+    </api>
+    <api id="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" />
+      <apidata name="MarkupCompilePass2" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_MarkupCompilePass2" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2">
+      <topicdata name="MarkupCompilePass2" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" />
+      <apidata name="MarkupCompilePass2" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.#ctor" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AlwaysCompileMarkupFilesInSeparateDomain" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AssembliesGeneratedDuringBuild" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AssemblyName" />
+        <element api="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.GeneratedBaml" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.KnownReferencePaths" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.Language" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.LocalizationDirectivesToLocFile" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.OutputPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.OutputType" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.References" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.RootNamespace" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.XamlDebuggingInformation" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_MarkupCompilePass2" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2">
+      <topicdata name="MarkupCompilePass2" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" />
+      <apidata name="MarkupCompilePass2" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_MarkupCompilePass2" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2">
+      <topicdata name="MarkupCompilePass2" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" />
+      <apidata name="MarkupCompilePass2" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AlwaysCompileMarkupFilesInSeparateDomain" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AssembliesGeneratedDuringBuild" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AssemblyName" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.GeneratedBaml" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.KnownReferencePaths" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.Language" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.LocalizationDirectivesToLocFile" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.OutputPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.OutputType" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.References" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.RootNamespace" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.XamlDebuggingInformation" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_MarkupCompilePass2" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_ctor" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AlwaysCompileMarkupFilesInSeparateDomain">
+      <topicdata group="api" />
+      <apidata name="AlwaysCompileMarkupFilesInSeparateDomain" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_AlwaysCompileMarkupFilesInSeparateDomain" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AssembliesGeneratedDuringBuild">
+      <topicdata group="api" />
+      <apidata name="AssembliesGeneratedDuringBuild" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_AssembliesGeneratedDuringBuild" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.AssemblyName">
+      <topicdata group="api" />
+      <apidata name="AssemblyName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_AssemblyName" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.GeneratedBaml">
+      <topicdata group="api" />
+      <apidata name="GeneratedBaml" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_GeneratedBaml" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.KnownReferencePaths">
+      <topicdata group="api" />
+      <apidata name="KnownReferencePaths" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.String" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_KnownReferencePaths" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.Language">
+      <topicdata group="api" />
+      <apidata name="Language" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_Language" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.LocalizationDirectivesToLocFile">
+      <topicdata group="api" />
+      <apidata name="LocalizationDirectivesToLocFile" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_LocalizationDirectivesToLocFile" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.OutputPath">
+      <topicdata group="api" />
+      <apidata name="OutputPath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_OutputPath" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.OutputType">
+      <topicdata group="api" />
+      <apidata name="OutputType" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_OutputType" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.References">
+      <topicdata group="api" />
+      <apidata name="References" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_References" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.RootNamespace">
+      <topicdata group="api" />
+      <apidata name="RootNamespace" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_RootNamespace" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MarkupCompilePass2.XamlDebuggingInformation">
+      <topicdata group="api" />
+      <apidata name="XamlDebuggingInformation" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MarkupCompilePass2" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_MarkupCompilePass2_XamlDebuggingInformation" />
+    </api>
+    <api id="T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" />
+      <apidata name="MergeLocalizationDirectives" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_MergeLocalizationDirectives" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives">
+      <topicdata name="MergeLocalizationDirectives" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" />
+      <apidata name="MergeLocalizationDirectives" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.#ctor" />
+        <element api="M:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.GeneratedLocalizationFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.OutputFile" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_MergeLocalizationDirectives" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives">
+      <topicdata name="MergeLocalizationDirectives" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" />
+      <apidata name="MergeLocalizationDirectives" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_MergeLocalizationDirectives" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives">
+      <topicdata name="MergeLocalizationDirectives" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" />
+      <apidata name="MergeLocalizationDirectives" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.GeneratedLocalizationFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.OutputFile" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_MergeLocalizationDirectives" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_MergeLocalizationDirectives_ctor" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_MergeLocalizationDirectives_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.GeneratedLocalizationFiles">
+      <topicdata group="api" />
+      <apidata name="GeneratedLocalizationFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MergeLocalizationDirectives_GeneratedLocalizationFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives.OutputFile">
+      <topicdata group="api" />
+      <apidata name="OutputFile" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.MergeLocalizationDirectives" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_MergeLocalizationDirectives_OutputFile" />
+    </api>
+    <api id="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" />
+      <apidata name="ResourcesGenerator" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_ResourcesGenerator" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.ResourcesGenerator">
+      <topicdata name="ResourcesGenerator" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" />
+      <apidata name="ResourcesGenerator" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.ResourcesGenerator.#ctor" />
+        <element api="M:Microsoft.Build.Tasks.Windows.ResourcesGenerator.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.OutputPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.OutputResourcesFile" />
+        <element api="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.ResourceFiles" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_ResourcesGenerator" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.ResourcesGenerator">
+      <topicdata name="ResourcesGenerator" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" />
+      <apidata name="ResourcesGenerator" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.ResourcesGenerator.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_ResourcesGenerator" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.ResourcesGenerator">
+      <topicdata name="ResourcesGenerator" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" />
+      <apidata name="ResourcesGenerator" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.OutputPath" />
+        <element api="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.OutputResourcesFile" />
+        <element api="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.ResourceFiles" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_ResourcesGenerator" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.ResourcesGenerator.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_ResourcesGenerator_ctor" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.ResourcesGenerator.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_ResourcesGenerator_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.OutputPath">
+      <topicdata group="api" />
+      <apidata name="OutputPath" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_ResourcesGenerator_OutputPath" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.OutputResourcesFile">
+      <topicdata group="api" />
+      <apidata name="OutputResourcesFile" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.OutputAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_ResourcesGenerator_OutputResourcesFile" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.ResourcesGenerator.ResourceFiles">
+      <topicdata group="api" />
+      <apidata name="ResourceFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.ResourcesGenerator" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_ResourcesGenerator_ResourceFiles" />
+    </api>
+    <api id="T:Microsoft.Build.Tasks.Windows.UidManager">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.UidManager" />
+      <apidata name="UidManager" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_UidManager" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.UidManager">
+      <topicdata name="UidManager" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.UidManager" />
+      <apidata name="UidManager" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.UidManager.#ctor" />
+        <element api="M:Microsoft.Build.Tasks.Windows.UidManager.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.UidManager.IntermediateDirectory" />
+        <element api="P:Microsoft.Build.Tasks.Windows.UidManager.MarkupFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.UidManager.Task" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_UidManager" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.UidManager">
+      <topicdata name="UidManager" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.UidManager" />
+      <apidata name="UidManager" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.UidManager.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_UidManager" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.UidManager">
+      <topicdata name="UidManager" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.UidManager" />
+      <apidata name="UidManager" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.UidManager.IntermediateDirectory" />
+        <element api="P:Microsoft.Build.Tasks.Windows.UidManager.MarkupFiles" />
+        <element api="P:Microsoft.Build.Tasks.Windows.UidManager.Task" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_UidManager" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.UidManager.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UidManager" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_UidManager_ctor" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.UidManager.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UidManager" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_UidManager_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.UidManager.IntermediateDirectory">
+      <topicdata group="api" />
+      <apidata name="IntermediateDirectory" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UidManager" ref="true" />
+      </containers>
+      <file name="P_Microsoft_Build_Tasks_Windows_UidManager_IntermediateDirectory" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.UidManager.MarkupFiles">
+      <topicdata group="api" />
+      <apidata name="MarkupFiles" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UidManager" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_UidManager_MarkupFiles" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.UidManager.Task">
+      <topicdata group="api" />
+      <apidata name="Task" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UidManager" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_UidManager_Task" />
+    </api>
+    <api id="T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" />
+      <apidata name="UpdateManifestForBrowserApplication" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="T_Microsoft_Build_Tasks_Windows_UpdateManifestForBrowserApplication" />
+    </api>
+    <api id="AllMembers.T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication">
+      <topicdata name="UpdateManifestForBrowserApplication" group="list" subgroup="members" typeTopicId="T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" />
+      <apidata name="UpdateManifestForBrowserApplication" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.#ctor" />
+        <element api="P:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.ApplicationManifest" />
+        <element api="M:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.Execute" />
+        <element api="P:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.HostInBrowser" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_Build_Tasks_Windows_UpdateManifestForBrowserApplication" />
+    </api>
+    <api id="Methods.T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication">
+      <topicdata name="UpdateManifestForBrowserApplication" group="list" subgroup="Methods" typeTopicId="T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" />
+      <apidata name="UpdateManifestForBrowserApplication" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.Execute" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Methods_T_Microsoft_Build_Tasks_Windows_UpdateManifestForBrowserApplication" />
+    </api>
+    <api id="Properties.T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication">
+      <topicdata name="UpdateManifestForBrowserApplication" group="list" subgroup="Properties" typeTopicId="T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" />
+      <apidata name="UpdateManifestForBrowserApplication" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.ApplicationManifest" />
+        <element api="P:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.HostInBrowser" />
+        <element api="P:Microsoft.Build.Utilities.Task.BuildEngine" />
+        <element api="P:Microsoft.Build.Utilities.Task.HelpKeywordPrefix" />
+        <element api="P:Microsoft.Build.Utilities.Task.HostObject" />
+        <element api="P:Microsoft.Build.Utilities.Task.Log" />
+        <element api="P:Microsoft.Build.Utilities.Task.TaskResources" />
+      </elements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks" />
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+      </containers>
+      <file name="Properties_T_Microsoft_Build_Tasks_Windows_UpdateManifestForBrowserApplication" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" ref="true" />
+      </containers>
+      <file name="C_Microsoft_Build_Tasks_Windows_UpdateManifestForBrowserApplication_ctor" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.ApplicationManifest">
+      <topicdata group="api" />
+      <apidata name="ApplicationManifest" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:Microsoft.Build.Framework.ITaskItem" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_UpdateManifestForBrowserApplication_ApplicationManifest" />
+    </api>
+    <api id="M:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.Execute">
+      <topicdata group="api" />
+      <apidata name="Execute" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:Microsoft.Build.Utilities.Task.Execute">
+          <type api="T:Microsoft.Build.Utilities.Task" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <implements>
+        <member api="M:Microsoft.Build.Framework.ITask.Execute">
+          <type api="T:Microsoft.Build.Framework.ITask" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" ref="true" />
+      </containers>
+      <file name="M_Microsoft_Build_Tasks_Windows_UpdateManifestForBrowserApplication_Execute" />
+    </api>
+    <api id="P:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication.HostInBrowser">
+      <topicdata group="api" />
+      <apidata name="HostInBrowser" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="PresentationBuildTasks" module="PresentationBuildTasks">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.Build.Tasks.Windows" />
+        <type api="T:Microsoft.Build.Tasks.Windows.UpdateManifestForBrowserApplication" ref="true" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:Microsoft.Build.Framework.RequiredAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="P_Microsoft_Build_Tasks_Windows_UpdateManifestForBrowserApplication_HostInBrowser" />
+    </api>
+  </apis>
+</reflection>

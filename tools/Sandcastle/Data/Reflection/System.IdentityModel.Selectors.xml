@@ -1,0 +1,1741 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="System.IdentityModel.Selectors">
+      <assemblydata version="3.0.0.0" culture="" key="00000000000000000400000000000000" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.0.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.0.4506.641</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.IdentityModel.Selectors.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>F:\WinFXRed\Tools\devdiv\EcmaPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.0.4506.641</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.IdentityModel.Selectors.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.IdentityModel.Selectors.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="RequestMinimum" />
+            </enumValue>
+          </argument>
+          <assignment name="SkipVerification">
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </assignment>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:System.IdentityModel.Selectors.CardSpaceException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.CardSpaceException" />
+      <apidata name="CardSpaceException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_CardSpaceException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.CardSpaceException">
+      <topicdata name="CardSpaceException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.CardSpaceException" />
+      <apidata name="CardSpaceException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.CardSpaceException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.CardSpaceException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_CardSpaceException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.CardSpaceException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.CardSpaceException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.CardSpaceException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_CardSpaceException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpaceException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.CardSpaceException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_CardSpaceException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.CardSpaceException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_CardSpaceException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.CardSpaceException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_CardSpaceException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpaceException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.CardSpaceException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_CardSpaceException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.CardSpacePolicyElement">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.CardSpacePolicyElement" />
+      <apidata name="CardSpacePolicyElement" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_CardSpacePolicyElement" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.CardSpacePolicyElement">
+      <topicdata name="CardSpacePolicyElement" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.CardSpacePolicyElement" />
+      <apidata name="CardSpacePolicyElement" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.IdentityModel.Selectors.CardSpacePolicyElement.#ctor(System.Xml.XmlElement,System.Xml.XmlElement,System.Collections.ObjectModel.Collection{System.Xml.XmlElement},System.Uri,System.Int32,System.Boolean)" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.IsManagedIssuer" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Issuer" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Parameters" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.PolicyNoticeLink" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.PolicyNoticeVersion" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Target" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_CardSpacePolicyElement" />
+    </api>
+    <api id="Properties.T:System.IdentityModel.Selectors.CardSpacePolicyElement">
+      <topicdata name="CardSpacePolicyElement" group="list" subgroup="Properties" typeTopicId="T:System.IdentityModel.Selectors.CardSpacePolicyElement" />
+      <apidata name="CardSpacePolicyElement" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.IsManagedIssuer" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Issuer" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Parameters" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.PolicyNoticeLink" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.PolicyNoticeVersion" />
+        <element api="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Target" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="Properties_T_System_IdentityModel_Selectors_CardSpacePolicyElement" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpacePolicyElement.#ctor(System.Xml.XmlElement,System.Xml.XmlElement,System.Collections.ObjectModel.Collection{System.Xml.XmlElement},System.Uri,System.Int32,System.Boolean)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <parameters>
+        <parameter name="target">
+          <type api="T:System.Xml.XmlElement" ref="true" />
+        </parameter>
+        <parameter name="issuer">
+          <type api="T:System.Xml.XmlElement" ref="true" />
+        </parameter>
+        <parameter name="parameters">
+          <type api="T:System.Collections.ObjectModel.Collection`1" ref="true">
+            <specialization>
+              <type api="T:System.Xml.XmlElement" ref="true" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="privacyNoticeLink">
+          <type api="T:System.Uri" ref="true" />
+        </parameter>
+        <parameter name="privacyNoticeVersion">
+          <type api="T:System.Int32" ref="false" />
+        </parameter>
+        <parameter name="isManagedIssuer">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpacePolicyElement" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_CardSpacePolicyElement_ctor_6_1f76193f" />
+    </api>
+    <api id="P:System.IdentityModel.Selectors.CardSpacePolicyElement.IsManagedIssuer">
+      <topicdata group="api" />
+      <apidata name="IsManagedIssuer" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpacePolicyElement" ref="true" />
+      </containers>
+      <file name="P_System_IdentityModel_Selectors_CardSpacePolicyElement_IsManagedIssuer" />
+    </api>
+    <api id="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Issuer">
+      <topicdata group="api" />
+      <apidata name="Issuer" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Xml.XmlElement" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpacePolicyElement" ref="true" />
+      </containers>
+      <file name="P_System_IdentityModel_Selectors_CardSpacePolicyElement_Issuer" />
+    </api>
+    <api id="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Parameters">
+      <topicdata group="api" />
+      <apidata name="Parameters" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Collections.ObjectModel.Collection`1" ref="true">
+          <specialization>
+            <type api="T:System.Xml.XmlElement" ref="true" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpacePolicyElement" ref="true" />
+      </containers>
+      <file name="P_System_IdentityModel_Selectors_CardSpacePolicyElement_Parameters" />
+    </api>
+    <api id="P:System.IdentityModel.Selectors.CardSpacePolicyElement.PolicyNoticeLink">
+      <topicdata group="api" />
+      <apidata name="PolicyNoticeLink" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Uri" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpacePolicyElement" ref="true" />
+      </containers>
+      <file name="P_System_IdentityModel_Selectors_CardSpacePolicyElement_PolicyNoticeLink" />
+    </api>
+    <api id="P:System.IdentityModel.Selectors.CardSpacePolicyElement.PolicyNoticeVersion">
+      <topicdata group="api" />
+      <apidata name="PolicyNoticeVersion" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpacePolicyElement" ref="true" />
+      </containers>
+      <file name="P_System_IdentityModel_Selectors_CardSpacePolicyElement_PolicyNoticeVersion" />
+    </api>
+    <api id="P:System.IdentityModel.Selectors.CardSpacePolicyElement.Target">
+      <topicdata group="api" />
+      <apidata name="Target" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Xml.XmlElement" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpacePolicyElement" ref="true" />
+      </containers>
+      <file name="P_System_IdentityModel_Selectors_CardSpacePolicyElement_Target" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.CardSpaceSelector">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.CardSpaceSelector" />
+      <apidata name="CardSpaceSelector" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_CardSpaceSelector" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.CardSpaceSelector">
+      <topicdata name="CardSpaceSelector" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.CardSpaceSelector" />
+      <apidata name="CardSpaceSelector" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.IdentityModel.Selectors.CardSpaceSelector.GetToken">
+          <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.GetToken(System.IdentityModel.Selectors.CardSpacePolicyElement[],System.IdentityModel.Selectors.SecurityTokenSerializer)" />
+          <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.GetToken(System.Xml.XmlElement,System.Collections.Generic.IEnumerable{System.Xml.XmlElement},System.Xml.XmlElement,System.IdentityModel.Selectors.SecurityTokenSerializer)" />
+        </element>
+        <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.Import(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.Manage" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_CardSpaceSelector" />
+    </api>
+    <api id="Methods.T:System.IdentityModel.Selectors.CardSpaceSelector">
+      <topicdata name="CardSpaceSelector" group="list" subgroup="Methods" typeTopicId="T:System.IdentityModel.Selectors.CardSpaceSelector" />
+      <apidata name="CardSpaceSelector" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:System.IdentityModel.Selectors.CardSpaceSelector.GetToken">
+          <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.GetToken(System.IdentityModel.Selectors.CardSpacePolicyElement[],System.IdentityModel.Selectors.SecurityTokenSerializer)" />
+          <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.GetToken(System.Xml.XmlElement,System.Collections.Generic.IEnumerable{System.Xml.XmlElement},System.Xml.XmlElement,System.IdentityModel.Selectors.SecurityTokenSerializer)" />
+        </element>
+        <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.Import(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.Manage" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="Methods_T_System_IdentityModel_Selectors_CardSpaceSelector" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.CardSpaceSelector.GetToken">
+      <topicdata name="GetToken" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.CardSpaceSelector" />
+      <apidata name="GetToken" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.GetToken(System.IdentityModel.Selectors.CardSpacePolicyElement[],System.IdentityModel.Selectors.SecurityTokenSerializer)" />
+        <element api="M:System.IdentityModel.Selectors.CardSpaceSelector.GetToken(System.Xml.XmlElement,System.Collections.Generic.IEnumerable{System.Xml.XmlElement},System.Xml.XmlElement,System.IdentityModel.Selectors.SecurityTokenSerializer)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceSelector" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_CardSpaceSelector_GetToken" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpaceSelector.GetToken(System.IdentityModel.Selectors.CardSpacePolicyElement[],System.IdentityModel.Selectors.SecurityTokenSerializer)">
+      <topicdata group="api" />
+      <apidata name="GetToken" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.IdentityModel.Selectors.CardSpaceSelector.GetToken" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="policyChain">
+          <arrayOf rank="1">
+            <type api="T:System.IdentityModel.Selectors.CardSpacePolicyElement" ref="true" />
+          </arrayOf>
+        </parameter>
+        <parameter name="tokenSerializer">
+          <type api="T:System.IdentityModel.Selectors.SecurityTokenSerializer" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.IdentityModel.Tokens.GenericXmlSecurityToken" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceSelector" ref="true" />
+      </containers>
+      <file name="M_System_IdentityModel_Selectors_CardSpaceSelector_GetToken_2_0848c502" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpaceSelector.GetToken(System.Xml.XmlElement,System.Collections.Generic.IEnumerable{System.Xml.XmlElement},System.Xml.XmlElement,System.IdentityModel.Selectors.SecurityTokenSerializer)">
+      <topicdata group="api" />
+      <apidata name="GetToken" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:System.IdentityModel.Selectors.CardSpaceSelector.GetToken" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="endpoint">
+          <type api="T:System.Xml.XmlElement" ref="true" />
+        </parameter>
+        <parameter name="policy">
+          <type api="T:System.Collections.Generic.IEnumerable`1" ref="true">
+            <specialization>
+              <type api="T:System.Xml.XmlElement" ref="true" />
+            </specialization>
+          </type>
+        </parameter>
+        <parameter name="requiredRemoteTokenIssuer">
+          <type api="T:System.Xml.XmlElement" ref="true" />
+        </parameter>
+        <parameter name="tokenSerializer">
+          <type api="T:System.IdentityModel.Selectors.SecurityTokenSerializer" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.IdentityModel.Tokens.GenericXmlSecurityToken" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceSelector" ref="true" />
+      </containers>
+      <file name="M_System_IdentityModel_Selectors_CardSpaceSelector_GetToken_4_f409175a" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpaceSelector.Import(System.String)">
+      <topicdata group="api" />
+      <apidata name="Import" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="fileName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceSelector" ref="true" />
+      </containers>
+      <file name="M_System_IdentityModel_Selectors_CardSpaceSelector_Import_1_72eac341" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.CardSpaceSelector.Manage">
+      <topicdata group="api" />
+      <apidata name="Manage" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.CardSpaceSelector" ref="true" />
+      </containers>
+      <file name="M_System_IdentityModel_Selectors_CardSpaceSelector_Manage" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.IdentityValidationException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.IdentityValidationException" />
+      <apidata name="IdentityValidationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_IdentityValidationException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.IdentityValidationException">
+      <topicdata name="IdentityValidationException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.IdentityValidationException" />
+      <apidata name="IdentityValidationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.IdentityValidationException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_IdentityValidationException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.IdentityValidationException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.IdentityValidationException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.IdentityValidationException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_IdentityValidationException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.IdentityValidationException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.IdentityValidationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_IdentityValidationException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.IdentityValidationException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.IdentityValidationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_IdentityValidationException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.IdentityValidationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.IdentityValidationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_IdentityValidationException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.IdentityValidationException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.IdentityValidationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.IdentityValidationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_IdentityValidationException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.PolicyValidationException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.PolicyValidationException" />
+      <apidata name="PolicyValidationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_PolicyValidationException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.PolicyValidationException">
+      <topicdata name="PolicyValidationException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.PolicyValidationException" />
+      <apidata name="PolicyValidationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.PolicyValidationException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_PolicyValidationException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.PolicyValidationException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.PolicyValidationException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.PolicyValidationException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_PolicyValidationException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.PolicyValidationException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.PolicyValidationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_PolicyValidationException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.PolicyValidationException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.PolicyValidationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_PolicyValidationException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.PolicyValidationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.PolicyValidationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_PolicyValidationException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.PolicyValidationException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.PolicyValidationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.PolicyValidationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_PolicyValidationException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.ServiceBusyException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.ServiceBusyException" />
+      <apidata name="ServiceBusyException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_ServiceBusyException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.ServiceBusyException">
+      <topicdata name="ServiceBusyException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.ServiceBusyException" />
+      <apidata name="ServiceBusyException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.ServiceBusyException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_ServiceBusyException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.ServiceBusyException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.ServiceBusyException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceBusyException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_ServiceBusyException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.ServiceBusyException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceBusyException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_ServiceBusyException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.ServiceBusyException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceBusyException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_ServiceBusyException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.ServiceBusyException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceBusyException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_ServiceBusyException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.ServiceBusyException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.ServiceBusyException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceBusyException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_ServiceBusyException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.ServiceNotStartedException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.ServiceNotStartedException" />
+      <apidata name="ServiceNotStartedException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_ServiceNotStartedException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.ServiceNotStartedException">
+      <topicdata name="ServiceNotStartedException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.ServiceNotStartedException" />
+      <apidata name="ServiceNotStartedException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_ServiceNotStartedException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.ServiceNotStartedException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceNotStartedException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_ServiceNotStartedException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceNotStartedException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_ServiceNotStartedException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceNotStartedException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_ServiceNotStartedException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceNotStartedException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_ServiceNotStartedException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.ServiceNotStartedException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.ServiceNotStartedException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_ServiceNotStartedException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.StsCommunicationException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.StsCommunicationException" />
+      <apidata name="StsCommunicationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_StsCommunicationException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.StsCommunicationException">
+      <topicdata name="StsCommunicationException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.StsCommunicationException" />
+      <apidata name="StsCommunicationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.StsCommunicationException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_StsCommunicationException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.StsCommunicationException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.StsCommunicationException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.StsCommunicationException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_StsCommunicationException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.StsCommunicationException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.StsCommunicationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_StsCommunicationException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.StsCommunicationException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.StsCommunicationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_StsCommunicationException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.StsCommunicationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.StsCommunicationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_StsCommunicationException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.StsCommunicationException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.StsCommunicationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.StsCommunicationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_StsCommunicationException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException" />
+      <apidata name="UnsupportedPolicyOptionsException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_UnsupportedPolicyOptionsException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException">
+      <topicdata name="UnsupportedPolicyOptionsException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException" />
+      <apidata name="UnsupportedPolicyOptionsException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_UnsupportedPolicyOptionsException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_UnsupportedPolicyOptionsException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UnsupportedPolicyOptionsException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UnsupportedPolicyOptionsException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UnsupportedPolicyOptionsException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UnsupportedPolicyOptionsException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UnsupportedPolicyOptionsException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.UntrustedRecipientException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.UntrustedRecipientException" />
+      <apidata name="UntrustedRecipientException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_UntrustedRecipientException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.UntrustedRecipientException">
+      <topicdata name="UntrustedRecipientException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.UntrustedRecipientException" />
+      <apidata name="UntrustedRecipientException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_UntrustedRecipientException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.UntrustedRecipientException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UntrustedRecipientException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_UntrustedRecipientException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UntrustedRecipientException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UntrustedRecipientException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UntrustedRecipientException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UntrustedRecipientException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UntrustedRecipientException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UntrustedRecipientException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UntrustedRecipientException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UntrustedRecipientException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UntrustedRecipientException_ctor_2_3ec47892" />
+    </api>
+    <api id="T:System.IdentityModel.Selectors.UserCancellationException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.UserCancellationException" />
+      <apidata name="UserCancellationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="T_System_IdentityModel_Selectors_UserCancellationException" />
+    </api>
+    <api id="AllMembers.T:System.IdentityModel.Selectors.UserCancellationException">
+      <topicdata name="UserCancellationException" group="list" subgroup="members" typeTopicId="T:System.IdentityModel.Selectors.UserCancellationException" />
+      <apidata name="UserCancellationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.IdentityModel.Selectors.UserCancellationException.#ctor">
+          <element api="M:System.IdentityModel.Selectors.UserCancellationException.#ctor" />
+          <element api="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.String)" />
+          <element api="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+      </containers>
+      <file name="AllMembers_T_System_IdentityModel_Selectors_UserCancellationException" />
+    </api>
+    <api id="Overload:System.IdentityModel.Selectors.UserCancellationException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.IdentityModel.Selectors.UserCancellationException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.IdentityModel.Selectors.UserCancellationException.#ctor" />
+        <element api="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.String)" />
+        <element api="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors" />
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UserCancellationException" ref="true" />
+      </containers>
+      <file name="O_T_System_IdentityModel_Selectors_UserCancellationException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UserCancellationException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UserCancellationException.#ctor" />
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UserCancellationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UserCancellationException_ctor" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.IdentityModel.Selectors.UserCancellationException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UserCancellationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UserCancellationException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UserCancellationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UserCancellationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UserCancellationException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.IdentityModel.Selectors.UserCancellationException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.IdentityModel.Selectors.UserCancellationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.IdentityModel.Selectors" module="System.IdentityModel.Selectors">
+          <noAptca />
+        </library>
+        <namespace api="N:System.IdentityModel.Selectors" />
+        <type api="T:System.IdentityModel.Selectors.UserCancellationException" ref="true" />
+      </containers>
+      <file name="C_System_IdentityModel_Selectors_UserCancellationException_ctor_2_3ec47892" />
+    </api>
+  </apis>
+</reflection>

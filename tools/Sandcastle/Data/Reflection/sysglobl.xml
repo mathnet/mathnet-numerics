@@ -1,0 +1,984 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="sysglobl">
+      <assemblydata version="2.0.0.0" culture="" key="002400000480000094000000060200000024000052534131000400000100010007D1FA57C4AED9F0A32E84AA0FAEFD0DE9E8FD6AEC8F87FB03766C834C99921EB23BE79AD9D5DCC1DD9AD236132102900B723CF980957FC4E177108FC607774F29E8320E92EA05ECE4E821C0A5EFE8F1645C4C0C93C1AB99285D622CAA652C1DFAD63D745D6F2DE5F17E5EAF0FC4963D261C8A12436518206DC093344D5AD293" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>F:\RedBits\Tools\devdiv\FinalPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.50727.1426</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>2.0.50727.1426</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>sysglobl.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>sysglobl.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>sysglobl.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:System.Globalization.CultureAndRegionInfoBuilder">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Globalization.CultureAndRegionInfoBuilder" />
+      <apidata name="CultureAndRegionInfoBuilder" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl" />
+        <namespace api="N:System.Globalization" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_System_Globalization_CultureAndRegionInfoBuilder" />
+    </api>
+    <api id="AllMembers.T:System.Globalization.CultureAndRegionInfoBuilder">
+      <topicdata name="CultureAndRegionInfoBuilder" group="list" subgroup="members" typeTopicId="T:System.Globalization.CultureAndRegionInfoBuilder" />
+      <apidata name="CultureAndRegionInfoBuilder" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.#ctor(System.String,System.Globalization.CultureAndRegionModifiers)" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.AvailableCalendars" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CompareInfo" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ConsoleFallbackUICulture" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.CreateFromLdml(System.String)" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CultureEnglishName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CultureName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CultureNativeName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CultureTypes" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CurrencyEnglishName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CurrencyNativeName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.GeoId" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.GregorianDateTimeFormat" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.IetfLanguageTag" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.IsMetric" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ISOCurrencySymbol" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.IsRightToLeft" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.KeyboardLayoutId" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.LCID" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.LoadDataFromCultureInfo(System.Globalization.CultureInfo)" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.LoadDataFromRegionInfo(System.Globalization.RegionInfo)" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.NumberFormat" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.Parent" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.RegionEnglishName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.RegionName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.RegionNativeName" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.Register" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.Save(System.String)" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.TextInfo" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterISOLanguageName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterISORegionName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterWindowsLanguageName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterWindowsRegionName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.TwoLetterISOLanguageName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.TwoLetterISORegionName" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.Unregister(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl" />
+        <namespace api="N:System.Globalization" />
+      </containers>
+      <file name="AllMembers_T_System_Globalization_CultureAndRegionInfoBuilder" />
+    </api>
+    <api id="Methods.T:System.Globalization.CultureAndRegionInfoBuilder">
+      <topicdata name="CultureAndRegionInfoBuilder" group="list" subgroup="Methods" typeTopicId="T:System.Globalization.CultureAndRegionInfoBuilder" />
+      <apidata name="CultureAndRegionInfoBuilder" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.CreateFromLdml(System.String)" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.LoadDataFromCultureInfo(System.Globalization.CultureInfo)" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.LoadDataFromRegionInfo(System.Globalization.RegionInfo)" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.Register" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.Save(System.String)" />
+        <element api="M:System.Globalization.CultureAndRegionInfoBuilder.Unregister(System.String)" />
+      </elements>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl" />
+        <namespace api="N:System.Globalization" />
+      </containers>
+      <file name="Methods_T_System_Globalization_CultureAndRegionInfoBuilder" />
+    </api>
+    <api id="Properties.T:System.Globalization.CultureAndRegionInfoBuilder">
+      <topicdata name="CultureAndRegionInfoBuilder" group="list" subgroup="Properties" typeTopicId="T:System.Globalization.CultureAndRegionInfoBuilder" />
+      <apidata name="CultureAndRegionInfoBuilder" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.AvailableCalendars" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CompareInfo" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ConsoleFallbackUICulture" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CultureEnglishName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CultureName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CultureNativeName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CultureTypes" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CurrencyEnglishName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.CurrencyNativeName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.GeoId" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.GregorianDateTimeFormat" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.IetfLanguageTag" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.IsMetric" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ISOCurrencySymbol" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.IsRightToLeft" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.KeyboardLayoutId" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.LCID" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.NumberFormat" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.Parent" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.RegionEnglishName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.RegionName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.RegionNativeName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.TextInfo" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterISOLanguageName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterISORegionName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterWindowsLanguageName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterWindowsRegionName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.TwoLetterISOLanguageName" />
+        <element api="P:System.Globalization.CultureAndRegionInfoBuilder.TwoLetterISORegionName" />
+      </elements>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl" />
+        <namespace api="N:System.Globalization" />
+      </containers>
+      <file name="Properties_T_System_Globalization_CultureAndRegionInfoBuilder" />
+    </api>
+    <api id="M:System.Globalization.CultureAndRegionInfoBuilder.#ctor(System.String,System.Globalization.CultureAndRegionModifiers)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <parameters>
+        <parameter name="cultureName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="flags">
+          <type api="T:System.Globalization.CultureAndRegionModifiers" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="C_System_Globalization_CultureAndRegionInfoBuilder_ctor_2_d0ca8be7" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.AvailableCalendars">
+      <topicdata group="api" />
+      <apidata name="AvailableCalendars" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <arrayOf rank="1">
+          <type api="T:System.Globalization.Calendar" ref="true" />
+        </arrayOf>
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_AvailableCalendars" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.CompareInfo">
+      <topicdata group="api" />
+      <apidata name="CompareInfo" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Globalization.CompareInfo" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_CompareInfo" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.ConsoleFallbackUICulture">
+      <topicdata group="api" />
+      <apidata name="ConsoleFallbackUICulture" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Globalization.CultureInfo" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_ConsoleFallbackUICulture" />
+    </api>
+    <api id="M:System.Globalization.CultureAndRegionInfoBuilder.CreateFromLdml(System.String)">
+      <topicdata group="api" />
+      <apidata name="CreateFromLdml" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="xmlFileName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="M_System_Globalization_CultureAndRegionInfoBuilder_CreateFromLdml_1_72eac341" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.CultureEnglishName">
+      <topicdata group="api" />
+      <apidata name="CultureEnglishName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_CultureEnglishName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.CultureName">
+      <topicdata group="api" />
+      <apidata name="CultureName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_CultureName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.CultureNativeName">
+      <topicdata group="api" />
+      <apidata name="CultureNativeName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_CultureNativeName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.CultureTypes">
+      <topicdata group="api" />
+      <apidata name="CultureTypes" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Globalization.CultureTypes" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_CultureTypes" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.CurrencyEnglishName">
+      <topicdata group="api" />
+      <apidata name="CurrencyEnglishName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_CurrencyEnglishName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.CurrencyNativeName">
+      <topicdata group="api" />
+      <apidata name="CurrencyNativeName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_CurrencyNativeName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.GeoId">
+      <topicdata group="api" />
+      <apidata name="GeoId" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_GeoId" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.GregorianDateTimeFormat">
+      <topicdata group="api" />
+      <apidata name="GregorianDateTimeFormat" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Globalization.DateTimeFormatInfo" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_GregorianDateTimeFormat" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.IetfLanguageTag">
+      <topicdata group="api" />
+      <apidata name="IetfLanguageTag" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_IetfLanguageTag" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.IsMetric">
+      <topicdata group="api" />
+      <apidata name="IsMetric" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_IsMetric" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.ISOCurrencySymbol">
+      <topicdata group="api" />
+      <apidata name="ISOCurrencySymbol" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_ISOCurrencySymbol" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.IsRightToLeft">
+      <topicdata group="api" />
+      <apidata name="IsRightToLeft" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_IsRightToLeft" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.KeyboardLayoutId">
+      <topicdata group="api" />
+      <apidata name="KeyboardLayoutId" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_KeyboardLayoutId" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.LCID">
+      <topicdata group="api" />
+      <apidata name="LCID" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_LCID" />
+    </api>
+    <api id="M:System.Globalization.CultureAndRegionInfoBuilder.LoadDataFromCultureInfo(System.Globalization.CultureInfo)">
+      <topicdata group="api" />
+      <apidata name="LoadDataFromCultureInfo" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="culture">
+          <type api="T:System.Globalization.CultureInfo" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="M_System_Globalization_CultureAndRegionInfoBuilder_LoadDataFromCultureInfo_1_aad51702" />
+    </api>
+    <api id="M:System.Globalization.CultureAndRegionInfoBuilder.LoadDataFromRegionInfo(System.Globalization.RegionInfo)">
+      <topicdata group="api" />
+      <apidata name="LoadDataFromRegionInfo" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="region">
+          <type api="T:System.Globalization.RegionInfo" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="M_System_Globalization_CultureAndRegionInfoBuilder_LoadDataFromRegionInfo_1_9de9c0c1" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.NumberFormat">
+      <topicdata group="api" />
+      <apidata name="NumberFormat" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Globalization.NumberFormatInfo" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_NumberFormat" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.Parent">
+      <topicdata group="api" />
+      <apidata name="Parent" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Globalization.CultureInfo" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_Parent" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.RegionEnglishName">
+      <topicdata group="api" />
+      <apidata name="RegionEnglishName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_RegionEnglishName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.RegionName">
+      <topicdata group="api" />
+      <apidata name="RegionName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_RegionName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.RegionNativeName">
+      <topicdata group="api" />
+      <apidata name="RegionNativeName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_RegionNativeName" />
+    </api>
+    <api id="M:System.Globalization.CultureAndRegionInfoBuilder.Register">
+      <topicdata group="api" />
+      <apidata name="Register" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="M_System_Globalization_CultureAndRegionInfoBuilder_Register" />
+    </api>
+    <api id="M:System.Globalization.CultureAndRegionInfoBuilder.Save(System.String)">
+      <topicdata group="api" />
+      <apidata name="Save" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="filename">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="M_System_Globalization_CultureAndRegionInfoBuilder_Save_1_72eac341" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.TextInfo">
+      <topicdata group="api" />
+      <apidata name="TextInfo" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Globalization.TextInfo" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_TextInfo" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterISOLanguageName">
+      <topicdata group="api" />
+      <apidata name="ThreeLetterISOLanguageName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_ThreeLetterISOLanguageName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterISORegionName">
+      <topicdata group="api" />
+      <apidata name="ThreeLetterISORegionName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_ThreeLetterISORegionName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterWindowsLanguageName">
+      <topicdata group="api" />
+      <apidata name="ThreeLetterWindowsLanguageName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_ThreeLetterWindowsLanguageName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.ThreeLetterWindowsRegionName">
+      <topicdata group="api" />
+      <apidata name="ThreeLetterWindowsRegionName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_ThreeLetterWindowsRegionName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.TwoLetterISOLanguageName">
+      <topicdata group="api" />
+      <apidata name="TwoLetterISOLanguageName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_TwoLetterISOLanguageName" />
+    </api>
+    <api id="P:System.Globalization.CultureAndRegionInfoBuilder.TwoLetterISORegionName">
+      <topicdata group="api" />
+      <apidata name="TwoLetterISORegionName" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="P_System_Globalization_CultureAndRegionInfoBuilder_TwoLetterISORegionName" />
+    </api>
+    <api id="M:System.Globalization.CultureAndRegionInfoBuilder.Unregister(System.String)">
+      <topicdata group="api" />
+      <apidata name="Unregister" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="cultureName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionInfoBuilder" ref="true" />
+      </containers>
+      <file name="M_System_Globalization_CultureAndRegionInfoBuilder_Unregister_1_72eac341" />
+    </api>
+    <api id="T:System.Globalization.CultureAndRegionModifiers">
+      <topicdata group="api" />
+      <apidata name="CultureAndRegionModifiers" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:System.Globalization.CultureAndRegionModifiers.None" />
+        <element api="F:System.Globalization.CultureAndRegionModifiers.Neutral" />
+        <element api="F:System.Globalization.CultureAndRegionModifiers.Replacement" />
+      </elements>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl" />
+        <namespace api="N:System.Globalization" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.FlagsAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="T_System_Globalization_CultureAndRegionModifiers" />
+    </api>
+    <api id="F:System.Globalization.CultureAndRegionModifiers.Neutral">
+      <topicdata group="api" notopic="" />
+      <apidata name="Neutral" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.Globalization.CultureAndRegionModifiers" ref="false" />
+      </returns>
+      <value>1</value>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionModifiers" ref="false" />
+      </containers>
+      <file name="F_System_Globalization_CultureAndRegionModifiers_Neutral" />
+    </api>
+    <api id="F:System.Globalization.CultureAndRegionModifiers.None">
+      <topicdata group="api" notopic="" />
+      <apidata name="None" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.Globalization.CultureAndRegionModifiers" ref="false" />
+      </returns>
+      <value>0</value>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionModifiers" ref="false" />
+      </containers>
+      <file name="F_System_Globalization_CultureAndRegionModifiers_None" />
+    </api>
+    <api id="F:System.Globalization.CultureAndRegionModifiers.Replacement">
+      <topicdata group="api" notopic="" />
+      <apidata name="Replacement" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.Globalization.CultureAndRegionModifiers" ref="false" />
+      </returns>
+      <value>2</value>
+      <containers>
+        <library assembly="sysglobl" module="sysglobl">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Globalization" />
+        <type api="T:System.Globalization.CultureAndRegionModifiers" ref="false" />
+      </containers>
+      <file name="F_System_Globalization_CultureAndRegionModifiers_Replacement" />
+    </api>
+  </apis>
+</reflection>

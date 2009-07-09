@@ -1,0 +1,859 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="System.Management.Instrumentation">
+      <assemblydata version="3.5.0.0" culture="" key="00000000000000000400000000000000" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>f:\dd\tools\devdiv\EcmaPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Management.Instrumentation.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Management.Instrumentation.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Management.Instrumentation.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="RequestMinimum" />
+            </enumValue>
+          </argument>
+          <assignment name="SkipVerification">
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </assignment>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:System.Management.Instrumentation.DefaultManagementInstaller">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Management.Instrumentation.DefaultManagementInstaller" />
+      <apidata name="DefaultManagementInstaller" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Configuration.Install.Installer" ref="true" />
+          <type api="T:System.ComponentModel.Component" ref="true" />
+          <type api="T:System.MarshalByRefObject" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="T_System_Management_Instrumentation_DefaultManagementInstaller" />
+    </api>
+    <api id="AllMembers.T:System.Management.Instrumentation.DefaultManagementInstaller">
+      <topicdata name="DefaultManagementInstaller" group="list" subgroup="members" typeTopicId="T:System.Management.Instrumentation.DefaultManagementInstaller" />
+      <apidata name="DefaultManagementInstaller" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.MarshalByRefObject.CreateObjRef(System.Type)" />
+        <element api="M:System.MarshalByRefObject.GetLifetimeService" />
+        <element api="M:System.MarshalByRefObject.InitializeLifetimeService" />
+        <element api="Overload:System.Management.Instrumentation.DefaultManagementInstaller.MemberwiseClone">
+          <element api="M:System.Object.MemberwiseClone" />
+          <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="P:System.ComponentModel.Component.CanRaiseEvents" />
+        <element api="P:System.ComponentModel.Component.Container" />
+        <element api="P:System.ComponentModel.Component.DesignMode" />
+        <element api="Overload:System.Management.Instrumentation.DefaultManagementInstaller.Dispose">
+          <element api="M:System.ComponentModel.Component.Dispose" />
+          <element api="M:System.ComponentModel.Component.Dispose(System.Boolean)" />
+        </element>
+        <element api="E:System.ComponentModel.Component.Disposed" />
+        <element api="P:System.ComponentModel.Component.Events" />
+        <element api="M:System.ComponentModel.Component.Finalize" />
+        <element api="M:System.ComponentModel.Component.GetService(System.Type)" />
+        <element api="P:System.ComponentModel.Component.Site" />
+        <element api="M:System.ComponentModel.Component.ToString" />
+        <element api="E:System.Configuration.Install.Installer.AfterInstall" />
+        <element api="E:System.Configuration.Install.Installer.AfterRollback" />
+        <element api="E:System.Configuration.Install.Installer.AfterUninstall" />
+        <element api="E:System.Configuration.Install.Installer.BeforeInstall" />
+        <element api="E:System.Configuration.Install.Installer.BeforeRollback" />
+        <element api="E:System.Configuration.Install.Installer.BeforeUninstall" />
+        <element api="M:System.Configuration.Install.Installer.Commit(System.Collections.IDictionary)" />
+        <element api="E:System.Configuration.Install.Installer.Committed" />
+        <element api="E:System.Configuration.Install.Installer.Committing" />
+        <element api="P:System.Configuration.Install.Installer.Context" />
+        <element api="P:System.Configuration.Install.Installer.HelpText" />
+        <element api="M:System.Configuration.Install.Installer.Install(System.Collections.IDictionary)" />
+        <element api="P:System.Configuration.Install.Installer.Installers" />
+        <element api="M:System.Configuration.Install.Installer.OnAfterInstall(System.Collections.IDictionary)" />
+        <element api="M:System.Configuration.Install.Installer.OnAfterRollback(System.Collections.IDictionary)" />
+        <element api="M:System.Configuration.Install.Installer.OnAfterUninstall(System.Collections.IDictionary)" />
+        <element api="M:System.Configuration.Install.Installer.OnBeforeInstall(System.Collections.IDictionary)" />
+        <element api="M:System.Configuration.Install.Installer.OnBeforeRollback(System.Collections.IDictionary)" />
+        <element api="M:System.Configuration.Install.Installer.OnBeforeUninstall(System.Collections.IDictionary)" />
+        <element api="M:System.Configuration.Install.Installer.OnCommitted(System.Collections.IDictionary)" />
+        <element api="M:System.Configuration.Install.Installer.OnCommitting(System.Collections.IDictionary)" />
+        <element api="P:System.Configuration.Install.Installer.Parent" />
+        <element api="M:System.Configuration.Install.Installer.Rollback(System.Collections.IDictionary)" />
+        <element api="M:System.Configuration.Install.Installer.Uninstall(System.Collections.IDictionary)" />
+        <element api="M:System.Management.Instrumentation.DefaultManagementInstaller.#ctor" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="AllMembers_T_System_Management_Instrumentation_DefaultManagementInstaller" />
+    </api>
+    <api id="Overload:System.Management.Instrumentation.DefaultManagementInstaller.MemberwiseClone">
+      <topicdata name="MemberwiseClone" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Management.Instrumentation.DefaultManagementInstaller" allInherited="true" />
+      <apidata name="MemberwiseClone" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.MarshalByRefObject.MemberwiseClone(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.DefaultManagementInstaller" />
+      </containers>
+      <file name="O_T_System_Management_Instrumentation_DefaultManagementInstaller_MemberwiseClone" />
+    </api>
+    <api id="Overload:System.Management.Instrumentation.DefaultManagementInstaller.Dispose">
+      <topicdata name="Dispose" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:System.Management.Instrumentation.DefaultManagementInstaller" allInherited="true" />
+      <apidata name="Dispose" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.ComponentModel.Component.Dispose" />
+        <element api="M:System.ComponentModel.Component.Dispose(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.DefaultManagementInstaller" />
+      </containers>
+      <file name="O_T_System_Management_Instrumentation_DefaultManagementInstaller_Dispose" />
+    </api>
+    <api id="M:System.Management.Instrumentation.DefaultManagementInstaller.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.DefaultManagementInstaller" ref="true" />
+      </containers>
+      <file name="C_System_Management_Instrumentation_DefaultManagementInstaller_ctor" />
+    </api>
+    <api id="T:System.Management.Instrumentation.InstrumentationManager">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Management.Instrumentation.InstrumentationManager" />
+      <apidata name="InstrumentationManager" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="T_System_Management_Instrumentation_InstrumentationManager" />
+    </api>
+    <api id="AllMembers.T:System.Management.Instrumentation.InstrumentationManager">
+      <topicdata name="InstrumentationManager" group="list" subgroup="members" typeTopicId="T:System.Management.Instrumentation.InstrumentationManager" />
+      <apidata name="InstrumentationManager" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.Publish(System.Object)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.RegisterAssembly(System.Reflection.Assembly)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.RegisterType(System.Type)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.Revoke(System.Object)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.UnregisterAssembly(System.Reflection.Assembly)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.UnregisterType(System.Type)" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="AllMembers_T_System_Management_Instrumentation_InstrumentationManager" />
+    </api>
+    <api id="Methods.T:System.Management.Instrumentation.InstrumentationManager">
+      <topicdata name="InstrumentationManager" group="list" subgroup="Methods" typeTopicId="T:System.Management.Instrumentation.InstrumentationManager" />
+      <apidata name="InstrumentationManager" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.Publish(System.Object)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.RegisterAssembly(System.Reflection.Assembly)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.RegisterType(System.Type)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.Revoke(System.Object)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.UnregisterAssembly(System.Reflection.Assembly)" />
+        <element api="M:System.Management.Instrumentation.InstrumentationManager.UnregisterType(System.Type)" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="Methods_T_System_Management_Instrumentation_InstrumentationManager" />
+    </api>
+    <api id="M:System.Management.Instrumentation.InstrumentationManager.Publish(System.Object)">
+      <topicdata group="api" />
+      <apidata name="Publish" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="obj">
+          <type api="T:System.Object" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.InstrumentationManager" ref="true" />
+      </containers>
+      <file name="M_System_Management_Instrumentation_InstrumentationManager_Publish_1_2572741a" />
+    </api>
+    <api id="M:System.Management.Instrumentation.InstrumentationManager.RegisterAssembly(System.Reflection.Assembly)">
+      <topicdata group="api" />
+      <apidata name="RegisterAssembly" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="managementAssembly">
+          <type api="T:System.Reflection.Assembly" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.InstrumentationManager" ref="true" />
+      </containers>
+      <file name="M_System_Management_Instrumentation_InstrumentationManager_RegisterAssembly_1_b385f56e" />
+    </api>
+    <api id="M:System.Management.Instrumentation.InstrumentationManager.RegisterType(System.Type)">
+      <topicdata group="api" />
+      <apidata name="RegisterType" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="managementType">
+          <type api="T:System.Type" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.InstrumentationManager" ref="true" />
+      </containers>
+      <file name="M_System_Management_Instrumentation_InstrumentationManager_RegisterType_1_61b1ab37" />
+    </api>
+    <api id="M:System.Management.Instrumentation.InstrumentationManager.Revoke(System.Object)">
+      <topicdata group="api" />
+      <apidata name="Revoke" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="obj">
+          <type api="T:System.Object" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.InstrumentationManager" ref="true" />
+      </containers>
+      <file name="M_System_Management_Instrumentation_InstrumentationManager_Revoke_1_2572741a" />
+    </api>
+    <api id="M:System.Management.Instrumentation.InstrumentationManager.UnregisterAssembly(System.Reflection.Assembly)">
+      <topicdata group="api" />
+      <apidata name="UnregisterAssembly" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="managementAssembly">
+          <type api="T:System.Reflection.Assembly" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.InstrumentationManager" ref="true" />
+      </containers>
+      <file name="M_System_Management_Instrumentation_InstrumentationManager_UnregisterAssembly_1_b385f56e" />
+    </api>
+    <api id="M:System.Management.Instrumentation.InstrumentationManager.UnregisterType(System.Type)">
+      <topicdata group="api" />
+      <apidata name="UnregisterType" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="managementType">
+          <type api="T:System.Type" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.InstrumentationManager" ref="true" />
+      </containers>
+      <file name="M_System_Management_Instrumentation_InstrumentationManager_UnregisterType_1_61b1ab37" />
+    </api>
+    <api id="T:System.Management.Instrumentation.ManagedCommonProvider">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Management.Instrumentation.ManagedCommonProvider" />
+      <apidata name="ManagedCommonProvider" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ClassInterfaceAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Runtime.InteropServices.ClassInterfaceType" ref="false" />
+            <enumValue>
+              <field name="None" />
+            </enumValue>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.GuidAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>54D8502C-527D-43f7-A506-A9DA075E229C</value>
+          </argument>
+        </attribute>
+      </attributes>
+      <file name="T_System_Management_Instrumentation_ManagedCommonProvider" />
+    </api>
+    <api id="AllMembers.T:System.Management.Instrumentation.ManagedCommonProvider">
+      <topicdata name="ManagedCommonProvider" group="list" subgroup="members" typeTopicId="T:System.Management.Instrumentation.ManagedCommonProvider" />
+      <apidata name="ManagedCommonProvider" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Management.Instrumentation.ManagedCommonProvider.#ctor" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="AllMembers_T_System_Management_Instrumentation_ManagedCommonProvider" />
+    </api>
+    <api id="M:System.Management.Instrumentation.ManagedCommonProvider.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagedCommonProvider" ref="true" />
+      </containers>
+      <file name="C_System_Management_Instrumentation_ManagedCommonProvider_ctor" />
+    </api>
+    <api id="T:System.Management.Instrumentation.ManagementQualifierAttribute">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Management.Instrumentation.ManagementQualifierAttribute" />
+      <apidata name="ManagementQualifierAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Attribute" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.AttributeUsageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.AttributeTargets" ref="false" />
+            <enumValue>
+              <field name="All" />
+            </enumValue>
+          </argument>
+          <assignment name="AllowMultiple">
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </assignment>
+        </attribute>
+      </attributes>
+      <file name="T_System_Management_Instrumentation_ManagementQualifierAttribute" />
+    </api>
+    <api id="AllMembers.T:System.Management.Instrumentation.ManagementQualifierAttribute">
+      <topicdata name="ManagementQualifierAttribute" group="list" subgroup="members" typeTopicId="T:System.Management.Instrumentation.ManagementQualifierAttribute" />
+      <apidata name="ManagementQualifierAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.Attribute.Equals(System.Object)" />
+        <element api="M:System.Attribute.GetHashCode" />
+        <element api="M:System.Attribute.IsDefaultAttribute" />
+        <element api="M:System.Attribute.Match(System.Object)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetIDsOfNames(System.Guid@,System.IntPtr,System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfo(System.UInt32,System.UInt32,System.IntPtr)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#GetTypeInfoCount(System.UInt32@)" />
+        <element api="M:System.Attribute.System#Runtime#InteropServices#_Attribute#Invoke(System.UInt32,System.Guid@,System.UInt32,System.Int16,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)" />
+        <element api="P:System.Attribute.TypeId" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.Management.Instrumentation.ManagementQualifierAttribute.#ctor(System.String)" />
+        <element api="P:System.Management.Instrumentation.ManagementQualifierAttribute.Flavor" />
+        <element api="P:System.Management.Instrumentation.ManagementQualifierAttribute.Name" />
+        <element api="P:System.Management.Instrumentation.ManagementQualifierAttribute.Value" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="AllMembers_T_System_Management_Instrumentation_ManagementQualifierAttribute" />
+    </api>
+    <api id="Properties.T:System.Management.Instrumentation.ManagementQualifierAttribute">
+      <topicdata name="ManagementQualifierAttribute" group="list" subgroup="Properties" typeTopicId="T:System.Management.Instrumentation.ManagementQualifierAttribute" />
+      <apidata name="ManagementQualifierAttribute" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Attribute.TypeId" />
+        <element api="P:System.Management.Instrumentation.ManagementQualifierAttribute.Flavor" />
+        <element api="P:System.Management.Instrumentation.ManagementQualifierAttribute.Name" />
+        <element api="P:System.Management.Instrumentation.ManagementQualifierAttribute.Value" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="Properties_T_System_Management_Instrumentation_ManagementQualifierAttribute" />
+    </api>
+    <api id="M:System.Management.Instrumentation.ManagementQualifierAttribute.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <parameters>
+        <parameter name="name">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagementQualifierAttribute" ref="true" />
+      </containers>
+      <file name="C_System_Management_Instrumentation_ManagementQualifierAttribute_ctor_1_61b4e77c" />
+    </api>
+    <api id="P:System.Management.Instrumentation.ManagementQualifierAttribute.Flavor">
+      <topicdata group="api" />
+      <apidata name="Flavor" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagementQualifierAttribute" ref="true" />
+      </containers>
+      <file name="P_System_Management_Instrumentation_ManagementQualifierAttribute_Flavor" />
+    </api>
+    <api id="P:System.Management.Instrumentation.ManagementQualifierAttribute.Name">
+      <topicdata group="api" />
+      <apidata name="Name" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagementQualifierAttribute" ref="true" />
+      </containers>
+      <file name="P_System_Management_Instrumentation_ManagementQualifierAttribute_Name" />
+    </api>
+    <api id="P:System.Management.Instrumentation.ManagementQualifierAttribute.Value">
+      <topicdata group="api" />
+      <apidata name="Value" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Object" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagementQualifierAttribute" ref="true" />
+      </containers>
+      <file name="P_System_Management_Instrumentation_ManagementQualifierAttribute_Value" />
+    </api>
+    <api id="T:System.Management.Instrumentation.ManagementQualifierFlavors">
+      <topicdata group="api" />
+      <apidata name="ManagementQualifierFlavors" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:System.Management.Instrumentation.ManagementQualifierFlavors.Amended" />
+        <element api="F:System.Management.Instrumentation.ManagementQualifierFlavors.DisableOverride" />
+        <element api="F:System.Management.Instrumentation.ManagementQualifierFlavors.ClassOnly" />
+        <element api="F:System.Management.Instrumentation.ManagementQualifierFlavors.ThisClassOnly" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <attributes>
+        <attribute>
+          <type api="T:System.FlagsAttribute" ref="true" />
+        </attribute>
+      </attributes>
+      <file name="T_System_Management_Instrumentation_ManagementQualifierFlavors" />
+    </api>
+    <api id="F:System.Management.Instrumentation.ManagementQualifierFlavors.Amended">
+      <topicdata group="api" notopic="" />
+      <apidata name="Amended" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </returns>
+      <value>1</value>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </containers>
+      <file name="F_System_Management_Instrumentation_ManagementQualifierFlavors_Amended" />
+    </api>
+    <api id="F:System.Management.Instrumentation.ManagementQualifierFlavors.ClassOnly">
+      <topicdata group="api" notopic="" />
+      <apidata name="ClassOnly" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </returns>
+      <value>4</value>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </containers>
+      <file name="F_System_Management_Instrumentation_ManagementQualifierFlavors_ClassOnly" />
+    </api>
+    <api id="F:System.Management.Instrumentation.ManagementQualifierFlavors.DisableOverride">
+      <topicdata group="api" notopic="" />
+      <apidata name="DisableOverride" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </returns>
+      <value>2</value>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </containers>
+      <file name="F_System_Management_Instrumentation_ManagementQualifierFlavors_DisableOverride" />
+    </api>
+    <api id="F:System.Management.Instrumentation.ManagementQualifierFlavors.ThisClassOnly">
+      <topicdata group="api" notopic="" />
+      <apidata name="ThisClassOnly" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </returns>
+      <value>8</value>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.ManagementQualifierFlavors" ref="false" />
+      </containers>
+      <file name="F_System_Management_Instrumentation_ManagementQualifierFlavors_ThisClassOnly" />
+    </api>
+    <api id="T:System.Management.Instrumentation.WmiProviderInstallationException">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.Management.Instrumentation.WmiProviderInstallationException" />
+      <apidata name="WmiProviderInstallationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Exception" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="T_System_Management_Instrumentation_WmiProviderInstallationException" />
+    </api>
+    <api id="AllMembers.T:System.Management.Instrumentation.WmiProviderInstallationException">
+      <topicdata name="WmiProviderInstallationException" group="list" subgroup="members" typeTopicId="T:System.Management.Instrumentation.WmiProviderInstallationException" />
+      <apidata name="WmiProviderInstallationException" group="type" subgroup="class" />
+      <typedata visibility="public" serializable="true" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:System.Exception.Data" />
+        <element api="M:System.Exception.GetBaseException" />
+        <element api="M:System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Exception.GetType" />
+        <element api="P:System.Exception.HelpLink" />
+        <element api="P:System.Exception.HResult" />
+        <element api="P:System.Exception.InnerException" />
+        <element api="P:System.Exception.Message" />
+        <element api="P:System.Exception.Source" />
+        <element api="P:System.Exception.StackTrace" />
+        <element api="P:System.Exception.TargetSite" />
+        <element api="M:System.Exception.ToString" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="Overload:System.Management.Instrumentation.WmiProviderInstallationException.#ctor">
+          <element api="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor" />
+          <element api="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.String)" />
+          <element api="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+          <element api="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.String,System.Exception)" />
+        </element>
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+      </containers>
+      <file name="AllMembers_T_System_Management_Instrumentation_WmiProviderInstallationException" />
+    </api>
+    <api id="Overload:System.Management.Instrumentation.WmiProviderInstallationException.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:System.Management.Instrumentation.WmiProviderInstallationException" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor" />
+        <element api="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.String)" />
+        <element api="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+        <element api="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.String,System.Exception)" />
+      </elements>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation" />
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.WmiProviderInstallationException" ref="true" />
+      </containers>
+      <file name="O_T_System_Management_Instrumentation_WmiProviderInstallationException_ctor" />
+    </api>
+    <api id="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.Management.Instrumentation.WmiProviderInstallationException.#ctor" />
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.WmiProviderInstallationException" ref="true" />
+      </containers>
+      <file name="C_System_Management_Instrumentation_WmiProviderInstallationException_ctor" />
+    </api>
+    <api id="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:System.Management.Instrumentation.WmiProviderInstallationException.#ctor" />
+      <parameters>
+        <parameter name="info">
+          <type api="T:System.Runtime.Serialization.SerializationInfo" ref="true" />
+        </parameter>
+        <parameter name="context">
+          <type api="T:System.Runtime.Serialization.StreamingContext" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.WmiProviderInstallationException" ref="true" />
+      </containers>
+      <file name="C_System_Management_Instrumentation_WmiProviderInstallationException_ctor_2_4075724f" />
+    </api>
+    <api id="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.String)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.Management.Instrumentation.WmiProviderInstallationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.WmiProviderInstallationException" ref="true" />
+      </containers>
+      <file name="C_System_Management_Instrumentation_WmiProviderInstallationException_ctor_1_61b4e77c" />
+    </api>
+    <api id="M:System.Management.Instrumentation.WmiProviderInstallationException.#ctor(System.String,System.Exception)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" overload="Overload:System.Management.Instrumentation.WmiProviderInstallationException.#ctor" />
+      <parameters>
+        <parameter name="message">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="innerException">
+          <type api="T:System.Exception" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="System.Management.Instrumentation" module="System.Management.Instrumentation">
+          <noAptca />
+        </library>
+        <namespace api="N:System.Management.Instrumentation" />
+        <type api="T:System.Management.Instrumentation.WmiProviderInstallationException" ref="true" />
+      </containers>
+      <file name="C_System_Management_Instrumentation_WmiProviderInstallationException_ctor_2_3ec47892" />
+    </api>
+  </apis>
+</reflection>

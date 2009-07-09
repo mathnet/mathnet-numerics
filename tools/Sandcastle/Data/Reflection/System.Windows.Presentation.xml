@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="System.Windows.Presentation">
+      <assemblydata version="3.5.0.0" culture="" key="00000000000000000400000000000000" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyProductAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft® .NET Framework</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.AllowPartiallyTrustedCallersAttribute" ref="true" />
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyTitleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Windows.Presentation.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDescriptionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Windows.Presentation.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDefaultAliasAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>System.Windows.Presentation.dll</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCompanyAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>Microsoft Corporation</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyCopyrightAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>© Microsoft Corporation.  All rights reserved.</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyFileVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyInformationalVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.21009.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.5.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.NeutralResourcesLanguageAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>en-US</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyDelaySignAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Reflection.AssemblyKeyFileAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>f:\dd\tools\devdiv\EcmaPublicKey.snk</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Security.Permissions.SecurityPermissionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Security.Permissions.SecurityAction" ref="false" />
+            <enumValue>
+              <field name="RequestMinimum" />
+            </enumValue>
+          </argument>
+          <assignment name="SkipVerification">
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </assignment>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:System.AddIn.Pipeline.FrameworkElementAdapters">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:System.AddIn.Pipeline.FrameworkElementAdapters" />
+      <apidata name="FrameworkElementAdapters" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="System.Windows.Presentation" module="System.Windows.Presentation" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="T_System_AddIn_Pipeline_FrameworkElementAdapters" />
+    </api>
+    <api id="AllMembers.T:System.AddIn.Pipeline.FrameworkElementAdapters">
+      <topicdata name="FrameworkElementAdapters" group="list" subgroup="members" typeTopicId="T:System.AddIn.Pipeline.FrameworkElementAdapters" />
+      <apidata name="FrameworkElementAdapters" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.AddIn.Pipeline.FrameworkElementAdapters.ContractToViewAdapter(System.AddIn.Contract.INativeHandleContract)" />
+        <element api="M:System.AddIn.Pipeline.FrameworkElementAdapters.ViewToContractAdapter(System.Windows.FrameworkElement)" />
+      </elements>
+      <containers>
+        <library assembly="System.Windows.Presentation" module="System.Windows.Presentation" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="AllMembers_T_System_AddIn_Pipeline_FrameworkElementAdapters" />
+    </api>
+    <api id="Methods.T:System.AddIn.Pipeline.FrameworkElementAdapters">
+      <topicdata name="FrameworkElementAdapters" group="list" subgroup="Methods" typeTopicId="T:System.AddIn.Pipeline.FrameworkElementAdapters" />
+      <apidata name="FrameworkElementAdapters" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:System.AddIn.Pipeline.FrameworkElementAdapters.ContractToViewAdapter(System.AddIn.Contract.INativeHandleContract)" />
+        <element api="M:System.AddIn.Pipeline.FrameworkElementAdapters.ViewToContractAdapter(System.Windows.FrameworkElement)" />
+      </elements>
+      <containers>
+        <library assembly="System.Windows.Presentation" module="System.Windows.Presentation" />
+        <namespace api="N:System.AddIn.Pipeline" />
+      </containers>
+      <file name="Methods_T_System_AddIn_Pipeline_FrameworkElementAdapters" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.FrameworkElementAdapters.ContractToViewAdapter(System.AddIn.Contract.INativeHandleContract)">
+      <topicdata group="api" />
+      <apidata name="ContractToViewAdapter" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="nativeHandleContract">
+          <type api="T:System.AddIn.Contract.INativeHandleContract" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Windows.FrameworkElement" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.Windows.Presentation" module="System.Windows.Presentation" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.FrameworkElementAdapters" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_FrameworkElementAdapters_ContractToViewAdapter_1_407edb18" />
+    </api>
+    <api id="M:System.AddIn.Pipeline.FrameworkElementAdapters.ViewToContractAdapter(System.Windows.FrameworkElement)">
+      <topicdata group="api" />
+      <apidata name="ViewToContractAdapter" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="root">
+          <type api="T:System.Windows.FrameworkElement" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.AddIn.Contract.INativeHandleContract" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="System.Windows.Presentation" module="System.Windows.Presentation" />
+        <namespace api="N:System.AddIn.Pipeline" />
+        <type api="T:System.AddIn.Pipeline.FrameworkElementAdapters" ref="true" />
+      </containers>
+      <file name="M_System_AddIn_Pipeline_FrameworkElementAdapters_ViewToContractAdapter_1_c89be48d" />
+    </api>
+  </apis>
+</reflection>

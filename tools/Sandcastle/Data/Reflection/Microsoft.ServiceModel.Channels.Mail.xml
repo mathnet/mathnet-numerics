@@ -1,0 +1,1686 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<reflection>
+  <assemblies>
+    <assembly name="Microsoft.ServiceModel.Channels.Mail">
+      <assemblydata version="3.7.0.0" culture="" key="0024000004800000940000000602000000240000525341310004000001000100B5FC90E7027F67871E773A8FDE8938C81DD402BA65B9201D60593E96C492651E889CC13F1415EBB53FAC1131AE0BD333C5EE6021672D9718EA31A8AEBD0DA0072F25D87DBA6FC90FFD598ED4DA35E44C398C454307E8E33B8426143DAEC9F596836F97C8F74750E5975C64E2189F45DEF46B2A2B1247ADC3652BF5C308055DA9" hash="SHA1" />
+      <attributes>
+        <attribute>
+          <type api="T:System.Runtime.InteropServices.ComVisibleAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>False</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.Resources.SatelliteContractVersionAttribute" ref="true" />
+          <argument>
+            <type api="T:System.String" ref="true" />
+            <value>3.7.0.0</value>
+          </argument>
+        </attribute>
+        <attribute>
+          <type api="T:System.CLSCompliantAttribute" ref="true" />
+          <argument>
+            <type api="T:System.Boolean" ref="false" />
+            <value>True</value>
+          </argument>
+        </attribute>
+      </attributes>
+    </assembly>
+  </assemblies>
+  <apis>
+    <api id="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      <apidata name="MailBindingBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.ServiceModel.Channels.Binding" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+        <descendents>
+          <type api="T:Microsoft.ServiceModel.Channels.Mail.ExchangeWebService.ExchangeWebServiceMailBinding" ref="true" />
+        </descendents>
+      </family>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase" />
+    </api>
+    <api id="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase">
+      <topicdata name="MailBindingBase" group="list" subgroup="members" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      <apidata name="MailBindingBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor">
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor" />
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor(Microsoft.ServiceModel.Channels.Mail.MailSecurityMode)" />
+        </element>
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.AcceptExistingMessages" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Close" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CreateBindingElements" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.MessageContainerType" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.MinimumAttachmentSize" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Scheme" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Security" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.TimeToLive" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Transport" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.BuildChannelFactory">
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelFactory``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelFactory``1(System.Object[])" />
+        </element>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.BuildChannelListener">
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Object[])" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.Object[])" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.Object[])" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Description.ListenUriMode,System.Object[])" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Description.ListenUriMode,System.ServiceModel.Channels.BindingParameterCollection)" />
+        </element>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CanBuildChannelFactory">
+          <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelFactory``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelFactory``1(System.Object[])" />
+        </element>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CanBuildChannelListener">
+          <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelListener``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelListener``1(System.Object[])" />
+        </element>
+        <element api="P:System.ServiceModel.Channels.Binding.CloseTimeout" />
+        <element api="M:System.ServiceModel.Channels.Binding.GetProperty``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+        <element api="P:System.ServiceModel.Channels.Binding.MessageVersion" />
+        <element api="P:System.ServiceModel.Channels.Binding.Name" />
+        <element api="P:System.ServiceModel.Channels.Binding.Namespace" />
+        <element api="P:System.ServiceModel.Channels.Binding.OpenTimeout" />
+        <element api="P:System.ServiceModel.Channels.Binding.ReceiveTimeout" />
+        <element api="P:System.ServiceModel.Channels.Binding.SendTimeout" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase" />
+    </api>
+    <api id="Methods.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase">
+      <topicdata name="MailBindingBase" group="list" subgroup="Methods" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      <apidata name="MailBindingBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Close" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CreateBindingElements" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.BuildChannelFactory">
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelFactory``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelFactory``1(System.Object[])" />
+        </element>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.BuildChannelListener">
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Object[])" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.Object[])" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.Object[])" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Description.ListenUriMode,System.Object[])" />
+          <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Description.ListenUriMode,System.ServiceModel.Channels.BindingParameterCollection)" />
+        </element>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CanBuildChannelFactory">
+          <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelFactory``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelFactory``1(System.Object[])" />
+        </element>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CanBuildChannelListener">
+          <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelListener``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+          <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelListener``1(System.Object[])" />
+        </element>
+        <element api="M:System.ServiceModel.Channels.Binding.GetProperty``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Methods_T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase" />
+    </api>
+    <api id="Properties.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase">
+      <topicdata name="MailBindingBase" group="list" subgroup="Properties" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      <apidata name="MailBindingBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.AcceptExistingMessages" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.MessageContainerType" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.MinimumAttachmentSize" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Scheme" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Security" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.TimeToLive" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Transport" />
+        <element api="P:System.ServiceModel.Channels.Binding.CloseTimeout" />
+        <element api="P:System.ServiceModel.Channels.Binding.MessageVersion" />
+        <element api="P:System.ServiceModel.Channels.Binding.Name" />
+        <element api="P:System.ServiceModel.Channels.Binding.Namespace" />
+        <element api="P:System.ServiceModel.Channels.Binding.OpenTimeout" />
+        <element api="P:System.ServiceModel.Channels.Binding.ReceiveTimeout" />
+        <element api="P:System.ServiceModel.Channels.Binding.SendTimeout" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Properties_T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor(Microsoft.ServiceModel.Channels.Mail.MailSecurityMode)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_ctor" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.BuildChannelFactory">
+      <topicdata name="BuildChannelFactory" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" allInherited="true" />
+      <apidata name="BuildChannelFactory" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelFactory``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelFactory``1(System.Object[])" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_BuildChannelFactory" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.BuildChannelListener">
+      <topicdata name="BuildChannelListener" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" allInherited="true" />
+      <apidata name="BuildChannelListener" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Object[])" />
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.Object[])" />
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.ServiceModel.Channels.BindingParameterCollection)" />
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.Object[])" />
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Channels.BindingParameterCollection)" />
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Description.ListenUriMode,System.Object[])" />
+        <element api="M:System.ServiceModel.Channels.Binding.BuildChannelListener``1(System.Uri,System.String,System.ServiceModel.Description.ListenUriMode,System.ServiceModel.Channels.BindingParameterCollection)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_BuildChannelListener" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CanBuildChannelFactory">
+      <topicdata name="CanBuildChannelFactory" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" allInherited="true" />
+      <apidata name="CanBuildChannelFactory" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelFactory``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+        <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelFactory``1(System.Object[])" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_CanBuildChannelFactory" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CanBuildChannelListener">
+      <topicdata name="CanBuildChannelListener" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" allInherited="true" />
+      <apidata name="CanBuildChannelListener" group="member" subgroup="method" />
+      <elements>
+        <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelListener``1(System.ServiceModel.Channels.BindingParameterCollection)" />
+        <element api="M:System.ServiceModel.Channels.Binding.CanBuildChannelListener``1(System.Object[])" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_CanBuildChannelListener" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor" />
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="C_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_ctor" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor(Microsoft.ServiceModel.Channels.Mail.MailSecurityMode)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.#ctor" />
+      <parameters>
+        <parameter name="mode">
+          <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="C_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_ctor_1_4d7e0040" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.AcceptExistingMessages">
+      <topicdata group="api" />
+      <apidata name="AcceptExistingMessages" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_AcceptExistingMessages" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Close">
+      <topicdata group="api" />
+      <apidata name="Close" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_Close" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.CreateBindingElements">
+      <topicdata group="api" />
+      <apidata name="CreateBindingElements" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.ServiceModel.Channels.Binding.CreateBindingElements">
+          <type api="T:System.ServiceModel.Channels.Binding" ref="true" />
+        </member>
+      </overrides>
+      <returns>
+        <type api="T:System.ServiceModel.Channels.BindingElementCollection" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_CreateBindingElements" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.MessageContainerType">
+      <topicdata group="api" />
+      <apidata name="MessageContainerType" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_MessageContainerType" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.MinimumAttachmentSize">
+      <topicdata group="api" />
+      <apidata name="MinimumAttachmentSize" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_MinimumAttachmentSize" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Scheme">
+      <topicdata group="api" />
+      <apidata name="Scheme" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="P:System.ServiceModel.Channels.Binding.Scheme">
+          <type api="T:System.ServiceModel.Channels.Binding" ref="true" />
+        </member>
+      </overrides>
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_Scheme" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Security">
+      <topicdata group="api" />
+      <apidata name="Security" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurity" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_Security" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.TimeToLive">
+      <topicdata group="api" />
+      <apidata name="TimeToLive" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.TimeSpan" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_TimeToLive" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailBindingBase.Transport">
+      <topicdata group="api" />
+      <apidata name="Transport" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailBindingBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailBindingBase_Transport" />
+    </api>
+    <api id="T:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity" />
+      <apidata name="MailMessageSecurity" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="T_Microsoft_ServiceModel_Channels_Mail_MailMessageSecurity" />
+    </api>
+    <api id="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity">
+      <topicdata name="MailMessageSecurity" group="list" subgroup="members" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity" />
+      <apidata name="MailMessageSecurity" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity.AlgorithmSuite" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_ServiceModel_Channels_Mail_MailMessageSecurity" />
+    </api>
+    <api id="Properties.T:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity">
+      <topicdata name="MailMessageSecurity" group="list" subgroup="Properties" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity" />
+      <apidata name="MailMessageSecurity" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity.AlgorithmSuite" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Properties_T_Microsoft_ServiceModel_Channels_Mail_MailMessageSecurity" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity.AlgorithmSuite">
+      <topicdata group="api" />
+      <apidata name="AlgorithmSuite" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.ServiceModel.Security.SecurityAlgorithmSuite" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailMessageSecurity_AlgorithmSuite" />
+    </api>
+    <api id="T:Microsoft.ServiceModel.Channels.Mail.MailSecurity">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailSecurity" />
+      <apidata name="MailSecurity" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="T_Microsoft_ServiceModel_Channels_Mail_MailSecurity" />
+    </api>
+    <api id="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailSecurity">
+      <topicdata name="MailSecurity" group="list" subgroup="members" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailSecurity" />
+      <apidata name="MailSecurity" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailSecurity.#ctor" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailSecurity.Message" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailSecurity.Mode" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_ServiceModel_Channels_Mail_MailSecurity" />
+    </api>
+    <api id="Properties.T:Microsoft.ServiceModel.Channels.Mail.MailSecurity">
+      <topicdata name="MailSecurity" group="list" subgroup="Properties" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailSecurity" />
+      <apidata name="MailSecurity" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailSecurity.Message" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailSecurity.Mode" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Properties_T_Microsoft_ServiceModel_Channels_Mail_MailSecurity" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailSecurity.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="public" special="true" />
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurity" ref="true" />
+      </containers>
+      <file name="C_Microsoft_ServiceModel_Channels_Mail_MailSecurity_ctor" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailSecurity.Message">
+      <topicdata group="api" />
+      <apidata name="Message" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailMessageSecurity" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurity" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailSecurity_Message" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailSecurity.Mode">
+      <topicdata group="api" />
+      <apidata name="Mode" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurity" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailSecurity_Mode" />
+    </api>
+    <api id="T:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode">
+      <topicdata group="api" />
+      <apidata name="MailSecurityMode" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode.None" />
+        <element api="F:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode.Message" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="T_Microsoft_ServiceModel_Channels_Mail_MailSecurityMode" />
+    </api>
+    <api id="F:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode.Message">
+      <topicdata group="api" notopic="" />
+      <apidata name="Message" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode" ref="false" />
+      </returns>
+      <value>1</value>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode" ref="false" />
+      </containers>
+      <file name="F_Microsoft_ServiceModel_Channels_Mail_MailSecurityMode_Message" />
+    </api>
+    <api id="F:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode.None">
+      <topicdata group="api" notopic="" />
+      <apidata name="None" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode" ref="false" />
+      </returns>
+      <value>0</value>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailSecurityMode" ref="false" />
+      </containers>
+      <file name="F_Microsoft_ServiceModel_Channels_Mail_MailSecurityMode_None" />
+    </api>
+    <api id="T:Microsoft.ServiceModel.Channels.Mail.MailTransport">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailTransport" />
+      <apidata name="MailTransport" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+        <descendents>
+          <type api="T:Microsoft.ServiceModel.Channels.Mail.ExchangeWebService.ExchangeWebServiceMailTransport" ref="true" />
+        </descendents>
+      </family>
+      <implements>
+        <type api="T:System.IDisposable" ref="true" />
+      </implements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="T_Microsoft_ServiceModel_Channels_Mail_MailTransport" />
+    </api>
+    <api id="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailTransport">
+      <topicdata name="MailTransport" group="list" subgroup="members" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" />
+      <apidata name="MailTransport" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose">
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose" />
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose(System.Boolean)" />
+        </element>
+        <element api="E:Microsoft.ServiceModel.Channels.Mail.MailTransport.Faulted" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.FaultException" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.IsFaulted" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.IsQueued" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.MaxTotalMessageCacheSize" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.MaxTotalMessageCountInCache" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.ReceiveRetryCount" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_ServiceModel_Channels_Mail_MailTransport" />
+    </api>
+    <api id="Methods.T:Microsoft.ServiceModel.Channels.Mail.MailTransport">
+      <topicdata name="MailTransport" group="list" subgroup="Methods" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" />
+      <apidata name="MailTransport" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose">
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose" />
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose(System.Boolean)" />
+        </element>
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Methods_T_Microsoft_ServiceModel_Channels_Mail_MailTransport" />
+    </api>
+    <api id="Properties.T:Microsoft.ServiceModel.Channels.Mail.MailTransport">
+      <topicdata name="MailTransport" group="list" subgroup="Properties" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" />
+      <apidata name="MailTransport" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.FaultException" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.IsFaulted" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.IsQueued" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.MaxTotalMessageCacheSize" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.MaxTotalMessageCountInCache" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.ReceiveRetryCount" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Properties_T_Microsoft_ServiceModel_Channels_Mail_MailTransport" />
+    </api>
+    <api id="Events.T:Microsoft.ServiceModel.Channels.Mail.MailTransport">
+      <topicdata name="MailTransport" group="list" subgroup="Events" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" />
+      <apidata name="MailTransport" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="E:Microsoft.ServiceModel.Channels.Mail.MailTransport.Faulted" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Events_T_Microsoft_ServiceModel_Channels_Mail_MailTransport" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose">
+      <topicdata name="Dispose" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailTransport" />
+      <apidata name="Dispose" group="member" subgroup="method" />
+      <elements>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose(System.Boolean)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailTransport_Dispose" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose">
+      <topicdata group="api" />
+      <apidata name="Dispose" group="member" subgroup="method" />
+      <memberdata visibility="public" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose" />
+      <proceduredata virtual="true" final="true" />
+      <implements>
+        <member api="M:System.IDisposable.Dispose">
+          <type api="T:System.IDisposable" ref="true" />
+        </member>
+      </implements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailTransport_Dispose" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose(System.Boolean)">
+      <topicdata group="api" />
+      <apidata name="Dispose" group="member" subgroup="method" />
+      <memberdata visibility="family" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransport.Dispose" />
+      <proceduredata virtual="true" />
+      <parameters>
+        <parameter name="disposing">
+          <type api="T:System.Boolean" ref="false" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailTransport_Dispose_1_36d384f7" />
+    </api>
+    <api id="E:Microsoft.ServiceModel.Channels.Mail.MailTransport.Faulted">
+      <topicdata group="api" />
+      <apidata name="Faulted" group="member" subgroup="event" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <eventdata add="true" remove="true" />
+      <eventhandler>
+        <type api="T:System.EventHandler" ref="true" />
+      </eventhandler>
+      <eventargs>
+        <type api="T:System.EventArgs" ref="true" />
+      </eventargs>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="E_Microsoft_ServiceModel_Channels_Mail_MailTransport_Faulted" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.FaultException">
+      <topicdata group="api" />
+      <apidata name="FaultException" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Exception" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransport_FaultException" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.IsFaulted">
+      <topicdata group="api" />
+      <apidata name="IsFaulted" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransport_IsFaulted" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.IsQueued">
+      <topicdata group="api" />
+      <apidata name="IsQueued" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata abstract="true" virtual="true" />
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransport_IsQueued" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.MaxTotalMessageCacheSize">
+      <topicdata group="api" />
+      <apidata name="MaxTotalMessageCacheSize" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransport_MaxTotalMessageCacheSize" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.MaxTotalMessageCountInCache">
+      <topicdata group="api" />
+      <apidata name="MaxTotalMessageCountInCache" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransport_MaxTotalMessageCountInCache" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransport.ReceiveRetryCount">
+      <topicdata group="api" />
+      <apidata name="ReceiveRetryCount" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransport_ReceiveRetryCount" />
+    </api>
+    <api id="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" />
+      <apidata name="MailTransportBindingElementBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.ServiceModel.Channels.TransportBindingElement" ref="true" />
+          <type api="T:System.ServiceModel.Channels.BindingElement" ref="true" />
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+        <descendents>
+          <type api="T:Microsoft.ServiceModel.Channels.Mail.ExchangeWebService.ExchangeWebServiceMailTransportBindingElement" ref="true" />
+        </descendents>
+      </family>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="T_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase" />
+    </api>
+    <api id="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase">
+      <topicdata name="MailTransportBindingElementBase" group="list" subgroup="members" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" />
+      <apidata name="MailTransportBindingElementBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor">
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor" />
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor(Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase)" />
+        </element>
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.AcceptExistingMessages" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.BuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.BuildChannelListener``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.CanBuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.CanBuildChannelListener``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Close" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.MessageContainerType" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.MinimumAttachmentSize" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Scheme" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.TimeToLive" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Transport" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.ServiceModel.Channels.BindingElement.Clone" />
+        <element api="M:System.ServiceModel.Channels.TransportBindingElement.GetProperty``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="P:System.ServiceModel.Channels.TransportBindingElement.ManualAddressing" />
+        <element api="P:System.ServiceModel.Channels.TransportBindingElement.MaxBufferPoolSize" />
+        <element api="P:System.ServiceModel.Channels.TransportBindingElement.MaxReceivedMessageSize" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase" />
+    </api>
+    <api id="Methods.T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase">
+      <topicdata name="MailTransportBindingElementBase" group="list" subgroup="Methods" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" />
+      <apidata name="MailTransportBindingElementBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.BuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.BuildChannelListener``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.CanBuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.CanBuildChannelListener``1(System.ServiceModel.Channels.BindingContext)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Close" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+        <element api="M:System.ServiceModel.Channels.BindingElement.Clone" />
+        <element api="M:System.ServiceModel.Channels.TransportBindingElement.GetProperty``1(System.ServiceModel.Channels.BindingContext)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Methods_T_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase" />
+    </api>
+    <api id="Properties.T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase">
+      <topicdata name="MailTransportBindingElementBase" group="list" subgroup="Properties" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" />
+      <apidata name="MailTransportBindingElementBase" group="type" subgroup="class" />
+      <typedata visibility="public" abstract="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.AcceptExistingMessages" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.MessageContainerType" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.MinimumAttachmentSize" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Scheme" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.TimeToLive" />
+        <element api="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Transport" />
+        <element api="P:System.ServiceModel.Channels.TransportBindingElement.ManualAddressing" />
+        <element api="P:System.ServiceModel.Channels.TransportBindingElement.MaxBufferPoolSize" />
+        <element api="P:System.ServiceModel.Channels.TransportBindingElement.MaxReceivedMessageSize" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Properties_T_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor">
+      <topicdata name=".ctor" group="list" subgroup="overload" memberSubgroup="constructor" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <elements>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor(Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase)" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_ctor" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor" />
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="C_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_ctor" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor(Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase)">
+      <topicdata group="api" />
+      <apidata name=".ctor" group="member" subgroup="constructor" />
+      <memberdata visibility="family" special="true" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.#ctor" />
+      <parameters>
+        <parameter name="elementToCopy">
+          <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+        </parameter>
+      </parameters>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="C_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_ctor_1_e92015d1" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.AcceptExistingMessages">
+      <topicdata group="api" />
+      <apidata name="AcceptExistingMessages" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_AcceptExistingMessages" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.BuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)">
+      <topicdata group="api" />
+      <apidata name="BuildChannelFactory" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.ServiceModel.Channels.BindingElement.BuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)">
+          <type api="T:System.ServiceModel.Channels.BindingElement" ref="true" />
+        </member>
+      </overrides>
+      <templates>
+        <template name="TChannel" />
+      </templates>
+      <parameters>
+        <parameter name="context">
+          <type api="T:System.ServiceModel.Channels.BindingContext" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.ServiceModel.Channels.IChannelFactory`1" ref="true">
+          <specialization>
+            <template name="TChannel" index="0" api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.BuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_BuildChannelFactory``1_1_deba5ba7" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.BuildChannelListener``1(System.ServiceModel.Channels.BindingContext)">
+      <topicdata group="api" />
+      <apidata name="BuildChannelListener" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.ServiceModel.Channels.BindingElement.BuildChannelListener``1(System.ServiceModel.Channels.BindingContext)">
+          <type api="T:System.ServiceModel.Channels.BindingElement" ref="true" />
+        </member>
+      </overrides>
+      <templates>
+        <template name="TChannel">
+          <constrained ref="true">
+            <implements>
+              <type api="T:System.ServiceModel.Channels.IChannel" ref="true" />
+            </implements>
+          </constrained>
+        </template>
+      </templates>
+      <parameters>
+        <parameter name="context">
+          <type api="T:System.ServiceModel.Channels.BindingContext" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.ServiceModel.Channels.IChannelListener`1" ref="true">
+          <specialization>
+            <template name="TChannel" index="0" api="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.BuildChannelListener``1(System.ServiceModel.Channels.BindingContext)" />
+          </specialization>
+        </type>
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_BuildChannelListener``1_1_deba5ba7" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.CanBuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)">
+      <topicdata group="api" />
+      <apidata name="CanBuildChannelFactory" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.ServiceModel.Channels.BindingElement.CanBuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)">
+          <type api="T:System.ServiceModel.Channels.BindingElement" ref="true" />
+        </member>
+      </overrides>
+      <templates>
+        <template name="TChannel" />
+      </templates>
+      <parameters>
+        <parameter name="context">
+          <type api="T:System.ServiceModel.Channels.BindingContext" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_CanBuildChannelFactory``1_1_deba5ba7" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.CanBuildChannelListener``1(System.ServiceModel.Channels.BindingContext)">
+      <topicdata group="api" />
+      <apidata name="CanBuildChannelListener" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="M:System.ServiceModel.Channels.BindingElement.CanBuildChannelListener``1(System.ServiceModel.Channels.BindingContext)">
+          <type api="T:System.ServiceModel.Channels.BindingElement" ref="true" />
+        </member>
+      </overrides>
+      <templates>
+        <template name="TChannel">
+          <constrained ref="true">
+            <implements>
+              <type api="T:System.ServiceModel.Channels.IChannel" ref="true" />
+            </implements>
+          </constrained>
+        </template>
+      </templates>
+      <parameters>
+        <parameter name="context">
+          <type api="T:System.ServiceModel.Channels.BindingContext" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Boolean" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_CanBuildChannelListener``1_1_deba5ba7" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Close">
+      <topicdata group="api" />
+      <apidata name="Close" group="member" subgroup="method" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_Close" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.MessageContainerType">
+      <topicdata group="api" />
+      <apidata name="MessageContainerType" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_MessageContainerType" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.MinimumAttachmentSize">
+      <topicdata group="api" />
+      <apidata name="MinimumAttachmentSize" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.Int32" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_MinimumAttachmentSize" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Scheme">
+      <topicdata group="api" />
+      <apidata name="Scheme" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="true" />
+      <overrides>
+        <member api="P:System.ServiceModel.Channels.TransportBindingElement.Scheme">
+          <type api="T:System.ServiceModel.Channels.TransportBindingElement" ref="true" />
+        </member>
+      </overrides>
+      <propertydata get="true" />
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_Scheme" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.TimeToLive">
+      <topicdata group="api" />
+      <apidata name="TimeToLive" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:System.TimeSpan" ref="false" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_TimeToLive" />
+    </api>
+    <api id="P:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase.Transport">
+      <topicdata group="api" />
+      <apidata name="Transport" group="member" subgroup="property" />
+      <memberdata visibility="public" />
+      <proceduredata virtual="false" />
+      <propertydata get="true" set="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransport" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailTransportBindingElementBase" ref="true" />
+      </containers>
+      <file name="P_Microsoft_ServiceModel_Channels_Mail_MailTransportBindingElementBase_Transport" />
+    </api>
+    <api id="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper">
+      <topicdata group="api" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" />
+      <apidata name="MailUriHelper" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <family>
+        <ancestors>
+          <type api="T:System.Object" ref="true" />
+        </ancestors>
+      </family>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="T_Microsoft_ServiceModel_Channels_Mail_MailUriHelper" />
+    </api>
+    <api id="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper">
+      <topicdata name="MailUriHelper" group="list" subgroup="members" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" />
+      <apidata name="MailUriHelper" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create">
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create(System.String,System.String)" />
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create(System.String,System.String[])" />
+        </element>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri">
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri(System.String,System.String)" />
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri(System.String,System.String[])" />
+        </element>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.GetChannelName(System.Uri)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.GetEmailAddress(System.Uri)" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="AllMembers_T_Microsoft_ServiceModel_Channels_Mail_MailUriHelper" />
+    </api>
+    <api id="Methods.T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper">
+      <topicdata name="MailUriHelper" group="list" subgroup="Methods" typeTopicId="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" />
+      <apidata name="MailUriHelper" group="type" subgroup="class" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create">
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create(System.String,System.String)" />
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create(System.String,System.String[])" />
+        </element>
+        <element api="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri">
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri(System.String,System.String)" />
+          <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri(System.String,System.String[])" />
+        </element>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.GetChannelName(System.Uri)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.GetEmailAddress(System.Uri)" />
+        <element api="M:System.Object.Equals(System.Object)" />
+        <element api="M:System.Object.Finalize" />
+        <element api="M:System.Object.GetHashCode" />
+        <element api="M:System.Object.GetType" />
+        <element api="M:System.Object.MemberwiseClone" />
+        <element api="M:System.Object.ToString" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="Methods_T_Microsoft_ServiceModel_Channels_Mail_MailUriHelper" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create">
+      <topicdata name="Create" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" />
+      <apidata name="Create" group="member" subgroup="method" />
+      <elements>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create(System.String,System.String)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create(System.String,System.String[])" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailUriHelper_Create" />
+    </api>
+    <api id="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri">
+      <topicdata name="CreateUri" group="list" subgroup="overload" memberSubgroup="method" pseudo="true" allMembersTopicId="AllMembers.T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" />
+      <apidata name="CreateUri" group="member" subgroup="method" />
+      <elements>
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri(System.String,System.String)" />
+        <element api="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri(System.String,System.String[])" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" ref="true" />
+      </containers>
+      <file name="O_T_Microsoft_ServiceModel_Channels_Mail_MailUriHelper_CreateUri" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="Create" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="channelName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="emailAddress">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailUriHelper_Create_2_52fce4af" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create(System.String,System.String[])">
+      <topicdata group="api" />
+      <apidata name="Create" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.Create" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="channelName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="emailAddresses">
+          <arrayOf rank="1">
+            <type api="T:System.String" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailUriHelper_Create_2_2ee0f400" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri(System.String,System.String)">
+      <topicdata group="api" />
+      <apidata name="CreateUri" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="channelName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="emailAddress">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Uri" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailUriHelper_CreateUri_2_52fce4af" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri(System.String,System.String[])">
+      <topicdata group="api" />
+      <apidata name="CreateUri" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" overload="Overload:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.CreateUri" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="channelName">
+          <type api="T:System.String" ref="true" />
+        </parameter>
+        <parameter name="emailAddresses">
+          <arrayOf rank="1">
+            <type api="T:System.String" ref="true" />
+          </arrayOf>
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.Uri" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailUriHelper_CreateUri_2_2ee0f400" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.GetChannelName(System.Uri)">
+      <topicdata group="api" />
+      <apidata name="GetChannelName" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="uri">
+          <type api="T:System.Uri" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailUriHelper_GetChannelName_1_c8269730" />
+    </api>
+    <api id="M:Microsoft.ServiceModel.Channels.Mail.MailUriHelper.GetEmailAddress(System.Uri)">
+      <topicdata group="api" />
+      <apidata name="GetEmailAddress" group="member" subgroup="method" />
+      <memberdata visibility="public" static="true" />
+      <proceduredata virtual="false" />
+      <parameters>
+        <parameter name="uri">
+          <type api="T:System.Uri" ref="true" />
+        </parameter>
+      </parameters>
+      <returns>
+        <type api="T:System.String" ref="true" />
+      </returns>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MailUriHelper" ref="true" />
+      </containers>
+      <file name="M_Microsoft_ServiceModel_Channels_Mail_MailUriHelper_GetEmailAddress_1_c8269730" />
+    </api>
+    <api id="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType">
+      <topicdata group="api" />
+      <apidata name="MessageContainerType" group="type" subgroup="enumeration" />
+      <typedata visibility="public" sealed="true" serializable="false" layout="auto" format="ansi" />
+      <elements>
+        <element api="F:Microsoft.ServiceModel.Channels.Mail.MessageContainerType.Default" />
+        <element api="F:Microsoft.ServiceModel.Channels.Mail.MessageContainerType.Body" />
+        <element api="F:Microsoft.ServiceModel.Channels.Mail.MessageContainerType.Attachment" />
+      </elements>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail" />
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+      </containers>
+      <file name="T_Microsoft_ServiceModel_Channels_Mail_MessageContainerType" />
+    </api>
+    <api id="F:Microsoft.ServiceModel.Channels.Mail.MessageContainerType.Attachment">
+      <topicdata group="api" notopic="" />
+      <apidata name="Attachment" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType" ref="false" />
+      </returns>
+      <value>2</value>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType" ref="false" />
+      </containers>
+      <file name="F_Microsoft_ServiceModel_Channels_Mail_MessageContainerType_Attachment" />
+    </api>
+    <api id="F:Microsoft.ServiceModel.Channels.Mail.MessageContainerType.Body">
+      <topicdata group="api" notopic="" />
+      <apidata name="Body" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType" ref="false" />
+      </returns>
+      <value>1</value>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType" ref="false" />
+      </containers>
+      <file name="F_Microsoft_ServiceModel_Channels_Mail_MessageContainerType_Body" />
+    </api>
+    <api id="F:Microsoft.ServiceModel.Channels.Mail.MessageContainerType.Default">
+      <topicdata group="api" notopic="" />
+      <apidata name="Default" group="member" subgroup="field" />
+      <memberdata visibility="public" static="true" />
+      <fielddata literal="true" initonly="false" serialized="true" />
+      <returns>
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType" ref="false" />
+      </returns>
+      <value>0</value>
+      <containers>
+        <library assembly="Microsoft.ServiceModel.Channels.Mail" module="Microsoft.ServiceModel.Channels.Mail">
+          <noAptca />
+        </library>
+        <namespace api="N:Microsoft.ServiceModel.Channels.Mail" />
+        <type api="T:Microsoft.ServiceModel.Channels.Mail.MessageContainerType" ref="false" />
+      </containers>
+      <file name="F_Microsoft_ServiceModel_Channels_Mail_MessageContainerType_Default" />
+    </api>
+  </apis>
+</reflection>
