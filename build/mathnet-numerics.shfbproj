@@ -15,14 +15,15 @@
     <Name>Documentation</Name>
     <!-- SHFB properties -->
     <OutputPath>.\Help\</OutputPath>
-    <HtmlHelpName>Documentation</HtmlHelpName>
+    <HtmlHelpName>Math.NET-Numerics</HtmlHelpName>
     <CopyrightText>Copyright 2009 Math.NET Project</CopyrightText>
     <HelpTitle>Math.NET Numerics</HelpTitle>
     <SandcastlePath>..\tools\Sandcastle\</SandcastlePath>
     <WorkingPath>doc\</WorkingPath>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\src\Managed\bin\Release\MathNet.Numerics.dll" />
-<DocumentationSource sourceFile="..\src\Managed\bin\Release\MathNet.Numerics.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\src\Managed\bin\Release\MathNet.Numerics.xml" />
+    </DocumentationSources>
     <Preliminary>True</Preliminary>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
@@ -32,5 +33,5 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
   </PropertyGroup>
   <!-- Import the SHFB build targets -->
-  <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
+  <Import Project="..\tools\Sandcastle Help File Builder\SandcastleHelpFileBuilder.targets" />
 </Project>
