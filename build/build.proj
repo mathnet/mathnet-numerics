@@ -1,21 +1,17 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildAndTestManaged" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Config Condition="'$(Config)' == ''">Debug</Config>
+    <Optimize Condition="'$(Optimize)' == ''">False</Optimize>
+  </PropertyGroup>
   <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.3\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
   <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.0.6.787\bin\Gallio.MSBuildTasks.dll" />
 
-  <Target Name="CompileManagedDebug">
-    <MSBuild Projects="../src/Managed.UnitTests/Managed.UnitTests.csproj" Properties="Configuration=Debug"/>
+  <Target Name="CompileManaged">
+    <MSBuild Projects="../src/Managed.UnitTests/Managed.UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
   </Target>
 
-  <Target Name="CompileManagedRelease">
-    <MSBuild Projects="../src/Managed.UnitTests/Managed.UnitTests.csproj" Properties="Configuration=Release;Optimize=True"/>
-  </Target>
-
-  <Target Name="TestManaged" DependsOnTargets="CompileManagedDebug">
-    <Gallio.MSBuildTasks.Gallio
-      ContinueOnError="False"
-      IgnoreFailures="False"
-      Assemblies="../src/Managed.UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll"
-      RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration"/>
+  <Target Name="TestManaged" DependsOnTargets="CompileManaged">
+    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/Managed.UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration" />
   </Target>
 
   <Target Name="StyleManaged">
@@ -23,28 +19,25 @@
       <Output TaskParameter="Include" ItemName="StyleCopFiles" />
     </CreateItem>
 
-    <MSBuild.ExtensionPack.CodeQuality.StyleCop
-      TaskAction="Scan"
-      SettingsFile="../src/Settings.StyleCop"
-      SourceFiles="@(StyleCopFiles)"
-      ShowOutput="true"
-      ForceFullAnalysis="true"
-      CacheResults="false"
-      ContinueOnError="false">
-      <Output TaskParameter="Succeeded" PropertyName="AllPassed"/>
-      <Output TaskParameter="ViolationCount" PropertyName="Violations"/>
-      <Output TaskParameter="FailedFiles" ItemName="Failures"/>
+    <MSBuild.ExtensionPack.CodeQuality.StyleCop TaskAction="Scan" SettingsFile="../src/Settings.StyleCop" SourceFiles="@(StyleCopFiles)" ShowOutput="true" ForceFullAnalysis="true" CacheResults="false" ContinueOnError="false">
+      <Output TaskParameter="Succeeded" PropertyName="AllPassed" />
+      <Output TaskParameter="ViolationCount" PropertyName="Violations" />
+      <Output TaskParameter="FailedFiles" ItemName="Failures" />
     </MSBuild.ExtensionPack.CodeQuality.StyleCop>
-    <Message Text="StyleCop Succeeded: $(AllPassed), Violations: $(Violations)"/>
-    <Warning Text="%(Failures.Identity) - Failed on Line %(Failures.LineNumber). %(Failures.CheckId): %(Failures.Message)"/>
+    <Message Text="StyleCop Succeeded: $(AllPassed), Violations: $(Violations)" />
+    <Warning Text="%(Failures.Identity) - Failed on Line %(Failures.LineNumber). %(Failures.CheckId): %(Failures.Message)" />
     <!--Error Text="StyleCop analysis warnings occured" Condition="'$(AllPassed)' == 'False'"  /-->
   </Target>
   
-  
-  <Target Name="BuildDocs" DependsOnTargets="CompileManagedRelease">
+  <Target Name="BuildDocs" DependsOnTargets="CompileManaged">
     <MSBuild Projects="./mathnet-numerics.shfbproj" />
   </Target>
 
+  <Target Name="Coverage"  DependsOnTargets="CompileManaged">
+    <Exec Command="ncover.console.exe ..\lib\Gallio_3.0.6.787\bin\Gallio.Echo.exe ..\src\Managed.UnitTests\bin\Debug\MathNet.Numerics.UnitTests.dll //pm gallio.host.exe  //eas zlib.net;MathNet.Numerics.UnitTests //et .*Resources;.*Exception //p &quot;Math.NET Numerics&quot;"/>
+    <Exec Command="ncover.reporting.exe coverage.xml //or FullCoverageReport:Html //op NCoverReport"/>
+  </Target>
+  
   <Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged"></Target>
   
   <Target Name="Release" DependsOnTargets="BuildDocs"></Target>

@@ -1,3 +1,5 @@
 StyleCopViolations.xml
 Help
 doc
+coverage.*
+NCoverReport
