@@ -298,7 +298,7 @@ namespace MathNet.Numerics
         /// <param name="real">The value for the real component.</param>
         /// <param name="imaginary">The value for the imaginary component.</param>
         /// <returns>A new <c>Complex</c> with the given values.</returns>
-        public static Complex FromRealImaginary(double real, double imaginary)
+        public static Complex WithRealImaginary(double real, double imaginary)
         {
             return new Complex(real, imaginary);
         }
@@ -310,7 +310,7 @@ namespace MathNet.Numerics
         /// <param name="modulus">Must be non-negative.</param>
         /// <param name="argument">Real number.</param>
         /// <returns>A new <c>Complex</c> from the given values.</returns>
-        public static Complex FromModulusArgument(double modulus, double argument)
+        public static Complex WithModulusArgument(double modulus, double argument)
         {
             if (modulus < 0.0)
             {
