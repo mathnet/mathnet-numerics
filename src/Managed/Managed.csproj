@@ -48,6 +48,7 @@
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
+    <Compile Include="Precision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
