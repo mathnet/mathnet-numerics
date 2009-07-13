@@ -96,7 +96,7 @@ namespace MathNet.Numerics
         #endregion
 
         /// <summary>
-        /// Initializes the <see cref="Precision"/> class.
+        /// Initializes static members of the Precision class.
         /// </summary>
         static Precision()
         {
@@ -133,7 +133,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The magnitute of the number.</returns>
-        public static int Magnitude(double value)
+        public static int Magnitude(this double value)
         {
             // Can't do this with zero because the 10-log of zero doesn't exist.
             if (value.Equals(0.0))
@@ -150,9 +150,10 @@ namespace MathNet.Numerics
             // truncating a negative number will give us a magnitude that is off by 1
             if (magnitude < 0)
             {
-                return ((int)(System.Math.Truncate(magnitude - 1)));
+                return (int)System.Math.Truncate(magnitude - 1);
             }
-            return ((int)(System.Math.Truncate(magnitude)));
+
+            return (int)System.Math.Truncate(magnitude);
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value of the number.</returns>
-        public static double Value(double value)
+        public static double Value(this double value)
         {
             if (value.Equals(0.0))
             {
@@ -168,9 +169,16 @@ namespace MathNet.Numerics
             }
 
             int magnitude = Magnitude(value);
-            return value * (System.Math.Pow(10, -magnitude));
+            return value * System.Math.Pow(10, -magnitude);
         }
 
+        /// <summary>
+        /// Gets the equivalent <c>long</c> value for the given <c>double</c> value.
+        /// </summary>
+        /// <param name="value">The <c>double</c> value which should be turned into a <c>long</c> value.</param>
+        /// <returns>
+        /// The resulting <c>long</c> value.
+        /// </returns>
         private static long GetLongFromDouble(double value)
         {
             return BitConverter.DoubleToInt64Bits(value);
@@ -187,6 +195,7 @@ namespace MathNet.Numerics
         {
             // Convert in the normal way.
             long result = GetLongFromDouble(value);
+            
             // Now find out where we're at in the range
             // If the value is larger/equal to zero then we can just return the value
             // if the value is negative we subtract long.MinValue from it.
@@ -196,11 +205,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Increments a floating point number to the next bigger number representable by the data type.
         /// </summary>
+        /// <param name="value">The value which needs to be incremented.</param>
         /// <remarks>
         /// The incrementation step length depends on the provided value.
         /// Increment(double.MaxValue) will return positive infinity.
         /// </remarks>
-        public static double Increment(double value)
+        /// <returns>The next larger floating point value.</returns>
+        public static double Increment(this double value)
         {
             if (double.IsInfinity(value) || double.IsNaN(value))
             {
@@ -237,11 +248,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Decrements a floating point number to the next smaller number representable by the data type.
         /// </summary>
+        /// <param name="value">The value which should be decremented.</param>
         /// <remarks>
         /// The decrementation step length depends on the provided value.
         /// Decrement(double.MinValue) will return negative infinity.
         /// </remarks>
-        public static double Decrement(double value)
+        /// <returns>The next smaller floating point value.</returns>
+        public static double Decrement(this double value)
         {
             if (double.IsInfinity(value) || double.IsNaN(value))
             {
@@ -255,6 +268,7 @@ namespace MathNet.Numerics
             //                          gets closer to zero!
             //                          i.e. 0 - double.epsilon will give the largest long value!
             long intValue = GetLongFromDouble(value);
+
             // If the value is zero then we'd really like the value to be -0. So we'll make it -0 
             // and then everything else should work out.
             if (intValue == 0)
@@ -285,7 +299,7 @@ namespace MathNet.Numerics
         /// <returns>
         ///     Zero if |<paramref name="a"/>| is fewer than <paramref name="maxNumbersBetween"/> numbers from zero, <paramref name="a"/> otherwise.
         /// </returns>
-        public static double CoerceZero(double a, int maxNumbersBetween)
+        public static double CoerceZero(this double a, int maxNumbersBetween)
         {
             return CoerceZero(a, (long)maxNumbersBetween);
         }
@@ -301,7 +315,7 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than zero.
         /// </exception>
-        public static double CoerceZero(double a, long maxNumbersBetween)
+        public static double CoerceZero(this double a, long maxNumbersBetween)
         {
             if (maxNumbersBetween < 0)
             {
@@ -332,7 +346,7 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="maximumAbsoluteError"/> is smaller than zero.
         /// </exception>
-        public static double CoerceZero(double a, double maximumAbsoluteError)
+        public static double CoerceZero(this double a, double maximumAbsoluteError)
         {
             if (maximumAbsoluteError < 0)
             {
@@ -357,7 +371,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="a">The real number to coerce to zero, if it is almost zero.</param>
         /// <returns>Zero if |<paramref name="a"/>| is smaller than 10*2^(-52) = 0.22e-14, <paramref name="a"/> otherwise.</returns>
-        public static double CoerceZero(double a)
+        public static double CoerceZero(this double a)
         {
             return CoerceZero(a, _doubleMachinePrecision);
         }
@@ -367,22 +381,22 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="maxNumbersBetween">The ulps difference.</param>
-        /// <param name="topRangeEnd">The top range end.</param>
         /// <param name="bottomRangeEnd">The bottom range end.</param>
+        /// <param name="topRangeEnd">The top range end.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than zero.
         /// </exception>
-        public static void RangeOfMatchingFloatingPointNumbers(double value, long maxNumbersBetween, out double bottomRangeEnd, out double topRangeEnd)
+        public static void RangeOfMatchingFloatingPointNumbers(this double value, long maxNumbersBetween, out double bottomRangeEnd, out double topRangeEnd)
         {
             // Make sure ulpDifference is non-negative
             if (maxNumbersBetween < 1)
             {
-                throw new ArgumentOutOfRangeException("ulpsDifference");
+                throw new ArgumentOutOfRangeException("maxNumbersBetween");
             }
 
             // If the value is infinity (positive or negative) just
             // return the same infinity for the range.
-            if ((double.IsInfinity(value)))
+            if (double.IsInfinity(value))
             {
                 topRangeEnd = value;
                 bottomRangeEnd = value;
@@ -475,8 +489,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="maxNumbersBetween">The ulps difference.</param>
-        /// <returns></returns>
-        public static double MaximumMatchingFloatingPointNumber(double value, long maxNumbersBetween)
+        /// <returns>The maximum floating point number which is <paramref name="maxNumbersBetween"/> larger than the given <paramref name="value"/>.</returns>
+        public static double MaximumMatchingFloatingPointNumber(this double value, long maxNumbersBetween)
         {
             double topRangeEnd, bottomRangeEnd;
             RangeOfMatchingFloatingPointNumbers(value, maxNumbersBetween, out bottomRangeEnd, out topRangeEnd);
@@ -489,8 +503,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="maxNumbersBetween">The ulps difference.</param>
-        /// <returns></returns>
-        public static double MinimumMatchingFloatingPointNumber(double value, long maxNumbersBetween)
+        /// <returns>The minimum floating point number which is <paramref name="maxNumbersBetween"/> smaller than the given <paramref name="value"/>.</returns>
+        public static double MinimumMatchingFloatingPointNumber(this double value, long maxNumbersBetween)
         {
             double topRangeEnd, bottomRangeEnd;
             RangeOfMatchingFloatingPointNumbers(value, maxNumbersBetween, out bottomRangeEnd, out topRangeEnd);
@@ -502,8 +516,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="relativeDifference">The relative difference.</param>
-        /// <param name="topRangeEnd">The number of ULPS between the <c>value</c> and the <c>value + relativeDifference</c>.</param>
         /// <param name="bottomRangeEnd">The number of ULPS between the <c>value</c> and the <c>value - relativeDifference</c>.</param>
+        /// <param name="topRangeEnd">The number of ULPS between the <c>value</c> and the <c>value + relativeDifference</c>.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="relativeDifference"/> is smaller than zero.
         /// </exception>
@@ -513,7 +527,7 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="value"/> is <c>double.NaN</c>.
         /// </exception>
-        public static void RangeOfMatchingNumbers(double value, double relativeDifference, out long bottomRangeEnd, out long topRangeEnd)
+        public static void RangeOfMatchingNumbers(this double value, double relativeDifference, out long bottomRangeEnd, out long topRangeEnd)
         {
             // Make sure the relative is non-negative 
             if (relativeDifference < 0)
@@ -523,7 +537,7 @@ namespace MathNet.Numerics
 
             // If the value is infinity (positive or negative) then
             // we can't determine the range.
-            if ((double.IsInfinity(value)))
+            if (double.IsInfinity(value))
             {
                 throw new ArgumentOutOfRangeException("value");
             }
@@ -545,8 +559,8 @@ namespace MathNet.Numerics
 
             // Calculate the ulps for the maximum and minimum values
             // Note that these can overflow
-            long max = GetDirectionalLongFromDouble(value + relativeDifference * System.Math.Abs(value));
-            long min = GetDirectionalLongFromDouble(value - relativeDifference * System.Math.Abs(value));
+            long max = GetDirectionalLongFromDouble(value + (relativeDifference * System.Math.Abs(value)));
+            long min = GetDirectionalLongFromDouble(value - (relativeDifference * System.Math.Abs(value)));
 
             // Calculate the ulps from the value
             long intValue = GetDirectionalLongFromDouble(value);
@@ -556,13 +570,13 @@ namespace MathNet.Numerics
             bottomRangeEnd = System.Math.Abs(intValue - min);
         }
 
-
         /// <summary>
         /// Evaluates the count of numbers between two double numbers
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="a">The first parameter.</param>
+        /// <param name="b">The second parameter.</param>
         /// <remarks>The second number is included in the number, thus two equal numbers evaluate to zero and two neighbor numbers evaluate to one. Therefore, what is returned is actually the count of numbers between plus 1.</remarks>
+        /// <returns>The number of floating point values between <paramref name="a"/> and <paramref name="b"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="a"/> is <c>double.PositiveInfinity</c> or <c>double.NegativeInfinity</c>.
         /// </exception>
@@ -575,7 +589,7 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="b"/> is <c>double.NaN</c>.
         /// </exception>
-        public static ulong NumbersBetween(double a, double b)
+        public static ulong NumbersBetween(this double a, double b)
         {
             if (double.IsNaN(a) || double.IsInfinity(a))
             {
@@ -605,7 +619,7 @@ namespace MathNet.Numerics
         /// <returns>
         /// True if |<paramref name="a"/>| is less than <paramref name="maxNumbersBetween"/> steps from zero, False otherwise.
         /// </returns>
-        public static bool AlmostZero(double a, long maxNumbersBetween)
+        public static bool AlmostZero(this double a, long maxNumbersBetween)
         {
             if (maxNumbersBetween < 0)
             {
@@ -629,7 +643,7 @@ namespace MathNet.Numerics
         /// <returns>
         /// True if |<paramref name="a"/>| is smaller than <paramref name="maximumAbsoluteError"/>, False otherwise.
         /// </returns>
-        public static bool AlmostZero(double a, double maximumAbsoluteError)
+        public static bool AlmostZero(this double a, double maximumAbsoluteError)
         {
             if (maximumAbsoluteError < 0)
             {
@@ -651,7 +665,7 @@ namespace MathNet.Numerics
         /// <returns>
         /// True if |<paramref name="a"/>| is smaller than 10*2^(-52) = 0.22e-14, False otherwise.
         /// </returns>
-        public static bool AlmostZero(double a)
+        public static bool AlmostZero(this double a)
         {
             return AlmostZero(a, _doubleMachinePrecision);
         }
@@ -679,21 +693,21 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than one.
         /// </exception>
-        public static bool AlmostEqual(double a, double b, long maxNumbersBetween)
+        public static bool AlmostEqual(this double a, double b, long maxNumbersBetween)
         {
-            // Make sure maxUlps is non-negative and small enough that the
+            // Make sure maxNumbersBetween is non-negative and small enough that the
             // default NAN won't compare as equal to anything.
             if (maxNumbersBetween < 1)
             {
-                throw new ArgumentOutOfRangeException("maxUlps");
+                throw new ArgumentOutOfRangeException("maxNumbersBetween");
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if they are exactly equal to each other -
             // that is, if they are both infinities of the same sign.
-            if ((double.IsInfinity(a)) || (double.IsInfinity(b)))
+            if (double.IsInfinity(a) || double.IsInfinity(b))
             {
-                return (a == b);
+                return a == b;
             }
 
             // If A or B are a NAN, return false. NANs are equal to nothing,
@@ -733,17 +747,17 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentOutOfRangeException">
         ///     Thrown if <paramref name="decimalPlaces"/> is smaller than zero.
         /// </exception>
-        public static bool AlmostEqualInDecimalPlaces(double a, double b, int decimalPlaces)
+        public static bool AlmostEqualInDecimalPlaces(this double a, double b, int decimalPlaces)
         {
             if (decimalPlaces <= 0)
             {
                 // Can't have a negative number of decimal places
-                throw new ArgumentOutOfRangeException("numberOfSignificantFigures");
+                throw new ArgumentOutOfRangeException("decimalPlaces");
             }
             
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves.
-            if ((double.IsNaN(a)) || (double.IsNaN(b)))
+            if (double.IsNaN(a) || double.IsNaN(b))
             {
                 return false;
             }
@@ -751,9 +765,9 @@ namespace MathNet.Numerics
             // If A or B are infinity (positive or negative) then
             // only return true if they are exactly equal to each other -
             // that is, if they are both infinities of the same sign.
-            if ((double.IsInfinity(a)) || (double.IsInfinity(b)))
+            if (double.IsInfinity(a) || double.IsInfinity(b))
             {
-                return (a == b);
+                return a == b;
             }
             
             // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
@@ -763,10 +777,11 @@ namespace MathNet.Numerics
                 return true;
             }
 
-            if ((AlmostZero(a)) || (AlmostZero(b)))
+            if (AlmostZero(a) || AlmostZero(b))
             {
                 return AlmostEqualWithAbsoluteDecimalPlaces(a, b, decimalPlaces);
             }
+
             return AlmostEqualWithRelativeDecimalPlaces(a, b, decimalPlaces);
         }
 
@@ -784,7 +799,7 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        private static bool AlmostEqualWithRelativeDecimalPlaces(double a, double b, int decimalPlaces)
+        private static bool AlmostEqualWithRelativeDecimalPlaces(this double a, double b, int decimalPlaces)
         {
             // If the magnitudes of the two numbers are equal to within one magnitude the numbers could potentially be equal
             int magnitudeOfFirst = Magnitude(a);
@@ -804,11 +819,11 @@ namespace MathNet.Numerics
             double maxDifference = decimalPlaceMagnitude / 2.0;
             if (a > b)
             {
-                return (a * System.Math.Pow(10, -magnitudeOfFirst) - maxDifference < b * System.Math.Pow(10, -magnitudeOfFirst));
+                return (a * System.Math.Pow(10, -magnitudeOfFirst)) - maxDifference < (b * System.Math.Pow(10, -magnitudeOfFirst));
             }
             else
             {
-                return (b * System.Math.Pow(10, -magnitudeOfSecond) - maxDifference < a * System.Math.Pow(10, -magnitudeOfSecond));
+                return (b * System.Math.Pow(10, -magnitudeOfSecond)) - maxDifference < (a * System.Math.Pow(10, -magnitudeOfSecond));
             }
         }
 
@@ -827,14 +842,15 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
-        private static bool AlmostEqualWithAbsoluteDecimalPlaces(double a, double b, int decimalPlaces)
+        private static bool AlmostEqualWithAbsoluteDecimalPlaces(this double a, double b, int decimalPlaces)
         {
             double decimalPlaceMagnitude = System.Math.Pow(10, -(decimalPlaces - 1));
+            
             // The values are equal if the difference between the two numbers is smaller than
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
             // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
-            return (System.Math.Abs((a - b)) < decimalPlaceMagnitude / 2.0);
+            return System.Math.Abs((a - b)) < decimalPlaceMagnitude / 2.0;
         }
 
         /// <summary>
@@ -845,17 +861,17 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLarger(double a, double b, long maxNumbersBetween)
+        public static bool IsLarger(this double a, double b, long maxNumbersBetween)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if ((double.IsNaN(a)) || (double.IsNaN(b)))
+            if (double.IsNaN(a) || double.IsNaN(b))
             {
                 return false;
             }
 
-            return (CompareTo(a, b, maxNumbersBetween) > 0);
+            return CompareTo(a, b, maxNumbersBetween) > 0;
         }
 
         /// <summary>
@@ -873,17 +889,17 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is larger than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsLargerWithDecimalPlaces(double a, double b, int decimalPlaces)
+        public static bool IsLargerWithDecimalPlaces(this double a, double b, int decimalPlaces)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if ((double.IsNaN(a)) || (double.IsNaN(b)))
+            if (double.IsNaN(a) || double.IsNaN(b))
             {
                 return false;
             }
 
-            return (CompareToInDecimalPlaces(a, b, decimalPlaces) > 0);
+            return CompareToInDecimalPlaces(a, b, decimalPlaces) > 0;
         }
 
         /// <summary>
@@ -894,17 +910,17 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="maxNumbersBetween">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmaller(double a, double b, long maxNumbersBetween)
+        public static bool IsSmaller(this double a, double b, long maxNumbersBetween)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if ((double.IsNaN(a)) || (double.IsNaN(b)))
+            if (double.IsNaN(a) || double.IsNaN(b))
             {
                 return false;
             }
 
-            return (CompareTo(a, b, maxNumbersBetween) < 0);
+            return CompareTo(a, b, maxNumbersBetween) < 0;
         }
 
         /// <summary>
@@ -922,17 +938,17 @@ namespace MathNet.Numerics
         /// <param name="b">The second value.</param>
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
-        public static bool IsSmallerWithDecimalPlaces(double a, double b, int decimalPlaces)
+        public static bool IsSmallerWithDecimalPlaces(this double a, double b, int decimalPlaces)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if ((double.IsNaN(a)) || (double.IsNaN(b)))
+            if (double.IsNaN(a) || double.IsNaN(b))
             {
                 return false;
             }
 
-            return (CompareToInDecimalPlaces(a, b, decimalPlaces) < 0);
+            return CompareToInDecimalPlaces(a, b, decimalPlaces) < 0;
         }
 
         /// <summary>
@@ -949,31 +965,31 @@ namespace MathNet.Numerics
         ///     </listheader>
         ///     <item>
         ///         <term>-1</term>
-        ///         <description><paramref name="first"/> is smaller than <paramref name="second"/> by more than the <paramref name="maxUlps"/> tolerance.</description>
+        ///         <description><paramref name="a"/> is smaller than <paramref name="b"/> by more than the <paramref name="maxNumbersBetween"/> tolerance.</description>
         ///     </item>
         ///     <item>
         ///         <term>0</term>
-        ///         <description><paramref name="first"/> is equal to <paramref name="second"/> within the <paramref name="maxUlps"/> tolerance.</description>
+        ///         <description><paramref name="a"/> is equal to <paramref name="b"/> within the <paramref name="maxNumbersBetween"/> tolerance.</description>
         ///     </item>
         ///     <item>
         ///         <term>1</term>
-        ///         <description><paramref name="first"/> is bigger than <paramref name="second"/> by more than the <paramref name="maxUlps"/> tolerance.</description>
+        ///         <description><paramref name="a"/> is bigger than <paramref name="b"/> by more than the <paramref name="maxNumbersBetween"/> tolerance.</description>
         ///     </item>
         /// </list>
         /// </returns>
-        public static int CompareTo(double a, double b, long maxNumbersBetween)
+        public static int CompareTo(this double a, double b, long maxNumbersBetween)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if ((double.IsNaN(a)) || (double.IsNaN(b)))
+            if (double.IsNaN(a) || double.IsNaN(b))
             {
                 return a.CompareTo(b);
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if first is smaller
-            if ((double.IsInfinity(a)) || (double.IsInfinity(b)))
+            if (double.IsInfinity(a) || double.IsInfinity(b))
             {
                 return a.CompareTo(b);
             }
@@ -1002,31 +1018,31 @@ namespace MathNet.Numerics
         ///     </listheader>
         ///     <item>
         ///         <term>-1</term>
-        ///         <description><paramref name="first"/> is smaller than <paramref name="second"/> by more than a magnitude equal to <paramref name="numberOfDecimalPlaces"/>.</description>
+        ///         <description><paramref name="a"/> is smaller than <paramref name="b"/> by more than a magnitude equal to <paramref name="decimalPlaces"/>.</description>
         ///     </item>
         ///     <item>
         ///         <term>0</term>
-        ///         <description><paramref name="first"/> is equal to <paramref name="second"/> within a magnitude equal to <paramref name="numberOfDecimalPlaces"/>.</description>
+        ///         <description><paramref name="a"/> is equal to <paramref name="b"/> within a magnitude equal to <paramref name="decimalPlaces"/>.</description>
         ///     </item>
         ///     <item>
         ///         <term>1</term>
-        ///         <description><paramref name="first"/> is bigger than <paramref name="second"/> by more than a magnitude equal to <paramref name="numberOfDecimalPlaces"/>.</description>
+        ///         <description><paramref name="a"/> is bigger than <paramref name="b"/> by more than a magnitude equal to <paramref name="decimalPlaces"/>.</description>
         ///     </item>
         /// </list>
         /// </returns>
-        public static int CompareToInDecimalPlaces(double a, double b, int decimalPlaces)
+        public static int CompareToInDecimalPlaces(this double a, double b, int decimalPlaces)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
             // smaller than anything either
-            if ((double.IsNaN(a)) || (double.IsNaN(b)))
+            if (double.IsNaN(a) || double.IsNaN(b))
             {
                 return a.CompareTo(b);
             }
 
             // If A or B are infinity (positive or negative) then
             // only return true if first is smaller
-            if ((double.IsInfinity(a)) || (double.IsInfinity(b)))
+            if (double.IsInfinity(a) || double.IsInfinity(b))
             {
                 return a.CompareTo(b);
             }
