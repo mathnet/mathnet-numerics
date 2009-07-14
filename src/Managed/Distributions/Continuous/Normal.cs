@@ -252,7 +252,7 @@ namespace MathNet.Numerics.Distributions
         public double Sample()
         {
             double r2;
-            return mMean + mStdDev * SampleBoxMuller(rng, r2);
+            return mMean + mStdDev * SampleBoxMuller(RandomSource, out r2);
         }
 
         /// <summary>
@@ -264,9 +264,9 @@ namespace MathNet.Numerics.Distributions
 
             while (true)
             {
-                double r1 = SampleBoxMuller(rng, r2);
-                yield return mean + stddev * r1;
-                yield return mean + stddev * r2;
+                double r1 = SampleBoxMuller(RandomSource, out r2);
+                yield return mMean + mStdDev * r1;
+                yield return mMean + mStdDev * r2;
             }
         }
         #endregion
@@ -285,7 +285,7 @@ namespace MathNet.Numerics.Distributions
         public static double Sample(System.Random rng, double mean, double stddev)
         {
             double r2;
-            return mean + stddev * SampleBoxMuller(rng, r2);
+            return mean + stddev * SampleBoxMuller(rng, out r2);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace MathNet.Numerics.Distributions
 
             while(true)
             {
-                double r1 = SampleBoxMuller(rng, r2);
+                double r1 = SampleBoxMuller(rng, out r2);
                 yield return mean + stddev * r1;
                 yield return mean + stddev * r2;
             }

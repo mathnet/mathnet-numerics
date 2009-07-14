@@ -53,6 +53,9 @@
     <Compile Include="..\Managed\Distributions\Continuous\Normal.cs">
       <Link>Distributions\Continuous\Normal.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Distributions\Discrete\Bernoulli.cs">
+      <Link>Distributions\Discrete\Bernoulli.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Distributions\IContinuousDistribution.cs">
       <Link>Distributions\IContinuousDistribution.cs</Link>
     </Compile>
@@ -84,7 +87,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Distributions\Discrete\" />
     <Folder Include="Distributions\Multivariate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
