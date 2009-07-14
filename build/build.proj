@@ -40,7 +40,7 @@
 	</Target>
   
   <Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged">
-    <Exec Command="$(MSBuildStartupDirectory)\tools\Gendarme-2.4\gendarme.exe $(MSBuildStartupDirectory)\src\Managed\bin\Debug\MathNet.Numerics.dll"/>
+    <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\src\Managed\bin\Debug\MathNet.Numerics.dll"/>
   </Target>
   
   <Target Name="Release" DependsOnTargets="BuildDocs"></Target>
