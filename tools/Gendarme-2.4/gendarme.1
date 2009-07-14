@@ -1,0 +1,102 @@
+.\" 
+.\" Gendarme manual page.
+.\"
+.\" Author:
+.\"	Sebastien Pouliot  <sebastien@ximian.com>
+.\"
+.\" Copyright (C) 2005-2006,2008 Novell, Inc (http://www.novell.com)
+.\"
+
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.TH Gendarme "Gendarme 2.4.0.0"
+.SH NAME
+Gendarme \- Rule-based code analysis for Mono::
+.SH SYNOPSIS
+.PP
+.B gendarme [--config configfile] [--set ruleset] [--log file | --xml file | --html file] [options] assemblies ...
+.SH DESCRIPTION
+\fIGendarme\fP is a extensible rule-based tool to find problems in .NET 
+applications and libraries. Gendarme inspects programs and libraries that
+contain code in ECMA CIL format (Mono and .NET) and looks for common 
+problems with the code, problems that compiler do not typically check or
+have not historically checked.
+.SH OPTIONS
+.TP
+.I "--config configfile"
+Specify the configuration file. Default is 'rules.xml'.
+.TP
+.I "--set ruleset"
+Specify the set of rules to verify. Default is '*'.
+.TP
+.I "--log file"
+Save the text output to the specified file.
+.TP
+.I "--xml file"
+Save the output, formatted as XML, to the specified file.
+.TP
+.I "--html file"
+Save the output, formatted as HTML, to the specified file.
+.TP
+.I "--ignore ignore-file"
+Do not report the known defects that are part of the specified file.
+.TP
+.I "--limit N"
+Stop reporting after N defects are found.
+.TP
+.I "--severity [all | audit[+] | low[+|-] | medium[+|-] | high[+|-] | critical[-]],...
+Filter the reported defects to include the specified severity levels.
+Default is 'medium+' (i.e. low and audit levels are ignored).
+.TP
+.I "--confidence [all | low[+] | normal[+|-] | high[+|-] | total[-]],...
+Filter the reported defects to include the specified confidence levels.
+Default is 'normal+' (i.e. low level is ignored).
+.TP
+.I "--quiet"
+Display minimal output (results) from the runner.
+.TP
+.I "--v|verbose"
+Enable debugging output. You can supply several -v to augment debugging verbosity.
+.TP
+.I "--version"
+Display Gendarme's version number. This number match the Mono release
+where it was released.
+.TP
+.I "assemblies ..."
+Specify the assemblies to verify. You can specify multiple filenames, 
+including masks (? and *). You can also provide a file that list several
+assemblies (one by line) by prefixing the filename with @ on the command 
+line.
+.SH FILES
+.TP
+.I rules.xml
+This files contains a list of all the rulesets available to Gendarme. Each 
+ruleset includes a list of assemblies in which some, or all, rules can be
+verified (include) or not (exclude).
++.TP
++.I gendarme.exe.config
++Used by debug versions of Gendarme to enable logging for rules. A config
++file will be generated automatically by the make file. To enable logging
++for a rule add a switch using the rule's name and set the value to 1.
+.SH ENVIRONMENT VARIABLES
+.TP
+.I GENDARME_COLOR
+The runner will use colors when displaying defects on the console. 
+By default colors are dark in order to display correctly on any 
+background. You can change this default to "light" (lighter colors 
+looks nice on a dark background, or "none" so no colors will be used.
+E.g.
+.nf
+    GENDARME_COLOR=none gendarme ...
+.fi
+.SH COPYRIGHT
+Copyright (C) 2005-2008 Novell, Inc (http://www.novell.com)
+.SH MAILING LISTS
+Mailing lists are listed at the
+http://groups.google.com/group/gendarme
+.SH WEB SITE
+http://www.mono-project.com/Gendarme
+.SH SEE ALSO
+.BR mono(1)

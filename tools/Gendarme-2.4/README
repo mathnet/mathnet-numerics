@@ -1,0 +1,28 @@
+Gendarme README
+
+User-level documentation is available from the Mono:: project wiki
+http://www.mono-project.com/Gendarme
+
+ROADMAP
+http://www.mono-project.com/Gendarme.Roadmap
+
+Mailing list
+http://groups.google.com/group/gendarme
+
+Newsgroup gateway to the mailing list
+nntp://news.gmane.org/gmane.comp.gnome.mono.gendarme
+
+Developer documentation
+http://groups.google.com/group/gendarme
+
+
+IMPORTANT NOTES
+
+* Gendarme "official" build system is based on the auto*/Makefile files
+and tested on monobuild. See mono-tools on http://mono.ximian.com/monobuild/
+(checking out gendarme without its parent dir 'mono-tools' is not supported)
+
+* Visual Studio solutions and projects files (usable by both MonoDevelop
+and Visual Studio .NET 2008) are NOT always up to date with Makefiles. 
+This depends on the developer making changes and his personal access to 
+the developing environments.
