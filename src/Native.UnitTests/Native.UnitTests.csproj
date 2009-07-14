@@ -66,6 +66,9 @@
     <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\NormalTests.cs">
       <Link>DistributionTests\Continuous\NormalTests.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\SpecialFunctionsTest\ErfTests.cs">
+      <Link>SpecialFunctionsTest\ErfTests.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

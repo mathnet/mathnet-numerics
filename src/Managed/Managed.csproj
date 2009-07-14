@@ -48,6 +48,7 @@
     <Compile Include="Complex.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Distributions\Continuous\Normal.cs" />
+    <Compile Include="Distributions\Discrete\Bernoulli.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
@@ -60,6 +61,8 @@
     </Compile>
     <Compile Include="SiConstants.cs" />
     <Compile Include="SiPrefixes.cs" />
+    <Compile Include="SpecialFunctions.cs" />
+    <Compile Include="SpecialFunctions\Erf.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -73,7 +76,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Distributions\Discrete\" />
     <Folder Include="Distributions\Multivariate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

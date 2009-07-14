@@ -128,7 +128,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanGetRandomNumberGenerator()
         {
             var n = new Normal();
-            var rs = n.RandomNumberGenerator;
+            var rs = n.RandomSource;
             Assert.IsNotNull(rs);
         }
 
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.UnitTests
         public void CanSetRandomNumberGenerator()
         {
             var n = new Normal();
-            n.RandomNumberGenerator = new Random();
+            n.RandomSource = new Random();
         }
 
         [Test]
