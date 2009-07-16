@@ -1,4 +1,4 @@
-﻿// <copyright file="Combinatorics.cs" company="Math.NET">
+﻿// <copyright file="SpecialFunctions.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -34,21 +34,5 @@ namespace MathNet.Numerics
     /// </summary>
     public static partial class SpecialFunctions
     {
-        /// <summary>
-        /// A helper function to evaluate polynomials fast.
-        /// </summary>
-        /// <param name="poly">The coefficients of the polynomial.</param>
-        /// <param name="z">The location where to evaluate the polynomial at.</param>
-        private static double evaluate_polynomial(double[] poly, double z)
-        {
-            int count = poly.Length;
-            double sum = poly[count - 1];
-            for (int i = count - 2; i >= 0; --i)
-            {
-                sum *= z;
-                sum += poly[i];
-            }
-            return sum;
-        }
     }
 }

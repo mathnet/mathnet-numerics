@@ -1,4 +1,4 @@
-﻿// <copyright file="Combinatorics.cs" company="Math.NET">
+﻿// <copyright file="IContinuousDistribution.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -35,14 +35,50 @@ namespace MathNet.Numerics.Distributions
     /// </summary>
     public interface IContinuousDistribution : IDistribution
     {
+        /// <summary>
+        /// Gets the mode of the distribution.
+        /// </summary>
         double Mode { get; }
+
+        /// <summary>
+        /// Gets the median of the distribution.
+        /// </summary>
         double Median { get; }
+
+        /// <summary>
+        /// Gets the smallest element in the domain of the distributions which can be represented by a double.
+        /// </summary>
         double Minimum { get; }
+
+        /// <summary>
+        /// Gets the largest element in the domain of the distributions which can be represented by a double.
+        /// </summary>
         double Maximum { get; }
+
+        /// <summary>
+        /// The probability density of the distribution.
+        /// </summary>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
         double Density(double x);
+
+        /// <summary>
+        /// The log probability density of the distribution.
+        /// </summary>
+        /// <param name="x">The location at which to compute the log density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
         double DensityLn(double x);
 
+        /// <summary>
+        /// Draws a random sample from the distribution.
+        /// </summary>
+        /// <returns>a sample from the distribution.</returns>
         double Sample();
+
+        /// <summary>
+        /// Draws a sequence of random samples from the distribution.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
         IEnumerable<double> Samples();
     }
 }
