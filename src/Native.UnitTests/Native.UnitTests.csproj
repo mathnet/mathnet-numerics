@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Managed.UnitTests\AssertHelpers.cs">
+      <Link>AssertHelpers.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\CombinatoricsTests\CombinatoricsCountingTest.cs">
       <Link>CombinatoricsTests\CombinatoricsCountingTest.cs</Link>
     </Compile>
@@ -65,6 +68,9 @@
     </Compile>
     <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\NormalTests.cs">
       <Link>DistributionTests\Continuous\NormalTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed.UnitTests\PrecisionTest.cs">
+      <Link>PrecisionTest.cs</Link>
     </Compile>
     <Compile Include="..\Managed.UnitTests\SpecialFunctionsTest\ErfTests.cs">
       <Link>SpecialFunctionsTest\ErfTests.cs</Link>

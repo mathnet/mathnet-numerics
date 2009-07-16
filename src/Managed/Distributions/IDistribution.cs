@@ -1,4 +1,4 @@
-﻿// <copyright file="Combinatorics.cs" company="Math.NET">
+﻿// <copyright file="IDistribution.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -41,33 +41,35 @@ namespace MathNet.Numerics.Distributions
         Random RandomSource { get; set; }
 
         /// <summary>
-        /// The mean of the distribution.
+        /// Gets the mean of the distribution.
         /// </summary>
         double Mean { get; }
 
         /// <summary>
-        /// The variance of the distribution.
+        /// Gets the variance of the distribution.
         /// </summary>
         double Variance { get; }
 
         /// <summary>
-        /// The standard deviation of the distribution.
+        /// Gets the standard deviation of the distribution.
         /// </summary>
         double StdDev { get; }
 
         /// <summary>
-        /// The entropy of the distribution.
+        /// Gets the entropy of the distribution.
         /// </summary>
         double Entropy { get; }
 
         /// <summary>
-        /// The skewness of the distribution.
+        /// Gets the skewness of the distribution.
         /// </summary>
         double Skewness { get; }
 
         /// <summary>
         /// Computes the cumulative distribution function (cdf) for this probability distribution.
         /// </summary>
+        /// <param name="x">The location at which to compute the cumulative distribution function.</param>
+        /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         double CumulativeDistribution(double x);
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="Combinatorics.cs" company="Math.NET">
+﻿// <copyright file="IDiscreteDistribution.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -36,22 +36,22 @@ namespace MathNet.Numerics.Distributions
     public interface IDiscreteDistribution : IDistribution
     {
         /// <summary>
-        /// The mode of the distribution.
+        /// Gets the mode of the distribution.
         /// </summary>
         int Mode { get; }
 
         /// <summary>
-        /// The median of the distribution.
+        /// Gets the median of the distribution.
         /// </summary>
         int Median { get; }
 
         /// <summary>
-        /// The smallest element in the domain of the distributions which can be represented by an integer.
+        /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
         int Minimum { get; }
 
         /// <summary>
-        /// The largest element in the domain of the distributions which can be represented by an integer.
+        /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
         int Maximum { get; }
 
@@ -59,22 +59,26 @@ namespace MathNet.Numerics.Distributions
         /// Computes values of the probability mass function.
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         double Probability(int k);
 
         /// <summary>
         /// Computes values of the log probability mass function.
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         double ProbabilityLn(int k);
 
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
+        /// <returns>a sample from the distribution.</returns>
         int Sample();
 
         /// <summary>
         /// Draws a sequence of random samples from the distribution.
         /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
         IEnumerable<int> Samples();
     }
 }

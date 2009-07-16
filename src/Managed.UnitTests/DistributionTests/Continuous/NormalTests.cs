@@ -1,4 +1,4 @@
-﻿// <copyright file="Combinatorics.cs" company="Math.NET">
+﻿// <copyright file="NormalTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.UnitTests.DistributionTests
 {
     using System;
     using MbUnit.Framework;
@@ -98,8 +98,8 @@ namespace MathNet.Numerics.UnitTests
         public void CanCreateNormalFromMeanAndVariance(double mean, double var)
         {
             var n = Normal.WithMeanVariance(mean, var);
-            AssertEx.AreEqual<double>(mean, n.Mean);
-            AssertEx.AreEqual<double>(var, n.Variance);
+            AssertHelpers.AlmostEqual(mean, n.Mean, 16);
+            AssertHelpers.AlmostEqual(var, n.Variance, 16);
         }
 
         [Test, MultipleAsserts]
@@ -113,8 +113,8 @@ namespace MathNet.Numerics.UnitTests
         public void CanCreateNormalFromMeanAndPrecision(double mean, double prec)
         {
             var n = Normal.WithMeanAndPrecision(mean, prec);
-            AssertEx.AreEqual<double>(mean, n.Mean);
-            AssertEx.AreEqual<double>(prec, n.Precision);
+            AssertHelpers.AlmostEqual(mean, n.Mean, 15);
+            AssertHelpers.AlmostEqual(prec, n.Precision, 15);
         }
 
         [Test]
@@ -324,6 +324,74 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        test samplers
+        [Test]
+        public void CanSampleStatic()
+        {
+            var d = Normal.Sample(new Random(), 0.0, 1.0);
+        }
+
+        [Test]
+        public void CanSampleSequenceStatic()
+        {
+            var ied = Normal.Samples(new Random(), 0.0, 1.0);
+            var e = ied.GetEnumerator();
+            e.MoveNext();
+            var d = e.Current;
+            e.MoveNext();
+            var g = e.Current;
+        }
+
+        [Test]
+        public void CanSample()
+        {
+            var n = new Normal();
+            var d = n.Sample();
+        }
+
+        [Test]
+        public void CanSampleSequence()
+        {
+            var n = new Normal();
+            var ied = n.Samples();
+            var e = ied.GetEnumerator();
+            e.MoveNext();
+            var d = e.Current;
+            e.MoveNext();
+            var g = e.Current;
+        }
+
+        [Test]
+        [Row(Double.NegativeInfinity, 0.0)]
+        [Row(-5.0, 0.00000028665157187919391167375233287464535385442301361187883)]
+        [Row(-2.0, 0.0002326290790355250363499258867279847735487493358890356)]
+        [Row(-0.0, 0.0062096653257761351669781045741922211278977469230927036)]
+        [Row(0.0, 0.0062096653257761351669781045741922211278977469230927036)]
+        [Row(4.0, 0.30853753872598689636229538939166226011639782444542207)]
+        [Row(5.0, 0.5)]
+        [Row(6.0, 0.69146246127401310363770461060833773988360217555457859)]
+        [Row(10.0, 0.9937903346742238648330218954258077788721022530769078)]
+        [Row(Double.PositiveInfinity, 1.0)]
+        public void ValidateCumulativeDistribution(double x, double f)
+        {
+            var n = Normal.WithMeanStdDev(5.0, 2.0);
+            AssertHelpers.AlmostEqual(f, n.CumulativeDistribution(x), 10);
+        }
+
+        [Test]
+        [Row(Double.NegativeInfinity, 0.0)]
+        [Row(-5.0, 0.00000028665157187919391167375233287464535385442301361187883)]
+        [Row(-2.0, 0.0002326290790355250363499258867279847735487493358890356)]
+        [Row(-0.0, 0.0062096653257761351669781045741922211278977469230927036)]
+        [Row(0.0, 0.0062096653257761351669781045741922211278977469230927036)]
+        [Row(4.0, 0.30853753872598689636229538939166226011639782444542207)]
+        [Row(5.0, 0.5)]
+        [Row(6.0, 0.69146246127401310363770461060833773988360217555457859)]
+        [Row(10.0, 0.9937903346742238648330218954258077788721022530769078)]
+        [Row(Double.PositiveInfinity, 1.0)]
+        public void ValidateInverseCumulativeDistribution(double x, double f)
+        {
+            var n = Normal.WithMeanStdDev(5.0, 2.0);
+            AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 10);
+        }
     }
 }

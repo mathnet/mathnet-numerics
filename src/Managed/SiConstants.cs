@@ -1,4 +1,4 @@
-// <copyright file="Combinatorics.cs" company="Math.NET">
+// <copyright file="SiConstants.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //

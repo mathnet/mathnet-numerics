@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssertHelpers.cs" />
     <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
     <Compile Include="ComplexTest.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
