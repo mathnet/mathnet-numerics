@@ -391,7 +391,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateInverseCumulativeDistribution(double x, double f)
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
-            AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 10);
+            AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 15);
         }
     }
 }
