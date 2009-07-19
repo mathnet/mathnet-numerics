@@ -47,6 +47,8 @@
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Complex.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="Distributions\Continuous\ContinuousUniform.cs" />
     <Compile Include="Distributions\Continuous\Normal.cs" />
     <Compile Include="Distributions\Discrete\Bernoulli.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />

@@ -1,4 +1,4 @@
-﻿// <copyright file="Normal.cs" company="Math.NET">
+// <copyright file="Normal.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -30,11 +30,18 @@ namespace MathNet.Numerics.Distributions
 {
     using System;
     using System.Collections.Generic;
+    using MathNet.Numerics;
+    using MathNet.Numerics.Properties;
 
     /// <summary>
     /// Implements the univariate Normal (or Gaussian) distribution. For details about this distribution, see 
     /// <a href="http://en.wikipedia.org/wiki/Normal_distribution">Wikipedia - Normal distribution</a>.
     /// </summary>
+    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
+    /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
+    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
+    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
+    /// to false, all parameter checks can be turned off.</para></remarks>
     public class Normal : IContinuousDistribution
     {
         /// <summary>
@@ -145,14 +152,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         private void SetParameters(double mean, double stddev)
         {
-            if (IsValidParameterSet(mean, stddev))
+            if (!Control.CheckDistributionParameters || IsValidParameterSet(mean, stddev))
             {
                 mMean = mean;
                 mStdDev = stddev;
             }
             else
             {
-                throw new System.ArgumentOutOfRangeException("Invalid parameterization for the normal distribution.");
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
         }
         
@@ -343,6 +350,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rng, double mean, double stddev)
         {
+            if(Control.CheckDistributionParameters && !IsValidParameterSet(mean, stddev))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
             double r2;
             return mean + (stddev * SampleBoxMuller(rng, out r2));
         }
@@ -356,13 +368,20 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rng, double mean, double stddev)
         {
-            double r2;
-
-            while(true)
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(mean, stddev))
             {
-                double r1 = SampleBoxMuller(rng, out r2);
-                yield return mean + (stddev * r1);
-                yield return mean + (stddev * r2);
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+            else
+            {
+                double r2;
+
+                while (true)
+                {
+                    double r1 = SampleBoxMuller(rng, out r2);
+                    yield return mean + (stddev * r1);
+                    yield return mean + (stddev * r2);
+                } 
             }
         }
 

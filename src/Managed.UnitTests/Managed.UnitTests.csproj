@@ -60,6 +60,7 @@
     <Compile Include="AssertHelpers.cs" />
     <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
     <Compile Include="ComplexTest.cs" />
+    <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

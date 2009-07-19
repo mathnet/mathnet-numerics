@@ -50,6 +50,12 @@
     <Compile Include="..\Managed\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Control.cs">
+      <Link>Control.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Distributions\Continuous\ContinuousUniform.cs">
+      <Link>Distributions\Continuous\ContinuousUniform.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Distributions\Continuous\Normal.cs">
       <Link>Distributions\Continuous\Normal.cs</Link>
     </Compile>

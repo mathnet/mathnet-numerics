@@ -237,4 +237,7 @@
   <data name="SpecialCasePlannedButNotImplementedYet" xml:space="preserve">
     <value>This special case is not supported yet (but is planned).</value>
   </data>
+  <data name="InvalidDistributionParameters" xml:space="preserve">
+    <value>Invalid parameterization for the distribution.</value>
+  </data>
 </root>
