@@ -1,4 +1,4 @@
-﻿// <copyright file="Complex.cs" company="Math.NET">
+// <copyright file="Complex.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //

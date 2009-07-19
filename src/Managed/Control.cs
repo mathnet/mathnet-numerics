@@ -1,4 +1,4 @@
-// <copyright file="Combinatorics.cs" company="Math.NET">
+// <copyright file="ContinuousUniformTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -31,40 +31,33 @@ namespace MathNet.Numerics
     using System;
 
     /// <summary>
-    /// Enumerative Combinatorics and Counting.
+    /// Sets parameters for the library.
     /// </summary>
-    public static class Combinatorics
+    public static partial class Control
     {
         /// <summary>
-        /// Computes the number of variations without repetition. The order matters and each object can be chosen only once.
+        /// Initializes static members of the Control class.
         /// </summary>
-        /// <param name="n">Number of elements in the set.</param>
-        /// <param name="k">Number of elements to choose from the set. Each element is chosen at most once.</param>
-        /// <returns>Maximum number of distinct variations.</returns>
-        public static double Variations(int n, int k)
+        static Control()
         {
-            if (k < 0 || n < 0 || k > n)
-            {
-                return 0;
-            }
-
-            throw new NotImplementedException();
+            CheckDistributionParameters = true;
+            ThreadSafeRandomNumberGenerators = true;
         }
 
         /// <summary>
-        /// Computes the number of variations with repetition. The order matters and each object can be chosen more than once.
+        /// Gets or sets a value indicating whether the distribution classes check validate each parameter.
+        /// For the multivariate distributions this could involve an expensive matrix factorization.
+        /// The default setting of this property is true.
         /// </summary>
-        /// <param name="n">Number of elements in the set.</param>
-        /// <param name="k">Number of elements to choose from the set. Each element is chosen 0, 1 or multiple times.</param>
-        /// <returns>Maximum number of distinct variations with repetition.</returns>
-        public static double VariationsWithRepetition(int n, int k)
-        {
-            if (k < 0 || n < 0)
-            {
-                return 0;
-            }
+        public static bool CheckDistributionParameters { get; set; }
 
-            return Math.Pow(n, k);
-        }
+        /// <summary>
+        /// Gets or sets a value indicating whether to use thread safe random number generators (RNG).
+        /// Thread safe RNG about two and half time slower than non-thread safe RNG. 
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> to use thread safe random number generators ; otherwise, <c>false</c>.
+        /// </value>
+        public static bool ThreadSafeRandomNumberGenerators { get; set; }
     }
 }

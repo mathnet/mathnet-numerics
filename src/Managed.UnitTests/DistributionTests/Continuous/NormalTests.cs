@@ -29,12 +29,19 @@
 namespace MathNet.Numerics.UnitTests.DistributionTests
 {
     using System;
+    using System.Linq;
     using MbUnit.Framework;
     using MathNet.Numerics.Distributions;
 
     [TestFixture]
     public class NormalTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            Control.CheckDistributionParameters = true;
+        }
+
         [Test, MultipleAsserts]
         public void CanCreateStandardNormal()
         {
@@ -60,16 +67,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NormalCreateFailsWithMeanIsNaN()
+        [Row(Double.NaN, 1.0)]
+        [Row(1.0, Double.NaN)]
+        [Row(Double.NaN, Double.NaN)]
+        [Row(1.0, -1.0)]
+        public void NormalCreateFailsWithBadParameters(double mean, double sdev)
         {
-            var n = new Normal(Double.NaN, 1.0);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NormalCreateFailsWithStdDevIsNaN()
-        {
-            var n = new Normal(0.0, Double.NaN);
+            var n = new Normal(mean, sdev);
         }
 
         [Test, MultipleAsserts]
@@ -118,14 +122,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        public void ToStringTest()
+        public void ValidateToString()
         {
             var n = new Normal(1.0, 2.0);
             AssertEx.AreEqual<string>("Normal(Mean = 1, StdDev = 2)", n.ToString());
         }
 
         [Test]
-        public void CanGetRandomNumberGenerator()
+        public void CanGetRandomSource()
         {
             var n = new Normal();
             var rs = n.RandomSource;
@@ -133,7 +137,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        public void CanSetRandomNumberGenerator()
+        public void CanSetRandomSource()
         {
             var n = new Normal();
             n.RandomSource = new Random();
@@ -342,6 +346,20 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void FailSampleStatic()
+        {
+            var d = Normal.Sample(new Random(), 0.0, -1.0);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void FailSampleSequenceStatic()
+        {
+            var ied = Normal.Samples(new Random(), 0.0, -1.0).First();
+        }
+
+        [Test]
         public void CanSample()
         {
             var n = new Normal();
@@ -353,11 +371,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         {
             var n = new Normal();
             var ied = n.Samples();
-            var e = ied.GetEnumerator();
-            e.MoveNext();
-            var d = e.Current;
-            e.MoveNext();
-            var g = e.Current;
+            var e = ied.Take(5).ToArray();
         }
 
         [Test]

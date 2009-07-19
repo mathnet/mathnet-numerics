@@ -66,6 +66,9 @@
     <Compile Include="..\Managed.UnitTests\ComplexTest.cs">
       <Link>ComplexTest.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\ContinuousUniformTests.cs">
+      <Link>DistributionTests\Continuous\ContinuousUniformTests.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\NormalTests.cs">
       <Link>DistributionTests\Continuous\NormalTests.cs</Link>
     </Compile>
