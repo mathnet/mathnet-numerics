@@ -161,7 +161,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value of the number.</returns>
-        public static double Value(this double value)
+        public static double GetMagnitudeScaledValue(this double value)
         {
             if (value.Equals(0.0))
             {
