@@ -91,40 +91,40 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void Value()
         {
-            Assert.AreApproximatelyEqual<double,double>(0, Precision.Value(0), _acceptableError);
+            Assert.AreApproximatelyEqual<double,double>(0, Precision.GetMagnitudeScaledValue(0), _acceptableError);
 
-            Assert.AreApproximatelyEqual<double, double>(1, Precision.Value(1), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(1, Precision.Value(10), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(1, Precision.Value(100), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(1, Precision.Value(1000), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(1, Precision.Value(10000), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(1, Precision.Value(100000), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(1, Precision.Value(1000000), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(1, Precision.GetMagnitudeScaledValue(1), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(1, Precision.GetMagnitudeScaledValue(10), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(1, Precision.GetMagnitudeScaledValue(100), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(1, Precision.GetMagnitudeScaledValue(1000), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(1, Precision.GetMagnitudeScaledValue(10000), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(1, Precision.GetMagnitudeScaledValue(100000), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(1, Precision.GetMagnitudeScaledValue(1000000), _acceptableError);
 
-            Assert.AreApproximatelyEqual<double,double>(1.1, Precision.Value(1.1e5), _acceptableError);
-            Assert.AreApproximatelyEqual<double,double>(2.2, Precision.Value(2.2e-5), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(3.3, Precision.Value(3.3e9), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(4.4, Precision.Value(4.4e-11), _acceptableError);
+            Assert.AreApproximatelyEqual<double,double>(1.1, Precision.GetMagnitudeScaledValue(1.1e5), _acceptableError);
+            Assert.AreApproximatelyEqual<double,double>(2.2, Precision.GetMagnitudeScaledValue(2.2e-5), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(3.3, Precision.GetMagnitudeScaledValue(3.3e9), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(4.4, Precision.GetMagnitudeScaledValue(4.4e-11), _acceptableError);
         }
 
         // Bug fix test: Magnitude of negative numbers returns zero
         [Test]
         public void ValueWithNegativeValues()
         {
-            Assert.AreApproximatelyEqual<double, double>(0, Precision.Value(0), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(0, Precision.GetMagnitudeScaledValue(0), _acceptableError);
 
-            Assert.AreApproximatelyEqual<double, double>(-1, Precision.Value(-1), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-1, Precision.Value(-10), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-1, Precision.Value(-100), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-1, Precision.Value(-1000), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-1, Precision.Value(-10000), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-1, Precision.Value(-100000), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-1, Precision.Value(-1000000), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-1, Precision.GetMagnitudeScaledValue(-1), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-1, Precision.GetMagnitudeScaledValue(-10), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-1, Precision.GetMagnitudeScaledValue(-100), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-1, Precision.GetMagnitudeScaledValue(-1000), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-1, Precision.GetMagnitudeScaledValue(-10000), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-1, Precision.GetMagnitudeScaledValue(-100000), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-1, Precision.GetMagnitudeScaledValue(-1000000), _acceptableError);
 
-            Assert.AreApproximatelyEqual<double, double>(-1.1, Precision.Value(-1.1e5), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-2.2, Precision.Value(-2.2e-5), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-3.3, Precision.Value(-3.3e9), _acceptableError);
-            Assert.AreApproximatelyEqual<double, double>(-4.4, Precision.Value(-4.4e-11), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-1.1, Precision.GetMagnitudeScaledValue(-1.1e5), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-2.2, Precision.GetMagnitudeScaledValue(-2.2e-5), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-3.3, Precision.GetMagnitudeScaledValue(-3.3e9), _acceptableError);
+            Assert.AreApproximatelyEqual<double, double>(-4.4, Precision.GetMagnitudeScaledValue(-4.4e-11), _acceptableError);
         }
 
         [Test]
