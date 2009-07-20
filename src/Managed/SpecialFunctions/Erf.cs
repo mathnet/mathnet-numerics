@@ -26,6 +26,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+// This file uses code from the Boost Project.
+//  (C) Copyright John Maddock 2006.
+//  Use, modification and distribution are subject to the
+//  Boost Software License, Version 1.0. (See http://www.boost.org/LICENSE_1_0.txt)
+//
+// In particular the following functions are based on Boost:
+//  * double ErfImp(double z, bool invert)
+//  * double ErfInvImpl(double p, double q, double s)
+//
+
 namespace MathNet.Numerics
 {
     using System;
