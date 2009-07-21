@@ -166,8 +166,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             }
 
             // trivial case: on a known sample point?
-            // TODO: Number.AlmostZero(offset) instead of ==
-            if (offset == 0.0)
+            if (offset.AlmostZero())
             {
                 return this.values[closestPoint];
             }
