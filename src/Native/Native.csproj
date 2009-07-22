@@ -94,7 +94,7 @@
     </Compile>
     <Compile Include="..\Managed\Precision.cs">
       <Link>Precision.cs</Link>
-	</Compile>
+    </Compile>
     <Compile Include="..\Managed\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
     </Compile>
@@ -103,6 +103,12 @@
     </Compile>
     <Compile Include="..\Managed\SiPrefixes.cs">
       <Link>SiPrefixes.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\SpecialFunctions.cs">
+      <Link>SpecialFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\SpecialFunctions\Erf.cs">
+      <Link>SpecialFunctions\Erf.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
