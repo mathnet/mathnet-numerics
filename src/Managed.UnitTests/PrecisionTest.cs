@@ -262,6 +262,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
         // Numbers are calculated with the UlpsCalculator program which can be found in UlpsCalculator.cs
+        [Test]
         [Row(0, -10 * double.Epsilon, 10 * double.Epsilon)]
         [Row(1.0, 0.99999999999999889, 1.0000000000000022)]
         [Row(2.0, 1.9999999999999978, 2.0000000000000044)]
@@ -282,6 +283,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
         // Numbers are calculated with the UlpsCalculator program which can be found in UlpsCalculator.cs
+        [Test]
         [Row(0, -10 * double.Epsilon, 10 * double.Epsilon)]
         [Row(-1.0, -1.0000000000000022, -0.99999999999999889)]
         [Row(-2.0, -2.0000000000000044, -1.9999999999999978)]
@@ -301,6 +303,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(expectedMax, max);
         }
 
+        [Test]
         [Row(0, 10 * double.Epsilon)]
         [Row(1.0, 1.0000000000000022)]
         [Row(2.0, 2.0000000000000044)]
@@ -316,6 +319,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(expectedMax, max);
         }
 
+        [Test]
         [Row(0, 10 * double.Epsilon)]
         [Row(-1.0, -0.99999999999999889)]
         [Row(-2.0, -1.9999999999999978)]
@@ -331,6 +335,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(expectedMax, max);
         }
 
+        [Test]
         [Row(0, -10 * double.Epsilon)]
         [Row(1.0, 0.99999999999999889)]
         [Row(2.0, 1.9999999999999978)]
@@ -346,6 +351,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(expectedMin, min);
         }
 
+        [Test]
         [Row(0, -10 * double.Epsilon)]
         [Row(-1.0, -1.0000000000000022)]
         [Row(-2.0, -2.0000000000000044)]
@@ -385,6 +391,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.Throws<ArgumentOutOfRangeException>(() => Precision.RangeOfMatchingNumbers(double.NaN, -1, out min, out max));
         }
 
+        [Test]
         [Row(0, 10 * double.Epsilon, 10, 10)]
         [Row(1.0, (1.0000000000000022 - 1.0) / 1.0, 20, 10)]
         [Row(2.0, (2.0000000000000044 - 2.0) / 2.0, 20, 10)]
@@ -404,6 +411,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(expectedMax, max);
         }
 
+        [Test]
         [Row(0, 10 * double.Epsilon, 10, 10)]
         [Row(-1.0, (1.0000000000000022 - 1.0) / 1.0, 10, 20)]
         [Row(-2.0, (2.0000000000000044 - 2.0) / 2.0, 10, 20)]
