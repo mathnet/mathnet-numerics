@@ -42,14 +42,14 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Internal Spline Interpolation
         /// </summary>
-        private readonly SplineInterpolation spline;
+        private readonly SplineInterpolation _spline;
 
         /// <summary>
         /// Initializes a new instance of the LinearSplineInterpolation class.
         /// </summary>
         public LinearSplineInterpolation()
         {
-            this.spline = new SplineInterpolation();
+            _spline = new SplineInterpolation();
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
-            this.spline = new SplineInterpolation();
-            this.Initialize(samplePoints, sampleValues);
+            _spline = new SplineInterpolation();
+            Initialize(samplePoints, sampleValues);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 coefficients[j + 3] = 0;
             }
 
-            this.spline.Initialize(samplePoints, coefficients);
+            _spline.Initialize(samplePoints, coefficients);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            return this.spline.Interpolate(t);
+            return _spline.Interpolate(t);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <seealso cref="Differentiate(double, out double, out double)"/>
         public double Differentiate(double t)
         {
-            return this.spline.Differentiate(t);
+            return _spline.Differentiate(t);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             out double interpolatedValue,
             out double secondDerivative)
         {
-            return this.spline.Differentiate(t, out interpolatedValue, out secondDerivative);
+            return _spline.Differentiate(t, out interpolatedValue, out secondDerivative);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <seealso cref="IInterpolation.SupportsIntegration"/>
         public double Integrate(double t)
         {
-            return this.spline.Integrate(t);
+            return _spline.Integrate(t);
         }
     }
 }

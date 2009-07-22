@@ -49,12 +49,12 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Sample Points t.
         /// </summary>
-        private IList<double> points;
+        private IList<double> _points;
 
         /// <summary>
         /// Spline Values x(t).
         /// </summary>
-        private IList<double> values;
+        private IList<double> _values;
 
         /// <summary>
         /// Initializes a new instance of the NevillePolynomialInterpolation class.
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
-            this.Initialize(samplePoints, sampleValues);
+            Initialize(samplePoints, sampleValues);
         }
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLengths);
             }
 
-            this.points = samplePoints;
-            this.values = sampleValues;
+            _points = samplePoints;
+            _values = sampleValues;
         }
 
         /// <summary>
@@ -129,16 +129,16 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            double[] x = new double[this.values.Count];
-            this.values.CopyTo(x, 0);
+            double[] x = new double[_values.Count];
+            _values.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)
             {
                 for (int i = 0; i < x.Length - level; i++)
                 {
-                    double hp = t - this.points[i + level];
-                    double ho = this.points[i] - t;
-                    double den = this.points[i] - this.points[i + level];
+                    double hp = t - _points[i + level];
+                    double ho = _points[i] - t;
+                    double den = _points[i] - _points[i + level];
                     x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
                 }
             }
@@ -155,17 +155,17 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <seealso cref="Differentiate(double, out double, out double)"/>
         public double Differentiate(double t)
         {
-            double[] x = new double[this.values.Count];
-            double[] dx = new double[this.values.Count];
-            this.values.CopyTo(x, 0);
+            double[] x = new double[_values.Count];
+            double[] dx = new double[_values.Count];
+            _values.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)
             {
                 for (int i = 0; i < x.Length - level; i++)
                 {
-                    double hp = t - this.points[i + level];
-                    double ho = this.points[i] - t;
-                    double den = this.points[i] - this.points[i + level];
+                    double hp = t - _points[i + level];
+                    double ho = _points[i] - t;
+                    double den = _points[i] - _points[i + level];
                     dx[i] = ((hp * dx[i]) + x[i] + (ho * dx[i + 1]) - x[i + 1]) / den;
                     x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
                 }
@@ -188,26 +188,26 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             out double interpolatedValue,
             out double secondDerivative)
         {
-            double[] x = new double[this.values.Count];
-            double[] dx = new double[this.values.Count];
-            double[] d2x = new double[this.values.Count];
-            this.values.CopyTo(x, 0);
+            double[] x = new double[_values.Count];
+            double[] dx = new double[_values.Count];
+            double[] ddx = new double[_values.Count];
+            _values.CopyTo(x, 0);
 
             for (int level = 1; level < x.Length; level++)
             {
                 for (int i = 0; i < x.Length - level; i++)
                 {
-                    double hp = t - this.points[i + level];
-                    double ho = this.points[i] - t;
-                    double den = this.points[i] - this.points[i + level];
-                    d2x[i] = ((hp * d2x[i]) + (ho * d2x[i + 1]) + (2 * dx[i]) - (2 * dx[i + 1])) / den;
+                    double hp = t - _points[i + level];
+                    double ho = _points[i] - t;
+                    double den = _points[i] - _points[i + level];
+                    ddx[i] = ((hp * ddx[i]) + (ho * ddx[i + 1]) + (2 * dx[i]) - (2 * dx[i + 1])) / den;
                     dx[i] = ((hp * dx[i]) + x[i] + (ho * dx[i + 1]) - x[i + 1]) / den;
                     x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
                 }
             }
 
             interpolatedValue = x[0];
-            secondDerivative = d2x[0];
+            secondDerivative = ddx[0];
             return dx[0];
         }
 

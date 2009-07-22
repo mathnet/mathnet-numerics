@@ -42,17 +42,17 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Sample Points t.
         /// </summary>
-        private IList<double> points;
+        private IList<double> _points;
 
         /// <summary>
         /// Sample Values x(t).
         /// </summary>
-        private IList<double> values;
+        private IList<double> _values;
 
         /// <summary>
         /// Barycentric Weights w(t).
         /// </summary>
-        private IList<double> weights;
+        private IList<double> _weights;
 
         /// <summary>
         /// Initializes a new instance of the BarycentricInterpolation class.
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             IList<double> sampleValues,
             IList<double> barycentricWeights)
         {
-            this.Initialize(samplePoints, sampleValues, barycentricWeights);
+            Initialize(samplePoints, sampleValues, barycentricWeights);
         }
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLengths);
             }
 
-            this.points = samplePoints;
-            this.values = sampleValues;
-            this.weights = barycentricWeights;
+            _points = samplePoints;
+            _values = sampleValues;
+            _weights = barycentricWeights;
         }
 
         /// <summary>
@@ -148,19 +148,19 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         public double Interpolate(double t)
         {
             // trivial case: only one sample?
-            if (this.points.Count == 1)
+            if (_points.Count == 1)
             {
-                return this.values[0];
+                return _values[0];
             }
 
             // evaluate closest point and offset from that point (no sorting assumed)
             int closestPoint = 0;
-            double offset = t - this.points[0];
-            for (int i = 1; i < this.points.Count; i++)
+            double offset = t - _points[0];
+            for (int i = 1; i < _points.Count; i++)
             {
-                if (Math.Abs(t - this.points[i]) < Math.Abs(offset))
+                if (Math.Abs(t - _points[i]) < Math.Abs(offset))
                 {
-                    offset = t - this.points[i];
+                    offset = t - _points[i];
                     closestPoint = i;
                 }
             }
@@ -168,7 +168,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             // trivial case: on a known sample point?
             if (offset.AlmostZero())
             {
-                return this.values[closestPoint];
+                return _values[closestPoint];
             }
 
             if (Math.Abs(offset) > 1e-150)
@@ -180,18 +180,18 @@ namespace MathNet.Numerics.Interpolation.Algorithms
 
             double s1 = 0.0;
             double s2 = 0.0;
-            for (int i = 0; i < this.points.Count; i++)
+            for (int i = 0; i < _points.Count; i++)
             {
                 if (i != closestPoint)
                 {
-                    double v = offset * this.weights[i] / (t - this.points[i]);
-                    s1 = s1 + (v * this.values[i]);
+                    double v = offset * _weights[i] / (t - _points[i]);
+                    s1 = s1 + (v * _values[i]);
                     s2 = s2 + v;
                 }
                 else
                 {
-                    double v = this.weights[i];
-                    s1 = s1 + (v * this.values[i]);
+                    double v = _weights[i];
+                    s1 = s1 + (v * _values[i]);
                     s2 = s2 + v;
                 }
             }

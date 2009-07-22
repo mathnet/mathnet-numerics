@@ -42,14 +42,14 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Internal Barycentric Interpolation
         /// </summary>
-        private readonly BarycentricInterpolation barycentric;
+        private readonly BarycentricInterpolation _barycentric;
 
         /// <summary>
         /// Initializes a new instance of the RationalPoleFreeInterpolation class.
         /// </summary>
         public RationalPoleFreeInterpolation()
         {
-            this.barycentric = new BarycentricInterpolation();
+            _barycentric = new BarycentricInterpolation();
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
-            this.barycentric = new BarycentricInterpolation();
-            this.Initialize(samplePoints, sampleValues);
+            _barycentric = new BarycentricInterpolation();
+            Initialize(samplePoints, sampleValues);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
-            this.Initialize(samplePoints, sampleValues, Math.Min(3, samplePoints.Count - 1));
+            Initialize(samplePoints, sampleValues, Math.Min(3, samplePoints.Count - 1));
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 weights[perm[i]] = sortedWeights[i];
             }
 
-            this.barycentric.Initialize(samplePoints, sampleValues, weights);
+            _barycentric.Initialize(samplePoints, sampleValues, weights);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            return this.barycentric.Interpolate(t);
+            return _barycentric.Interpolate(t);
         }
 
         /// <summary>
