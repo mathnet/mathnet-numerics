@@ -1,4 +1,4 @@
-﻿// <copyright file="RationalPoleFreeInterpolation.cs" company="Math.NET">
+﻿// <copyright file="FloaterHormannRationalInterpolation.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
     /// <remarks>
     /// This algorithm neither supports differentiation nor integration.
     /// </remarks>
-    public class RationalPoleFreeInterpolation : IInterpolation
+    public class FloaterHormannRationalInterpolation : IInterpolation
     {
         /// <summary>
         /// Internal Barycentric Interpolation
@@ -45,19 +45,19 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         private readonly BarycentricInterpolation _barycentric;
 
         /// <summary>
-        /// Initializes a new instance of the RationalPoleFreeInterpolation class.
+        /// Initializes a new instance of the FloaterHormannRationalInterpolation class.
         /// </summary>
-        public RationalPoleFreeInterpolation()
+        public FloaterHormannRationalInterpolation()
         {
             _barycentric = new BarycentricInterpolation();
         }
 
         /// <summary>
-        /// Initializes a new instance of the RationalPoleFreeInterpolation class.
+        /// Initializes a new instance of the FloaterHormannRationalInterpolation class.
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public RationalPoleFreeInterpolation(
+        public FloaterHormannRationalInterpolation(
             IList<double> samplePoints,
             IList<double> sampleValues)
         {

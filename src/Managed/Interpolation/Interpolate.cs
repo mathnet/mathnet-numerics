@@ -1,4 +1,4 @@
-﻿// <copyright file="Interpolation.cs" company="Math.NET">
+﻿// <copyright file="Interpolate.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -34,7 +34,7 @@ namespace MathNet.Numerics.Interpolation
     /// <summary>
     /// Interpolation Factory.
     /// </summary>
-    public static class Interpolation
+    public static class Interpolate
     {
         /// <summary>
         /// Creates an interpolation based on arbitrary points.
@@ -46,11 +46,11 @@ namespace MathNet.Numerics.Interpolation
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation Create(
+        public static IInterpolation Common(
             IList<double> points,
             IList<double> values)
         {
-            return CreateRationalPoleFree(points, values);
+            return RationalWithoutPoles(points, values);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Interpolation
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation CreateLinearBetweenPoints(
+        public static IInterpolation LinearBetweenPoints(
             IList<double> points,
             IList<double> values)
         {
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Create a rational pole-free interpolation based on arbitrary points.
+        /// Create a floater hormann rational pole-free interpolation based on arbitrary points.
         /// </summary>
         /// <param name="points">The sample points t. Supports both lists and arrays.</param>
         /// <param name="values">The sample point values x(t). Supports both lists and arrays.</param>
@@ -82,11 +82,11 @@ namespace MathNet.Numerics.Interpolation
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
-        public static IInterpolation CreateRationalPoleFree(
+        public static IInterpolation RationalWithoutPoles(
             IList<double> points,
             IList<double> values)
         {
-            RationalPoleFreeInterpolation method = new RationalPoleFreeInterpolation();
+            FloaterHormannRationalInterpolation method = new FloaterHormannRationalInterpolation();
             method.Initialize(points, values);
             return method;
         }

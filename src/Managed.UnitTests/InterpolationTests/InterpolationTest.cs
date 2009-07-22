@@ -40,16 +40,16 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [VerifyContract]
         public readonly IContract LinearSplineContractTests = new InterpolationContract<LinearSplineInterpolation>()
         {
-            Factory = Interpolation.CreateLinearBetweenPoints,
+            Factory = Interpolate.LinearBetweenPoints,
             Order = new[] { 2, 3, 6 },
             PolynomialBehavior = false,
             RationalBehavior = false
         };
 
         [VerifyContract]
-        public readonly IContract RationalPoleFreeContractTests = new InterpolationContract<RationalPoleFreeInterpolation>()
+        public readonly IContract FloaterHormannRationalContractTests = new InterpolationContract<FloaterHormannRationalInterpolation>()
         {
-            Factory = Interpolation.CreateRationalPoleFree,
+            Factory = Interpolate.RationalWithoutPoles,
             Order = new[] { 1, 2, 6 },
             PolynomialBehavior = true,
             RationalBehavior = true
