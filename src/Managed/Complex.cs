@@ -211,7 +211,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is zero; otherwise, <c>false</c>.</value>
         public bool IsZero
         {
-            get { throw new NotImplementedException(); } // return Number.AlmostZero(real) && Number.AlmostZero(imag); }
+            get { return _real.AlmostZero() && _imag.AlmostZero(); }
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is one; otherwise, <c>false</c>.</value>
         public bool IsOne
         {
-            get { throw new NotImplementedException(); } // return Number.AlmostEqual(real, 1) && Number.AlmostZero(imag); }
+            get { return _real.AlmostEqual(1.0) && _imag.AlmostZero(); }
         }
 
         /// <summary>
