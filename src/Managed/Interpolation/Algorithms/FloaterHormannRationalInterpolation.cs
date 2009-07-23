@@ -96,6 +96,11 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
+            if (null == samplePoints)
+            {
+                throw new ArgumentNullException("samplePoints");
+            }
+
             Initialize(samplePoints, sampleValues, Math.Min(3, samplePoints.Count - 1));
         }
 

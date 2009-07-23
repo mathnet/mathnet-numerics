@@ -51,6 +51,9 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         protected override IEnumerable<Test> GetContractVerificationTests()
         {
             yield return CreateFactoryReturnsCorrectTypeTest("FactoryReturnsCorrectType");
+            yield return CreateInitChecksForNullTest("InitChecksForNull");
+            yield return CreateInitChecksForMatchingCountTest("InitChecksForMatchingCount");
+            yield return CreateConstructorInitShortcutTest("ConstructorInitShortcut");
             yield return CreateConsistentCapabilityBehaviorTest("ConsistentCapabilityBehavior");
             yield return CreateInterpolationMatchesNodePointsTest("InterpolationMatchesNodePoints");
             yield return CreateLinearBehaviorTest("LinearBehavior");
@@ -86,6 +89,56 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                         .SetStackTrace(Context.GetStackTraceData())
                         .ToAssertionFailure();
                 });
+            });
+        }
+
+        private Test CreateInitChecksForNullTest(string name)
+        {
+            return new TestCase(name, () =>
+            {
+                var points = new List<double> { 1, 2, 3, 4, 5 };
+                var values = new List<double> { 10, 20, 30, 40, 50 };
+
+                Assert.DoesNotThrow(() => Factory(points, values));
+
+                Assert.Throws(typeof(ArgumentNullException), () => Factory(points, null));
+                Assert.Throws(typeof(ArgumentNullException), () => Factory(null, values));
+                Assert.Throws(typeof(ArgumentNullException), () => Factory(null, null));
+            });
+        }
+
+        private Test CreateInitChecksForMatchingCountTest(string name)
+        {
+            return new TestCase(name, () =>
+            {
+                var points = new List<double> { 1, 2, 3, 4, 5 };
+                var valuesOk = new List<double> { 10, 20, 30, 40, 50 };
+                var valuesFail1 = new List<double> { 10, 20, 30, 40 };
+                var valuesFail2 = new List<double> { 10, 20, 30, 40, 50, 60 };
+
+                Assert.DoesNotThrow(() => Factory(points, valuesOk));
+
+                Assert.Throws(typeof(ArgumentException), () => Factory(points, valuesFail1));
+                Assert.Throws(typeof(ArgumentException), () => Factory(points, valuesFail2));
+            });
+        }
+
+        private Test CreateConstructorInitShortcutTest(string name)
+        {
+            return new TestCase(name, () =>
+            {
+                var points = new List<double> { 1, 2, 3, 4, 5 };
+                var values = new List<double> { 10, 20, 30, 40, 50 };
+
+                var ctor = typeof(TInterpolation).GetConstructor(
+                    new[] { typeof (IList<double>), typeof (IList<double>) }
+                    );
+
+                var interpolation = (IInterpolation)ctor.Invoke(
+                    new[] { points, values }
+                    );
+
+                Assert.AreApproximatelyEqual(20, interpolation.Interpolate(2), 1e-12);
             });
         }
 
