@@ -483,6 +483,16 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
+        public void AlmostEqual()
+        {
+            AssertEx.That(()=>1.0.AlmostEqual(1.0), "1.0 equals 1.0.");
+            AssertEx.That(() => 1.0.AlmostEqual(1.0 + _doublePrecision), "1.0 equals 1.0 + 2^(-53).");
+            AssertEx.That(() => 1.0.AlmostEqual(1.0 + _doublePrecision * 10), "1.0 equals 1.0 + 2^(-52).");
+            AssertEx.That(() => !1.0.AlmostEqual(1.0 + _doublePrecision * 100), "1.0 does not equal 1.0 + 2^(-51).");
+            AssertEx.That(() => !1.0.AlmostEqual(2.0), "1.0 does not equal 2.0");
+        }
+
+        [Test]
         public void AlmostEqualWithMaxNumbersBetween()
         {
             // compare zero and negative zero

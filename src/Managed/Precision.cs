@@ -71,6 +71,32 @@ namespace MathNet.Numerics
 
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Gets the maximum relative precision of a double.
+        /// </summary>
+        /// <value>The maximum relative precision of a double.</value>
+        public static double DoubleMachinePrecision
+        {
+            get
+            {
+                return _doubleMachinePrecision;
+            }
+        }
+
+        /// <summary>
+        /// Gets the maximum relative precision of a single.
+        /// </summary>
+        /// <value>The maximum relative precision of a single.</value>
+        public static double SingleMachinePrecision
+        {
+            get
+            {
+                return _singleMachinePrecision;
+            }
+        }
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -92,6 +118,9 @@ namespace MathNet.Numerics
         /// The number of significant figures that a single-precision floating point has.
         /// </summary>
         private static readonly int _numberOfDecimalPlacesForFloats;
+
+        /// <summary>Value representing 10 * 2^(-52)</summary>
+        private static readonly double _defaultRelativeAccuracy = _doubleMachinePrecision * 10;
 
         #endregion
 
@@ -668,6 +697,22 @@ namespace MathNet.Numerics
         public static bool AlmostZero(this double a)
         {
             return AlmostZero(a, _doubleMachinePrecision);
+        }
+
+        /// <summary>
+        /// Checks whether two real numbers are almost equal.
+        /// </summary>
+        /// <param name="a">The first number</param>
+        /// <param name="b">The second number</param>
+        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
+        public static bool AlmostEqual(this double a, double b)
+        {
+            if ((a == 0 && Math.Abs(b) < _defaultRelativeAccuracy) || (b == 0 && Math.Abs(a) < _defaultRelativeAccuracy))
+            {
+                return true;
+            }
+
+            return Math.Abs(a - b) < _defaultRelativeAccuracy * Math.Max(Math.Abs(a), Math.Abs(b));
         }
 
         /// <summary>
