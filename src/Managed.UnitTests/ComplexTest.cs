@@ -6,11 +6,11 @@
     public class ComplexTest
     {
         [Test, MultipleAsserts]
-        public void CanCreateAComplexNumberUsingTheConstructor()
+        public void CanCreateComplexNumberUsingTheConstructor()
         {
             var complex = new Complex(1.1, -2.2);
-            AssertEx.That(() => complex.Real == 1.1, "Real Part");
-            AssertEx.That(() => complex.Imaginary == -2.2, "Imaginary Part");
+            Assert.AreEqual(complex.Real, 1.1, "Real part is 1.1");
+            Assert.AreEqual(complex.Imaginary, -2.2, "Imaginary part is -2.2");
         }
     }
 }

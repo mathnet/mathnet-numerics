@@ -229,7 +229,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is I; otherwise, <c>false</c>.</value>
         public bool IsI
         {
-            get { throw new NotImplementedException(); } // return Number.AlmostZero(real) && Number.AlmostEqual(imag, 1); }
+            get { return _real.AlmostZero() && _imag.AlmostEqual(1); }
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is NaN; otherwise, <c>false</c>.</value>
         public bool IsNaN
         {
-            get { throw new NotImplementedException(); } // return double.IsNaN(real) || double.IsNaN(imag); }
+            get { return double.IsNaN(_real) || double.IsNaN(_imag); }
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is a real number; otherwise, <c>false</c>.</value>
         public bool IsReal
         {
-            get { throw new NotImplementedException(); } // return Number.AlmostZero(imag); }
+            get { return _imag.AlmostZero(); }
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace MathNet.Numerics
         /// </value>
         public bool IsRealNonNegative
         {
-            get { throw new NotImplementedException(); } // return Number.AlmostZero(imag) && real >= 0; }
+            get { return _imag.AlmostZero() && _real >= 0; }
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace MathNet.Numerics
         /// </value>
         public bool IsImaginary
         {
-            get { throw new NotImplementedException(); } // return Number.AlmostZero(real); }
+            get {  return _real.AlmostZero(); }
         }
 
         #region Static Initializers
