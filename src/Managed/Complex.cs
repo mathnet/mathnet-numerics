@@ -286,7 +286,7 @@ namespace MathNet.Numerics
         /// </value>
         public bool IsImaginary
         {
-            get {  return _real.AlmostZero(); }
+            get { return _real.AlmostZero(); }
         }
 
         #region Static Initializers

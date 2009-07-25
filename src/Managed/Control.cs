@@ -1,4 +1,4 @@
-// <copyright file="ContinuousUniformTests.cs" company="Math.NET">
+// <copyright file="Control.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -56,7 +56,7 @@ namespace MathNet.Numerics
         /// Thread safe RNG about two and half time slower than non-thread safe RNG. 
         /// </summary>
         /// <value>
-        /// 	<c>true</c> to use thread safe random number generators ; otherwise, <c>false</c>.
+        ///     <c>true</c> to use thread safe random number generators ; otherwise, <c>false</c>.
         /// </value>
         public static bool ThreadSafeRandomNumberGenerators { get; set; }
     }
