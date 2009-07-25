@@ -1,0 +1,81 @@
+NIST/ITL StRD
+Dataset Name:  Wampler1 (Wampler1.dat)
+
+File Format:   ASCII
+               Certified Values  (lines 31 to 50)
+               Data              (lines 61 to 81)
+
+Procedure:     Linear Least Squares Regression
+
+Reference:     Wampler, R. H. (1970). 
+               A Report of the Accuracy of Some Widely-Used Least 
+               Squares Computer Programs. 
+               Journal of the American Statistical Association, 65, pp. 549-565.
+           
+Data:          1 Response Variable (y)
+               1 Predictor Variable (x)
+               21 Observations
+               Higher Level of Difficulty
+               Generated Data
+
+Model:         Polynomial Class
+               6 Parameters (B0,B1,...,B5)
+
+               y = B0 + B1*x + B2*(x**2) + B3*(x**3)+ B4*(x**4) + B5*(x**5)
+
+               Certified Regression Statistics
+
+                                          Standard Deviation
+     Parameter        Estimate               of Estimate
+
+        B0        1.00000000000000        0.000000000000000
+        B1        1.00000000000000        0.000000000000000
+        B2        1.00000000000000        0.000000000000000
+        B3        1.00000000000000        0.000000000000000
+        B4        1.00000000000000        0.000000000000000
+        B5        1.00000000000000        0.000000000000000
+
+     Residual
+     Standard Deviation   0.000000000000000
+
+     R-Squared            1.00000000000000
+
+
+               Certified Analysis of Variance Table
+
+Source of Degrees of     Sums of               Mean  
+Variation  Freedom       Squares              Squares           F Statistic
+              
+Regression    5      18814317208116.7     3762863441623.33       Infinity
+Residual     15      0.000000000000000    0.000000000000000
+              
+
+
+
+
+
+
+
+
+Data:            y     x
+                 1     0
+                 6     1
+                63     2
+               364     3
+              1365     4
+              3906     5
+              9331     6
+             19608     7
+             37449     8
+             66430     9
+            111111    10
+            177156    11
+            271453    12
+            402234    13
+            579195    14
+            813616    15
+           1118481    16
+           1508598    17
+           2000719    18
+           2613660    19
+           3368421    20
