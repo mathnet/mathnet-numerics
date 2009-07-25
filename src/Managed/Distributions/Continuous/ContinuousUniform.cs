@@ -30,7 +30,7 @@ namespace MathNet.Numerics.Distributions
 {
     using System;
     using System.Collections.Generic;
-    using MathNet.Numerics.Properties;
+    using Properties;
 
     /// <summary>
     /// The continuous uniform distribution is a distribution over real numbers. For details about this distribution, see 
@@ -46,12 +46,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The distribution's lower bound.
         /// </summary>
-        private double mLower;
+        private double _lower;
 
         /// <summary>
         /// The distribution's upper bound.
         /// </summary>
-        private double mUpper;
+        private double _upper;
 
         /// <summary>
         /// Initializes a new instance of the ContinuousUniform class with lower bound 0 and upper bound 1.
@@ -69,7 +69,7 @@ namespace MathNet.Numerics.Distributions
         public ContinuousUniform(double lower, double upper)
         {
             SetParameters(lower, upper);
-            RandomSource = new System.Random();
+            RandomSource = new Random();
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "ContinuousUniform(Lower = " + mLower + ", Upper = " + mUpper + ")";
+            return "ContinuousUniform(Lower = " + _lower + ", Upper = " + _upper + ")";
         }
 
         /// <summary>
@@ -93,7 +93,8 @@ namespace MathNet.Numerics.Distributions
             {
                 return false;
             }
-            else if(Double.IsNaN(upper) || Double.IsNaN(lower))
+            
+            if (Double.IsNaN(upper) || Double.IsNaN(lower))
             {
                 return false;
             }
@@ -109,15 +110,13 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         private void SetParameters(double lower, double upper)
         {
-            if (!Control.CheckDistributionParameters || IsValidParameterSet(lower, upper))
-            {
-                mLower = lower;
-                mUpper = upper;
-            }
-            else
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
+
+            _lower = lower;
+            _upper = upper;
         }
 
         /// <summary>
@@ -127,12 +126,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return mLower;
+                return _lower;
             }
 
             set
             {
-                SetParameters(value, mUpper);
+                SetParameters(value, _upper);
             }
         }
 
@@ -143,12 +142,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return mUpper;
+                return _upper;
             }
 
             set
             {
-                SetParameters(mLower, value);
+                SetParameters(_lower, value);
             }
         }
 
@@ -164,7 +163,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return (mLower + mUpper)/2.0; }
+            get { return (_lower + _upper) / 2.0; }
         }
 
         /// <summary>
@@ -172,7 +171,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return (mUpper - mLower)*(mUpper - mLower)/12.0; }
+            get { return (_upper - _lower) * (_upper - _lower) / 12.0; }
         }
 
         /// <summary>
@@ -180,7 +179,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return (mUpper - mLower) / System.Math.Sqrt(12.0); }
+            get { return (_upper - _lower) / Math.Sqrt(12.0); }
         }
 
         /// <summary>
@@ -189,7 +188,7 @@ namespace MathNet.Numerics.Distributions
         /// <value></value>
         public double Entropy
         {
-            get { return System.Math.Log(mUpper - mLower); }
+            get { return Math.Log(_upper - _lower); }
         }
 
         /// <summary>
@@ -209,7 +208,7 @@ namespace MathNet.Numerics.Distributions
         /// <value></value>
         public double Mode
         {
-            get { return (mLower + mUpper)/2.0; }
+            get { return (_lower + _upper) / 2.0; }
         }
 
         /// <summary>
@@ -218,7 +217,7 @@ namespace MathNet.Numerics.Distributions
         /// <value></value>
         public double Median
         {
-            get { return (mLower + mUpper)/2.0; }
+            get { return (_lower + _upper) / 2.0; }
         }
 
         /// <summary>
@@ -226,7 +225,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get { return mLower; }
+            get { return _lower; }
         }
 
         /// <summary>
@@ -234,7 +233,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get { return mUpper; }
+            get { return _upper; }
         }
 
         /// <summary>
@@ -244,9 +243,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            if (x >= mLower && x <= mUpper)
+            if (x >= _lower && x <= _upper)
             {
-                return 1.0/(mUpper - mLower);
+                return 1.0 / (_upper - _lower);
             }
 
             return 0.0;
@@ -259,9 +258,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            if (x >= mLower && x <= mUpper)
+            if (x >= _lower && x <= _upper)
             {
-                return -Math.Log(mUpper - mLower);
+                return -Math.Log(_upper - _lower);
             }
 
             return Double.NegativeInfinity;
@@ -274,16 +273,17 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if(x <= mLower)
+            if (x <= _lower)
             {
                 return 0.0;
             }
-            else if(x >= mUpper)
+            
+            if (x >= _upper)
             {
                 return 1.0;
             }
 
-            return (x - mLower)/(mUpper - mLower);
+            return (x - _lower) / (_upper - _lower);
         }
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return DoSample(RandomSource, mLower, mUpper);
+            return DoSample(RandomSource, _lower, _upper);
         }
 
         /// <summary>
@@ -301,9 +301,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while(true)
+            while (true)
             {
-                yield return DoSample(RandomSource, mLower, mUpper);
+                yield return DoSample(RandomSource, _lower, _upper);
             }
         }
 
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">The lower bound of the uniform random variable.</param>
         /// <param name="upper">The upper bound of the uniform random variable.</param>
         /// <returns>a uniformly distributed sample.</returns>
-        public static double Sample(System.Random rnd, double lower, double upper)
+        public static double Sample(Random rnd, double lower, double upper)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
             {
@@ -333,14 +333,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">The lower bound of the uniform random variable.</param>
         /// <param name="upper">The upper bound of the uniform random variable.</param>
         /// <returns>a sequence of uniformly distributed samples.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double lower, double upper)
+        public static IEnumerable<double> Samples(Random rnd, double lower, double upper)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            while(true)
+            while (true)
             {
                 yield return DoSample(rnd, lower, upper);
             }
@@ -353,9 +353,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">The lower bound of the uniform random variable.</param>
         /// <param name="upper">The upper bound of the uniform random variable.</param>
         /// <returns>a uniformly distributed random number.</returns>
-        private static double DoSample(System.Random rnd, double lower, double upper)
+        private static double DoSample(Random rnd, double lower, double upper)
         {
-            return lower + (rnd.NextDouble()*(upper - lower));
+            return lower + (rnd.NextDouble() * (upper - lower));
         }
     }
 }
