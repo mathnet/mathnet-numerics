@@ -1,0 +1,65 @@
+NIST/ITL StRD 
+Dataset Name:   SiRstv     (SiRstvt.dat)
+
+
+File Format:    ASCII
+                Certified Values   (lines 41 to 47)
+                Data               (lines 61 to 65) 
+
+
+Procedure:      Analysis of Variance
+
+
+Reference:      Ehrstein, James and Croarkin, M. Carroll.
+                Unpublished NIST dataset.
+
+
+Data:           1 Factor
+                5 Treatments
+                5  Replicates/Cell
+                25 Observations
+                3 Constant Leading Digits
+                Lower Level of Difficulty
+                Observed Data
+
+
+Model:          6 Parameters (mu,tau_1, ... , tau_5)
+                y_{ij} = mu + tau_i + epsilon_{ij}
+
+
+
+
+
+
+
+
+Certified Values:
+
+Source of                  Sums of               Mean               
+Variation          df      Squares              Squares             F Statistic
+
+Between Instrument  4 5.11462616000000E-02 1.27865654000000E-02 1.18046237440255E+00
+Within Instrument  20 2.16636560000000E-01 1.08318280000000E-02
+
+                   Certified R-Squared 1.90999039051129E-01
+
+                   Certified Residual
+                   Standard Deviation  1.04076068334656E-01
+
+
+
+
+
+
+
+
+Data:
+                     Instrument
+
+    1          2          3          4          5
+
+196.3052   196.3042   196.1303   196.2795   196.2119
+196.1240   196.3825   196.2005   196.1748   196.1051
+196.1890   196.1669   196.2889   196.1494   196.1850
+196.2569   196.3257   196.0343   196.1485   196.0052
+196.3403   196.0422   196.1811   195.9885   196.2090

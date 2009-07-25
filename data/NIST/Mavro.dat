@@ -1,0 +1,91 @@
+File Name:     Mavro.dat
+
+Dataset Name:  Mavro (Filter Transmittance Data)
+
+Description:   This is an observed/"real world" data set
+               consisting of 50 transmittance measurements
+               (at a sampling rate of 10 observations per second)
+               from a filter with a nominal value of 2.
+               The experimenter was Radu Mavrodineaunu,
+               a member of the chemistry staff at NIST.
+               We here use this data to test accuracy
+               in summary statistics calculations.
+
+Stat Category: Univariate: Summary Statistics
+
+Reference:     None
+
+Data:          "Real World"
+               1    Response          : y = transmittance
+               0    Predictors
+               50   Observations
+
+Model:         Lower Level of Difficulty
+               2    Parameters        : mu, sigma
+               1    Response Variable : y
+               0    Predictor Variables
+
+               y    = mu + e
+
+
+
+                                                  Certified Values
+Sample Mean                                ybar:  2.00185600000000
+Sample Standard Deviation (denom. = n-1)      s:  0.000429123454003053
+Sample Autocorrelation Coefficient (lag 1) r(1):  0.937989183438248
+
+Number of Observations:                              50
+
+
+Data: Y
+-------------
+   2.00180
+   2.00170
+   2.00180
+   2.00190
+   2.00180
+   2.00170
+   2.00150
+   2.00140
+   2.00150
+   2.00150
+   2.00170
+   2.00180
+   2.00180
+   2.00190
+   2.00190
+   2.00210
+   2.00200
+   2.00160
+   2.00140
+   2.00130
+   2.00130
+   2.00150
+   2.00150
+   2.00160
+   2.00150
+   2.00140
+   2.00130
+   2.00140
+   2.00150
+   2.00140
+   2.00150
+   2.00160
+   2.00150
+   2.00160
+   2.00190
+   2.00200
+   2.00200
+   2.00210
+   2.00220
+   2.00230
+   2.00240
+   2.00250
+   2.00270
+   2.00260
+   2.00260
+   2.00260
+   2.00270
+   2.00260
+   2.00250
+   2.00240

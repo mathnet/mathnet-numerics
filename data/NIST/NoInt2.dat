@@ -1,0 +1,63 @@
+NIST/ITL StRD
+Dataset Name:  NoInt2 (NoInt2.dat)
+
+File Format:   ASCII
+               Certified Values  (lines 31 to 45)
+               Data              (lines 61 to 63)
+
+Procedure:     Linear Least Squares Regression
+
+Reference:     Eberhardt, K., NIST.
+
+Data:          1 Response Variable (y)
+               1 Predictor Variable (x)
+               3 Observations
+               Average Level of Difficulty
+               Generated Data
+
+Model:         Linear Class
+               1 Parameter (B1)
+
+               y = B1*x + e
+
+
+
+
+               Certified Regression Statistics
+
+                                          Standard Deviation
+     Parameter          Estimate             of Estimate
+
+        B1          0.727272727272727    0.420827318078432E-01
+
+     Residual
+     Standard Deviation   0.369274472937998
+
+     R-Squared            0.993348115299335
+
+
+               Certified Analysis of Variance Table
+
+Source of Degrees of    Sums of             Mean  
+Variation  Freedom      Squares            Squares           F Statistic
+              
+Regression   1     40.7272727272727    40.7272727272727   298.6666666666667
+Residual     2     0.272727272727273   0.136363636363636
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Data:    y       x
+         3       4
+         4       5
+         4       6

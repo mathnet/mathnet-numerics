@@ -1,0 +1,81 @@
+NIST/ITL StRD
+Dataset Name:  Wampler3 (Wampler3.dat)
+
+File Format:   ASCII
+               Certified Values  (lines 31 to 50)
+               Data              (lines 61 to 81)
+
+Procedure:     Linear Least Squares Regression
+
+Reference:     Wampler, R. H. (1970). 
+               A Report of the Accuracy of Some Widely-Used Least 
+               Squares Computer Programs. 
+               Journal of the American Statistical Association, 65, pp. 549-565.
+           
+Data:          1 Response Variable (y)
+               1 Predictor Variable (x)
+               21 Observations
+               Higher Level of Difficulty
+               Generated Data
+
+Model:         Polynomial Class
+               6 Parameters (B0,B1,...,B5)
+
+               y = B0 + B1*x + B2*(x**2) + B3*(x**3)+ B4*(x**4) + B5*(x**5)
+
+               Certified Regression Statistics
+
+                                          Standard Deviation
+     Parameter          Estimate             of Estimate
+
+        B0        1.00000000000000         2152.32624678170    
+        B1        1.00000000000000         2363.55173469681    
+        B2        1.00000000000000         779.343524331583    
+        B3        1.00000000000000         101.475507550350    
+        B4        1.00000000000000         5.64566512170752    
+        B5        1.00000000000000         0.112324854679312    
+
+     Residual
+     Standard Deviation   2360.14502379268
+
+     R-Squared            0.999995559025820
+
+
+               Certified Analysis of Variance Table
+
+Source of Degrees of     Sums of              Mean  
+Variation  Freedom       Squares             Squares           F Statistic
+              
+Regression    5      18814317208116.7    3762863441623.33   675524.458240122   
+Residual     15      83554268.0000000    5570284.53333333
+
+
+
+
+
+
+
+
+
+Data:           y      x
+              760.     0
+            -2042.     1
+             2111.     2
+            -1684.     3
+             3888.     4
+             1858.     5
+            11379.     6
+            17560.     7
+            39287.     8
+            64382.     9
+           113159.    10
+           175108.    11
+           273291.    12
+           400186.    13
+           581243.    14
+           811568.    15
+          1121004.    16
+          1506550.    17
+          2002767.    18
+          2611612.    19
+          3369180.    20
