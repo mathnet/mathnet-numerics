@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     {
         public Func<IList<double>, IList<double>, IInterpolation> Factory { get; set; }
         public int[] Order { get; set; }
+        public bool LinearBehavior { get; set; }
         public bool PolynomialBehavior { get; set; }
         public bool RationalBehavior { get; set; }
 
@@ -56,7 +57,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             yield return CreateConstructorInitShortcutTest("ConstructorInitShortcut");
             yield return CreateConsistentCapabilityBehaviorTest("ConsistentCapabilityBehavior");
             yield return CreateInterpolationMatchesNodePointsTest("InterpolationMatchesNodePoints");
-            yield return CreateLinearBehaviorTest("LinearBehavior");
+
+            if (LinearBehavior)
+            {
+                yield return CreateLinearBehaviorTest("LinearBehavior");
+            }
 
             if (PolynomialBehavior)
             {

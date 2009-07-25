@@ -90,5 +90,24 @@ namespace MathNet.Numerics.Interpolation
             method.Initialize(points, values);
             return method;
         }
+
+        /// <summary>
+        /// Create a burlish stoer rational interpolation based on arbitrary points.
+        /// </summary>
+        /// <param name="points">The sample points t. Supports both lists and arrays.</param>
+        /// <param name="values">The sample point values x(t). Supports both lists and arrays.</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        public static IInterpolation RationalWithPoles(
+            IList<double> points,
+            IList<double> values)
+        {
+            BulirschStoerRationalInterpolation method = new BulirschStoerRationalInterpolation();
+            method.Initialize(points, values);
+            return method;
+        }
     }
 }

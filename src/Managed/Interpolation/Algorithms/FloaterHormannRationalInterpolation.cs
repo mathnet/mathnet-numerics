@@ -32,7 +32,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
     using System.Collections.Generic;
 
     /// <summary>
-    /// Barycentric Rational Interpolation without poles, using Floater and Hormann's Algorithm.
+    /// Barycentric Rational Interpolation without poles, using Mike Floater and Kai Hormann's Algorithm.
     /// </summary>
     /// <remarks>
     /// This algorithm neither supports differentiation nor integration.

@@ -1,4 +1,4 @@
-﻿// <copyright file="NevillePolynomialInterpolation.cs" company="Math.NET">
+﻿// <copyright file="BulirschStoerRationalInterpolation.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -32,19 +32,14 @@ namespace MathNet.Numerics.Interpolation.Algorithms
     using System.Collections.Generic;
 
     /// <summary>
-    /// Lagrange Polynomial Interpolation using Neville's Algorithm.
+    /// Rational Interpolation (with poles) using Roland Bulirsch and Josef Stoer's Algorithm.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This algorithm supports differentiation, but doesn't support integration.
-    /// </para>
-    /// <para>
-    /// When working with equidistant or Chebyshev sample points it is
-    /// recommended to use the barycentric algorithms specialized for
-    /// these cases instead of this arbitrary Neville algorithm.
+    /// This algorithm supports neither differentiation nor integration.
     /// </para>
     /// </remarks>
-    public class NevillePolynomialInterpolation : IInterpolation
+    public class BulirschStoerRationalInterpolation : IInterpolation
     {
         /// <summary>
         /// Sample Points t.
@@ -57,18 +52,18 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         private IList<double> _values;
 
         /// <summary>
-        /// Initializes a new instance of the NevillePolynomialInterpolation class.
+        /// Initializes a new instance of the BulirschStoerRationalInterpolation class.
         /// </summary>
-        public NevillePolynomialInterpolation()
+        public BulirschStoerRationalInterpolation()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the NevillePolynomialInterpolation class.
+        /// Initializes a new instance of the BulirschStoerRationalInterpolation class.
         /// </summary>
         /// <param name="samplePoints">Sample Points t</param>
         /// <param name="sampleValues">Sample Values x(t)</param>
-        public NevillePolynomialInterpolation(
+        public BulirschStoerRationalInterpolation(
             IList<double> samplePoints,
             IList<double> sampleValues)
         {
@@ -82,7 +77,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <seealso cref="Differentiate(double, out double, out double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
-            get { return true; }
+            get { return false; }
         }
 
         /// <summary>
@@ -129,21 +124,59 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            double[] x = new double[_values.Count];
-            _values.CopyTo(x, 0);
+            const double Tiny = 1.0e-25;
+            int n = _points.Count;
 
-            for (int level = 1; level < x.Length; level++)
+            double[] c = new double[n];
+            double[] d = new double[n];
+
+            int nearestIndex = 0;
+            double nearestDistance = Math.Abs(t - _points[0]);
+
+            for (int i = 0; i < n; i++)
             {
-                for (int i = 0; i < x.Length - level; i++)
+                double distance = Math.Abs(t - _points[i]);
+                if (distance.AlmostZero())
                 {
-                    double hp = t - _points[i + level];
-                    double ho = _points[i] - t;
-                    double den = _points[i] - _points[i + level];
-                    x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
+                    return _values[i];
                 }
+
+                if (distance < nearestDistance)
+                {
+                    nearestIndex = i;
+                    nearestDistance = distance;
+                }
+
+                c[i] = _values[i];
+                d[i] = _values[i] + Tiny;
             }
 
-            return x[0];
+            double x = _values[nearestIndex];
+
+            for (int level = 1; level < n; level++)
+            {
+                for (int i = 0; i < n - level; i++)
+                {
+                    double hp = _points[i + level] - t;
+                    double ho = (_points[i] - t) * d[i] / hp;
+
+                    double den = ho - c[i + 1];
+                    if (den.AlmostZero())
+                    {
+                        return double.NaN; // zero-div, singularity
+                    }
+
+                    den = (c[i + 1] - d[i]) / den;
+                    d[i] = c[i + 1] * den;
+                    c[i] = ho * den;
+                }
+
+                x += (2 * nearestIndex) < (n - level)
+                    ? c[nearestIndex]
+                    : d[--nearestIndex];
+            }
+
+            return x;
         }
 
         /// <summary>
@@ -153,25 +186,9 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
         /// <seealso cref="Differentiate(double, out double, out double)"/>
-        public double Differentiate(double t)
+        double IInterpolation.Differentiate(double t)
         {
-            double[] x = new double[_values.Count];
-            double[] dx = new double[_values.Count];
-            _values.CopyTo(x, 0);
-
-            for (int level = 1; level < x.Length; level++)
-            {
-                for (int i = 0; i < x.Length - level; i++)
-                {
-                    double hp = t - _points[i + level];
-                    double ho = _points[i] - t;
-                    double den = _points[i] - _points[i + level];
-                    dx[i] = ((hp * dx[i]) + x[i] + (ho * dx[i + 1]) - x[i + 1]) / den;
-                    x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
-                }
-            }
-
-            return dx[0];
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -183,32 +200,12 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
         /// <seealso cref="Differentiate(double)"/>
-        public double Differentiate(
+        double IInterpolation.Differentiate(
             double t,
             out double interpolatedValue,
             out double secondDerivative)
         {
-            double[] x = new double[_values.Count];
-            double[] dx = new double[_values.Count];
-            double[] ddx = new double[_values.Count];
-            _values.CopyTo(x, 0);
-
-            for (int level = 1; level < x.Length; level++)
-            {
-                for (int i = 0; i < x.Length - level; i++)
-                {
-                    double hp = t - _points[i + level];
-                    double ho = _points[i] - t;
-                    double den = _points[i] - _points[i + level];
-                    ddx[i] = ((hp * ddx[i]) + (ho * ddx[i + 1]) + (2 * dx[i]) - (2 * dx[i + 1])) / den;
-                    dx[i] = ((hp * dx[i]) + x[i] + (ho * dx[i + 1]) - x[i + 1]) / den;
-                    x[i] = ((hp * x[i]) + (ho * x[i + 1])) / den;
-                }
-            }
-
-            interpolatedValue = x[0];
-            secondDerivative = ddx[0];
-            return dx[0];
+            throw new NotSupportedException();
         }
 
         /// <summary>
