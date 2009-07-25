@@ -74,6 +74,9 @@
     <Compile Include="..\Managed\Interpolation\Algorithms\BarycentricInterpolation.cs">
       <Link>Interpolation\Algorithms\BarycentricInterpolation.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Interpolation\Algorithms\BulirschStoerRationalInterpolation.cs">
+      <Link>Interpolation\Algorithms\BulirschStoerRationalInterpolation.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Interpolation\Algorithms\FloaterHormannRationalInterpolation.cs">
       <Link>Interpolation\Algorithms\FloaterHormannRationalInterpolation.cs</Link>
     </Compile>

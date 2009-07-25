@@ -42,6 +42,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             Factory = Interpolate.LinearBetweenPoints,
             Order = new[] { 2, 3, 6 },
+            LinearBehavior = true,
             PolynomialBehavior = false,
             RationalBehavior = false
         };
@@ -51,6 +52,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             Factory = Interpolate.RationalWithoutPoles,
             Order = new[] { 1, 2, 6 },
+            LinearBehavior = true,
             PolynomialBehavior = true,
             RationalBehavior = true
         };
@@ -60,8 +62,19 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             Factory = (t, x) => new NevillePolynomialInterpolation(t, x),
             Order = new[] { 1, 2, 6 },
+            LinearBehavior = true,
             PolynomialBehavior = true,
             RationalBehavior = false
+        };
+
+        [VerifyContract]
+        public readonly IContract BulirschStoerRationalContractTests = new InterpolationContract<BulirschStoerRationalInterpolation>()
+        {
+            Factory = Interpolate.RationalWithPoles,
+            Order = new[] { 1, 2, 6 },
+            LinearBehavior = false,
+            PolynomialBehavior = true,
+            RationalBehavior = true
         };
     }
 }
