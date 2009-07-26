@@ -97,6 +97,27 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             IList<double> sampleValues,
             IList<double> sampleDerivatives)
         {
+            double[] coefficients = EvaluateSplineCoefficients(
+                samplePoints,
+                sampleValues,
+                sampleDerivatives);
+
+            _spline.Initialize(samplePoints, coefficients);
+        }
+
+        /// <summary>
+        /// Evaluate the spline coefficients as used
+        /// internally by this interpolation algorithm.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <param name="sampleDerivatives">Sample Derivatives x'(t)</param>
+        /// <returns>Spline Coefficient Vector</returns>
+        public static double[] EvaluateSplineCoefficients(
+            IList<double> samplePoints,
+            IList<double> sampleValues,
+            IList<double> sampleDerivatives)
+        {
             if (null == samplePoints)
             {
                 throw new ArgumentNullException("samplePoints");
@@ -136,7 +157,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 coefficients[j + 3] = ((2 * (sampleValues[i] - sampleValues[i + 1])) + (sampleDerivatives[i] * delta) + (sampleDerivatives[i + 1] * delta)) / delta3;
             }
 
-            _spline.Initialize(samplePoints, coefficients);
+            return coefficients;
         }
 
         /// <summary>

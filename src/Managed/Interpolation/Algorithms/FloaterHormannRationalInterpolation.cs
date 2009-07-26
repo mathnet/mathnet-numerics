@@ -101,7 +101,12 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentNullException("samplePoints");
             }
 
-            Initialize(samplePoints, sampleValues, Math.Min(3, samplePoints.Count - 1));
+            double[] weights = EvaluateBarycentricWeights(
+                samplePoints,
+                sampleValues,
+                Math.Min(3, samplePoints.Count - 1));
+
+            _barycentric.Initialize(samplePoints, sampleValues, weights);
         }
 
         /// <summary>
@@ -114,6 +119,30 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// In most cases a value between 3 and 8 gives good results.
         /// </param>
         public void Initialize(
+            IList<double> samplePoints,
+            IList<double> sampleValues,
+            int order)
+        {
+            double[] weights = EvaluateBarycentricWeights(
+                samplePoints,
+                sampleValues,
+                order);
+
+            _barycentric.Initialize(samplePoints, sampleValues, weights);
+        }
+
+        /// <summary>
+        /// Evaluate the barycentric weights as used
+        /// internally by this interpolation algorithm.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <param name="order">
+        /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
+        /// In most cases a value between 3 and 8 gives good results.
+        /// </param>
+        /// <returns>Barycentric Weight Vector</returns>
+        public static double[] EvaluateBarycentricWeights(
             IList<double> samplePoints,
             IList<double> sampleValues,
             int order)
@@ -203,7 +232,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 weights[perm[i]] = sortedWeights[i];
             }
 
-            _barycentric.Initialize(samplePoints, sampleValues, weights);
+            return weights;
         }
 
         /// <summary>
