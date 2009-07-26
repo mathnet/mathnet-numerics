@@ -90,9 +90,27 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         };
 
         [VerifyContract]
+        public readonly IContract CubicHermiteSplineContractTests = new InterpolationContract<CubicHermiteSplineInterpolation>()
+        {
+            Factory = (t, x) => new CubicHermiteSplineInterpolation(t, x, CubicSplineInterpolation.EvaluateSplineDerivatives(t, x, SplineBoundaryCondition.Natural, 0.0, SplineBoundaryCondition.Natural, 0.0)),
+            Order = new[] { 1, 2, 6 },
+            NonStandardParameters = true,
+        };
+
+        [VerifyContract]
         public readonly IContract LinearSplineContractTests = new InterpolationContract<LinearSplineInterpolation>()
         {
             Factory = Interpolate.LinearBetweenPoints,
+            Order = new[] { 2, 3, 6 },
+            LinearBehavior = true,
+            PolynomialBehavior = false,
+            RationalBehavior = false
+        };
+
+        [VerifyContract]
+        public readonly IContract CubicSplineContractTests = new InterpolationContract<CubicSplineInterpolation>()
+        {
+            Factory = (t, x) => new CubicSplineInterpolation(t, x),
             Order = new[] { 2, 3, 6 },
             LinearBehavior = true,
             PolynomialBehavior = false,
