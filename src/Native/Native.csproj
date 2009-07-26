@@ -104,6 +104,9 @@
     <Compile Include="..\Managed\Interpolation\SplineBoundaryCondition.cs">
       <Link>Interpolation\SplineBoundaryCondition.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\NumberTheory\IntegerTheory.cs">
+      <Link>NumberTheory\IntegerTheory.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Precision.cs">
       <Link>Precision.cs</Link>
     </Compile>
