@@ -56,6 +56,7 @@
     <Compile Include="Distributions\IDistribution.cs" />
     <Compile Include="Interpolation\Algorithms\BarycentricInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\BulirschStoerRationalInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\CubicHermiteSplineInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\FloaterHormannRationalInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\LinearSplineInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\NevillePolynomialInterpolation.cs" />
