@@ -71,6 +71,18 @@
     <Compile Include="..\Managed\Distributions\IDistribution.cs">
       <Link>Distributions\IDistribution.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Integration\Algorithms\DoubleExponentialTransformation.cs">
+      <Link>Integration\Algorithms\DoubleExponentialTransformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Integration\Algorithms\NewtonCotesTrapeziumRule.cs">
+      <Link>Integration\Algorithms\NewtonCotesTrapeziumRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Integration\Algorithms\SimpsonRule.cs">
+      <Link>Integration\Algorithms\SimpsonRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Integration\Integrate.cs">
+      <Link>Integration\Integrate.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Interpolation\Algorithms\BarycentricInterpolation.cs">
       <Link>Interpolation\Algorithms\BarycentricInterpolation.cs</Link>
     </Compile>

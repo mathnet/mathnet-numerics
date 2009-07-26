@@ -54,6 +54,10 @@
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
+    <Compile Include="Integration\Algorithms\DoubleExponentialTransformation.cs" />
+    <Compile Include="Integration\Algorithms\SimpsonRule.cs" />
+    <Compile Include="Integration\Algorithms\NewtonCotesTrapeziumRule.cs" />
+    <Compile Include="Integration\Integrate.cs" />
     <Compile Include="Interpolation\Algorithms\BarycentricInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\BulirschStoerRationalInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\CubicSplineInterpolation.cs" />

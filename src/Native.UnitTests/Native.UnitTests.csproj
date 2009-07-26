@@ -72,6 +72,9 @@
     <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\NormalTests.cs">
       <Link>DistributionTests\Continuous\NormalTests.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\IntegrationTests\IntegrationTest.cs">
+      <Link>IntegrationTests\IntegrationTest.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\InterpolationTests\InterpolationContract.cs">
       <Link>InterpolationTests\InterpolationContract.cs</Link>
     </Compile>
