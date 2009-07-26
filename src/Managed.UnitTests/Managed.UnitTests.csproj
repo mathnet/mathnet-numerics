@@ -62,6 +62,7 @@
     <Compile Include="ComplexTest.cs" />
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
+    <Compile Include="IntegrationTests\IntegrationTest.cs" />
     <Compile Include="InterpolationTests\InterpolationContract.cs" />
     <Compile Include="InterpolationTests\InterpolationTest.cs" />
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
