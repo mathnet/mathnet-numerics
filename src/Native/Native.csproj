@@ -131,6 +131,9 @@
     <Compile Include="..\Managed\SiPrefixes.cs">
       <Link>SiPrefixes.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Sorting.cs">
+      <Link>Sorting.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\SpecialFunctions.cs">
       <Link>SpecialFunctions.cs</Link>
     </Compile>
