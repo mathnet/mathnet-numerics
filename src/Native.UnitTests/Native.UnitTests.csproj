@@ -89,6 +89,9 @@
     <Compile Include="..\Managed.UnitTests\PrecisionTest.cs">
       <Link>PrecisionTest.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\SortingTests.cs">
+      <Link>SortingTests.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\SpecialFunctionsTest\ErfTests.cs">
       <Link>SpecialFunctionsTest\ErfTests.cs</Link>
     </Compile>

@@ -1,4 +1,4 @@
-﻿// <copyright file="IntegerTheory.cs" company="Math.NET">
+// <copyright file="IntegerTheory.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -31,7 +31,7 @@ namespace MathNet.Numerics.NumberTheory
     using System;
 
     /// <summary>
-    /// Number Theory for Integers
+    /// Number theory utility functions for integers.
     /// </summary>
     public static class IntegerTheory
     {

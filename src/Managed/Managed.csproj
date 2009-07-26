@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="SiConstants.cs" />
     <Compile Include="SiPrefixes.cs" />
+    <Compile Include="Sorting.cs" />
     <Compile Include="SpecialFunctions.cs" />
     <Compile Include="SpecialFunctions\Erf.cs" />
     <Compile Include="Threading\AggregateException.cs" />
