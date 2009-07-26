@@ -80,6 +80,9 @@
     <Compile Include="..\Managed\Interpolation\Algorithms\CubicHermiteSplineInterpolation.cs">
       <Link>Interpolation\Algorithms\CubicHermiteSplineInterpolation.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Interpolation\Algorithms\CubicSplineInterpolation.cs">
+      <Link>Interpolation\Algorithms\CubicSplineInterpolation.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Interpolation\Algorithms\FloaterHormannRationalInterpolation.cs">
       <Link>Interpolation\Algorithms\FloaterHormannRationalInterpolation.cs</Link>
     </Compile>
@@ -97,6 +100,9 @@
     </Compile>
     <Compile Include="..\Managed\Interpolation\Interpolate.cs">
       <Link>Interpolation\Interpolate.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Interpolation\SplineBoundaryCondition.cs">
+      <Link>Interpolation\SplineBoundaryCondition.cs</Link>
     </Compile>
     <Compile Include="..\Managed\Precision.cs">
       <Link>Precision.cs</Link>
