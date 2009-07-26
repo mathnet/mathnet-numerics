@@ -78,12 +78,15 @@
     <Compile Include="..\Managed.UnitTests\InterpolationTests\InterpolationTest.cs">
       <Link>InterpolationTests\InterpolationTest.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\NumberTheoryTests\IntegerTheoryTest.cs">
+      <Link>NumberTheoryTests\IntegerTheoryTest.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\PrecisionTest.cs">
       <Link>PrecisionTest.cs</Link>
     </Compile>
     <Compile Include="..\Managed.UnitTests\SpecialFunctionsTest\ErfTests.cs">
       <Link>SpecialFunctionsTest\ErfTests.cs</Link>
-	</Compile>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
