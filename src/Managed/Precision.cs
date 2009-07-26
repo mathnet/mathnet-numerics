@@ -707,12 +707,61 @@ namespace MathNet.Numerics
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
         public static bool AlmostEqual(this double a, double b)
         {
-            if ((a == 0 && Math.Abs(b) < _defaultRelativeAccuracy) || (b == 0 && Math.Abs(a) < _defaultRelativeAccuracy))
+            return AlmostEqualWithRelativeError(a, b, a - b, _defaultRelativeAccuracy);
+        }
+
+        /// <summary>
+        /// Compares two doubles and determines if they are equal within
+        /// the specified maximum relative error.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="maximumRelativeError">The relative accuracy required for being almost equal.</param>
+        /// <returns>
+        /// <see langword="true" /> if both doubles are almost equal up to the
+        /// specified maximum relative error, <see langword="false" /> otherwise.
+        /// </returns>
+        public static bool AlmostEqualWithRelativeError(this double a, double b, double maximumRelativeError)
+        {
+            return AlmostEqualWithRelativeError(a, b, a - b, maximumRelativeError);
+        }
+
+        /// <summary>
+        /// Compares two doubles and determines if they are equal within
+        /// the specified maximum relative error.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="diff">The difference of the two values (according to some norm).</param>
+        /// <param name="maximumRelativeError">The relative accuracy required for being almost equal.</param>
+        /// <returns>
+        /// <see langword="true" /> if both doubles are almost equal up to the
+        /// specified maximum relative error, <see langword="false" /> otherwise.
+        /// </returns>
+        public static bool AlmostEqualWithRelativeError(this double a, double b, double diff, double maximumRelativeError)
+        {
+            // If A or B are infinity (positive or negative) then
+            // only return true if they are exactly equal to each other -
+            // that is, if they are both infinities of the same sign.
+            if (double.IsInfinity(a) || double.IsInfinity(b))
+            {
+                return a == b;
+            }
+
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves.
+            if (double.IsNaN(a) || double.IsNaN(b))
+            {
+                return false;
+            }
+
+            if ((a == 0 && Math.Abs(b) < maximumRelativeError)
+                || (b == 0 && Math.Abs(a) < maximumRelativeError))
             {
                 return true;
             }
 
-            return Math.Abs(a - b) < _defaultRelativeAccuracy * Math.Max(Math.Abs(a), Math.Abs(b));
+            return Math.Abs(diff) < maximumRelativeError * Math.Max(Math.Abs(a), Math.Abs(b));
         }
 
         /// <summary>
