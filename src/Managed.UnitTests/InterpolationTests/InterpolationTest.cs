@@ -37,25 +37,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     [TestFixture]
     public class InterpolationTest
     {
-        [VerifyContract]
-        public readonly IContract LinearSplineContractTests = new InterpolationContract<LinearSplineInterpolation>()
-        {
-            Factory = Interpolate.LinearBetweenPoints,
-            Order = new[] { 2, 3, 6 },
-            LinearBehavior = true,
-            PolynomialBehavior = false,
-            RationalBehavior = false
-        };
-
-        [VerifyContract]
-        public readonly IContract FloaterHormannRationalContractTests = new InterpolationContract<FloaterHormannRationalInterpolation>()
-        {
-            Factory = Interpolate.RationalWithoutPoles,
-            Order = new[] { 1, 2, 6 },
-            LinearBehavior = true,
-            PolynomialBehavior = true,
-            RationalBehavior = true
-        };
+        // Direct Algorithms (without precomputations)
 
         [VerifyContract]
         public readonly IContract NevillePolynomialContractTests = new InterpolationContract<NevillePolynomialInterpolation>()
@@ -75,6 +57,46 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             LinearBehavior = false,
             PolynomialBehavior = true,
             RationalBehavior = true
+        };
+
+        // Barycentric Algorithms
+
+        [VerifyContract]
+        public readonly IContract BarycentricContractTests = new InterpolationContract<BarycentricInterpolation>()
+        {
+            Factory = (t, x) => new BarycentricInterpolation(t, x, FloaterHormannRationalInterpolation.EvaluateBarycentricWeights(t, x, 2)),
+            Order = new[] { 1, 2, 6 },
+            NonStandardParameters = true,
+        };
+
+        [VerifyContract]
+        public readonly IContract FloaterHormannRationalContractTests = new InterpolationContract<FloaterHormannRationalInterpolation>()
+        {
+            Factory = Interpolate.RationalWithoutPoles,
+            Order = new[] { 1, 2, 6 },
+            LinearBehavior = true,
+            PolynomialBehavior = true,
+            RationalBehavior = true
+        };
+
+        // Spline Algorithms
+
+        [VerifyContract]
+        public readonly IContract SplineContractTests = new InterpolationContract<SplineInterpolation>()
+        {
+            Factory = (t, x) => new SplineInterpolation(t, LinearSplineInterpolation.EvaluateSplineCoefficients(t, x)),
+            Order = new[] { 1, 2, 6 },
+            NonStandardParameters = true,
+        };
+
+        [VerifyContract]
+        public readonly IContract LinearSplineContractTests = new InterpolationContract<LinearSplineInterpolation>()
+        {
+            Factory = Interpolate.LinearBetweenPoints,
+            Order = new[] { 2, 3, 6 },
+            LinearBehavior = true,
+            PolynomialBehavior = false,
+            RationalBehavior = false
         };
     }
 }

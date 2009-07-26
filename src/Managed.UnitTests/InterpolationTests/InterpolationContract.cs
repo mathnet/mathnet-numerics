@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     {
         public Func<IList<double>, IList<double>, IInterpolation> Factory { get; set; }
         public int[] Order { get; set; }
+        public bool NonStandardParameters { get; set; }
         public bool LinearBehavior { get; set; }
         public bool PolynomialBehavior { get; set; }
         public bool RationalBehavior { get; set; }
@@ -51,24 +52,34 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
 
         protected override IEnumerable<Test> GetContractVerificationTests()
         {
+            // Infrastructure Tests
+
             yield return CreateFactoryReturnsCorrectTypeTest("FactoryReturnsCorrectType");
+            yield return CreateConsistentCapabilityBehaviorTest("ConsistentCapabilityBehavior");
+
             yield return CreateInitChecksForNullTest("InitChecksForNull");
             yield return CreateInitChecksForMatchingCountTest("InitChecksForMatchingCount");
-            yield return CreateConstructorInitShortcutTest("ConstructorInitShortcut");
-            yield return CreateConsistentCapabilityBehaviorTest("ConsistentCapabilityBehavior");
+
+            if (!NonStandardParameters)
+            {
+                yield return CreateConstructorInitShortcutTest("ConstructorInitShortcut");
+            }
+
+            // Numerics Behavior Tests
+
             yield return CreateInterpolationMatchesNodePointsTest("InterpolationMatchesNodePoints");
 
-            if (LinearBehavior)
+            if (LinearBehavior && !NonStandardParameters)
             {
                 yield return CreateLinearBehaviorTest("LinearBehavior");
             }
 
-            if (PolynomialBehavior)
+            if (PolynomialBehavior && !NonStandardParameters)
             {
                 yield return CreatePolynomialBehaviorTest("PolynomialBehavior");
             }
 
-            if (RationalBehavior)
+            if (RationalBehavior && !NonStandardParameters)
             {
                 yield return CreateRationalBehaviorTest("RationalBehavior");
             }
