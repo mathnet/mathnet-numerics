@@ -26,6 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
@@ -38,6 +39,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © Math.NET Project")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 [assembly: Guid("7b66646f-f0ee-425d-9065-910d1937a2df")]
 [assembly: AssemblyVersion("1.0.0.0")]
