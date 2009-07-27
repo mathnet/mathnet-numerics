@@ -229,7 +229,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is I; otherwise, <c>false</c>.</value>
         public bool IsI
         {
-            get { return _real.AlmostZero() && _imag.AlmostEqual(1); }
+            get { return _real.AlmostZero() && _imag.AlmostEqual(1.0); }
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace MathNet.Numerics
         /// infinite value.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if this instance is infinie; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is infinite; otherwise, <c>false</c>.
         /// </value>
         /// <remarks>
         /// True if it either evaluates to a complex infinity
@@ -279,14 +279,100 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Gets a value indicating whetherthe provided <c>Complex</c> is imaginary.
+        /// Gets the conjugate of this <c>Complex</c>.
         /// </summary>
-        /// <value>
-        ///     <c>true</c> if this instance is an imaginary number; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsImaginary
+        /// <remarks>
+        /// The semantic of <i>setting the conjugate</i> is such that
+        /// <code>
+        /// // a, b of type Complex
+        /// a.Conjugate = b;
+        /// </code>
+        /// is equivalent to
+        /// <code>
+        /// // a, b of type Complex
+        /// a = b.Conjugate
+        /// </code>
+        /// </remarks>
+        public Complex Conjugate
         {
-            get { return _real.AlmostZero(); }
+            get { return new Complex(_real, -_imag); }
+        }
+
+        /// <summary>
+        /// Gets or modulus of this <c>Complex</c>.
+        /// </summary>
+        /// <seealso cref="Argument"/>
+        public double Modulus
+        {
+            get { return Math.Sqrt((_real * _real) + (_imag * _imag)); }
+        }
+
+        /// <summary>
+        /// Gets the squared modulus of this <c>Complex</c>.
+        /// </summary>
+        /// <seealso cref="Argument"/>
+        public double ModulusSquared
+        {
+            get { return (_real * _real) + (_imag * _imag); }
+        }
+
+        /// <summary>
+        /// Gets argument of this <c>Complex</c>.
+        /// </summary>
+        /// <remarks>
+        /// Argument always returns a value bigger than negative Pi and
+        /// smaller or equal to Pi. If this <c>Complex</c> is zero, the Complex
+        /// is assumed to be positive _real with an argument of zero.
+        /// </remarks>
+        public double Argument
+        {
+            get
+            {
+                if (IsReal && _real < 0)
+                {
+                    return Math.PI;
+                }
+
+                return IsRealNonNegative ? 0 : Math.Atan2(_imag, _real);
+            }
+        }
+
+        /// <summary>
+        /// Gets the unity of this complex (same argument, but on the unit circle; exp(I*arg))
+        /// </summary>
+        public Complex Sign
+        {
+            get
+            {
+                if (double.IsPositiveInfinity(_real) && double.IsPositiveInfinity(_imag))
+                {
+                    return new Complex(Constants.Sqrt1Over2, Constants.Sqrt1Over2);
+                }
+
+                if (double.IsPositiveInfinity(_real) && double.IsNegativeInfinity(_imag))
+                {
+                    return new Complex(Constants.Sqrt1Over2, -Constants.Sqrt1Over2);
+                }
+
+                if (double.IsNegativeInfinity(_real) && double.IsPositiveInfinity(_imag))
+                {
+                    return new Complex(-Constants.Sqrt1Over2, -Constants.Sqrt1Over2);
+                }
+
+                if (double.IsNegativeInfinity(_real) && double.IsNegativeInfinity(_imag))
+                {
+                    return new Complex(-Constants.Sqrt1Over2, Constants.Sqrt1Over2);
+                }
+
+                // don't replace this with "Modulus"!
+                var mod = SpecialFunctions.Hypotenuse(_real, _imag);
+                if (mod.AlmostZero())
+                {
+                    return Zero;
+                }
+
+                return new Complex(_real / mod, _imag / mod);
+            }
         }
 
         #region Static Initializers
@@ -376,17 +462,27 @@ namespace MathNet.Numerics
 
             var ret = new StringBuilder();
 
-            ret.Append(_real.ToString(format, formatProvider));
-            if (_imag < 0)
+            if (!_real.AlmostZero())
             {
-                ret.Append(" ");
-            }
-            else
-            {
-                ret.Append(" + ");
+                ret.Append(_real.ToString(format, formatProvider));
             }
 
-            ret.Append(_imag.ToString(format, formatProvider)).Append("i");
+            if (!_imag.AlmostZero())
+            {
+                if (!_real.AlmostZero())
+                {
+                    if (_imag < 0)
+                    {
+                        ret.Append(" ");
+                    }
+                    else
+                    {
+                        ret.Append(" + ");
+                    }
+                }
+
+                ret.Append(_imag.ToString(format, formatProvider)).Append("i");
+            }
 
             return ret.ToString();
         }
@@ -406,7 +502,15 @@ namespace MathNet.Numerics
         /// <param name="other">The complex number to compare to with.</param>
         public bool Equals(Complex other)
         {
-            return Real == other.Real && Imaginary == other.Imaginary;
+            if (IsNaN || other.IsNaN)
+            {
+                return false;
+            }
+            if( IsInfinity && other.IsInfinity )
+            {
+                return true;
+            }
+            return _real.AlmostEqual(other._real) && _imag.AlmostEqual(other._imag);
         }
 
         /// <summary>The hash code for the complex number.</summary>
@@ -431,7 +535,238 @@ namespace MathNet.Numerics
         /// <param name="obj">The complex number to compare to with.</param>
         public override bool Equals(object obj)
         {
-            return (obj is Complex) && Equals((Complex)obj);
+            return (obj is Complex) && Equals((Complex) obj);
+        }
+
+        #endregion
+
+        #region Operators
+
+        /// <summary>
+        /// Equality test.
+        /// </summary>
+        /// <param name="complex1">One of complex numbers to compare.</param>
+        /// <param name="complex2">The other complex numbers to compare.</param>
+        /// <returns>true if the real and imaginary components of the two complex numbers are equal; false otherwise.</returns>
+        public static bool operator ==(Complex complex1, Complex complex2)
+        {
+            return complex1.Equals(complex2);
+        }
+
+        /// <summary>
+        /// Inequality test.
+        /// </summary>
+        /// <param name="complex1">One of complex numbers to compare.</param>
+        /// <param name="complex2">The other complex numbers to compare.</param>
+        /// <returns>true if the real or imaginary components of the two complex numbers are not equal; false otherwise.</returns>
+        public static bool operator !=(Complex complex1, Complex complex2)
+        {
+            return !complex1.Equals(complex2);
+        }
+
+        /// <summary>
+        /// Unary addition.
+        /// </summary>
+        /// <param name="summand">The complex number to operate on.</param>
+        /// <returns>Returns the same complex number.</returns>
+        public static Complex operator +(Complex summand)
+        {
+            return summand;
+        }
+
+        /// <summary>
+        /// Unary minus.
+        /// </summary>
+        /// <param name="subtrahend">The complex number to operate on.</param>
+        /// <returns>The negated value of the <paramref name="subtrahend"/>.</returns>
+        public static Complex operator -(Complex subtrahend)
+        {
+            return new Complex(-subtrahend._real, -subtrahend._imag);
+        }
+
+        /// <summary>Addition operator. Adds two complex numbers together.</summary>
+        /// <returns>The result of the addition.</returns>
+        /// <param name="summand1">One of the complex numbers to add.</param>
+        /// <param name="summand2">The other complex numbers to add.</param>
+        public static Complex operator +(Complex summand1, Complex summand2)
+        {
+            return new Complex(summand1._real + summand2._real, summand1._imag + summand2._imag);
+        }
+
+        /// <summary>Subtraction operator. Subtracts two complex numbers.</summary>
+        /// <returns>The result of the subtraction.</returns>
+        /// <param name="minuend">The complex number to subtract from.</param>
+        /// <param name="subtrahend">The complex number to subtract.</param>
+        public static Complex operator -(Complex minuend, Complex subtrahend)
+        {
+            return new Complex(minuend._real - subtrahend._real, minuend._imag - subtrahend._imag);
+        }
+
+        /// <summary>Addition operator. Adds a complex number and double together.</summary>
+        /// <returns>The result of the addition.</returns>
+        /// <param name="summand1">The complex numbers to add.</param>
+        /// <param name="summand2">The double value to add.</param>
+        public static Complex operator +(Complex summand1, double summand2)
+        {
+            return new Complex(summand1._real + summand2, summand1._imag);
+        }
+
+        /// <summary>Subtraction operator. Subtracts double value from a complex value.</summary>
+        /// <returns>The result of the subtraction.</returns>
+        /// <param name="minuend">The complex number to subtract from.</param>
+        /// <param name="subtrahend">The double value to subtract.</param>
+        public static Complex operator -(Complex minuend, double subtrahend)
+        {
+            return new Complex(minuend._real - subtrahend, minuend._imag);
+        }
+
+        /// <summary>Addition operator. Adds a complex number and double together.</summary>
+        /// <returns>The result of the addition.</returns>
+        /// <param name="summand1">The double value to add.</param>
+        /// <param name="summand2">The complex numbers to add.</param>
+        public static Complex operator +(double summand1, Complex summand2)
+        {
+            return new Complex(summand2._real + summand1, summand2._imag);
+        }
+
+        /// <summary>Subtraction operator. Subtracts complex value from a double value.</summary>
+        /// <returns>The result of the subtraction.</returns>
+        /// <param name="minuend">The double vale to subtract from.</param>
+        /// <param name="subtrahend">The complex value to subtract.</param>
+        public static Complex operator -(double minuend, Complex subtrahend)
+        {
+            return new Complex(minuend - subtrahend._real, -subtrahend._imag);
+        }
+
+        /// <summary>Multiplication operator. Multiplies two complex numbers.</summary>
+        /// <returns>The result of the multiplication.</returns>
+        /// <param name="multiplicand">One of the complex numbers to multiply.</param>
+        /// <param name="multiplier">The other complex number to multiply.</param>
+        public static Complex operator *(Complex multiplicand, Complex multiplier)
+        {
+            return new Complex((multiplicand._real * multiplier._real) - (multiplicand._imag * multiplier._imag), (multiplicand._real * multiplier._imag) + (multiplicand._imag * multiplier._real));
+        }
+
+        /// <summary>Multiplication operator. Multiplies a complex number with a double value.</summary>
+        /// <returns>The result of the multiplication.</returns>
+        /// <param name="multiplicand">The double value to multiply.</param>
+        /// <param name="multiplier">The complex number to multiply.</param>
+        public static Complex operator *(double multiplicand, Complex multiplier)
+        {
+            return new Complex(multiplier._real * multiplicand, multiplier._imag * multiplicand);
+        }
+
+        /// <summary>Multiplication operator. Multiplies a complex number with a double value.</summary>
+        /// <returns>The result of the multiplication.</returns>
+        /// <param name="multiplicand">The complex number to multiply.</param>
+        /// <param name="multiplier">The double value to multiply.</param>
+        public static Complex operator *(Complex multiplicand, double multiplier)
+        {
+            return new Complex(multiplicand._real * multiplier, multiplicand._imag * multiplier);
+        }
+
+        /// <summary>Division operator. Divides a complex number by another.</summary>
+        /// <returns>The result of the division.</returns>
+        /// <param name="dividend">The dividend.</param>
+        /// <param name="divisor">The divisor.</param>
+        public static Complex operator /(Complex dividend, Complex divisor)
+        {
+            if (divisor.IsZero)
+            {
+                return Infinity;
+            }
+
+            var modSquared = divisor.ModulusSquared;
+            return new Complex(((dividend._real * divisor._real) + (dividend._imag * divisor._imag)) / modSquared, ((dividend._imag * divisor._real) - (dividend._real * divisor._imag)) / modSquared);
+        }
+
+        /// <summary>Division operator. Divides a double value by a complex number.</summary>
+        /// <returns>The result of the division.</returns>
+        /// <param name="dividend">The dividend.</param>
+        /// <param name="divisor">The divisor.</param>
+        public static Complex operator /(double dividend, Complex divisor)
+        {
+            if (divisor.IsZero)
+            {
+                return Infinity;
+            }
+
+            var zmod = divisor.ModulusSquared;
+            return new Complex(dividend * divisor._real / zmod, -dividend * divisor._imag / zmod);
+        }
+
+        /// <summary>Division operator. Divides a complex number by a double value.</summary>
+        /// <returns>The result of the division.</returns>
+        /// <param name="dividend">The dividend.</param>
+        /// <param name="divisor">The divisor.</param>
+        public static Complex operator /(Complex dividend, double divisor)
+        {
+            if (divisor.AlmostZero())
+            {
+                return Infinity;
+            }
+
+            return new Complex(dividend._real / divisor, dividend._imag / divisor);
+        }
+
+        /// <summary>
+        /// Implicit conversion of a real double to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="number">The double value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(double number)
+        {
+            return new Complex(number, 0.0);
+        }
+
+        /// <summary>
+        /// Unary addition.
+        /// </summary>
+        /// <returns>Returns the same complex number.</returns>
+        public Complex Plus()
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Unary minus.
+        /// </summary>
+        /// <returns>The negated value of this complex number.</returns>
+        public Complex Negate()
+        {
+            return -this;
+        }
+
+        /// <summary>Adds a complex number to this one.</summary>
+        /// <returns>The result of the addition.</returns>
+        /// <param name="other">The other complex number to add.</param>
+        public Complex Add(Complex other)
+        {
+            return this + other;
+        }
+
+        /// <summary>Subtracts a complex number from this one.</summary>
+        /// <returns>The result of the subtraction.</returns>
+        /// <param name="other">The other complex number to subtract from this one.</param>
+        public Complex Subtract(Complex other)
+        {
+            return this - other;
+        }
+
+        /// <summary>Multiplies this complex number with this one.</summary>
+        /// <returns>The result of the multiplication.</returns>
+        /// <param name="multiplier">The complex number to multiply.</param>
+        public Complex Multiply(Complex multiplier)
+        {
+            return this * multiplier;
+        }
+
+        /// <summary>Divides this complex number by another.</summary>
+        /// <returns>The result of the division.</returns>
+        /// <param name="divisor">The divisor.</param>
+        public Complex Divide(Complex divisor)
+        {
+            return this / divisor;
         }
 
         #endregion

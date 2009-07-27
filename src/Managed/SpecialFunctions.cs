@@ -26,6 +26,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics
 {
     /// <summary>
@@ -34,5 +36,27 @@ namespace MathNet.Numerics
     /// </summary>
     public static partial class SpecialFunctions
     {
+        /// <summary>
+        /// Computes the hypotenuse of a right angle triangle.
+        /// </summary>
+        /// <param name="a">The length of side a of the triangle.</param>
+        /// <param name="b">The length of side b of the triangle.</param>
+        /// <returns>Returns <code>sqrt(a<sup>2</sup> + b<sup>2</sup>)</code> without underflow/overflow.</returns>
+        public static double Hypotenuse(double a, double b)
+        {
+            if (Math.Abs(a) > Math.Abs(b))
+            {
+                double r = b / a;
+                return Math.Abs(a) * Math.Sqrt(1 + r * r);
+            }
+
+            if (b.AlmostZero())
+            {
+                double r = a / b;
+                return Math.Abs(b) * Math.Sqrt(1 + r * r);
+            }
+
+            return 0d;
+        }
     }
 }
