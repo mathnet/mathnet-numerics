@@ -38,6 +38,7 @@ namespace MathNet.Numerics.NumberTheory
         /// <summary>
         /// Find out whether the provided 32 bit integer is an even number.
         /// </summary>
+        /// <param name="number">The number to very whether it's even.</param>
         /// <returns>True if and only if it is an even number.</returns>
         public static bool IsEven(this int number)
         {
@@ -47,6 +48,7 @@ namespace MathNet.Numerics.NumberTheory
         /// <summary>
         /// Find out whether the provided 64 bit integer is an even number.
         /// </summary>
+        /// <param name="number">The number to very whether it's even.</param>
         /// <returns>True if and only if it is an even number.</returns>
         public static bool IsEven(this long number)
         {
@@ -56,6 +58,7 @@ namespace MathNet.Numerics.NumberTheory
         /// <summary>
         /// Find out whether the provided 32 bit integer is an odd number.
         /// </summary>
+        /// <param name="number">The number to very whether it's odd.</param>
         /// <returns>True if and only if it is an odd number.</returns>
         public static bool IsOdd(this int number)
         {
@@ -65,6 +68,7 @@ namespace MathNet.Numerics.NumberTheory
         /// <summary>
         /// Find out whether the provided 64 bit integer is an odd number.
         /// </summary>
+        /// <param name="number">The number to very whether it's odd.</param>
         /// <returns>True if and only if it is an odd number.</returns>
         public static bool IsOdd(this long number)
         {
@@ -74,6 +78,7 @@ namespace MathNet.Numerics.NumberTheory
         /// <summary>
         /// Find out whether the provided 32 bit integer is a perfect square, i.e. a square of an integer.
         /// </summary>
+        /// <param name="number">The number to very whether it's a perfect square.</param>
         /// <returns>True if and only if it is a perfect square.</returns>
         public static bool IsPerfectSquare(int number)
         {
@@ -100,6 +105,7 @@ namespace MathNet.Numerics.NumberTheory
         /// <summary>
         /// Find out whether the provided 64 bit integer is a perfect square, i.e. a square of an integer.
         /// </summary>
+        /// <param name="number">The number to very whether it's a perfect square.</param>
         /// <returns>True if and only if it is a perfect square.</returns>
         public static bool IsPerfectSquare(long number)
         {

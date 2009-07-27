@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="f">The analytic smooth function to integrate.</param>
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
-        /// <returns>approximation of the area in the given interval.</returns>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
         public double IntegrateTwoPoint(
             Func<double, double> f,
             double intervalBegin,
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="numberOfPartitions">Number of composite subdivision partitions.</param>
-        /// <returns>approximation of the area in the given interval.</returns>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
         public double IntegrateComposite(
             Func<double, double> f,
             double intervalBegin,
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
-        /// <returns>approximation of the area in the given interval.</returns>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
         public double IntegrateAdaptive(
             Func<double, double> f,
             double intervalBegin,
@@ -137,7 +137,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="levelWeights">Weight vector per level provider.</param>
         /// <param name="levelOneStep">First Level Step</param>
         /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
-        /// <returns>approximation of the area in the given interval.</returns>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
         public double IntegrateAdaptiveTransformedOdd(
             Func<double, double> f,
             double intervalBegin,

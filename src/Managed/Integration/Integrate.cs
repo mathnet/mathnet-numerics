@@ -36,7 +36,10 @@ namespace MathNet.Numerics.Integration
     /// </summary>
     public static class Integrate
     {
-        static readonly DoubleExponentialTransformation Det = new DoubleExponentialTransformation();
+        /// <summary>
+        /// Shared internal DET algorithm.
+        /// </summary>
+        private static readonly DoubleExponentialTransformation Det = new DoubleExponentialTransformation();
 
         /// <summary>
         /// Approximation of the definite interval of an analytic smooth function on a closed interval.
@@ -45,9 +48,8 @@ namespace MathNet.Numerics.Integration
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="targetAbsoluteError">The expected relative accuracy of the approximation.</param>
-        public static
-        double
-        OnClosedInterval(
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static double OnClosedInterval(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd,
@@ -66,9 +68,8 @@ namespace MathNet.Numerics.Integration
         /// <param name="f">The analytic smooth function to integrate.</param>
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
-        public static
-        double
-        OnClosedInterval(
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static double OnClosedInterval(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd)
