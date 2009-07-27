@@ -492,11 +492,6 @@ namespace MathNet.Numerics.Integration.Algorithms
         private const int NumberOfMaximumLevels = 10;
 
         /// <summary>
-        /// Internal Trapezium Rule.
-        /// </summary>
-        private readonly NewtonCotesTrapeziumRule _trapezium = new NewtonCotesTrapeziumRule();
-
-        /// <summary>
         /// Abscissa vector per level provider.
         /// </summary>
         private IEnumerable<double[]> _levelAbcissas;
@@ -526,7 +521,7 @@ namespace MathNet.Numerics.Integration.Algorithms
                 _levelWeights = ProvideLevelWeights();
             }
 
-            return _trapezium.IntegrateAdaptiveTransformedOdd(
+            return NewtonCotesTrapeziumRule.IntegrateAdaptiveTransformedOdd(
                 f,
                 intervalBegin,
                 intervalEnd,

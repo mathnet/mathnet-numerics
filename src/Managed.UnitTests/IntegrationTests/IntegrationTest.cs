@@ -82,11 +82,9 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [Test]
         public void TrapeziumRuleSupportsTwoPointIntegration()
         {
-            var algorithm = new NewtonCotesTrapeziumRule();
-
             Assert.AreApproximatelyEqual(
                 TargetAreaA,
-                algorithm.IntegrateTwoPoint(TargetFunctionA, StartA, StopA),
+                NewtonCotesTrapeziumRule.IntegrateTwoPoint(TargetFunctionA, StartA, StopA),
                 0.4 * TargetAreaA,
                 "Direct (1 Partition)");
         }
@@ -99,11 +97,9 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [Row(1000, 1.5e-6)]
         public void TrapeziumRuleSupportsCompositeIntegration(int partitions, double maxRelativeError)
         {
-            var algorithm = new NewtonCotesTrapeziumRule();
-
             Assert.AreApproximatelyEqual(
                 TargetAreaA,
-                algorithm.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions),
+                NewtonCotesTrapeziumRule.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions),
                 maxRelativeError * TargetAreaA,
                 "Composite {0} Partitions", partitions);
         }
@@ -114,11 +110,9 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [Row(1e-10)]
         public void TrapeziumRuleSupportsAdaptiveIntegration(double targetRelativeError)
         {
-            var algorithm = new NewtonCotesTrapeziumRule();
-
             Assert.AreApproximatelyEqual(
                 TargetAreaA,
-                algorithm.IntegrateAdaptive(TargetFunctionA, StartA, StopA, targetRelativeError),
+                NewtonCotesTrapeziumRule.IntegrateAdaptive(TargetFunctionA, StartA, StopA, targetRelativeError),
                 targetRelativeError * TargetAreaA,
                 "Adaptive {0}", targetRelativeError);
         }
@@ -126,11 +120,9 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [Test]
         public void SimpsonRuleSupportsThreePointIntegration()
         {
-            var algorithm = new SimpsonRule();
-
             Assert.AreApproximatelyEqual(
                 TargetAreaA,
-                algorithm.IntegrateThreePoint(TargetFunctionA, StartA, StopA),
+                SimpsonRule.IntegrateThreePoint(TargetFunctionA, StartA, StopA),
                 0.2 * TargetAreaA,
                 "Direct (2 Partitions)");
         }
@@ -143,11 +135,9 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [Row(1000, 5e-11)]
         public void SimpsonRuleSupportsCompositeIntegration(int partitions, double maxRelativeError)
         {
-            var algorithm = new SimpsonRule();
-
             Assert.AreApproximatelyEqual(
                 TargetAreaA,
-                algorithm.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions),
+                SimpsonRule.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions),
                 maxRelativeError * TargetAreaA,
                 "Composite {0} Partitions", partitions);
         }
