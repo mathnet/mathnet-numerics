@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Integration.Algorithms
     /// <remarks>
     /// <a href="http://en.wikipedia.org/wiki/Trapezium_rule">Wikipedia - Trapezium Rule</a>
     /// </remarks>
-    public class NewtonCotesTrapeziumRule
+    public static class NewtonCotesTrapeziumRule
     {
         /// <summary>
         /// Direct 2-point approximation of the definite integral in the provided interval by the trapezium rule.
@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public double IntegrateTwoPoint(
+        public static double IntegrateTwoPoint(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd)
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="numberOfPartitions">Number of composite subdivision partitions.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public double IntegrateComposite(
+        public static double IntegrateComposite(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd,
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public double IntegrateAdaptive(
+        public static double IntegrateAdaptive(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd,
@@ -138,7 +138,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="levelOneStep">First Level Step</param>
         /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public double IntegrateAdaptiveTransformedOdd(
+        public static double IntegrateAdaptiveTransformedOdd(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd,

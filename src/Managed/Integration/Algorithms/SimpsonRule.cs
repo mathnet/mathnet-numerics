@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Integration.Algorithms
     /// <summary>
     /// Approximation algorithm for definite integrals by Simpson's rule.
     /// </summary>
-    public class SimpsonRule
+    public static class SimpsonRule
     {
         /// <summary>
         /// Direct 3-point approximation of the definite integral in the provided interval by Simpson's rule.
@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public double IntegrateThreePoint(
+        public static double IntegrateThreePoint(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd)
@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="numberOfPartitions">Even number of composite subdivision partitions.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public double IntegrateComposite(
+        public static double IntegrateComposite(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd,
