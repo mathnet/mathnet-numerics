@@ -37,14 +37,11 @@ namespace MathNet.Numerics.Integration.Algorithms
     /// </summary>
     public class DoubleExponentialTransformation
     {
-        private const int NumberOfMaximumLevels = 10;
-
-        private readonly NewtonCotesTrapeziumRule _trapezium = new NewtonCotesTrapeziumRule();
-        private IEnumerable<double[]> _levelAbcissas;
-        private IEnumerable<double[]> _levelWeights;
-
         #region Precomputed Abcissas and Weights
 
+        /// <summary>
+        /// Precomputed abscissa vector per level.
+        /// </summary>
         private static readonly double[][] PrecomputedAbscissas =
             new[]
             {
@@ -264,6 +261,9 @@ namespace MathNet.Numerics.Integration.Algorithms
                 }
             };
 
+        /// <summary>
+        /// Precomputed weight vector per level.
+        /// </summary>
         private static readonly double[][] PrecomputedWeights =
             new[]
             {
@@ -486,8 +486,34 @@ namespace MathNet.Numerics.Integration.Algorithms
         #endregion
 
         /// <summary>
+        /// Maximum number of iterations, until the asked
+        /// maximum error is (likely to be) satisfied.
+        /// </summary>
+        private const int NumberOfMaximumLevels = 10;
+
+        /// <summary>
+        /// Internal Trapezium Rule.
+        /// </summary>
+        private readonly NewtonCotesTrapeziumRule _trapezium = new NewtonCotesTrapeziumRule();
+
+        /// <summary>
+        /// Abscissa vector per level provider.
+        /// </summary>
+        private IEnumerable<double[]> _levelAbcissas;
+
+        /// <summary>
+        /// Weight vector per level provider.
+        /// </summary>
+        private IEnumerable<double[]> _levelWeights;
+
+        /// <summary>
         /// Approximate the integral by the double exponential transformation
         /// </summary>
+        /// <param name="f">The analytic smooth function to integrate.</param>
+        /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
+        /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
+        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
         public double Integrate(
             Func<double, double> f,
             double intervalBegin,
@@ -510,6 +536,10 @@ namespace MathNet.Numerics.Integration.Algorithms
                 targetRelativeError);
         }
 
+        /// <summary>
+        /// Abscissa vector per level provider.
+        /// </summary>
+        /// <returns>Level Enumerator.</returns>
         private static IEnumerable<double[]> ProvideLevelAbcissas()
         {
             for (int i = 0; i < NumberOfMaximumLevels; i++)
@@ -518,6 +548,10 @@ namespace MathNet.Numerics.Integration.Algorithms
             }
         }
 
+        /// <summary>
+        /// Weight vector per level provider.
+        /// </summary>
+        /// <returns>Level Enumerator.</returns>
         private static IEnumerable<double[]> ProvideLevelWeights()
         {
             for (int i = 0; i < NumberOfMaximumLevels; i++)
@@ -526,6 +560,11 @@ namespace MathNet.Numerics.Integration.Algorithms
             }
         }
 
+        /// <summary>
+        /// Compute the abscissa vector for a single level.
+        /// </summary>
+        /// <param name="level">The level to evaluate the abscissa vector for.</param>
+        /// <returns>Abscissa Vector.</returns>
         private static double[] EvaluateAbcissas(int level)
         {
             if (level < PrecomputedAbscissas.Length)
@@ -550,6 +589,11 @@ namespace MathNet.Numerics.Integration.Algorithms
             return abcissas;
         }
 
+        /// <summary>
+        /// Compute the weight vector for a single level.
+        /// </summary>
+        /// <param name="level">The level to evaluate the weight vector for.</param>
+        /// <returns>Weight Vector.</returns>
         private static double[] EvaluateWeights(int level)
         {
             if (level < PrecomputedWeights.Length)

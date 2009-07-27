@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="f">The analytic smooth function to integrate.</param>
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
-        /// <returns>approximation of the area in the given interval.</returns>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
         public double IntegrateThreePoint(
             Func<double, double> f,
             double intervalBegin,
@@ -60,7 +60,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="numberOfPartitions">Even number of composite subdivision partitions.</param>
-        /// <returns>approximation of the area in the given interval.</returns>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
         public double IntegrateComposite(
             Func<double, double> f,
             double intervalBegin,

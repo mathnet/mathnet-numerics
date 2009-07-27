@@ -47,13 +47,13 @@ namespace MathNet.Numerics
             if (Math.Abs(a) > Math.Abs(b))
             {
                 double r = b / a;
-                return Math.Abs(a) * Math.Sqrt(1 + r * r);
+                return Math.Abs(a) * Math.Sqrt(1 + (r * r));
             }
 
-            if (b.AlmostZero())
+            if (!b.AlmostZero())
             {
                 double r = a / b;
-                return Math.Abs(b) * Math.Sqrt(1 + r * r);
+                return Math.Abs(b) * Math.Sqrt(1 + (r * r));
             }
 
             return 0d;
