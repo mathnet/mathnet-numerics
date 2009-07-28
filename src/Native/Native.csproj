@@ -137,6 +137,18 @@
     <Compile Include="..\Managed\SpecialFunctions\Erf.cs">
       <Link>SpecialFunctions\Erf.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Threading\AggregateException.cs">
+      <Link>Threading\AggregateException.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Threading\Parallel.cs">
+      <Link>Threading\Parallel.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Threading\Task.cs">
+      <Link>Threading\Task.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Threading\ThreadQueue.cs">
+      <Link>Threading\ThreadQueue.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

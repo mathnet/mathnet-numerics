@@ -92,6 +92,9 @@
     <Compile Include="..\Managed.UnitTests\SpecialFunctionsTest\ErfTests.cs">
       <Link>SpecialFunctionsTest\ErfTests.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\ThreadingTests\ParallelTest.cs">
+      <Link>ThreadingTests\ParallelTest.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -81,6 +81,10 @@
     <Compile Include="SiPrefixes.cs" />
     <Compile Include="SpecialFunctions.cs" />
     <Compile Include="SpecialFunctions\Erf.cs" />
+    <Compile Include="Threading\AggregateException.cs" />
+    <Compile Include="Threading\Parallel.cs" />
+    <Compile Include="Threading\Task.cs" />
+    <Compile Include="Threading\ThreadQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

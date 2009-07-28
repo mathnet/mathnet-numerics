@@ -88,6 +88,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to At least one item of {0} is a null reference (Nothing in Visual Basic)..
+        /// </summary>
+        internal static string ArgumentItemNull {
+            get {
+                return ResourceManager.GetString("ArgumentItemNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The matrix indices must not be out of range of the given matrix..
         /// </summary>
         internal static string ArgumentMatrixIndexOutOfRange {

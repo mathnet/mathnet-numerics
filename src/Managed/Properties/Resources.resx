@@ -246,4 +246,7 @@
   <data name="ArgumentOdd" xml:space="preserve">
     <value>Value must be odd.</value>
   </data>
+  <data name="ArgumentItemNull" xml:space="preserve">
+    <value>At least one item of {0} is a null reference (Nothing in Visual Basic).</value>
+  </data>
 </root>
