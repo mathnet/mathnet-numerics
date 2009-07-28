@@ -12,6 +12,8 @@
     <AssemblyName>MathNet.Numerics.Native.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -97,6 +99,11 @@
       <Project>{4FE24723-A98A-4EB6-B266-03E35967695B}</Project>
       <Name>Native</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\MathNet.Numerics.snk">
+      <Link>MathNet.Numerics.snk</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DistributionTests\Discrete\" />
