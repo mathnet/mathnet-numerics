@@ -376,6 +376,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The supplied collection is empty..
+        /// </summary>
+        internal static string CollectionEmpty {
+            get {
+                return ResourceManager.GetString("CollectionEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This feature is not implemented yet (but is planned)..
         /// </summary>
         internal static string FeaturePlannedButNotImplementedYet {

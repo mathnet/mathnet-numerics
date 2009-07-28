@@ -140,6 +140,12 @@
     <Compile Include="..\Managed\SpecialFunctions\Erf.cs">
       <Link>SpecialFunctions\Erf.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Statistics\DescriptiveStatistics.cs">
+      <Link>Statistics\DescriptiveStatistics.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Statistics\Statistics.cs">
+      <Link>Statistics\Statistics.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Threading\AggregateException.cs">
       <Link>Threading\AggregateException.cs</Link>
     </Compile>

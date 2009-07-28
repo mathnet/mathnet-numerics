@@ -72,6 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SortingTests.cs" />
     <Compile Include="SpecialFunctionsTest\ErfTests.cs" />
+    <Compile Include="StatisticsTests\DescriptiveStatisticsTests.cs" />
+    <Compile Include="StatisticsTests\StatisticsTests.cs" />
+    <Compile Include="StatisticsTests\StatTestData.cs" />
     <Compile Include="ThreadingTests\ParallelTest.cs" />
   </ItemGroup>
   <ItemGroup>

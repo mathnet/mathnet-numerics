@@ -249,4 +249,7 @@
   <data name="ArgumentItemNull" xml:space="preserve">
     <value>At least one item of {0} is a null reference (Nothing in Visual Basic).</value>
   </data>
+  <data name="CollectionEmpty" xml:space="preserve">
+    <value>The supplied collection is empty.</value>
+  </data>
 </root>
