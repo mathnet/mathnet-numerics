@@ -82,6 +82,8 @@
     <Compile Include="Sorting.cs" />
     <Compile Include="SpecialFunctions.cs" />
     <Compile Include="SpecialFunctions\Erf.cs" />
+    <Compile Include="Statistics\DescriptiveStatistics.cs" />
+    <Compile Include="Statistics\Statistics.cs" />
     <Compile Include="Threading\AggregateException.cs" />
     <Compile Include="Threading\Parallel.cs" />
     <Compile Include="Threading\Task.cs" />

@@ -566,9 +566,12 @@ namespace MathNet.Numerics
         /// <param name="b">The index of the second element of the swap.</param>
         internal static void Swap<T>(IList<T> keys, int a, int b)
         {
-            T local = keys[a];
-            keys[a] = keys[b];
-            keys[b] = local;
+            if(a != b)
+            {
+                T local = keys[a];
+                keys[a] = keys[b];
+                keys[b] = local;
+            }
         }
     }
 }

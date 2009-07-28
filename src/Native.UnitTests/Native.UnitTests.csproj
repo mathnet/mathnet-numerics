@@ -95,6 +95,15 @@
     <Compile Include="..\Managed.UnitTests\SpecialFunctionsTest\ErfTests.cs">
       <Link>SpecialFunctionsTest\ErfTests.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\StatisticsTests\DescriptiveStatisticsTests.cs">
+      <Link>StatisticsTests\DescriptiveStatisticsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed.UnitTests\StatisticsTests\StatisticsTests.cs">
+      <Link>StatisticsTests\StatisticsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed.UnitTests\StatisticsTests\StatTestData.cs">
+      <Link>StatisticsTests\StatTestData.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\ThreadingTests\ParallelTest.cs">
       <Link>ThreadingTests\ParallelTest.cs</Link>
     </Compile>
