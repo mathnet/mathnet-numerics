@@ -48,19 +48,19 @@ namespace MathNet.Numerics.Threading
         private static readonly object _queueSync = new object();
 
         /// <summary>
+        /// Queue holding the pending jobs.
+        /// </summary>
+        private static readonly Queue<Task> _queue = new Queue<Task>();
+
+        /// <summary>
         /// Maximum number of jobs that can be in the queue at the same time. 
         /// </summary>
-        private const int _maximumQueueLength = 1024;
+        private const int MaximumQueueLength = 1024;
 
         /// <summary>
         /// Counting Semaphore to make the worker thread wait for jobs
         /// </summary>
         private static Semaphore _tasksAvailableSemaphore;
-
-        /// <summary>
-        /// Queue holding the pending jobs.
-        /// </summary>
-        private static readonly Queue<Task> _queue = new Queue<Task>();
 
         /// <summary>
         /// Running flag, used to signal worker threads to stop cleanly.
@@ -73,12 +73,12 @@ namespace MathNet.Numerics.Threading
         private static Thread[] _threads;
 
         /// <summary>
-        /// Number of worked threads.
+        /// Gets the number of worker threads.
         /// </summary>
         internal static int ThreadCount { get; private set; }
 
         /// <summary>
-        /// Static Constructor
+        /// Initializes static members of the ThreadQueue class.
         /// </summary>
         static ThreadQueue()
         {
@@ -92,12 +92,12 @@ namespace MathNet.Numerics.Threading
         /// <param name="task">The job to run.</param>
         internal static void Enqueue(Task task)
         {
-            if(!_running)
+            if (!_running)
             {
                 Start();
             }
 
-            lock(_queueSync)
+            lock (_queueSync)
             {
                 _queue.Enqueue(task);
             }
@@ -111,14 +111,14 @@ namespace MathNet.Numerics.Threading
         /// <param name="tasks">The jobs to run.</param>
         internal static void Enqueue(IList<Task> tasks)
         {
-            if(!_running)
+            if (!_running)
             {
                 Start();
             }
 
-            lock(_queueSync)
+            lock (_queueSync)
             {
-                foreach(var task in tasks)
+                foreach (var task in tasks)
                 {
                     _queue.Enqueue(task);
                 }
@@ -138,7 +138,7 @@ namespace MathNet.Numerics.Threading
                 _tasksAvailableSemaphore.WaitOne();
 
                 // Check whether we should shut down
-                if(!_running)
+                if (!_running)
                 {
                     _tasksAvailableSemaphore.Release();
                     break;
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.Threading
                 Task task = null;
                 lock (_queueSync)
                 {
-                    if(_queue.Count > 0)
+                    if (_queue.Count > 0)
                     {
                         task = _queue.Dequeue();
                     }
@@ -163,6 +163,10 @@ namespace MathNet.Numerics.Threading
             }
         }
 
+        /// <summary>
+        /// Start or restart the queue with the specified number of worker threads.
+        /// </summary>
+        /// <param name="numberOfThreads">Number of worker threads.</param>
         internal static void Start(int numberOfThreads)
         {
             lock (_stateSync)
@@ -182,6 +186,9 @@ namespace MathNet.Numerics.Threading
             }
         }
 
+        /// <summary>
+        /// Start the thread queue, if it is not already running.
+        /// </summary>
         internal static void Start()
         {
             lock (_stateSync)
@@ -191,7 +198,7 @@ namespace MathNet.Numerics.Threading
                     return;
                 }
 
-                _tasksAvailableSemaphore = new Semaphore(_queue.Count, _maximumQueueLength);
+                _tasksAvailableSemaphore = new Semaphore(_queue.Count, MaximumQueueLength);
                 _running = true;
                 _threads = new Thread[ThreadCount];
 
@@ -207,6 +214,9 @@ namespace MathNet.Numerics.Threading
             }
         }
 
+        /// <summary>
+        /// Stop the thread queue, if it is running.
+        /// </summary>
         internal static void Shutdown()
         {
             lock (_stateSync)
