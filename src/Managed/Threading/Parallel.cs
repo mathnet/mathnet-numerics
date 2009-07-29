@@ -124,7 +124,7 @@ namespace MathNet.Numerics.Threading
             // wait until all jobs have completed
             if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
             {
-                //not sure if this the best approach for STA
+                // not sure if this the best approach for STA
                 for (int i = 0; i < tasks.Length; i++)
                 {
                     tasks[i].WaitOne();
@@ -144,7 +144,7 @@ namespace MathNet.Numerics.Threading
                     exceptions.Add(task.Exception);
                 }
 
-                //this calls dispose
+                // this calls dispose
                 task.Close();
             }
 
