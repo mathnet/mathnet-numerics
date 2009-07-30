@@ -38,13 +38,19 @@ namespace MathNet.Numerics.UnitTests
     class AssertHelpers
     {
         /// <summary>
-        /// Asserts that the expected value and the actual value are equal up to a certain number of decimal places.
+        /// Asserts that the expected value and the actual value are equal up to a certain number of decimal places. If both
+        /// <paramref name="expected"/> and <paramref name="actual"/> are NaN then no assert is thrown.
         /// </summary>
         /// <param name="expected">The expected value.</param>
         /// <param name="actual">The actual value.</param>
         /// <param name="decimalPlaces">The number of decimal places to agree on.</param>
         public static void AlmostEqual(double expected, double actual, int decimalPlaces)
         {
+            if(double.IsNaN(expected) && double.IsNaN(actual))
+            {
+                return;
+            }
+
             bool pass = Precision.AlmostEqualInDecimalPlaces(expected, actual, decimalPlaces);
             if (!pass)
             {

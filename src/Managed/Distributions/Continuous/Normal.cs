@@ -54,6 +54,11 @@ namespace MathNet.Numerics.Distributions
         private double _stdDev;
 
         /// <summary>
+        /// The distribution's random number generator.
+        /// </summary>
+        private Random _random;
+
+        /// <summary>
         /// Initializes a new instance of the Normal class. This is a normal distribution with mean 0.0
         /// and standard deviation 1.0. The distribution will
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
@@ -181,7 +186,23 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public Random RandomSource { get; set; }
+        public Random RandomSource
+        {
+            get
+            {
+                return _random;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                _random = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the mean of the normal distribution.

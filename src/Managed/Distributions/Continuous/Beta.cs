@@ -54,6 +54,11 @@ namespace MathNet.Numerics.Distributions
         private double _shapeB;
 
         /// <summary>
+        /// The distribution's random number generator.
+        /// </summary>
+        private Random _random;
+
+        /// <summary>
         /// Initializes a new instance of the Beta distribution.
         /// </summary>
         /// <param name="a">The a shape parameter of the Beta distribution.</param>
@@ -81,7 +86,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>True when the parameters are valid, false otherwise.</returns>
         private static bool IsValidParameterSet(double a, double b)
         {
-            if (a < 0.0 || b < 0.0)
+            if (a < 0.0 || b < 0.0 || Double.IsNaN(a) || Double.IsNaN(b))
             {
                 return false;
             }
@@ -129,14 +134,60 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public Random RandomSource { get; set; }
+        public Random RandomSource
+        {
+            get
+            {
+                return _random;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                _random = value;
+            }
+        }
 
         /// <summary>
         /// Gets the mean of the Beta distribution.
         /// </summary>
         public double Mean
         {
-            get { return _shapeA / (_shapeA + _shapeB); }
+            get
+            {
+                if(_shapeA == 0.0 && _shapeB == 0.0)
+                {
+                    return 0.5;
+                }
+                else if(_shapeA == 0.0)
+                {
+                    return 0.0;
+                }
+                else if(_shapeB == 0.0)
+                {
+                    return 1.0;
+                }
+                else if(Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+                {
+                    return 0.5;
+                }
+                else if (Double.IsPositiveInfinity(_shapeA))
+                {
+                    return 1.0;
+                }
+                else if (Double.IsPositiveInfinity(_shapeB))
+                {
+                    return 0.0;
+                }
+                else
+                {
+                    return _shapeA / (_shapeA + _shapeB);
+                }
+            }
         }
 
         /// <summary>
@@ -144,7 +195,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return (_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0)); }
+            get
+            {
+                return (_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0));
+            }
         }
 
         /// <summary>
@@ -185,11 +239,45 @@ namespace MathNet.Numerics.Distributions
         #region IContinuousDistribution implementation
 
         /// <summary>
-        /// Gets the mode of the Beta distribution.
+        /// Gets the mode of the Beta distribution; when there are multiple answers, this routine will return 0.5.
         /// </summary>
         public double Mode
         {
-            get { return (_shapeA - 1) / (_shapeA + _shapeB - 2); }
+            get
+            {
+                if (_shapeA == 0.0 && _shapeB == 0.0)
+                {
+                    return 0.5;
+                }
+                else if (_shapeA == 0.0)
+                {
+                    return 0.0;
+                }
+                else if (_shapeB == 0.0)
+                {
+                    return 1.0;
+                }
+                else if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+                {
+                    return 0.5;
+                }
+                else if (Double.IsPositiveInfinity(_shapeA))
+                {
+                    return 1.0;
+                }
+                else if (Double.IsPositiveInfinity(_shapeB))
+                {
+                    return 0.0;
+                }
+                else if(_shapeA == 1.0 && _shapeB == 1.0)
+                {
+                    return 0.5;
+                }
+                else
+                {
+                    return (_shapeA - 1) / (_shapeA + _shapeB - 2);
+                }
+            }
         }
 
         /// <summary>

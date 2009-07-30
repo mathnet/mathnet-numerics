@@ -107,6 +107,9 @@
     <Compile Include="..\Managed.UnitTests\SpecialFunctionsTest\ErfTests.cs">
       <Link>SpecialFunctionsTest\ErfTests.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\SpecialFunctionsTest\SpecialFunctionsTests.cs">
+      <Link>SpecialFunctionsTest\SpecialFunctionsTests.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\StatisticsTests\DescriptiveStatisticsTests.cs">
       <Link>StatisticsTests\DescriptiveStatisticsTests.cs</Link>
     </Compile>
