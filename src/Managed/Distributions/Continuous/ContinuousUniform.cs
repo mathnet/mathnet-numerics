@@ -54,6 +54,11 @@ namespace MathNet.Numerics.Distributions
         private double _upper;
 
         /// <summary>
+        /// The distribution's random number generator.
+        /// </summary>
+        private Random _random;
+
+        /// <summary>
         /// Initializes a new instance of the ContinuousUniform class with lower bound 0 and upper bound 1.
         /// </summary>
         public ContinuousUniform() : this(0.0, 1.0)
@@ -156,7 +161,23 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public Random RandomSource { get; set; }
+        public Random RandomSource
+        {
+            get
+            {
+                return _random;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                _random = value;
+            }
+        }
 
         /// <summary>
         /// Gets the mean of the distribution.

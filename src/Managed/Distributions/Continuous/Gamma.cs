@@ -61,6 +61,11 @@ namespace MathNet.Numerics.Distributions
         private double _invScale;
 
         /// <summary>
+        /// The distribution's random number generator.
+        /// </summary>
+        private Random _random;
+
+        /// <summary>
         /// Initializes a new instance of the Gamma distribution.
         /// </summary>
         /// <param name="shape">The shape of the Gamma distribution.</param>
@@ -190,7 +195,23 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
-        public Random RandomSource { get; set; }
+        public Random RandomSource
+        {
+            get
+            {
+                return _random;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                _random = value;
+            }
+        }
 
         /// <summary>
         /// Gets the mean of the Gamma distribution.
@@ -202,6 +223,10 @@ namespace MathNet.Numerics.Distributions
                 if (Double.IsPositiveInfinity(_invScale))
                 {
                     return _shape;
+                }
+                else if(_invScale == 0.0 && _shape == 0.0)
+                {
+                    return Double.NaN;
                 }
                 else
                 {

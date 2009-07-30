@@ -124,22 +124,22 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
 
         [Test]
         [Row(0.0, 0.0, 0.5)]
-        [Row(0.0, 0.1, 0.1)]
+        [Row(0.0, 0.1, 0.0)]
         [Row(1.0, 0.0, 1.0)]
         [Row(1.0, 1.0, 0.5)]
         [Row(9.0, 1.0, 0.9)]
         [Row(5.0, 100.0, 0.047619047619047619047616)]
-        [Row(1.0, Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 1.0, 0.0)]
-        [Row(0.0, Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 0.0, 0.0)]
+        [Row(1.0, Double.PositiveInfinity, 0.0)]
+        [Row(Double.PositiveInfinity, 1.0, 1.0)]
+        [Row(0.0, Double.PositiveInfinity, 0.0)]
+        [Row(Double.PositiveInfinity, 0.0, 1.0)]
         public void ValidateMean(double a, double b, double mean)
         {
             var n = new Beta(a, b);
             AssertEx.AreEqual<double>(mean, n.Mean);
         }
 
-        [Test]
+        [Test, Ignore("Depending on Special Functions")]
         [Row(0.0, 0.0, 0.5)]
         [Row(0.0, 0.1, 0.1)]
         [Row(1.0, 0.0, 1.0)]
@@ -175,8 +175,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
 
         [Test]
         [Row(0.0, 0.0, 0.5)]
-        [Row(0.0, 0.1, 1.0)]
-        [Row(1.0, 0.0, 0.0)]
+        [Row(0.0, 0.1, 0.0)]
+        [Row(1.0, 0.0, 1.0)]
         [Row(1.0, 1.0, 0.5)]
         [Row(9.0, 1.0, 1.0)]
         [Row(5.0, 100.0, 0.038834951456310676243255386452801758423447608947753906)]
@@ -338,7 +338,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 15);
         }
 
-        [Test]
+        [Test, Ignore("Depending on Special Functions")]
         [Row(0.0, 0.0, 0.0, 0.5)]
         [Row(0.0, 0.0, 0.5, 0.5)]
         [Row(0.0, 0.0, 1.0, 1.0)]

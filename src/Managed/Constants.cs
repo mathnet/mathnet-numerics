@@ -98,6 +98,9 @@ namespace MathNet.Numerics
         /// <summary>The number log(sqrt(2*pi*e))</summary>
         public const double LogSqrt2PiE = 1.4189385332046727417803297364056176398613974736378d;
 
+        /// <summary>The number log(2 * sqrt(e / pi))</summary>
+        public const double LogTwoSqrtEOverPi = 0.6207822376352452223455184457816472122518527279025978;
+
         /// <summary>The number 1/pi</summary>
         public const double InvPi = 0.31830988618379067153776752674502872406891929148091d;
 
@@ -112,6 +115,9 @@ namespace MathNet.Numerics
 
         /// <summary>The number 2/sqrt(pi)</summary>
         public const double TwoInvSqrtPi = 1.1283791670955125738961589031215451716881012586580d;
+
+        /// <summary>The number 2 * sqrt(e / pi)</summary>
+        public const double TwoSqrtEOverPi = 1.8603827342052657173362492472666631120594218414085755;
 
         /// <summary>The number (pi)/180 - factor to convert from Degree (deg) to Radians (rad).</summary>
         /// <seealso cref="Trig.DegreeToRadian"/>

@@ -168,13 +168,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        [Row(0.0, 0.0, 0.0)]
+        [Row(0.0, 0.0, Double.NaN)]
         [Row(1.0, 0.1, 10.0)]
         [Row(1.0, 1.0, 1.0)]
         [Row(10.0, 10.0, 1.0)]
         [Row(10.0, 1.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity, 0.0)]
-        public void CanGetMean(double shape, double invScale, double mean)
+        [Row(10.0, Double.PositiveInfinity, 10.0)]
+        public void ValidateMean(double shape, double invScale, double mean)
         {
             var n = new Gamma(shape, invScale);
             AssertEx.AreEqual<double>(mean, n.Mean);
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(10.0, 10.0, 0.1)]
         [Row(10.0, 1.0, 10.0)]
         [Row(10.0, Double.PositiveInfinity, 0.0)]
-        public void CanGetVariance(double shape, double invScale, double var)
+        public void ValidateVariance(double shape, double invScale, double var)
         {
             var n = new Gamma(shape, invScale);
             AssertEx.AreEqual<double>(var, n.Variance);
@@ -200,13 +200,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(10.0, 10.0, 0.31622776601683794197697302588502426416723164097476643)]
         [Row(10.0, 1.0, 3.1622776601683793319988935444327185337195551393252168)]
         [Row(10.0, Double.PositiveInfinity, 0.0)]
-        public void CanGetStdDev(double shape, double invScale, double sdev)
+        public void ValidateStdDev(double shape, double invScale, double sdev)
         {
             var n = new Gamma(shape, invScale);
             AssertHelpers.AlmostEqual(sdev, n.StdDev, 15);
         }
 
-        [Test]
+        [Test, Ignore("Depending on Special Functions")]
         [Row(0.0, 0.0, Double.PositiveInfinity)]
         [Row(1.0, 0.1, 3.3025850929940456285068402234265387271634735938763824)]
         [Row(1.0, 1.0, 1.0)]
@@ -365,7 +365,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             var e = ied.Take(5).ToArray();
         }
 
-        [Test]
+        [Test, Ignore("Depending on Special Functions")]
         [Row(0.0, 0.0, 0.0, 0.0)]
         [Row(0.0, 0.0, 1.0, 0.0)]
         [Row(0.0, 0.0, 10.0, 0.0)]
