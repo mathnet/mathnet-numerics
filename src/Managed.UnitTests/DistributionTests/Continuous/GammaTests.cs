@@ -278,7 +278,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(0.0, 0.0, 1.0, 0.0)]
         [Row(0.0, 0.0, 10.0, 0.0)]
         [Row(1.0, 0.1, 0.0, 0.10000000000000000555111512312578270211815834045410156)]
-        [Row(1.0, 0.1, 1.0, 0.099004983374916810660915381324116279472953858297127391)]
+        [Row(1.0, 0.1, 1.0, 0.090483741803595961836995913651194571475319347018875963)]
         [Row(1.0, 0.1, 10.0, 0.036787944117144234201693506390001264039984687455876246)]
         [Row(1.0, 1.0, 0.0, 1.0)]
         [Row(1.0, 1.0, 1.0, 0.36787944117144232159552377016146086744581113103176804)]
@@ -295,7 +295,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateDensity(double shape, double invScale, double x, double pdf)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(pdf, n.Density(x), 15);
+            AssertHelpers.AlmostEqual(pdf, n.Density(x), 14);
         }
 
         [Test]
@@ -303,7 +303,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(0.0, 0.0, 1.0, Double.NegativeInfinity)]
         [Row(0.0, 0.0, 10.0, Double.NegativeInfinity)]
         [Row(1.0, 0.1, 0.0, -2.3025850929940456285068402234265387271634735938763824)]
-        [Row(1.0, 0.1, 1.0, -2.312585092994045630449730516520562672904829013035318)]
+        [Row(1.0, 0.1, 1.0, -2.402585092994045634057955346552321429281631934330484)]
         [Row(1.0, 0.1, 10.0, -3.3025850929940456285068402234265387271634735938763824)]
         [Row(1.0, 1.0, 0.0, 0.0)]
         [Row(1.0, 1.0, 1.0, -1.0)]
@@ -320,7 +320,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateDensityLn(double shape, double invScale, double x, double pdfln)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 15);
+            AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
         }
 
         [Test]

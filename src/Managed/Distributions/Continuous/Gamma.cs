@@ -170,7 +170,14 @@ namespace MathNet.Numerics.Distributions
 
             set
             {
-                SetParameters(_shape, 1.0/value);
+                double invScale = 1.0/value;
+
+                if(Double.IsNegativeInfinity(invScale))
+                {
+                    invScale = - invScale;
+                }
+
+                SetParameters(_shape, invScale);
             }
         }
 
@@ -360,6 +367,14 @@ namespace MathNet.Numerics.Distributions
                     return 0.0;
                 }
             }
+            else if (_shape == 0.0 && _invScale == 0.0)
+            {
+                return 0.0;
+            }
+            else if (_shape == 1.0)
+            {
+                return _invScale * Math.Exp(- _invScale * x);
+            }
             else
             {
                 return Math.Pow(_invScale, _shape) * Math.Pow(x, _shape - 1.0) * Math.Exp(-_invScale * x) / SpecialFunctions.Gamma(_shape);
@@ -383,6 +398,14 @@ namespace MathNet.Numerics.Distributions
                 {
                     return Double.NegativeInfinity;
                 }
+            }
+            else if(_shape == 0.0 && _invScale == 0.0)
+            {
+                return Double.NegativeInfinity;
+            }
+            else if(_shape == 1.0)
+            {
+                return Math.Log(_invScale) - _invScale*x;
             }
             else
             {
