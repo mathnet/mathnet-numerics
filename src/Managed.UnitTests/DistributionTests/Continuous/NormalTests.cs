@@ -129,21 +129,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        public void CanGetRandomSource()
-        {
-            var n = new Normal();
-            var rs = n.RandomSource;
-            Assert.IsNotNull(rs);
-        }
-
-        [Test]
-        public void CanSetRandomSource()
-        {
-            var n = new Normal();
-            n.RandomSource = new Random();
-        }
-
-        [Test]
         [Row(-0.0)]
         [Row(0.0)]
         [Row(0.1)]
@@ -338,11 +323,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void CanSampleSequenceStatic()
         {
             var ied = Normal.Samples(new Random(), 0.0, 1.0);
-            var e = ied.GetEnumerator();
-            e.MoveNext();
-            var d = e.Current;
-            e.MoveNext();
-            var g = e.Current;
+            var arr = ied.Take(5).ToArray();
         }
 
         [Test]

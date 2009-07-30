@@ -84,21 +84,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        public void CanGetRandomSource()
-        {
-            var n = new ContinuousUniform();
-            var rs = n.RandomSource;
-            Assert.IsNotNull(rs);
-        }
-
-        [Test]
-        public void CanSetRandomSource()
-        {
-            var n = new ContinuousUniform();
-            n.RandomSource = new Random();
-        }
-
-        [Test]
         [Row(-10.0)]
         [Row(-0.0)]
         [Row(0.0)]
@@ -272,11 +257,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void CanSampleSequenceStatic()
         {
             var ied = ContinuousUniform.Samples(new Random(), 0.0, 1.0);
-            var e = ied.GetEnumerator();
-            e.MoveNext();
-            var d = e.Current;
-            e.MoveNext();
-            var g = e.Current;
+            var arr = ied.Take(5).ToArray();
         }
 
         [Test]

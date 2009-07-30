@@ -58,5 +58,37 @@ namespace MathNet.Numerics
 
             return 0d;
         }
+
+
+        public static double BetaLn(double a, double b)
+        {
+            return Double.NaN;
+        }
+
+
+        public static double BetaRegularized(double a, double b, double x)
+        {
+            return Double.NaN;
+        }
+
+        public static double DiGamma(double x)
+        {
+            return Double.NaN;
+        }
+
+        public static double Gamma(double x)
+        {
+            return Double.NaN;
+        }
+
+        public static double GammaLn(double x)
+        {
+            return Double.NaN;
+        }
+
+        public static double IncompleteGamma(double x, double z, bool reg)
+        {
+            return Double.NaN;
+        }
     }
 }

@@ -68,8 +68,14 @@
     <Compile Include="..\Managed.UnitTests\ComplexTests\ComplexTest.cs">
       <Link>ComplexTests\ComplexTest.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\BetaTests.cs">
+      <Link>DistributionTests\Continuous\BetaTests.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\ContinuousUniformTests.cs">
       <Link>DistributionTests\Continuous\ContinuousUniformTests.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\GammaTests.cs">
+      <Link>DistributionTests\Continuous\GammaTests.cs</Link>
     </Compile>
     <Compile Include="..\Managed.UnitTests\DistributionTests\Continuous\NormalTests.cs">
       <Link>DistributionTests\Continuous\NormalTests.cs</Link>
