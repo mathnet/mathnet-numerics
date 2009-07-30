@@ -62,7 +62,10 @@
     <Compile Include="AssertHelpers.cs" />
     <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
     <Compile Include="ComplexTests\ComplexTest.cs" />
+    <Compile Include="DistributionTests\CommonDistributionTests.cs" />
+    <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
+    <Compile Include="DistributionTests\Continuous\GammaTests.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
     <Compile Include="IntegralTransformsTests\DftTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTest.cs" />

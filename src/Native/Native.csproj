@@ -53,8 +53,14 @@
     <Compile Include="..\Managed\Control.cs">
       <Link>Control.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Distributions\Continuous\Beta.cs">
+      <Link>Distributions\Continuous\Beta.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Distributions\Continuous\ContinuousUniform.cs">
       <Link>Distributions\Continuous\ContinuousUniform.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\Distributions\Continuous\Gamma.cs">
+      <Link>Distributions\Continuous\Gamma.cs</Link>
     </Compile>
     <Compile Include="..\Managed\Distributions\Continuous\Normal.cs">
       <Link>Distributions\Continuous\Normal.cs</Link>

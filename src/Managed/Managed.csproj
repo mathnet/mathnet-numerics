@@ -48,7 +48,9 @@
     <Compile Include="Complex.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Control.cs" />
+    <Compile Include="Distributions\Continuous\Beta.cs" />
     <Compile Include="Distributions\Continuous\ContinuousUniform.cs" />
+    <Compile Include="Distributions\Continuous\Gamma.cs" />
     <Compile Include="Distributions\Continuous\Normal.cs" />
     <Compile Include="Distributions\Discrete\Bernoulli.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />
