@@ -71,7 +71,7 @@ namespace MathNet.Numerics
                 return -1;
             }
 
-            if (Double.IsNaN(x) || Double.IsNaN(x))
+            if (Double.IsNaN(x))
             {
                 return Double.NaN;
             }
@@ -105,7 +105,7 @@ namespace MathNet.Numerics
                 return 2;
             }
 
-            if (Double.IsNaN(x) || Double.IsNaN(x))
+            if (Double.IsNaN(x))
             {
                 return Double.NaN;
             }
