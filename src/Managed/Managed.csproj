@@ -58,6 +58,7 @@
     <Compile Include="Integration\Algorithms\SimpsonRule.cs" />
     <Compile Include="Integration\Algorithms\NewtonCotesTrapeziumRule.cs" />
     <Compile Include="Integration\Integrate.cs" />
+    <Compile Include="Interpolation\Algorithms\AkimaSplineInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\BarycentricInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\BulirschStoerRationalInterpolation.cs" />
     <Compile Include="Interpolation\Algorithms\CubicSplineInterpolation.cs" />
