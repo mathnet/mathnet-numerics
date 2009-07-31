@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract NevillePolynomialContractTests = new InterpolationContract<NevillePolynomialInterpolation>()
         {
             Factory = (t, x) => new NevillePolynomialInterpolation(t, x),
-            Order = new[] { 1, 2, 6 },
+            MinimumSampleCount = 1,
             LinearBehavior = true,
             PolynomialBehavior = true,
             RationalBehavior = false
@@ -53,7 +53,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract BulirschStoerRationalContractTests = new InterpolationContract<BulirschStoerRationalInterpolation>()
         {
             Factory = Interpolate.RationalWithPoles,
-            Order = new[] { 1, 2, 6 },
+            MinimumSampleCount = 1,
             LinearBehavior = false,
             PolynomialBehavior = true,
             RationalBehavior = true
@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract BarycentricContractTests = new InterpolationContract<BarycentricInterpolation>()
         {
             Factory = (t, x) => new BarycentricInterpolation(t, x, FloaterHormannRationalInterpolation.EvaluateBarycentricWeights(t, x, 2)),
-            Order = new[] { 1, 2, 6 },
+            MinimumSampleCount = 3,
             NonStandardParameters = true,
         };
 
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract FloaterHormannRationalContractTests = new InterpolationContract<FloaterHormannRationalInterpolation>()
         {
             Factory = Interpolate.RationalWithoutPoles,
-            Order = new[] { 1, 2, 6 },
+            MinimumSampleCount = 1,
             LinearBehavior = true,
             PolynomialBehavior = true,
             RationalBehavior = true
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract SplineContractTests = new InterpolationContract<SplineInterpolation>()
         {
             Factory = (t, x) => new SplineInterpolation(t, LinearSplineInterpolation.EvaluateSplineCoefficients(t, x)),
-            Order = new[] { 1, 2, 6 },
+            MinimumSampleCount = 2,
             NonStandardParameters = true,
         };
 
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract CubicHermiteSplineContractTests = new InterpolationContract<CubicHermiteSplineInterpolation>()
         {
             Factory = (t, x) => new CubicHermiteSplineInterpolation(t, x, CubicSplineInterpolation.EvaluateSplineDerivatives(t, x, SplineBoundaryCondition.Natural, 0.0, SplineBoundaryCondition.Natural, 0.0)),
-            Order = new[] { 1, 2, 6 },
+            MinimumSampleCount = 2,
             NonStandardParameters = true,
         };
 
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract LinearSplineContractTests = new InterpolationContract<LinearSplineInterpolation>()
         {
             Factory = Interpolate.LinearBetweenPoints,
-            Order = new[] { 2, 3, 6 },
+            MinimumSampleCount = 2,
             LinearBehavior = true,
             PolynomialBehavior = false,
             RationalBehavior = false
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public readonly IContract CubicSplineContractTests = new InterpolationContract<CubicSplineInterpolation>()
         {
             Factory = (t, x) => new CubicSplineInterpolation(t, x),
-            Order = new[] { 2, 3, 6 },
+            MinimumSampleCount = 2,
             LinearBehavior = true,
             PolynomialBehavior = false,
             RationalBehavior = false

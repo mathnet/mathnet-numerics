@@ -113,6 +113,11 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentNullException("sampleValues");
             }
 
+            if (samplePoints.Count < 1)
+            {
+                throw new ArgumentOutOfRangeException("samplePoints");
+            }
+
             if (samplePoints.Count != sampleValues.Count)
             {
                 throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLengths);
