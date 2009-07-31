@@ -39,16 +39,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         where TInterpolation : IInterpolation
     {
         public Func<IList<double>, IList<double>, IInterpolation> Factory { get; set; }
-        public int[] Order { get; set; }
+        public int MinimumSampleCount { get; set; }
         public bool NonStandardParameters { get; set; }
         public bool LinearBehavior { get; set; }
         public bool PolynomialBehavior { get; set; }
         public bool RationalBehavior { get; set; }
-
-        public InterpolationContract()
-        {
-            Order = new[] { 4 };
-        }
 
         protected override IEnumerable<Test> GetContractVerificationTests()
         {
@@ -59,6 +54,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
 
             yield return CreateInitChecksForNullTest("InitChecksForNull");
             yield return CreateInitChecksForMatchingCountTest("InitChecksForMatchingCount");
+            yield return CreateInitChecksForMinimumCountTest("InitChecksForMinimumCount");
 
             if (!NonStandardParameters)
             {
@@ -89,7 +85,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             return new TestCase(name, () =>
             {
-                var interpolation = Factory(new List<double> { 1, 2, 3 }, new List<double> { 10, 20, 30 });
+                double[] points, values;
+                SampleFunctionEquidistant(t => 5 + 10 * t, -2.0, 8.0, MinimumSampleCount, out points, out values);
+
+                var interpolation = Factory(points, values);
 
                 AssertionHelper.Verify(() =>
                 {
@@ -139,6 +138,22 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             });
         }
 
+        private Test CreateInitChecksForMinimumCountTest(string name)
+        {
+            return new TestCase(name, () =>
+            {
+                double[] pointsOk, valuesOk;
+                SampleFunctionEquidistant(t => 5 + 10 * t, -2.0, 8.0, MinimumSampleCount, out pointsOk, out valuesOk);
+
+                Assert.DoesNotThrow(() => Factory(pointsOk, valuesOk));
+
+                double[] pointsFail, valuesFail;
+                SampleFunctionEquidistant(t => 5 + 10 * t, -2.0, 8.0, MinimumSampleCount - 1, out pointsFail, out valuesFail);
+
+                Assert.Throws(typeof(ArgumentOutOfRangeException), () => Factory(pointsFail, valuesFail));
+            });
+        }
+
         private Test CreateConstructorInitShortcutTest(string name)
         {
             return new TestCase(name, () =>
@@ -162,7 +177,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             return new TestCase(name, () =>
             {
-                var interpolation = Factory(new List<double> { 1, 2, 3 }, new List<double> { 10, 20, 30 });
+                double[] points, values;
+                SampleFunctionEquidistant(t => 5 + 10 * t, -2.0, 8.0, MinimumSampleCount, out points, out values);
+
+                var interpolation = Factory(points, values);
 
                 // verify consistent differentiation capability
                 if (interpolation.SupportsDifferentiation)
@@ -224,9 +242,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 const double xOffset = 4.0;
                 Random random = new Random();
 
-                for (int k = 0; k < Order.Length; k++)
+                int[] orders = { MinimumSampleCount, MinimumSampleCount + 1, MinimumSampleCount + 5 };
+
+                for (int k = 0; k < orders.Length; k++)
                 {
-                    int order = Order[k];
+                    int order = orders[k];
 
                     // build linear samples
                     double[] points = new double[order];
@@ -333,6 +353,18 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             points = new double[samples];
             values = new double[samples];
+
+            if(samples == 0)
+            {
+                return;
+            }
+
+            if(samples == 1)
+            {
+                double t = points[0] = 0.5 * (start + stop);
+                values[0] = f(t);
+                return;
+            }
 
             double step = (stop - start) / (samples - 1);
             for (int i = 0; i < points.Length; i++)
