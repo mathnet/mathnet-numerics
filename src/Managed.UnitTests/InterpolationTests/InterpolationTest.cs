@@ -116,5 +116,15 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             PolynomialBehavior = false,
             RationalBehavior = false
         };
+
+        [VerifyContract]
+        public readonly IContract AkimaSplineContractTests = new InterpolationContract<AkimaSplineInterpolation>()
+        {
+            Factory = (t, x) => new AkimaSplineInterpolation(t, x),
+            MinimumSampleCount = 5,
+            LinearBehavior = true,
+            PolynomialBehavior = false,
+            RationalBehavior = false
+        };
     }
 }
