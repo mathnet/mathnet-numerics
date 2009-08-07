@@ -122,6 +122,9 @@
     <Compile Include="..\Managed\NumberTheory\IntegerTheory.cs">
       <Link>NumberTheory\IntegerTheory.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\NumberTheory\IntegerTheory.Euclid.cs">
+      <Link>NumberTheory\IntegerTheory.Euclid.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Precision.cs">
       <Link>Precision.cs</Link>
     </Compile>

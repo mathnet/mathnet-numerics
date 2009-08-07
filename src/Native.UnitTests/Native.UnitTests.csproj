@@ -83,6 +83,9 @@
     <Compile Include="..\Managed.UnitTests\InterpolationTests\InterpolationTest.cs">
       <Link>InterpolationTests\InterpolationTest.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\NumberTheoryTests\GcdRelatedTest.cs">
+      <Link>NumberTheoryTests\GcdRelatedTest.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\NumberTheoryTests\IntegerTheoryTest.cs">
       <Link>NumberTheoryTests\IntegerTheoryTest.cs</Link>
     </Compile>
