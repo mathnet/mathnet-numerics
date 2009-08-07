@@ -33,7 +33,7 @@ namespace MathNet.Numerics.NumberTheory
     /// <summary>
     /// Number theory utility functions for integers.
     /// </summary>
-    public static class IntegerTheory
+    public static partial class IntegerTheory
     {
         /// <summary>
         /// Find out whether the provided 32 bit integer is an even number.
