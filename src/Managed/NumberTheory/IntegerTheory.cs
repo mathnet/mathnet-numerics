@@ -155,6 +155,38 @@ namespace MathNet.Numerics.NumberTheory
         }
 
         /// <summary>
+        /// Raises 2 to the provided integer exponent (0 &lt;= exponent &lt; 31).
+        /// </summary>
+        /// <param name="exponent">The exponent to raise 2 up to.</param>
+        /// <returns>2 ^ exponent.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"/>
+        public static int PowerOfTwo(this int exponent)
+        {
+            if (exponent < 0 || exponent >= 31)
+            {
+                throw new ArgumentOutOfRangeException("exponent");
+            }
+
+            return 1 << exponent;
+        }
+        
+        /// <summary>
+        /// Raises 2 to the provided integer exponent (0 &lt;= exponent &lt; 63).
+        /// </summary>
+        /// <param name="exponent">The exponent to raise 2 up to.</param>
+        /// <returns>2 ^ exponent.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"/>
+        public static long PowerOfTwo(this long exponent)
+        {
+            if (exponent < 0 || exponent >= 63)
+            {
+                throw new ArgumentOutOfRangeException("exponent");
+            }
+
+            return ((long)1) << (int)exponent;
+        }
+
+        /// <summary>
         /// Find out whether the provided 32 bit integer is a perfect square, i.e. a square of an integer.
         /// </summary>
         /// <param name="number">The number to very whether it's a perfect square.</param>
