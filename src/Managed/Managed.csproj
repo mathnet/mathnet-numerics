@@ -55,6 +55,11 @@
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
     <Compile Include="IPrecisionSupport.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs" />
+    <Compile Include="IntegralTransforms\FourierOptions.cs" />
     <Compile Include="Integration\Algorithms\DoubleExponentialTransformation.cs" />
     <Compile Include="Integration\Algorithms\SimpsonRule.cs" />
     <Compile Include="Integration\Algorithms\NewtonCotesTrapeziumRule.cs" />
