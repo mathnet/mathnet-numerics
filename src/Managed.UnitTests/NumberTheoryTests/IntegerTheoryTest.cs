@@ -132,6 +132,106 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         }
 
         [Test]
+        public void CeilingToPowerOfHandlesPositiveIntegersCorrectly32()
+        {
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(0), "0");
+            Assert.AreEqual(1, IntegerTheory.CeilingToPowerOfTwo(1), "1");
+            Assert.AreEqual(2, IntegerTheory.CeilingToPowerOfTwo(2), "2");
+            Assert.AreEqual(4, IntegerTheory.CeilingToPowerOfTwo(3), "3");
+            Assert.AreEqual(4, IntegerTheory.CeilingToPowerOfTwo(4), "4");
+
+            for (int i = 2; i < 31; i++)
+            {
+                int x = 1 << i;
+                Assert.AreEqual(x, IntegerTheory.CeilingToPowerOfTwo(x), x.ToString());
+                Assert.AreEqual(x, IntegerTheory.CeilingToPowerOfTwo(x - 1), x + "-1");
+                Assert.AreEqual(x, IntegerTheory.CeilingToPowerOfTwo((x >> 1) + 1), x + "/2+1");
+                Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(-x), "-" + x);
+            }
+
+            const int maxPowerOfTwo = 0x40000000;
+            Assert.AreEqual(maxPowerOfTwo, IntegerTheory.CeilingToPowerOfTwo(maxPowerOfTwo), "max");
+            Assert.AreEqual(maxPowerOfTwo, IntegerTheory.CeilingToPowerOfTwo(maxPowerOfTwo - 1), "max");
+        }
+
+        [Test]
+        public void CeilingToPowerOfHandlesPositiveIntegersCorrectly64()
+        {
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo((long)0), "0");
+            Assert.AreEqual(1, IntegerTheory.CeilingToPowerOfTwo((long)1), "1");
+            Assert.AreEqual(2, IntegerTheory.CeilingToPowerOfTwo((long)2), "2");
+            Assert.AreEqual(4, IntegerTheory.CeilingToPowerOfTwo((long)3), "3");
+            Assert.AreEqual(4, IntegerTheory.CeilingToPowerOfTwo((long)4), "4");
+
+            for (int i = 2; i < 63; i++)
+            {
+                long x = ((long)1) << i;
+                Assert.AreEqual(x, IntegerTheory.CeilingToPowerOfTwo(x), x.ToString());
+                Assert.AreEqual(x, IntegerTheory.CeilingToPowerOfTwo(x - 1), x + "-1");
+                Assert.AreEqual(x, IntegerTheory.CeilingToPowerOfTwo((x >> 1) + 1), x + "/2+1");
+                Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(-x), "-" + x);
+            }
+
+            const long maxPowerOfTwo = 0x4000000000000000;
+            Assert.AreEqual(maxPowerOfTwo, IntegerTheory.CeilingToPowerOfTwo(maxPowerOfTwo), "max");
+            Assert.AreEqual(maxPowerOfTwo, IntegerTheory.CeilingToPowerOfTwo(maxPowerOfTwo - 1), "max");
+        }
+
+        [Test]
+        public void CeilingToPowerOfTwoReturnsZeroForNegativeNumbers32()
+        {
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(-1), "-1");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(-2), "-2");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(-3), "-3");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(-4), "-4");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(Int32.MinValue), "Int32.MinValue");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(Int32.MinValue + 1), "Int32.MinValue+1");
+        }
+
+        [Test]
+        public void CeilingToPowerOfTwoReturnsZeroForNegativeNumbers64()
+        {
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo((long)-1), "-1");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo((long)-2), "-2");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo((long)-3), "-3");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo((long)-4), "-4");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(Int64.MinValue), "Int64.MinValue");
+            Assert.AreEqual(0, IntegerTheory.CeilingToPowerOfTwo(Int64.MinValue + 1), "Int64.MinValue+1");
+        }
+
+        [Test]
+        public void CeilingToPowerOfTwoThrowsWhenResultWouldOverflow32()
+        {
+            Assert.Throws(
+                typeof (ArgumentOutOfRangeException),
+                () => IntegerTheory.CeilingToPowerOfTwo(Int32.MaxValue));
+
+            const int maxPowerOfTwo = 0x40000000;
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.CeilingToPowerOfTwo(maxPowerOfTwo + 1));
+
+            Assert.DoesNotThrow(
+                () => IntegerTheory.CeilingToPowerOfTwo(maxPowerOfTwo - 1));
+        }
+
+        [Test]
+        public void CeilingToPowerOfTwoThrowsWhenResultWouldOverflow64()
+        {
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.CeilingToPowerOfTwo(Int64.MaxValue));
+
+            const long maxPowerOfTwo = 0x4000000000000000;
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.CeilingToPowerOfTwo(maxPowerOfTwo + 1));
+
+            Assert.DoesNotThrow(
+                () => IntegerTheory.CeilingToPowerOfTwo(maxPowerOfTwo - 1));
+        }
+
+        [Test]
         public void TestIsPerfectSquare32()
         {
             // Test all known suares
