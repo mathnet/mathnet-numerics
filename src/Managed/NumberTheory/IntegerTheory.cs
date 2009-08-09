@@ -96,6 +96,65 @@ namespace MathNet.Numerics.NumberTheory
         }
 
         /// <summary>
+        /// Find the closest perfect power of two that is larger or equal to the provided
+        /// 32 bit integer.
+        /// </summary>
+        /// <param name="number">The number of which to find the closest upper power of two.</param>
+        /// <returns>A power of two.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"/>
+        public static int CeilingToPowerOfTwo(this int number)
+        {
+            if(number == Int32.MinValue)
+            {
+                return 0;
+            }
+
+            const int maxPowerOfTwo = 0x40000000;
+            if(number > maxPowerOfTwo)
+            {
+                throw new ArgumentOutOfRangeException("number");
+            }
+
+            number--;
+            number |= number >> 1;
+            number |= number >> 2;
+            number |= number >> 4;
+            number |= number >> 8;
+            number |= number >> 16;
+            return number + 1;
+        }
+
+        /// <summary>
+        /// Find the closest perfect power of two that is larger or equal to the provided
+        /// 64 bit integer.
+        /// </summary>
+        /// <param name="number">The number of which to find the closest upper power of two.</param>
+        /// <returns>A power of two.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"/>
+        public static long CeilingToPowerOfTwo(this long number)
+        {
+            if (number == Int64.MinValue)
+            {
+                return 0;
+            }
+
+            const long maxPowerOfTwo = 0x4000000000000000;
+            if (number > maxPowerOfTwo)
+            {
+                throw new ArgumentOutOfRangeException("number");
+            }
+
+            number--;
+            number |= number >> 1;
+            number |= number >> 2;
+            number |= number >> 4;
+            number |= number >> 8;
+            number |= number >> 16;
+            number |= number >> 32;
+            return number + 1;
+        }
+
+        /// <summary>
         /// Find out whether the provided 32 bit integer is a perfect square, i.e. a square of an integer.
         /// </summary>
         /// <param name="number">The number to very whether it's a perfect square.</param>
