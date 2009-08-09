@@ -71,6 +71,21 @@
     <Compile Include="..\Managed\Distributions\IDistribution.cs">
       <Link>Distributions\IDistribution.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\FourierOptions.cs">
+      <Link>IntegralTransforms\FourierOptions.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Integration\Algorithms\DoubleExponentialTransformation.cs">
       <Link>Integration\Algorithms\DoubleExponentialTransformation.cs</Link>
     </Compile>
