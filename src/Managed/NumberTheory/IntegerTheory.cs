@@ -76,6 +76,26 @@ namespace MathNet.Numerics.NumberTheory
         }
 
         /// <summary>
+        /// Find out whether the provided 32 bit integer is a perfect power of two.
+        /// </summary>
+        /// <param name="number">The number to very whether it's a power of two.</param>
+        /// <returns>True if and only if it is a power of two.</returns>
+        public static bool IsPowerOfTwo(this int number)
+        {
+            return number > 0 && (number & (number - 1)) == 0x0;
+        }
+
+        /// <summary>
+        /// Find out whether the provided 64 bit integer is a perfect power of two.
+        /// </summary>
+        /// <param name="number">The number to very whether it's a power of two.</param>
+        /// <returns>True if and only if it is a power of two.</returns>
+        public static bool IsPowerOfTwo(this long number)
+        {
+            return number > 0 && (number & (number - 1)) == 0x0;
+        }
+
+        /// <summary>
         /// Find out whether the provided 32 bit integer is a perfect square, i.e. a square of an integer.
         /// </summary>
         /// <param name="number">The number to very whether it's a perfect square.</param>
