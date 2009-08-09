@@ -74,6 +74,64 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         }
 
         [Test]
+        public void TestIsPowerOfTwo32()
+        {
+            for (int i = 2; i < 31; i++)
+            {
+                int x = 1 << i;
+                Assert.IsTrue(IntegerTheory.IsPowerOfTwo(x), x + " (+)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(x - 1), x + "-1 (-)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(x + 1), x + "+1 (-)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-x), "-" + x + " (-)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-x + 1), "-" + x + "+1 (-)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-x - 1), "-" + x + "-1 (-)");
+            }
+
+            Assert.IsTrue(IntegerTheory.IsPowerOfTwo(4), "4 (+)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(3), "3 (-)");
+            Assert.IsTrue(IntegerTheory.IsPowerOfTwo(2), "2 (+)");
+            Assert.IsTrue(IntegerTheory.IsPowerOfTwo(1), "1 (+)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(0), "0 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-1), "-1 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-2), "-2 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-3), "-3 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-4), "-4 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(Int32.MinValue), "Int32.MinValue (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(Int32.MinValue+1), "Int32.MinValue+1 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(Int32.MaxValue), "Int32.MaxValue (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(Int32.MaxValue-1), "Int32.MaxValue-1 (-)");
+        }
+
+        [Test]
+        public void TestIsPowerOfTwo64()
+        {
+            for (int i = 2; i < 63; i++)
+            {
+                long x = ((long)1) << i;
+                Assert.IsTrue(IntegerTheory.IsPowerOfTwo(x), x + " (+)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(x - 1), x + "-1 (-)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(x + 1), x + "+1 (-)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-x), "-" + x + " (-)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-x + 1), "-" + x + "+1 (-)");
+                Assert.IsFalse(IntegerTheory.IsPowerOfTwo(-x - 1), "-" + x + "-1 (-)");
+            }
+
+            Assert.IsTrue(IntegerTheory.IsPowerOfTwo((long)4), "4 (+)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo((long)3), "3 (-)");
+            Assert.IsTrue(IntegerTheory.IsPowerOfTwo((long)2), "2 (+)");
+            Assert.IsTrue(IntegerTheory.IsPowerOfTwo((long)1), "1 (+)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo((long)0), "0 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo((long)-1), "-1 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo((long)-2), "-2 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo((long)-3), "-3 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo((long)-4), "-4 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(Int64.MinValue), "Int32.MinValue (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(Int64.MinValue+1), "Int32.MinValue+1 (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(Int64.MaxValue), "Int32.MaxValue (-)");
+            Assert.IsFalse(IntegerTheory.IsPowerOfTwo(Int64.MaxValue-1), "Int32.MaxValue-1 (-)");
+        }
+
+        [Test]
         public void TestIsPerfectSquare32()
         {
             // Test all known suares
