@@ -232,6 +232,76 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         }
 
         [Test]
+        public void PowerOfTwoMatchesFloatingPointPower32()
+        {
+            for(int i=0; i<31; i++)
+            {
+                Assert.AreEqual(Math.Round(Math.Pow(2, i)), IntegerTheory.PowerOfTwo(i));
+            }
+        }
+
+        [Test]
+        public void PowerOfTwoMatchesFloatingPointPower64()
+        {
+            for (int i = 0; i < 63; i++)
+            {
+                Assert.AreEqual(Math.Round(Math.Pow(2, i)), IntegerTheory.PowerOfTwo((long)i));
+            }
+        }
+
+        [Test]
+        public void PowerOfTwoThrowsWhenOutOfRange32()
+        {
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.PowerOfTwo(-1));
+
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.PowerOfTwo(31));
+
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.PowerOfTwo(Int32.MinValue));
+
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.PowerOfTwo(Int32.MaxValue));
+
+            Assert.DoesNotThrow(
+                () => IntegerTheory.PowerOfTwo(30));
+
+            Assert.DoesNotThrow(
+                () => IntegerTheory.PowerOfTwo(0));
+        }
+
+        [Test]
+        public void PowerOfTwoThrowsWhenOutOfRange64()
+        {
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.PowerOfTwo((long)-1));
+
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.PowerOfTwo((long)63));
+
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.PowerOfTwo(Int64.MinValue));
+
+            Assert.Throws(
+                typeof(ArgumentOutOfRangeException),
+                () => IntegerTheory.PowerOfTwo(Int64.MaxValue));
+
+            Assert.DoesNotThrow(
+                () => IntegerTheory.PowerOfTwo((long)62));
+
+            Assert.DoesNotThrow(
+                () => IntegerTheory.PowerOfTwo((long)0));
+        }
+
+        [Test]
         public void TestIsPerfectSquare32()
         {
             // Test all known suares
