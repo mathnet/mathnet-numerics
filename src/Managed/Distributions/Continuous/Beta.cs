@@ -236,11 +236,23 @@ namespace MathNet.Numerics.Distributions
                 }
                 else if (Double.IsPositiveInfinity(_shapeA))
                 {
-                    return 2.0;
+                    return -2.0;
                 }
                 else if (Double.IsPositiveInfinity(_shapeB))
                 {
                     return 2.0;
+                }
+                else if (_shapeA == 0.0 && _shapeB == 0.0)
+                {
+                    return 0.0;
+                }
+                else if (_shapeA == 0.0)
+                {
+                    return 2.0;
+                }
+                else if (_shapeB == 0.0)
+                {
+                    return -2.0;
                 }
                 else
                 {
@@ -326,8 +338,86 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            double b = SpecialFunctions.Gamma(_shapeA + _shapeB) / (SpecialFunctions.Gamma(_shapeA) * SpecialFunctions.Gamma(_shapeB));
-            return b * Math.Pow(x, _shapeA - 1.0) * Math.Pow(1.0 - x, _shapeB - 1.0);
+            if (x < 0.0 || x > 1.0)
+            {
+                return 0.0;
+            }
+
+            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+            {
+                if (x == 0.5)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+            else if (Double.IsPositiveInfinity(_shapeA))
+            {
+                if (x == 1.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+            else if (Double.IsPositiveInfinity(_shapeB))
+            {
+                if (x == 0.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+            else if (_shapeA == 0.0 && _shapeB == 0.0)
+            {
+                if (x == 0.0 || x == 1.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+            else if (_shapeA == 0.0)
+            {
+                if (x == 0.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+            else if (_shapeB == 0.0)
+            {
+                if (x == 1.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+            else if (_shapeA == 1.0 && _shapeB == 1.0)
+            {
+                return 1.0;
+            }
+            else
+            {
+                double b = SpecialFunctions.Gamma(_shapeA + _shapeB) / (SpecialFunctions.Gamma(_shapeA) * SpecialFunctions.Gamma(_shapeB));
+                return b * Math.Pow(x, _shapeA - 1.0) * Math.Pow(1.0 - x, _shapeB - 1.0);
+            }
         }
 
         /// <summary>
@@ -337,8 +427,88 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            double b = SpecialFunctions.GammaLn(_shapeA + _shapeB) - SpecialFunctions.GammaLn(_shapeA) - SpecialFunctions.GammaLn(_shapeB);
-            return b + (_shapeA - 1.0)*Math.Log(x) + (_shapeB - 1.0)*Math.Log(1.0 - x);
+            if (x < 0.0 || x > 1.0)
+            {
+                return Double.NegativeInfinity;
+            }
+
+            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+            {
+                if (x == 0.5)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return Double.NegativeInfinity;
+                }
+            }
+            else if (Double.IsPositiveInfinity(_shapeA))
+            {
+                if (x == 1.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return Double.NegativeInfinity;
+                }
+            }
+            else if (Double.IsPositiveInfinity(_shapeB))
+            {
+                if (x == 0.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return Double.NegativeInfinity;
+                }
+            }
+            else if (_shapeA == 0.0 && _shapeB == 0.0)
+            {
+                if (x == 0.0 || x == 1.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return Double.NegativeInfinity;
+                }
+            }
+            else if (_shapeA == 0.0)
+            {
+                if (x == 0.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return Double.NegativeInfinity;
+                }
+            }
+            else if (_shapeB == 0.0)
+            {
+                if (x == 1.0)
+                {
+                    return Double.PositiveInfinity;
+                }
+                else
+                {
+                    return Double.NegativeInfinity;
+                }
+            }
+            else if (_shapeA == 1.0 && _shapeB == 1.0)
+            {
+                return 0.0;
+            }
+            else
+            {
+                double a = SpecialFunctions.GammaLn(_shapeA + _shapeB) - SpecialFunctions.GammaLn(_shapeA) - SpecialFunctions.GammaLn(_shapeB);
+                double b = (x == 0.0 ? (_shapeA == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeA - 1.0) * Math.Log(x));
+                double c = (x == 1.0 ? (_shapeB == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeB - 1.0) * Math.Log(1.0 - x));
+                return a + b + c;
+            }
         }
 
         /// <summary>
