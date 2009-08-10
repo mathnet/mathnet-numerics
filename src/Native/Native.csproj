@@ -86,6 +86,9 @@
     <Compile Include="..\Managed\IntegralTransforms\FourierOptions.cs">
       <Link>IntegralTransforms\FourierOptions.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\Transform.cs">
+      <Link>IntegralTransforms\Transform.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\Integration\Algorithms\DoubleExponentialTransformation.cs">
       <Link>Integration\Algorithms\DoubleExponentialTransformation.cs</Link>
     </Compile>
