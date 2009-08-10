@@ -59,6 +59,7 @@
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs" />
+    <Compile Include="IntegralTransforms\Transform.cs" />
     <Compile Include="IntegralTransforms\FourierOptions.cs" />
     <Compile Include="Integration\Algorithms\DoubleExponentialTransformation.cs" />
     <Compile Include="Integration\Algorithms\SimpsonRule.cs" />
