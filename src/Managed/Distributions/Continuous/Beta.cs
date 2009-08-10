@@ -230,8 +230,23 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return 2.0 * (_shapeB - _shapeA) * Math.Sqrt(_shapeA + _shapeB + 1.0) 
-                    / ((_shapeA + _shapeB + 2.0) * Math.Sqrt(_shapeA * _shapeB));
+                if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+                {
+                    return 0.0;
+                }
+                else if (Double.IsPositiveInfinity(_shapeA))
+                {
+                    return 2.0;
+                }
+                else if (Double.IsPositiveInfinity(_shapeB))
+                {
+                    return 2.0;
+                }
+                else
+                {
+                    return 2.0 * (_shapeB - _shapeA) * Math.Sqrt(_shapeA + _shapeB + 1.0)
+                       / ((_shapeA + _shapeB + 2.0) * Math.Sqrt(_shapeA * _shapeB));
+                }
             }
         }
         #endregion

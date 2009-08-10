@@ -157,6 +157,71 @@ namespace MathNet.Numerics
             }
         }
 
+        /// <summary>
+        /// Computes the digamma function which is mathematically defined as the derivative of the logarithm of the gamma function.
+        /// This implementation is based on
+        ///     Jose Bernardo
+        ///     Algorithm AS 103:
+        ///     Psi ( Digamma ) Function,
+        ///     Applied Statistics,
+        ///     Volume 25, Number 3, 1976, pages 315-317.
+        /// Using the modifications as in Tom Minka's lightspeed toolbox.
+        /// </summary>
+        /// <param name="x">The argument of the digamma function.</param>
+        /// <returns>The value of the DiGamma function at <paramref name="x"/>.</returns>
+        static public double DiGamma(double x)
+        {
+            const double c = 12.0,
+                d1 = -0.57721566490153286,
+                d2 = 1.6449340668482264365,
+                s = 1e-6,
+                s3 = 1.0 / 12.0,
+                s4 = 1.0 / 120.0,
+                s5 = 1.0 / 252.0,
+                s6 = 1.0 / 240.0,
+                s7 = 1.0 / 132.0;
+
+            if (System.Double.IsNegativeInfinity(x) || System.Double.IsNaN(x))
+            {
+                return System.Double.NaN;
+            }
+
+            // Handle special cases.
+            if (x <= 0 && System.Math.Floor(x) == x)
+            {
+                return System.Double.NegativeInfinity;
+            }
+
+            // Use inversion formula for negative numbers.
+            if (x < 0)
+            {
+                return DiGamma(1.0 - x) + System.Math.PI / System.Math.Tan(-System.Math.PI * x);
+            }
+
+            if (x <= s)
+            {
+                return d1 - 1 / x + d2 * x;
+            }
+
+            double result = 0;
+            while (x < c)
+            {
+                result -= 1 / x;
+                x++;
+            }
+
+            if (x >= c)
+            {
+                double r = 1 / x;
+                result += System.Math.Log(x) - 0.5 * r;
+                r *= r;
+
+                result -= r * (s3 - r * (s4 - r * (s5 - r * (s6 - r * s7))));
+            }
+
+            return result;
+        }
+
         public static double IncompleteGamma(double x, double z, bool reg)
         {
             throw new NotImplementedException();
@@ -167,11 +232,6 @@ namespace MathNet.Numerics
         }
 
         public static double BetaRegularized(double a, double b, double x)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static double DiGamma(double x)
         {
             throw new NotImplementedException();
         }
