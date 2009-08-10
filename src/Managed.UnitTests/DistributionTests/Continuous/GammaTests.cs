@@ -181,7 +181,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        [Row(0.0, 0.0, 0.0)]
+        [Row(0.0, 0.0, Double.NaN)]
         [Row(1.0, 0.1, 100.0)]
         [Row(1.0, 1.0, 1.0)]
         [Row(10.0, 10.0, 0.1)]
@@ -190,11 +190,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateVariance(double shape, double invScale, double var)
         {
             var n = new Gamma(shape, invScale);
-            AssertEx.AreEqual<double>(var, n.Variance);
+            AssertHelpers.AlmostEqual(var, n.Variance, 15);
         }
 
         [Test]
-        [Row(0.0, 0.0, 0.0)]
+        [Row(0.0, 0.0, Double.NaN)]
         [Row(1.0, 0.1, 10.0)]
         [Row(1.0, 1.0, 1.0)]
         [Row(10.0, 10.0, 0.31622776601683794197697302588502426416723164097476643)]
@@ -206,8 +206,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             AssertHelpers.AlmostEqual(sdev, n.StdDev, 15);
         }
 
-        [Test, Ignore("Depending on Special Functions")]
-        [Row(0.0, 0.0, Double.PositiveInfinity)]
+        [Test]
+        [Row(0.0, 0.0, Double.NaN)]
         [Row(1.0, 0.1, 3.3025850929940456285068402234265387271634735938763824)]
         [Row(1.0, 1.0, 1.0)]
         [Row(10.0, 10.0, 0.23346908548693395836262094490967812177376750477943892)]
@@ -216,11 +216,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateEntropy(double shape, double invScale, double entropy)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(entropy, n.Entropy, 15);
+            AssertHelpers.AlmostEqual(entropy, n.Entropy, 13);
         }
 
         [Test]
-        [Row(0.0, 0.0, Double.PositiveInfinity)]
+        [Row(0.0, 0.0, Double.NaN)]
         [Row(1.0, 0.1, 2.0)]
         [Row(1.0, 1.0, 2.0)]
         [Row(10.0, 10.0, 0.63245553203367586639977870888654370674391102786504337)]
@@ -233,7 +233,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        [Row(0.0, 0.0, Double.PositiveInfinity)]
+        [Row(0.0, 0.0, Double.NaN)]
         [Row(1.0, 0.1, 0.0)]
         [Row(1.0, 1.0, 0.0)]
         [Row(10.0, 10.0, 0.9)]
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(10.0, 10.0)]
         [Row(10.0, 1.0)]
         [Row(10.0, Double.PositiveInfinity)]
-        public void ValidateMedian(double shape, double invScale, double mode)
+        public void ValidateMedian(double shape, double invScale)
         {
             var n = new Gamma(shape, invScale);
             var median = n.Median;

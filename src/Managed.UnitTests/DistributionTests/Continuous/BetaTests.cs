@@ -170,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateSkewness(double a, double b, double skewness)
         {
             var n = new Beta(a, b);
-            AssertEx.AreEqual<double>(skewness, n.Skewness);
+            AssertHelpers.AlmostEqual(skewness, n.Skewness, 15);
         }
 
         [Test]
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateDensity(double a, double b, double x, double pdf)
         {
             var n = new Beta(a, b);
-            AssertHelpers.AlmostEqual(pdf, n.Density(x), 15);
+            AssertHelpers.AlmostEqual(pdf, n.Density(x), 14);
         }
 
         [Test]
@@ -335,7 +335,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateDensityLn(double a, double b, double x, double pdfln)
         {
             var n = new Beta(a, b);
-            AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 15);
+            AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
         }
 
         [Test, Ignore("Depending on Special Functions")]

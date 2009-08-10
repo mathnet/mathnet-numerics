@@ -39,7 +39,8 @@ namespace MathNet.Numerics.Distributions
     /// <remarks>
     /// <para>The Gamma distribution is parametrized by a shape and inverse scale parameter. When we want
     /// to specify a Gamma distribution which is a point distribution we set the shape parameter to be the
-    /// location of the point distribution and the inverse scale as positive infinity.</para>
+    /// location of the point distribution and the inverse scale as positive infinity. The distribution
+    /// with shape and inverse scale both zero is undefined.</para>
     /// <para> Random number generation for the Gamma distribution is based on the algorithm in:
     /// "A Simple Method for Generating Gamma Variables" - Marsaglia &amp; Tsang
     /// ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages 363–372.</para>
@@ -253,6 +254,10 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
+                else if (_invScale == 0.0 && _shape == 0.0)
+                {
+                    return Double.NaN;
+                }
                 else
                 {
                     return _shape / (_invScale * _invScale);
@@ -270,6 +275,10 @@ namespace MathNet.Numerics.Distributions
                 if (Double.IsPositiveInfinity(_invScale))
                 {
                     return 0.0;
+                }
+                else if (_invScale == 0.0 && _shape == 0.0)
+                {
+                    return Double.NaN;
                 }
                 else
                 {
@@ -289,6 +298,10 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
+                else if (_invScale == 0.0 && _shape == 0.0)
+                {
+                    return Double.NaN;
+                }
                 else
                 {
                     return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + (1.0 - _shape) * SpecialFunctions.DiGamma(_shape);
@@ -301,7 +314,21 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return 2.0 / Math.Sqrt(_shape); }
+            get
+            {
+                if (Double.IsPositiveInfinity(_invScale))
+                {
+                    return 0.0;
+                }
+                else if (_invScale == 0.0 && _shape == 0.0)
+                {
+                    return Double.NaN;
+                }
+                else
+                {
+                    return 2.0 / Math.Sqrt(_shape);
+                }
+            }
         }
         #endregion
 
@@ -317,6 +344,10 @@ namespace MathNet.Numerics.Distributions
                 if (Double.IsPositiveInfinity(_invScale))
                 {
                     return _shape;
+                }
+                else if (_invScale == 0.0 && _shape == 0.0)
+                {
+                    return Double.NaN;
                 }
                 else
                 {
