@@ -67,6 +67,7 @@
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
     <Compile Include="DistributionTests\Continuous\GammaTests.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
+    <Compile Include="IntegralTransformsTests\DhtTest.cs" />
     <Compile Include="IntegralTransformsTests\DftTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTest.cs" />
     <Compile Include="InterpolationTests\InterpolationContract.cs" />

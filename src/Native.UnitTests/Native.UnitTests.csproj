@@ -83,6 +83,9 @@
     <Compile Include="..\Managed.UnitTests\IntegralTransformsTests\DftTest.cs">
       <Link>IntegralTransformsTests\DftTest.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\IntegralTransformsTests\DhtTest.cs">
+      <Link>IntegralTransformsTests\DhtTest.cs</Link>
+    </Compile>
     <Compile Include="..\Managed.UnitTests\IntegrationTests\IntegrationTest.cs">
       <Link>IntegrationTests\IntegrationTest.cs</Link>
     </Compile>
