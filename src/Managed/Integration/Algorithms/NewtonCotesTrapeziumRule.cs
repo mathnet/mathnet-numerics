@@ -94,13 +94,13 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// <param name="f">The analytic smooth function to integrate.</param>
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
-        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
+        /// <param name="targetError">The expected accuracy of the approximation.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
         public static double IntegrateAdaptive(
             Func<double, double> f,
             double intervalBegin,
             double intervalEnd,
-            double targetRelativeError)
+            double targetError)
         {
             int numberOfPartitions = 1;
             double step = intervalEnd - intervalBegin;
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Integration.Algorithms
                 step *= 0.5;
                 numberOfPartitions *= 2;
 
-                if (sum.AlmostEqualWithRelativeError(midpointsum, targetRelativeError))
+                if (sum.AlmostEqualWithError(midpointsum, targetError))
                 {
                     break;
                 }
