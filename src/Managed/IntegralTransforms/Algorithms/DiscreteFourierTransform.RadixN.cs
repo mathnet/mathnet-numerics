@@ -76,7 +76,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         {
             // Twiddle Factor
             double exponent = (exponentSign * k) * Constants.Pi / levelSize;
-            Complex w = Complex.WithRealImaginary(Math.Cos(exponent), Math.Sin(exponent));
+            Complex w = new Complex(Math.Cos(exponent), Math.Sin(exponent));
 
             int step = levelSize << 1;
             for (int i = k; i < samples.Length; i += step)

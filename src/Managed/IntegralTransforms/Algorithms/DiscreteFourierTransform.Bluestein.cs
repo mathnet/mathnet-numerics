@@ -50,7 +50,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             for (int k = 0; k < sequence.Length; k++)
             {
                 double t = s * (k * k);
-                sequence[k] = Complex.WithRealImaginary(Math.Cos(t), Math.Sin(t));
+                sequence[k] = new Complex(Math.Cos(t), Math.Sin(t));
             }
 
             return sequence;
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         {
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = Complex.WithRealImaginary(samples[i].Imaginary, samples[i].Real);
+                samples[i] = new Complex(samples[i].Imaginary, samples[i].Real);
             }
         }
 
