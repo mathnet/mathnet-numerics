@@ -66,7 +66,7 @@ namespace MathNet.Numerics
     /// </remarks>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Complex : IFormattable, IEquatable<Complex>
+    public struct Complex : IFormattable, IEquatable<Complex>, IPrecisionSupport<Complex>
     {
         #region fields
 
@@ -1058,6 +1058,52 @@ namespace MathNet.Numerics
         public Complex Divide(Complex divisor)
         {
             return this / divisor;
+        }
+
+        #endregion
+
+        #region Trigonometric Functions
+
+        /// <summary>
+        /// Trigonometric Sine (sin, Sinus) of this <c>Complex</c>.
+        /// </summary>
+        /// <returns>
+        /// The sine of the complex number.
+        /// </returns>
+        public Complex Sine()
+        {
+            if (this.IsReal)
+            {
+                return new Complex(Math.Sin(this._real), 0.0);
+            }
+
+            return new Complex(
+                Math.Sin(this._real) * Math.Cosh(this._imag), Math.Cos(this._real) * Math.Sinh(this._imag));
+        }
+
+        #endregion
+
+        #region IPrecisionSupport<Complex>
+
+        /// <summary>
+        /// Returns a Norm of a value of this type, which is appropriate for measuring how
+        /// close this value is to zero.
+        /// </summary>
+        /// <returns>A norm of this value.</returns>
+        double IPrecisionSupport<Complex>.Norm()
+        {
+            return ModulusSquared;
+        }
+
+        /// <summary>
+        /// Returns a Norm of the difference of two values of this type, which is
+        /// appropriate for measuring how close together these two values are.
+        /// </summary>
+        /// <param name="otherValue">The value to compare with.</param>
+        /// <returns>A norm of the difference between this and the other value.</returns>
+        double IPrecisionSupport<Complex>.NormOfDifference(Complex otherValue)
+        {
+            return (this - otherValue).ModulusSquared;
         }
 
         #endregion

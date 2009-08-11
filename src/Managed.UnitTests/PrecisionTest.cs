@@ -496,53 +496,53 @@ namespace MathNet.Numerics.UnitTests
         public void AlmostEqualWithRelativeError()
         {
             // compare zero and negative zero
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(0.0, -0.0, 1e-5));
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(0.0, -0.0, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(0.0, -0.0, 1e-5));
+            Assert.IsTrue(Precision.AlmostEqualWithError(0.0, -0.0, 1e-15));
 
             // compare two nearby numbers
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(1.0, 1.0 + 3 * _doublePrecision, 1e-15));
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(1.0, 1.0 + _doublePrecision, 1e-15));
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(1.0, 1.0 + 1e-16, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1.0, 1.0 + 1e-15, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1.0, 1.0 + 1e-14, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(1.0, 1.0 + 3 * _doublePrecision, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(1.0, 1.0 + _doublePrecision, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(1.0, 1.0 + 1e-16, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1.0, 1.0 + 1e-15, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1.0, 1.0 + 1e-14, 1e-15));
 
             // compare with the two numbers reversed in compare order
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(1.0 + 3 * _doublePrecision, 1.0, 1e-15));
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(1.0 + _doublePrecision, 1.0, 1e-15));
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(1.0 + 1e-16, 1.0, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1.0 + 1e-15, 1.0, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1.0 + 1e-14, 1.0, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(1.0 + 3 * _doublePrecision, 1.0, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(1.0 + _doublePrecision, 1.0, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(1.0 + 1e-16, 1.0, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1.0 + 1e-15, 1.0, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1.0 + 1e-14, 1.0, 1e-15));
 
             // compare different numbers
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(2.0, 1.0, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1.0, 2.0, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(2.0, 1.0, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1.0, 2.0, 1e-15));
 
             // compare different numbers with large tolerance
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(2.0, 1.0, 1e-5));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1.0, 2.0, 1e-5));
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(2.0, 1.0, 1e+1));
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(1.0, 2.0, 1e+1));
+            Assert.IsFalse(Precision.AlmostEqualWithError(2.0, 1.0, 1e-5));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1.0, 2.0, 1e-5));
+            Assert.IsTrue(Precision.AlmostEqualWithError(2.0, 1.0, 1e+1));
+            Assert.IsTrue(Precision.AlmostEqualWithError(1.0, 2.0, 1e+1));
 
             // compare inf & inf
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(double.PositiveInfinity, double.PositiveInfinity, 1e-15));
-            Assert.IsTrue(Precision.AlmostEqualWithRelativeError(double.NegativeInfinity, double.NegativeInfinity, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(double.PositiveInfinity, double.PositiveInfinity, 1e-15));
+            Assert.IsTrue(Precision.AlmostEqualWithError(double.NegativeInfinity, double.NegativeInfinity, 1e-15));
 
             // compare -inf and inf
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(double.PositiveInfinity, double.NegativeInfinity, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(double.NegativeInfinity, double.PositiveInfinity, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(double.PositiveInfinity, double.NegativeInfinity, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(double.NegativeInfinity, double.PositiveInfinity, 1e-15));
 
             // compare inf and non-inf
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(double.PositiveInfinity, 1.0, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1.0, double.PositiveInfinity, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(double.NegativeInfinity, 1.0, 1e-15));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1.0, double.NegativeInfinity, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(double.PositiveInfinity, 1.0, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1.0, double.PositiveInfinity, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(double.NegativeInfinity, 1.0, 1e-15));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1.0, double.NegativeInfinity, 1e-15));
 
             // compare tiny numbers with opposite signs
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(1e-12, -1e-12, 1e-14));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(-1e-12, 1e-12, 1e-14));
+            Assert.IsFalse(Precision.AlmostEqualWithError(1e-12, -1e-12, 1e-14));
+            Assert.IsFalse(Precision.AlmostEqualWithError(-1e-12, 1e-12, 1e-14));
 
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(-2.0, 2.0, 1e-14));
-            Assert.IsFalse(Precision.AlmostEqualWithRelativeError(2.0, -2.0, 1e-14));
+            Assert.IsFalse(Precision.AlmostEqualWithError(-2.0, 2.0, 1e-14));
+            Assert.IsFalse(Precision.AlmostEqualWithError(2.0, -2.0, 1e-14));
         }
 
         [Test]

@@ -26,8 +26,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+
 namespace MathNet.Numerics.UnitTests
 {
+    using System.Collections.Generic;
     using MbUnit.Framework;
 
     /// <summary>
@@ -69,6 +71,45 @@ namespace MathNet.Numerics.UnitTests
             if (!pass)
             {
                 Assert.Fail("Imaginary components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Imaginary, actual.Imaginary);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the expected value and the actual value are equal up to a certain
+        /// maximum error.
+        /// </summary>
+        /// <typeparam name="T">The type of the structures. Must implement 
+        /// <see cref="IPrecisionSupport{T}"/>.</typeparam>
+        /// <param name="expected">The expected value.</param>
+        /// <param name="actual">The actual value.</param>
+        /// <param name="maximumError">The accuracy required for being almost equal.</param>
+        public static void AlmostEqual<T>(T expected, T actual, double maximumError)
+            where T : IPrecisionSupport<T>
+        {
+            if (!actual.AlmostEqualWithError(expected, maximumError))
+            {
+                Assert.Fail("Not equal within a maximum error {0}. Expected:{1}; Actual:{2}", maximumError, expected, actual);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the expected value and the actual value are equal up to a certain
+        /// maximum error.
+        /// </summary>
+        /// <typeparam name="T">The type of the structures. Must implement 
+        /// <see cref="IPrecisionSupport{T}"/>.</typeparam>
+        /// <param name="expected">The expected value list.</param>
+        /// <param name="actual">The actual value list.</param>
+        /// <param name="maximumError">The accuracy required for being almost equal.</param>
+        public static void AlmostEqualList<T>(IList<T> expected, IList<T> actual, double maximumError)
+            where T : IPrecisionSupport<T>
+        {
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if (!actual[i].AlmostEqualWithError(expected[i], maximumError))
+                {
+                    Assert.Fail("Not equal within a maximum error {0}. Expected:{1}; Actual:{2}", maximumError, expected[i], actual[i]);
+                }
             }
         }
     }
