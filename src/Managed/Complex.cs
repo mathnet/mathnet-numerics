@@ -1,26 +1,11 @@
-// <copyright file="Complex.cs" company="Math.NET">
-// Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
-// Copyright (c) 2009 Math.NET
-// Permission is hereby granted, free of charge, to any person
-// obtaining a copy of this software and associated documentation
-// files (the "Software"), to deal in the Software without
-// restriction, including without limitation the rights to use,
-// copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following
-// conditions:
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-// OTHER DEALINGS IN THE SOFTWARE.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Complex.cs" company="">
+//   
 // </copyright>
+// <summary>
+//   Complex numbers class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace MathNet.Numerics
 {
@@ -551,38 +536,31 @@ namespace MathNet.Numerics
 
             Complex result;
 
-            if (Real.AlmostZero() && Imaginary.AlmostZero())
+            var absReal = Math.Abs(Real);
+            var absImag = Math.Abs(Imaginary);
+            double w;
+            if (absReal >= absImag)
             {
-                result = Zero;
+                var ratio = Imaginary / Real;
+                w = Math.Sqrt(absReal) * Math.Sqrt(0.5 * (1.0 + Math.Sqrt(1.0 + (ratio * ratio))));
             }
             else
             {
-                var absReal = Math.Abs(Real);
-                var absImag = Math.Abs(Imaginary);
-                double w;
-                if (absReal >= absImag)
-                {
-                    var ratio = Imaginary / Real;
-                    w = Math.Sqrt(absReal) * Math.Sqrt(0.5 * (1.0 + Math.Sqrt(1.0 + (ratio * ratio))));
-                }
-                else
-                {
-                    var ratio = Real / Imaginary;
-                    w = Math.Sqrt(absImag) * Math.Sqrt(0.5 * (Math.Abs(ratio) + Math.Sqrt(1.0 + (ratio * ratio))));
-                }
+                var ratio = Real / Imaginary;
+                w = Math.Sqrt(absImag) * Math.Sqrt(0.5 * (Math.Abs(ratio) + Math.Sqrt(1.0 + (ratio * ratio))));
+            }
 
-                if (Real >= 0.0)
-                {
-                    result = new Complex(w, Imaginary / (2.0 * w));
-                }
-                else if (Imaginary >= 0.0)
-                {
-                    result = new Complex(absImag / (2.0 * w), w);
-                }
-                else
-                {
-                    result = new Complex(absImag / (2.0 * w), -w);
-                }
+            if (Real >= 0.0)
+            {
+                result = new Complex(w, Imaginary / (2.0 * w));
+            }
+            else if (Imaginary >= 0.0)
+            {
+                result = new Complex(absImag / (2.0 * w), w);
+            }
+            else
+            {
+                result = new Complex(absImag / (2.0 * w), -w);
             }
 
             return result;
@@ -1068,7 +1046,9 @@ namespace MathNet.Numerics
         /// Returns a Norm of a value of this type, which is appropriate for measuring how
         /// close this value is to zero.
         /// </summary>
-        /// <returns>A norm of this value.</returns>
+        /// <returns>
+        /// A norm of this value.
+        /// </returns>
         double IPrecisionSupport<Complex>.Norm()
         {
             return ModulusSquared;
@@ -1078,8 +1058,12 @@ namespace MathNet.Numerics
         /// Returns a Norm of the difference of two values of this type, which is
         /// appropriate for measuring how close together these two values are.
         /// </summary>
-        /// <param name="otherValue">The value to compare with.</param>
-        /// <returns>A norm of the difference between this and the other value.</returns>
+        /// <param name="otherValue">
+        /// The value to compare with.
+        /// </param>
+        /// <returns>
+        /// A norm of the difference between this and the other value.
+        /// </returns>
         double IPrecisionSupport<Complex>.NormOfDifference(Complex otherValue)
         {
             return (this - otherValue).ModulusSquared;
@@ -1088,13 +1072,18 @@ namespace MathNet.Numerics
         #endregion
 
         #region Parse Functions
+
         /// <summary>
         /// Creates a complex number based on a string. The string can be in the following
         /// formats(without the quotes): 'n', 'ni', 'n +/- ni', 'n,n', 'n,ni,' '(n,n)', or
         /// '(n,ni)', where n is a real number.
         /// </summary>
-        /// <returns>A complex number containing the value specified by the given string.</returns>
-        /// <param name="value">The string to parse.</param>
+        /// <returns>
+        /// A complex number containing the value specified by the given string.
+        /// </returns>
+        /// <param name="value">
+        /// The string to parse.
+        /// </param>
         public static Complex Parse(string value)
         {
             return Parse(value, null);
@@ -1105,9 +1094,15 @@ namespace MathNet.Numerics
         /// formats(without the quotes): 'n', 'ni', 'n +/- ni', 'n,n', 'n,ni,' '(n,n)', or
         /// '(n,ni)', where n is a double.
         /// </summary>
-        /// <returns>A complex number containing the value specified by the given string.</returns>
-        /// <param name="value">the string to parse.</param>
-        /// <param name="formatProvider">An IFormatProvider that supplies culture-specific formatting information.</param>
+        /// <returns>
+        /// A complex number containing the value specified by the given string.
+        /// </returns>
+        /// <param name="value">
+        /// the string to parse.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An IFormatProvider that supplies culture-specific formatting information.
+        /// </param>
         public static Complex Parse(string value, IFormatProvider formatProvider)
         {
             if (value == null)
@@ -1208,10 +1203,16 @@ namespace MathNet.Numerics
         /// Converts the string representation of a complex number to a double-precision complex number equivalent. 
         /// A return value indicates whether the conversion succeeded or failed.
         /// </summary>
-        /// <param name="value">A string containing a complex number to convert. </param>
-        /// <param name="result">The parsed value.</param>
-        /// <returns>If the conversion succeeds, the result will contain a complex number equivalent to value. 
-        /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized</returns>
+        /// <param name="value">
+        /// A string containing a complex number to convert. 
+        /// </param>
+        /// <param name="result">
+        /// The parsed value.
+        /// </param>
+        /// <returns>
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value. 
+        /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized
+        /// </returns>
         public static bool TryParse(string value, out Complex result)
         {
             return TryParse(value, null, out result);
@@ -1221,9 +1222,15 @@ namespace MathNet.Numerics
         /// Converts the string representation of a complex number to double-precision complex number equivalent.
         /// A return value indicates whether the conversion succeeded or failed.
         /// </summary>
-        /// <param name="value">A string containing a complex number to convert.</param>
-        /// <param name="formatProvider">An IFormatProvider that supplies culture-specific formatting information about value.</param>
-        /// <param name="result">The parsed value.</param>
+        /// <param name="value">
+        /// A string containing a complex number to convert.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An IFormatProvider that supplies culture-specific formatting information about value.
+        /// </param>
+        /// <param name="result">
+        /// The parsed value.
+        /// </param>
         /// <returns>
         /// If the conversion succeeds, the result will contain a complex number equivalent to value.
         /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized
@@ -1249,6 +1256,7 @@ namespace MathNet.Numerics
 
             return ret;
         }
+
         #endregion
     }
 }
