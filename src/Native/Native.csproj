@@ -89,8 +89,17 @@
     <Compile Include="..\Managed\IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs">
       <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs</Link>
+    </Compile>
     <Compile Include="..\Managed\IntegralTransforms\FourierOptions.cs">
       <Link>IntegralTransforms\FourierOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Managed\IntegralTransforms\HartleyOptions.cs">
+      <Link>IntegralTransforms\HartleyOptions.cs</Link>
     </Compile>
     <Compile Include="..\Managed\IntegralTransforms\Transform.cs">
       <Link>IntegralTransforms\Transform.cs</Link>
