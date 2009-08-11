@@ -124,7 +124,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         }
 
         /// <summary>
-        /// Bluestein generic DFT, useful e.g. to verify faster algorithms.
+        /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
         /// <param name="samples">Time-space sample vector.</param>
         /// <param name="exponentSign">Fourier series exponent sign.</param>
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         }
 
         /// <summary>
-        /// Bluestein forward FFT for arbitrary sample vectors.
+        /// Bluestein forward FFT for arbitrary sized sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
@@ -162,7 +162,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         }
 
         /// <summary>
-        /// Bluestein inverse FFT for arbitrary sample vectors.
+        /// Bluestein inverse FFT for arbitrary sized sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
