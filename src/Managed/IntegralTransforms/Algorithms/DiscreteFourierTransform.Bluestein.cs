@@ -57,10 +57,10 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         }
 
         /// <summary>
-        /// Convolution with the bluestein sequence.
+        /// Convolution with the bluestein sequence (Parallel Version).
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        private static void BluesteinConvolution(Complex[] samples)
+        private static void BluesteinConvolutionParallel(Complex[] samples)
         {
             int n = samples.Length;
             Complex[] sequence = BluesteinSequence(n);
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                 a[i] *= b[i];
             }
 
-            Radix2(a, 1);
+            Radix2Parallel(a, 1);
 
             var nbinv = 1.0 / m;
             for (int i = 0; i < samples.Length; i++)
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                 SwapRealImaginary(samples);
             }
 
-            BluesteinConvolution(samples);
+            BluesteinConvolutionParallel(samples);
 
             if (exponentSign == 1)
             {
