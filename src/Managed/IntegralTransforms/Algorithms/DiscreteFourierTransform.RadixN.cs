@@ -89,7 +89,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         }
 
         /// <summary>
-        /// Radix-2 generic FFT for power-of-two sample vectors.
+        /// Radix-2 generic FFT for power-of-two sized sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="exponentSign">Fourier series exponent sign.</param>
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         }
 
         /// <summary>
-        /// Radix-2 forward FFT for power-of-two sample vectors.
+        /// Radix-2 forward FFT for power-of-two sized sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         }
 
         /// <summary>
-        /// Radix-2 inverse FFT for power-of-two sample vectors.
+        /// Radix-2 inverse FFT for power-of-two sized sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
