@@ -102,6 +102,24 @@ namespace MathNet.Numerics.UnitTests
         /// Asserts that the expected value and the actual value are equal up to a certain
         /// maximum error.
         /// </summary>
+        /// <param name="expected">The expected value list.</param>
+        /// <param name="actual">The actual value list.</param>
+        /// <param name="maximumError">The accuracy required for being almost equal.</param>
+        public static void AlmostEqualList(IList<double> expected, IList<double> actual, double maximumError)
+        {
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if (!actual[i].AlmostEqualWithError(expected[i], maximumError))
+                {
+                    Assert.Fail("Not equal within a maximum error {0}. Expected:{1}; Actual:{2}", maximumError, expected[i], actual[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the expected value and the actual value are equal up to a certain
+        /// maximum error.
+        /// </summary>
         /// <typeparam name="T">The type of the structures. Must implement 
         /// <see cref="IPrecisionSupport{T}"/>.</typeparam>
         /// <param name="expected">The expected value list.</param>
