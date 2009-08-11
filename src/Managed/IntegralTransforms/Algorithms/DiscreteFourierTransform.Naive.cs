@@ -57,7 +57,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                     for (int n = 0; n < samples.Length; n++)
                     {
                         double w = n * wk;
-                        sum += samples[n] * Complex.WithRealImaginary(Math.Cos(w), Math.Sin(w));
+                        sum += samples[n] * new Complex(Math.Cos(w), Math.Sin(w));
                     }
 
                     spectrum[k] = sum;
