@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.Statistics
+namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using System.IO;
     using System.Linq;
