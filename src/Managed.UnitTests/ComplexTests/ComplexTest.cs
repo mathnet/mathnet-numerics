@@ -593,5 +593,114 @@
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => Complex.WithModulusArgument(-1, 1), "Throws exception because modulus is negative.");
         }
+
+
+        [Test]
+        [Row(1,-2,"1 -2i")]
+        [Row(1, 2, "1 + 2i")]
+        [Row(1, 0, "1")]
+        [Row(0, -2, "-2i")]
+        [Row(0, 2, "2i")]
+        public void CanConvertComplexToString(double real, double imag, string expected)
+        {
+            var a = new Complex(real, imag);
+            Assert.AreEqual<string>(expected, a.ToString());
+        }
+
+        [Test]
+        [Row("")]
+        [Row("+")]
+        [Row("1i+2")]
+        [Row(null)]
+        public void TryParseReturnsFalseWhenGiveBadValue(string str)
+        {
+            Complex z;
+            bool ret = Complex.TryParse(str, out z);
+            Assert.IsFalse(ret);
+            Assert.AreEqual(0, z.Real);
+            Assert.AreEqual(0, z.Imaginary);
+        }
+
+        [Test]
+        public void TryParseCanHandleSymbols()
+        {
+            Complex z;
+            var ni = new NumberFormatInfo();
+            var ret = Complex.TryParse(ni.NegativeInfinitySymbol + "," + ni.PositiveInfinitySymbol, out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(double.NegativeInfinity, z.Real);
+            Assert.AreEqual(double.PositiveInfinity, z.Imaginary);
+
+            ret = Complex.TryParse(ni.NaNSymbol + "," + ni.NaNSymbol, out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(double.NaN, z.Real);
+            Assert.AreEqual(double.NaN, z.Imaginary);
+
+            ret = Complex.TryParse(ni.NegativeInfinitySymbol + "+" + ni.PositiveInfinitySymbol + "i", out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(double.NegativeInfinity, z.Real);
+            Assert.AreEqual(double.PositiveInfinity, z.Imaginary);
+
+            ret = Complex.TryParse(ni.NaNSymbol + "+" + ni.NaNSymbol + "i", out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(double.NaN, z.Real);
+            Assert.AreEqual(double.NaN, z.Imaginary);
+
+            ret = Complex.TryParse(double.MaxValue.ToString("R") + " " + double.MinValue.ToString("R") + "i", out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(double.MaxValue, z.Real);
+            Assert.AreEqual(double.MinValue, z.Imaginary);
+
+        }
+
+        [Test]
+        [Row("-1", -1, 0)]
+        [Row("-i", 0, -1)]
+        [Row("i", 0, 1)]
+        [Row("2i", 0, 2)]
+        [Row("1 + 2i", 1, 2)]
+        [Row("1+2i", 1, 2)]
+        [Row("1 - 2i", 1, -2)]
+        [Row("1-2i", 1, -2)]
+        [Row("1,2", 1, 2)]
+        [Row("1 , 2", 1, 2)]
+        [Row("1,2i", 1, 2)]
+        [Row("-1, -2i", -1, -2)]
+        [Row("(+1,2i)", 1, 2)]
+        [Row("(-1 , -2)", -1, -2)]
+        [Row("(-1 , -2i)", -1, -2)]
+        [Row("(+1e1 , -2e-2i)", 10, -0.02)]
+        [Row("(-1E1 -2e2i)", -10, -200)]
+        [Row("(-1e+1 -2e2i)", -10, -200)]
+        [Row("(-1e1 -2e+2i)", -10, -200)]
+        [Row("(-1e-1  -2E2i)", -0.1, -200)]
+        [Row("(-1e1  -2e-2i)", -10, -0.02)]
+        [Row("(-1E+1 -2e+2i)", -10, -200)]
+        [Row("(-1e-1,-2e-2i)", -0.1, -0.02)]
+        [Row("(+1 +2i)", 1, 2)]
+        public void CanConvertStringToComplexUsingTryParse(string str, double expectedReal, double expectedImag)
+        {
+            Complex z;
+            var ret = Complex.TryParse(str, out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(expectedReal, z.Real);
+            Assert.AreEqual(expectedImag, z.Imaginary);
+
+            ret = Complex.TryParse("(-1E+1 -2e+2i)", out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(-10, z.Real);
+            Assert.AreEqual(-200, z.Imaginary);
+
+            ret = Complex.TryParse("(-1e-1,-2e-2i)", out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(-.1, z.Real);
+            Assert.AreEqual(-.02, z.Imaginary);
+
+            ret = Complex.TryParse("(+1 +2i)", out z);
+            Assert.IsTrue(ret);
+            Assert.AreEqual(1, z.Real);
+            Assert.AreEqual(2, z.Imaginary);
+        }
+
     }
 }
