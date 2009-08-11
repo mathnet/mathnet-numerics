@@ -50,5 +50,26 @@ namespace MathNet.Numerics.UnitTests
                 Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected, actual);
             }
         }
+
+        /// <summary>
+        /// Asserts that the expected value and the actual value are equal up to a certain number of decimal places.
+        /// </summary>
+        /// <param name="expected">The expected value.</param>
+        /// <param name="actual">The actual value.</param>
+        /// <param name="decimalPlaces">The number of decimal places to agree on.</param>
+        public static void AlmostEqual(Complex expected, Complex actual, int decimalPlaces)
+        {
+            bool pass = expected.Real.AlmostEqualInDecimalPlaces(actual.Real, decimalPlaces);
+            if (!pass)
+            {
+                Assert.Fail("Real components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Real, actual.Real);
+            }
+
+            pass = expected.Imaginary.AlmostEqualInDecimalPlaces(actual.Imaginary, decimalPlaces);
+            if (!pass)
+            {
+                Assert.Fail("Imaginary components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Imaginary, actual.Imaginary);
+            }
+        }
     }
 }

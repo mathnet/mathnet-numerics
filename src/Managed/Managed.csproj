@@ -90,6 +90,7 @@
     <Compile Include="Threading\Parallel.cs" />
     <Compile Include="Threading\Task.cs" />
     <Compile Include="Threading\ThreadQueue.cs" />
+    <Compile Include="Trigonometry.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

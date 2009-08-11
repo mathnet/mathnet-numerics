@@ -61,6 +61,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value cannot be in the range -1 &lt; x &lt; 1..
+        /// </summary>
+        internal static string ArgumentCannotBeBetweenOneAndNegativeOne {
+            get {
+                return ResourceManager.GetString("ArgumentCannotBeBetweenOneAndNegativeOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value must be even..
         /// </summary>
         internal static string ArgumentEven {
@@ -93,6 +102,15 @@ namespace MathNet.Numerics.Properties {
         internal static string ArgumentItemNull {
             get {
                 return ResourceManager.GetString("ArgumentItemNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value must be greater than or equal to one..
+        /// </summary>
+        internal static string ArgumentLessThanOne {
+            get {
+                return ResourceManager.GetString("ArgumentLessThanOne", resourceCulture);
             }
         }
         

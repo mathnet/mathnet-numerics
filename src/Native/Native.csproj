@@ -164,6 +164,9 @@
     <Compile Include="..\Managed\Threading\ThreadQueue.cs">
       <Link>Threading\ThreadQueue.cs</Link>
     </Compile>
+    <Compile Include="..\Managed\Trigonometry.cs">
+      <Link>Trigonometry.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
