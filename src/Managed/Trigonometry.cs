@@ -232,6 +232,12 @@ namespace MathNet.Numerics
             }
 
             var exp = value.Exponential();
+
+            if (exp.IsInfinity)
+            {
+                return Complex.Zero;
+            }
+
             return 2 * exp / (exp.Square() - 1);
         }
 
@@ -314,6 +320,12 @@ namespace MathNet.Numerics
 
             var sini = Sine(value.Imaginary);
             var sinhr = HyperbolicSine(value.Real);
+
+            if (double.IsInfinity(sinhr))
+            {
+                return new Complex(double.IsPositiveInfinity(sinhr) ? 1 : -1, 0.0);
+            }
+
             var denom = (sini * sini) + (sinhr * sinhr);
 
             return new Complex(sinhr * HyperbolicCosine(value.Real) / denom, sini * Cosine(value.Imaginary) / denom);
@@ -350,6 +362,12 @@ namespace MathNet.Numerics
             }
 
             var exp = value.Exponential();
+
+            if (exp.IsInfinity)
+            {
+                return Complex.Zero;
+            }
+
             return 2 * exp / (exp.Square() + 1);
         }
 
@@ -432,6 +450,12 @@ namespace MathNet.Numerics
 
             var cosi = Cosine(value.Imaginary);
             var sinhr = HyperbolicSine(value.Real);
+
+            if (double.IsInfinity(sinhr))
+            {
+                return new Complex(double.IsPositiveInfinity(sinhr) ? 1 : -1, 0.0);
+            }
+
             var denom = (cosi * cosi) + (sinhr * sinhr);
 
             return new Complex(HyperbolicCosine(value.Real) * sinhr / denom, cosi * Sine(value.Imaginary) / denom);
