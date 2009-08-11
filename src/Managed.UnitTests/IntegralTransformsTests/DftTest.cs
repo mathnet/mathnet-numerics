@@ -29,9 +29,11 @@
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System;
+    using System.Linq;
     using MbUnit.Framework;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
+    using Statistics;
 
     [TestFixture]
     public class DftTest
@@ -241,6 +243,24 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             dft.BluesteinInverse(work, options);
 
             AssertHelpers.AlmostEqualList(samples, work, 1e-12);
+        }
+
+        [Test]
+        public void TransformSatisfiesParsevalsTheorem()
+        {
+            var samples = ProvideSamples(0x1000);
+
+            var timeSpaceEnergy = (from s in samples select s.ModulusSquared).Mean();
+
+            var work = new Complex[samples.Length];
+            samples.CopyTo(work, 0);
+
+            // Only symmetric scaling scaling satisfies the theorem, hence FourierOptions.Default.
+            Transform.FourierForward(work, FourierOptions.Default);
+
+            var frequencySpaceEnergy = (from s in work select s.ModulusSquared).Mean();
+
+            Assert.AreApproximatelyEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);
         }
     }
 }
