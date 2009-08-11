@@ -29,7 +29,7 @@ namespace MathNet.Numerics
     using System.Text;
     using System.Text.RegularExpressions;
 
-    using Properties;
+    using MathNet.Numerics.Properties;
 
     /// <summary>
     /// Complex numbers class.
@@ -48,7 +48,7 @@ namespace MathNet.Numerics
     /// <para>
     /// In order to avoid possible ambiguities resulting from a 
     /// <c>Complex(double, double)</c> constructor, the static methods 
-    /// <see cref="Complex.FromRealImaginary"/> and <see cref="Complex.FromModulusArgument"/>
+    /// <see cref="Complex.WithRealImaginary"/> and <see cref="Complex.WithModulusArgument"/>
     /// are provided instead.
     /// </para>
     /// <para>
@@ -431,6 +431,164 @@ namespace MathNet.Numerics
                 return new Complex(this._real / mod, this._imag / mod);
             }
         }
+
+        #region Exponential Functions
+
+        /// <summary>
+        /// Exponential of this <c>Complex</c> (exp(x), E^x).
+        /// </summary>
+        /// <returns>
+        /// The exponential of this complex number.
+        /// </returns>
+        public Complex Exponential()
+        {
+            var exp = Math.Exp(_real);
+            if (IsReal)
+            {
+                return new Complex(exp, 0.0);
+            }
+
+            return new Complex(exp * Trig.Cosine(_imag), exp * Trig.Sine(_imag));
+        }
+
+        /// <summary>
+        /// Natural Logarithm of this <c>Complex</c> (Base E).
+        /// </summary>
+        /// <returns>
+        /// The natural logarithm of this complex number.
+        /// </returns>
+        public Complex NaturalLogarithm()
+        {
+            if (IsRealNonNegative)
+            {
+                return new Complex(Math.Log(_real), 0.0);
+            }
+
+            return new Complex(0.5 * Math.Log(ModulusSquared), Argument);
+        }
+
+        /// <summary>
+        /// Raise this <c>Complex</c> to the given value.
+        /// </summary>
+        /// <param name="exponent">
+        /// The exponent.
+        /// </param>
+        /// <returns>
+        /// The complex number raised to the given exponent.
+        /// </returns>
+        public Complex Power(Complex exponent)
+        {
+            if (IsZero)
+            {
+                if (exponent.IsZero)
+                {
+                    return One;
+                }
+
+                if (exponent.Real > 0.0)
+                {
+                    return Zero;
+                }
+
+                if (exponent.Real < 0)
+                {
+                    if (exponent.Imaginary.AlmostZero())
+                    {
+                        return new Complex(double.PositiveInfinity, 0.0);
+                    }
+
+                    return new Complex(double.PositiveInfinity, double.PositiveInfinity);
+                }
+
+                return NaN;
+            }
+
+            return (exponent * NaturalLogarithm()).Exponential();
+        }
+
+        /// <summary>
+        /// Raise this <c>Complex</c> to the inverse of the given value.
+        /// </summary>
+        /// <param name="rootexponent">
+        /// The root exponent.
+        /// </param>
+        /// <returns>
+        /// The complex raised to the inverse of the given exponent.
+        /// </returns>
+        public Complex Root(Complex rootexponent)
+        {
+            return Power(1 / rootexponent);
+        }
+
+        /// <summary>
+        /// The Square (power 2) of this <c>Complex</c>
+        /// </summary>
+        /// <returns>
+        /// The square of this complex number.
+        /// </returns>
+        public Complex Square()
+        {
+            if (IsReal)
+            {
+                return new Complex(_real * _real, 0.0);
+            }
+
+            return new Complex((_real * _real) - (_imag * _imag), 2 * _real * _imag);
+        }
+
+        /// <summary>
+        /// The Square Root (power 1/2) of this <c>Complex</c>
+        /// </summary>
+        /// <returns>
+        /// The square root of this complex number.
+        /// </returns>
+        public Complex SquareRoot()
+        {
+            if (IsRealNonNegative)
+            {
+                return new Complex(Math.Sqrt(_real), 0.0);
+            }
+
+            Complex result;
+
+            if (Real.AlmostZero() && Imaginary.AlmostZero())
+            {
+                result = Zero;
+            }
+            else
+            {
+                var absReal = Math.Abs(Real);
+                var absImag = Math.Abs(Imaginary);
+                double w;
+                if (absReal >= absImag)
+                {
+                    var ratio = Imaginary / Real;
+                    w = Math.Sqrt(absReal) * Math.Sqrt(0.5 * (1.0 + Math.Sqrt(1.0 + (ratio * ratio))));
+                }
+                else
+                {
+                    var ratio = Real / Imaginary;
+                    w = Math.Sqrt(absImag) * Math.Sqrt(0.5 * (Math.Abs(ratio) + Math.Sqrt(1.0 + (ratio * ratio))));
+                }
+
+                if (Real >= 0.0)
+                {
+                    result = new Complex(w, Imaginary / (2.0 * w));
+                }
+                else if (Imaginary >= 0.0)
+                {
+                    result = new Complex(absImag / (2.0 * w), w);
+                }
+                else
+                {
+                    result = new Complex(absImag / (2.0 * w), -w);
+                }
+            }
+
+            return result;
+        }
+
+        #endregion
 
         #region Static Initializers
 
@@ -900,27 +1058,6 @@ namespace MathNet.Numerics
         public Complex Divide(Complex divisor)
         {
             return this / divisor;
-        }
-
-        #endregion
-
-        #region Trigonometric Functions
-
-        /// <summary>
-        /// Trigonometric Sine (sin, Sinus) of this <c>Complex</c>.
-        /// </summary>
-        /// <returns>
-        /// The sine of the complex number.
-        /// </returns>
-        public Complex Sine()
-        {
-            if (this.IsReal)
-            {
-                return new Complex(Math.Sin(this._real), 0.0);
-            }
-
-            return new Complex(
-                Math.Sin(this._real) * Math.Cosh(this._imag), Math.Cos(this._real) * Math.Sinh(this._imag));
         }
 
         #endregion

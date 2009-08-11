@@ -77,6 +77,7 @@
     <Compile Include="StatisticsTests\StatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatTestData.cs" />
     <Compile Include="ThreadingTests\ParallelTest.cs" />
+    <Compile Include="TrigonometryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Managed\Managed.csproj">

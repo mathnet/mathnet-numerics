@@ -252,4 +252,10 @@
   <data name="CollectionEmpty" xml:space="preserve">
     <value>The supplied collection is empty.</value>
   </data>
+  <data name="ArgumentCannotBeBetweenOneAndNegativeOne" xml:space="preserve">
+    <value>Value cannot be in the range -1 &lt; x &lt; 1.</value>
+  </data>
+  <data name="ArgumentLessThanOne" xml:space="preserve">
+    <value>Value must be greater than or equal to one.</value>
+  </data>
 </root>

@@ -110,6 +110,9 @@
     <Compile Include="..\Managed.UnitTests\ThreadingTests\ParallelTest.cs">
       <Link>ThreadingTests\ParallelTest.cs</Link>
     </Compile>
+    <Compile Include="..\Managed.UnitTests\TrigonometryTest.cs">
+      <Link>TrigonometryTest.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
