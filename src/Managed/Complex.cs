@@ -1062,27 +1062,6 @@ namespace MathNet.Numerics
 
         #endregion
 
-        #region Trigonometric Functions
-
-        /// <summary>
-        /// Trigonometric Sine (sin, Sinus) of this <c>Complex</c>.
-        /// </summary>
-        /// <returns>
-        /// The sine of the complex number.
-        /// </returns>
-        public Complex Sine()
-        {
-            if (this.IsReal)
-            {
-                return new Complex(Math.Sin(this._real), 0.0);
-            }
-
-            return new Complex(
-                Math.Sin(this._real) * Math.Cosh(this._imag), Math.Cos(this._real) * Math.Sinh(this._imag));
-        }
-
-        #endregion
-
         #region IPrecisionSupport<Complex>
 
         /// <summary>
@@ -1106,6 +1085,170 @@ namespace MathNet.Numerics
             return (this - otherValue).ModulusSquared;
         }
 
+        #endregion
+
+        #region Parse Functions
+        /// <summary>
+        /// Creates a complex number based on a string. The string can be in the following
+        /// formats(without the quotes): 'n', 'ni', 'n +/- ni', 'n,n', 'n,ni,' '(n,n)', or
+        /// '(n,ni)', where n is a real number.
+        /// </summary>
+        /// <returns>A complex number containing the value specified by the given string.</returns>
+        /// <param name="value">The string to parse.</param>
+        public static Complex Parse(string value)
+        {
+            return Parse(value, null);
+        }
+
+        /// <summary>
+        /// Creates a complex number based on a string. The string can be in the following
+        /// formats(without the quotes): 'n', 'ni', 'n +/- ni', 'n,n', 'n,ni,' '(n,n)', or
+        /// '(n,ni)', where n is a double.
+        /// </summary>
+        /// <returns>A complex number containing the value specified by the given string.</returns>
+        /// <param name="value">the string to parse.</param>
+        /// <param name="formatProvider">An IFormatProvider that supplies culture-specific formatting information.</param>
+        public static Complex Parse(string value, IFormatProvider formatProvider)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(value);
+            }
+
+            value = value.Trim();
+            if (value.Length == 0)
+            {
+                throw new FormatException();
+            }
+
+            value = value.Replace(" ", string.Empty);
+
+            // strip out parens
+            if (value.StartsWith("(", StringComparison.Ordinal))
+            {
+                if (!value.EndsWith(")", StringComparison.Ordinal))
+                {
+                    throw new FormatException();
+                }
+
+                value = value.Substring(1, value.Length - 2);
+            }
+
+            // check if one character strings are valid
+            if (value.Length == 1)
+            {
+                if (String.Compare(value, "i", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    return new Complex(0, 1);
+                }
+
+                return new Complex(Double.Parse(value, formatProvider), 0.0);
+            }
+
+            if (value.Equals("-i"))
+            {
+                return new Complex(0, -1);
+            }
+
+            var real = 0.0;
+            var imag = 0.0;
+
+            var index = value.IndexOf(',');
+
+            if (index > -1)
+            {
+                real = double.Parse(value.Substring(0, index), formatProvider);
+                var imagStr = value.Substring(index + 1, value.Length - index - 1);
+                if (imagStr.EndsWith("i"))
+                {
+                    imagStr = imagStr.Substring(0, imagStr.Length - 1);
+                }
+
+                imag = double.Parse(imagStr, formatProvider);
+            }
+            else
+            {
+                var matchResult = ParseExpression.Match(value);
+                if (matchResult.Success)
+                {
+                    var realStr = matchResult.Groups["r"].Value;
+                    if (!string.IsNullOrEmpty(realStr))
+                    {
+                        if (realStr.StartsWith("+"))
+                        {
+                            realStr = realStr.Substring(1);
+                        }
+
+                        real = double.Parse(realStr, formatProvider);
+                    }
+
+                    var imagStr = matchResult.Groups["i"].Value;
+
+                    if (!string.IsNullOrEmpty(imagStr))
+                    {
+                        if (imagStr.StartsWith("+"))
+                        {
+                            imagStr = imagStr.Substring(1);
+                        }
+
+                        imagStr = imagStr.Substring(0, imagStr.Length - 1);
+                        imag = double.Parse(imagStr, formatProvider);
+                    }
+                }
+                else
+                {
+                    throw new FormatException();
+                }
+            }
+
+            return new Complex(real, imag);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a complex number to a double-precision complex number equivalent. 
+        /// A return value indicates whether the conversion succeeded or failed.
+        /// </summary>
+        /// <param name="value">A string containing a complex number to convert. </param>
+        /// <param name="result">The parsed value.</param>
+        /// <returns>If the conversion succeeds, the result will contain a complex number equivalent to value. 
+        /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized</returns>
+        public static bool TryParse(string value, out Complex result)
+        {
+            return TryParse(value, null, out result);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a complex number to double-precision complex number equivalent.
+        /// A return value indicates whether the conversion succeeded or failed.
+        /// </summary>
+        /// <param name="value">A string containing a complex number to convert.</param>
+        /// <param name="formatProvider">An IFormatProvider that supplies culture-specific formatting information about value.</param>
+        /// <param name="result">The parsed value.</param>
+        /// <returns>
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value.
+        /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized
+        /// </returns>
+        public static bool TryParse(string value, IFormatProvider formatProvider, out Complex result)
+        {
+            bool ret;
+            try
+            {
+                result = Parse(value, formatProvider);
+                ret = true;
+            }
+            catch (ArgumentNullException)
+            {
+                result = zero;
+                ret = false;
+            }
+            catch (FormatException)
+            {
+                result = zero;
+                ret = false;
+            }
+
+            return ret;
+        }
         #endregion
     }
 }
