@@ -27,6 +27,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Text;
 
     using MathNet.Numerics.Properties;
@@ -409,7 +410,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 stringBuilder.Append(this[index].ToString(format, formatProvider));
                 if (index != Count - 1)
                 {
-                    stringBuilder.Append(",");
+                    stringBuilder.Append(CultureInfo.CurrentCulture.TextInfo.ListSeparator);
                 }
             }
 

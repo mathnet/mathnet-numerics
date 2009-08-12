@@ -24,6 +24,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
+    using System.Globalization;
     using System.Text;
 
     using MathNet.Numerics.Properties;
@@ -298,7 +299,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     stringBuilder.Append(At(row, column).ToString(format, formatProvider));
                     if (column != ColumnCount - 1)
                     {
-                        stringBuilder.Append(",");
+                        stringBuilder.Append(CultureInfo.CurrentCulture.TextInfo.ListSeparator);
                     }
                 }
 
