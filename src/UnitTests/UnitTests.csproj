@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8C9A5D3F-A20C-4D24-A09C-98E187A8D720}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
+    <AssemblyName>MathNet.Numerics.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Gallio, Version=3.0.6.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Gallio_3.0.6.787\bin\Gallio.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit, Version=3.0.6.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Gallio_3.0.6.787\bin\MbUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit35, Version=3.0.6.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Gallio_3.0.6.787\bin\MbUnit35.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssertHelpers.cs" />
+    <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
+    <Compile Include="ComplexTests\ComplexTest.cs" />
+    <Compile Include="DistributionTests\CommonDistributionTests.cs" />
+    <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
+    <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
+    <Compile Include="DistributionTests\Continuous\GammaTests.cs" />
+    <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
+    <Compile Include="IntegralTransformsTests\DhtTest.cs" />
+    <Compile Include="IntegralTransformsTests\DftTest.cs" />
+    <Compile Include="IntegrationTests\IntegrationTest.cs" />
+    <Compile Include="InterpolationTests\InterpolationContract.cs" />
+    <Compile Include="InterpolationTests\InterpolationTest.cs" />
+    <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
+    <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
+    <Compile Include="PrecisionTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SortingTests.cs" />
+    <Compile Include="SpecialFunctionsTest\ErfTests.cs" />
+    <Compile Include="SpecialFunctionsTest\SpecialFunctionsTests.cs" />
+    <Compile Include="StatisticsTests\DescriptiveStatisticsTests.cs" />
+    <Compile Include="StatisticsTests\StatisticsTests.cs" />
+    <Compile Include="StatisticsTests\StatTestData.cs" />
+    <Compile Include="ThreadingTests\ParallelTest.cs" />
+    <Compile Include="TrigonometryTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Managed\Numerics.csproj">
+      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\MathNet.Numerics.snk">
+      <Link>MathNet.Numerics.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DistributionTests\Discrete\" />
+    <Folder Include="DistributionTests\Multivariate\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
