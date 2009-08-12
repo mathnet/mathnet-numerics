@@ -198,10 +198,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public abstract Matrix CreateMatrix(int rows, int columns);
 
         /// <summary>
-        /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
+        /// Creates a <strong>Vector</strong> of the given size using the same storage type
+        /// as this vector.
+        /// </summary>
+        /// <param name="size">
+        /// The size of the <strong>Vector</strong> to create.
+        /// </param>
+        /// <returns>
+        /// The new <c>Vector</c>.
+        /// </returns>
+        public abstract Vector CreateVector(int size);
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> that contains the position and value of the element.
         /// </summary>
         /// <returns>
-        /// An <see cref="IEnumerator{T}"/> over this vector that contains the position and value of each
+        /// An <see cref="IEnumerable{T}"/> over this vector that contains the position and value of each
         /// non-zero element.
         /// </returns>
         /// <remarks>
@@ -222,7 +234,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns an <see cref="IEnumerator{T}"/> over the specified elements.
+        /// Returns an <see cref="IEnumerable{T}"/> over the specified elements.
         /// </summary>
         /// <param name="startIndex">
         /// The element to start copying from.
@@ -231,7 +243,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The number of elements to enumerate over.
         /// </param>
         /// <returns>
-        /// An <see cref="IEnumerator{T}"/> over a range of this vector.
+        /// An <see cref="IEnumerable{T}"/> over a range of this vector.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">
         /// If <paramref name="startIndex"/> or <paramref name="startIndex"/> + <paramref name="length"/>
@@ -244,10 +256,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// being the value of the element at that index.
         /// </remarks>
         /// <seealso cref="KeyValuePair{T,K}"/>
-        /// <seealso cref="IEnumerator{T}"/>
+        /// <seealso cref="IEnumerable{T}"/>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", 
             Justification = "Needed to support sparse vectors.")]
-        public virtual IEnumerator<KeyValuePair<int, double>> GetIndexEnumerator(int startIndex, int length)
+        public virtual IEnumerable<KeyValuePair<int, double>> GetIndexedEnumerator(int startIndex, int length)
         {
             if (startIndex > Count)
             {
@@ -317,7 +329,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
         /// <remarks>
-        /// For sparse vectors, <see cref="GetIndexedEnumerator"/> will perform better.
+        /// For sparse vectors, <see cref="GetIndexedEnumerator()"/> will perform better.
         /// </remarks>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", 
             Justification = "Needed to support sparse vectors.")]
@@ -407,17 +419,5 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #endregion
 
         #endregion
-
-        /// <summary>
-        /// Creates a <strong>Vector</strong> of the given size using the same storage type
-        /// as this vector.
-        /// </summary>
-        /// <param name="size">
-        /// The size of the <strong>Vector</strong> to create.
-        /// </param>
-        /// <returns>
-        /// The new <c>Vector</c>.
-        /// </returns>
-        protected internal abstract Vector CreateVector(int size);
     }
 }

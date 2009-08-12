@@ -29,7 +29,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using MathNet.Numerics.Properties;
 
     /// <summary>
-    /// A matrix class.
+    /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
     [Serializable]
     public abstract class Matrix : IFormattable, ICloneable, IEquatable<Matrix>

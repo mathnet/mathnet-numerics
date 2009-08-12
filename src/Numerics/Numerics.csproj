@@ -82,6 +82,9 @@
     <Compile Include="Interpolation\IInterpolation.cs" />
     <Compile Include="Interpolation\Interpolate.cs" />
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
+    <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
+    <Compile Include="LinearAlgebra\Double\Matrix.cs" />
+    <Compile Include="LinearAlgebra\Double\Vector.cs" />
     <Compile Include="NumberTheory\IntegerTheory.cs" />
     <Compile Include="NumberTheory\IntegerTheory.Euclid.cs" />
     <Compile Include="Precision.cs" />
@@ -117,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Distributions\Multivariate\" />
+    <Folder Include="LinearAlgebra\Algorithms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
