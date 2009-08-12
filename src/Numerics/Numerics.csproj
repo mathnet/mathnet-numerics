@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MathNet.Numerics</RootNamespace>
+    <AssemblyName>MathNet.Numerics</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\MathNet.Numerics.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Combinatorics.cs" />
+    <Compile Include="Complex.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="Distributions\Continuous\Beta.cs" />
+    <Compile Include="Distributions\Continuous\ContinuousUniform.cs" />
+    <Compile Include="Distributions\Continuous\Gamma.cs" />
+    <Compile Include="Distributions\Continuous\Normal.cs" />
+    <Compile Include="Distributions\Discrete\Bernoulli.cs" />
+    <Compile Include="Distributions\IContinuousDistribution.cs" />
+    <Compile Include="Distributions\IDiscreteDistribution.cs" />
+    <Compile Include="Distributions\IDistribution.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs" />
+    <Compile Include="IntegralTransforms\HartleyOptions.cs" />
+    <Compile Include="IPrecisionSupport.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs" />
+    <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs" />
+    <Compile Include="IntegralTransforms\Transform.cs" />
+    <Compile Include="IntegralTransforms\FourierOptions.cs" />
+    <Compile Include="Integration\Algorithms\DoubleExponentialTransformation.cs" />
+    <Compile Include="Integration\Algorithms\SimpsonRule.cs" />
+    <Compile Include="Integration\Algorithms\NewtonCotesTrapeziumRule.cs" />
+    <Compile Include="Integration\Integrate.cs" />
+    <Compile Include="Interpolation\Algorithms\AkimaSplineInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\BarycentricInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\BulirschStoerRationalInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\CubicSplineInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\CubicHermiteSplineInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\FloaterHormannRationalInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\LinearSplineInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\NevillePolynomialInterpolation.cs" />
+    <Compile Include="Interpolation\Algorithms\SplineInterpolation.cs" />
+    <Compile Include="Interpolation\IInterpolation.cs" />
+    <Compile Include="Interpolation\Interpolate.cs" />
+    <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
+    <Compile Include="NumberTheory\IntegerTheory.cs" />
+    <Compile Include="NumberTheory\IntegerTheory.Euclid.cs" />
+    <Compile Include="Precision.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SiConstants.cs" />
+    <Compile Include="SiPrefixes.cs" />
+    <Compile Include="Sorting.cs" />
+    <Compile Include="SpecialFunctions.cs" />
+    <Compile Include="SpecialFunctions\Erf.cs" />
+    <Compile Include="Statistics\DescriptiveStatistics.cs" />
+    <Compile Include="Statistics\Statistics.cs" />
+    <Compile Include="Threading\AggregateException.cs" />
+    <Compile Include="Threading\Parallel.cs" />
+    <Compile Include="Threading\Task.cs" />
+    <Compile Include="Threading\ThreadQueue.cs" />
+    <Compile Include="Trigonometry.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\MathNet.Numerics.snk">
+      <Link>MathNet.Numerics.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Distributions\Multivariate\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
