@@ -67,8 +67,12 @@
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
     <Compile Include="DistributionTests\Continuous\GammaTests.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
-    <Compile Include="IntegralTransformsTests\DhtTest.cs" />
-    <Compile Include="IntegralTransformsTests\DftTest.cs" />
+    <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
+    <Compile Include="IntegralTransformsTests\FourierTest.cs" />
+    <Compile Include="IntegralTransformsTests\MatchingNaiveTransformTest.cs" />
+    <Compile Include="IntegralTransformsTests\ParsevalTheoremTest.cs" />
+    <Compile Include="IntegralTransformsTests\InverseTransformTest.cs" />
+    <Compile Include="IntegralTransformsTests\SampleProvider.cs" />
     <Compile Include="IntegrationTests\IntegrationTest.cs" />
     <Compile Include="InterpolationTests\InterpolationContract.cs" />
     <Compile Include="InterpolationTests\InterpolationTest.cs" />

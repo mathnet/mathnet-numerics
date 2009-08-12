@@ -1,4 +1,4 @@
-﻿// <copyright file="DhtTest.cs" company="Math.NET">
+﻿// <copyright file="HartleyTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -34,19 +34,22 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using IntegralTransforms.Algorithms;
 
     [TestFixture]
-    public class DhtTest
+    public class HartleyTest
     {
-        private static readonly Random _random = new Random();
-
-        private static double[] ProvideSamples(int count)
+        private static void VerifyMatchesDFT(
+            double[] samples,
+            double maximumError,
+            bool inverse,
+            Action<Complex[]> dft,
+            Func<double[], double[]> hartley)
         {
-            var samples = new double[count];
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = 1 - (2 * _random.NextDouble());
-            }
+            var hartleyReal = hartley(samples);
 
-            return samples;
+            var fourierComplex = Array.ConvertAll(samples, s => new Complex(s, inverse ? -s : s));
+            dft(fourierComplex);
+            var fourierReal = Array.ConvertAll(fourierComplex, s => s.Real);
+
+            AssertHelpers.AlmostEqualList(fourierReal, hartleyReal, maximumError);
         }
 
         [Test]
@@ -55,35 +58,22 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Row(HartleyOptions.NoScaling, FourierOptions.NoScaling)]
         public void NaiveMatchesDFT(HartleyOptions hartleyOptions, FourierOptions fourierOptions)
         {
-            var samples = ProvideSamples(0x80);
-
             var dht = new DiscreteHartleyTransform();
-            var hartley = dht.NaiveForward(samples, hartleyOptions);
+            var samples = SampleProvider.ProvideRealSamples(0x80);
 
-            var fourierComplex = Array.ConvertAll(samples, s => new Complex(s, s));
-            Transform.FourierForward(fourierComplex, fourierOptions);
-            var fourierReal = Array.ConvertAll(fourierComplex, s => s.Real);
+            VerifyMatchesDFT(
+                samples,
+                1e-10,
+                false,
+                s => Transform.FourierForward(s, fourierOptions),
+                s => dht.NaiveForward(s, hartleyOptions));
 
-            AssertHelpers.AlmostEqualList(fourierReal, hartley, 1e-10);
-        }
-
-        [Test]
-        [Row(HartleyOptions.Default)]
-        [Row(HartleyOptions.AsymmetricScaling)]
-        public void NaiveIsReversible(HartleyOptions options)
-        {
-            var samples = ProvideSamples(0x80);
-            var work = new double[samples.Length];
-            samples.CopyTo(work, 0);
-
-            var dht = new DiscreteHartleyTransform();
-            work = dht.NaiveForward(work, options);
-
-            Assert.IsFalse(work.AlmostEqualListWithError(samples, 1e-10));
-
-            work = dht.NaiveInverse(work, options);
-
-            AssertHelpers.AlmostEqualList(samples, work, 1e-10);
+            VerifyMatchesDFT(
+                samples,
+                1e-10,
+                true,
+                s => Transform.FourierInverse(s, fourierOptions),
+                s => dht.NaiveInverse(s, hartleyOptions));
         }
     }
 }
