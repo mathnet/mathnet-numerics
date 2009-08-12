@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     [TestFixture]
     public class DftTest
     {
-        private static Random _random = new Random();
+        private static readonly Random _random = new Random();
 
         private static Complex[] ProvideSamples(int count)
         {
@@ -241,6 +241,30 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Assert.IsFalse(work.AlmostEqualListWithError(samples, 1e-12));
 
             dft.BluesteinInverse(work, options);
+
+            AssertHelpers.AlmostEqualList(samples, work, 1e-12);
+        }
+
+        [Test]
+        public void DefaultTransformIsReversible()
+        {
+            var samples = ProvideSamples(0x7FFF);
+            var work = new Complex[samples.Length];
+            samples.CopyTo(work, 0);
+
+            Transform.FourierForward(work);
+
+            Assert.IsFalse(work.AlmostEqualListWithError(samples, 1e-12));
+
+            Transform.FourierInverse(work);
+
+            AssertHelpers.AlmostEqualList(samples, work, 1e-12);
+
+            Transform.FourierInverse(work, FourierOptions.Default);
+
+            Assert.IsFalse(work.AlmostEqualListWithError(samples, 1e-12));
+
+            Transform.FourierForward(work, FourierOptions.Default);
 
             AssertHelpers.AlmostEqualList(samples, work, 1e-12);
         }

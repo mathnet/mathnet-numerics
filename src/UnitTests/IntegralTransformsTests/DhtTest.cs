@@ -26,21 +26,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Collections.Generic;
-
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System;
-    using System.Linq;
     using MbUnit.Framework;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
-    using Statistics;
 
     [TestFixture]
     public class DhtTest
     {
-        private static Random _random = new Random();
+        private static readonly Random _random = new Random();
 
         private static double[] ProvideSamples(int count)
         {
