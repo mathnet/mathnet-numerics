@@ -8,15 +8,15 @@
   </PropertyGroup>
 
   <Target Name="CompileManaged">
-    <MSBuild Projects="../src/Managed.UnitTests/Managed.UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
+    <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
   </Target>
 
   <Target Name="TestManaged" DependsOnTargets="CompileManaged">
-    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/Managed.UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration" />
+    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration" />
   </Target>
 
   <Target Name="StyleManaged">
-    <CreateItem Include="../src/Managed/**/*.cs">
+    <CreateItem Include="../src/Numerics/**/*.cs">
       <Output TaskParameter="Include" ItemName="StyleCopFiles" />
     </CreateItem>
 
@@ -35,12 +35,12 @@
   </Target>
 
   <Target Name="Coverage" DependsOnTargets="CompileManaged">
-    <Exec Command="ncover.console.exe ..\lib\Gallio_3.0.6.787\bin\Gallio.Echo.exe ..\src\Managed.UnitTests\bin\Debug\MathNet.Numerics.UnitTests.dll //pm gallio.host.exe  //eas zlib.net;MathNet.Numerics.UnitTests //et .*Resources;.*Exception //p &quot;Math.NET Numerics&quot;" />
+    <Exec Command="ncover.console.exe ..\lib\Gallio_3.0.6.787\bin\Gallio.Echo.exe ..\src\UnitTests\bin\Debug\MathNet.Numerics.UnitTests.dll //pm gallio.host.exe  //eas zlib.net;MathNet.Numerics.UnitTests //et .*Resources;.*Exception //p &quot;Math.NET Numerics&quot;" />
     <Exec Command="ncover.reporting.exe coverage.xml //or FullCoverageReport:Html //op NCoverReport" />
 	</Target>
   
   <Target Name="BuildAndTestManaged" DependsOnTargets="TestManaged; StyleManaged">
-    <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\src\Managed\bin\Debug\MathNet.Numerics.dll"/>
+    <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\src\Numerics\bin\Debug\MathNet.Numerics.dll"/>
   </Target>
   
   <Target Name="Release" DependsOnTargets="BuildDocs"></Target>
