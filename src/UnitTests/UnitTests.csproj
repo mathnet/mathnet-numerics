@@ -86,7 +86,7 @@
     <Compile Include="TrigonometryTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Managed\Numerics.csproj">
+    <ProjectReference Include="..\Numerics\Numerics.csproj">
       <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
       <Name>Numerics</Name>
     </ProjectReference>
