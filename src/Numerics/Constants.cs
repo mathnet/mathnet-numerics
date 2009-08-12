@@ -159,5 +159,10 @@ namespace MathNet.Numerics
         /// <summary>The Khinchin constant</summary>
         /// <remarks>prod(k=1 -> inf){1+1/(k*(k+2))^log(k,2)}</remarks>
         public const double Khinchin = 2.6854520010653064453097148354817956938203822939944629530511523455572188595371520028011d;
+
+        /// <summary>
+        /// The size of a double in bytes.
+        /// </summary>
+        public const int SizeOfDouble = sizeof(double);
     }
 }
