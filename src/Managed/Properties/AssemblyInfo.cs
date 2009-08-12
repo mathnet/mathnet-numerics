@@ -32,7 +32,7 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Math.NET Numerics (Managed)")]
+[assembly: AssemblyTitle("Math.NET Numerics")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Math.NET Project")]
