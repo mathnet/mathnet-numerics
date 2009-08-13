@@ -30,7 +30,6 @@ namespace MathNet.Numerics
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// Sorting algorithms for single, tuple and triple lists.
@@ -93,25 +92,25 @@ namespace MathNet.Numerics
         /// <param name="comparer">Comparison, defining the sort order.</param>
         public static void Sort<T>(IList<T> keys, IComparer<T> comparer)
         {
-            if(null == keys)
+            if (null == keys)
             {
                 throw new ArgumentNullException("keys");
             }
 
-            if(null == comparer)
+            if (null == comparer)
             {
                 throw new ArgumentNullException("comparer");
             }
 
             // basic cases
-            if(keys.Count <= 1)
+            if (keys.Count <= 1)
             {
                 return;
             }
 
-            if(keys.Count == 2)
+            if (keys.Count == 2)
             {
-                if(comparer.Compare(keys[0], keys[1]) > 0)
+                if (comparer.Compare(keys[0], keys[1]) > 0)
                 {
                     Swap(keys, 0, 1);
                 }
@@ -120,18 +119,18 @@ namespace MathNet.Numerics
             }
 
             // generic list case
-            List<T> list = keys as List<T>;
-            if(null != list)
+            var keysList = keys as List<T>;
+            if (null != keysList)
             {
-                list.Sort(comparer);
+                keysList.Sort(comparer);
                 return;
             }
 
             // array case
-            T[] array = keys as T[];
-            if(null != array)
+            var keysArray = keys as T[];
+            if (null != keysArray)
             {
-                Array.Sort(array, comparer);
+                Array.Sort(keysArray, comparer);
                 return;
             }
 
@@ -149,25 +148,25 @@ namespace MathNet.Numerics
         /// <param name="comparer">Comparison, defining the sort order.</param>
         public static void Sort<TKey, TItem>(IList<TKey> keys, IList<TItem> items, IComparer<TKey> comparer)
         {
-            if(null == keys)
+            if (null == keys)
             {
                 throw new ArgumentNullException("keys");
             }
 
-            if(null == items)
+            if (null == items)
             {
                 throw new ArgumentNullException("items");
             }
 
-            if(null == comparer)
+            if (null == comparer)
             {
                 throw new ArgumentNullException("comparer");
             }
 
             // array case
-            TKey[] keysArray = keys as TKey[];
-            TItem[] itemsArray = items as TItem[];
-            if((null != keysArray) && (null != itemsArray))
+            var keysArray = keys as TKey[];
+            var itemsArray = items as TItem[];
+            if ((null != keysArray) && (null != itemsArray))
             {
                 Array.Sort(keysArray, itemsArray, comparer);
                 return;
@@ -190,22 +189,22 @@ namespace MathNet.Numerics
         public static void Sort<TKey, TItem1, TItem2>(
             IList<TKey> keys, IList<TItem1> items1, IList<TItem2> items2, IComparer<TKey> comparer)
         {
-            if(null == keys)
+            if (null == keys)
             {
                 throw new ArgumentNullException("keys");
             }
 
-            if(null == items1)
+            if (null == items1)
             {
                 throw new ArgumentNullException("items1");
             }
 
-            if(null == items2)
+            if (null == items2)
             {
                 throw new ArgumentNullException("items2");
             }
 
-            if(null == comparer)
+            if (null == comparer)
             {
                 throw new ArgumentNullException("comparer");
             }
@@ -224,35 +223,35 @@ namespace MathNet.Numerics
         /// <param name="comparer">Comparison, defining the sort order.</param>
         public static void Sort<T>(IList<T> keys, int index, int count, IComparer<T> comparer)
         {
-            if(null == keys)
+            if (null == keys)
             {
                 throw new ArgumentNullException("keys");
             }
 
-            if(null == comparer)
+            if (null == comparer)
             {
                 throw new ArgumentNullException("comparer");
             }
 
-            if(index < 0 || index >= keys.Count)
+            if (index < 0 || index >= keys.Count)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            if(count < 0 || index + count > keys.Count)
+            if (count < 0 || index + count > keys.Count)
             {
                 throw new ArgumentOutOfRangeException("count");
             }
 
             // basic cases
-            if(count <= 1)
+            if (count <= 1)
             {
                 return;
             }
 
-            if(count == 2)
+            if (count == 2)
             {
-                if(comparer.Compare(keys[index], keys[index + 1]) > 0)
+                if (comparer.Compare(keys[index], keys[index + 1]) > 0)
                 {
                     Swap(keys, index, index + 1);
                 }
@@ -261,18 +260,18 @@ namespace MathNet.Numerics
             }
 
             // generic list case
-            List<T> list = keys as List<T>;
-            if(null != list)
+            var keysList = keys as List<T>;
+            if (null != keysList)
             {
-                list.Sort(index, count, comparer);
+                keysList.Sort(index, count, comparer);
                 return;
             }
 
             // array case
-            T[] array = keys as T[];
-            if(null != array)
+            var keysArray = keys as T[];
+            if (null != keysArray)
             {
-                Array.Sort(array, index, count, comparer);
+                Array.Sort(keysArray, index, count, comparer);
                 return;
             }
 
@@ -288,7 +287,11 @@ namespace MathNet.Numerics
         /// <param name="comparer">The method with which to compare two elements of the quick sort.</param>
         /// <param name="left">The left boundary of the quick sort.</param>
         /// <param name="right">The right boundary of the quick sort.</param>
-        private static void QuickSort<T>(IList<T> keys, IComparer<T> comparer, int left, int right)
+        private static void QuickSort<T>(
+            IList<T> keys,
+            IComparer<T> comparer,
+            int left,
+            int right)
         {
             do
             {
@@ -297,17 +300,17 @@ namespace MathNet.Numerics
                 int b = right;
                 int p = a + ((b - a) >> 1); // midpoint
 
-                if(comparer.Compare(keys[a], keys[p]) > 0)
+                if (comparer.Compare(keys[a], keys[p]) > 0)
                 {
                     Swap(keys, a, p);
                 }
 
-                if(comparer.Compare(keys[a], keys[b]) > 0)
+                if (comparer.Compare(keys[a], keys[b]) > 0)
                 {
                     Swap(keys, a, b);
                 }
 
-                if(comparer.Compare(keys[p], keys[b]) > 0)
+                if (comparer.Compare(keys[p], keys[b]) > 0)
                 {
                     Swap(keys, p, b);
                 }
@@ -317,36 +320,35 @@ namespace MathNet.Numerics
                 // Hoare Partitioning
                 do
                 {
-                    while(comparer.Compare(keys[a], pivot) < 0)
+                    while (comparer.Compare(keys[a], pivot) < 0)
                     {
                         a++;
                     }
 
-                    while(comparer.Compare(pivot, keys[b]) < 0)
+                    while (comparer.Compare(pivot, keys[b]) < 0)
                     {
                         b--;
                     }
 
-                    if(a > b)
+                    if (a > b)
                     {
                         break;
                     }
 
-                    if(a < b)
+                    if (a < b)
                     {
                         Swap(keys, a, b);
                     }
 
                     a++;
                     b--;
-                }
-                while(a <= b);
+                } while (a <= b);
 
                 // In order to limit the recusion depth to log(n), we sort the 
                 // shorter partition recusively and the longer partition iteratively.
-                if((b - left) <= (right - a))
+                if ((b - left) <= (right - a))
                 {
-                    if(left < b)
+                    if (left < b)
                     {
                         QuickSort(keys, comparer, left, b);
                     }
@@ -355,15 +357,14 @@ namespace MathNet.Numerics
                 }
                 else
                 {
-                    if(a < right)
+                    if (a < right)
                     {
                         QuickSort(keys, comparer, a, right);
                     }
 
                     right = b;
                 }
-            }
-            while(left < right);
+            } while (left < right);
         }
 
         /// <summary>
@@ -376,7 +377,12 @@ namespace MathNet.Numerics
         /// <param name="comparer">The method with which to compare two elements of the quick sort.</param>
         /// <param name="left">The left boundary of the quick sort.</param>
         /// <param name="right">The right boundary of the quick sort.</param>
-        private static void QuickSort<T, TItems>(IList<T> keys, IList<TItems> items, IComparer<T> comparer, int left, int right)
+        private static void QuickSort<T, TItems>(
+            IList<T> keys,
+            IList<TItems> items,
+            IComparer<T> comparer,
+            int left,
+            int right)
         {
             do
             {
@@ -385,19 +391,19 @@ namespace MathNet.Numerics
                 int b = right;
                 int p = a + ((b - a) >> 1); // midpoint
 
-                if(comparer.Compare(keys[a], keys[p]) > 0)
+                if (comparer.Compare(keys[a], keys[p]) > 0)
                 {
                     Swap(keys, a, p);
                     Swap(items, a, p);
                 }
 
-                if(comparer.Compare(keys[a], keys[b]) > 0)
+                if (comparer.Compare(keys[a], keys[b]) > 0)
                 {
                     Swap(keys, a, b);
                     Swap(items, a, b);
                 }
 
-                if(comparer.Compare(keys[p], keys[b]) > 0)
+                if (comparer.Compare(keys[p], keys[b]) > 0)
                 {
                     Swap(keys, p, b);
                     Swap(items, p, b);
@@ -408,22 +414,22 @@ namespace MathNet.Numerics
                 // Hoare Partitioning
                 do
                 {
-                    while(comparer.Compare(keys[a], pivot) < 0)
+                    while (comparer.Compare(keys[a], pivot) < 0)
                     {
                         a++;
                     }
 
-                    while(comparer.Compare(pivot, keys[b]) < 0)
+                    while (comparer.Compare(pivot, keys[b]) < 0)
                     {
                         b--;
                     }
 
-                    if(a > b)
+                    if (a > b)
                     {
                         break;
                     }
 
-                    if(a < b)
+                    if (a < b)
                     {
                         Swap(keys, a, b);
                         Swap(items, a, b);
@@ -431,14 +437,13 @@ namespace MathNet.Numerics
 
                     a++;
                     b--;
-                }
-                while(a <= b);
+                } while (a <= b);
 
                 // In order to limit the recusion depth to log(n), we sort the 
                 // shorter partition recusively and the longer partition iteratively.
-                if((b - left) <= (right - a))
+                if ((b - left) <= (right - a))
                 {
-                    if(left < b)
+                    if (left < b)
                     {
                         QuickSort(keys, items, comparer, left, b);
                     }
@@ -447,15 +452,14 @@ namespace MathNet.Numerics
                 }
                 else
                 {
-                    if(a < right)
+                    if (a < right)
                     {
                         QuickSort(keys, items, comparer, a, right);
                     }
 
                     right = b;
                 }
-            }
-            while(left < right);
+            } while (left < right);
         }
 
         /// <summary>
@@ -471,7 +475,12 @@ namespace MathNet.Numerics
         /// <param name="left">The left boundary of the quick sort.</param>
         /// <param name="right">The right boundary of the quick sort.</param>
         private static void QuickSort<T, TItems1, TItems2>(
-            IList<T> keys, IList<TItems1> items1, IList<TItems2> items2, IComparer<T> comparer, int left, int right)
+            IList<T> keys,
+            IList<TItems1> items1,
+            IList<TItems2> items2,
+            IComparer<T> comparer,
+            int left,
+            int right)
         {
             do
             {
@@ -480,21 +489,21 @@ namespace MathNet.Numerics
                 int b = right;
                 int p = a + ((b - a) >> 1); // midpoint
 
-                if(comparer.Compare(keys[a], keys[p]) > 0)
+                if (comparer.Compare(keys[a], keys[p]) > 0)
                 {
                     Swap(keys, a, p);
                     Swap(items1, a, p);
                     Swap(items2, a, p);
                 }
 
-                if(comparer.Compare(keys[a], keys[b]) > 0)
+                if (comparer.Compare(keys[a], keys[b]) > 0)
                 {
                     Swap(keys, a, b);
                     Swap(items1, a, b);
                     Swap(items2, a, b);
                 }
 
-                if(comparer.Compare(keys[p], keys[b]) > 0)
+                if (comparer.Compare(keys[p], keys[b]) > 0)
                 {
                     Swap(keys, p, b);
                     Swap(items1, p, b);
@@ -506,22 +515,22 @@ namespace MathNet.Numerics
                 // Hoare Partitioning
                 do
                 {
-                    while(comparer.Compare(keys[a], pivot) < 0)
+                    while (comparer.Compare(keys[a], pivot) < 0)
                     {
                         a++;
                     }
 
-                    while(comparer.Compare(pivot, keys[b]) < 0)
+                    while (comparer.Compare(pivot, keys[b]) < 0)
                     {
                         b--;
                     }
 
-                    if(a > b)
+                    if (a > b)
                     {
                         break;
                     }
 
-                    if(a < b)
+                    if (a < b)
                     {
                         Swap(keys, a, b);
                         Swap(items1, a, b);
@@ -530,14 +539,13 @@ namespace MathNet.Numerics
 
                     a++;
                     b--;
-                }
-                while(a <= b);
+                } while (a <= b);
 
                 // In order to limit the recusion depth to log(n), we sort the 
                 // shorter partition recusively and the longer partition iteratively.
-                if((b - left) <= (right - a))
+                if ((b - left) <= (right - a))
                 {
-                    if(left < b)
+                    if (left < b)
                     {
                         QuickSort(keys, items1, items2, comparer, left, b);
                     }
@@ -546,15 +554,14 @@ namespace MathNet.Numerics
                 }
                 else
                 {
-                    if(a < right)
+                    if (a < right)
                     {
                         QuickSort(keys, items1, items2, comparer, a, right);
                     }
 
                     right = b;
                 }
-            }
-            while(left < right);
+            } while (left < right);
         }
 
         /// <summary>
@@ -566,7 +573,7 @@ namespace MathNet.Numerics
         /// <param name="b">The index of the second element of the swap.</param>
         internal static void Swap<T>(IList<T> keys, int a, int b)
         {
-            if(a != b)
+            if (a != b)
             {
                 T local = keys[a];
                 keys[a] = keys[b];
