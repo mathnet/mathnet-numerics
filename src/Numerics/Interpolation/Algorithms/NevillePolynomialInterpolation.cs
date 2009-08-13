@@ -88,7 +88,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Gets a value indicating whether the algorithm supports integration (interpolated quadrature).
         /// </summary>
-        /// <seealso cref="Integrate"/>
+        /// <seealso cref="IInterpolation.Integrate"/>
         bool IInterpolation.SupportsIntegration
         {
             get { return false; }

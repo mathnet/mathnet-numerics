@@ -73,8 +73,8 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
-        /// <seealso cref="Differentiate(double)"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="IInterpolation.Differentiate(double)"/>
+        /// <seealso cref="IInterpolation.Differentiate(double, out double, out double)"/>
         bool IInterpolation.SupportsDifferentiation
         {
             get { return false; }
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <summary>
         /// Gets a value indicating whether the algorithm supports integration (interpolated quadrature).
         /// </summary>
-        /// <seealso cref="Integrate"/>
+        /// <seealso cref="IInterpolation.Integrate"/>
         bool IInterpolation.SupportsIntegration
         {
             get { return false; }
@@ -190,7 +190,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="Differentiate(double, out double, out double)"/>
+        /// <seealso cref="IInterpolation.Differentiate(double, out double, out double)"/>
         double IInterpolation.Differentiate(double t)
         {
             throw new NotSupportedException();
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         /// <param name="secondDerivative">Interpolated second derivative at point t.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
         /// <seealso cref="IInterpolation.SupportsDifferentiation"/>
-        /// <seealso cref="Differentiate(double)"/>
+        /// <seealso cref="IInterpolation.Differentiate(double)"/>
         double IInterpolation.Differentiate(
             double t,
             out double interpolatedValue,
