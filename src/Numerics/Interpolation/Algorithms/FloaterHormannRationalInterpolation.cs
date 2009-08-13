@@ -66,6 +66,24 @@ namespace MathNet.Numerics.Interpolation.Algorithms
         }
 
         /// <summary>
+        /// Initializes a new instance of the FloaterHormannRationalInterpolation class.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <param name="order">
+        /// Order of the interpolation scheme, 0 &lt;= order &lt;= N.
+        /// In most cases a value between 3 and 8 gives good results.
+        /// </param>
+        public FloaterHormannRationalInterpolation(
+            IList<double> samplePoints,
+            IList<double> sampleValues,
+            int order)
+        {
+            _barycentric = new BarycentricInterpolation();
+            Initialize(samplePoints, sampleValues, order);
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
         /// <seealso cref="IInterpolation.Differentiate(double)"/>
