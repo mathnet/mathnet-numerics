@@ -63,7 +63,38 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             IList<double> sampleValues)
         {
             _spline = new CubicHermiteSplineInterpolation();
-            Initialize(samplePoints, sampleValues);
+
+            Initialize(
+                samplePoints,
+                sampleValues);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the CubicSplineInterpolation class.
+        /// </summary>
+        /// <param name="samplePoints">Sample Points t, sorted ascending.</param>
+        /// <param name="sampleValues">Sample Values x(t)</param>
+        /// <param name="leftBoundaryCondition">Condition of the left boundary.</param>
+        /// <param name="leftBoundary">Left boundary value. Ignored in the parabolic case.</param>
+        /// <param name="rightBoundaryCondition">Condition of the right boundary.</param>
+        /// <param name="rightBoundary">Right boundary value. Ignored in the parabolic case.</param>
+        public CubicSplineInterpolation(
+            IList<double> samplePoints,
+            IList<double> sampleValues,
+            SplineBoundaryCondition leftBoundaryCondition,
+            double leftBoundary,
+            SplineBoundaryCondition rightBoundaryCondition,
+            double rightBoundary)
+        {
+            _spline = new CubicHermiteSplineInterpolation();
+
+            Initialize(
+                samplePoints,
+                sampleValues,
+                leftBoundaryCondition,
+                leftBoundary,
+                rightBoundaryCondition,
+                rightBoundary);
         }
 
         /// <summary>
