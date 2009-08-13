@@ -111,7 +111,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentNullException("splineCoefficients");
             }
 
-            if (samplePoints.Count < 1)
+            if (samplePoints.Count < 2)
             {
                 throw new ArgumentOutOfRangeException("samplePoints");
             }
