@@ -70,7 +70,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             Complex[] b = new Complex[m];
             Complex[] a = new Complex[m];
 
-            Parallel.Invoke(
+            Parallel.Run(
                 () =>
                 {
                     // Build and transform padded sequence b_k = exp(I*Pi*k^2/N)

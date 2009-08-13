@@ -28,12 +28,12 @@
 
 namespace MathNet.Numerics
 {
-    using System;
+    using Threading;
 
     /// <summary>
     /// Sets parameters for the library.
     /// </summary>
-    public static partial class Control
+    public static class Control
     {
         /// <summary>
         /// Initializes static members of the Control class.
@@ -42,6 +42,7 @@ namespace MathNet.Numerics
         {
             CheckDistributionParameters = true;
             ThreadSafeRandomNumberGenerators = true;
+            DisableParallelization = false;
         }
 
         /// <summary>
@@ -59,5 +60,20 @@ namespace MathNet.Numerics
         ///     <c>true</c> to use thread safe random number generators ; otherwise, <c>false</c>.
         /// </value>
         public static bool ThreadSafeRandomNumberGenerators { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating how many parallel worker threads shall be used
+        /// when parallelization is applicable.
+        /// </summary>
+        public static int NumberOfParallelWorkerThreads
+        {
+            get { return ThreadQueue.ThreadCount; }
+            set { ThreadQueue.Start(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether parallelization shall be disabled globally.
+        /// </summary>
+        public static bool DisableParallelization { get; set; }
     }
 }

@@ -53,14 +53,32 @@ namespace MathNet.Numerics.Threading
                 throw new ArgumentNullException("body");
             }
 
-            var actions = new Action[ThreadQueue.ThreadCount];
+            // fast forward execution if it's only one or none items
             var count = toExclusive - fromInclusive;
-            var size = count / actions.Length;
-
-            if (count < 1)
+            if (count <= 1)
             {
+                if (count == 1)
+                {
+                    body(fromInclusive);
+                }
+
                 return;
             }
+
+            // fast forward execution in case parallelization is disabled
+            // (cdrnet, 200908): should we fast forward on STA threads as well?
+            if (Control.DisableParallelization || ThreadQueue.ThreadCount <= 1)
+            {
+                for (int i = fromInclusive; i < toExclusive; i++)
+                {
+                    body(i);
+                }
+
+                return;
+            }
+
+            var actions = new Action[ThreadQueue.ThreadCount];
+            var size = count / actions.Length;
 
             // partition the jobs into separate sets for each but the last worked thread
             for (var i = 0; i < actions.Length - 1; i++)
@@ -71,7 +89,7 @@ namespace MathNet.Numerics.Threading
                 actions[i] =
                     () =>
                     {
-                        for (var j = start; j < stop; j++)
+                        for (int j = start; j < stop; j++)
                         {
                             body(j);
                         }
@@ -82,7 +100,7 @@ namespace MathNet.Numerics.Threading
             actions[actions.Length - 1] =
                 () =>
                 {
-                    for (var i = fromInclusive + ((actions.Length - 1) * size); i < toExclusive; i++)
+                    for (int i = fromInclusive + ((actions.Length - 1) * size); i < toExclusive; i++)
                     {
                         body(i);
                     }
@@ -98,13 +116,47 @@ namespace MathNet.Numerics.Threading
         /// <exception cref="ArgumentNullException">The <paramref name="actions"/> argument is null.</exception>
         /// <exception cref="ArgumentException">The actions array contains a null element.</exception>
         /// <exception cref="AggregateException">An action threw an exception.</exception>
-        internal static void Invoke(params Action[] actions)
+        internal static void Run(params Action[] actions)
         {
             if (actions == null)
             {
                 throw new ArgumentNullException("actions");
             }
 
+            // fast forward execution if it's only one or none items
+            if (actions.Length <= 1)
+            {
+                if (actions.Length == 1)
+                {
+                    actions[0]();
+                }
+
+                return;
+            }
+
+            // fast forward execution in case parallelization is disabled
+            // (cdrnet, 200908): should we fast forward on STA threads as well?
+            if (Control.DisableParallelization || ThreadQueue.ThreadCount <= 1)
+            {
+                for (int i = 0; i < actions.Length; i++)
+                {
+                    actions[i]();
+                }
+
+                return;
+            }
+
+            Invoke(actions);
+        }
+
+        /// <summary>
+        /// Executes each of the provided actions inside a discrete, asynchronous task. 
+        /// </summary>
+        /// <param name="actions">An array of actions to execute.</param>
+        /// <exception cref="ArgumentException">The actions array contains a null element.</exception>
+        /// <exception cref="AggregateException">An action threw an exception.</exception>
+        private static void Invoke(params Action[] actions)
+        {
             // create a job for each action
             var tasks = new Task[actions.Length];
             for (int i = 0; i < tasks.Length; i++)

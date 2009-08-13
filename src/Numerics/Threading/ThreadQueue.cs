@@ -82,7 +82,6 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         static ThreadQueue()
         {
-            // TODO: Control.ThreadCount instead of Environment.ProcessorCount
             Start(Environment.ProcessorCount);
         }
 
@@ -154,12 +153,14 @@ namespace MathNet.Numerics.Threading
                     }
                 }
 
-                // ...and run it
-                if (task != null)
+                if (task == null)
                 {
-                    task.Compute();
-                    task.Set();
+                    continue;
                 }
+
+                // ...and run it
+                task.Compute();
+                task.Set();
             }
         }
 
@@ -169,6 +170,9 @@ namespace MathNet.Numerics.Threading
         /// <param name="numberOfThreads">Number of worker threads.</param>
         internal static void Start(int numberOfThreads)
         {
+            // instead of throwing an out of range exception, simply normalize
+            numberOfThreads = Math.Max(1, Math.Min(1024, numberOfThreads));
+
             lock (_stateSync)
             {
                 if (_threads != null)

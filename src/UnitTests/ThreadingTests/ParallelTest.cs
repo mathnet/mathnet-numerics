@@ -117,11 +117,12 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             ThreadQueue.Start(2);
             Assert.AreEqual(2, ThreadQueue.ThreadCount);
 
-            ThreadQueue.Start(2);
+            Control.NumberOfParallelWorkerThreads = 2;
             Assert.AreEqual(2, ThreadQueue.ThreadCount);
 
             ThreadQueue.Start(4);
             Assert.AreEqual(4, ThreadQueue.ThreadCount);
+            Assert.AreEqual(4, Control.NumberOfParallelWorkerThreads);
 
             ThreadQueue.Shutdown();
             ThreadQueue.Start();
