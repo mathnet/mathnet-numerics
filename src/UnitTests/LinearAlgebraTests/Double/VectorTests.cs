@@ -10,6 +10,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
 
     using MathNet.Numerics.LinearAlgebra.Double;
 
@@ -49,8 +50,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = CreateVector(_data);
             var str = vector.ToString();
-
-            Assert.AreEqual("1,2,3,4,5", str);
+            var sep = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
+            Assert.AreEqual(string.Format("1{0}2{0}3{0}4{0}5", sep), str);
         }
 
         /// <summary>
