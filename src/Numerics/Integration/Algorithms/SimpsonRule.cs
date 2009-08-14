@@ -49,6 +49,11 @@ namespace MathNet.Numerics.Integration.Algorithms
             double intervalBegin,
             double intervalEnd)
         {
+            if (f == null)
+            {
+                throw new ArgumentNullException("f");
+            }
+
             double midpoint = (intervalEnd + intervalBegin) / 2;
             return (intervalEnd - intervalBegin) / 6 * (f(intervalBegin) + f(intervalEnd) + (4 * f(midpoint)));
         }
@@ -67,6 +72,11 @@ namespace MathNet.Numerics.Integration.Algorithms
             double intervalEnd,
             int numberOfPartitions)
         {
+            if (f == null)
+            {
+                throw new ArgumentNullException("f");
+            }
+
             if (numberOfPartitions <= 0)
             {
                 throw new ArgumentOutOfRangeException("numberOfPartitions", Resources.ArgumentPositive);
@@ -85,7 +95,7 @@ namespace MathNet.Numerics.Integration.Algorithms
             double sum = f(intervalBegin) + f(intervalEnd);
             for (int i = 0; i < numberOfPartitions - 1; i++)
             {
-                // NOTE (ruegg, 2009-01-07): Do not combine intervalBegin and offset (numerical stability)
+                // NOTE (cdrnet, 2009-01-07): Do not combine intervalBegin and offset (numerical stability)
                 sum += m * f(intervalBegin + offset);
                 m = 6 - m;
                 offset += step;

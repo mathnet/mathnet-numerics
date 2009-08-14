@@ -52,6 +52,11 @@ namespace MathNet.Numerics.Integration.Algorithms
             double intervalBegin,
             double intervalEnd)
         {
+            if (f == null)
+            {
+                throw new ArgumentNullException("f");
+            }
+
             return (intervalEnd - intervalBegin) / 2 * (f(intervalBegin) + f(intervalEnd));
         }
 
@@ -69,6 +74,11 @@ namespace MathNet.Numerics.Integration.Algorithms
             double intervalEnd,
             int numberOfPartitions)
         {
+            if (f == null)
+            {
+                throw new ArgumentNullException("f");
+            }
+
             if (numberOfPartitions <= 0)
             {
                 throw new ArgumentOutOfRangeException("numberOfPartitions", Resources.ArgumentPositive);
@@ -102,6 +112,11 @@ namespace MathNet.Numerics.Integration.Algorithms
             double intervalEnd,
             double targetError)
         {
+            if (f == null)
+            {
+                throw new ArgumentNullException("f");
+            }
+
             int numberOfPartitions = 1;
             double step = intervalEnd - intervalBegin;
             double sum = 0.5 * step * (f(intervalBegin) + f(intervalEnd));
@@ -147,6 +162,21 @@ namespace MathNet.Numerics.Integration.Algorithms
             double levelOneStep,
             double targetRelativeError)
         {
+            if (f == null)
+            {
+                throw new ArgumentNullException("f");
+            }
+
+            if (levelAbscissas == null)
+            {
+                throw new ArgumentNullException("levelAbscissas");
+            }
+
+            if (levelWeights == null)
+            {
+                throw new ArgumentNullException("levelWeights");
+            }
+
             double linearSlope = 0.5 * (intervalEnd - intervalBegin);
             double linearOffset = 0.5 * (intervalEnd + intervalBegin);
             targetRelativeError /= 5 * linearSlope;

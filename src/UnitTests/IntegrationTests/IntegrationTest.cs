@@ -26,13 +26,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
 namespace MathNet.Numerics.UnitTests.IntegrationTests
 {
     using System;
+    using System.Linq.Expressions;
     using Integration;
     using Integration.Algorithms;
     using MbUnit.Framework;
+    using MbUnit.Framework.ContractVerifiers;
 
     [TestFixture]
     public class IntegrationTest
@@ -65,6 +66,18 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 "Basic Target 1e-10");
         }
 
+        [VerifyContract]
+        public readonly IContract FacadeIntegrateChecksArguments =
+            new ArgumentCheckContract<double>
+            {
+                TypicalUses =
+                    new Expression<Func<double>>[]
+                    {
+                        () => Integrate.OnClosedInterval(x => 2 * x, StartA, StopA),
+                        () => Integrate.OnClosedInterval(x => 2 * x, StartA, StopA, 1e-5)
+                    }
+            };
+
         [Test]
         [Row(1e-5)]
         [Row(1e-13)]
@@ -78,6 +91,13 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 targetRelativeError * TargetAreaA,
                 "DET Adaptive {0}", targetRelativeError);
         }
+
+        [VerifyContract]
+        public readonly IContract DoubleExponentialTransformationIntegrateChecksArguments =
+            new ArgumentCheckContract<double>
+            {
+                TypicalUse = () => (new DoubleExponentialTransformation()).Integrate(x => 2 * x, StartA, StopA, 1e-5)
+            };
 
         [Test]
         public void TrapeziumRuleSupportsTwoPointIntegration()
@@ -117,6 +137,28 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 "Adaptive {0}", targetRelativeError);
         }
 
+        [VerifyContract]
+        public readonly IContract TrapeziumRuleIntegrateChecksArguments =
+            new ArgumentCheckContract<double>
+            {
+                TypicalUses =
+                    new Expression<Func<double>>[]
+                    {
+                        () => NewtonCotesTrapeziumRule.IntegrateTwoPoint(x => 2 * x, StartA, StopA),
+                        () => NewtonCotesTrapeziumRule.IntegrateComposite(x => 2 * x, StartA, StopA, 2),
+                        () => NewtonCotesTrapeziumRule.IntegrateAdaptive(x => 2 * x, StartA, StopA, 1e-5),
+                        () => NewtonCotesTrapeziumRule.IntegrateAdaptiveTransformedOdd(
+                                  x => 2 * x,
+                                  StartA,
+                                  StopA,
+                                  DoubleExponentialTransformation.ProvideLevelAbcissas(),
+                                  DoubleExponentialTransformation.ProvideLevelWeights(),
+                                  1,
+                                  1e-5)
+                    },
+                BadUse = () => NewtonCotesTrapeziumRule.IntegrateComposite(x => 2 * x, StartA, StopA, 0)
+            };
+
         [Test]
         public void SimpsonRuleSupportsThreePointIntegration()
         {
@@ -141,5 +183,23 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 maxRelativeError * TargetAreaA,
                 "Composite {0} Partitions", partitions);
         }
+
+        [VerifyContract]
+        public readonly IContract SimpsonRuleIntegrateChecksArguments =
+            new ArgumentCheckContract<double>
+            {
+                TypicalUses =
+                    new Expression<Func<double>>[]
+                    {
+                        () => SimpsonRule.IntegrateThreePoint(x => 2 * x, StartA, StopA),
+                        () => SimpsonRule.IntegrateComposite(x => 2 * x, StartA, StopA, 2)
+                    },
+                BadUses =
+                    new Func<double>[]
+                    {
+                        () => SimpsonRule.IntegrateComposite(x => 2 * x, StartA, StopA, 0),
+                        () => SimpsonRule.IntegrateComposite(x => 2 * x, StartA, StopA, 3)
+                    }
+            };
     }
 }

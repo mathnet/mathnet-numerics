@@ -535,7 +535,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// Abscissa vector per level provider.
         /// </summary>
         /// <returns>Level Enumerator.</returns>
-        private static IEnumerable<double[]> ProvideLevelAbcissas()
+        internal static IEnumerable<double[]> ProvideLevelAbcissas()
         {
             for (int i = 0; i < NumberOfMaximumLevels; i++)
             {
@@ -547,7 +547,7 @@ namespace MathNet.Numerics.Integration.Algorithms
         /// Weight vector per level provider.
         /// </summary>
         /// <returns>Level Enumerator.</returns>
-        private static IEnumerable<double[]> ProvideLevelWeights()
+        internal static IEnumerable<double[]> ProvideLevelWeights()
         {
             for (int i = 0; i < NumberOfMaximumLevels; i++)
             {
