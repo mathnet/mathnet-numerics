@@ -68,6 +68,7 @@
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
     <Compile Include="DistributionTests\Continuous\GammaTests.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
+    <Compile Include="DistributionTests\Multivariate\DirichletTests.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
     <Compile Include="IntegralTransformsTests\MatchingNaiveTransformTest.cs" />
@@ -109,7 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DistributionTests\Discrete\" />
-    <Folder Include="DistributionTests\Multivariate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
