@@ -54,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(1)]
         [Row(2)]
         [Row(3)]
-        public void CanCreateNormal(int i)
+        public void ValidateThatUnivariateDistributionsHaveRandomSource(int i)
         {
             Assert.IsNotNull(dists[i].RandomSource);
         }
