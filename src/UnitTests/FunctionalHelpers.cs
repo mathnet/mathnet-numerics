@@ -26,13 +26,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using MathNet.Numerics.Interpolation;
-
-namespace MathNet.Numerics.UnitTests.InterpolationTests
+namespace MathNet.Numerics.UnitTests
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
 
     internal static class FunctionalHelpers
     {
@@ -50,16 +48,24 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             return newList;
         }
 
-        internal static IEnumerable<Expression<Func<IInterpolation>>> ApplySingleMapEachArgument(
+        internal static IEnumerable<Expression<Func<T>>> ApplySingleMapEachArgument<T>(
             this LambdaExpression lambda,
             Func<Type, bool> predicate,
             Func<Expression, Expression> replace)
         {
             var body = lambda.Body;
+            var bodyCall = body as MethodCallExpression;
+            var bodyCtor = body as NewExpression;
+
+            if (bodyCall == null && bodyCtor == null)
+            {
+                throw new NotSupportedException();
+            }
+
             var arguments =
-                body is NewExpression
-                    ? ((NewExpression)body).Arguments
-                    : ((MethodCallExpression)body).Arguments;
+                bodyCall != null
+                    ? bodyCall.Arguments
+                    : bodyCtor.Arguments;
 
             for (int i = 0; i < arguments.Count; i++)
             {
@@ -70,13 +76,14 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
 
                 var mappedArguments = ApplySingleMap(arguments, i, replace);
 
-                yield return Expression.Lambda<Func<IInterpolation>>(
-                    body is NewExpression
-                        ? (Expression)Expression.New(
-                                           ((NewExpression)body).Constructor,
+                yield return Expression.Lambda<Func<T>>(
+                    bodyCtor != null
+                        ? (Expression) Expression.New(
+                                           bodyCtor.Constructor,
                                            mappedArguments)
-                        : (Expression)Expression.Call(
-                                           ((MethodCallExpression)body).Method,
+                        : (Expression) Expression.Call(
+                                           bodyCall.Object,
+                                           bodyCall.Method,
                                            mappedArguments));
             }
         }
