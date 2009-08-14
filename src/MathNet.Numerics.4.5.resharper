@@ -836,8 +836,8 @@ Bluestein
         <Categories />
         <Variables>
           <Variable name="FILE" expression="getFileName()" initialRange="0" />
+          <Variable name="YEAR" expression="getCurrentDate(&quot;yyyy&quot;)" initialRange="-1" />
           <Variable name="NAMESPACE" expression="fileDefaultNamespace()" initialRange="0" />
-          <Variable name="YEAR" expression="getCurrentDate(&quot;yyyy&quot;)" initialRange="0" />
           <Variable name="CLASS" expression="getFileNameWithoutExtension()" initialRange="0" />
         </Variables>
         <CustomProperties>
