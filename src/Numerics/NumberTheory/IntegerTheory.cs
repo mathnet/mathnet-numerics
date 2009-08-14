@@ -104,13 +104,13 @@ namespace MathNet.Numerics.NumberTheory
         /// <exception cref="ArgumentOutOfRangeException"/>
         public static int CeilingToPowerOfTwo(this int number)
         {
-            if(number == Int32.MinValue)
+            if (number == Int32.MinValue)
             {
                 return 0;
             }
 
-            const int maxPowerOfTwo = 0x40000000;
-            if(number > maxPowerOfTwo)
+            const int MaxPowerOfTwo = 0x40000000;
+            if (number > MaxPowerOfTwo)
             {
                 throw new ArgumentOutOfRangeException("number");
             }
@@ -138,8 +138,8 @@ namespace MathNet.Numerics.NumberTheory
                 return 0;
             }
 
-            const long maxPowerOfTwo = 0x4000000000000000;
-            if (number > maxPowerOfTwo)
+            const long MaxPowerOfTwo = 0x4000000000000000;
+            if (number > MaxPowerOfTwo)
             {
                 throw new ArgumentOutOfRangeException("number");
             }
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.NumberTheory
 
             return 1 << exponent;
         }
-        
+
         /// <summary>
         /// Raises 2 to the provided integer exponent (0 &lt;= exponent &lt; 63).
         /// </summary>

@@ -30,8 +30,7 @@ namespace MathNet.Numerics.Statistics
 {
     using System;
     using System.Collections.Generic;
-    using MathNet.Numerics.Properties;
-    using MathNet.Numerics.NumberTheory;
+    using Properties;
 
     /// <summary>
     /// Extension methods to return basic statistics on set of data.
@@ -54,7 +53,7 @@ namespace MathNet.Numerics.Statistics
             int m = 0;
             foreach (var item in data)
             {
-                mean += (item - mean)/++m;
+                mean += (item - mean) / ++m;
             }
 
             return mean;
@@ -78,7 +77,7 @@ namespace MathNet.Numerics.Statistics
             {
                 if (item.HasValue)
                 {
-                    mean += (item.Value - mean)/++m;
+                    mean += (item.Value - mean) / ++m;
                 }
             }
 
@@ -113,11 +112,11 @@ namespace MathNet.Numerics.Statistics
                 j++;
                 double xi = iterator.Current;
                 t += xi;
-                double diff = j*xi - t;
-                variance += (diff*diff)/(j*(j - 1));
+                double diff = (j * xi) - t;
+                variance += (diff * diff) / (j * (j - 1));
             }
 
-            return variance/(j - 1);
+            return variance / (j - 1);
         }
 
         /// <summary>
@@ -145,6 +144,7 @@ namespace MathNet.Numerics.Statistics
                 {
                     break;
                 }
+
                 if (iterator.Current.HasValue)
                 {
                     j++;
@@ -160,12 +160,12 @@ namespace MathNet.Numerics.Statistics
                     j++;
                     double xi = iterator.Current.Value;
                     t += xi;
-                    double diff = j*xi - t;
-                    variance += (diff*diff)/(j*(j - 1));
+                    double diff = (j * xi) - t;
+                    variance += (diff * diff) / (j * (j - 1));
                 }
             }
 
-            return variance/(j - 1);
+            return variance / (j - 1);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.Statistics
                 j++;
                 double xi = iterator.Current;
                 t += xi;
-                double diff = j * xi - t;
+                double diff = (j * xi) - t;
                 variance += (diff * diff) / (j * (j - 1));
             }
 
@@ -228,6 +228,7 @@ namespace MathNet.Numerics.Statistics
                 {
                     break;
                 }
+
                 if (iterator.Current.HasValue)
                 {
                     j++;
@@ -243,7 +244,7 @@ namespace MathNet.Numerics.Statistics
                     j++;
                     double xi = iterator.Current.Value;
                     t += xi;
-                    double diff = j * xi - t;
+                    double diff = (j * xi) - t;
                     variance += (diff * diff) / (j * (j - 1));
                 }
             }
@@ -263,7 +264,7 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentNullException("data");
             }
 
-            return System.Math.Sqrt(Variance(data));
+            return Math.Sqrt(Variance(data));
         }
 
         /// <summary>
@@ -278,7 +279,7 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentNullException("data");
             }
 
-            return System.Math.Sqrt(Variance(data));
+            return Math.Sqrt(Variance(data));
         }
 
         /// <summary>
@@ -293,7 +294,7 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentNullException("data");
             }
 
-            return System.Math.Sqrt(PopulationVariance(data));
+            return Math.Sqrt(PopulationVariance(data));
         }
 
         /// <summary>
@@ -308,7 +309,7 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentNullException("data");
             }
 
-            return System.Math.Sqrt(PopulationVariance(data));
+            return Math.Sqrt(PopulationVariance(data));
         }
 
         /// <summary>
@@ -329,7 +330,7 @@ namespace MathNet.Numerics.Statistics
             {
                 if (d.HasValue)
                 {
-                    min = System.Math.Min(min, d.Value);
+                    min = Math.Min(min, d.Value);
                     count++;
                 }
             }
@@ -360,7 +361,7 @@ namespace MathNet.Numerics.Statistics
             {
                 if (d.HasValue)
                 {
-                    max = System.Math.Max(max, d.Value);
+                    max = Math.Max(max, d.Value);
                     count++;
                 }
             }
@@ -389,7 +390,7 @@ namespace MathNet.Numerics.Statistics
             int count = 0;
             foreach (double d in data)
             {
-                min = System.Math.Min(min, d);
+                min = Math.Min(min, d);
                 count++;
             }
 
@@ -417,7 +418,7 @@ namespace MathNet.Numerics.Statistics
             int count = 0;
             foreach (double d in data)
             {
-                max = System.Math.Max(max, d);
+                max = Math.Max(max, d);
                 count++;
             }
 
@@ -441,18 +442,16 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentNullException("data");
             }
 
-            List<double> dataArray = new List<double>(data);
-            int index = dataArray.Count/2 + 1;
+            var dataArray = new List<double>(data);
+            int index = (dataArray.Count / 2) + 1;
             if (dataArray.Count % 2 == 0)
             {
                 double lower = OrderSelect(dataArray, 0, dataArray.Count - 1, index - 1);
                 double upper = OrderSelect(dataArray, 0, dataArray.Count - 1, index);
                 return (lower + upper) / 2.0;
             }
-            else
-            {
-                return OrderSelect(dataArray, 0, dataArray.Count - 1, index);
-            }
+
+            return OrderSelect(dataArray, 0, dataArray.Count - 1, index);
         }
 
         /// <summary>
@@ -467,7 +466,7 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentNullException("data");
             }
 
-            List<double> nonNull = new List<double>();
+            var nonNull = new List<double>();
             foreach (double? value in data)
             {
                 if (value.HasValue)
@@ -487,7 +486,8 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Evaluate the i-order (1..N) statistic of the provided samples.
         /// </summary>
-        /// <param name="data">The sample data.</param>
+        /// <param name="samples">The sample data.</param>
+        /// <param name="order">Order of the statistic to evaluate.</param>
         /// <returns>The i'th order statistic in the sample data.</returns>
         public static double OrderStatistic(IEnumerable<double> samples, int order)
         {
@@ -497,7 +497,7 @@ namespace MathNet.Numerics.Statistics
                 return Minimum(samples);
             }
 
-            List<double> list = new List<double>(samples);
+            var list = new List<double>(samples);
             if (order < 1 || order > list.Count)
             {
                 throw new ArgumentOutOfRangeException("order", Resources.ArgumentInIntervalXYInclusive);
@@ -521,16 +521,12 @@ namespace MathNet.Numerics.Statistics
         /// <param name="right">The right bound in which to order select.</param>
         /// <param name="order">The order we are trying to find.</param>
         /// <returns>The <paramref name="order"/> order statistic.</returns>
-        static double OrderSelect(IList<double> samples, int left, int right, int order)
+        private static double OrderSelect(IList<double> samples, int left, int right, int order)
         {
-            // Order most always be positive.
-            System.Diagnostics.Debug.Assert(order > 0);
-            // Left side must always be positive and smaller than right side.
-            System.Diagnostics.Debug.Assert(left >= 0 && left <= right);
-            // Right side must always be smaller than number of elements in list.
-            System.Diagnostics.Debug.Assert(right < samples.Count);
-            // Make sure there are at least order items in the segment [left, right].
-            System.Diagnostics.Debug.Assert(right - left + 1 >= order);
+            System.Diagnostics.Debug.Assert(order > 0, "Order must always be positive.");
+            System.Diagnostics.Debug.Assert(left >= 0 && left <= right, "Left side must always be positive and smaller than right side.");
+            System.Diagnostics.Debug.Assert(right < samples.Count, "Right side must always be smaller than number of elements in list.");
+            System.Diagnostics.Debug.Assert(right - left + 1 >= order, "Make sure there are at least order items in the segment [left, right].");
 
             if (left == right)
             {
@@ -542,29 +538,29 @@ namespace MathNet.Numerics.Statistics
 
             // The partioning code.
             int i = left - 1;
-            for(int j = left; j <= right - 1; j++)
+            for (int j = left; j <= right - 1; j++)
             {
-                if(samples[j] <= pivot)
+                if (samples[j] <= pivot)
                 {
                     i++;
                     Sorting.Swap(samples, i, j);
                 }
             }
-            Sorting.Swap(samples, i+1, right);
+
+            Sorting.Swap(samples, i + 1, right);
 
             // Recursive order finding algorithm.
-            if(order == (i-left)+2)
+            if (order == (i - left) + 2)
             {
                 return pivot;
             }
-            else if (order < (i-left)+2)
+
+            if (order < (i - left) + 2)
             {
                 return OrderSelect(samples, left, i, order);
             }
-            else
-            {
-                return OrderSelect(samples, i+2, right, order - i + left - 2);
-            }
+
+            return OrderSelect(samples, i + 2, right, order - i + left - 2);
         }
     }
 }

@@ -58,10 +58,14 @@ namespace MathNet.Numerics.Statistics
         /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class. 
         /// </summary>
         /// <param name="data">The sample data.</param>
-        /// <param name="increasedAccuracy">if set to <c>true</c>, increased accuracy mode used.
-        /// Increased accuracy mode uses <see cref="decimal"/> types for internal calculations.</param>
-        /// <remarks>Don't use increased accuracy for data sets containing large values (in absolute value).
-        ///  This may cause the calculations to overflow.</remarks>
+        /// <param name="increasedAccuracy">
+        /// If set to <c>true</c>, increased accuracy mode used.
+        /// Increased accuracy mode uses <see cref="decimal"/> types for internal calculations.
+        /// </param>
+        /// <remarks>
+        /// Don't use increased accuracy for data sets containing large values (in absolute value).
+        /// This may cause the calculations to overflow.
+        /// </remarks>
         public DescriptiveStatistics(IEnumerable<double> data, bool increasedAccuracy)
         {
             if (increasedAccuracy)
@@ -82,10 +86,14 @@ namespace MathNet.Numerics.Statistics
         /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class. 
         /// </summary>
         /// <param name="data">The sample data.</param>
-        /// <param name="increasedAccuracy">if set to <c>true</c>, increased accuracy mode used.
-        /// Increased accuracy mode uses <see cref="decimal"/> types for internal calculations.</param>
-        /// <remarks>Don't use increased accuracy for data sets containing large values (in absolute value).
-        ///  This may cause the calculations to overflow.</remarks>
+        /// <param name="increasedAccuracy">
+        /// If set to <c>true</c>, increased accuracy mode used.
+        /// Increased accuracy mode uses <see cref="decimal"/> types for internal calculations.
+        /// </param>
+        /// <remarks>
+        /// Don't use increased accuracy for data sets containing large values (in absolute value).
+        /// This may cause the calculations to overflow.
+        /// </remarks>
         public DescriptiveStatistics(IEnumerable<double?> data, bool increasedAccuracy)
         {
             if (increasedAccuracy)
@@ -174,7 +182,7 @@ namespace MathNet.Numerics.Statistics
             {
                 double diff = xi - Mean;
                 correction += diff;
-                double tmp = diff*diff;
+                double tmp = diff * diff;
                 variance += tmp;
                 tmp *= diff;
                 skewness += tmp;
@@ -184,18 +192,21 @@ namespace MathNet.Numerics.Statistics
             }
 
             Count = n;
-            Variance = (variance - (correction*correction)/n)/(n - 1);
+            Variance = (variance - (correction * correction / n)) / (n - 1);
             StandardDeviation = System.Math.Sqrt(Variance);
             if (Variance != 0)
             {
                 if (n > 2)
                 {
-                    Skewness = (double) n/((n - 1)*(n - 2))*(skewness/(Variance*StandardDeviation));
+                    Skewness = (double)n / ((n - 1) * (n - 2)) * (skewness / (Variance * StandardDeviation));
                 }
 
                 if (n > 3)
                 {
-                    Kurtosis = ((double) n*(n + 1))/((n - 1)*(n - 2)*(n - 3))*(kurtosis/(Variance*Variance)) - (3.0*(n - 1)*(n - 1))/((n - 2)*(n - 3));
+                    Kurtosis = (((double)n * (n + 1))
+                                / ((n - 1) * (n - 2) * (n - 3))
+                                * (kurtosis / (Variance * Variance)))
+                               - ((3.0 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3)));
                 }
             }
         }
@@ -217,7 +228,7 @@ namespace MathNet.Numerics.Statistics
                 if (xi.HasValue)
                 {
                     double diff = xi.Value - Mean;
-                    double tmp = diff*diff;
+                    double tmp = diff * diff;
                     correction += diff;
                     variance += tmp;
                     tmp *= diff;
@@ -231,18 +242,21 @@ namespace MathNet.Numerics.Statistics
             Count = n;
             if (n > 0)
             {
-                Variance = (variance - (correction*correction)/n)/(n - 1);
+                Variance = (variance - (correction * correction / n)) / (n - 1);
                 StandardDeviation = System.Math.Sqrt(Variance);
                 if (Variance != 0)
                 {
                     if (n > 2)
                     {
-                        Skewness = (double) n/((n - 1)*(n - 2))*(skewness/(Variance*StandardDeviation));
+                        Skewness = (double)n / ((n - 1) * (n - 2)) * (skewness / (Variance * StandardDeviation));
                     }
 
                     if (n > 3)
                     {
-                        Kurtosis = ((double) n*(n + 1))/((n - 1)*(n - 2)*(n - 3))*(kurtosis/(Variance*Variance)) - (3.0*(n - 1)*(n - 1))/((n - 2)*(n - 3));
+                        Kurtosis = (((double)n * (n + 1))
+                                    / ((n - 1) * (n - 2) * (n - 3))
+                                    * (kurtosis / (Variance * Variance)))
+                                   - ((3.0 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3)));
                     }
                 }
             }
@@ -255,7 +269,7 @@ namespace MathNet.Numerics.Statistics
         private void ComputeHA(IEnumerable<double> data)
         {
             Mean = data.Mean();
-            decimal mean = (decimal) Mean;
+            decimal mean = (decimal)Mean;
             decimal variance = 0;
             decimal correction = 0;
             decimal skewness = 0;
@@ -264,7 +278,7 @@ namespace MathNet.Numerics.Statistics
             foreach (decimal xi in data)
             {
                 decimal diff = xi - mean;
-                decimal tmp = diff*diff;
+                decimal tmp = diff * diff;
                 correction += diff;
                 variance += tmp;
                 tmp *= diff;
@@ -275,18 +289,21 @@ namespace MathNet.Numerics.Statistics
             }
 
             Count = n;
-            Variance = (double) (variance - (correction*correction)/n)/(n - 1);
+            Variance = (double)(variance - (correction * correction / n)) / (n - 1);
             StandardDeviation = System.Math.Sqrt(Variance);
             if (Variance != 0)
             {
                 if (n > 2)
                 {
-                    Skewness = (double) n/((n - 1)*(n - 2))*((double) skewness/(Variance*StandardDeviation));
+                    Skewness = (double)n / ((n - 1) * (n - 2)) * ((double)skewness / (Variance * StandardDeviation));
                 }
 
                 if (n > 3)
                 {
-                    Kurtosis = ((double) n*(n + 1))/((n - 1)*(n - 2)*(n - 3))*((double) kurtosis/(Variance*Variance)) - (3.0*(n - 1)*(n - 1))/((n - 2)*(n - 3));
+                    Kurtosis = (((double)n * (n + 1))
+                                / ((n - 1) * (n - 2) * (n - 3))
+                                * ((double)kurtosis / (Variance * Variance)))
+                               - ((3.0 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3)));
                 }
             }
         }
@@ -298,7 +315,7 @@ namespace MathNet.Numerics.Statistics
         private void ComputeHA(IEnumerable<double?> data)
         {
             Mean = data.Mean();
-            decimal mean = (decimal) Mean;
+            decimal mean = (decimal)Mean;
             decimal variance = 0;
             decimal correction = 0;
             decimal skewness = 0;
@@ -309,7 +326,7 @@ namespace MathNet.Numerics.Statistics
                 if (xi.HasValue)
                 {
                     decimal diff = xi.Value - mean;
-                    decimal tmp = diff*diff;
+                    decimal tmp = diff * diff;
                     correction += diff;
                     variance += tmp;
                     tmp *= diff;
@@ -323,18 +340,21 @@ namespace MathNet.Numerics.Statistics
             Count = n;
             if (n > 0)
             {
-                Variance = (double) (variance - (correction*correction)/n)/(n - 1);
+                Variance = (double)(variance - (correction * correction / n)) / (n - 1);
                 StandardDeviation = System.Math.Sqrt(Variance);
                 if (Variance != 0)
                 {
                     if (n > 2)
                     {
-                        Skewness = (double) n/((n - 1)*(n - 2))*((double) skewness/(Variance*StandardDeviation));
+                        Skewness = (double)n / ((n - 1) * (n - 2)) * ((double)skewness / (Variance * StandardDeviation));
                     }
 
                     if (n > 3)
                     {
-                        Kurtosis = ((double) n*(n + 1))/((n - 1)*(n - 2)*(n - 3))*((double) kurtosis/(Variance*Variance)) - (3.0*(n - 1)*(n - 1))/((n - 2)*(n - 3));
+                        Kurtosis = (((double)n * (n + 1))
+                                    / ((n - 1) * (n - 2) * (n - 3))
+                                    * ((double)kurtosis / (Variance * Variance)))
+                                   - ((3.0 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3)));
                     }
                 }
             }

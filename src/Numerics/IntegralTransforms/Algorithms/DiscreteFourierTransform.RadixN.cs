@@ -61,7 +61,8 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                 {
                     m >>= 1;
                     j ^= m;
-                } while ((j & m) == 0);
+                }
+                while ((j & m) == 0);
             }
         }
 

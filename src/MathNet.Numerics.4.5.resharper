@@ -754,6 +754,8 @@ Bluestein
         <FORCE_IFELSE_BRACES_STYLE>ALWAYS_ADD</FORCE_IFELSE_BRACES_STYLE>
         <FORCE_USING_BRACES_STYLE>ALWAYS_ADD</FORCE_USING_BRACES_STYLE>
         <FORCE_WHILE_BRACES_STYLE>ALWAYS_ADD</FORCE_WHILE_BRACES_STYLE>
+        <INDENT_NESTED_FIXED_STMT>True</INDENT_NESTED_FIXED_STMT>
+        <INDENT_NESTED_USINGS_STMT>True</INDENT_NESTED_USINGS_STMT>
         <INDENT_SIZE>4</INDENT_SIZE>
         <INITIALIZER_BRACES>NEXT_LINE</INITIALIZER_BRACES>
         <MODIFIERS_ORDER IsNull="False">
@@ -773,8 +775,20 @@ Bluestein
           <Item>volatile</Item>
         </MODIFIERS_ORDER>
         <PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE>False</PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE>
+        <PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE>False</PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE>
+        <PLACE_WHILE_ON_NEW_LINE>True</PLACE_WHILE_ON_NEW_LINE>
+        <SPACE_AFTER_TYPECAST_PARENTHESES>False</SPACE_AFTER_TYPECAST_PARENTHESES>
         <SPACE_AROUND_MULTIPLICATIVE_OP>True</SPACE_AROUND_MULTIPLICATIVE_OP>
+        <SPACE_BEFORE_SIZEOF_PARENTHESES>False</SPACE_BEFORE_SIZEOF_PARENTHESES>
+        <SPACE_BEFORE_TYPEOF_PARENTHESES>False</SPACE_BEFORE_TYPEOF_PARENTHESES>
         <SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>True</SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>
+        <WRAP_AFTER_DECLARATION_LPAR>True</WRAP_AFTER_DECLARATION_LPAR>
+        <WRAP_AFTER_INVOCATION_LPAR>True</WRAP_AFTER_INVOCATION_LPAR>
+        <WRAP_ARGUMENTS_STYLE>CHOP_IF_LONG</WRAP_ARGUMENTS_STYLE>
+        <WRAP_BEFORE_BINARY_OPSIGN>True</WRAP_BEFORE_BINARY_OPSIGN>
+        <WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT>True</WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT>
+        <WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE>CHOP_ALWAYS</WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE>
+        <WRAP_PARAMETERS_STYLE>CHOP_IF_LONG</WRAP_PARAMETERS_STYLE>
       </FormatSettings>
       <UsingsSettings />
       <Naming2>
@@ -813,7 +827,7 @@ Bluestein
       <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Locals" />
-      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="LocalConstants" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />

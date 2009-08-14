@@ -1,7 +1,9 @@
 // <copyright file="Complex.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
+//
 // Copyright (c) 2009 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -10,8 +12,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,8 +32,7 @@ namespace MathNet.Numerics
     using System.Runtime.InteropServices;
     using System.Text;
     using System.Text.RegularExpressions;
-
-    using MathNet.Numerics.Properties;
+    using Properties;
 
     /// <summary>
     /// Complex numbers class.
@@ -40,7 +43,7 @@ namespace MathNet.Numerics
     /// on complex numbers. All the operators <c>+</c>, <c>-</c>,
     /// <c>*</c>, <c>/</c>, <c>==</c>, <c>!=</c> are defined in the
     /// canonical way. Additional complex trigonometric functions such 
-    /// as <see cref="Complex.Cosine"/>, ... 
+    /// as <see cref="Trig.Cosine(Complex)"/>, ... 
     /// are also provided. Note that the <c>Complex</c> structures 
     /// has two special constant values <see cref="Complex.NaN"/> and 
     /// <see cref="Complex.Infinity"/>.
@@ -73,35 +76,35 @@ namespace MathNet.Numerics
         /// <summary>
         /// Regular expression used to parse strings into complex numbers.
         /// </summary>
-        private static readonly Regex ParseExpression =
+        private static readonly Regex _parseExpression =
             new Regex(
-                @"^((?<r>(([-+]?(\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity)))|(?<i>(([-+]?((\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity))?[i]))|(?<r>(([-+]?(\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity)))(?<i>(([-+]((\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|[-+](NaN)|([-+]Infinity))?[i])))$", 
+                @"^((?<r>(([-+]?(\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity)))|(?<i>(([-+]?((\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity))?[i]))|(?<r>(([-+]?(\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity)))(?<i>(([-+]((\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|[-+](NaN)|([-+]Infinity))?[i])))$",
                 RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
         /// <summary>
         /// Represents imaginary unit number.
         /// </summary>
-        private static readonly Complex i = new Complex(0, 1);
+        private static readonly Complex _i = new Complex(0, 1);
 
         /// <summary>
         /// Represents a infinite complex number
         /// </summary>
-        private static readonly Complex infinity = new Complex(double.PositiveInfinity, double.PositiveInfinity);
+        private static readonly Complex _infinity = new Complex(double.PositiveInfinity, double.PositiveInfinity);
 
         /// <summary>
         /// Represents not-a-number.
         /// </summary>
-        private static readonly Complex nan = new Complex(Double.NaN, Double.NaN);
+        private static readonly Complex _nan = new Complex(Double.NaN, Double.NaN);
 
         /// <summary>
         /// Representing the one value.
         /// </summary>
-        private static readonly Complex one = new Complex(1.0, 0.0);
+        private static readonly Complex _one = new Complex(1.0, 0.0);
 
         /// <summary>
         /// Representing the zero value.
         /// </summary>
-        private static readonly Complex zero = new Complex(0.0, 0.0);
+        private static readonly Complex _zero = new Complex(0.0, 0.0);
 
         /// <summary>
         /// The real component of the complex number.
@@ -129,8 +132,8 @@ namespace MathNet.Numerics
         /// </param>
         public Complex(double real, double imaginary)
         {
-            this._real = real;
-            this._imag = imaginary;
+            _real = real;
+            _imag = imaginary;
         }
 
         #endregion
@@ -152,10 +155,7 @@ namespace MathNet.Numerics
         /// <value>A value representing the infinity value.</value>
         public static Complex Infinity
         {
-            get
-            {
-                return infinity;
-            }
+            get { return _infinity; }
         }
 
         /// <summary>
@@ -164,10 +164,7 @@ namespace MathNet.Numerics
         /// <value>A value representing not-a-number.</value>
         public static Complex NaN
         {
-            get
-            {
-                return nan;
-            }
+            get { return _nan; }
         }
 
         /// <summary>
@@ -176,10 +173,7 @@ namespace MathNet.Numerics
         /// <value>A value representing the imaginary unit number.</value>
         public static Complex I
         {
-            get
-            {
-                return i;
-            }
+            get { return _i; }
         }
 
         /// <summary>
@@ -188,10 +182,7 @@ namespace MathNet.Numerics
         /// <value>A value representing the zero value.</value>
         public static Complex Zero
         {
-            get
-            {
-                return new Complex(0.0, 0.0);
-            }
+            get { return new Complex(0.0, 0.0); }
         }
 
         /// <summary>
@@ -200,10 +191,7 @@ namespace MathNet.Numerics
         /// <value>A value representing the <c>1</c> value.</value>
         public static Complex One
         {
-            get
-            {
-                return one;
-            }
+            get { return _one; }
         }
 
         #endregion Properties
@@ -214,10 +202,7 @@ namespace MathNet.Numerics
         /// <value>The real component of the complex number.</value>
         public double Real
         {
-            get
-            {
-                return this._real;
-            }
+            get { return _real; }
         }
 
         /// <summary>
@@ -226,10 +211,7 @@ namespace MathNet.Numerics
         /// <value>The real imaginary component of the complex number.</value>
         public double Imaginary
         {
-            get
-            {
-                return this._imag;
-            }
+            get { return _imag; }
         }
 
         /// <summary>
@@ -238,10 +220,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is zero; otherwise, <c>false</c>.</value>
         public bool IsZero
         {
-            get
-            {
-                return this._real.AlmostZero() && this._imag.AlmostZero();
-            }
+            get { return _real.AlmostZero() && _imag.AlmostZero(); }
         }
 
         /// <summary>
@@ -250,10 +229,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is one; otherwise, <c>false</c>.</value>
         public bool IsOne
         {
-            get
-            {
-                return this._real.AlmostEqual(1.0) && this._imag.AlmostZero();
-            }
+            get { return _real.AlmostEqual(1.0) && _imag.AlmostZero(); }
         }
 
         /// <summary>
@@ -262,10 +238,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is I; otherwise, <c>false</c>.</value>
         public bool IsI
         {
-            get
-            {
-                return this._real.AlmostZero() && this._imag.AlmostEqual(1.0);
-            }
+            get { return _real.AlmostZero() && _imag.AlmostEqual(1.0); }
         }
 
         /// <summary>
@@ -275,10 +248,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is NaN; otherwise, <c>false</c>.</value>
         public bool IsNaN
         {
-            get
-            {
-                return double.IsNaN(this._real) || double.IsNaN(this._imag);
-            }
+            get { return double.IsNaN(_real) || double.IsNaN(_imag); }
         }
 
         /// <summary>
@@ -294,10 +264,7 @@ namespace MathNet.Numerics
         /// </remarks>
         public bool IsInfinity
         {
-            get
-            {
-                return double.IsInfinity(this._real) || double.IsInfinity(this._imag);
-            }
+            get { return double.IsInfinity(_real) || double.IsInfinity(_imag); }
         }
 
         /// <summary>
@@ -306,10 +273,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is a real number; otherwise, <c>false</c>.</value>
         public bool IsReal
         {
-            get
-            {
-                return this._imag.AlmostZero();
-            }
+            get { return _imag.AlmostZero(); }
         }
 
         /// <summary>
@@ -320,10 +284,7 @@ namespace MathNet.Numerics
         /// </value>
         public bool IsRealNonNegative
         {
-            get
-            {
-                return this._imag.AlmostZero() && this._real >= 0;
-            }
+            get { return _imag.AlmostZero() && _real >= 0; }
         }
 
         /// <summary>
@@ -343,10 +304,7 @@ namespace MathNet.Numerics
         /// </remarks>
         public Complex Conjugate
         {
-            get
-            {
-                return new Complex(this._real, -this._imag);
-            }
+            get { return new Complex(_real, -_imag); }
         }
 
         /// <summary>
@@ -355,10 +313,7 @@ namespace MathNet.Numerics
         /// <seealso cref="Argument"/>
         public double Modulus
         {
-            get
-            {
-                return Math.Sqrt((this._real * this._real) + (this._imag * this._imag));
-            }
+            get { return Math.Sqrt((_real * _real) + (_imag * _imag)); }
         }
 
         /// <summary>
@@ -367,10 +322,7 @@ namespace MathNet.Numerics
         /// <seealso cref="Argument"/>
         public double ModulusSquared
         {
-            get
-            {
-                return (this._real * this._real) + (this._imag * this._imag);
-            }
+            get { return (_real * _real) + (_imag * _imag); }
         }
 
         /// <summary>
@@ -379,18 +331,18 @@ namespace MathNet.Numerics
         /// <remarks>
         /// Argument always returns a value bigger than negative Pi and
         /// smaller or equal to Pi. If this <c>Complex</c> is zero, the Complex
-        /// is assumed to be positive _real with an argument of zero.
+        /// is assumed to be positive real with an argument of zero.
         /// </remarks>
         public double Argument
         {
             get
             {
-                if (this.IsReal && this._real < 0)
+                if (IsReal && _real < 0)
                 {
                     return Math.PI;
                 }
 
-                return this.IsRealNonNegative ? 0 : Math.Atan2(this._imag, this._real);
+                return IsRealNonNegative ? 0 : Math.Atan2(_imag, _real);
             }
         }
 
@@ -401,34 +353,34 @@ namespace MathNet.Numerics
         {
             get
             {
-                if (double.IsPositiveInfinity(this._real) && double.IsPositiveInfinity(this._imag))
+                if (double.IsPositiveInfinity(_real) && double.IsPositiveInfinity(_imag))
                 {
                     return new Complex(Constants.Sqrt1Over2, Constants.Sqrt1Over2);
                 }
 
-                if (double.IsPositiveInfinity(this._real) && double.IsNegativeInfinity(this._imag))
+                if (double.IsPositiveInfinity(_real) && double.IsNegativeInfinity(_imag))
                 {
                     return new Complex(Constants.Sqrt1Over2, -Constants.Sqrt1Over2);
                 }
 
-                if (double.IsNegativeInfinity(this._real) && double.IsPositiveInfinity(this._imag))
+                if (double.IsNegativeInfinity(_real) && double.IsPositiveInfinity(_imag))
                 {
                     return new Complex(-Constants.Sqrt1Over2, -Constants.Sqrt1Over2);
                 }
 
-                if (double.IsNegativeInfinity(this._real) && double.IsNegativeInfinity(this._imag))
+                if (double.IsNegativeInfinity(_real) && double.IsNegativeInfinity(_imag))
                 {
                     return new Complex(-Constants.Sqrt1Over2, Constants.Sqrt1Over2);
                 }
 
                 // don't replace this with "Modulus"!
-                var mod = SpecialFunctions.Hypotenuse(this._real, this._imag);
+                var mod = SpecialFunctions.Hypotenuse(_real, _imag);
                 if (mod.AlmostZero())
                 {
                     return Zero;
                 }
 
-                return new Complex(this._real / mod, this._imag / mod);
+                return new Complex(_real / mod, _imag / mod);
             }
         }
 
@@ -509,15 +461,15 @@ namespace MathNet.Numerics
         /// <summary>
         /// Raise this <c>Complex</c> to the inverse of the given value.
         /// </summary>
-        /// <param name="rootexponent">
+        /// <param name="rootExponent">
         /// The root exponent.
         /// </param>
         /// <returns>
         /// The complex raised to the inverse of the given exponent.
         /// </returns>
-        public Complex Root(Complex rootexponent)
+        public Complex Root(Complex rootExponent)
         {
-            return Power(1 / rootexponent);
+            return Power(1 / rootExponent);
         }
 
         /// <summary>
@@ -638,7 +590,7 @@ namespace MathNet.Numerics
         /// </returns>
         public override string ToString()
         {
-            return this.ToString(null, null);
+            return ToString(null, null);
         }
 
         /// <summary>
@@ -653,7 +605,7 @@ namespace MathNet.Numerics
         /// </param>
         public string ToString(string format)
         {
-            return this.ToString(format, null);
+            return ToString(format, null);
         }
 
         /// <summary>
@@ -664,11 +616,11 @@ namespace MathNet.Numerics
         /// format provider.
         /// </returns>
         /// <param name="formatProvider">
-        /// An IFormatProvider that supplies culture-specific formatting information.
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
         public string ToString(IFormatProvider formatProvider)
         {
-            return this.ToString(null, formatProvider);
+            return ToString(null, formatProvider);
         }
 
         /// <summary>
@@ -688,32 +640,32 @@ namespace MathNet.Numerics
         /// A format specification.
         /// </param>
         /// <param name="formatProvider">
-        /// An IFormatProvider that supplies culture-specific formatting information.
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            if (this.IsNaN)
+            if (IsNaN)
             {
                 return "NaN";
             }
 
-            if (this.IsInfinity)
+            if (IsInfinity)
             {
                 return "Infinity";
             }
 
             var ret = new StringBuilder();
 
-            if (!this._real.AlmostZero())
+            if (!_real.AlmostZero())
             {
-                ret.Append(this._real.ToString(format, formatProvider));
+                ret.Append(_real.ToString(format, formatProvider));
             }
 
-            if (!this._imag.AlmostZero())
+            if (!_imag.AlmostZero())
             {
-                if (!this._real.AlmostZero())
+                if (!_real.AlmostZero())
                 {
-                    if (this._imag < 0)
+                    if (_imag < 0)
                     {
                         ret.Append(" ");
                     }
@@ -723,7 +675,7 @@ namespace MathNet.Numerics
                     }
                 }
 
-                ret.Append(this._imag.ToString(format, formatProvider)).Append("i");
+                ret.Append(_imag.ToString(format, formatProvider)).Append("i");
             }
 
             return ret.ToString();
@@ -738,25 +690,25 @@ namespace MathNet.Numerics
         /// corresponding real and imaginary components are equal.
         /// </summary>
         /// <returns>
-        /// Returns true if the two objects are the same object, or if their corresponding
-        /// real and imaginary components are equal, false otherwise.
+        /// Returns <c>true</c> if the two objects are the same object, or if their corresponding
+        /// real and imaginary components are equal, <c>false</c> otherwise.
         /// </returns>
         /// <param name="other">
         /// The complex number to compare to with.
         /// </param>
         public bool Equals(Complex other)
         {
-            if (this.IsNaN || other.IsNaN)
+            if (IsNaN || other.IsNaN)
             {
                 return false;
             }
 
-            if (this.IsInfinity && other.IsInfinity)
+            if (IsInfinity && other.IsInfinity)
             {
                 return true;
             }
 
-            return this._real.AlmostEqual(other._real) && this._imag.AlmostEqual(other._imag);
+            return _real.AlmostEqual(other._real) && _imag.AlmostEqual(other._imag);
         }
 
         /// <summary>
@@ -771,7 +723,7 @@ namespace MathNet.Numerics
         /// </remarks>
         public override int GetHashCode()
         {
-            return this._real.GetHashCode() ^ (-this._imag.GetHashCode());
+            return _real.GetHashCode() ^ (-_imag.GetHashCode());
         }
 
         /// <summary>
@@ -779,15 +731,15 @@ namespace MathNet.Numerics
         /// corresponding real and imaginary components are equal.
         /// </summary>
         /// <returns>
-        /// Returns true if the two objects are the same object, or if their corresponding
-        /// real and imaginary components are equal, false otherwise.
+        /// Returns <c>true</c> if the two objects are the same object, or if their corresponding
+        /// real and imaginary components are equal, <c>false</c> otherwise.
         /// </returns>
         /// <param name="obj">
         /// The complex number to compare to with.
         /// </param>
         public override bool Equals(object obj)
         {
-            return (obj is Complex) && this.Equals((Complex)obj);
+            return (obj is Complex) && Equals((Complex)obj);
         }
 
         #endregion
@@ -799,7 +751,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="complex1">One of complex numbers to compare.</param>
         /// <param name="complex2">The other complex numbers to compare.</param>
-        /// <returns>true if the real and imaginary components of the two complex numbers are equal; false otherwise.</returns>
+        /// <returns><c>true</c> if the real and imaginary components of the two complex numbers are equal; <c>false</c> otherwise.</returns>
         public static bool operator ==(Complex complex1, Complex complex2)
         {
             return complex1.Equals(complex2);
@@ -810,7 +762,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="complex1">One of complex numbers to compare.</param>
         /// <param name="complex2">The other complex numbers to compare.</param>
-        /// <returns>true if the real or imaginary components of the two complex numbers are not equal; false otherwise.</returns>
+        /// <returns><c>true</c> if the real or imaginary components of the two complex numbers are not equal; <c>false</c> otherwise.</returns>
         public static bool operator !=(Complex complex1, Complex complex2)
         {
             return !complex1.Equals(complex2);
@@ -897,7 +849,7 @@ namespace MathNet.Numerics
         public static Complex operator *(Complex multiplicand, Complex multiplier)
         {
             return new Complex(
-                (multiplicand._real * multiplier._real) - (multiplicand._imag * multiplier._imag), 
+                (multiplicand._real * multiplier._real) - (multiplicand._imag * multiplier._imag),
                 (multiplicand._real * multiplier._imag) + (multiplicand._imag * multiplier._real));
         }
 
@@ -932,7 +884,7 @@ namespace MathNet.Numerics
 
             var modSquared = divisor.ModulusSquared;
             return new Complex(
-                ((dividend._real * divisor._real) + (dividend._imag * divisor._imag)) / modSquared, 
+                ((dividend._real * divisor._real) + (dividend._imag * divisor._imag)) / modSquared,
                 ((dividend._imag * divisor._real) - (dividend._real * divisor._imag)) / modSquared);
         }
 
@@ -1116,7 +1068,7 @@ namespace MathNet.Numerics
         /// the string to parse.
         /// </param>
         /// <param name="formatProvider">
-        /// An IFormatProvider that supplies culture-specific formatting information.
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
         public static Complex Parse(string value, IFormatProvider formatProvider)
         {
@@ -1178,7 +1130,7 @@ namespace MathNet.Numerics
             }
             else
             {
-                var matchResult = ParseExpression.Match(value);
+                var matchResult = _parseExpression.Match(value);
                 if (matchResult.Success)
                 {
                     var realStr = matchResult.Groups["r"].Value;
@@ -1241,7 +1193,7 @@ namespace MathNet.Numerics
         /// A string containing a complex number to convert.
         /// </param>
         /// <param name="formatProvider">
-        /// An IFormatProvider that supplies culture-specific formatting information about value.
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about value.
         /// </param>
         /// <param name="result">
         /// The parsed value.
@@ -1260,12 +1212,12 @@ namespace MathNet.Numerics
             }
             catch (ArgumentNullException)
             {
-                result = zero;
+                result = _zero;
                 ret = false;
             }
             catch (FormatException)
             {
-                result = zero;
+                result = _zero;
                 ret = false;
             }
 
