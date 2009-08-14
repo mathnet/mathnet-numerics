@@ -65,6 +65,21 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         }
 
         [Test]
+        public void ExtendedGcdHandlesNormalInputCorrectly()
+        {
+            long x, y;
+
+            Assert.AreEqual(3, IntegerTheory.ExtendedGreatestCommonDivisor(6, 15, out x, out y), "Egcd(6,15)");
+            Assert.AreEqual(3, 6 * x + 15 * y, "Egcd(6,15) -> a*x+b*y");
+
+            Assert.AreEqual(3, IntegerTheory.ExtendedGreatestCommonDivisor(-6, 15, out x, out y), "Egcd(-6,15)");
+            Assert.AreEqual(3, -6 * x + 15 * y, "Egcd(-6,15) -> a*x+b*y");
+
+            Assert.AreEqual(3, IntegerTheory.ExtendedGreatestCommonDivisor(-6, -15, out x, out y), "Egcd(-6,-15)");
+            Assert.AreEqual(3, -6 * x + -15 * y, "Egcd(-6,-15) -> a*x+b*y");
+        }
+
+        [Test]
         public void ListGcdHandlesNormalInputCorrectly()
         {
             Assert.AreEqual(2, IntegerTheory.GreatestCommonDivisor(-10, 6, -8), "Gcd(-10,6,-8)");
@@ -79,6 +94,14 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         {
             Assert.AreEqual(0, IntegerTheory.GreatestCommonDivisor(), "Gcd()");
             Assert.AreEqual(100, IntegerTheory.GreatestCommonDivisor(-100), "Gcd(-100)");
+        }
+
+        [Test]
+        public void ListGcdChecksForNullArguments()
+        {
+            Assert.Throws(
+                typeof (ArgumentNullException),
+                () => IntegerTheory.GreatestCommonDivisor(null));
         }
 
         [Test]
@@ -126,6 +149,14 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         {
             Assert.AreEqual(1, IntegerTheory.LeastCommonMultiple(), "Lcm()");
             Assert.AreEqual(100, IntegerTheory.LeastCommonMultiple(-100), "Lcm(-100)");
+        }
+
+        [Test]
+        public void ListLcmChecksForNullArguments()
+        {
+            Assert.Throws(
+                typeof(ArgumentNullException),
+                () => IntegerTheory.LeastCommonMultiple(null));
         }
     }
 }
