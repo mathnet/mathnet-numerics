@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace dnAnalytics.Statistics.Distributions
+namespace MathNet.Numerics.Distributions
 {
     using System;
     using Properties;
@@ -43,7 +43,7 @@ namespace dnAnalytics.Statistics.Distributions
     public class Dirichlet
     {
         // The Dirichlet distribution parameters.
-        private readonly double[] _alpha;
+        private double[] _alpha;
 
         /// <summary>
         /// The distribution's random number generator.
@@ -106,6 +106,8 @@ namespace dnAnalytics.Statistics.Distributions
             {
                 return false;
             }
+
+            return true;
         }
 
         /// <summary>
@@ -115,11 +117,12 @@ namespace dnAnalytics.Statistics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         private void SetParameters(double[] alpha)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha) && ! alpha.Length == _alpha.Length)
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
+            _alpha = new double[alpha.Length];
             for (int i = 0; i < alpha.Length; i++)
             {
                 _alpha[i] = alpha[i];
@@ -143,11 +146,18 @@ namespace dnAnalytics.Statistics.Distributions
         }
 
         /// <summary>
-        /// The parameters of the Dirichlet distribution.
+        /// Gets or sets the parameters of the Dirichlet distribution.
         /// </summary>
         public double[] Alpha
         {
-            get { return _alpha; }
+            get
+            {
+                return _alpha;
+            }
+            set
+            {
+                SetParameters(value);
+            }
         }
 
         /// <summary>
@@ -171,7 +181,17 @@ namespace dnAnalytics.Statistics.Distributions
         /// </summary>
         public double[] Mean
         {
-            get { return _alpha / AlphaSum; }
+            get
+            {
+                double sum = AlphaSum;
+                double[] parm = new double[Dimension];
+                for (int i = 0; i < Dimension; i++)
+                {
+                    parm[i] = _alpha[i] / sum;
+                }
+
+                return parm;
+            }
         }
 
         /// <summary>

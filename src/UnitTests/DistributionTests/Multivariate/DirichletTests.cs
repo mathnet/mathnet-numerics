@@ -26,37 +26,149 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace dnAnalytics.Tests.Statistics.Distributions
+namespace MathNet.Numerics.UnitTests.DistributionTests
 {
-    using dnAnalytics.Statistics.Distributions;
-    using NUnit.Framework;
+    using System;
+    using System.Linq;
+    using MbUnit.Framework;
+    using MathNet.Numerics.Distributions;
 
     [TestFixture]
     public class DirichletTests
     {
-        private const double mAcceptableError = 1e-12;
+        [SetUp]
+        public void SetUp()
+        {
+            Control.CheckDistributionParameters = true;
+        }
 
         [Test]
-        public void SymmetricDirichlet()
+        public void CanCreateSymmetricDirichlet()
         {
             Dirichlet d = new Dirichlet(0.3, 5);
 
             for (int i = 0; i < 5; i++)
             {
-                Assert.AreEqual(0.3, d.Mean[i], mAcceptableError);
-                Assert.AreEqual(0.3 * (1.5 - 0.3) / (1.5 * 1.5 * 2.5), d.Variance[i], mAcceptableError);
+                Assert.AreEqual(0.3, d.Alpha[i]);
             }
         }
 
         [Test]
-        public void GetSetRNG()
+        public void CanCreateDirichlet()
+        {
+            double[] alpha = new double[10];
+            for (int i = 0; i < 10; i++)
+            {
+                alpha[i] = i;
+            }
+
+            Dirichlet d = new Dirichlet(alpha);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.AreEqual(i, d.Alpha[i]);
+            }
+        }
+
+        [Test]
+        [Row(0.0)]
+        [Row(-0.1)]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void FailCreateDirichlet(double alpha)
+        {
+            Dirichlet d = new Dirichlet(alpha, 5);
+        }
+
+        [Test]
+        public void HasRandomSource(int i)
+        {
+            Dirichlet d = new Dirichlet(0.3, 5);
+            Assert.IsNotNull(d.RandomSource);
+        }
+
+        [Test]
+        public void CanSetRandomSource(int i)
+        {
+            Dirichlet d = new Dirichlet(0.3, 5);
+            d.RandomSource = new Random();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void FailSetRandomSourceWithNullReference(int i)
+        {
+            Dirichlet d = new Dirichlet(0.3, 5);
+            d.RandomSource = null;
+        }
+
+        [Test]
+        public void CanGetDimension()
+        {
+            Dirichlet d = new Dirichlet(0.3, 10);
+            Assert.AreEqual(10, d.Dimension);
+        }
+
+        [Test]
+        public void CanGetAlpha()
+        {
+            Dirichlet d = new Dirichlet(0.3, 10);
+
+            double[] alpha = new double[10];
+            for (int i = 0; i < 10; i++)
+            {
+                Assert.AreEqual(0.3, d.Alpha[i]);
+            }
+        }
+
+        [Test]
+        public void CanSetAlpha()
+        {
+            Dirichlet d = new Dirichlet(0.3, 10);
+
+            double[] alpha = new double[10];
+            for (int i = 0; i < 10; i++)
+            {
+                alpha[i] = i;
+            }
+
+            d.Alpha = alpha;
+        }
+
+        [Test]
+        public void ValidateMean()
         {
             Dirichlet d = new Dirichlet(0.3, 5);
 
-            // Try getting the random number generator.
-            System.Random rnd = d.RandomNumberGenerator;
-            // Try setting the random number generator.
-            d.RandomNumberGenerator = new System.Random();
+            for (int i = 0; i < 5; i++)
+            {
+                AssertHelpers.AlmostEqual(0.3/1.5, d.Mean[i], 15);
+            }
+        }
+
+        [Test]
+        public void ValidateVariance()
+        {
+            double[] alpha = new double[10];
+            double sum = 0.0;
+            for (int i = 0; i < 10; i++)
+            {
+                alpha[i] = i;
+                sum += i;
+            }
+
+            Dirichlet d = new Dirichlet(alpha);
+
+            for (int i = 0; i < 10; i++)
+            {
+                AssertHelpers.AlmostEqual(i * (sum - i) / (sum * sum * (sum + 1.0)), d.Variance[i], 15);
+            }
+        }
+
+        [Test]
+        public void Sample()
+        {
+            Dirichlet d = new Dirichlet(1.0, 5);
+            double[] s = d.Sample();
         }
     }
 }
