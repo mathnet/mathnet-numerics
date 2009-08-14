@@ -56,6 +56,7 @@
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\Dirichlet.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs" />
     <Compile Include="IntegralTransforms\HartleyOptions.cs" />
@@ -121,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Algorithms\LinearAlgebra\" />
-    <Folder Include="Distributions\Multivariate\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
