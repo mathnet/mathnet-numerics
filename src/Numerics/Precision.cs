@@ -265,7 +265,7 @@ namespace MathNet.Numerics
 
             if (count < 0)
             {
-                Decrement(value, -count);
+                return Decrement(value, -count);
             }
 
             // Translate the bit pattern of the double to an integer.
@@ -328,7 +328,7 @@ namespace MathNet.Numerics
 
             if (count < 0)
             {
-                Decrement(value, -count);
+                return Decrement(value, -count);
             }
 
             // Translate the bit pattern of the double to an integer.
