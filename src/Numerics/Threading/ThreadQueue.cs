@@ -78,11 +78,25 @@ namespace MathNet.Numerics.Threading
         internal static int ThreadCount { get; private set; }
 
         /// <summary>
+        /// Indicating whether the current thread is a parallelized worker thread.
+        /// </summary>
+        [ThreadStatic]
+        private static bool _isInWorkerThread;
+
+        /// <summary>
         /// Initializes static members of the ThreadQueue class.
         /// </summary>
         static ThreadQueue()
         {
             Start(Environment.ProcessorCount);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current thread is a parallelized worker thread.
+        /// </summary>
+        internal static bool IsInWorkerThread
+        {
+            get { return _isInWorkerThread; }
         }
 
         /// <summary>
@@ -131,6 +145,8 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         private static void WorkerThreadStart()
         {
+            _isInWorkerThread = true;
+
             while (_running)
             {
                 // Wait until a job is available, or we should shut down
