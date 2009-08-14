@@ -69,8 +69,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 "InterpolationMatchesNodePoints",
                 () =>
                 {
-                    var points = new List<double> { 1, 2, 2.3, 3, 8 };
-                    var values = new List<double> { 50, 20, 30, 10, -20 };
+                    var points = new List<double> { -0.2, 0, 1, 2, 2.3, 3, 8 };
+                    var values = new List<double> { -10, 5, 50, 20, 30, 10, -20 };
                     var interpolation = Factory(points, values);
 
                     for (int i = 0; i < points.Count; i++)
@@ -79,6 +79,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                             values[i],
                             interpolation.Interpolate(points[i]),
                             1e-12);
+
+                        Assert.AreApproximatelyEqual(
+                            values[i],
+                            interpolation.Interpolate(points[i].Increment(50)),
+                            1e-8);
                     }
                 });
         }

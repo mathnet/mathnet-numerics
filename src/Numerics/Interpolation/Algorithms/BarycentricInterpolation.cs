@@ -166,8 +166,9 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             }
 
             // trivial case: on a known sample point?
-            if (offset.AlmostZero())
+            if (offset == 0.0)
             {
+                // NOTE (cdrnet, 200908) not offset.AlmostZero() by design
                 return _values[closestPoint];
             }
 
