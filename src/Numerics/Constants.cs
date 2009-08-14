@@ -130,15 +130,9 @@ namespace MathNet.Numerics
         public const double Grad = 0.015707963267948966192313216916397514420985846996876d;
 
         /// <summary>The number ln(10)/20 - factor to convert from Power Decibel (dB) to Neper (Np). Use this version when the Decibel represent a power gain but the compared values are not powers (e.g. amplitude, current, voltage).</summary>
-        /// <seealso cref="Ratios.RatioToPowerDecibel(double)"/>
-        /// <seealso cref="Ratios.PowerDecibelToRatio"/>
-        /// <seealso cref="Ratios.PowerDecibelToValue"/>
         public const double PowerDecibel = 0.11512925464970228420089957273421821038005507443144d;
 
         /// <summary>The number ln(10)/10 - factor to convert from Neutral Decibel (dB) to Neper (Np). Use this version when either both or neither of the Decibel and the compared values represent powers.</summary>
-        /// <seealso cref="Ratios.RatioToDecibel(double)"/>
-        /// <seealso cref="Ratios.DecibelToRatio"/>
-        /// <seealso cref="Ratios.DecibelToValue"/>
         public const double NeutralDecibel = 0.23025850929940456840179914546843642076011014886288d;
 
         /// <summary>The Catalan constant</summary>

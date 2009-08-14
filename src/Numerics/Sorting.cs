@@ -37,7 +37,7 @@ namespace MathNet.Numerics
     public static class Sorting
     {
         /// <summary>
-        /// Sort a list of keys, inplace using the quick sort algorithm.
+        /// Sort a list of keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of elements stored in the list.</typeparam>
         /// <param name="keys">List to sort.</param>
@@ -47,33 +47,33 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a list of keys and items with respect to the keys, inplace using the quick sort algorithm.
+        /// Sort a list of keys and items with respect to the keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements stored in the key list.</typeparam>
         /// <typeparam name="TItem">The type of elements stored in the item list.</typeparam>
         /// <param name="keys">List to sort.</param>
-        /// <param name="items">List to permutate the same way as the key list.</param>
+        /// <param name="items">List to permute the same way as the key list.</param>
         public static void Sort<TKey, TItem>(IList<TKey> keys, IList<TItem> items)
         {
             Sort(keys, items, Comparer<TKey>.Default);
         }
 
         /// <summary>
-        /// Sort a list of keys, items1 and items2 with respect to the keys, inplace using the quick sort algorithm.
+        /// Sort a list of keys, items1 and items2 with respect to the keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements stored in the key list.</typeparam>
         /// <typeparam name="TItem1">The type of elements stored in the first item list.</typeparam>
         /// <typeparam name="TItem2">The type of elements stored in the second item list.</typeparam>
         /// <param name="keys">List to sort.</param>
-        /// <param name="items1">First list to permutate the same way as the key list.</param>
-        /// <param name="items2">Second list to permutate the same way as the key list.</param>
+        /// <param name="items1">First list to permute the same way as the key list.</param>
+        /// <param name="items2">Second list to permute the same way as the key list.</param>
         public static void Sort<TKey, TItem1, TItem2>(IList<TKey> keys, IList<TItem1> items1, IList<TItem2> items2)
         {
             Sort(keys, items1, items2, Comparer<TKey>.Default);
         }
 
         /// <summary>
-        /// Sort a range of a list of keys, inplace using the quick sort algorithm.
+        /// Sort a range of a list of keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of elements in the key list.</typeparam>
         /// <param name="keys">List to sort.</param>
@@ -85,7 +85,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a list of keys, inplace using the quick sort algorithm using the quick sort algorithm.
+        /// Sort a list of keys, in place using the quick sort algorithm using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of elements in the key list.</typeparam>
         /// <param name="keys">List to sort.</param>
@@ -139,12 +139,12 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a list of keys and items with respect to the keys, inplace using the quick sort algorithm.
+        /// Sort a list of keys and items with respect to the keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
         /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
         /// <param name="keys">List to sort.</param>
-        /// <param name="items">List to permutate the same way as the key list.</param>
+        /// <param name="items">List to permute the same way as the key list.</param>
         /// <param name="comparer">Comparison, defining the sort order.</param>
         public static void Sort<TKey, TItem>(IList<TKey> keys, IList<TItem> items, IComparer<TKey> comparer)
         {
@@ -177,14 +177,14 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a list of keys, items1 and items2 with respect to the keys, inplace using the quick sort algorithm.
+        /// Sort a list of keys, items1 and items2 with respect to the keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
         /// <typeparam name="TItem1">The type of elements in the first item list.</typeparam>
         /// <typeparam name="TItem2">The type of elements in the second item list.</typeparam>
         /// <param name="keys">List to sort.</param>
-        /// <param name="items1">First list to permutate the same way as the key list.</param>
-        /// <param name="items2">Second list to permutate the same way as the key list.</param>
+        /// <param name="items1">First list to permute the same way as the key list.</param>
+        /// <param name="items2">Second list to permute the same way as the key list.</param>
         /// <param name="comparer">Comparison, defining the sort order.</param>
         public static void Sort<TKey, TItem1, TItem2>(
             IList<TKey> keys, IList<TItem1> items1, IList<TItem2> items2, IComparer<TKey> comparer)
@@ -214,7 +214,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a range of a list of keys, inplace using the quick sort algorithm.
+        /// Sort a range of a list of keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of element in the list.</typeparam>
         /// <param name="keys">List to sort.</param>
@@ -280,7 +280,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Recursive implementation for an inplace quick sort on a list.
+        /// Recursive implementation for an in place quick sort on a list.
         /// </summary>
         /// <typeparam name="T">The type of the list on which the quick sort is performed.</typeparam>
         /// <param name="keys">The list which is sorted using quick sort.</param>
@@ -342,7 +342,8 @@ namespace MathNet.Numerics
 
                     a++;
                     b--;
-                } while (a <= b);
+                }
+                while (a <= b);
 
                 // In order to limit the recusion depth to log(n), we sort the 
                 // shorter partition recusively and the longer partition iteratively.
@@ -364,11 +365,12 @@ namespace MathNet.Numerics
 
                     right = b;
                 }
-            } while (left < right);
+            }
+            while (left < right);
         }
 
         /// <summary>
-        /// Recursive implementation for an inplace quick sort on a list while reordering one other list accordingly.
+        /// Recursive implementation for an in place quick sort on a list while reordering one other list accordingly.
         /// </summary>
         /// <typeparam name="T">The type of the list on which the quick sort is performed.</typeparam>
         /// <typeparam name="TItems">The type of the list which is automatically reordered accordingly.</typeparam>
@@ -437,7 +439,8 @@ namespace MathNet.Numerics
 
                     a++;
                     b--;
-                } while (a <= b);
+                }
+                while (a <= b);
 
                 // In order to limit the recusion depth to log(n), we sort the 
                 // shorter partition recusively and the longer partition iteratively.
@@ -459,11 +462,12 @@ namespace MathNet.Numerics
 
                     right = b;
                 }
-            } while (left < right);
+            }
+            while (left < right);
         }
 
         /// <summary>
-        /// Recursive implementation for an inplace quick sort on one list while reordering two other lists accordingly.
+        /// Recursive implementation for an in place quick sort on one list while reordering two other lists accordingly.
         /// </summary>
         /// <typeparam name="T">The type of the list on which the quick sort is performed.</typeparam>
         /// <typeparam name="TItems1">The type of the first list which is automatically reordered accordingly.</typeparam>
@@ -539,7 +543,8 @@ namespace MathNet.Numerics
 
                     a++;
                     b--;
-                } while (a <= b);
+                }
+                while (a <= b);
 
                 // In order to limit the recusion depth to log(n), we sort the 
                 // shorter partition recusively and the longer partition iteratively.
@@ -561,7 +566,8 @@ namespace MathNet.Numerics
 
                     right = b;
                 }
-            } while (left < right);
+            }
+            while (left < right);
         }
 
         /// <summary>
@@ -573,12 +579,14 @@ namespace MathNet.Numerics
         /// <param name="b">The index of the second element of the swap.</param>
         internal static void Swap<T>(IList<T> keys, int a, int b)
         {
-            if (a != b)
+            if (a == b)
             {
-                T local = keys[a];
-                keys[a] = keys[b];
-                keys[b] = local;
+                return;
             }
+
+            T local = keys[a];
+            keys[a] = keys[b];
+            keys[b] = local;
         }
     }
 }
