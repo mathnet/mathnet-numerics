@@ -143,5 +143,48 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
                 Assert.AreEqual(1001, items[i], i.ToString());
             }
         }
+
+        [Test, ApartmentState(ApartmentState.MTA)]
+        public void DoesDetectAndResolveRecursiveParallelization()
+        {
+            int countSharedBetweenClosures = 0;
+
+            Assert.DoesNotThrow(
+                () =>
+                Parallel.For(
+                    0,
+                    10,
+                    j => Interlocked.Increment(ref countSharedBetweenClosures)));
+
+            Assert.AreEqual(10, countSharedBetweenClosures);
+            countSharedBetweenClosures = 0;
+
+            Parallel.For(
+                0,
+                10,
+                i =>
+                Parallel.For(
+                    0,
+                    10,
+                    j => Interlocked.Increment(ref countSharedBetweenClosures)));
+
+            Assert.AreEqual(100, countSharedBetweenClosures);
+            countSharedBetweenClosures = 0;
+
+            Parallel.For(
+                0,
+                10,
+                i =>
+                Parallel.For(
+                    0,
+                    10,
+                    j =>
+                    Parallel.For(
+                        0,
+                        10,
+                        k => Interlocked.Increment(ref countSharedBetweenClosures))));
+
+            Assert.AreEqual(1000, countSharedBetweenClosures);
+        }
     }
 }
