@@ -112,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                             continue;
                         }
 
-                        var modifiedFactories = factory.ApplySingleMapEachArgument(
+                        var modifiedFactories = factory.ApplySingleMapEachArgument<IInterpolation>(
                             t => !t.IsValueType,
                             e => Expression.Constant(null, e.Type));
 
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                             continue;
                         }
 
-                        var modifiedFactories = factory.ApplySingleMapEachArgument(
+                        var modifiedFactories = factory.ApplySingleMapEachArgument<IInterpolation>(
                             t => !t.IsValueType,
                             e => Expression.Constant(new double[MinimumSampleCount - 1], typeof(double[])));
 
@@ -194,7 +194,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                             continue;
                         }
 
-                        var modifiedFactories = factory.ApplySingleMapEachArgument(
+                        var modifiedFactories = factory.ApplySingleMapEachArgument<IInterpolation>(
                             t => !t.IsValueType,
                             e =>
                             {

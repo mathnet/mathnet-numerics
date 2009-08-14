@@ -141,7 +141,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             VerifyIsReversibleReal(
                 0x80,
-                1e-10,
+                1e-9,
                 s => dht.NaiveForward(s, options),
                 s => dht.NaiveInverse(s, options));
         }

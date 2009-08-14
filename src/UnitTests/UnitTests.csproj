@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentCheckContract.cs" />
     <Compile Include="AssertHelpers.cs" />
     <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
     <Compile Include="ComplexTests\ComplexTest.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="IntegralTransformsTests\InverseTransformTest.cs" />
     <Compile Include="IntegralTransformsTests\SampleProvider.cs" />
     <Compile Include="IntegrationTests\IntegrationTest.cs" />
-    <Compile Include="InterpolationTests\FunctionalHelpers.cs" />
+    <Compile Include="FunctionalHelpers.cs" />
     <Compile Include="InterpolationTests\InterpolationInfrastuctureTest.cs" />
     <Compile Include="InterpolationTests\InterpolationFunctionalContract.cs" />
     <Compile Include="InterpolationTests\InterpolationInfrastructureContract.cs" />
