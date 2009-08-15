@@ -29,13 +29,17 @@
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System;
-    using MbUnit.Framework;
+    using Distributions;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
+    using MbUnit.Framework;
+    using Sampling;
 
     [TestFixture]
     public class HartleyTest
     {
+        private IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+
         private static void VerifyMatchesDFT(
             double[] samples,
             double maximumError,
@@ -59,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void NaiveMatchesDFT(HartleyOptions hartleyOptions, FourierOptions fourierOptions)
         {
             var dht = new DiscreteHartleyTransform();
-            var samples = SampleProvider.ProvideRealSamples(0x80);
+            var samples = Sample.Random(x => x, _uniform, 0x80);
 
             VerifyMatchesDFT(
                 samples,

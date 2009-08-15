@@ -26,24 +26,27 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.IntegralTransforms.Algorithms;
-
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System.Linq;
-    using MbUnit.Framework;
+    using Distributions;
     using IntegralTransforms;
+    using IntegralTransforms.Algorithms;
+    using MbUnit.Framework;
+    using Sampling;
     using Statistics;
 
     [TestFixture]
     public class ParsevalTheoremTest
     {
+        private IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+
         [Test]
         [Row(0x1000)]
         [Row(0x7FF)]
         public void FourierDefaultTransformSatisfiesParsevalsTheorem(int count)
         {
-            var samples = SampleProvider.ProvideComplexSamples(count);
+            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, count);
 
             var timeSpaceEnergy = (from s in samples select s.ModulusSquared).Mean();
 
@@ -63,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Row(0x1F)]
         public void HartleyDefaultNaiveSatisfiesParsevalsTheorem(int count)
         {
-            var samples = SampleProvider.ProvideRealSamples(count);
+            var samples = Sample.Random(x => x, _uniform, count);
 
             var timeSpaceEnergy = (from s in samples select s * s).Mean();
 

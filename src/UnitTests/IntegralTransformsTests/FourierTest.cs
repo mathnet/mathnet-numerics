@@ -29,14 +29,17 @@
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System;
-    using MbUnit.Framework;
+    using Distributions;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
+    using MbUnit.Framework;
     using Sampling;
 
     [TestFixture]
     public class FourierTest
     {
+        private IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+
         [Test]
         public void NaiveTransformsRealSineCorrectly()
         {
@@ -53,9 +56,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             }
 
             // all imaginary components except second and last musth be zero
-            for(int i = 0; i<spectrum.Length; i++)
+            for (int i = 0; i < spectrum.Length; i++)
             {
-                if(i == 1)
+                if (i == 1)
                 {
                     Assert.AreApproximatelyEqual(-8, spectrum[i].Imaginary, 1e-12, "imag second");
                 }
@@ -73,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void Radix2ThrowsWhenNotPowerOfTwo()
         {
-            var samples = SampleProvider.ProvideComplexSamples(0x7F);
+            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, 0x7F);
 
             var dft = new DiscreteFourierTransform();
 
@@ -86,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                 () => dft.Radix2Inverse(samples, FourierOptions.Default));
 
             Assert.Throws(
-                typeof (ArgumentException),
+                typeof(ArgumentException),
                 () => DiscreteFourierTransform.Radix2(samples, -1));
 
             Assert.Throws(

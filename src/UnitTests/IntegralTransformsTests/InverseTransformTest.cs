@@ -29,20 +29,24 @@
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System;
+    using Distributions;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
     using MbUnit.Framework;
+    using Sampling;
 
     [TestFixture]
     public class InverseTransformTest
     {
-        private static void VerifyIsReversibleComplex(
+        private IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+
+        private void VerifyIsReversibleComplex(
             int count,
             double maximumError,
             Func<Complex[], Complex[]> forward,
             Func<Complex[], Complex[]> inverse)
         {
-            var samples = SampleProvider.ProvideComplexSamples(count);
+            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, count);
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -55,13 +59,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             AssertHelpers.AlmostEqualList(samples, work, maximumError);
         }
 
-        private static void VerifyIsReversibleReal(
+        private void VerifyIsReversibleReal(
             int count,
             double maximumError,
             Func<double[], double[]> forward,
             Func<double[], double[]> inverse)
         {
-            var samples = SampleProvider.ProvideRealSamples(count);
+            var samples = Sample.Random(x => x, _uniform, count);
             var work = new double[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -149,7 +153,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void FourierDefaultTransformIsReversible()
         {
-            var samples = SampleProvider.ProvideComplexSamples(0x7FFF);
+            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, 0x7FFF);
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 

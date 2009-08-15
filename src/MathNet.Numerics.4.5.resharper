@@ -841,6 +841,7 @@ Chebyshev</UserWords>
       <Abbreviation Text="FFT" />
       <Abbreviation Text="LU" />
       <Abbreviation Text="DC" />
+      <Abbreviation Text="DFT" />
     </Naming2>
   </CodeStyleSettings>
   <SharedSolutionTemplateManager>

@@ -89,7 +89,8 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 TargetAreaA,
                 algorithm.Integrate(TargetFunctionA, StartA, StopA, targetRelativeError),
                 targetRelativeError * TargetAreaA,
-                "DET Adaptive {0}", targetRelativeError);
+                "DET Adaptive {0}",
+                targetRelativeError);
         }
 
         [VerifyContract]
@@ -121,7 +122,8 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 TargetAreaA,
                 NewtonCotesTrapeziumRule.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions),
                 maxRelativeError * TargetAreaA,
-                "Composite {0} Partitions", partitions);
+                "Composite {0} Partitions",
+                partitions);
         }
 
         [Test]
@@ -134,7 +136,8 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 TargetAreaA,
                 NewtonCotesTrapeziumRule.IntegrateAdaptive(TargetFunctionA, StartA, StopA, targetRelativeError),
                 targetRelativeError * TargetAreaA,
-                "Adaptive {0}", targetRelativeError);
+                "Adaptive {0}",
+                targetRelativeError);
         }
 
         [VerifyContract]
@@ -181,7 +184,8 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 TargetAreaA,
                 SimpsonRule.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions),
                 maxRelativeError * TargetAreaA,
-                "Composite {0} Partitions", partitions);
+                "Composite {0} Partitions",
+                partitions);
         }
 
         [VerifyContract]
