@@ -74,6 +74,9 @@ namespace MathNet.Numerics
         /// <summary>The number pi</summary>
         public const double Pi = 3.1415926535897932384626433832795028841971693993751d;
 
+        /// <summary>The number 2*pi</summary>
+        public const double Pi2 = 6.2831853071795864769252867665590057683943387987502d;
+
         /// <summary>The number 1/pi</summary>
         public const double OneOverPi = 0.31830988618379067153776752674502872406891929148091d;
 

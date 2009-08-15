@@ -44,7 +44,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// <returns>Corresponding frequency-space vector.</returns>
         internal static Complex[] Naive(Complex[] samples, int exponentSign)
         {
-            double w0 = exponentSign * 2 * Constants.Pi / samples.Length;
+            double w0 = exponentSign * Constants.Pi2 / samples.Length;
             var spectrum = new Complex[samples.Length];
 
             Parallel.For(

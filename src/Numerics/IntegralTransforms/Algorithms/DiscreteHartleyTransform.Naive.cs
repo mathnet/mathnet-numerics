@@ -43,7 +43,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// <returns>Corresponding frequency-space vector.</returns>
         internal static double[] Naive(double[] samples)
         {
-            double w0 = 2 * Constants.Pi / samples.Length;
+            double w0 = Constants.Pi2 / samples.Length;
             var spectrum = new double[samples.Length];
 
             Parallel.For(
