@@ -96,6 +96,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Sampling\Sample.Chebyshev.cs" />
+    <Compile Include="Sampling\Sample.Equidistant.cs" />
     <Compile Include="SiConstants.cs" />
     <Compile Include="SiPrefixes.cs" />
     <Compile Include="Sorting.cs" />
