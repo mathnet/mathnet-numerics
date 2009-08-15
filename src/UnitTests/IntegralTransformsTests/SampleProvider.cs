@@ -57,17 +57,5 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             return samples;
         }
-
-        internal static Complex[] ProvideComplexRealSine(int count)
-        {
-            double halfPeriod = count / 2.0;
-            var samples = new Complex[count];
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] = Math.Sin(i * Constants.Pi / halfPeriod);
-            }
-
-            return samples;
-        }
     }
 }

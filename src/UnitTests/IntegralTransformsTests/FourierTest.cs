@@ -32,6 +32,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using MbUnit.Framework;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
+    using Sampling;
 
     [TestFixture]
     public class FourierTest
@@ -39,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void NaiveTransformsRealSineCorrectly()
         {
-            var samples = SampleProvider.ProvideComplexRealSine(16);
+            var samples = Sample.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 16);
 
             // real-odd transforms to imaginary odd
             var dft = new DiscreteFourierTransform();

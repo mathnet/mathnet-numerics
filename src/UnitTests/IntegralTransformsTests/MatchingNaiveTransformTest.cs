@@ -32,6 +32,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
     using MbUnit.Framework;
+    using Sampling;
 
     [TestFixture]
     public class MatchingNaiveTransformTest
@@ -58,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void FourierRadix2MatchesNaiveOnRealSine(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
-            var samples = SampleProvider.ProvideComplexRealSine(16);
+            var samples = Sample.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 16);
 
             VerifyMatchesNaiveComplex(
                 samples,
@@ -102,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void FourierBluesteinMatchesNaiveOnRealSineNonPowerOfTwo(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
-            var samples = SampleProvider.ProvideComplexRealSine(14);
+            var samples = Sample.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 14);
 
             VerifyMatchesNaiveComplex(
                 samples,
