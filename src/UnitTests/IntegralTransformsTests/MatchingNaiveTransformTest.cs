@@ -29,6 +29,7 @@
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System;
+    using Distributions;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
     using MbUnit.Framework;
@@ -37,6 +38,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     [TestFixture]
     public class MatchingNaiveTransformTest
     {
+        private IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+
         private static void VerifyMatchesNaiveComplex(
             Complex[] samples,
             double maximumError,
@@ -81,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void FourierRadix2MatchesNaiveOnRandom(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
-            var samples = SampleProvider.ProvideComplexSamples(0x80);
+            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, 0x80);
 
             VerifyMatchesNaiveComplex(
                 samples,
@@ -125,7 +128,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void FourierBluesteinMatchesNaiveOnRandomPowerOfTwo(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
-            var samples = SampleProvider.ProvideComplexSamples(0x80);
+            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, 0x80);
 
             VerifyMatchesNaiveComplex(
                 samples,
@@ -147,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void FourierBluesteinMatchesNaiveOnRandomNonPowerOfTwo(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
-            var samples = SampleProvider.ProvideComplexSamples(0x7F);
+            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, 0x7F);
 
             VerifyMatchesNaiveComplex(
                 samples,

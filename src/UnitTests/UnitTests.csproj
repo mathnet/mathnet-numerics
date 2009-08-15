@@ -74,7 +74,6 @@
     <Compile Include="IntegralTransformsTests\MatchingNaiveTransformTest.cs" />
     <Compile Include="IntegralTransformsTests\ParsevalTheoremTest.cs" />
     <Compile Include="IntegralTransformsTests\InverseTransformTest.cs" />
-    <Compile Include="IntegralTransformsTests\SampleProvider.cs" />
     <Compile Include="IntegrationTests\IntegrationTest.cs" />
     <Compile Include="FunctionalHelpers.cs" />
     <Compile Include="InterpolationTests\InterpolationInfrastuctureTest.cs" />
