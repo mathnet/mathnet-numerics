@@ -33,6 +33,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using Interpolation;
     using MbUnit.Framework;
     using MbUnit.Framework.ContractVerifiers;
+    using Sampling;
 
     internal class InterpolationFunctionalContract<TInterpolation> : AbstractContract
         where TInterpolation : IInterpolation
@@ -94,8 +95,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 "LinearBehavior",
                 () =>
                 {
-                    const double yOffset = 2.0;
-                    const double xOffset = 4.0;
+                    const double YOffset = 2.0;
+                    const double XOffset = 4.0;
                     var random = new Random();
 
                     int[] orders = { MinimumSampleCount, MinimumSampleCount + 1, MinimumSampleCount + 5 };
@@ -109,8 +110,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                         var values = new double[order];
                         for (int i = 0; i < points.Length; i++)
                         {
-                            points[i] = xOffset + i;
-                            values[i] = yOffset + i;
+                            points[i] = XOffset + i;
+                            values[i] = YOffset + i;
                         }
 
                         var interpolation = Factory(points, values);
@@ -120,17 +121,17 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                         var testValues = new double[order + 1];
                         if (order == 1)
                         {
-                            testPoints[0] = xOffset - random.NextDouble();
-                            testPoints[1] = xOffset + random.NextDouble();
-                            testValues[0] = testValues[1] = yOffset;
+                            testPoints[0] = XOffset - random.NextDouble();
+                            testPoints[1] = XOffset + random.NextDouble();
+                            testValues[0] = testValues[1] = YOffset;
                         }
                         else
                         {
                             for (int i = 0; i < testPoints.Length; i++)
                             {
                                 double z = (i - 1) + random.NextDouble();
-                                testPoints[i] = xOffset + z;
-                                testValues[i] = yOffset + z;
+                                testPoints[i] = XOffset + z;
+                                testValues[i] = YOffset + z;
                             }
                         }
 
@@ -176,8 +177,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 "RationalBehavior",
                 () =>
                 {
-                    double[] points, values;
-                    SampleProvider.Equidistant(t => 1 / (1 + (t * t)), -5.0, 5.0, 41, out points, out values);
+                    double[] points;
+                    double[] values = Sample.EquidistantInterval(t => 1 / (1 + (t * t)), -5.0, 5.0, 41, out points);
                     var interpolation = Factory(points, values);
 
                     for (int i = 0; i < points.Length; i++)
@@ -189,8 +190,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                             "Match on knots");
                     }
 
-                    double[] testPoints, testValues;
-                    SampleProvider.Equidistant(t => 1 / (1 + (t * t)), -5.0, 5.0, 81, out testPoints, out testValues);
+                    double[] testPoints;
+                    double[] testValues = Sample.EquidistantInterval(t => 1 / (1 + (t * t)), -5.0, 5.0, 81, out testPoints);
 
                     for (int i = 0; i < testPoints.Length; i++)
                     {

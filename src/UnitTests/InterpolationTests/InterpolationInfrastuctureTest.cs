@@ -34,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using Interpolation.Algorithms;
     using MbUnit.Framework;
     using MbUnit.Framework.ContractVerifiers;
+    using Sampling;
 
     [TestFixture]
     public class InterpolationInfrastuctureTest
@@ -54,8 +55,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new NevillePolynomialInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5))
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10))
                     }
             };
 
@@ -73,11 +74,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new BulirschStoerRationalInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5)),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10)),
                         () => Interpolate.RationalWithPoles(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5))
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10))
                     }
             };
 
@@ -97,13 +98,13 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new BarycentricInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5),
-                                  SampleProvider.LinearEquidistant(10, 1, 0.1)),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10),
+                                  Sample.EquidistantStartingAt(t => t, 1, 0.1, 10)),
                         () => new BarycentricInterpolation(
-                                  SampleProvider.LinearEquidistant(10, 5, -1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5),
-                                  SampleProvider.LinearEquidistant(10, 1, 0.1))
+                                  Sample.EquidistantStartingAt(t => t, 5, -1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10),
+                                  Sample.EquidistantStartingAt(t => t, 1, 0.1, 10))
                     }
             };
 
@@ -121,18 +122,18 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new FloaterHormannRationalInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5)),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10)),
                         () => new FloaterHormannRationalInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10),
                                   5),
                         () => Interpolate.RationalWithoutPoles(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5)),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10)),
                         () => Interpolate.Common(
-                                  SampleProvider.LinearEquidistant(10, 5, -1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5))
+                                  Sample.EquidistantStartingAt(t => t, 5, -1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10))
                     }
             };
 
@@ -150,15 +151,15 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new EquidistantPolynomialInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5)),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10)),
                         () => new EquidistantPolynomialInterpolation(
-                                  SampleProvider.LinearEquidistant(10, 5, -1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5)),
+                                  Sample.EquidistantStartingAt(t => t, 5, -1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10)),
                         () => new EquidistantPolynomialInterpolation(
                                   -5,
                                   4,
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5))
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10))
                     }
             };
 
@@ -178,18 +179,18 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new SplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(4 * (10 - 1), -2, 0.5)),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 4 * (10 - 1))),
                         () => new SplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
                                   AkimaSplineInterpolation.EvaluateSplineCoefficients(
-                                      SampleProvider.LinearEquidistant(10, -5, 1),
-                                      SampleProvider.LinearEquidistant(10, -2, 0.5))),
+                                      Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                      Sample.EquidistantStartingAt(t => t, -2, 0.5, 10))),
                         () => new SplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
                                   CubicSplineInterpolation.EvaluateSplineCoefficients(
-                                      SampleProvider.LinearEquidistant(10, -5, 1),
-                                      SampleProvider.LinearEquidistant(10, -2, 0.5),
+                                      Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                      Sample.EquidistantStartingAt(t => t, -2, 0.5, 10),
                                       SplineBoundaryCondition.Natural,
                                       1.0,
                                       SplineBoundaryCondition.Natural,
@@ -211,9 +212,9 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new CubicHermiteSplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5),
-                                  SampleProvider.LinearEquidistant(10, 1, 0.1))
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10),
+                                  Sample.EquidistantStartingAt(t => t, 1, 0.1, 10))
                     }
             };
 
@@ -231,11 +232,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new LinearSplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5)),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10)),
                         () => Interpolate.LinearBetweenPoints(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5))
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10))
                     }
             };
 
@@ -253,32 +254,32 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new CubicSplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5)),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10)),
                         () => new CubicSplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10),
                                   SplineBoundaryCondition.FirstDerivative,
                                   1.0,
                                   SplineBoundaryCondition.FirstDerivative,
                                   -1.0),
                         () => new CubicSplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10),
                                   SplineBoundaryCondition.Natural,
                                   1.0,
                                   SplineBoundaryCondition.Natural,
                                   -1.0),
                         () => new CubicSplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10),
                                   SplineBoundaryCondition.ParabolicallyTerminated,
                                   1.0,
                                   SplineBoundaryCondition.ParabolicallyTerminated,
                                   -1.0),
                         () => new CubicSplineInterpolation(
-                                  SampleProvider.LinearEquidistant(2, -5, 1),
-                                  SampleProvider.LinearEquidistant(2, -2, 0.5),
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 2),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 2),
                                   SplineBoundaryCondition.ParabolicallyTerminated,
                                   1.0,
                                   SplineBoundaryCondition.ParabolicallyTerminated,
@@ -300,8 +301,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                     new Expression<Func<IInterpolation>>[]
                     {
                         () => new AkimaSplineInterpolation(
-                                  SampleProvider.LinearEquidistant(10, -5, 1),
-                                  SampleProvider.LinearEquidistant(10, -2, 0.5))
+                                  Sample.EquidistantStartingAt(t => t, -5, 1, 10),
+                                  Sample.EquidistantStartingAt(t => t, -2, 0.5, 10))
                     }
             };
 
