@@ -66,7 +66,6 @@ namespace MathNet.Numerics.Threading
             }
 
             // fast forward execution in case parallelization is disabled
-            // (cdrnet, 200908): should we fast forward on STA threads as well?
             if (Control.DisableParallelization
                 || ThreadQueue.ThreadCount <= 1
                 || ThreadQueue.IsInWorkerThread)
@@ -137,7 +136,6 @@ namespace MathNet.Numerics.Threading
             }
 
             // fast forward execution in case parallelization is disabled
-            // (cdrnet, 200908): should we fast forward on STA threads as well?
             if (Control.DisableParallelization
                 || ThreadQueue.ThreadCount <= 1
                 || ThreadQueue.IsInWorkerThread)
