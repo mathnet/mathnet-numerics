@@ -21,6 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+using System;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
@@ -29,5 +31,37 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// </summary>
     internal class ManagedLinearAlgebra : ILinearAlgebra
     {
+        #region ILinearAlgebra Members
+
+        /// <summary>
+        /// Adds the two arrays together: <c>a += c</c>.
+        /// </summary>
+        /// <param name="a">
+        /// One of the arrays to add.
+        /// </param>
+        /// <param name="b">
+        /// The other array to add.
+        /// </param>
+        public void AddArrays(double[] a, double[] b)
+        {
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != b.Length)
+            {
+                throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, a.Length, i => a[i] += b[i]);
+        }
+
+        #endregion
     }
 }

@@ -21,6 +21,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+using MathNet.Numerics.Algorithms;
+using MathNet.Numerics.Algorithms.LinearAlgebra;
+using MathNet.Numerics.Threading;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
@@ -32,6 +36,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// </summary>
     public class DenseVector : Vector
     {
+        /// <summary>
+        /// The linear algebra provider.
+        /// </summary>
+        private readonly ILinearAlgebra _linearAlgebra = AlgorithmFactory.LinearAlgebra;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseVector"/> class with a given size.
         /// </summary>
@@ -176,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != target.Count)
             {
-                throw new ArgumentException("target", Resources.ArgumentVectorsSameLengths);
+                throw new ArgumentException("target", Resources.ArgumentVectorsSameLength);
             }
 
             var otherVector = target as DenseVector;
@@ -191,6 +200,159 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 Buffer.BlockCopy(Data, 0, otherVector.Data, 0, Data.Length * Constants.SizeOfDouble);
             }
+        }
+
+        /// <summary>
+        /// Adds a scalar to each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        public override void Add(double scalar)
+        {
+            if (scalar.AlmostZero())
+            {
+                return;
+            }
+
+            Parallel.For(0, Count, i => Data[i] += scalar);
+        }
+
+        /// <summary>
+        /// Adds a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public override void Add(double scalar, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+            }
+
+            CopyTo(result);
+            result.Add(scalar);
+        }
+
+        /// <summary>
+        /// Adds another vector to this vector.
+        /// </summary>
+        /// <param name="other">The vector to add to this one.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        public override void Add(Vector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException("other", Resources.ArgumentVectorsSameLength);
+            }
+
+            var denseVector = other as DenseVector;
+
+            if (denseVector == null)
+            {
+                base.Add(other);
+            }
+            else
+            {
+                _linearAlgebra.AddArrays(Data, denseVector.Data);
+            }
+        }
+
+        /// <summary>
+        /// Adds another vector to this vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to add to this one.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public override void Add(Vector other, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException("other", Resources.ArgumentVectorsSameLength);
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = result.CreateVector(result.Count);
+                Add(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                CopyTo(result);
+                result.Add(other);
+            }
+        }
+
+        /// <summary>
+        /// Returns a <strong>Vector</strong> containing the same values of rightSide. 
+        /// </summary>
+        /// <remarks>This method is included for completeness.</remarks>
+        /// <param name="rightSide">The vector to get the values from.</param>
+        /// <returns>A vector containing a the same values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator +(DenseVector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Plus();
+        }
+
+        /// <summary>
+        /// Adds two <strong>Vectors</strong> together and returns the results.
+        /// </summary>
+        /// <param name="leftSide">One of the vectors to add.</param>
+        /// <param name="rightSide">The other vector to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator +(DenseVector leftSide, DenseVector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.Count != rightSide.Count)
+            {
+                throw new ArgumentException("rightSide", Resources.ArgumentVectorsSameLength);
+            }
+
+            var ret = leftSide.Clone();
+            ret.Add(rightSide);
+            return ret;
         }
     }
 }

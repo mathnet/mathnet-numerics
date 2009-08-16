@@ -1,40 +1,23 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="VectorTests.cs" company="">
-// </copyright>
-// <summary>
-//   vector tests.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MbUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-
-    using MathNet.Numerics.LinearAlgebra.Double;
-
-    using MbUnit.Framework;
-
-    /// <summary>
-    /// The vector tests.
-    /// </summary>
     public abstract class VectorTests
     {
-        /// <summary>
-        /// The test data.
-        /// </summary>
-        private readonly double[] _data = { 1, 2, 3, 4, 5 };
+        private readonly double[] _data = {1, 2, 3, 4, 5};
 
-        /// <summary>
-        /// can clone vector.
-        /// </summary>
         [Test]
+        [MultipleAsserts]
         public void CanCloneVector()
         {
             var vector = CreateVector(_data);
             var clone = vector.Clone();
 
+            Assert.AreNotSame(vector, clone);
             Assert.AreEqual(vector.Count, clone.Count);
             for (var index = 0; index < _data.Length; index++)
             {
@@ -42,9 +25,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        /// <summary>
-        /// can convert vector to string.
-        /// </summary>
+        [Test]
+        [MultipleAsserts]
+        public void CanCloneVectorUsingICloneable()
+        {
+            var vector = CreateVector(_data);
+            var clone = (Vector)((ICloneable)vector).Clone();
+
+            Assert.AreNotSame(vector, clone);
+            Assert.AreEqual(vector.Count, clone.Count);
+            for (var index = 0; index < _data.Length; index++)
+            {
+                Assert.AreEqual(vector[index], clone[index]);
+            }
+        }
+
         [Test]
         public void CanConvertVectorToString()
         {
@@ -54,9 +49,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(string.Format("1{0}2{0}3{0}4{0}5", sep), str);
         }
 
-        /// <summary>
-        /// can copy partial vector to another.
-        /// </summary>
         [Test]
         [MultipleAsserts]
         public void CanCopyPartialVectorToAnother()
@@ -73,9 +65,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(0.0, other[4]);
         }
 
-        /// <summary>
-        /// can copy vector to another.
-        /// </summary>
         [Test]
         [MultipleAsserts]
         public void CanCopyVectorToAnother()
@@ -91,18 +80,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        /// <summary>
-        /// can create matrix.
-        /// </summary>
         [Test]
         [Ignore]
         public void CanCreateMatrix()
         {
         }
 
-        /// <summary>
-        /// can create vector.
-        /// </summary>
         [Test]
         public void CanCreateVector()
         {
@@ -111,9 +94,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(expected.GetType(), actual.GetType(), "vectors are same type.");
         }
 
-        /// <summary>
-        /// can enumerate over vector.
-        /// </summary>
         [Test]
         [MultipleAsserts]
         public void CanEnumerateOverVector()
@@ -128,9 +108,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        /// <summary>
-        /// can equate vectors.
-        /// </summary>
         [Test]
         [MultipleAsserts]
         public void CanEquateVectors()
@@ -144,9 +121,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.IsFalse(vector1.Equals(null));
         }
 
-        /// <summary>
-        /// can get indexed enumerator.
-        /// </summary>
         [Test]
         [MultipleAsserts]
         public void CanGetIndexedEnumerator()
@@ -161,9 +135,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        /// <summary>
-        /// can get indexed enumerator over range.
-        /// </summary>
         [Test]
         [MultipleAsserts]
         public void CanGetIndexedEnumeratorOverRange()
@@ -178,15 +149,234 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        /// <summary>
-        /// throws argument exception if size is not positive.
-        /// </summary>
         [Test]
+        [MultipleAsserts]
         public void ThrowsArgumentExceptionIfSizeIsNotPositive()
         {
             Assert.Throws<ArgumentException>(() => CreateVector(-1));
             Assert.Throws<ArgumentException>(() => CreateVector(0));
         }
+
+        [Test]
+        public void CanCallPlus()
+        {
+            var vector = CreateVector(_data);
+            var other = vector.Plus();
+            Assert.AreSame(vector, other, "Should be the same vector");
+        }
+
+        [Test]
+        public void OperatorPlusThrowsArgumentNullExceptionWhenCallOnNullVector()
+        {
+            Vector vector = null;
+            Vector other = null;
+            Assert.Throws<ArgumentNullException>(() => other = +vector);
+        }
+
+        [Test]
+        public void CanCallUnaryPlusOperator()
+        {
+            var vector = CreateVector(_data);
+            var other = +vector;
+            Assert.AreSame(vector, other, "Should be the same vector");
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanAddScalarToVector()
+        {
+            var vector = CreateVector(_data);
+            vector.Add(2.0);
+
+            for( var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i]+2.0, vector[i]);
+            }
+
+            vector.Add(0.0);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] + 2.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanAddScalarToVectorUsingResultVector()
+        {
+            var vector = CreateVector(_data);
+            var result = CreateVector(_data.Length);
+            vector.Add(2.0, result);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] + 2.0, result[i]);
+            }
+
+            vector.Add(0.0, result);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public void ThrowsArgumentNullExceptionWhenAddingScalarWithNullResultVector()
+        {
+            var vector = CreateVector(_data.Length);
+            Assert.Throws<ArgumentNullException>(() => vector.Add(0.0, null));
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionWhenAddingScalarWithWrongSizeResultVector()
+        {
+            var vector = CreateVector(_data.Length);
+            var result = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => vector.Add(0.0, result));
+        }
+
+        [Test]
+        public void ThrowsArgumentNullExceptionWhenAddingTwoVectorsAndOneIsNull()
+        {
+            var vector = CreateVector(_data);
+            Assert.Throws<ArgumentNullException>(() => vector.Add(null));
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionWhenAddingTwoVectorsOfDifferingSize()
+        {
+            var vector = CreateVector(_data.Length);
+            var other = CreateVector(_data.Length +1);
+            Assert.Throws<ArgumentException>(() => vector.Add(other));
+        }
+
+        [Test]
+        public void ThrowsArgumentNullExceptionWhenAddingTwoVectorsAndResultIsNull()
+        {
+            var vector = CreateVector(_data.Length);
+            var other = CreateVector(_data.Length+1);
+            Assert.Throws<ArgumentNullException>(() => vector.Add(other,null));
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionWhenAddingTwoVectorsAndResultIsDifferentSize()
+        {
+            var vector = CreateVector(_data.Length);
+            var other = CreateVector(_data.Length);
+            var result = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => vector.Add(other, result));
+        }
+
+        [Test]
+        public void AdditionOperatorThrowsArgumentNullExpectionIfAVectorIsNull()
+        {
+            Vector a = null;
+            var b = CreateVector(_data.Length);
+            Assert.Throws<ArgumentNullException>(()=> a += b);
+
+            a = b;
+            b = null;
+            Assert.Throws<ArgumentNullException>(() => a += b);
+        }
+
+        [Test]
+        public void AdditionOperatorThrowsArgumentExpectionIfVectorsAreDifferentSize()
+        {
+            var a = CreateVector(_data.Length);
+            var b = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => a += b);
+        }
+
+        [Test]
+        public void CanAddTwoVectors()
+        {
+            var vector = CreateVector(_data);
+            var other = CreateVector(_data);
+            vector.Add(other);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanAddTwoVectorsUsingResultVector()
+        {
+            var vector = CreateVector(_data);
+            var other = CreateVector(_data);
+            var result = CreateVector(_data.Length);
+            vector.Add(other, result);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] * 2.0, result[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanAddTwoVectorsUsingOperator()
+        {
+            var vector = CreateVector(_data);
+            var other = CreateVector(_data);
+            var result = vector + other;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] * 2.0, result[i]);
+            }
+        }
+
+        [Test]
+        public void CanAddVectorToItself()
+        {
+            var vector = CreateVector(_data);
+            vector.Add(vector);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+        }
+
+
+        [Test]
+        [MultipleAsserts]
+        public void CanAddVectorToItselfUsingResultVector()
+        {
+            var vector = CreateVector(_data);
+            var result = CreateVector(_data.Length);
+            vector.Add(vector, result);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] * 2.0, result[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanAddTwoVectorsUsingItselfAsResultVector()
+        {
+            var vector = CreateVector(_data);
+            var other = CreateVector(_data);
+            vector.Add(other, vector);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+        }
+
 
         protected abstract Vector CreateVector(int size);
 

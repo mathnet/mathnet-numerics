@@ -207,7 +207,7 @@
   <data name="ArgumentVectorLengthsMultipleOf" xml:space="preserve">
     <value>Array length must be a multiple of {0}.</value>
   </data>
-  <data name="ArgumentVectorsSameLengths" xml:space="preserve">
+  <data name="ArgumentVectorsSameLength" xml:space="preserve">
     <value>All vectors must have the same dimensionality.</value>
   </data>
   <data name="ArgumentVectorThreeDimensional" xml:space="preserve">
