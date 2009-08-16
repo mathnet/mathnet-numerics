@@ -261,4 +261,7 @@
   <data name="ArgumentMustBePositive" xml:space="preserve">
     <value>Value must not be positive.</value>
   </data>
+  <data name="UserDefinedProviderNotSpecified" xml:space="preserve">
+    <value>A user defined provider has not been specified.</value>
+  </data>
 </root>

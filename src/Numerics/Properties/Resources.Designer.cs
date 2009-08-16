@@ -491,5 +491,14 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("SpecialCasePlannedButNotImplementedYet", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A user defined provider has not been specified..
+        /// </summary>
+        internal static string UserDefinedProviderNotSpecified {
+            get {
+                return ResourceManager.GetString("UserDefinedProviderNotSpecified", resourceCulture);
+            }
+        }
     }
 }
