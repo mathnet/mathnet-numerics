@@ -81,6 +81,7 @@
     <Compile Include="InterpolationTests\InterpolationInfrastructureContract.cs" />
     <Compile Include="InterpolationTests\InterpolationFunctionalTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseVectorTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\UserDefinedVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\VectorTests.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />

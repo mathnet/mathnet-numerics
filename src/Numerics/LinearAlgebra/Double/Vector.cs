@@ -21,6 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+using MathNet.Numerics.Threading;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
@@ -112,7 +114,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != target.Count)
             {
-                throw new ArgumentException("target", Resources.ArgumentVectorsSameLengths);
+                throw new ArgumentException("target", Resources.ArgumentVectorsSameLength);
             }
 
             if (ReferenceEquals(this, target))
@@ -286,7 +288,156 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override string ToString()
         {
-            return this.ToString(null, null);
+            return ToString(null, null);
+        }
+
+        /// <summary>
+        /// Adds a scalar to each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        public virtual void Add(double scalar)
+        {
+            if (scalar.AlmostZero())
+            {
+                return;
+            }
+
+            Parallel.For(0, Count, i => this[i] += scalar);
+        }
+
+        /// <summary>
+        /// Adds a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void Add(double scalar, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            CopyTo(result);
+            result.Add(scalar);
+        }
+
+        /// <summary>
+        /// Returns a clone of this vector.
+        /// </summary>
+        /// <returns>A clone of this vector.</returns>
+        /// <remarks>Added as an alternative to the unary addition operator.</remarks>
+        public virtual Vector Plus()
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Adds another vector to this vector.
+        /// </summary>
+        /// <param name="other">The vector to add to this one.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        public virtual void Add(Vector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            Parallel.For(0, Count, i => this[i] += other[i]);
+        }
+
+        /// <summary>
+        /// Adds another vector to this vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to add to this one.</param>
+        /// <param name="result">The vector to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void Add(Vector other, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = result.CreateVector(result.Count);
+                Add(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                CopyTo(result);
+                result.Add(other);
+            }
+        }
+
+        /// <summary>
+        /// Returns a <strong>Vector</strong> containing the same values of rightSide. 
+        /// </summary>
+        /// <remarks>This method is included for completeness.</remarks>
+        /// <param name="rightSide">The vector to get the values from.</param>
+        /// <returns>A vector containing a the same values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator +(Vector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Plus();
+        }
+
+        /// <summary>
+        /// Adds two <strong>Vectors</strong> together and returns the results.
+        /// </summary>
+        /// <param name="leftSide">One of the vectors to add.</param>
+        /// <param name="rightSide">The other vector to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator +(Vector leftSide, Vector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.Count != rightSide.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
+            }
+
+            var ret = leftSide.Clone();
+            ret.Add(rightSide);
+            return ret;
         }
 
         #region Implemented Interfaces
@@ -301,7 +452,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         object ICloneable.Clone()
         {
-            return this.Clone();
+            return Clone();
         }
 
         #endregion

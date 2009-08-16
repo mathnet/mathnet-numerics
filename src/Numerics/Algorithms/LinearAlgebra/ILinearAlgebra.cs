@@ -21,6 +21,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     /// <summary>
@@ -28,5 +29,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// </summary>
     public interface ILinearAlgebra
     {
+        /// <summary>
+        /// Adds the two arrays together: <c>a += c</c>.
+        /// </summary>
+        /// <param name="a">One of the arrays to add.</param>
+        /// <param name="b">The other array to add.</param>
+        void AddArrays(double[] a, double[] b);
     }
 }

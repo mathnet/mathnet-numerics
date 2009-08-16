@@ -387,9 +387,9 @@ namespace MathNet.Numerics.Properties {
         /// <summary>
         ///   Looks up a localized string similar to All vectors must have the same dimensionality..
         /// </summary>
-        internal static string ArgumentVectorsSameLengths {
+        internal static string ArgumentVectorsSameLength {
             get {
-                return ResourceManager.GetString("ArgumentVectorsSameLengths", resourceCulture);
+                return ResourceManager.GetString("ArgumentVectorsSameLength", resourceCulture);
             }
         }
         
