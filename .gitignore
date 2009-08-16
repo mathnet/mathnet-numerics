@@ -6,3 +6,4 @@ TestResult.xml
 coverage.*
 _ReSharper*
 *.marcus
+*.bak
