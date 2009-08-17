@@ -68,6 +68,7 @@
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
     <Compile Include="DistributionTests\Continuous\GammaTests.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
+    <Compile Include="DistributionTests\Discrete\BernoulliTests.cs" />
     <Compile Include="DistributionTests\Multivariate\DirichletTests.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
@@ -108,9 +109,6 @@
     <None Include="..\MathNet.Numerics.snk">
       <Link>MathNet.Numerics.snk</Link>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DistributionTests\Discrete\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

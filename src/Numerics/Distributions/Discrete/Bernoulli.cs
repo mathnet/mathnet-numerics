@@ -25,3 +25,319 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
+namespace MathNet.Numerics.Distributions
+{
+    using System;
+    using System.Collections.Generic;
+    using Properties;
+
+    /// <summary>
+    /// The Bernoulli distribution is a distribution over bits. The parameter
+    /// p specifies the probability that a 1 is generated.
+    /// </summary>
+    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
+    /// Users can set the random number generator by using the <see cref="RandomNumberGenerator"/> property.</para>
+    /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
+    /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
+    /// to false, all parameter checks can be turned off.</para></remarks>
+    public class Bernoulli : IDiscreteDistribution
+    {
+        /// <summary>
+        /// The probability of generating a one.
+        /// </summary>
+        private double _p;
+
+        /// <summary>
+        /// The distribution's random number generator.
+        /// </summary>
+        private Random _random;
+
+        /// <summary>
+        /// Construct a new Bernoulli distribution.
+        /// </summary>
+        /// <param name="p">The probability of generating one.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If the Bernoulli parameter is not in the range [0,1].</exception>
+        public Bernoulli(double p)
+        {
+            SetParameters(p);
+            RandomSource = new System.Random();
+        }
+
+        /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        public override string ToString()
+        {
+            return "Bernoulli(P = " + _p + ")";
+        }
+
+        /// <summary>
+        /// Checks whether the parameters of the distribution are valid. 
+        /// </summary>
+        /// <param name="p">The probability of generating a one.</param>
+        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        private static bool IsValidParameterSet(double p)
+        {
+            if (p >= 0.0 && p <= 1.0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Sets the parameters of the distribution after checking their validity.
+        /// </summary>
+        /// <param name="p">The probability of generating a one.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
+        private void SetParameters(double p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            _p = p;
+        }
+
+        /// <summary>
+        /// Gets or sets the probability of generating a one.
+        /// </summary>
+        public double P
+        {
+            get
+            {
+                return _p;
+            }
+
+            set
+            {
+                SetParameters(value);
+            }
+        }
+
+        #region IDistribution Members
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public Random RandomSource
+        {
+            get
+            {
+                return _random;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                _random = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the mean of the distribution.
+        /// </summary>
+        public double Mean
+        {
+            get { return _p; }
+        }
+
+        /// <summary>
+        /// Gets the standard deviation of the distribution.
+        /// </summary>
+        public double StdDev
+        {
+            get { return Math.Sqrt(_p * (1.0 - _p)); }
+        }
+
+        /// <summary>
+        /// Gets the variance of the distribution.
+        /// </summary>
+        public double Variance
+        {
+            get { return _p * (1.0 - _p); }
+        }
+
+        /// <summary>
+        /// Gets the entropy of the distribution.
+        /// </summary>
+        public double Entropy
+        {
+            get { return -_p * Math.Log(_p) - (1.0 - _p) * Math.Log(1.0 - _p); }
+        }
+
+        /// <summary>
+        /// Gets the skewness of the distribution.
+        /// </summary>
+        public double Skewness
+        {
+            get { return (1.0 - 2.0 * _p) / Math.Sqrt(_p * (1.0 - _p)); }
+        }
+
+        /// <summary>
+        /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
+        /// </summary>
+        public int Minimum { get { return 0; } }
+
+        /// <summary>
+        /// Gets the largest element in the domain of the distributions which can be represented by an integer.
+        /// </summary>
+        public int Maximum { get { return 1; } }
+
+        /// <summary>
+        /// Computes the cumulative distribution function of the Bernoulli distribution.
+        /// </summary>
+        /// <param name="x">The location at which to compute the cumulative density.</param>
+        /// <returns>the cumulative density at <paramref name="x"/>.</returns>
+        public double CumulativeDistribution(double x)
+        {
+            if (x < 0)
+            {
+                return 0.0;
+            }
+            if (x == 0)
+            {
+                return 1.0 - _p;
+            }
+
+            return 1.0;
+        }
+
+        #endregion
+
+        #region IDiscreteDistribution Members
+
+        /// <summary>
+        /// The mode of the distribution.
+        /// </summary>
+        public int Mode
+        {
+            get { return _p > 0.5 ? 1 : 0; }
+        }
+
+        /// <summary>
+        /// The median of the distribution.
+        /// </summary>
+        public int Median
+        {
+            get { throw new Exception("The median of the Bernoulli distribution is undefined."); }
+        }
+
+        /// <summary>
+        /// Computes the probability of a specific value.
+        /// </summary>
+        public double Probability(int val)
+        {
+            if (val == 0)
+            {
+                return 1.0 - _p;
+            }
+
+            if (val == 1)
+            {
+                return _p;
+            }
+
+            return 0.0;
+        }
+
+        /// <summary>
+        /// Computes the probability of a specific value.
+        /// </summary>
+        public double ProbabilityLn(int val)
+        {
+            if (val == 0)
+            {
+                return Math.Log(1.0 - _p);
+            }
+
+            if (val == 1)
+            {
+                return Math.Log(_p);
+            }
+
+            return Double.NegativeInfinity;
+        }
+
+        /// <summary>
+        /// Samples a Bernoulli distributed random variable.
+        /// </summary>
+        /// <returns>A sample from the Bernoulli distribution.</returns>
+        public int Sample()
+        {
+            return DoSample(RandomSource, _p);
+        }
+
+        /// <summary>
+        /// Samples an array of Bernoulli distributed random variables.
+        /// </summary>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<int> Samples()
+        {
+            while (true)
+            {
+                yield return DoSample(RandomSource, _p);
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Samples a Bernoulli distributed random variable.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">The probability of generating a 1.</param>
+        /// <returns>A sample from the Bernoulli distribution.</returns>
+        public static int Sample(System.Random rnd, double p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            return DoSample(rnd, p);
+        }
+
+        /// <summary>
+        /// Samples an array of Bernoulli distributed random variables.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="p">The probability of generating a 1.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<int> Samples(System.Random rnd, double p)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return DoSample(rnd, p);
+            }
+        }
+
+        /// <summary>
+        /// Generates one sample from the Bernoulli distribution.
+        /// </summary>
+        /// <param name="rnd">The random source to use.</param>
+        /// <param name="p">The probability of generating a one.</param>
+        /// <returns>A random sample from the Bernoulli distribution.</returns>
+        private static int DoSample(System.Random rnd, double p)
+        {
+            if (rnd.NextDouble() < p)
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+    }
+}

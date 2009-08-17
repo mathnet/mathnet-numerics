@@ -41,12 +41,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [SetUp]
         public void SetupDistributions()
         {
-            dists = new IDistribution[4];
+            dists = new IDistribution[5];
 
             dists[0] = new Beta(1.0, 1.0);
             dists[1] = new ContinuousUniform(0.0, 1.0);
             dists[2] = new Gamma(1.0, 1.0);
             dists[3] = new Normal(0.0, 1.0);
+            dists[4] = new Bernoulli(0.6);
         }
 
         [Test]
@@ -54,6 +55,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(1)]
         [Row(2)]
         [Row(3)]
+        [Row(4)]
         public void ValidateThatUnivariateDistributionsHaveRandomSource(int i)
         {
             Assert.IsNotNull(dists[i].RandomSource);
@@ -64,6 +66,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(1)]
         [Row(2)]
         [Row(3)]
+        [Row(4)]
         public void CanSetRandomSource(int i)
         {
             dists[i].RandomSource = new Random();
@@ -74,6 +77,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(1)]
         [Row(2)]
         [Row(3)]
+        [Row(4)]
         [ExpectedException(typeof(ArgumentNullException))]
         public void FailSetRandomSourceWithNullReference(int i)
         {
