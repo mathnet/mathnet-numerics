@@ -67,7 +67,7 @@ namespace MathNet.Numerics.Distributions
         private Random _random;
 
         /// <summary>
-        /// Initializes a new instance of the Gamma distribution.
+        /// Initializes a new instance of the Gamma class.
         /// </summary>
         /// <param name="shape">The shape of the Gamma distribution.</param>
         /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
@@ -304,7 +304,7 @@ namespace MathNet.Numerics.Distributions
                 }
                 else
                 {
-                    return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + (1.0 - _shape) * SpecialFunctions.DiGamma(_shape);
+                    return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape) * SpecialFunctions.DiGamma(_shape));
                 }
             }
         }
@@ -436,11 +436,11 @@ namespace MathNet.Numerics.Distributions
             }
             else if(_shape == 1.0)
             {
-                return Math.Log(_invScale) - _invScale*x;
+                return Math.Log(_invScale) - (_invScale * x);
             }
             else
             {
-                return _shape * Math.Log(_invScale) + (_shape - 1.0) * Math.Log(x) - _invScale * x - SpecialFunctions.GammaLn(_shape);
+                return (_shape * Math.Log(_invScale)) + ((_shape - 1.0) * Math.Log(x)) - (_invScale * x) - SpecialFunctions.GammaLn(_shape);
             }
         }
 
@@ -554,25 +554,27 @@ namespace MathNet.Numerics.Distributions
                     alphafix = System.Math.Pow(rnd.NextDouble(), 1.0 / shape);
                 }
 
-                double d = a - 1.0 / 3.0;
+                double d = a - (1.0 / 3.0);
                 double c = 1.0 / System.Math.Sqrt(9.0 * d);
                 while (true)
                 {
                     double x = Normal.Sample(rnd, 0.0, 1.0);
-                    double v = 1.0 + c * x;
+                    double v = 1.0 + (c * x);
                     while (v <= 0.0)
                     {
                         x = Normal.Sample(rnd, 0.0, 1.0);
-                        v = 1.0 + c * x;
+                        v = 1.0 + (c * x);
                     }
+
                     v = v * v * v;
                     double u = rnd.NextDouble();
                     x = x * x;
-                    if (u < 1.0 - 0.0331 * x * x)
+                    if (u < 1.0 - (0.0331 * x * x))
                     {
                         return alphafix * d * v / invScale;
                     }
-                    if (System.Math.Log(u) < 0.5 * x + d * (1.0 - v + System.Math.Log(v)))
+
+                    if (System.Math.Log(u) < (0.5 * x) + (d * (1.0 - v + System.Math.Log(v))))
                     {
                         return alphafix * d * v / invScale;
                     }
