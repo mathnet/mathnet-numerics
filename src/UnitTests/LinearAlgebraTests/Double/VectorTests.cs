@@ -571,7 +571,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-
         [Test]
         [MultipleAsserts]
         public void CanSubtractVectorFromItselfUsingResultVector()
@@ -602,6 +601,185 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        [Test]
+        [MultipleAsserts]
+        public void CanDivideVectorByScalar()
+        {
+            var vector = CreateVector(_data);
+            vector.Divide(2.0);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+            }
+
+            vector.Divide(1.0);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanDivideVectorByScalarUsingResultVector()
+        {
+            var vector = CreateVector(_data);
+            var result = CreateVector(_data.Length);
+            vector.Divide(2.0, result);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] / 2.0, result[i]);
+            }
+
+            vector.Divide(1.0, result);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanMultiplyVectorByScalar()
+        {
+            var vector = CreateVector(_data);
+            vector.Multiply(2.0);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+
+            vector.Multiply(1.0);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanMultiplyVectorByScalarUsingResultVector()
+        {
+            var vector = CreateVector(_data);
+            var result = CreateVector(_data.Length);
+            vector.Multiply(2.0, result);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] * 2.0, result[i]);
+            }
+
+            vector.Multiply(1.0, result);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public void ThrowsArgumentNullExceptionWhenMultiplyingScalarWithNullResultVector()
+        {
+            var vector = CreateVector(_data.Length);
+            Assert.Throws<ArgumentNullException>(() => vector.Multiply(1.0, null));
+        }
+
+        [Test]
+        public void ThrowsArgumentNullExceptionWhenDividingScalarWithNullResultVector()
+        {
+            var vector = CreateVector(_data.Length);
+            Assert.Throws<ArgumentNullException>(() => vector.Divide(1.0, null));
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionWhenMultiplyingScalarWithWrongSizeResultVector()
+        {
+            var vector = CreateVector(_data.Length);
+            var result = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => vector.Multiply(0.0, result));
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionWhenDividingScalarWithWrongSizeResultVector()
+        {
+            var vector = CreateVector(_data.Length);
+            var result = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => vector.Divide(0.0, result));
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanMultiplyVectorByScalarUsingOperators()
+        {
+            var vector = CreateVector(_data);
+            vector = vector * 2.0;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+
+            vector = vector * 1.0;
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+
+            vector = CreateVector(_data);
+            vector = 2.0 * vector;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+
+            vector = 1.0 * vector;
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanDivideVectorByScalarUsingOperators()
+        {
+            var vector = CreateVector(_data);
+            vector = vector / 2.0;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+            }
+
+            vector = vector / 1.0;
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void OperatorMultiplyThrowsArgumentNullExceptionWhenVectorIsNull()
+        {
+            Vector vector = null;
+            Vector result = null;
+            Assert.Throws<ArgumentNullException>(() => result = vector * 2.0);
+            Assert.Throws<ArgumentNullException>(() => result = 2.0 * vector);
+        }
+
+        [Test]
+        public void OperatorDivideThrowsArgumentNullExceptionWhenVectorIsNull()
+        {
+            Vector vector = null;
+            Assert.Throws<ArgumentNullException>(() => vector = vector / 2.0);
+        }
+        
         protected abstract Vector CreateVector(int size);
 
         protected abstract Vector CreateVector(IList<double> data);

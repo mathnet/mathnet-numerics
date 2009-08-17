@@ -512,11 +512,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <returns>The negated vector.</returns>
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
-        public virtual Vector Negate()
+        public override Vector Negate()
         {
             var result = new DenseVector(Count);
             Parallel.For(0, Count, i => result[i] = -Data[i]);
             return result;
+        }
+
+        /// <summary>
+        /// Multiplies a scalar to each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply.</param>
+        public override void Multiply(double scalar)
+        {
+            if (scalar.AlmostEqual(1.0))
+            {
+                return;
+            }
+
+            _linearAlgebra.ScaleArray(scalar, Data);
         }
     }
 }
