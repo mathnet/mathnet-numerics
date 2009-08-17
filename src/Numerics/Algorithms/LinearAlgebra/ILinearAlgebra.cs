@@ -30,10 +30,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     public interface ILinearAlgebra
     {
         /// <summary>
-        /// Adds the two arrays together: <c>a += c</c>.
+        /// Adds a scaled vector to another: <c>y += alpha*x</c>.
         /// </summary>
-        /// <param name="a">One of the arrays to add.</param>
-        /// <param name="b">The other array to add.</param>
-        void AddArrays(double[] a, double[] b);
+        /// <param name="y">The vector to update.</param>
+        /// <param name="alpha">The value to scale <param name="x"/> by.</param>
+        /// <param name="x">The vector to add to <paramref name="y"/>.</param>
+        /// <remarks>This is equivalent to the AXPY BLAS routine.</remarks>
+        void AddVectorToScaledVector(double[] y, double alpha, double[] x);
+
+        /// <summary>
+        /// Scales an array. Can be used to scale a vector and a matrix.
+        /// </summary>
+        /// <param name="alpha">The scalar.</param>
+        /// <param name="x">The values to scale.</param>
+        /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
+        void ScaleArray(double alpha, double[] x);
     }
 }

@@ -346,7 +346,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-
         [Test]
         [MultipleAsserts]
         public void CanAddVectorToItselfUsingResultVector()
@@ -377,6 +376,231 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        [Test]
+        public void CanCallNegate()
+        {
+            var vector = CreateVector(_data);
+            var other = vector.Negate();
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(-_data[i], other[i]);
+            }
+        }
+
+        [Test]
+        public void OperatorNegateThrowsArgumentNullExceptionWhenCallOnNullVector()
+        {
+            Vector vector = null;
+            Vector other = null;
+            Assert.Throws<ArgumentNullException>(() => other = -vector);
+        }
+
+        [Test]
+        public void CanCallUnaryNegationOperator()
+        {
+            var vector = CreateVector(_data);
+            var other = -vector;
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(-_data[i], other[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanSubtractScalarFromVector()
+        {
+            var vector = CreateVector(_data);
+            vector.Subtract(2.0);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] - 2.0, vector[i]);
+            }
+
+            vector.Subtract(0.0);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] - 2.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanSubtractScalarFromVectorUsingResultVector()
+        {
+            var vector = CreateVector(_data);
+            var result = CreateVector(_data.Length);
+            vector.Subtract(2.0, result);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] - 2.0, result[i]);
+            }
+
+            vector.Subtract(0.0, result);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public void ThrowsArgumentNullExceptionWhenSubtractingScalarWithNullResultVector()
+        {
+            var vector = CreateVector(_data.Length);
+            Assert.Throws<ArgumentNullException>(() => vector.Subtract(0.0, null));
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionWhenSubtractingScalarWithWrongSizeResultVector()
+        {
+            var vector = CreateVector(_data.Length);
+            var result = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => vector.Subtract(0.0, result));
+        }
+
+        [Test]
+        public void ThrowsArgumentNullExceptionWhenSubtractingTwoVectorsAndOneIsNull()
+        {
+            var vector = CreateVector(_data);
+            Assert.Throws<ArgumentNullException>(() => vector.Subtract(null));
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionWhenSubtractingTwoVectorsOfDifferingSize()
+        {
+            var vector = CreateVector(_data.Length);
+            var other = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => vector.Subtract(other));
+        }
+
+        [Test]
+        public void ThrowsArgumentNullExceptionWhenSubtractingTwoVectorsAndResultIsNull()
+        {
+            var vector = CreateVector(_data.Length);
+            var other = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentNullException>(() => vector.Subtract(other, null));
+        }
+
+        [Test]
+        public void ThrowsArgumentExceptionWhenSubtractingTwoVectorsAndResultIsDifferentSize()
+        {
+            var vector = CreateVector(_data.Length);
+            var other = CreateVector(_data.Length);
+            var result = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => vector.Subtract(other, result));
+        }
+
+        [Test]
+        public void SubtractionOperatorThrowsArgumentNullExpectionIfAVectorIsNull()
+        {
+            Vector a = null;
+            var b = CreateVector(_data.Length);
+            Assert.Throws<ArgumentNullException>(() => a -= b);
+
+            a = b;
+            b = null;
+            Assert.Throws<ArgumentNullException>(() => a -= b);
+        }
+
+        [Test]
+        public void SubtractionOperatorThrowsArgumentExpectionIfVectorsAreDifferentSize()
+        {
+            var a = CreateVector(_data.Length);
+            var b = CreateVector(_data.Length + 1);
+            Assert.Throws<ArgumentException>(() => a -= b);
+        }
+
+        [Test]
+        public void CanSubtractTwoVectors()
+        {
+            var vector = CreateVector(_data);
+            var other = CreateVector(_data);
+            vector.Subtract(other);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(0.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanSubtractTwoVectorsUsingResultVector()
+        {
+            var vector = CreateVector(_data);
+            var other = CreateVector(_data);
+            var result = CreateVector(_data.Length);
+            vector.Subtract(other, result);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(0.0, result[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanSubtractTwoVectorsUsingOperator()
+        {
+            var vector = CreateVector(_data);
+            var other = CreateVector(_data);
+            var result = vector - other;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(0.0, result[i]);
+            }
+        }
+
+        [Test]
+        public void CanSubtractVectorFromItself()
+        {
+            var vector = CreateVector(_data);
+            vector.Subtract(vector);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(0.0, vector[i]);
+            }
+        }
+
+
+        [Test]
+        [MultipleAsserts]
+        public void CanSubtractVectorFromItselfUsingResultVector()
+        {
+            var vector = CreateVector(_data);
+            var result = CreateVector(_data.Length);
+            vector.Subtract(vector, result);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(0.0, result[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanSubtractTwoVectorsUsingItselfAsResultVector()
+        {
+            var vector = CreateVector(_data);
+            var other = CreateVector(_data);
+            vector.Subtract(other, vector);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(0.0, vector[i]);
+            }
+        }
 
         protected abstract Vector CreateVector(int size);
 

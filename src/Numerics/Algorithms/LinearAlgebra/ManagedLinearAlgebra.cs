@@ -31,37 +31,52 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// </summary>
     internal class ManagedLinearAlgebra : ILinearAlgebra
     {
-        #region ILinearAlgebra Members
-
         /// <summary>
-        /// Adds the two arrays together: <c>a += c</c>.
+        /// Adds a scaled vector to another: <c>y += alpha*x</c>.
         /// </summary>
-        /// <param name="a">
-        /// One of the arrays to add.
-        /// </param>
-        /// <param name="b">
-        /// The other array to add.
-        /// </param>
-        public void AddArrays(double[] a, double[] b)
+        /// <param name="y">The vector to update.</param>
+        /// <param name="alpha">The value to scale <param name="x"/> by.</param>
+        /// <param name="x">The vector to add to <paramref name="y"/>.</param>
+        /// <remarks>This equivalent to the AXPY BLAS routine.</remarks>
+        public void AddVectorToScaledVector(double[] y, double alpha, double[] x)
         {
-            if (a == null)
+            if (y == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException("y");
             }
 
-            if (b == null)
+            if (x == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException("x");
             }
 
-            if (a.Length != b.Length)
+            if (y.Length != x.Length)
             {
                 throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
             }
 
-            Parallel.For(0, a.Length, i => a[i] += b[i]);
+            if (alpha.AlmostZero())
+            {
+                return;
+            }
+
+            if (alpha.AlmostEqual(1.0))
+            {
+                Parallel.For(0, y.Length, i => y[i] += x[i]);
+            }
+            else
+            {
+                Parallel.For(0, y.Length, i => y[i] += alpha * x[i]);
+            }
         }
 
-        #endregion
+        public void ScaleArray(double alpha, double[] x)
+        {
+            if (alpha.AlmostEqual(1.0))
+            {
+                return;
+            }
+            Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
+        }
     }
 }
