@@ -108,7 +108,8 @@ namespace MathNet.Numerics
                 {
                     s += Gamma_dk[i] / (i - z);
                 }
-                return Constants.LnPi - Math.Log(Math.Sin(Math.PI * z)) - Math.Log(s) - Constants.LogTwoSqrtEOverPi - (0.5 - z) * Math.Log((0.5 - z + Gamma_r) / Math.E);
+
+                return Constants.LnPi - Math.Log(Math.Sin(Math.PI * z)) - Math.Log(s) - Constants.LogTwoSqrtEOverPi - ((0.5 - z) * Math.Log((0.5 - z + Gamma_r) / Math.E));
             }
             else
             {
@@ -117,7 +118,8 @@ namespace MathNet.Numerics
                 {
                     s += Gamma_dk[i] / (z + i - 1.0);
                 }
-                return Math.Log(s) + Constants.LogTwoSqrtEOverPi + (z - 0.5) * Math.Log((z - 0.5 + Gamma_r) / Math.E);
+
+                return Math.Log(s) + Constants.LogTwoSqrtEOverPi + ((z - 0.5) * Math.Log((z - 0.5 + Gamma_r) / Math.E));
             }
         }
 
@@ -144,6 +146,7 @@ namespace MathNet.Numerics
                 {
                     s += Gamma_dk[i] / (i - z);
                 }
+
                 return Math.PI / (Math.Sin(Math.PI * z) * s * Constants.TwoSqrtEOverPi * Math.Pow((0.5 - z + Gamma_r) / Math.E, 0.5 - z));
             }
             else
@@ -153,6 +156,7 @@ namespace MathNet.Numerics
                 {
                     s += Gamma_dk[i] / (z + i - 1.0);
                 }
+
                 return s * Constants.TwoSqrtEOverPi * Math.Pow((z - 0.5 + Gamma_r) / Math.E, z - 0.5);
             }
         }
@@ -195,12 +199,12 @@ namespace MathNet.Numerics
             // Use inversion formula for negative numbers.
             if (x < 0)
             {
-                return DiGamma(1.0 - x) + System.Math.PI / System.Math.Tan(-System.Math.PI * x);
+                return DiGamma(1.0 - x) + (System.Math.PI / System.Math.Tan(-System.Math.PI * x));
             }
 
             if (x <= s)
             {
-                return d1 - 1 / x + d2 * x;
+                return d1 - (1 / x) + (d2 * x);
             }
 
             double result = 0;
@@ -213,10 +217,10 @@ namespace MathNet.Numerics
             if (x >= c)
             {
                 double r = 1 / x;
-                result += System.Math.Log(x) - 0.5 * r;
+                result += System.Math.Log(x) - (0.5 * r);
                 r *= r;
 
-                result -= r * (s3 - r * (s4 - r * (s5 - r * (s6 - r * s7))));
+                result -= r * (s3 - (r * (s4 - (r * (s5 - (r * (s6 - (r * s7))))))));
             }
 
             return result;
@@ -226,6 +230,7 @@ namespace MathNet.Numerics
         {
             throw new NotImplementedException();
         }
+
         public static double BetaLn(double a, double b)
         {
             throw new NotImplementedException();

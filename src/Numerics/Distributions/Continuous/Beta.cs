@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         private Random _random;
 
         /// <summary>
-        /// Initializes a new instance of the Beta distribution.
+        /// Initializes a new instance of the Beta class.
         /// </summary>
         /// <param name="a">The a shape parameter of the Beta distribution.</param>
         /// <param name="b">The b shape parameter of the Beta distribution.</param>
@@ -73,6 +73,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// A string representation of the distribution.
         /// </summary>
+        /// <returns>A string representation of the Beta distribution.</returns>
         public override string ToString()
         {
             return "Beta(A = " + _shapeA + ", B = " + _shapeB + ")";
@@ -217,9 +218,9 @@ namespace MathNet.Numerics.Distributions
             get
             {
                 return SpecialFunctions.BetaLn(_shapeA, _shapeB)
-                       - (_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA)
-                       - (_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB)
-                       + (_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB);
+                       - ((_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA))
+                       - ((_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB))
+                       + ((_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB));
             }
         }
 
@@ -505,8 +506,8 @@ namespace MathNet.Numerics.Distributions
             else
             {
                 double a = SpecialFunctions.GammaLn(_shapeA + _shapeB) - SpecialFunctions.GammaLn(_shapeA) - SpecialFunctions.GammaLn(_shapeB);
-                double b = (x == 0.0 ? (_shapeA == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeA - 1.0) * Math.Log(x));
-                double c = (x == 1.0 ? (_shapeB == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeB - 1.0) * Math.Log(1.0 - x));
+                double b = x == 0.0 ? (_shapeA == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeA - 1.0) * Math.Log(x);
+                double c = x == 1.0 ? (_shapeB == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeB - 1.0) * Math.Log(1.0 - x);
                 return a + b + c;
             }
         }
