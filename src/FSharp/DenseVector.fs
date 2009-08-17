@@ -46,3 +46,22 @@ module DenseVector =
         let v = Double.DenseVector(n)
         fl |> List.iteri (fun i f -> v.[i] <- f)
         v
+    
+    /// Create a vector from a sequences.
+    let inline of_seq (fs: #seq<float>) =
+        let n = Seq.length fs
+        let v = DenseVector(n)
+        fs |> Seq.iteri (fun i f -> v.[i] <- f)
+        v
+    
+    /// Create a vector with evenly spaced entries: e.g. rangef -1.0 0.5 1.0 = [-1.0 -0.5 0.0 0.5 1.0]
+    let inline rangef (start: float) (step: float) (stop: float) =
+        let n = (int ((stop - start) / step)) + 1
+        let v = new DenseVector(n)
+        for i=0 to n-1 do
+            v.[i] <- (float i) * step + start
+        v
+    
+    /// Create a vector with integer entries in the given range.
+    let inline range (start: int) (stop: int) =
+        new DenseVector([| for i in [start .. stop] -> float i |])
