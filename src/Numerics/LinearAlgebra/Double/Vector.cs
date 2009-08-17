@@ -324,7 +324,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CopyTo(result);
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
+            }
+
             result.Add(scalar);
         }
 
@@ -473,7 +477,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CopyTo(result);
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
+            }
+
             result.Subtract(scalar);
         }
 
@@ -590,7 +598,145 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return ret;
         }
 
+        /// <summary>
+        /// Multiplies a scalar to each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply.</param>
+        public virtual void Multiply(double scalar)
+        {
+            if (scalar.AlmostEqual(1.0))
+            {
+                return;
+            }
+
+            Parallel.For(0, Count, i => this[i] *= scalar);
+        }
+
+        /// <summary>
+        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply.</param>
+        /// <param name="result">The vector to store the result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void Multiply(double scalar, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
         
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
+            }
+
+            result.Multiply(scalar);
+        }
+
+        /// <summary>
+        /// Multiplies a vector with a scalar.
+        /// </summary>
+        /// <param name="leftSide">The vector to scale.</param>
+        /// <param name="rightSide">The scalar value.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Vector operator *(Vector leftSide, double rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            var ret = leftSide.Clone();
+            ret.Multiply(rightSide);
+            return ret;
+        }
+
+        /// <summary>
+        /// Multiplies a vector with a scalar.
+        /// </summary>
+        /// <param name="leftSide">The scalar value.</param>
+        /// <param name="rightSide">The vector to scale.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator *(double leftSide, Vector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            var ret = rightSide.Clone();
+            ret.Multiply(leftSide);
+            return ret;
+        }
+
+        /// <summary>
+        /// Divides each element of the vector by a scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide with.</param>
+        public virtual void Divide(double scalar)
+        {
+            if (scalar.AlmostEqual(1.0))
+            {
+                return;
+            }
+
+            Multiply(1.0 / scalar);
+        }
+
+        /// <summary>
+        ///  Divides each element of the vector by a scalar and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide with.</param>
+        /// <param name="result">The vector to store the result of the division.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void Divide(double scalar, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
+            }
+
+            result.Multiply(1.0 / scalar);
+        }
+
+        /// <summary>
+        /// Divides a vector with a scalar.
+        /// </summary>
+        /// <param name="leftSide">The vector to divide.</param>
+        /// <param name="rightSide">The scalar value.</param>
+        /// <returns>The result of the division.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Vector operator /(Vector leftSide, double rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            var ret = leftSide.Clone();
+            ret.Multiply(1.0 / rightSide);
+            return ret;
+        }
+
         #region Implemented Interfaces
 
         #region ICloneable
