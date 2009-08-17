@@ -57,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(Double.NaN)]
         [Row(-1.0)]
         [Row(2.0)]
-        public void NormalCreateFailsWithBadParameters(double p)
+        public void BernoulliCreateFailsWithBadParameters(double p)
         {
             var bernoulli = new Bernoulli(p);
         }
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateToString()
         {
             var b = new Bernoulli(0.3);
-            AssertEx.AreEqual<string>("Bernoulli(P = 0.3)", n.ToString());
+            AssertEx.AreEqual<string>("Bernoulli(P = 0.3)", b.ToString());
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateEntropy(double p)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual<double>((1.0 - p) * Math.Log(1.0 - p) + p * Math.Log(p), b.Entropy);
+            AssertHelpers.AlmostEqual(-(1.0 - p) * Math.Log(1.0 - p) - p * Math.Log(p), b.Entropy, 14);
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateSkewness(double p)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual<double>((1.0 - 2.0 * p) / Math.Sqrt(p * (1.0 - p)), n.Skewness);
+            AssertEx.AreEqual<double>((1.0 - 2.0 * p) / Math.Sqrt(p * (1.0 - p)), b.Skewness);
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateMode(double p, double m)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual<double>(mean, n.Mode);
+            AssertEx.AreEqual<double>(m, b.Mode);
         }
 
         [Test]
@@ -125,61 +125,56 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateMedian()
         {
             var b = new Bernoulli(0.3);
+            double m = b.Median;
         }
 
         [Test]
         public void ValidateMinimum()
         {
             var b = new Bernoulli(0.3);
-            AssertEx.AreEqual<double>(0.0, n.Minimum);
+            AssertEx.AreEqual<double>(0.0, b.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var b = new Bernoulli(0.3);
-            AssertEx.AreEqual<double>(1.0, n.Maximum);
+            AssertEx.AreEqual<double>(1.0, b.Maximum);
         }
 
         [Test]
-        [Row(0.0, -1.0, 0.0)]
-        [Row(0.0, 0.0, 1.0)]
-        [Row(0.0, 0.5, 0.0)]
-        [Row(0.0, 1.0, 0.0)]
-        [Row(0.0, 2.0, 0.0)]
-        [Row(0.3, -1.0, 0.0)]
-        [Row(0.3, 0.0, 0.7)]
-        [Row(0.3, 0.5, 0.0)]
-        [Row(0.3, 1.0, 0.3)]
-        [Row(0.3, 2.0, 0.0)]
-        [Row(1.0, -1.0, 0.0)]
-        [Row(1.0, 0.0, 0.0)]
-        [Row(1.0, 0.5, 0.0)]
-        [Row(1.0, 1.0, 1.0)]
-        [Row(1.0, 2.0, 0.0)]
-        public void ValidateProbability(double p, double x, double d)
+        [Row(0.0, -1, 0.0)]
+        [Row(0.0, 0, 1.0)]
+        [Row(0.0, 1, 0.0)]
+        [Row(0.0, 2, 0.0)]
+        [Row(0.3, -1, 0.0)]
+        [Row(0.3, 0, 0.7)]
+        [Row(0.3, 1, 0.3)]
+        [Row(0.3, 2, 0.0)]
+        [Row(1.0, -1, 0.0)]
+        [Row(1.0, 0, 0.0)]
+        [Row(1.0, 1, 1.0)]
+        [Row(1.0, 2, 0.0)]
+        public void ValidateProbability(double p, int x, double d)
         {
             var b = new Bernoulli(p);
             AssertEx.AreEqual(d, b.Probability(x));
         }
 
         [Test]
-        [Row(0.0, -1.0, Double.NegativeInfinity)]
-        [Row(0.0, 0.0, 0.0)]
-        [Row(0.0, 0.5, Double.NegativeInfinity)]
-        [Row(0.0, 1.0, Double.NegativeInfinity)]
-        [Row(0.0, 2.0, Double.NegativeInfinity)]
-        [Row(0.3, -1.0, Double.NegativeInfinity)]
-        [Row(0.3, 0.0, -0.35667494393873244235395440410727451457180907089949815)]
-        [Row(0.3, 0.5, Double.NegativeInfinity)]
-        [Row(0.3, 1.0, -1.2039728043259360296301803719337238685164245381839102)]
-        [Row(0.3, 2.0, Double.NegativeInfinity)]
-        [Row(1.0, -1.0, Double.NegativeInfinity)]
-        [Row(1.0, 0.0, Double.NegativeInfinity)]
-        [Row(1.0, 0.5, Double.NegativeInfinity)]
-        [Row(1.0, 1.0, 0.0)]
-        [Row(1.0, 2.0, Double.NegativeInfinity)]
-        public void ValidateProbabilityLn(double p, double x, double dln)
+        [Row(0.0, -1, Double.NegativeInfinity)]
+        [Row(0.0, 0, 0.0)]
+        [Row(0.0, 1, Double.NegativeInfinity)]
+        [Row(0.0, 2, Double.NegativeInfinity)]
+        [Row(0.3, -1, Double.NegativeInfinity)]
+        [Row(0.3, 0, -0.35667494393873244235395440410727451457180907089949815)]
+        [Row(0.3, 1, -1.2039728043259360296301803719337238685164245381839102)]
+        [Row(0.3, 2, Double.NegativeInfinity)]
+        [Row(1.0, -1, Double.NegativeInfinity)]
+        [Row(1.0, 0, Double.NegativeInfinity)]
+        [Row(1.0, 1, 0.0)]
+        [Row(1.0, 2, Double.NegativeInfinity)]
+        public void ValidateProbabilityLn(double p, int x, double dln)
         {
             var b = new Bernoulli(p);
             AssertEx.AreEqual(dln, b.ProbabilityLn(x));
@@ -215,14 +210,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void CanSample()
         {
-            var n = new Bernoulli();
+            var n = new Bernoulli(0.3);
             var d = n.Sample();
         }
 
         [Test]
         public void CanSampleSequence()
         {
-            var n = new Bernoulli();
+            var n = new Bernoulli(0.3);
             var ied = n.Samples();
             var e = ied.Take(5).ToArray();
         }
@@ -246,7 +241,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateCumulativeDistribution(double p, double x, double cdf)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual(cdf, n.CumulativeDistribution(x));
+            AssertEx.AreEqual(cdf, b.CumulativeDistribution(x));
         }
     }
 }
