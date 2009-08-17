@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Distributions
     /// p specifies the probability that a 1 is generated.
     /// </summary>
     /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
-    /// Users can set the random number generator by using the <see cref="RandomNumberGenerator"/> property.</para>
+    /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
     /// to false, all parameter checks can be turned off.</para></remarks>
@@ -198,11 +198,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x < 0)
+            if (x < 0.0)
             {
                 return 0.0;
             }
-            if (x == 0)
+            else if (x < 1.0)
             {
                 return 1.0 - _p;
             }
