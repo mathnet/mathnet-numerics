@@ -6,7 +6,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
     public class DenseVectorTests : VectorTests
     {
-        protected override MathNet.Numerics.LinearAlgebra.Double.Vector CreateVector(int size)
+        protected override Vector CreateVector(int size)
         {
             return new DenseVector(size);
         }

@@ -265,7 +265,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                _linearAlgebra.AddArrays(Data, denseVector.Data);
+                _linearAlgebra.AddVectorToScaledVector(Data, 1.0, denseVector.Data);
             }
         }
 
@@ -353,6 +353,170 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var ret = leftSide.Clone();
             ret.Add(rightSide);
             return ret;
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract.</param>
+        public override void Subtract(double scalar)
+        {
+            if (scalar.AlmostZero())
+            {
+                return;
+            }
+
+            Parallel.For(0, Count, i => Data[i] -= scalar);
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to subtract.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public override void Subtract(double scalar, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+            }
+
+            CopyTo(result);
+            result.Subtract(scalar);
+        }
+
+        /// <summary>
+        /// Subtracts another vector from this vector.
+        /// </summary>
+        /// <param name="other">The vector to subtract from this one.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+         public override void Subtract(Vector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException("other", Resources.ArgumentVectorsSameLength);
+            }
+
+            var denseVector = other as DenseVector;
+
+            if (denseVector == null)
+            {
+                base.Subtract(other);
+            }
+            else
+            {
+                _linearAlgebra.AddVectorToScaledVector(Data, -1.0, denseVector.Data);
+            }
+        }
+
+         /// <summary>
+         /// Subtracts another vector to this vector and stores the result into the result vector.
+         /// </summary>
+         /// <param name="other">The vector to subtract from this one.</param>
+         /// <param name="result">The vector to store the result of the subtraction.</param>
+         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
+         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public override void Subtract(Vector other, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException("other", Resources.ArgumentVectorsSameLength);
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = result.CreateVector(result.Count);
+                Subtract(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                CopyTo(result);
+                result.Subtract(other);
+            }
+        }
+
+        /// <summary>
+        /// Returns a <strong>Vector</strong> containing the negated values of rightSide. 
+        /// </summary>
+        /// <param name="rightSide">The vector to get the values from.</param>
+        /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator -(DenseVector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Negate();
+        }
+
+        /// <summary>
+        /// Subtracts two <strong>Vectors</strong> and returns the results.
+        /// </summary>
+        /// <param name="leftSide">The vector to subtract from.</param>
+        /// <param name="rightSide">The vector to subtract.</param>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator -(DenseVector leftSide, DenseVector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.Count != rightSide.Count)
+            {
+                throw new ArgumentException("rightSide", Resources.ArgumentVectorsSameLength);
+            }
+
+            var ret = leftSide.Clone();
+            ret.Subtract(rightSide);
+            return ret;
+        }
+
+        /// <summary>
+        /// Returns a negated vector.
+        /// </summary>
+        /// <returns>The negated vector.</returns>
+        /// <remarks>Added as an alternative to the unary negation operator.</remarks>
+        public virtual Vector Negate()
+        {
+            var result = new DenseVector(Count);
+            Parallel.For(0, Count, i => result[i] = -Data[i]);
+            return result;
         }
     }
 }
