@@ -63,6 +63,7 @@
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs" />
     <Compile Include="IntegralTransforms\HartleyOptions.cs" />
+    <Compile Include="GlobalizationHelper.cs" />
     <Compile Include="Interpolation\Algorithms\EquidistantPolynomialInterpolation.cs" />
     <Compile Include="IPrecisionSupport.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs" />

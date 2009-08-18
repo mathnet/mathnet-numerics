@@ -790,7 +790,9 @@ Bluestein
         <WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE>CHOP_ALWAYS</WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE>
         <WRAP_PARAMETERS_STYLE>CHOP_IF_LONG</WRAP_PARAMETERS_STYLE>
       </FormatSettings>
-      <UsingsSettings />
+      <UsingsSettings>
+        <AddImportsToDeepestScope>True</AddImportsToDeepestScope>
+      </UsingsSettings>
       <Naming2>
         <ExceptionName IsNull="False">
         </ExceptionName>
