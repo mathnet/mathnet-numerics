@@ -1211,7 +1211,8 @@ namespace MathNet.Numerics
             double value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());
 
             // handle suffix imaginary symbol
-            if (token != null && String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0)
+            if (token != null && (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0
+                                  || String.Compare(token.Value, "j", StringComparison.OrdinalIgnoreCase) == 0))
             {
                 if (imaginary)
                 {
