@@ -67,7 +67,7 @@ module Vector =
     /// <include file='../../../../FSharpExamples/DenseVector.xml' path='example'/> 
     let inline map f (v: #Vector) =
         let w = v.Clone()
-        inplace_mapi (fun _ x -> f x) w
+        mapInPlace (fun x -> f x) w
         w
         
     /// Applies a function to all elements of the vector.
@@ -83,7 +83,7 @@ module Vector =
     /// Maps a vector to a new vector by applying a function to every element.
     let inline mapi (f: int -> float -> float) (v: #Vector) =
         let w = v.Clone()
-        inplace_mapi f w
+        mapiInPlace f w
         w
 
     /// Fold all entries of a vector.
