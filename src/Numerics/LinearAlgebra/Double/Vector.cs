@@ -81,111 +81,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a deep-copy clone of the vector.
-        /// </summary>
-        /// <returns>
-        /// A deep-copy clone of the vector.
-        /// </returns>
-        public Vector Clone()
-        {
-            var retrunVector = CreateVector(Count);
-            CopyTo(retrunVector);
-            return retrunVector;
-        }
-
-        /// <summary>
-        /// Copies the values of this vector into the target vector.
-        /// </summary>
-        /// <param name="target">
-        /// The vector to copy elements into.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If <paramref name="target"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="target"/> is not the same size as this vector.
-        /// </exception>
-        public virtual void CopyTo(Vector target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (Count != target.Count)
-            {
-                throw new ArgumentException("target", Resources.ArgumentVectorsSameLength);
-            }
-
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            for (var index = 0; index < Count; index++)
-            {
-                target[index] = this[index];
-            }
-        }
-
-        /// <summary>
-        /// Copies the requested elements from this vector to another.
-        /// </summary>
-        /// <param name="destination">
-        /// The vector to copy the elements to.
-        /// </param>
-        /// <param name="offset">
-        /// The element to start copying from.
-        /// </param>
-        /// <param name="destinationOffset">
-        /// The element to start copying to.
-        /// </param>
-        /// <param name="count">
-        /// The number of elements to copy.
-        /// </param>
-        public virtual void CopyTo(Vector destination, int offset, int destinationOffset, int count)
-        {
-            if (destination == null)
-            {
-                throw new ArgumentNullException("destination");
-            }
-
-            if (offset >= Count)
-            {
-                throw new ArgumentOutOfRangeException("offset");
-            }
-
-            if (offset + count > Count)
-            {
-                throw new ArgumentOutOfRangeException("count");
-            }
-
-            if (destinationOffset >= destination.Count)
-            {
-                throw new ArgumentOutOfRangeException("destinationOffset");
-            }
-
-            if (destinationOffset + count > destination.Count)
-            {
-                throw new ArgumentOutOfRangeException("count");
-            }
-
-            if (ReferenceEquals(this, destination))
-            {
-                var tmpVector = destination.CreateVector(destination.Count);
-                CopyTo(tmpVector, offset, destinationOffset, count);
-                tmpVector.CopyTo(destination);
-            }
-            else
-            {
-                for (var index = 0; index < count; index++)
-                {
-                    destination[destinationOffset + index] = this[offset + index];
-                }
-            }
-        }
-
-        /// <summary>
         /// Creates a matrix with the given dimensions using the same storage type
         /// as this vector.
         /// </summary>
@@ -280,17 +175,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return ToString(null, null);
-        }
-
+        #region Elementary operations
         /// <summary>
         /// Adds a scalar to each element of the vector.
         /// </summary>
@@ -395,53 +280,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CopyTo(result);
                 result.Add(other);
             }
-        }
-
-        /// <summary>
-        /// Returns a <strong>Vector</strong> containing the same values of rightSide. 
-        /// </summary>
-        /// <remarks>This method is included for completeness.</remarks>
-        /// <param name="rightSide">The vector to get the values from.</param>
-        /// <returns>A vector containing the same values as <paramref name="rightSide"/>.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator +(Vector rightSide)
-        {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            return rightSide.Plus();
-        }
-
-        /// <summary>
-        /// Adds two <strong>Vectors</strong> together and returns the results.
-        /// </summary>
-        /// <param name="leftSide">One of the vectors to add.</param>
-        /// <param name="rightSide">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator +(Vector leftSide, Vector rightSide)
-        {
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
-            if (leftSide.Count != rightSide.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
-            }
-
-            var ret = leftSide.Clone();
-            ret.Add(rightSide);
-            return ret;
         }
 
         /// <summary>
@@ -553,6 +391,137 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Multiplies a scalar to each element of the vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply.</param>
+        public virtual void Multiply(double scalar)
+        {
+            if (scalar.AlmostEqual(1.0))
+            {
+                return;
+            }
+
+            Parallel.For(0, Count, i => this[i] *= scalar);
+        }
+
+        /// <summary>
+        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply.</param>
+        /// <param name="result">The vector to store the result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void Multiply(double scalar, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+        
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
+            }
+
+            result.Multiply(scalar);
+        }
+
+        /// <summary>
+        /// Divides each element of the vector by a scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide with.</param>
+        public virtual void Divide(double scalar)
+        {
+            if (scalar.AlmostEqual(1.0))
+            {
+                return;
+            }
+
+            Multiply(1.0 / scalar);
+        }
+
+        /// <summary>
+        ///  Divides each element of the vector by a scalar and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide with.</param>
+        /// <param name="result">The vector to store the result of the division.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void Divide(double scalar, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
+            }
+
+            result.Multiply(1.0 / scalar);
+        }
+        #endregion
+
+        #region Arithmetic Operator Overloading
+        /// <summary>
+        /// Returns a <strong>Vector</strong> containing the same values of rightSide. 
+        /// </summary>
+        /// <remarks>This method is included for completeness.</remarks>
+        /// <param name="rightSide">The vector to get the values from.</param>
+        /// <returns>A vector containing the same values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator +(Vector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Plus();
+        }
+
+        /// <summary>
+        /// Adds two <strong>Vectors</strong> together and returns the results.
+        /// </summary>
+        /// <param name="leftSide">One of the vectors to add.</param>
+        /// <param name="rightSide">The other vector to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator +(Vector leftSide, Vector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.Count != rightSide.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
+            }
+
+            var ret = leftSide.Clone();
+            ret.Add(rightSide);
+            return ret;
+        }
+
+        /// <summary>
         /// Returns a <strong>Vector</strong> containing the negated values of rightSide. 
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
@@ -599,47 +568,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Multiplies a scalar to each element of the vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to multiply.</param>
-        public virtual void Multiply(double scalar)
-        {
-            if (scalar.AlmostEqual(1.0))
-            {
-                return;
-            }
-
-            Parallel.For(0, Count, i => this[i] *= scalar);
-        }
-
-        /// <summary>
-        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to multiply.</param>
-        /// <param name="result">The vector to store the result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void Multiply(double scalar, Vector result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-        
-            if (!ReferenceEquals(this, result))
-            {
-                CopyTo(result);
-            }
-
-            result.Multiply(scalar);
-        }
-
-        /// <summary>
         /// Multiplies a vector with a scalar.
         /// </summary>
         /// <param name="leftSide">The vector to scale.</param>
@@ -678,47 +606,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Divides each element of the vector by a scalar.
-        /// </summary>
-        /// <param name="scalar">The scalar to divide with.</param>
-        public virtual void Divide(double scalar)
-        {
-            if (scalar.AlmostEqual(1.0))
-            {
-                return;
-            }
-
-            Multiply(1.0 / scalar);
-        }
-
-        /// <summary>
-        ///  Divides each element of the vector by a scalar and stores the result in the result vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to divide with.</param>
-        /// <param name="result">The vector to store the result of the division.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void Divide(double scalar, Vector result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (!ReferenceEquals(this, result))
-            {
-                CopyTo(result);
-            }
-
-            result.Multiply(1.0 / scalar);
-        }
-
-        /// <summary>
         /// Divides a vector with a scalar.
         /// </summary>
         /// <param name="leftSide">The vector to divide.</param>
@@ -736,6 +623,221 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             ret.Multiply(1.0 / rightSide);
             return ret;
         }
+
+        #endregion
+
+        #region Vector Norms
+
+        /// <summary>
+        /// Euclidean Norm also known as 2-Norm.
+        /// </summary>
+        /// <returns>
+        /// Scalar ret = sqrt(sum(this[i]^2))
+        /// </returns>
+        public virtual double Norm()
+        {
+            return NormP(2);
+        }
+
+        /// <summary>
+        /// Squared Euclidean 2-Norm.
+        /// </summary>
+        /// <returns>
+        /// Scalar ret = sum(this[i]^2)
+        /// </returns>
+        public virtual double SquaredNorm()
+        {
+            var norm = Norm();
+            return norm * norm;
+        }
+
+        /// <summary>
+        /// 1-Norm also known as Manhattan Norm or Taxicab Norm.
+        /// </summary>
+        /// <returns>
+        /// Scalar ret = sum(abs(this[i]))
+        /// </returns>
+        public virtual double Norm1()
+        {
+            return NormP(1);
+        }
+
+        /// <summary>
+        /// Computes the p-Norm.
+        /// </summary>
+        /// <param name="p">The p value.</param>
+        /// <returns>Scalar ret = (sum(abs(this[i])^p))^(1/p)</returns>
+        public virtual double NormP(int p)
+        {
+            if (1 > p)
+            {
+                throw new ArgumentOutOfRangeException("p");
+            }
+
+            var sum = 0.0;
+
+            foreach (var pair in GetIndexedEnumerator())
+            {
+                sum += Math.Pow(Math.Abs(pair.Value), p);
+            }
+
+            return Math.Pow(sum, 1.0 / p);
+        }
+
+        /// <summary>
+        /// Infinity Norm.
+        /// </summary>
+        /// <returns>
+        /// Scalar ret = max(abs(this[i]))
+        /// </returns>
+        public virtual double NormInfinity()
+        {
+            var max = 0.0;
+            foreach (var pair in GetIndexedEnumerator())
+            {
+                max = Math.Max(max, Math.Abs(pair.Value));
+            }
+
+            return max;
+        }
+
+        /// <summary>
+        /// Normalizes this vector to a unit vector with respect to the Eucliden 2-Norm.
+        /// </summary>
+        /// <returns>This vector normalized to a unit vector with respect to the Eucliden 2-Norm.</returns>
+        public virtual Vector Normalize()
+        {
+            var norm = Norm();
+            var clone = Clone();
+            if (norm.AlmostZero())
+            {
+                return clone;
+            }
+
+            clone.Multiply(1.0 / norm);
+            return clone;
+        }
+
+        #endregion
+
+        #region Coping and Conversion
+        /// <summary>
+        /// Returns a deep-copy clone of the vector.
+        /// </summary>
+        /// <returns>
+        /// A deep-copy clone of the vector.
+        /// </returns>
+        public Vector Clone()
+        {
+            var retrunVector = CreateVector(Count);
+            CopyTo(retrunVector);
+            return retrunVector;
+        }
+
+        /// <summary>
+        /// Copies the values of this vector into the target vector.
+        /// </summary>
+        /// <param name="target">
+        /// The vector to copy elements into.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="target"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="target"/> is not the same size as this vector.
+        /// </exception>
+        public virtual void CopyTo(Vector target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (Count != target.Count)
+            {
+                throw new ArgumentException("target", Resources.ArgumentVectorsSameLength);
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                return;
+            }
+
+            for (var index = 0; index < Count; index++)
+            {
+                target[index] = this[index];
+            }
+        }
+
+        /// <summary>
+        /// Copies the requested elements from this vector to another.
+        /// </summary>
+        /// <param name="destination">
+        /// The vector to copy the elements to.
+        /// </param>
+        /// <param name="offset">
+        /// The element to start copying from.
+        /// </param>
+        /// <param name="destinationOffset">
+        /// The element to start copying to.
+        /// </param>
+        /// <param name="count">
+        /// The number of elements to copy.
+        /// </param>
+        public virtual void CopyTo(Vector destination, int offset, int destinationOffset, int count)
+        {
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination");
+            }
+
+            if (offset >= Count)
+            {
+                throw new ArgumentOutOfRangeException("offset");
+            }
+
+            if (offset + count > Count)
+            {
+                throw new ArgumentOutOfRangeException("count");
+            }
+
+            if (destinationOffset >= destination.Count)
+            {
+                throw new ArgumentOutOfRangeException("destinationOffset");
+            }
+
+            if (destinationOffset + count > destination.Count)
+            {
+                throw new ArgumentOutOfRangeException("count");
+            }
+
+            if (ReferenceEquals(this, destination))
+            {
+                var tmpVector = destination.CreateVector(destination.Count);
+                CopyTo(tmpVector, offset, destinationOffset, count);
+                tmpVector.CopyTo(destination);
+            }
+            else
+            {
+                for (var index = 0; index < count; index++)
+                {
+                    destination[destinationOffset + index] = this[offset + index];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return ToString(null, null);
+        }
+
+        #endregion
 
         #region Implemented Interfaces
 
