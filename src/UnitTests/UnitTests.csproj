@@ -62,6 +62,7 @@
     <Compile Include="ArgumentCheckContract.cs" />
     <Compile Include="AssertHelpers.cs" />
     <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
+    <Compile Include="ComplexTests\ComplexTextHandlingTest.cs" />
     <Compile Include="ComplexTests\ComplexTest.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
