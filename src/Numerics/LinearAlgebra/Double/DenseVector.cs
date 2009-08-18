@@ -104,6 +104,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="DenseVector"/> class for an array.
+        /// </summary>
+        /// <param name="array">The array to create this vector from.</param>
+        /// <remarks>The vector does not copy the array, but keeps a reference to it. Any 
+        /// changes to the vector will also change the array.</remarks>
+        public DenseVector(double[] array) : base(array.Length)
+        {
+            Data = array;
+        }
+
+        /// <summary>
         ///  Gets the vector's data.
         /// </summary>
         /// <value>The vector's data.</value>

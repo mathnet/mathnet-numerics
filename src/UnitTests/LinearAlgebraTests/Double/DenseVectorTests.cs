@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MbUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
@@ -20,6 +21,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
 
             return vector;
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanCreateVectorFromArray()
+        {
+            var data = new[] { 1.0, 2.0, 3.0, 4.0 };
+            var vector = new DenseVector(data);
+            Assert.AreSame(data, vector.Data);
+            for( var i = 0; i < data.Length; i++)
+            {
+                Assert.AreEqual(data[i], vector[i]);
+            }
+            vector[0] = 100.0;
+            Assert.AreEqual(100.0, data[0]);
         }
     }
 }
