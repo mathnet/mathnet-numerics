@@ -543,5 +543,85 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             _linearAlgebra.ScaleArray(scalar, Data);
         }
+
+        #region Vector Norms
+
+        /// <summary>
+        /// Euclidean Norm also known as 2-Norm.
+        /// </summary>
+        /// <returns>Scalar ret = sqrt(sum(this[i]^2))</returns>
+        public override double Norm()
+        {
+            var sum = 0.0;
+            for (var i = 0; i < Data.Length; i++)
+            {
+                sum = SpecialFunctions.Hypotenuse(sum, Data[i]);
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// 1-Norm also known as Manhattan Norm or Taxicab Norm.
+        /// </summary>
+        /// <returns>Scalar ret = sum(abs(this[i]))</returns>
+        public override double Norm1()
+        {
+            double sum = 0;
+            for (var i = 0; i < Data.Length; i++)
+            {
+                sum += Math.Abs(Data[i]);
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// Computes the p-Norm.
+        /// </summary>
+        /// <param name="p">The p value.</param>
+        /// <returns>Scalar ret = (sum(abs(this[i])^p))^(1/p)</returns>
+        public override double NormP(int p)
+        {
+            if (1 > p)
+            {
+                throw new ArgumentOutOfRangeException("p");
+            }
+
+            if (1 == p)
+            {
+                return Norm1();
+            }
+
+            if (2 == p)
+            {
+                return Norm();
+            }
+
+            var sum = 0.0;
+            for (var i = 0; i < Data.Length; i++)
+            {
+                sum += Math.Pow(Math.Abs(Data[i]), p);
+            }
+
+            return Math.Pow(sum, 1.0 / p);
+        }
+
+        /// <summary>
+        /// Infinity Norm.
+        /// </summary>
+        /// <returns>Scalar ret = max(abs(this[i]))</returns>
+        public override double NormInfinity()
+        {
+            double max = 0;
+            for (int i = 0; i < Data.Length; i++)
+            {
+                max = Math.Max(max, Math.Abs(Data[i]));
+            }
+
+            return max;
+        }
+
+        #endregion
     }
 }
