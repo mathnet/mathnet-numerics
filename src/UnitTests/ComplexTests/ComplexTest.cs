@@ -1,8 +1,34 @@
-﻿namespace MathNet.Numerics.UnitTests
+﻿// <copyright file="ComplexTest.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://mathnet.opensourcedotnet.info
+//
+// Copyright (c) 2009 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+namespace MathNet.Numerics.UnitTests.ComplexTests
 {
     using System;
-    using System.Globalization;
-
     using MbUnit.Framework;
 
     [TestFixture]
@@ -129,8 +155,7 @@
             AssertHelpers.AlmostEqual(new Complex(double.PositiveInfinity, double.PositiveInfinity), a.Power(b), 15);
             a = new Complex(0.0, 0.0);
             b = new Complex(0.0, 1.0);
-            AssertEx.That(()=>a.Power(b).IsNaN);
-           	
+            AssertEx.That(() => a.Power(b).IsNaN);
         }
 
         [Test]
@@ -201,86 +226,12 @@
         }
 
         [Test]
-        [Row(1, -2, "1 -2i")]
-        [Row(1, 2, "1 + 2i")]
-        [Row(1, 0, "1")]
-        [Row(0, -2, "-2i")]
-        [Row(0, 2, "2i")]
-        public void CanConvertComplexToString(double real, double imag, string expected)
-        {
-            var a = new Complex(real, imag);
-            Assert.AreEqual(expected, a.ToString());
-        }
-
-        [Test]
         [MultipleAsserts]
         public void CanConvertDoubleToComplex()
         {
             AssertEx.That(() => ((Complex)double.NaN).IsNaN);
             AssertEx.That(() => ((Complex)double.NegativeInfinity).IsInfinity);
             Assert.AreEqual(1.1, new Complex(1.1, 0));
-        }
-
-        [Test]
-        [Row("-1", -1, 0)]
-        [Row("-i", 0, -1)]
-        [Row("i", 0, 1)]
-        [Row("2i", 0, 2)]
-        [Row("1 + 2i", 1, 2)]
-        [Row("1+2i", 1, 2)]
-        [Row("1 - 2i", 1, -2)]
-        [Row("1-2i", 1, -2)]
-        [Row("1,2", 1, 2)]
-        [Row("1 , 2", 1, 2)]
-        [Row("1,2i", 1, 2)]
-        [Row("-1, -2i", -1, -2)]
-        [Row("(+1,2i)", 1, 2)]
-        [Row("(-1 , -2)", -1, -2)]
-        [Row("(-1 , -2i)", -1, -2)]
-        [Row("(+1e1 , -2e-2i)", 10, -0.02)]
-        [Row("(-1E1 -2e2i)", -10, -200)]
-        [Row("(-1e+1 -2e2i)", -10, -200)]
-        [Row("(-1e1 -2e+2i)", -10, -200)]
-        [Row("(-1e-1  -2E2i)", -0.1, -200)]
-        [Row("(-1e1  -2e-2i)", -10, -0.02)]
-        [Row("(-1E+1 -2e+2i)", -10, -200)]
-        [Row("(-1e-1,-2e-2i)", -0.1, -0.02)]
-        [Row("(+1 +2i)", 1, 2)]
-        public void CanConvertStringToComplexUsingTryParse(string str, double expectedReal, double expectedImag)
-        {
-            Complex z;
-            var ret = Complex.TryParse(str, out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(expectedReal, z.Real);
-            Assert.AreEqual(expectedImag, z.Imaginary);
-
-            ret = Complex.TryParse("(-1E+1 -2e+2i)", out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(-10, z.Real);
-            Assert.AreEqual(-200, z.Imaginary);
-
-            ret = Complex.TryParse("(-1e-1,-2e-2i)", out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(-.1, z.Real);
-            Assert.AreEqual(-.02, z.Imaginary);
-
-            ret = Complex.TryParse("(+1 +2i)", out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(1, z.Real);
-            Assert.AreEqual(2, z.Imaginary);
-        }
-
-        [Test]
-        public void CanParseStringToComplex()
-        {
-            var actual = Complex.Parse("-1 -2i");
-            Assert.AreEqual(new Complex(-1,-2), actual);
-        }
-
-        [Test]
-        public void ParseThrowsFormatExceptionIfMissingClosingParen()
-        {
-            Assert.Throws<FormatException>(() => Complex.Parse("(1,2"));
         }
 
         [Test]
@@ -308,43 +259,6 @@
             var complex = Complex.WithRealImaginary(1.1, -2.2);
             Assert.AreEqual(1.1, complex.Real, "Real part is 1.1.");
             Assert.AreEqual(-2.2, complex.Imaginary, "Imaginary part is -2.2.");
-        }
-
-        [Test]
-        [MultipleAsserts]
-        public void CanCreateStringFromComplexNumber()
-        {
-            Assert.AreEqual("NaN", Complex.NaN.ToString());
-            Assert.AreEqual("Infinity", Complex.Infinity.ToString());
-            Assert.AreEqual("1.1", new Complex(1.1, 0).ToString());
-            Assert.AreEqual("-1.1i", new Complex(0, -1.1).ToString());
-            Assert.AreEqual("1.1i", new Complex(0, 1.1).ToString());
-            Assert.AreEqual("1.1 + 1.1i", new Complex(1.1, 1.1).ToString());
-        }
-
-        [Test]
-        [MultipleAsserts]
-        public void CanCreateStringUsingFormatProvider()
-        {
-            var provider = CultureInfo.GetCultureInfo("tr-TR");
-            Assert.AreEqual("NaN", Complex.NaN.ToString(provider));
-            Assert.AreEqual("Infinity", Complex.Infinity.ToString(provider));
-            Assert.AreEqual("1,1", new Complex(1.1, 0).ToString(provider));
-            Assert.AreEqual("-1,1i", new Complex(0, -1.1).ToString(provider));
-            Assert.AreEqual("1,1i", new Complex(0, 1.1).ToString(provider));
-            Assert.AreEqual("1,1 + 1,1i", new Complex(1.1, 1.1).ToString(provider));
-        }
-
-        [Test]
-        [MultipleAsserts]
-        public void CanCreateStringUsingNumberFormat()
-        {
-            Assert.AreEqual("NaN", Complex.NaN.ToString("#.000"));
-            Assert.AreEqual("Infinity", Complex.Infinity.ToString("#.000"));
-            Assert.AreEqual("1.100", new Complex(1.1, 0).ToString("#.000"));
-            Assert.AreEqual("-1.100i", new Complex(0, -1.1).ToString("#.000"));
-            Assert.AreEqual("1.100i", new Complex(0, 1.1).ToString("#.000"));
-            Assert.AreEqual("1.100 + 1.100i", new Complex(1.1, 1.1).ToString("#.000"));
         }
 
         [Test]
@@ -530,51 +444,6 @@
         {
             var complex = new Complex(1.1, -2.2);
             Assert.AreEqual(complex, +complex);
-        }
-
-        [Test]
-        public void TryParseCanHandleSymbols()
-        {
-            Complex z;
-            var ni = new NumberFormatInfo();
-            var ret = Complex.TryParse(ni.NegativeInfinitySymbol + "," + ni.PositiveInfinitySymbol, out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(double.NegativeInfinity, z.Real);
-            Assert.AreEqual(double.PositiveInfinity, z.Imaginary);
-
-            ret = Complex.TryParse(ni.NaNSymbol + "," + ni.NaNSymbol, out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(double.NaN, z.Real);
-            Assert.AreEqual(double.NaN, z.Imaginary);
-
-            ret = Complex.TryParse(ni.NegativeInfinitySymbol + "+" + ni.PositiveInfinitySymbol + "i", out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(double.NegativeInfinity, z.Real);
-            Assert.AreEqual(double.PositiveInfinity, z.Imaginary);
-
-            ret = Complex.TryParse(ni.NaNSymbol + "+" + ni.NaNSymbol + "i", out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(double.NaN, z.Real);
-            Assert.AreEqual(double.NaN, z.Imaginary);
-
-            ret = Complex.TryParse(double.MaxValue.ToString("R") + " " + double.MinValue.ToString("R") + "i", out z);
-            Assert.IsTrue(ret);
-            Assert.AreEqual(double.MaxValue, z.Real);
-            Assert.AreEqual(double.MinValue, z.Imaginary);
-        }
-
-        [Test]
-        [Row("")]
-        [Row("+")]
-        [Row("1i+2")]
-        [Row(null)]
-        public void TryParseReturnsFalseWhenGiveBadValue(string str)
-        {
-            Complex z;
-            var ret = Complex.TryParse(str, out z);
-            Assert.IsFalse(ret);
-            Assert.AreEqual(0, z.Real);
-            Assert.AreEqual(0, z.Imaginary);
         }
 
         [Test]

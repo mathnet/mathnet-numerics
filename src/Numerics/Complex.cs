@@ -29,9 +29,9 @@
 namespace MathNet.Numerics
 {
     using System;
+    using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using System.Text;
-    using System.Text.RegularExpressions;
     using Properties;
 
     /// <summary>
@@ -74,14 +74,6 @@ namespace MathNet.Numerics
         #region fields
 
         /// <summary>
-        /// Regular expression used to parse strings into complex numbers.
-        /// </summary>
-        private static readonly Regex _parseExpression =
-            new Regex(
-                @"^((?<r>(([-+]?(\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity)))|(?<i>(([-+]?((\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity))?[i]))|(?<r>(([-+]?(\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|(NaN)|([-+]?Infinity)))(?<i>(([-+]((\d+\.?\d*|\d*\.?\d+)([Ee][-+]?[0-9]+)?)|[-+](NaN)|([-+]Infinity))?[i])))$",
-                RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
-
-        /// <summary>
         /// Represents imaginary unit number.
         /// </summary>
         private static readonly Complex _i = new Complex(0, 1);
@@ -121,7 +113,7 @@ namespace MathNet.Numerics
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the Complex struct with the given real
+        /// Initializes a new instance of the Complex structure with the given real
         /// and imaginary parts.
         /// </summary>
         /// <param name="real">
@@ -149,8 +141,7 @@ namespace MathNet.Numerics
         /// infinite real and imaginary part. If you need more formal complex
         /// number handling (according to the Riemann Sphere and the extended
         /// complex plane C*, or using directed infinity) please check out the
-        /// alternative MathNet.PreciseNumerics and MathNet.Symbolics packages
-        /// instead.
+        /// alternative Math.NET symbolics packages instead.
         /// </remarks>
         /// <value>A value representing the infinity value.</value>
         public static Complex Infinity
@@ -242,10 +233,13 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Gets a value indicating whether the provided <c>Complex</c> evaluates to a
-        /// value that is not a number.
+        /// Gets a value indicating whether the provided <c>Complex</c>evaluates
+        /// to a value that is not a number.
         /// </summary>
-        /// <value><c>true</c> if this instance is NaN; otherwise, <c>false</c>.</value>
+        /// <value>
+        /// <c>true</c> if this instance is <see cref="NaN"/>; otherwise,
+        /// <c>false</c>.
+        /// </value>
         public bool IsNaN
         {
             get { return double.IsNaN(_real) || double.IsNaN(_imag); }
@@ -644,14 +638,16 @@ namespace MathNet.Numerics
         /// </param>
         public string ToString(string format, IFormatProvider formatProvider)
         {
+            var numberFormatInfo = formatProvider.GetNumberFormatInfo();
+
             if (IsNaN)
             {
-                return "NaN";
+                return numberFormatInfo.NaNSymbol;
             }
 
             if (IsInfinity)
             {
-                return "Infinity";
+                return numberFormatInfo.PositiveInfinitySymbol;
             }
 
             var ret = new StringBuilder();
@@ -676,6 +672,11 @@ namespace MathNet.Numerics
                 }
 
                 ret.Append(_imag.ToString(format, formatProvider)).Append("i");
+            }
+
+            if (ret.Length == 0)
+            {
+                ret.Append((0.0).ToString(format, formatProvider));
             }
 
             return ret.ToString();
@@ -1041,9 +1042,9 @@ namespace MathNet.Numerics
         #region Parse Functions
 
         /// <summary>
-        /// Creates a complex number based on a string. The string can be in the following
-        /// formats(without the quotes): 'n', 'ni', 'n +/- ni', 'n,n', 'n,ni,' '(n,n)', or
-        /// '(n,ni)', where n is a real number.
+        /// Creates a complex number based on a string. The string can be in the
+        /// following formats (without the quotes): 'n', 'ni', 'n +/- ni',
+        /// 'ni +/- n', 'n,n', 'n,ni,' '(n,n)', or '(n,ni)', where n is a double.
         /// </summary>
         /// <returns>
         /// A complex number containing the value specified by the given string.
@@ -1057,9 +1058,9 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Creates a complex number based on a string. The string can be in the following
-        /// formats(without the quotes): 'n', 'ni', 'n +/- ni', 'n,n', 'n,ni,' '(n,n)', or
-        /// '(n,ni)', where n is a double.
+        /// Creates a complex number based on a string. The string can be in the
+        /// following formats (without the quotes): 'n', 'ni', 'n +/- ni',
+        /// 'ni +/- n', 'n,n', 'n,ni,' '(n,n)', or '(n,ni)', where n is a double.
         /// </summary>
         /// <returns>
         /// A complex number containing the value specified by the given string.
@@ -1068,7 +1069,8 @@ namespace MathNet.Numerics
         /// the string to parse.
         /// </param>
         /// <param name="formatProvider">
-        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific
+        /// formatting information.
         /// </param>
         public static Complex Parse(string value, IFormatProvider formatProvider)
         {
@@ -1083,8 +1085,6 @@ namespace MathNet.Numerics
                 throw new FormatException();
             }
 
-            value = value.Replace(" ", string.Empty);
-
             // strip out parens
             if (value.StartsWith("(", StringComparison.Ordinal))
             {
@@ -1093,77 +1093,137 @@ namespace MathNet.Numerics
                     throw new FormatException();
                 }
 
-                value = value.Substring(1, value.Length - 2);
+                value = value.Substring(1, value.Length - 2).Trim();
             }
 
-            // check if one character strings are valid
-            if (value.Length == 1)
-            {
-                if (String.Compare(value, "i", StringComparison.OrdinalIgnoreCase) == 0)
+            // keywords
+            var numberFormatInfo = formatProvider.GetNumberFormatInfo();
+            var textInfo = formatProvider.GetTextInfo();
+            var keywords =
+                new[]
                 {
-                    return new Complex(0, 1);
+                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol,
+                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol,
+                    "+", "-", "i", "j"
+                };
+
+            // lexing
+            var tokens = new LinkedList<string>();
+            GlobalizationHelper.Tokenize(tokens.AddFirst(value), keywords, 0);
+            var token = tokens.First;
+
+            // parse the left part
+            bool isLeftPartImaginary;
+            double leftPart = ParsePart(ref token, out isLeftPartImaginary, formatProvider);
+            if (token == null)
+            {
+                return isLeftPartImaginary ? new Complex(0, leftPart) : new Complex(leftPart, 0);
+            }
+
+            // parse the right part
+            if (token.Value == textInfo.ListSeparator)
+            {
+                // format: real,imag
+                token = token.Next;
+
+                if (isLeftPartImaginary)
+                {
+                    // left must not contain 'i', right doesn't matter.
+                    throw new FormatException();
                 }
 
-                return new Complex(Double.Parse(value, formatProvider), 0.0);
-            }
+                bool isRightPartImaginary;
+                double rightPart = ParsePart(ref token, out isRightPartImaginary, formatProvider);
 
-            if (value.Equals("-i"))
-            {
-                return new Complex(0, -1);
-            }
-
-            var real = 0.0;
-            var imag = 0.0;
-
-            var index = value.IndexOf(',');
-
-            if (index > -1)
-            {
-                real = double.Parse(value.Substring(0, index), formatProvider);
-                var imagStr = value.Substring(index + 1, value.Length - index - 1);
-                if (imagStr.EndsWith("i"))
-                {
-                    imagStr = imagStr.Substring(0, imagStr.Length - 1);
-                }
-
-                imag = double.Parse(imagStr, formatProvider);
+                return new Complex(leftPart, rightPart);
             }
             else
             {
-                var matchResult = _parseExpression.Match(value);
-                if (matchResult.Success)
+                // format: real + imag
+                bool isRightPartImaginary;
+                double rightPart = ParsePart(ref token, out isRightPartImaginary, formatProvider);
+
+                if (!(isLeftPartImaginary ^ isRightPartImaginary))
                 {
-                    var realStr = matchResult.Groups["r"].Value;
-                    if (!string.IsNullOrEmpty(realStr))
-                    {
-                        if (realStr.StartsWith("+"))
-                        {
-                            realStr = realStr.Substring(1);
-                        }
-
-                        real = double.Parse(realStr, formatProvider);
-                    }
-
-                    var imagStr = matchResult.Groups["i"].Value;
-
-                    if (!string.IsNullOrEmpty(imagStr))
-                    {
-                        if (imagStr.StartsWith("+"))
-                        {
-                            imagStr = imagStr.Substring(1);
-                        }
-
-                        imagStr = imagStr.Substring(0, imagStr.Length - 1);
-                        imag = double.Parse(imagStr, formatProvider);
-                    }
+                    // either left or right part must contain 'i', but not both.
+                    throw new FormatException();
                 }
-                else
+
+                return isLeftPartImaginary ? new Complex(rightPart, leftPart) : new Complex(leftPart, rightPart);
+            }
+        }
+
+        /// <summary>
+        /// Parse a part (real or complex) from a complex number.
+        /// </summary>
+        /// <param name="token">Start Token.</param>
+        /// <param name="imaginary">Is set to <c>true</c> if the part identified itself as being imaginary.</param>
+        /// <param name="format">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific
+        /// formatting information.
+        /// </param>
+        /// <returns>Resulting part as double.</returns>
+        /// <exception cref="FormatException"/>
+        private static double ParsePart(ref LinkedListNode<string> token, out bool imaginary, IFormatProvider format)
+        {
+            imaginary = false;
+            if (token == null)
+            {
+                throw new FormatException();
+            }
+
+            // handle prefix modifiers
+            if (token.Value == "+")
+            {
+                token = token.Next;
+
+                if (token == null)
                 {
                     throw new FormatException();
                 }
             }
 
-            return new Complex(real, imag);
+            bool negative = false;
+            if (token.Value == "-")
+            {
+                negative = true;
+                token = token.Next;
+
+                if (token == null)
+                {
+                    throw new FormatException();
+                }
+            }
+
+            // handle prefix imaginary symbol
+            if (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0
+                || String.Compare(token.Value, "j", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                imaginary = true;
+                token = token.Next;
+
+                if (token == null)
+                {
+                    return negative ? -1 : 1;
+                }
+            }
+
+            double value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());
+
+            // handle suffix imaginary symbol
+            if (token != null && String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                if (imaginary)
+                {
+                    // only one time allowed: either prefix or suffix, or neither.
+                    throw new FormatException();
+                }
+
+                imaginary = true;
+                token = token.Next;
+            }
+
+            return negative ? -value : value;
         }
 
         /// <summary>
