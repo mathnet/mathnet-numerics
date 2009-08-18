@@ -1,7 +1,9 @@
 ﻿// <copyright file="Vector.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
+//
 // Copyright (c) 2009 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -10,8 +12,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -21,7 +25,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
@@ -29,10 +32,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.Text;
 
-    using MathNet.Numerics.Properties;
+    using Properties;
+    using Threading;
 
     /// <summary>
     /// Defines the base class for <c>Vector</c> classes.
@@ -960,7 +963,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 stringBuilder.Append(this[index].ToString(format, formatProvider));
                 if (index != Count - 1)
                 {
-                    stringBuilder.Append(CultureInfo.CurrentCulture.TextInfo.ListSeparator);
+                    stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
                 }
             }
 
