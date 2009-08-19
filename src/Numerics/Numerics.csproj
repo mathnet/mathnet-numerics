@@ -100,6 +100,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Random\SystemRandomExtensions.cs" />
     <Compile Include="Sampling\Sample.Random.cs" />
     <Compile Include="Sampling\Sample.Chebyshev.cs" />
     <Compile Include="Sampling\Sample.Equidistant.cs" />
