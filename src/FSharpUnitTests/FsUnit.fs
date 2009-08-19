@@ -70,7 +70,7 @@ module SpecOps =
     
     let equal expected actual =
         make (fun () ->
-            if actual = expected 
+            if actual.Equals(expected)
                 then Pass
                 else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
             (sprintf "NOT Expected: %A\nActual: %A" expected actual)
@@ -146,29 +146,29 @@ module SpecOps =
                     else Fail (sprintf "Expected actual to be same reference as expected %A" other))
                 (sprintf "Expected %A to have different reference than %A" x other)
 
-    let approximately_equal (expected: float) (actual: float) =
+    let approximately_equal (places : int) (expected: float) (actual: float) =
         make (fun () ->
-            if Precision.AlmostEqualInDecimalPlaces(actual, expected, 5)
+            if Precision.AlmostEqualInDecimalPlaces(actual, expected, places)
                 then Pass
                 else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
             (sprintf "NOT Expected: %A\nActual: %A" expected actual)
             
-    let approximately_vector_equal (expected: #Vector) (actual: #Vector) =
+    let approximately_vector_equal (places : int) (expected: #Vector) (actual: #Vector) =
         make (fun () ->
             let mutable f = true
             for i=0 to expected.Count-1 do
-              f <- f && Precision.AlmostEqualInDecimalPlaces(expected.[i], actual.[i], 5)
+              f <- f && Precision.AlmostEqualInDecimalPlaces(expected.[i], actual.[i], places)
             if f
                 then Pass
                 else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
             (sprintf "NOT Expected: %A\nActual: %A" expected actual)
             
-    let approximately_matrix_equal (expected: #Matrix) (actual: #Matrix) =
+    let approximately_matrix_equal (places : int) (expected: #Matrix) (actual: #Matrix) =
         make (fun () ->
             let mutable f = true
             for i=0 to expected.RowCount-1 do
               for j=0 to expected.ColumnCount-1 do
-                f <- f && Precision.AlmostEqualInDecimalPlaces(expected.[i,j], actual.[i,j], 5)
+                f <- f && Precision.AlmostEqualInDecimalPlaces(expected.[i,j], actual.[i,j], places)
             if f
                 then Pass
                 else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
