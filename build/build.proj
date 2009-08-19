@@ -10,10 +10,13 @@
   <Target Name="Compile">
     <MSBuild Projects="../src/Numerics/Numerics.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
     <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
+    <MSBuild Projects="../src/FSharp/FSharp.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
+    <MSBuild Projects="../src/FSharpUnitTests/FSharpUnitTests.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
   </Target>
 
   <Target Name="Test" DependsOnTargets="Compile">
     <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration" />
+    <Exec Command="$(MSBuildProjectDirectory)/../src/FSharpUnitTests/bin/Debug/FSharpUnitTests.exe" IgnoreExitCode="false" />
   </Target>
 
   <Target Name="Style">
@@ -40,9 +43,11 @@
     <Exec Command="ncover.reporting.exe coverage.xml //or FullCoverageReport:Html //op NCoverReport" />
 	</Target>
   
-  <Target Name="BuildAndTest" DependsOnTargets="Test; Style">
+  <Target Name="Gendarme">
     <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\src\Numerics\bin\Debug\MathNet.Numerics.dll"/>
   </Target>
+  
+  <Target Name="BuildAndTest" DependsOnTargets="Test; Style; Gendarme"/>
   
   <Target Name="Release" DependsOnTargets="BuildDocs"></Target>
 </Project>
