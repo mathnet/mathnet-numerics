@@ -25,3 +25,10 @@ let DenseVectorTests =
             (Double.DenseVector.range 0 99
              |> should equal (new Double.DenseVector( [| for i in 0 .. 99 -> float i |] ) ))
     ]
+    
+/// Report on errors and success and exit.
+printfn "F# Test Results:"
+printfn "%s" (Results.summary())
+    
+let code = if Results.erredCount() > 0 || Results.failedCount() > 0 then -1 else 0;;
+exit code;;

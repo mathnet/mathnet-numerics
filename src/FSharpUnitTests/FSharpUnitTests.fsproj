@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{f2f8032b-a31d-4e33-a05e-f2cdcbfaa75d}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>FSharpUnitTests</RootNamespace>
     <AssemblyName>FSharpUnitTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
