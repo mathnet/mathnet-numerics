@@ -92,6 +92,7 @@
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Random\SystemRandomExtensionTests.cs" />
     <Compile Include="SortingTests.cs" />
     <Compile Include="SpecialFunctionsTests\ErfTests.cs" />
     <Compile Include="SpecialFunctionsTests\FactorialTest.cs" />
