@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.CombinatoricsTests
     [TestFixture]
     public class CombinatoricsCountingTest
     {
-        [Test, Ignore("Depending on Special Functions")]
+        [Test]
         [Row(0, 0, 1)]
         [Row(1, 0, 1)]
         [Row(10, 0, 1)]
@@ -44,7 +44,10 @@ namespace MathNet.Numerics.UnitTests.CombinatoricsTests
         [Row(10, 10, 3628800)]
         public void CanCountVariations(int n, int k, long expected)
         {
-            Assert.AreEqual(expected, Combinatorics.Variations(n, k), "Count the number of variations without repetition");
+            Assert.AreEqual(
+                expected,
+                Combinatorics.Variations(n, k),
+                "Count the number of variations without repetition");
         }
 
         [Test]
@@ -56,7 +59,10 @@ namespace MathNet.Numerics.UnitTests.CombinatoricsTests
         [Row(-1, 1)]
         public void OutOfRangeVariationsMustCountToZero(int n, int k)
         {
-            Assert.AreEqual(0, Combinatorics.Variations(n, k), "The number of variations without repetition but out of the range must be 0.");
+            Assert.AreEqual(
+                0,
+                Combinatorics.Variations(n, k),
+                "The number of variations without repetition but out of the range must be 0.");
         }
 
         [Test]
@@ -71,7 +77,10 @@ namespace MathNet.Numerics.UnitTests.CombinatoricsTests
         [Row(10, 11, 100000000000)]
         public void CanCountVariationsWithRepetition(int n, int k, long expected)
         {
-            Assert.AreEqual(expected, Combinatorics.VariationsWithRepetition(n, k), "Count the number of variations with repetition");
+            Assert.AreEqual(
+                expected,
+                Combinatorics.VariationsWithRepetition(n, k),
+                "Count the number of variations with repetition");
         }
 
         [Test]
@@ -82,7 +91,10 @@ namespace MathNet.Numerics.UnitTests.CombinatoricsTests
         [Row(-1, 1)]
         public void OutOfRangeVariationsWithRepetitionMustCountToZero(int n, int k)
         {
-            Assert.AreEqual(0, Combinatorics.VariationsWithRepetition(n, k), "The number of variations with repetition but out of the range must be 0.");
+            Assert.AreEqual(
+                0,
+                Combinatorics.VariationsWithRepetition(n, k),
+                "The number of variations with repetition but out of the range must be 0.");
         }
     }
 }
