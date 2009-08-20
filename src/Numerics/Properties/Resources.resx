@@ -264,4 +264,7 @@
   <data name="UserDefinedProviderNotSpecified" xml:space="preserve">
     <value>A user defined provider has not been specified.</value>
   </data>
+  <data name="ArgumentMinValueGreaterThanMaxValue" xml:space="preserve">
+    <value>In the specified range, the minimum is greater than maximum.</value>
+  </data>
 </root>
