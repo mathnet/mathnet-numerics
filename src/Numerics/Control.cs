@@ -43,6 +43,9 @@ namespace MathNet.Numerics
             CheckDistributionParameters = true;
             ThreadSafeRandomNumberGenerators = true;
             DisableParallelization = false;
+            InitialThreadBlockSize = 2;
+            BlockScalingFactor = 2;
+            MaximumBlockSize = 1024;
         }
 
         /// <summary>
@@ -75,5 +78,28 @@ namespace MathNet.Numerics
         /// Gets or sets a value indicating whether parallelization shall be disabled globally.
         /// </summary>
         public static bool DisableParallelization { get; set; }
+
+        /// <summary>
+        /// Gets or sets the initial size of a <see cref="Parallel.ForEach{T}"/>
+        /// processing block (the number of elements the first thread should process).
+        /// </summary>
+        /// <value>The initial size of the thread processing bloc.</value>
+        public static int InitialThreadBlockSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Parallel.ForEach{T}"/>
+        /// processing block scaling factor. With each iteration through 
+        /// the for each loop, the processing block increased by this factor
+        /// up to <see cref="MaximumBlockSize"/>;
+        /// </summary>
+        /// <value>The processing block scaling factor.</value>
+        public static int BlockScalingFactor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum processing block size for
+        /// <see cref="Parallel.ForEach{T}"/>.
+        /// </summary>
+        /// <value>The maximum processing block size.</value>
+        public static int MaximumBlockSize { get; set; }
     }
 }
