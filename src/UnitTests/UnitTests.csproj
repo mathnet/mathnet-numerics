@@ -93,8 +93,9 @@
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SortingTests.cs" />
-    <Compile Include="SpecialFunctionsTest\ErfTests.cs" />
-    <Compile Include="SpecialFunctionsTest\SpecialFunctionsTests.cs" />
+    <Compile Include="SpecialFunctionsTests\ErfTests.cs" />
+    <Compile Include="SpecialFunctionsTests\FactorialTest.cs" />
+    <Compile Include="SpecialFunctionsTests\SpecialFunctionsTests.cs" />
     <Compile Include="StatisticsTests\DescriptiveStatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatTestData.cs" />
