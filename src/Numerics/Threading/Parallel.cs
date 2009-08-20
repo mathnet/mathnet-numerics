@@ -123,14 +123,6 @@ namespace MathNet.Numerics.Threading
                 throw new ArgumentNullException("body");
             }
 
-            // source is a IList, call For instead.
-            if (source is IList<T>)
-            {
-                var list = (IList<T>)source;
-                For(0, list.Count, i => body(list[i]));
-                return;
-            }
-
             // fast forward execution in case parallelization is disabled
             if (Control.DisableParallelization
                 || ThreadQueue.ThreadCount <= 1
@@ -141,6 +133,14 @@ namespace MathNet.Numerics.Threading
                     body(item);
                 }
 
+                return;
+            }
+
+            // source is a IList, call For instead.
+            if (source is IList<T>)
+            {
+                var list = (IList<T>)source;
+                For(0, list.Count, i => body(list[i]));
                 return;
             }
 
@@ -175,8 +175,11 @@ namespace MathNet.Numerics.Threading
                 maxBlockSize = Math.Min(Control.MaximumBlockSize, maxBlockSize * scalingFactor);
             }
 
-            WaitForTasksToComplete(tasks.ToArray());
-            CollectExceptionsAndDisposeTasks(tasks);
+            if (tasks.Count > 0)
+            {
+                WaitForTasksToComplete(tasks.ToArray());
+                CollectExceptionsAndDisposeTasks(tasks);
+            }
         }
 
         /// <summary>
