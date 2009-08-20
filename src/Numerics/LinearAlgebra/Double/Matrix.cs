@@ -341,5 +341,42 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException("column");
             }
         }
+
+        #region System.Object overrides
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Matrix);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            var hashNum = Math.Min(RowCount * ColumnCount, 25);
+            long hash = 0;
+            for (var i = 0; i < hashNum; i++)
+            {
+                var col = i % ColumnCount;
+                var row = (i - col) / RowCount;
+
+                hash ^= BitConverter.DoubleToInt64Bits(this[row, col]);
+            }
+
+            return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
+        }
+
+        #endregion
     }
 }

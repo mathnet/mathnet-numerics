@@ -829,17 +829,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            return ToString(null, null);
-        }
-
         #endregion
 
         #region Implemented Interfaces
@@ -930,7 +919,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             // If all else fails, perform element wise comparison.
             for (var index = 0; index < Count; index++)
             {
-                if (this[index] != other[index])
+                if (!this[index].AlmostEqual(other[index]))
                 {
                     return false;
                 }
@@ -972,6 +961,50 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         #endregion
 
+        #endregion
+
+        #region System.Object overrides
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Vector);
+        }
+
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
+        public override int GetHashCode()
+        {
+            var hashNum = Math.Min(Count, 20);
+            long hash = 0;
+            for (var i = 0; i < hashNum; i++)
+            {
+                hash ^= BitConverter.DoubleToInt64Bits(this[i]);
+            }
+
+            return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return ToString(null, null);
+        }
         #endregion
     }
 }

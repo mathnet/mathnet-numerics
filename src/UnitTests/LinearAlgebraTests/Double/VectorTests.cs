@@ -157,6 +157,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.Throws<ArgumentException>(() => CreateVector(0));
         }
 
+        [Test]
+        public void TestingForEqualityWithNonVectorReturnsFalse()
+        {
+            var vector = CreateVector(_data);
+            Assert.IsFalse(vector.Equals(2));
+        }
+
+        [Test]
+        public void CanTestForEqualityUsingObjectEquals()
+        {
+            var vector1 = CreateVector(_data);
+            var vector2 = CreateVector(_data);
+            Assert.IsTrue(vector1.Equals((object)vector2));
+        }
+
+        [Test]
+        public void VectorGetHashCode()
+        {
+            var vector = CreateVector(new double[] { 1, 2, 3, 4 });
+            Assert.AreEqual(2145910784, vector.GetHashCode());
+        }
+        
         protected abstract Vector CreateVector(int size);
 
         protected abstract Vector CreateVector(IList<double> data);
