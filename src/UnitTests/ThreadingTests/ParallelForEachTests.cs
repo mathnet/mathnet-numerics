@@ -29,82 +29,123 @@
 namespace MathNet.Numerics.UnitTests.ThreadingTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using MbUnit.Framework;
     using Threading;
 
     [TestFixture]
-    public class ParallelTest
+    public class ParallelForEachTests
     {
         [Test, ApartmentState(ApartmentState.MTA)]
-        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
-        public void ParallelForInvokesEveryItemOnceMTAOnePerCore(int count)
+        [Column( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        public void ParallelForEachInvokesEveryItemOnceMTAOnePerCore(int count)
         {
-            var items = new int[count];
+            var items = new double[count];
+            var pairs = new List<KeyValuePair<int, double>>();
+            for (var i = 0; i < items.Length; i++)
+            {
+                items[i] = i;
+                pairs.Add(new KeyValuePair<int, double>(i, i));
+            }
 
             // ensure One-Per-Core
             ThreadQueue.Start(Environment.ProcessorCount);
 
-            Parallel.For(0, count, i => items[i]++);
-            Parallel.For(0, count, i => items[i] += 1000);
+            Parallel.ForEach(pairs,
+                pair =>
+                {
+                    items[pair.Key] = pair.Value + 1000;
+                }
+                );
 
             for (int i = 0; i < items.Length; i++)
             {
-                Assert.AreEqual(1001, items[i], i.ToString());
+                Assert.AreEqual(1000+i, items[i], i.ToString());
             }
         }
 
         [Test, ApartmentState(ApartmentState.STA)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
-        public void ParallelForInvokesEveryItemOnceSTAOnePerCore(int count)
+        public void ParallelForEachInvokesEveryItemOnceSTAOnePerCore(int count)
         {
-            var items = new int[count];
+            var items = new double[count];
+            var pairs = new List<KeyValuePair<int, double>>();
+            for (var i = 0; i < items.Length; i++)
+            {
+                items[i] = i;
+                pairs.Add(new KeyValuePair<int, double>(i, i));
+            }
 
             // ensure One-Per-Core
             ThreadQueue.Start(Environment.ProcessorCount);
 
-            Parallel.For(0, count, i => items[i]++);
-            Parallel.For(0, count, i => items[i] += 1000);
+            Parallel.ForEach(pairs,
+                pair =>
+                {
+                    items[pair.Key] = pair.Value + 1000;
+                }
+                );
 
             for (int i = 0; i < items.Length; i++)
             {
-                Assert.AreEqual(1001, items[i], i.ToString());
+                Assert.AreEqual(1000 + i, items[i], i.ToString());
             }
         }
 
         [Test, ApartmentState(ApartmentState.MTA)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
-        public void ParallelForInvokesEveryItemOnceMTATwoPerCore(int count)
+        public void ParallelForEachInvokesEveryItemOnceMTATwoPerCore(int count)
         {
-            var items = new int[count];
+            var items = new double[count];
+            var pairs = new List<KeyValuePair<int, double>>();
+            for (var i = 0; i < items.Length; i++)
+            {
+                items[i] = i;
+                pairs.Add(new KeyValuePair<int, double>(i, i));
+            }
 
             // ensure Two-Per-Core
             ThreadQueue.Start(2 * Environment.ProcessorCount);
 
-            Parallel.For(0, count, i => items[i]++);
-            Parallel.For(0, count, i => items[i] += 1000);
+            Parallel.ForEach(pairs,
+                pair =>
+                {
+                    items[pair.Key] = pair.Value + 1000;
+                }
+                );
 
             for (int i = 0; i < items.Length; i++)
             {
-                Assert.AreEqual(1001, items[i], i.ToString());
+                Assert.AreEqual(1000 + i, items[i], i.ToString());
             }
         }
 
         [Test, ApartmentState(ApartmentState.STA)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
-        public void ParallelForInvokesEveryItemOnceSTATwoPerCore(int count)
+        public void ParallelForEachInvokesEveryItemOnceSTATwoPerCore(int count)
         {
-            var items = new int[count];
+            var items = new double[count];
+            var pairs = new List<KeyValuePair<int, double>>();
+            for (var i = 0; i < items.Length; i++)
+            {
+                items[i] = i;
+                pairs.Add(new KeyValuePair<int, double>(i, i));
+            }
 
             // ensure Two-Per-Core
             ThreadQueue.Start(2 * Environment.ProcessorCount);
 
-            Parallel.For(0, count, i => items[i]++);
-            Parallel.For(0, count, i => items[i] += 1000);
+            Parallel.ForEach(pairs,
+                pair =>
+                {
+                    items[pair.Key] = pair.Value + 1000;
+                }
+                );
 
             for (int i = 0; i < items.Length; i++)
             {
-                Assert.AreEqual(1001, items[i], i.ToString());
+                Assert.AreEqual(1000 + i, items[i], i.ToString());
             }
         }
 
@@ -131,57 +172,54 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             ThreadQueue.Start(2);
             Assert.AreEqual(2, ThreadQueue.ThreadCount);
 
-            var items = new int[50];
-
-            Parallel.For(0, items.Length, i => items[i]++);
-            Parallel.For(0, items.Length, i => items[i] += 1000);
-
-            ThreadQueue.Shutdown();
-
-            for(int i = 0; i < items.Length; i++)
+            var items = new double[50];
+            var pairs = new List<KeyValuePair<int, double>>();
+            for (var i = 0; i < items.Length; i++)
             {
-                Assert.AreEqual(1001, items[i], i.ToString());
+                items[i] = i;
+                pairs.Add(new KeyValuePair<int, double>(i, i));
+            }
+
+            Parallel.ForEach(pairs,
+                pair =>
+                {
+                    items[pair.Key] = pair.Value + 1000;
+                }
+                );
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                Assert.AreEqual(1000 + i, items[i], i.ToString());
             }
         }
 
         [Test, ApartmentState(ApartmentState.MTA)]
         public void DoesDetectAndResolveRecursiveParallelization()
         {
-            int countSharedBetweenClosures = 0;
-
+            var countSharedBetweenClosures = 0;
+            var values = new int[10];
+            
             Assert.DoesNotThrow(
                 () =>
-                Parallel.For(
-                    0,
-                    10,
+                Parallel.ForEach(values,
                     j => Interlocked.Increment(ref countSharedBetweenClosures)));
 
             Assert.AreEqual(10, countSharedBetweenClosures);
             countSharedBetweenClosures = 0;
 
-            Parallel.For(
-                0,
-                10,
+            Parallel.ForEach(values,
                 i =>
-                Parallel.For(
-                    0,
-                    10,
+                Parallel.ForEach(values,
                     j => Interlocked.Increment(ref countSharedBetweenClosures)));
 
             Assert.AreEqual(100, countSharedBetweenClosures);
             countSharedBetweenClosures = 0;
 
-            Parallel.For(
-                0,
-                10,
+            Parallel.ForEach(values,
                 i =>
-                Parallel.For(
-                    0,
-                    10,
+                Parallel.ForEach(values,
                     j =>
-                    Parallel.For(
-                        0,
-                        10,
+                    Parallel.ForEach(values,
                         k => Interlocked.Increment(ref countSharedBetweenClosures))));
 
             Assert.AreEqual(1000, countSharedBetweenClosures);

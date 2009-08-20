@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Threading
         /// <param name="body">The body to be invoked for each iteration.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is null.</exception>
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
-        internal static void For(int fromInclusive, int toExclusive, Action<int> body)
+        public static void For(int fromInclusive, int toExclusive, Action<int> body)
         {
             if (body == null)
             {
@@ -111,13 +111,82 @@ namespace MathNet.Numerics.Threading
         }
 
         /// <summary>
+        /// Executes a for each operation on an IEnumerable{T} in which iterations may run in parallel.
+        /// </summary>
+        /// <typeparam name="T">The type of the data in the source.</typeparam>
+        /// <param name="source">An enumerable data source.</param>
+        /// <param name="body">The delegate that is invoked once per iteration.</param>
+        public static void ForEach<T>(IEnumerable<T> source, Action<T> body)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException("body");
+            }
+
+            // source is a IList, call For instead.
+            if (source is IList<T>)
+            {
+                var list = (IList<T>)source;
+                For(0, list.Count, i => body(list[i]));
+                return;
+            }
+
+            // fast forward execution in case parallelization is disabled
+            if (Control.DisableParallelization
+                || ThreadQueue.ThreadCount <= 1
+                || ThreadQueue.IsInWorkerThread)
+            {
+                foreach (var item in source)
+                {
+                    body(item);
+                }
+
+                return;
+            }
+
+            var enumerator = source.GetEnumerator();
+            var maxBlockSize = Control.InitialThreadBlockSize;
+            var scalingFactor = Control.BlockScalingFactor;
+            var tasks = new List<Task>();
+            while (enumerator.MoveNext())
+            {
+                var pos = 0;
+                var list = new T[maxBlockSize];
+                list[pos++] = enumerator.Current;
+
+                var count = 1;
+                while (count < maxBlockSize && enumerator.MoveNext())
+                {
+                    list[pos++] = enumerator.Current;
+                    count++;
+                }
+               
+                var task = new Task(
+                    () =>
+                    {
+                        for (var i = 0; i < pos; i++)
+                        {
+                            body(list[i]);
+                        }
+                    });
+
+                ThreadQueue.Enqueue(task);
+                
+                maxBlockSize  = Math.Min(Control.MaximumBlockSize, maxBlockSize * scalingFactor);
+            }
+
+            WaitForTasksToComplete(tasks.ToArray());
+            CollectExceptionsAndDisposeTasks(tasks);
+        }
+
+        /// <summary>
         /// Executes each of the provided actions inside a discrete, asynchronous task. 
         /// </summary>
         /// <param name="actions">An array of actions to execute.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="actions"/> argument is null.</exception>
         /// <exception cref="ArgumentException">The actions array contains a null element.</exception>
         /// <exception cref="AggregateException">An action threw an exception.</exception>
-        internal static void Run(params Action[] actions)
+        public static void Run(params Action[] actions)
         {
             if (actions == null)
             {
@@ -175,11 +244,22 @@ namespace MathNet.Numerics.Threading
             // run the jobs
             ThreadQueue.Enqueue(tasks);
 
-            // wait until all jobs have completed
+            WaitForTasksToComplete(tasks);
+
+            CollectExceptionsAndDisposeTasks(tasks);
+        }
+
+        /// <summary>
+        /// Waits for tasks to complete.
+        /// </summary>
+        /// <param name="tasks">The tasks.</param>
+        private static void WaitForTasksToComplete(Task[] tasks)
+        {
+            // wait until all tasks have  been completed
             if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
             {
                 // not sure if this the best approach for STA
-                for (int i = 0; i < tasks.Length; i++)
+                for (var i = 0; i < tasks.Length; i++)
                 {
                     tasks[i].WaitOne();
                 }
@@ -188,7 +268,14 @@ namespace MathNet.Numerics.Threading
             {
                 WaitHandle.WaitAll(tasks);
             }
+        }
 
+        /// <summary>
+        /// Collects the exceptions and dispose tasks.
+        /// </summary>
+        /// <param name="tasks">The tasks.</param>
+        private static void CollectExceptionsAndDisposeTasks(IEnumerable<Task> tasks)
+        {
             // collect all thrown exceptions and dispose the jobs
             var exceptions = new List<Exception>();
             foreach (var task in tasks)

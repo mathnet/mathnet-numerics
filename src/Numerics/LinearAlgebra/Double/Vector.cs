@@ -874,8 +874,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>
         /// For sparse vectors, <see cref="GetIndexedEnumerator()"/> will perform better.
         /// </remarks>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", 
-            Justification = "Needed to support sparse vectors.")]
         public virtual IEnumerator<double> GetEnumerator()
         {
             for (var index = 0; index < Count; index++)
