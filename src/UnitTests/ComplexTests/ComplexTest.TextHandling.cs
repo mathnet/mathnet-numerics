@@ -1,4 +1,4 @@
-﻿// <copyright file="ComplexGlobalizedTextTest.cs" company="Math.NET">
+﻿// <copyright file="ComplexTest.TextHandling.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -270,7 +270,9 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Row("1,")]
         [Row(",1")]
         [Row(null)]
-        public void TryParseReturnsFalseWhenGiveBadValueWithInvariant(string str)
+        [Row("()")]
+        [Row("(  )")]
+        public void TryParseReturnsFalseWhenGivenBadValueWithInvariant(string str)
         {
             Complex z;
             var ret = Complex.TryParse(str, CultureInfo.InvariantCulture, out z);

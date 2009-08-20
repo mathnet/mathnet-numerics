@@ -33,7 +33,7 @@ Bluestein
           </CommentMatch>
           <CommentNotMatch />
           <SuppressIfBaseHasComment>false</SuppressIfBaseHasComment>
-          <MaxLineLength>80</MaxLineLength>
+          <MaxLineLength>120</MaxLineLength>
         </CommentsSettings>
         <NamingConventionSettings>
           <Rules>

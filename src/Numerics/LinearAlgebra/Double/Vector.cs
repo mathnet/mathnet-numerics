@@ -935,11 +935,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return ToString(null, formatProvider);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
         /// <param name="format">
         /// The format to use.
         /// </param>
         /// <param name="formatProvider">
-        /// The format provider to use.
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
         /// </param>
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.

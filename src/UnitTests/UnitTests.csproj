@@ -62,7 +62,7 @@
     <Compile Include="ArgumentCheckContract.cs" />
     <Compile Include="AssertHelpers.cs" />
     <Compile Include="CombinatoricsTests\CombinatoricsCountingTest.cs" />
-    <Compile Include="ComplexTests\ComplexTextHandlingTest.cs" />
+    <Compile Include="ComplexTests\ComplexTest.TextHandling.cs" />
     <Compile Include="ComplexTests\ComplexTest.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="InterpolationTests\InterpolationFunctionalContract.cs" />
     <Compile Include="InterpolationTests\InterpolationInfrastructureContract.cs" />
     <Compile Include="InterpolationTests\InterpolationFunctionalTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\DenseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Double\VectorTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Double\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseVectorTests.cs" />
