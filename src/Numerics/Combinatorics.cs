@@ -36,7 +36,7 @@ namespace MathNet.Numerics
     public static class Combinatorics
     {
         /// <summary>
-        /// Computes the number of variations without repetition.
+        /// Counts the number of possible variations without repetition.
         /// The order matters and each object can be chosen only once.
         /// </summary>
         /// <param name="n">Number of elements in the set.</param>
@@ -56,7 +56,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Computes the number of variations with repetition.
+        /// Counts the number of possible variations with repetition.
         /// The order matters and each object can be chosen more than once.
         /// </summary>
         /// <param name="n">Number of elements in the set.</param>
@@ -73,7 +73,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Computes the number of combinations without repetition.
+        /// Counts the number of possible combinations without repetition.
         /// The order does not matter and each object can be chosen only once.
         /// </summary>
         /// <param name="n">Number of elements in the set.</param>
@@ -85,7 +85,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Computes the number of combinations with repetition.
+        /// Counts the number of possible combinations with repetition.
         /// The order does not matter and an object can be chosen more than once.
         /// </summary>
         /// <param name="n">Number of elements in the set.</param>
@@ -108,6 +108,16 @@ namespace MathNet.Numerics
                           SpecialFunctions.FactorialLn(n + k - 1)
                           - SpecialFunctions.FactorialLn(k)
                           - SpecialFunctions.FactorialLn(n - 1)));
+        }
+
+        /// <summary>
+        /// Counts the number of possible permutations (without repetition). 
+        /// </summary>
+        /// <param name="n">Number of (distinguishable) elements in the set.</param>
+        /// <returns>Maximum number of permutations without repetition.</returns>
+        public static double Permutations(int n)
+        {
+            return SpecialFunctions.Factorial(n);
         }
     }
 }
