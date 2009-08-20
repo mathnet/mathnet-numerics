@@ -160,5 +160,19 @@ namespace MathNet.Numerics.UnitTests.CombinatoricsTests
                 Combinatorics.CombinationsWithRepetition(n, k),
                 "The number of combinations with repetition but out of the range must be 0.");
         }
+
+        [Test]
+        [Row(0, 1)]
+        [Row(1, 1)]
+        [Row(2, 2)]
+        [Row(8, 40320)]
+        [Row(15, 1307674368000)]
+        public void CanCountPermutations(int n, long expected)
+        {
+            Assert.AreEqual(
+                expected,
+                Combinatorics.Permutations(n),
+                "Count the number of permutations");
+        }
     }
 }
