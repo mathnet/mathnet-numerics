@@ -26,10 +26,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-
 namespace MathNet.Numerics
 {
+    using System;
+
     /// <summary>
     /// This class implements a collection of special function evaluations for double precision. This class 
     /// has a static constructor which will precompute a small number of values for faster runtime computations.
@@ -37,32 +37,41 @@ namespace MathNet.Numerics
     public static partial class SpecialFunctions
     {
         /// <summary>
-        /// The order of the GammaLn approximation.
+        /// The order of the <see cref="GammaLn"/> approximation.
         /// </summary>
         private const int Gamma_n = 10;
 
         /// <summary>
-        /// Auxiliary variable when evaluating the GammaLn function.
+        /// Auxiliary variable when evaluating the <see cref="GammaLn"/> function.
         /// </summary>
         private const double Gamma_r = 10.900511;
 
         /// <summary>
-        /// Polynomial coefficients for the GammaLn approximation.
+        /// Polynomial coefficients for the <see cref="GammaLn"/> approximation.
         /// </summary>
-        private static readonly double[] Gamma_dk = new double[]
-                                                    {
-                                                        2.48574089138753565546e-5,
-                                                        1.05142378581721974210,
-                                                        -3.45687097222016235469,
-                                                        4.51227709466894823700,
-                                                        -2.98285225323576655721,
-                                                        1.05639711577126713077,
-                                                        -1.95428773191645869583e-1,
-                                                        1.70970543404441224307e-2,
-                                                        -5.71926117404305781283e-4,
-                                                        4.63399473359905636708e-6,
-                                                        -2.71994908488607703910e-9
-                                                    };
+        private static readonly double[] Gamma_dk =
+            new[]
+            {
+                2.48574089138753565546e-5,
+                1.05142378581721974210,
+                -3.45687097222016235469,
+                4.51227709466894823700,
+                -2.98285225323576655721,
+                1.05639711577126713077,
+                -1.95428773191645869583e-1,
+                1.70970543404441224307e-2,
+                -5.71926117404305781283e-4,
+                4.63399473359905636708e-6,
+                -2.71994908488607703910e-9
+            };
+
+        /// <summary>
+        /// Static Initializer for all special function routines
+        /// </summary>
+        static SpecialFunctions()
+        {
+            InitializeFactorial();
+        }
 
         /// <summary>
         /// Computes the hypotenuse of a right angle triangle.
@@ -109,7 +118,11 @@ namespace MathNet.Numerics
                     s += Gamma_dk[i] / (i - z);
                 }
 
-                return Constants.LnPi - Math.Log(Math.Sin(Math.PI * z)) - Math.Log(s) - Constants.LogTwoSqrtEOverPi - ((0.5 - z) * Math.Log((0.5 - z + Gamma_r) / Math.E));
+                return Constants.LnPi
+                       - Math.Log(Math.Sin(Math.PI * z))
+                       - Math.Log(s)
+                       - Constants.LogTwoSqrtEOverPi
+                       - ((0.5 - z) * Math.Log((0.5 - z + Gamma_r) / Math.E));
             }
             else
             {
@@ -119,7 +132,9 @@ namespace MathNet.Numerics
                     s += Gamma_dk[i] / (z + i - 1.0);
                 }
 
-                return Math.Log(s) + Constants.LogTwoSqrtEOverPi + ((z - 0.5) * Math.Log((z - 0.5 + Gamma_r) / Math.E));
+                return Math.Log(s)
+                       + Constants.LogTwoSqrtEOverPi
+                       + ((z - 0.5) * Math.Log((z - 0.5 + Gamma_r) / Math.E));
             }
         }
 
@@ -147,7 +162,10 @@ namespace MathNet.Numerics
                     s += Gamma_dk[i] / (i - z);
                 }
 
-                return Math.PI / (Math.Sin(Math.PI * z) * s * Constants.TwoSqrtEOverPi * Math.Pow((0.5 - z + Gamma_r) / Math.E, 0.5 - z));
+                return Math.PI / (Math.Sin(Math.PI * z)
+                                  * s
+                                  * Constants.TwoSqrtEOverPi
+                                  * Math.Pow((0.5 - z + Gamma_r) / Math.E, 0.5 - z));
             }
             else
             {
@@ -162,7 +180,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Computes the digamma function which is mathematically defined as the derivative of the logarithm of the gamma function.
+        /// Computes the Digamma function which is mathematically defined as the derivative of the logarithm of the gamma function.
         /// This implementation is based on
         ///     Jose Bernardo
         ///     Algorithm AS 103:
@@ -173,33 +191,33 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="x">The argument of the digamma function.</param>
         /// <returns>The value of the DiGamma function at <paramref name="x"/>.</returns>
-        static public double DiGamma(double x)
+        public static double DiGamma(double x)
         {
             const double c = 12.0,
-                d1 = -0.57721566490153286,
-                d2 = 1.6449340668482264365,
-                s = 1e-6,
-                s3 = 1.0 / 12.0,
-                s4 = 1.0 / 120.0,
-                s5 = 1.0 / 252.0,
-                s6 = 1.0 / 240.0,
-                s7 = 1.0 / 132.0;
+                         d1 = -0.57721566490153286,
+                         d2 = 1.6449340668482264365,
+                         s = 1e-6,
+                         s3 = 1.0 / 12.0,
+                         s4 = 1.0 / 120.0,
+                         s5 = 1.0 / 252.0,
+                         s6 = 1.0 / 240.0,
+                         s7 = 1.0 / 132.0;
 
-            if (System.Double.IsNegativeInfinity(x) || System.Double.IsNaN(x))
+            if (Double.IsNegativeInfinity(x) || Double.IsNaN(x))
             {
-                return System.Double.NaN;
+                return Double.NaN;
             }
 
             // Handle special cases.
-            if (x <= 0 && System.Math.Floor(x) == x)
+            if (x <= 0 && Math.Floor(x) == x)
             {
-                return System.Double.NegativeInfinity;
+                return Double.NegativeInfinity;
             }
 
             // Use inversion formula for negative numbers.
             if (x < 0)
             {
-                return DiGamma(1.0 - x) + (System.Math.PI / System.Math.Tan(-System.Math.PI * x));
+                return DiGamma(1.0 - x) + (Math.PI / Math.Tan(-Math.PI * x));
             }
 
             if (x <= s)
@@ -217,7 +235,7 @@ namespace MathNet.Numerics
             if (x >= c)
             {
                 double r = 1 / x;
-                result += System.Math.Log(x) - (0.5 * r);
+                result += Math.Log(x) - (0.5 * r);
                 r *= r;
 
                 result -= r * (s3 - (r * (s4 - (r * (s5 - (r * (s6 - (r * s7))))))));
