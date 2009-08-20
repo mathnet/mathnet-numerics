@@ -32,6 +32,19 @@ namespace MathNet.Numerics
 
     public partial class SpecialFunctions
     {
+        private const int FactorialMaxArgument = 170;
+        private static double[] factorialCache;
+
+        private static void InitializeFactorial()
+        {
+            factorialCache = new double[FactorialMaxArgument + 1];
+            factorialCache[0] = 1.0;
+            for (int i = 1; i < factorialCache.Length; i++)
+            {
+                factorialCache[i] = factorialCache[i - 1] * i;
+            }
+        }
+
         /// <summary>
         /// Computes the factorial function x -> x! of an integer number > 0. The function can represent all number up
         /// to 22! exactly, all numbers up to 170! using a double representation. All larger values will overflow.
@@ -51,13 +64,8 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException("x", Properties.Resources.ArgumentPositive);
             }
 
-            if (x <= FactorialMaxArgument)
+            if (x < factorialCache.Length)
             {
-                if (factorialCache == null)
-                {
-                    factorialCache = GenerateFactorials(FactorialMaxArgument);
-                }
-
                 return factorialCache[x];
             }
 
@@ -80,13 +88,8 @@ namespace MathNet.Numerics
                 return 0d;
             }
 
-            if (x <= FactorialMaxArgument)
+            if (x < factorialCache.Length)
             {
-                if (factorialCache == null)
-                {
-                    factorialCache = GenerateFactorials(FactorialMaxArgument);
-                }
-
                 return Math.Log(factorialCache[x]);
             }
 
@@ -124,20 +127,5 @@ namespace MathNet.Numerics
 
             return FactorialLn(n) - FactorialLn(k) - FactorialLn(n - k);
         }
-
-        private static double[] GenerateFactorials(int max)
-        {
-            var cache = new double[max + 1];
-            cache[0] = 1.0;
-            for (int i = 1; i < cache.Length; i++)
-            {
-                cache[i] = cache[i - 1] * i;
-            }
-
-            return cache;
-        }
-
-        private const int FactorialMaxArgument = 170;
-        private static double[] factorialCache;
     }
 }
