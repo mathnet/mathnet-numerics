@@ -93,6 +93,38 @@ namespace MathNet.Numerics
             return GammaLn(x + 1.0);
         }
 
+        /// <summary>
+        /// Computes the binomial coefficient: n choose k.
+        /// </summary>
+        /// <param name="n">A nonnegative value n.</param>
+        /// <param name="k">A nonnegative value h.</param>
+        /// <returns>The binomial coefficient: n choose k.</returns>
+        public static double Binomial(int n, int k)
+        {
+            if (k < 0 || n < 0 || k > n)
+            {
+                return 0.0;
+            }
+
+            return Math.Floor(0.5 + Math.Exp(FactorialLn(n) - FactorialLn(k) - FactorialLn(n - k)));
+        }
+
+        /// <summary>
+        /// Computes the natural logarithm of the binomial coefficient: ln(n choose k).
+        /// </summary>
+        /// <param name="n">A nonnegative value n.</param>
+        /// <param name="k">A nonnegative value h.</param>
+        /// <returns>The logarithmic binomial coefficient: ln(n choose k).</returns>
+        public static double BinomialLn(int n, int k)
+        {
+            if (k < 0 || n < 0 || k > n)
+            {
+                return Double.NegativeInfinity;
+            }
+
+            return FactorialLn(n) - FactorialLn(k) - FactorialLn(n - k);
+        }
+
         private static double[] GenerateFactorials(int max)
         {
             var cache = new double[max + 1];

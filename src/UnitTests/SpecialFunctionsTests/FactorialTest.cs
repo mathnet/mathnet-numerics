@@ -78,5 +78,29 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             AssertHelpers.AlmostEqual(307933.81973375485425, SpecialFunctions.FactorialLn(1 << 15), 14);
             AssertHelpers.AlmostEqual(1413421.9939462073242, SpecialFunctions.FactorialLn(1 << 17), 14);
         }
+
+        [Test]
+        public void CanComputeBinomial()
+        {
+            AssertHelpers.AlmostEqual(1, SpecialFunctions.Binomial(1, 1), 14);
+            AssertHelpers.AlmostEqual(10, SpecialFunctions.Binomial(5, 2), 14);
+            AssertHelpers.AlmostEqual(35, SpecialFunctions.Binomial(7, 3), 14);
+            AssertHelpers.AlmostEqual(1, SpecialFunctions.Binomial(1, 0), 14);
+            AssertHelpers.AlmostEqual(0, SpecialFunctions.Binomial(0, 1), 14);
+            AssertHelpers.AlmostEqual(0, SpecialFunctions.Binomial(5, 7), 14);
+            AssertHelpers.AlmostEqual(0, SpecialFunctions.Binomial(5, -7), 14);
+        }
+
+        [Test]
+        public void CanComputeBinomialLn()
+        {
+            AssertHelpers.AlmostEqual(Math.Log(1), SpecialFunctions.BinomialLn(1, 1), 14);
+            AssertHelpers.AlmostEqual(Math.Log(10), SpecialFunctions.BinomialLn(5, 2), 14);
+            AssertHelpers.AlmostEqual(Math.Log(35), SpecialFunctions.BinomialLn(7, 3), 14);
+            AssertHelpers.AlmostEqual(Math.Log(1), SpecialFunctions.BinomialLn(1, 0), 14);
+            AssertHelpers.AlmostEqual(Math.Log(0), SpecialFunctions.BinomialLn(0, 1), 14);
+            AssertHelpers.AlmostEqual(Math.Log(0), SpecialFunctions.BinomialLn(5, 7), 14);
+            AssertHelpers.AlmostEqual(Math.Log(0), SpecialFunctions.BinomialLn(5, -7), 14);
+        }
     }
 }
