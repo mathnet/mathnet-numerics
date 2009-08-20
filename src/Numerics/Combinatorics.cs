@@ -48,7 +48,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            throw new NotImplementedException();
+            return Math.Floor(0.5 + Math.Exp(SpecialFunctions.FactorialLn(n) - SpecialFunctions.FactorialLn(n - k)));
         }
 
         /// <summary>
