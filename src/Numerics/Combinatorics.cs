@@ -36,7 +36,8 @@ namespace MathNet.Numerics
     public static class Combinatorics
     {
         /// <summary>
-        /// Computes the number of variations without repetition. The order matters and each object can be chosen only once.
+        /// Computes the number of variations without repetition.
+        /// The order matters and each object can be chosen only once.
         /// </summary>
         /// <param name="n">Number of elements in the set.</param>
         /// <param name="k">Number of elements to choose from the set. Each element is chosen at most once.</param>
@@ -48,11 +49,15 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            return Math.Floor(0.5 + Math.Exp(SpecialFunctions.FactorialLn(n) - SpecialFunctions.FactorialLn(n - k)));
+            return Math.Floor(
+                0.5 + Math.Exp(
+                          SpecialFunctions.FactorialLn(n)
+                          - SpecialFunctions.FactorialLn(n - k)));
         }
 
         /// <summary>
-        /// Computes the number of variations with repetition. The order matters and each object can be chosen more than once.
+        /// Computes the number of variations with repetition.
+        /// The order matters and each object can be chosen more than once.
         /// </summary>
         /// <param name="n">Number of elements in the set.</param>
         /// <param name="k">Number of elements to choose from the set. Each element is chosen 0, 1 or multiple times.</param>
@@ -65,6 +70,44 @@ namespace MathNet.Numerics
             }
 
             return Math.Pow(n, k);
+        }
+
+        /// <summary>
+        /// Computes the number of combinations without repetition.
+        /// The order does not matter and each object can be chosen only once.
+        /// </summary>
+        /// <param name="n">Number of elements in the set.</param>
+        /// <param name="k">Number of elements to choose from the set. Each element is chosen at most once.</param>
+        /// <returns>Maximum number of combinations.</returns>
+        public static double Combinations(int n, int k)
+        {
+            return SpecialFunctions.Binomial(n, k);
+        }
+
+        /// <summary>
+        /// Computes the number of combinations with repetition.
+        /// The order does not matter and an object can be chosen more than once.
+        /// </summary>
+        /// <param name="n">Number of elements in the set.</param>
+        /// <param name="k">Number of elements to choose from the set. Each element is chosen 0, 1 or multiple times.</param>
+        /// <returns>Maximum number of combinations with repetition.</returns>
+        public static double CombinationsWithRepetition(int n, int k)
+        {
+            if (k < 0 || n < 0 || (n == 0 && k > 0))
+            {
+                return 0;
+            }
+
+            if (n == 0 && k == 0)
+            {
+                return 1;
+            }
+
+            return Math.Floor(
+                0.5 + Math.Exp(
+                          SpecialFunctions.FactorialLn(n + k - 1)
+                          - SpecialFunctions.FactorialLn(k)
+                          - SpecialFunctions.FactorialLn(n - 1)));
         }
     }
 }

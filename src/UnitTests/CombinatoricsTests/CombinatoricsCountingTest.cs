@@ -96,5 +96,69 @@ namespace MathNet.Numerics.UnitTests.CombinatoricsTests
                 Combinatorics.VariationsWithRepetition(n, k),
                 "The number of variations with repetition but out of the range must be 0.");
         }
+
+        [Test]
+        [Row(0, 0, 1)]
+        [Row(1, 0, 1)]
+        [Row(10, 0, 1)]
+        [Row(10, 2, 45)]
+        [Row(10, 4, 210)]
+        [Row(10, 6, 210)]
+        [Row(10, 9, 10)]
+        [Row(10, 10, 1)]
+        public void CanCountCombinations(int n, int k, long expected)
+        {
+            Assert.AreEqual(
+                expected,
+                Combinatorics.Combinations(n, k),
+                "Count the number of combinations without repetition");
+        }
+
+        [Test]
+        [Row(0, 1)]
+        [Row(10, 11)]
+        [Row(0, -1)]
+        [Row(1, -1)]
+        [Row(-1, 0)]
+        [Row(-1, 1)]
+        public void OutOfRangeCombinationsMustCountToZero(int n, int k)
+        {
+            Assert.AreEqual(
+                0,
+                Combinatorics.Combinations(n, k),
+                "The number of combinations without repetition but out of the range must be 0.");
+        }
+
+        [Test]
+        [Row(0, 0, 1)]
+        [Row(1, 0, 1)]
+        [Row(10, 0, 1)]
+        [Row(10, 2, 55)]
+        [Row(10, 4, 715)]
+        [Row(10, 6, 5005)]
+        [Row(10, 9, 48620)]
+        [Row(10, 10, 92378)]
+        [Row(10, 11, 167960)]
+        public void CanCountCombinationsWithRepetition(int n, int k, long expected)
+        {
+            Assert.AreEqual(
+                expected,
+                Combinatorics.CombinationsWithRepetition(n, k),
+                "Count the number of combinations with repetition");
+        }
+
+        [Test]
+        [Row(0, 1)]
+        [Row(0, -1)]
+        [Row(1, -1)]
+        [Row(-1, 0)]
+        [Row(-1, 1)]
+        public void OutOfRangeCombinationsWithRepetitionMustCountToZero(int n, int k)
+        {
+            Assert.AreEqual(
+                0,
+                Combinatorics.CombinationsWithRepetition(n, k),
+                "The number of combinations with repetition but out of the range must be 0.");
+        }
     }
 }
