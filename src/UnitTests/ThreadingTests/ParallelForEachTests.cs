@@ -38,19 +38,19 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
     public class ParallelForEachTests
     {
         [Test, ApartmentState(ApartmentState.MTA)]
-        [Column( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        [Column( 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 1001)]
         public void ParallelForEachInvokesEveryItemOnceMTAOnePerCore(int count)
         {
+            // ensure One-Per-Core
+            ThreadQueue.Start(Environment.ProcessorCount);
+
             var items = new double[count];
             var pairs = new List<KeyValuePair<int, double>>();
             for (var i = 0; i < items.Length; i++)
             {
-                items[i] = i;
                 pairs.Add(new KeyValuePair<int, double>(i, i));
             }
-
-            // ensure One-Per-Core
-            ThreadQueue.Start(Environment.ProcessorCount);
+            Parallel.ForEach(pairs, pair => items[pair.Key] = pair.Value );
 
             Parallel.ForEach(pairs,
                 pair =>
@@ -66,19 +66,19 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
         }
 
         [Test, ApartmentState(ApartmentState.STA)]
-        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 1001)]
         public void ParallelForEachInvokesEveryItemOnceSTAOnePerCore(int count)
         {
+            // ensure One-Per-Core
+            ThreadQueue.Start(Environment.ProcessorCount);
+
             var items = new double[count];
             var pairs = new List<KeyValuePair<int, double>>();
             for (var i = 0; i < items.Length; i++)
             {
-                items[i] = i;
                 pairs.Add(new KeyValuePair<int, double>(i, i));
             }
-
-            // ensure One-Per-Core
-            ThreadQueue.Start(Environment.ProcessorCount);
+            Parallel.ForEach(pairs, pair => items[pair.Key] = pair.Value);
 
             Parallel.ForEach(pairs,
                 pair =>
@@ -94,19 +94,19 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
         }
 
         [Test, ApartmentState(ApartmentState.MTA)]
-        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 1001)]
         public void ParallelForEachInvokesEveryItemOnceMTATwoPerCore(int count)
         {
+            // ensure Two-Per-Core
+            ThreadQueue.Start(2 * Environment.ProcessorCount);
+
             var items = new double[count];
             var pairs = new List<KeyValuePair<int, double>>();
             for (var i = 0; i < items.Length; i++)
             {
-                items[i] = i;
                 pairs.Add(new KeyValuePair<int, double>(i, i));
             }
-
-            // ensure Two-Per-Core
-            ThreadQueue.Start(2 * Environment.ProcessorCount);
+            Parallel.ForEach(pairs, pair => items[pair.Key] = pair.Value);
 
             Parallel.ForEach(pairs,
                 pair =>
@@ -122,19 +122,19 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
         }
 
         [Test, ApartmentState(ApartmentState.STA)]
-        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 1001)]
         public void ParallelForEachInvokesEveryItemOnceSTATwoPerCore(int count)
         {
+            // ensure Two-Per-Core
+            ThreadQueue.Start(2 * Environment.ProcessorCount); 
+            
             var items = new double[count];
             var pairs = new List<KeyValuePair<int, double>>();
             for (var i = 0; i < items.Length; i++)
             {
-                items[i] = i;
                 pairs.Add(new KeyValuePair<int, double>(i, i));
             }
-
-            // ensure Two-Per-Core
-            ThreadQueue.Start(2 * Environment.ProcessorCount);
+            Parallel.ForEach(pairs, pair => items[pair.Key] = pair.Value);
 
             Parallel.ForEach(pairs,
                 pair =>

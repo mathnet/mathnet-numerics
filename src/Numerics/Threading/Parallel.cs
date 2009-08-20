@@ -171,8 +171,8 @@ namespace MathNet.Numerics.Threading
                     });
 
                 ThreadQueue.Enqueue(task);
-                
-                maxBlockSize  = Math.Min(Control.MaximumBlockSize, maxBlockSize * scalingFactor);
+                tasks.Add(task);
+                maxBlockSize = Math.Min(Control.MaximumBlockSize, maxBlockSize * scalingFactor);
             }
 
             WaitForTasksToComplete(tasks.ToArray());
