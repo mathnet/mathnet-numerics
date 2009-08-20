@@ -29,9 +29,11 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-
+    using System.Collections.Generic;
+    using System.Globalization;
     using Algorithms;
     using Algorithms.LinearAlgebra;
+    using NumberTheory;
     using Properties;
     using Threading;
 
@@ -624,6 +626,165 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return max;
+        }
+
+        #endregion
+
+        #region Parse Functions
+
+        /// <summary>
+        /// Creates a double dense vector based on a string. The string can be in the following formats (without the
+        /// quotes): 'n', 'n,n,..', '(n,n,..)', '[n,n,...]', where n is a double.
+        /// </summary>
+        /// <returns>
+        /// A double dense vector containing the values specified by the given string.
+        /// </returns>
+        /// <param name="value">
+        /// The string to parse.
+        /// </param>
+        public static DenseVector Parse(string value)
+        {
+            return Parse(value, null);
+        }
+
+        /// <summary>
+        /// Creates a double dense vector based on a string. The string can be in the following formats (without the
+        /// quotes): 'n', 'n,n,..', '(n,n,..)', '[n,n,...]', where n is a double.
+        /// </summary>
+        /// <returns>
+        /// A double dense vector containing the values specified by the given string.
+        /// </returns>
+        /// <param name="value">
+        /// the string to parse.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information.
+        /// </param>
+        public static DenseVector Parse(string value, IFormatProvider formatProvider)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(value);
+            }
+
+            value = value.Trim();
+            if (value.Length == 0)
+            {
+                throw new FormatException();
+            }
+
+            // strip out parens
+            if (value.StartsWith("(", StringComparison.Ordinal))
+            {
+                if (!value.EndsWith(")", StringComparison.Ordinal))
+                {
+                    throw new FormatException();
+                }
+
+                value = value.Substring(1, value.Length - 2).Trim();
+            }
+
+            if (value.StartsWith("[", StringComparison.Ordinal))
+            {
+                if (!value.EndsWith("]", StringComparison.Ordinal))
+                {
+                    throw new FormatException();
+                }
+
+                value = value.Substring(1, value.Length - 2).Trim();
+            }
+
+            // keywords
+            var textInfo = formatProvider.GetTextInfo();
+            var keywords = new[] { textInfo.ListSeparator };
+
+            // lexing
+            var tokens = new LinkedList<string>();
+            GlobalizationHelper.Tokenize(tokens.AddFirst(value), keywords, 0);
+            var token = tokens.First;
+
+            if (token == null || tokens.Count.IsEven())
+            {
+                throw new FormatException();
+            }
+
+            // parsing
+            var data = new double[(tokens.Count + 1) >> 1];
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (token == null || token.Value == textInfo.ListSeparator)
+                {
+                    throw new FormatException();
+                }
+
+                data[i] = Double.Parse(token.Value, NumberStyles.Any, formatProvider);
+
+                token = token.Next;
+                if(token != null)
+                {
+                    token = token.Next;
+                }
+            }
+
+            return new DenseVector(data);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a real dense vector to double-precision dense vector equivalent.
+        /// A return value indicates whether the conversion succeeded or failed.
+        /// </summary>
+        /// <param name="value">
+        /// A string containing a real vector to convert.
+        /// </param>
+        /// <param name="result">
+        /// The parsed value.
+        /// </param>
+        /// <returns>
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value.
+        /// Otherwise the result will be <c>null</c>.
+        /// </returns>
+        public static bool TryParse(string value, out DenseVector result)
+        {
+            return TryParse(value, null, out result);
+        }
+
+        /// <summary>
+        /// Converts the string representation of a real dense vector to double-precision dense vector equivalent.
+        /// A return value indicates whether the conversion succeeded or failed.
+        /// </summary>
+        /// <param name="value">
+        /// A string containing a real vector to convert.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about value.
+        /// </param>
+        /// <param name="result">
+        /// The parsed value.
+        /// </param>
+        /// <returns>
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value.
+        /// Otherwise the result will be <c>null</c>.
+        /// </returns>
+        public static bool TryParse(string value, IFormatProvider formatProvider, out DenseVector result)
+        {
+            bool ret;
+            try
+            {
+                result = Parse(value, formatProvider);
+                ret = true;
+            }
+            catch (ArgumentNullException)
+            {
+                result = null;
+                ret = false;
+            }
+            catch (FormatException)
+            {
+                result = null;
+                ret = false;
+            }
+
+            return ret;
         }
 
         #endregion

@@ -223,7 +223,7 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value must not be positive..
+        ///   Looks up a localized string similar to Value must be positive..
         /// </summary>
         internal static string ArgumentMustBePositive {
             get {
