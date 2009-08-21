@@ -573,11 +573,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>Scalar ret = sum(abs(this[i]))</returns>
         public override double Norm1()
         {
-            double sum = 0;
-            for (var i = 0; i < Data.Length; i++)
-            {
-                sum += Math.Abs(Data[i]);
-            }
+            var sum = 0.0;
+            var syncLock = new object();
+            
+            Parallel.For(0, Count,
+                () => 0.0,
+                (index, localData) =>
+                {
+                    localData += Math.Abs(Data[index]);
+                    return localData;
+                },
+                localResult =>
+                {
+                    lock (syncLock)
+                    {
+                        sum += localResult;
+                    }
+                });
 
             return sum;
         }
@@ -605,10 +617,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var sum = 0.0;
-            for (var i = 0; i < Data.Length; i++)
-            {
-                sum += Math.Pow(Math.Abs(Data[i]), p);
-            }
+            var syncLock = new object();
+           
+            Parallel.For(0, Count,
+                () => 0.0,
+                (index, localData) =>
+                {
+                    localData += Math.Pow(Math.Abs(Data[index]), p);
+                    return localData;
+                },
+                localResult =>
+                {
+                    lock (syncLock)
+                    {
+                        sum += localResult;
+                    }
+                });
 
             return Math.Pow(sum, 1.0 / p);
         }
@@ -620,10 +644,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double NormInfinity()
         {
             double max = 0;
-            for (int i = 0; i < Data.Length; i++)
-            {
-                max = Math.Max(max, Math.Abs(Data[i]));
-            }
+
+            var syncLock = new object();
+
+            Parallel.For(0, Count,
+                () => 0.0,
+                (index, localData) =>
+                {
+                    localData = Math.Max(localData, Math.Abs(Data[index]));
+                    return localData;
+                },
+                localResult =>
+                {
+                    lock (syncLock)
+                    {
+                        max = Math.Max(max, localResult);
+                    }
+                });
 
             return max;
         }
@@ -720,7 +757,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 data[i] = Double.Parse(token.Value, NumberStyles.Any, formatProvider);
 
                 token = token.Next;
-                if(token != null)
+                if (token != null)
                 {
                     token = token.Next;
                 }

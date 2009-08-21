@@ -680,11 +680,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var sum = 0.0;
-
-            foreach (var pair in GetIndexedEnumerator())
-            {
-                sum += Math.Pow(Math.Abs(pair.Value), p);
-            }
+            var syncLock = new object();
+            Parallel.ForEach(GetIndexedEnumerator(), 
+                ()=> 0.0,
+                (pair, localData) =>
+                {
+                    localData += Math.Pow(Math.Abs(pair.Value), p);
+                    return localData;
+                },
+                localResult=>
+                {
+                    lock (syncLock)
+                    {
+                        sum += localResult;
+                    }
+                } );
 
             return Math.Pow(sum, 1.0 / p);
         }
@@ -698,10 +708,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public virtual double NormInfinity()
         {
             var max = 0.0;
-            foreach (var pair in GetIndexedEnumerator())
-            {
-                max = Math.Max(max, Math.Abs(pair.Value));
-            }
+            var syncLock = new object();
+            Parallel.ForEach(GetIndexedEnumerator(),
+                () => 0.0,
+                (pair, localData) =>
+                {
+                    localData = Math.Max(localData, Math.Abs(pair.Value));
+                    return localData;
+                },
+                localResult =>
+                {
+                    lock (syncLock)
+                    {
+                        max = Math.Max(localResult, max);
+                    }
+                });
 
             return max;
         }
