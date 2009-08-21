@@ -334,7 +334,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public virtual Vector Negate()
         {
             var result = CreateVector(Count);
-            Parallel.For(0, Count, i => result[i] = -this[i]);
+
+            Parallel.ForEach(GetIndexedEnumerator(), item => result[item.Key] = -item.Value);
+
             return result;
         }
 
@@ -404,7 +406,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.For(0, Count, i => this[i] *= scalar);
+            Parallel.ForEach(GetIndexedEnumerator(), item => this[item.Key] = scalar * item.Value);
         }
 
         /// <summary>
@@ -766,10 +768,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            for (var index = 0; index < Count; index++)
-            {
-                target[index] = this[index];
-            }
+            Parallel.ForEach(GetIndexedEnumerator(), item => target[item.Key] = item.Value);
         }
 
         /// <summary>
@@ -822,10 +821,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                for (var index = 0; index < count; index++)
-                {
-                    destination[destinationOffset + index] = this[offset + index];
-                }
+               Parallel.For(0, count,
+                   index => destination[destinationOffset + index] = this[offset + index]
+                   );
             }
         }
 
