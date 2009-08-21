@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         /// <param name="body">Delegate to the task's action.</param>
         internal Task(Action body)
-            : base(false, EventResetMode.ManualReset)
+            : this()
         {
             if (body == null)
             {
@@ -55,6 +55,8 @@ namespace MathNet.Numerics.Threading
 
             _body = body;
         }
+
+        protected Task() : base(false, EventResetMode.ManualReset) { }
 
         /// <summary>
         /// Gets a value indicating whether the task has thrown one or more exceptions while executing.
@@ -67,16 +69,61 @@ namespace MathNet.Numerics.Threading
         /// <summary>
         /// Gets the exception thrown by the task, if any.
         /// </summary>
-        internal Exception Exception { get; private set; }
+        protected internal Exception Exception { get; set; }
 
         /// <summary>
         /// Run the task.
         /// </summary>
-        internal void Compute()
+        internal virtual void Compute()
         {
             try
             {
                 _body();
+            }
+            catch (Exception e)
+            {
+                Exception = e;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Internal Generic Parallel Task Handle.
+    /// </summary>
+    internal class Task<T> : Task
+    {
+        /// <summary>
+        /// Delegate to the task's action.
+        /// </summary>
+        private readonly Func<T, T> _body;
+
+        //private T _initialValue;
+
+        public T Result { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the Task class.
+        /// </summary>
+        /// <param name="intialValue">The initial value.</param>
+        /// <param name="body">Delegate to the task's action.</param>
+        internal Task(T intialValue, Func<T, T> body)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException("body");
+            }
+            Result = intialValue;
+            _body = body;
+        }
+
+        /// <summary>
+        /// Run the task.
+        /// </summary>
+        internal override void Compute()
+        {
+            try
+            {
+                Result = _body(Result);
             }
             catch (Exception e)
             {

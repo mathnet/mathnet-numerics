@@ -111,6 +111,69 @@ namespace MathNet.Numerics.Threading
         }
 
         /// <summary>
+        /// Executes a for loop in which iterations may run in parallel.
+        /// </summary>
+        /// <typeparam name="T">The type of the thread-local data.</typeparam>
+        /// <param name="fromInclusive">The start index, inclusive.</param>
+        /// <param name="toExclusive">The end index, exclusive.</param>
+        /// <param name="localInit">The function delegate that returns the initial state of the local data for each thread.</param>
+        /// <param name="body">The delegate that is invoked once per iteration.</param>
+        /// <param name="localFinally">The delegate that is invoked once per iteration.</param>
+        public static void For<T>(int fromInclusive, int toExclusive,
+            Func<T> localInit,
+            Func<int, T, T> body,
+            Action<T> localFinally)
+        {
+            var count = toExclusive - fromInclusive;
+            var tasks = new Task<T>[ThreadQueue.ThreadCount];
+            var size = count / tasks.Length;
+
+            var intial = localInit();
+
+            // partition the jobs into separate sets for each but the last worked thread
+            for (var i = 0; i < tasks.Length - 1; i++)
+            {
+                var start = fromInclusive + (i * size);
+                var stop = fromInclusive + ((i + 1) * size);
+                tasks[i] = new Task<T>(intial,
+                    localData =>
+                    {
+                        var localresult = localData;
+                        for (var j = start; j < stop; j++)
+                        {
+                            localresult = body(j, localresult);
+                        }
+                        return localresult;
+                    } );
+                ThreadQueue.Enqueue(tasks[i]);
+            }
+
+            // add another set for last worker thread
+            tasks[tasks.Length - 1] = new Task<T>(intial,
+                    localData =>
+                    {
+                        var localresult = localData;
+                        for (var i = fromInclusive + ((tasks.Length - 1) * size); i < toExclusive; i++)
+                        {
+                            localresult = body(i, localresult);
+                        }
+                        return localresult;
+                    } );
+
+            ThreadQueue.Enqueue(tasks[tasks.Length - 1]);
+            if (tasks.Length <= 0)
+            {
+                return;
+            }
+            WaitForTasksToComplete(tasks);
+            for (var i = 0; i < tasks.Length; i++)
+            {
+                localFinally(tasks[i].Result);
+            }
+            CollectExceptionsAndDisposeTasks(tasks);
+        }
+
+        /// <summary>
         /// Executes a for each operation on an IEnumerable{T} in which iterations may run in parallel.
         /// </summary>
         /// <typeparam name="T">The type of the data in the source.</typeparam>
@@ -160,7 +223,7 @@ namespace MathNet.Numerics.Threading
                     list[pos++] = enumerator.Current;
                     count++;
                 }
-               
+
                 var task = new Task(
                     () =>
                     {
@@ -180,6 +243,72 @@ namespace MathNet.Numerics.Threading
                 WaitForTasksToComplete(tasks.ToArray());
                 CollectExceptionsAndDisposeTasks(tasks);
             }
+        }
+
+        /// <summary>
+        /// Executes a for each operation on an IEnumerable<TSource> in which iterations may run in parallel.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the data in the source.</typeparam>
+        /// <typeparam name="TLocal">The type of the thread-local data.</typeparam>
+        /// <param name="source">An enumerable data source.</param>
+        /// <param name="localInit">The function delegate that returns the initial state of the local data for each thread.</param>
+        /// <param name="body">The delegate that is invoked once per iteration.</param>
+        /// <param name="localFinally">The delegate that performs a final action on the local state of each thread.</param>
+        public static void ForEach<TSource, TLocal>(IEnumerable<TSource> source, Func<TLocal> localInit, 
+            Func<TSource, TLocal, TLocal> body, Action<TLocal> localFinally)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException("body");
+            }
+
+            var enumerator = source.GetEnumerator();
+            var maxBlockSize = Control.InitialThreadBlockSize;
+            var scalingFactor = Control.BlockScalingFactor;
+            var tasks = new List<Task<TLocal>>();
+
+            var intial = localInit();
+
+            while (enumerator.MoveNext())
+            {
+                var pos = 0;
+                var list = new TSource[maxBlockSize];
+                list[pos++] = enumerator.Current;
+
+                var count = 1;
+                while (count < maxBlockSize && enumerator.MoveNext())
+                {
+                    list[pos++] = enumerator.Current;
+                    count++;
+                }
+
+                var task = new Task<TLocal>(intial,
+                    localData =>
+                    {
+                        var localresult = localData;
+                        for (var i = 0; i < pos; i++)
+                        {
+                            localresult = body(list[i], localresult);
+                        }
+                        return localresult;
+                    });
+
+                ThreadQueue.Enqueue(task);
+                tasks.Add(task);
+                maxBlockSize = Math.Min(Control.MaximumBlockSize, maxBlockSize * scalingFactor);
+            }
+
+            if (tasks.Count <= 0)
+            {
+                return;
+            }
+            var taskArray = tasks.ToArray();
+            WaitForTasksToComplete(taskArray);
+            for (var i = 0; i < taskArray.Length; i++)
+            {
+                localFinally(tasks[i].Result);
+            }
+            CollectExceptionsAndDisposeTasks(taskArray);
         }
 
         /// <summary>
@@ -233,7 +362,7 @@ namespace MathNet.Numerics.Threading
         {
             // create a job for each action
             var tasks = new Task[actions.Length];
-            for (int i = 0; i < tasks.Length; i++)
+            for (var i = 0; i < tasks.Length; i++)
             {
                 Action action = actions[i];
                 if (action == null)
