@@ -128,14 +128,15 @@ namespace MathNet.Numerics.Threading
             var tasks = new Task<T>[ThreadQueue.ThreadCount];
             var size = count / tasks.Length;
 
-            if (count <= 1)
-            {
+            if (count <= 0){
+ //           if (count <= 1)
+//            {
 //                if (count == 1)
   //              {
              //       body(fromInclusive);
     //            }
 
-      //          return;
+                return;
             }
 
             var intial = localInit();
