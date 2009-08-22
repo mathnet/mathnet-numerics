@@ -53,6 +53,7 @@
     <Compile Include="Control.cs" />
     <Compile Include="Distributions\Continuous\Beta.cs" />
     <Compile Include="Distributions\Continuous\ContinuousUniform.cs" />
+    <Compile Include="Distributions\Continuous\Weibull.cs" />
     <Compile Include="Distributions\Continuous\Gamma.cs" />
     <Compile Include="Distributions\Continuous\Normal.cs" />
     <Compile Include="Distributions\Discrete\Bernoulli.cs" />
