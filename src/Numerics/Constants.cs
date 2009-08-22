@@ -31,8 +31,6 @@ namespace MathNet.Numerics
     /// <summary>
     /// A collection of frequently used mathematical constants.
     /// </summary>
-    /// <seealso cref="SiConstants"/>
-    /// <seealso cref="SiPrefixes"/>
     public static class Constants
     {
         #region Mathematical Constants
