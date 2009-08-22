@@ -106,8 +106,6 @@
     <Compile Include="Sampling\Sample.Random.cs" />
     <Compile Include="Sampling\Sample.Chebyshev.cs" />
     <Compile Include="Sampling\Sample.Equidistant.cs" />
-    <Compile Include="SiConstants.cs" />
-    <Compile Include="SiPrefixes.cs" />
     <Compile Include="Sorting.cs" />
     <Compile Include="SpecialFunctions.cs" />
     <Compile Include="SpecialFunctions\Erf.cs" />
