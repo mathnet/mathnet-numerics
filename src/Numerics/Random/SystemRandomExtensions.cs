@@ -32,6 +32,10 @@ namespace MathNet.Numerics.Random
     using System.Collections.Generic;
     using Properties;
 
+    /// <summary>
+    /// This class implements extension methods for the System.Random class. The extension methods generate
+    /// pseudo-random distributed numbers for types other than double and int32.
+    /// </summary>
     public static class SystemRandomExtensions
     {
         /// <summary>
@@ -41,7 +45,7 @@ namespace MathNet.Numerics.Random
         /// A 64-bit signed integer greater than or equal to 0, and less than <see cref="Int64.MaxValue"/>; that is, 
         /// the range of return values includes 0 but not <paramref name="Int64.MaxValue"/>.
         /// </returns>
-        /// <seealso cref="NextFullRangeInt64()"/>
+        /// <seealso cref="NextFullRangeInt64"/>
         public static long NextInt64(this System.Random rnd)
         {
             byte[] buffer = new byte[sizeof(Int64)];
@@ -63,7 +67,7 @@ namespace MathNet.Numerics.Random
         /// A 32-bit signed integer of the full range, including 0, negative numbers,
         /// <see cref="Int32.MaxValue"/> and <see cref="Int32.MinValue"/>.
         /// </returns>
-        /// <seealso cref="Next()"/>
+        /// <seealso cref="System.Random.Next()"/>
         public static int NextFullRangeInt32(this System.Random rnd)
         {
             byte[] buffer = new byte[sizeof(Int32)];
@@ -78,7 +82,7 @@ namespace MathNet.Numerics.Random
         /// A 64-bit signed integer of the full range, including 0, negative numbers,
         /// <see cref="Int64.MaxValue"/> and <see cref="Int64.MinValue"/>.
         /// </returns>
-        /// <seealso cref="NextInt64()"/>
+        /// <seealso cref="NextInt64"/>
         public static long NextFullRangeInt64(this System.Random rnd)
         {
             byte[] buffer = new byte[sizeof(Int64)];
