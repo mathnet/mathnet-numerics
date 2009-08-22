@@ -257,7 +257,15 @@ namespace MathNet.Numerics.Distributions
             double sum = 0.0;
             for (int i = 0; i < n; i++)
             {
-                gv[i] = Gamma.Sample(rnd, alpha[i], 1.0);
+                if (alpha[i] == 0.0)
+                {
+                    gv[i] = 0.0;
+                }
+                else
+                {
+                    gv[i] = Gamma.Sample(rnd, alpha[i], 1.0);
+                }
+
                 sum += gv[i];
             }
 

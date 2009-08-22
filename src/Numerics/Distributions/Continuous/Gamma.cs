@@ -528,9 +528,10 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sampling implementation based on:
+        /// <para>Sampling implementation based on:
         /// "A Simple Method for Generating Gamma Variables" - Marsaglia &amp; Tsang
-        /// ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages 363–372.
+        /// ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages 363–372.</para>
+        /// <para>This method performs no parameter checks.</para>
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="shape">The shape of the Gamma distribution.</param>

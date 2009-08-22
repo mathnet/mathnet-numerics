@@ -165,9 +165,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        public void Sample()
+        public void CanSampleSymmetricDirichlet()
         {
             Dirichlet d = new Dirichlet(1.0, 5);
+            double[] s = d.Sample();
+        }
+
+        [Test]
+        public void CanSampleSingularDirichlet()
+        {
+            Dirichlet d = new Dirichlet(new double[] {2.0, 1.0, 0.0, 3.0});
             double[] s = d.Sample();
         }
     }
