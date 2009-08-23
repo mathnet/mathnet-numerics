@@ -32,34 +32,20 @@ namespace MathNet.Numerics.UnitTests.RandomTests
     using MathNet.Numerics.Random;
 
     [TestFixture]
-    public class SystemRandomExtensionTests
+    public class MersenneTwisterTests : RandomTests
     {
-        [Test]
-        public void CanSampleInt64()
+        public MersenneTwisterTests() : base(typeof(MersenneTwister))
         {
-            var rnd = new System.Random();
-            long l = rnd.NextInt64();
         }
 
-        [Test]
-        public void CanSampleFullRangeInt32()
+        [Test, MultipleAsserts]
+        public void SampleKnownValues()
         {
-            var rnd = new System.Random();
-            int l = rnd.NextFullRangeInt32();
-        }
-
-        [Test]
-        public void CanSampleFullRangeInt64()
-        {
-            var rnd = new System.Random();
-            long l = rnd.NextFullRangeInt64();
-        }
-
-        [Test]
-        public void CanSampleDecimal()
-        {
-            var rnd = new System.Random();
-            decimal l = rnd.NextDecimal();
+            MersenneTwister mt = new MersenneTwister(0);
+            Assert.AreEqual(mt.NextDouble(), 0.5488135024320365);
+            Assert.AreEqual(mt.NextDouble(), 0.5928446165269344);
+            Assert.AreEqual(mt.NextDouble(), 0.7151893651381110);
+            Assert.AreEqual(mt.NextDouble(), 0.8442657442866512);
         }
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Dirichlet.cs" />
+    <Compile Include="Distributions\Multivariate\Multinomial.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs" />
     <Compile Include="IntegralTransforms\HartleyOptions.cs" />
@@ -102,6 +103,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Random\AbstractRandomNumberGenerator.cs" />
+    <Compile Include="Random\MersenneTwister.cs" />
     <Compile Include="Random\SystemRandomExtensions.cs" />
     <Compile Include="Sampling\Sample.Random.cs" />
     <Compile Include="Sampling\Sample.Chebyshev.cs" />
