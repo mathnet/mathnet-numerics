@@ -122,11 +122,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _alpha = new double[alpha.Length];
-            for (int i = 0; i < alpha.Length; i++)
-            {
-                _alpha[i] = alpha[i];
-            }
+            _alpha = (double[]) alpha.Clone();
         }
 
         /// <summary>

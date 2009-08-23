@@ -54,7 +54,7 @@ namespace MathNet.Numerics.Distributions
         private Random _random;
 
         /// <summary>
-        /// Construct a new Bernoulli distribution.
+        /// Initializes a new instance of the Bernoulli class.
         /// </summary>
         /// <param name="p">The probability of generating one.</param>
         /// <exception cref="ArgumentOutOfRangeException">If the Bernoulli parameter is not in the range [0,1].</exception>
