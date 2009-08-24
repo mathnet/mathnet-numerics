@@ -282,7 +282,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             var e = ied.Take(5).ToArray();
         }
         
-        [Test, Ignore("Catastrophic cancellation in one case. Fix this.")]
+        [Test]
         [Row(1.0, 0.1, 0.0, 0.0)]
         [Row(1.0, 0.1, 1.0, 0.99995460007023751514846440848443944938976208191113)]
         [Row(1.0, 0.1, 10.0, 0.99999999999999999999999999999999999999999996279924)]

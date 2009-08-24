@@ -74,29 +74,6 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Computes the hypotenuse of a right angle triangle.
-        /// </summary>
-        /// <param name="a">The length of side a of the triangle.</param>
-        /// <param name="b">The length of side b of the triangle.</param>
-        /// <returns>Returns <code>sqrt(a<sup>2</sup> + b<sup>2</sup>)</code> without underflow/overflow.</returns>
-        public static double Hypotenuse(double a, double b)
-        {
-            if (Math.Abs(a) > Math.Abs(b))
-            {
-                double r = b / a;
-                return Math.Abs(a) * Math.Sqrt(1 + (r * r));
-            }
-
-            if (!b.AlmostZero())
-            {
-                double r = a / b;
-                return Math.Abs(b) * Math.Sqrt(1 + (r * r));
-            }
-
-            return 0d;
-        }
-
-        /// <summary>
         /// Computes the logarithm of the Gamma function. 
         /// </summary>
         /// <param name="z">The argument of the gamma function.</param>
