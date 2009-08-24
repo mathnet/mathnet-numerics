@@ -112,6 +112,7 @@
     <Compile Include="SpecialFunctions.cs" />
     <Compile Include="SpecialFunctions\Erf.cs" />
     <Compile Include="SpecialFunctions\Factorial.cs" />
+    <Compile Include="SpecialFunctions\Stability.cs" />
     <Compile Include="Statistics\DescriptiveStatistics.cs" />
     <Compile Include="Statistics\Statistics.cs" />
     <Compile Include="Threading\AggregateException.cs" />

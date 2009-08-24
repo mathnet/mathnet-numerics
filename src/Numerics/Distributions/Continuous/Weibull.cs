@@ -56,6 +56,15 @@ namespace MathNet.Numerics.Distributions
         private double _scale;
 
         /// <summary>
+        /// Reusable intermediate result 1 / (<see cref="_scale"/> ^ <see cref="_shape"/>)
+        /// </summary>
+        /// <remarks>
+        /// By caching this parameter we can get slightly better numerics precision
+        /// in certain constellations without any additional computations.
+        /// </remarks>
+        private double _scalePowShapeInv;
+
+        /// <summary>
         /// The distribution's random number generator.
         /// </summary>
         private Random _random;
@@ -111,6 +120,7 @@ namespace MathNet.Numerics.Distributions
 
             _shape = shape;
             _scale = scale;
+            _scalePowShapeInv = Math.Pow(scale, -shape);
         }
 
         /// <summary>
@@ -239,14 +249,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_shape > 1.0)
-                {
-                    return _scale * Math.Pow((_shape - 1.0) / _shape, 1.0 / _shape);
-                }
-                else
+                if (_shape <= 1.0)
                 {
                     return 0.0;
                 }
+
+                return _scale * Math.Pow((_shape - 1.0) / _shape, 1.0 / _shape);
             }
         }
 
@@ -290,10 +298,8 @@ namespace MathNet.Numerics.Distributions
                 {
                     return _shape / _scale;
                 }
-                else
-                {
-                    return _shape * Math.Pow(x / _scale, _shape - 1.0) * Math.Exp(-Math.Pow(x / _scale, _shape)) / _scale;
-                }
+
+                return _shape * Math.Pow(x / _scale, _shape - 1.0) * Math.Exp(-Math.Pow(x, _shape) * _scalePowShapeInv) / _scale;
             }
 
             return 0.0;
@@ -312,10 +318,8 @@ namespace MathNet.Numerics.Distributions
                 {
                     return Math.Log(_shape) - Math.Log(_scale);
                 }
-                else
-                {
-                    return Math.Log(_shape) + (_shape - 1.0) * Math.Log(x / _scale) - Math.Pow(x / _scale, _shape) - Math.Log(_scale);
-                }
+
+                return Math.Log(_shape) + (_shape - 1.0) * Math.Log(x / _scale) - (Math.Pow(x, _shape) * _scalePowShapeInv) - Math.Log(_scale);
             }
 
             return double.NegativeInfinity;
@@ -328,12 +332,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x >= 0.0)
+            if (x < 0.0)
             {
-                return 1.0 - Math.Exp(-Math.Pow(x / _scale, _shape));
+                return 0.0;
             }
 
-            return 0.0;
+            return -SpecialFunctions.ExponentialMinusOne(-Math.Pow(x, _shape) * _scalePowShapeInv);
         }
 
         /// <summary>
