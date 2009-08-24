@@ -1,4 +1,4 @@
-﻿// <copyright file="SpecialFunctionsTests.cs" company="Math.NET">
+// <copyright file="SpecialFunctionsTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -99,6 +99,27 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionTests
         public void DiGamma(double x, double f)
         {
             AssertHelpers.AlmostEqual(f, SpecialFunctions.DiGamma(x), 13);
+        }
+
+        [Test]
+        [Row(Double.NaN, Double.NaN)]
+        [Row(0.1, -10.423754940411076232100295314502760886768558023951363)]
+        [Row(1.0, -0.57721566490153286060651209008240243104215933593992359)]
+        [Row(1.5, 0.036489973978576520559023667001244432806840395339565888)]
+        [Row(Constants.Pi / 2, 0.10067337642740238636795561404029690452798358068944001)]
+        [Row(2.0, 0.42278433509846713939348790991759756895784066406007641)]
+        [Row(2.5, 0.70315664064524318722569033366791109947350706200623255)]
+        [Row(3.0, 0.92278433509846713939348790991759756895784066406007641)]
+        [Row(Constants.Pi, 0.97721330794200673329206948640618234364083460999432603)]
+        [Row(3.5, 1.1031566406452431872256903336679110994735070620062326)]
+        [Row(4.0, 1.2561176684318004727268212432509309022911739973934097)]
+        [Row(4.5, 1.3888709263595289015114046193821968137592213477205183)]
+        [Row(5.0, 1.5061176684318004727268212432509309022911739973934097)]
+        [Row(5.5, 1.6110931485817511237336268416044190359814435699427405)]
+        [Row(10.1, 2.2622143570941481235561593642219403924532310597356171)]
+        public void DiGammaInv(double x, double f)
+        {
+            AssertHelpers.AlmostEqual(x, SpecialFunctions.DiGammaInv(f), 13);
         }
     }
 }
