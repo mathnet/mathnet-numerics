@@ -244,6 +244,29 @@ namespace MathNet.Numerics
             return result;
         }
 
+        /// <summary>
+        /// <para>Computes the inverse Digamma function: this is the inverse of the logarithm of the gamma function. This function will
+        /// only return solutions that are positive.</para>
+        /// <para>This implementation is based on the bisection method.</para>
+        /// </summary>
+        /// <param name="p">The argument of the inverse digamma function.</param>
+        /// <returns>The positive solution to the inverse DiGamma function at <paramref name="p"/>.</returns>
+        public static double DiGammaInv(double p)
+        {
+            if (Double.IsNaN(p))
+            {
+                return Double.NaN;
+            }
+
+            double x = Math.Exp(p);
+            for (double d = 1.0; d > 1.0e-15; d /= 2.0)
+            {
+                x += d * Math.Sign(p - DiGamma(x));
+            }
+
+            return x;
+        }
+
         public static double IncompleteGamma(double x, double z, bool reg)
         {
             throw new NotImplementedException();
