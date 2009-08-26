@@ -29,6 +29,7 @@
 namespace MathNet.Numerics
 {
     using System;
+    using Properties;
 
     public partial class SpecialFunctions
     {
@@ -126,6 +127,48 @@ namespace MathNet.Numerics
             }
 
             return FactorialLn(n) - FactorialLn(k) - FactorialLn(n - k);
+        }
+
+        /// <summary>
+        /// Computes the multinomial coefficient: n choose n1, n2, n3, ...
+        /// </summary>
+        /// <param name="n">A nonnegative value n.</param>
+        /// <param name="ni">An array of nonnegative values that sum to <paramref name="n"/>.</param>
+        /// <returns>The multinomial coefficient.</returns>
+        /// <exception cref="ArgumentNullException">if <paramref name="ni"/> is <see langword="null" />.</exception>   
+        /// <exception cref="ArgumentException">If <paramref name="n"/> or any of the <paramref name="ni"/> are negative.</exception>
+        /// <exception cref="ArgumentException">If the sum of all <paramref name="ni"/> is not equal to <paramref name="n"/>.</exception>
+        public static double Multinomial(int n, int[] ni)
+        {
+            if (n < 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "n");
+            }
+            if (ni == null)
+            {
+                throw new ArgumentNullException("ni");
+            }
+
+            int sum = 0;
+            double ret = FactorialLn(n);
+            for (int i = 0; i < ni.Length; i++)
+            {
+                if (ni[i] < 0)
+                {
+                    throw new ArgumentException(Resources.ArgumentMustBePositive, "ni[" + i + "]");
+                }
+
+                ret -= FactorialLn(ni[i]);
+                sum += ni[i];
+            }
+
+            // Before returning, check that the sum of all elements was equal to n.
+            if (sum != n)
+            {
+                throw new ArgumentException(Resources.ArgumentParameterSetInvalid , "ni");
+            }
+
+            return System.Math.Floor(0.5 + System.Math.Exp(ret));
         }
     }
 }

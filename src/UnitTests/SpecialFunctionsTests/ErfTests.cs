@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.SpecialFunctionTests
+namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
 {
     using MbUnit.Framework;
     using MathNet.Numerics;
@@ -105,6 +105,30 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionTests
         public void ErfcInvCanMatchLargePrecision(double x, double f)
         {
             AssertHelpers.AlmostEqual(f, SpecialFunctions.ErfcInv(x), 8);
+        }
+
+        [Test]
+        [Row(double.NaN, double.NaN)]
+        [Row(-1.0, -0.84270079294971486934122063508260925929606699796630291)]
+        [Row(0.0, 0.0)]
+        [Row(1e-15, 0.0000000000000011283791670955126615773132947717431253912942469337536)]
+        [Row(0.1, 0.1124629160182848984047122510143040617233925185058162)]
+        [Row(0.2, 0.22270258921047846617645303120925671669511570710081967)]
+        [Row(0.3, 0.32862675945912741618961798531820303325847175931290341)]
+        [Row(0.4, 0.42839235504666847645410962730772853743532927705981257)]
+        [Row(0.5, 0.5204998778130465376827466538919645287364515757579637)]
+        [Row(1.0, 0.84270079294971486934122063508260925929606699796630291)]
+        [Row(1.5, 0.96610514647531072706697626164594785868141047925763678)]
+        [Row(2.0, 0.99532226501895273416206925636725292861089179704006008)]
+        [Row(2.5, 0.99959304798255504106043578426002508727965132259628658)]
+        [Row(3.0, 0.99997790950300141455862722387041767962015229291260075)]
+        [Row(4.0, 0.99999998458274209971998114784032651311595142785474641)]
+        [Row(5.0, 0.99999999999846254020557196514981165651461662110988195)]
+        [Row(double.PositiveInfinity, 1.0)]
+        [Row(double.NegativeInfinity, -1.0)]
+        public void ErfInv(double x, double f)
+        {
+            AssertHelpers.AlmostEqual(x, SpecialFunctions.ErfInv(f), 6);
         }
     }
 }
