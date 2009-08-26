@@ -102,5 +102,14 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             AssertHelpers.AlmostEqual(Math.Log(0), SpecialFunctions.BinomialLn(5, 7), 14);
             AssertHelpers.AlmostEqual(Math.Log(0), SpecialFunctions.BinomialLn(5, -7), 14);
         }
+
+        [Test]
+        public void CanComputeMultinomial()
+        {
+            AssertHelpers.AlmostEqual(1, SpecialFunctions.Multinomial(1, new int[] { 1, 0 }), 14);
+            AssertHelpers.AlmostEqual(10, SpecialFunctions.Multinomial(5, new int[] { 3, 2 }), 14);
+            AssertHelpers.AlmostEqual(10, SpecialFunctions.Multinomial(5, new int[] { 2, 3 }), 14);
+            AssertHelpers.AlmostEqual(35, SpecialFunctions.Multinomial(7, new int[] { 3, 4 }), 14);
+        }
     }
 }

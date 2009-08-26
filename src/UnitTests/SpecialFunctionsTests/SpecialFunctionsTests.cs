@@ -1,4 +1,4 @@
-// <copyright file="SpecialFunctionsTests.cs" company="Math.NET">
+﻿// <copyright file="SpecialFunctionsTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.SpecialFunctionTests
+namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
 {
     using System;
     using MbUnit.Framework;
@@ -103,6 +103,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionTests
 
         [Test]
         [Row(Double.NaN, Double.NaN)]
+        [Row(0.0, Double.NegativeInfinity)]
         [Row(0.1, -10.423754940411076232100295314502760886768558023951363)]
         [Row(1.0, -0.57721566490153286060651209008240243104215933593992359)]
         [Row(1.5, 0.036489973978576520559023667001244432806840395339565888)]
@@ -117,9 +118,53 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionTests
         [Row(5.0, 1.5061176684318004727268212432509309022911739973934097)]
         [Row(5.5, 1.6110931485817511237336268416044190359814435699427405)]
         [Row(10.1, 2.2622143570941481235561593642219403924532310597356171)]
+        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
         public void DiGammaInv(double x, double f)
         {
             AssertHelpers.AlmostEqual(x, SpecialFunctions.DiGammaInv(f), 13);
+        }
+
+        /// <summary>
+        /// Compute the t'th harmonic number using a loop.
+        /// </summary>
+        private double ExactHarmonic(int t)
+        {
+            double r = 0.0;
+            for (int i = 1; i <= t; i++)
+            {
+                r += 1.0 / i;
+            }
+            return r;
+        }
+
+        [Test]
+        [Row(1)]
+        [Row(2)]
+        [Row(4)]
+        [Row(8)]
+        [Row(16)]
+        [Row(100)]
+        [Row(1000)]
+        [Row(10000)]
+        [Row(100000)]
+        [Row(1000000)]
+        public void Harmonic(int i)
+        {
+            AssertHelpers.AlmostEqual(ExactHarmonic(i), SpecialFunctions.Harmonic(i), 13);
+        }
+
+        [Test]
+        public void BetaLn()
+        {
+            AssertHelpers.AlmostEqual(System.Math.Log(0.5), SpecialFunctions.BetaLn(1.0, 2.0), 14);
+            AssertHelpers.AlmostEqual(System.Math.Log(1.0), SpecialFunctions.BetaLn(1.0, 1.0), 14);
+        }
+
+        [Test]
+        public void Beta()
+        {
+            AssertHelpers.AlmostEqual(0.5, SpecialFunctions.Beta(1.0, 2.0), 14);
+            AssertHelpers.AlmostEqual(1.0, SpecialFunctions.Beta(1.0, 1.0), 14);
         }
     }
 }
