@@ -1,4 +1,4 @@
-﻿// <copyright file="MersenneTwisterTests.cs" company="Math.NET">
+﻿// <copyright file="Mrg32k3aTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -32,20 +32,10 @@ namespace MathNet.Numerics.UnitTests.RandomTests
     using MathNet.Numerics.Random;
 
     [TestFixture]
-    public class MersenneTwisterTests : RandomTests
+    public class Mrg32k3aTests : RandomTests
     {
-        public MersenneTwisterTests() : base(typeof(MersenneTwister))
+        public Mrg32k3aTests() : base(typeof (Mrg32k3a))
         {
-        }
-
-        [Test, MultipleAsserts]
-        public void SampleKnownValues()
-        {
-            MersenneTwister mt = new MersenneTwister(0);
-            Assert.AreEqual(mt.NextDouble(), 0.5488135024320365);
-            Assert.AreEqual(mt.NextDouble(), 0.5928446165269344);
-            Assert.AreEqual(mt.NextDouble(), 0.7151893651381110);
-            Assert.AreEqual(mt.NextDouble(), 0.8442657442866512);
         }
     }
 }

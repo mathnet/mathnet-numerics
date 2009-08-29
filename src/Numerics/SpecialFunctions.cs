@@ -29,6 +29,7 @@
 namespace MathNet.Numerics
 {
     using System;
+    using Properties;
 
     /// <summary>
     /// This class implements a collection of special function evaluations for double precision. This class 
@@ -66,11 +67,55 @@ namespace MathNet.Numerics
             };
 
         /// <summary>
-        /// Static Initializer for all special function routines
+        /// Initializes static members of the SpecialFunctions class.
         /// </summary>
         static SpecialFunctions()
         {
             InitializeFactorial();
+        }
+
+        /// <summary>
+        /// Computes the <paramref name="t"/>'th Harmonic number.
+        /// </summary>
+        /// <param name="t">The Harmonic number which needs to be computed.</param>
+        /// <returns>The t'th Harmonic number.</returns>
+        public static double Harmonic(int t)
+        {
+            return Constants.EulerMascheroni + DiGamma(t + 1.0);
+        }
+
+        /// <summary>
+        /// Computes the logarithm of the Euler Beta function.
+        /// </summary>
+        /// <param name="z">A positive real number.</param>
+        /// <param name="w">A positive real number.</param>
+        /// <returns>The logarithm of the Euler Beta function evaluated at z,w.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="z"/> or <paramref name="w"/> are not positive.</exception>
+        public static double BetaLn(double z, double w)
+        {
+            if (z <= 0.0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "z");
+            }
+
+            if (w <= 0.0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "w");
+            }
+
+            return GammaLn(z) + GammaLn(w) - GammaLn(z + w);
+        }
+
+        /// <summary>
+        /// Computes the Euler Beta function.
+        /// </summary>
+        /// <param name="z">The first Beta parameter, a positive real number.</param>
+        /// <param name="w">The second Beta parameter, a positive real number.</param>
+        /// <returns>The Euler Beta function evaluated at z,w.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="z"/> or <paramref name="w"/> are not positive.</exception>
+        public static double Beta(double z, double w)
+        {
+            return System.Math.Exp(BetaLn(z, w));
         }
 
         /// <summary>
@@ -235,6 +280,16 @@ namespace MathNet.Numerics
                 return Double.NaN;
             }
 
+            if (Double.IsNegativeInfinity(p))
+            {
+                return 0.0;
+            }
+
+            if (Double.IsPositiveInfinity(p))
+            {
+                return Double.PositiveInfinity;
+            }
+
             double x = Math.Exp(p);
             for (double d = 1.0; d > 1.0e-15; d /= 2.0)
             {
@@ -245,11 +300,6 @@ namespace MathNet.Numerics
         }
 
         public static double IncompleteGamma(double x, double z, bool reg)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static double BetaLn(double a, double b)
         {
             throw new NotImplementedException();
         }
