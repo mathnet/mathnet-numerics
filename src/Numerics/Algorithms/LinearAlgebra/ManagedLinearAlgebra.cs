@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Adds a scaled vector to another: <c>y += alpha*x</c>.
         /// </summary>
         /// <param name="y">The vector to update.</param>
-        /// <param name="alpha">The value to scale <param name="x"/> by.</param>
+        /// <param name="alpha">The value to scale <paramref name="x"/> by.</param>
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
         /// <remarks>This equivalent to the AXPY BLAS routine.</remarks>
         public void AddVectorToScaledVector(double[] y, double alpha, double[] x)

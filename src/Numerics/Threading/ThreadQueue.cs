@@ -176,7 +176,7 @@ namespace MathNet.Numerics.Threading
 
                 // ...and run it
                 task.Compute();
-                task.Set();
+                //task.Set();
             }
         }
 

@@ -34,7 +34,7 @@ namespace MathNet.Numerics.Threading
     /// <summary>
     /// Internal Parallel Task Handle.
     /// </summary>
-    internal class Task : EventWaitHandle
+    internal class Task
     {
         /// <summary>
         /// Delegate to the task's action.
@@ -45,8 +45,7 @@ namespace MathNet.Numerics.Threading
         /// Initializes a new instance of the Task class.
         /// </summary>
         /// <param name="body">Delegate to the task's action.</param>
-        internal Task(Action body)
-            : this()
+        public Task(Action body)
         {
             if (body == null)
             {
@@ -56,79 +55,114 @@ namespace MathNet.Numerics.Threading
             _body = body;
         }
 
-        protected Task() : base(false, EventResetMode.ManualReset) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Task"/> class.
+        /// </summary>
+        protected Task()
+        {
+        }
 
         /// <summary>
-        /// Gets a value indicating whether the task has thrown one or more exceptions while executing.
+        /// Gets a value indicating whether the task completed due to an unhandled exception.
         /// </summary>
-        internal bool ThrewException
+        /// <value>
+        ///     <c>true</c> if this task completed due to an unhandled exception; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsFaulted
         {
             get { return Exception != null; }
         }
 
         /// <summary>
-        /// Gets the exception thrown by the task, if any.
+        /// Gets a value indicating whether this task has completed.
         /// </summary>
-        protected internal Exception Exception { get; set; }
+        /// <value>
+        ///     <c>true</c> if this task has completed; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsCompleted
+        {
+            get; private set;
+        }
+
+        /// <summary>
+        /// Gets or sets the exception thrown by the task, if any.
+        /// </summary>
+        public Exception Exception { get; set; }
 
         /// <summary>
         /// Run the task.
         /// </summary>
-        internal virtual void Compute()
+        public void Compute()
         {
             try
             {
-                _body();
+                DoCompute();
+                IsCompleted = true;
             }
             catch (Exception e)
             {
                 Exception = e;
             }
+        }
+
+        /// <summary>
+        /// Runs the actual task.
+        /// </summary>
+        protected virtual void DoCompute()
+        {
+            _body();
+        }
+
+        public void Wait()
+        {
+            while(!IsCompleted && !IsFaulted)
+            {
+                Thread.Sleep(100);
+            }
+            
         }
     }
 
     /// <summary>
     /// Internal Generic Parallel Task Handle.
     /// </summary>
-    internal class Task<T> : Task
+    internal class Task<TResult> : Task
     {
         /// <summary>
         /// Delegate to the task's action.
         /// </summary>
-        private readonly Func<T, T> _body;
+        private readonly Func<object, TResult> _body;
 
-        //private T _initialValue;
-
-        public T Result { get; private set; }
+        private readonly object _state;
+        
+        /// <summary>
+        /// Gets the result of the task.
+        /// </summary>
+        /// <value>The result of the task.</value>
+        public TResult Result { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the Task class.
         /// </summary>
-        /// <param name="intialValue">The initial value.</param>
+        /// <param name="state">An object representing data to be used by the action.</param>
         /// <param name="body">Delegate to the task's action.</param>
-        internal Task(T intialValue, Func<T, T> body)
+        public Task(Func<object, TResult> body, object state)
         {
             if (body == null)
             {
                 throw new ArgumentNullException("body");
             }
-            Result = intialValue;
+
+            _state = state;
             _body = body;
         }
 
         /// <summary>
-        /// Run the task.
+        /// Runs the actual task.
         /// </summary>
-        internal override void Compute()
+        protected override void DoCompute()
         {
-            try
-            {
-                Result = _body(Result);
-            }
-            catch (Exception e)
-            {
-                Exception = e;
-            }
+            Result = _body(_state);
         }
     }
 }
