@@ -123,34 +123,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         [Test]
         [MultipleAsserts]
-        public void CanGetIndexedEnumerator()
-        {
-            var vector = CreateVector(_data);
-            var index = 0;
-
-            foreach (var pair in vector.GetIndexedEnumerator())
-            {
-                Assert.AreEqual(index, pair.Key);
-                Assert.AreEqual(++index, pair.Value);
-            }
-        }
-
-        [Test]
-        [MultipleAsserts]
-        public void CanGetIndexedEnumeratorOverRange()
-        {
-            var vector = CreateVector(_data);
-            var index = 2;
-
-            foreach (var pair in vector.GetIndexedEnumerator(2, 2))
-            {
-                Assert.AreEqual(index, pair.Key);
-                Assert.AreEqual(++index, pair.Value);
-            }
-        }
-
-        [Test]
-        [MultipleAsserts]
         public void ThrowsArgumentExceptionIfSizeIsNotPositive()
         {
             Assert.Throws<ArgumentException>(() => CreateVector(-1));

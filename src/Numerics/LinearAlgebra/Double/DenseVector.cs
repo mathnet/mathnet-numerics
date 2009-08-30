@@ -98,10 +98,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (vector == null)
             {
                 // using enumerators since they will be more efficient for copying sparse matrices
-                foreach (var item in other.GetIndexedEnumerator())
-                {
-                    Data[item.Key] = item.Value;
-                }
+             //   foreach (var item in other.GetIndexedEnumerator())
+               // {
+                 //   Data[item.Key] = item.Value;
+                // }
+                Parallel.For(0, Count, index => this[index] = other[index]);
             }
             else
             {
