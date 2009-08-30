@@ -55,7 +55,7 @@ namespace MathNet.Numerics.Threading
         /// <summary>
         /// Maximum number of jobs that can be in the queue at the same time. 
         /// </summary>
-        private const int MaximumQueueLength = 1024;
+        private const int MaximumQueueLength = 4096;
 
         /// <summary>
         /// Counting Semaphore to make the worker thread wait for jobs

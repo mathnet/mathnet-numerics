@@ -110,74 +110,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public abstract Vector CreateVector(int size);
 
-        /// <summary>
-        /// Returns an <see cref="IEnumerable{T}"/> that contains the position and value of the element.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="IEnumerable{T}"/> over this vector that contains the position and value of each
-        /// non-zero element.
-        /// </returns>
-        /// <remarks>
-        /// The enumerator returns a 
-        /// <seealso cref="KeyValuePair{T,K}"/>
-        /// with the key being the element index and the value 
-        /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
-        /// with a zero value.
-        /// </remarks>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", 
-            Justification = "Needed to support sparse vectors.")]
-        public virtual IEnumerable<KeyValuePair<int, double>> GetIndexedEnumerator()
-        {
-            for (var index = 0; index < Count; index++)
-            {
-                yield return new KeyValuePair<int, double>(index, this[index]);
-            }
-        }
-
-        /// <summary>
-        /// Returns an <see cref="IEnumerable{T}"/> over the specified elements.
-        /// </summary>
-        /// <param name="startIndex">
-        /// The element to start copying from.
-        /// </param>
-        /// <param name="length">
-        /// The number of elements to enumerate over.
-        /// </param>
-        /// <returns>
-        /// An <see cref="IEnumerable{T}"/> over a range of this vector.
-        /// </returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// If <paramref name="startIndex"/> or <paramref name="startIndex"/> + <paramref name="length"/>
-        /// is greater than the vector's length. 
-        /// </exception>
-        /// <remarks>
-        /// The enumerator returns a 
-        /// <seealso cref="KeyValuePair{T,K}"/>
-        /// with the key being the element index and the value 
-        /// being the value of the element at that index.
-        /// </remarks>
-        /// <seealso cref="KeyValuePair{T,K}"/>
-        /// <seealso cref="IEnumerable{T}"/>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", 
-            Justification = "Needed to support sparse vectors.")]
-        public virtual IEnumerable<KeyValuePair<int, double>> GetIndexedEnumerator(int startIndex, int length)
-        {
-            if (startIndex > Count)
-            {
-                throw new ArgumentOutOfRangeException("startIndex");
-            }
-
-            if (startIndex + length > Count)
-            {
-                throw new ArgumentOutOfRangeException("length");
-            }
-
-            for (var index = startIndex; index < length; index++)
-            {
-                yield return new KeyValuePair<int, double>(index, this[index]);
-            }
-        }
-
         #region Elementary operations
         /// <summary>
         /// Adds a scalar to each element of the vector.
@@ -333,11 +265,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
         public virtual Vector Negate()
         {
-            var result = CreateVector(Count);
-
-            Parallel.ForEach(GetIndexedEnumerator(), item => result[item.Key] = -item.Value);
-
-            return result;
+            return this * -1;
         }
 
         /// <summary>
@@ -406,7 +334,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.ForEach(GetIndexedEnumerator(), item => this[item.Key] = scalar * item.Value);
+            Parallel.For(0, Count, index => this[index] *= scalar);
         }
 
         /// <summary>
@@ -681,11 +609,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var sum = 0.0;
             var syncLock = new object();
-            Parallel.ForEach(GetIndexedEnumerator(), 
+            Parallel.For(0, Count, 
                 ()=> 0.0,
-                (pair, localData) =>
+                (index, localData) =>
                 {
-                    localData += Math.Pow(Math.Abs(pair.Value), p);
+                    localData += Math.Pow(Math.Abs(this[index]), p);
                     return localData;
                 },
                 localResult=>
@@ -709,11 +637,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var max = 0.0;
             var syncLock = new object();
-            Parallel.ForEach(GetIndexedEnumerator(),
+            Parallel.For(0, Count,
                 () => 0.0,
-                (pair, localData) =>
+                (index, localData) =>
                 {
-                    localData = Math.Max(localData, Math.Abs(pair.Value));
+                    localData = Math.Max(localData, Math.Abs(this[index]));
                     return localData;
                 },
                 localResult =>
@@ -788,8 +716,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return;
             }
-
-            Parallel.ForEach(GetIndexedEnumerator(), item => target[item.Key] = item.Value);
+            Parallel.For(0, Count, index => target[index] = this[index]);
         }
 
         /// <summary>
@@ -890,9 +817,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
-        /// <remarks>
-        /// For sparse vectors, <see cref="GetIndexedEnumerator()"/> will perform better.
-        /// </remarks>
         public virtual IEnumerator<double> GetEnumerator()
         {
             for (var index = 0; index < Count; index++)

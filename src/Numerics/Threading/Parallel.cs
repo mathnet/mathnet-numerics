@@ -38,6 +38,9 @@ namespace MathNet.Numerics.Threading
     /// </summary>
     internal static class Parallel
     {
+        private const int ScalingFactor = 2;
+        private const int MaxBlockSize = 65536;
+
         /// <summary>
         /// Executes a for loop in which iterations may run in parallel. 
         /// </summary>
@@ -220,7 +223,7 @@ namespace MathNet.Numerics.Threading
 
             var enumerator = source.GetEnumerator();
             var maxBlockSize = Control.InitialThreadBlockSize;
-            var scalingFactor = Control.BlockScalingFactor;
+            var scalingFactor = ScalingFactor;
             var tasks = new List<Task>();
             while (enumerator.MoveNext())
             {
@@ -246,7 +249,7 @@ namespace MathNet.Numerics.Threading
 
                 ThreadQueue.Enqueue(task);
                 tasks.Add(task);
-                maxBlockSize = Math.Min(Control.MaximumBlockSize, maxBlockSize * scalingFactor);
+                maxBlockSize = Math.Min(MaxBlockSize, maxBlockSize * scalingFactor);
             }
 
             if (tasks.Count > 0)
@@ -275,7 +278,7 @@ namespace MathNet.Numerics.Threading
 
             var enumerator = source.GetEnumerator();
             var maxBlockSize = Control.InitialThreadBlockSize;
-            var scalingFactor = Control.BlockScalingFactor;
+            var scalingFactor = ScalingFactor;
             var tasks = new List<Task<TLocal>>();
 
             var intial = localInit();
@@ -306,7 +309,7 @@ namespace MathNet.Numerics.Threading
 
                 ThreadQueue.Enqueue(task);
                 tasks.Add(task);
-                maxBlockSize = Math.Min(Control.MaximumBlockSize, maxBlockSize * scalingFactor);
+                maxBlockSize = Math.Min(MaxBlockSize, maxBlockSize * scalingFactor);
             }
 
             if (tasks.Count <= 0)
