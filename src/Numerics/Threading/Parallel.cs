@@ -146,30 +146,30 @@ namespace MathNet.Numerics.Threading
             {
                 var start = fromInclusive + (i * size);
                 var stop = fromInclusive + ((i + 1) * size);
-                tasks[i] = new Task<T>(intial,
+                tasks[i] = new Task<T>(
                     localData =>
                     {
                         var localresult = localData;
                         for (var j = start; j < stop; j++)
                         {
-                            localresult = body(j, localresult);
+                            localresult = body(j, (T)localresult);
                         }
-                        return localresult;
-                    } );
+                        return (T)localresult;
+                    }, intial );
                 ThreadQueue.Enqueue(tasks[i]);
             }
 
             // add another set for last worker thread
-            tasks[tasks.Length - 1] = new Task<T>(intial,
+            tasks[tasks.Length - 1] = new Task<T>(
                     localData =>
                     {
                         var localresult = localData;
                         for (var i = fromInclusive + ((tasks.Length - 1) * size); i < toExclusive; i++)
                         {
-                            localresult = body(i, localresult);
+                            localresult = body(i, (T)localresult);
                         }
-                        return localresult;
-                    } );
+                        return (T)localresult;
+                    }, intial );
 
             ThreadQueue.Enqueue(tasks[tasks.Length - 1]);
             if (tasks.Length <= 0)
@@ -257,7 +257,7 @@ namespace MathNet.Numerics.Threading
         }
 
         /// <summary>
-        /// Executes a for each operation on an IEnumerable<TSource> in which iterations may run in parallel.
+        /// Executes a for each operation on an IEnumerable{TSource in which iterations may run in parallel.
         /// </summary>
         /// <typeparam name="TSource">The type of the data in the source.</typeparam>
         /// <typeparam name="TLocal">The type of the thread-local data.</typeparam>
@@ -293,16 +293,16 @@ namespace MathNet.Numerics.Threading
                     count++;
                 }
 
-                var task = new Task<TLocal>(intial,
+                var task = new Task<TLocal>(
                     localData =>
                     {
                         var localresult = localData;
                         for (var i = 0; i < pos; i++)
                         {
-                            localresult = body(list[i], localresult);
+                            localresult = body(list[i], (TLocal)localresult);
                         }
-                        return localresult;
-                    });
+                        return (TLocal)localresult;
+                    }, intial);
 
                 ThreadQueue.Enqueue(task);
                 tasks.Add(task);
@@ -398,19 +398,10 @@ namespace MathNet.Numerics.Threading
         /// <param name="tasks">The tasks.</param>
         private static void WaitForTasksToComplete(Task[] tasks)
         {
-            // wait until all tasks have  been completed
-            if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
-            {
-                // not sure if this the best approach for STA
-                for (var i = 0; i < tasks.Length; i++)
-                {
-                    tasks[i].WaitOne();
-                }
-            }
-            else
-            {
-                WaitHandle.WaitAll(tasks);
-            }
+             for (var i = 0; i < tasks.Length; i++)
+             {
+                    tasks[i].Wait();
+             }
         }
 
         /// <summary>
@@ -423,13 +414,10 @@ namespace MathNet.Numerics.Threading
             var exceptions = new List<Exception>();
             foreach (var task in tasks)
             {
-                if (task.ThrewException)
+                if (task.IsFaulted)
                 {
                     exceptions.Add(task.Exception);
                 }
-
-                // this calls dispose
-                task.Close();
             }
 
             // throw the aggregated exceptions, if any
