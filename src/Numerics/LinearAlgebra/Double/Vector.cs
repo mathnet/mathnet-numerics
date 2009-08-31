@@ -609,20 +609,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var sum = 0.0;
             var syncLock = new object();
-            Parallel.For(0, Count, 
-                ()=> 0.0,
+            Parallel.For(
+                0, 
+                Count, 
+                () => 0.0,
                 (index, localData) =>
                 {
                     localData += Math.Pow(Math.Abs(this[index]), p);
                     return localData;
                 },
-                localResult=>
+                localResult =>
                 {
                     lock (syncLock)
                     {
                         sum += localResult;
                     }
-                } );
+                });
 
             return Math.Pow(sum, 1.0 / p);
         }
@@ -637,7 +639,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var max = 0.0;
             var syncLock = new object();
-            Parallel.For(0, Count,
+            Parallel.For(
+                0, 
+                Count,
                 () => 0.0,
                 (index, localData) =>
                 {
@@ -716,6 +720,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return;
             }
+
             Parallel.For(0, Count, index => target[index] = this[index]);
         }
 
@@ -769,9 +774,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-               Parallel.For(0, count,
-                   index => destination[destinationOffset + index] = this[offset + index]
-                   );
+               Parallel.For(0, count, index => destination[destinationOffset + index] = this[offset + index]);
             }
         }
 

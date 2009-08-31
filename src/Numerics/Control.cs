@@ -43,7 +43,6 @@ namespace MathNet.Numerics
             CheckDistributionParameters = true;
             ThreadSafeRandomNumberGenerators = true;
             DisableParallelization = false;
-            InitialThreadBlockSize = 2;
         }
 
         /// <summary>
@@ -76,12 +75,5 @@ namespace MathNet.Numerics
         /// Gets or sets a value indicating whether parallelization shall be disabled globally.
         /// </summary>
         public static bool DisableParallelization { get; set; }
-
-        /// <summary>
-        /// Gets or sets the initial size of a <see cref="Parallel.ForEach{T}"/>
-        /// processing block (the number of elements the first thread should process).
-        /// </summary>
-        /// <value>The initial size of the thread processing bloc.</value>
-        public static int InitialThreadBlockSize { get; set; }
     }
 }

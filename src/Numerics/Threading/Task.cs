@@ -113,56 +113,15 @@ namespace MathNet.Numerics.Threading
             _body();
         }
 
+        /// <summary>
+        /// Waits for the task to complete execution.
+        /// </summary>
         public void Wait()
         {
-            while(!IsCompleted && !IsFaulted)
+            while (!IsCompleted && !IsFaulted)
             {
                 Thread.Sleep(100);
             }
-            
-        }
-    }
-
-    /// <summary>
-    /// Internal Generic Parallel Task Handle.
-    /// </summary>
-    internal class Task<TResult> : Task
-    {
-        /// <summary>
-        /// Delegate to the task's action.
-        /// </summary>
-        private readonly Func<object, TResult> _body;
-
-        private readonly object _state;
-        
-        /// <summary>
-        /// Gets the result of the task.
-        /// </summary>
-        /// <value>The result of the task.</value>
-        public TResult Result { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of the Task class.
-        /// </summary>
-        /// <param name="state">An object representing data to be used by the action.</param>
-        /// <param name="body">Delegate to the task's action.</param>
-        public Task(Func<object, TResult> body, object state)
-        {
-            if (body == null)
-            {
-                throw new ArgumentNullException("body");
-            }
-
-            _state = state;
-            _body = body;
-        }
-
-        /// <summary>
-        /// Runs the actual task.
-        /// </summary>
-        protected override void DoCompute()
-        {
-            Result = _body(_state);
         }
     }
 }
