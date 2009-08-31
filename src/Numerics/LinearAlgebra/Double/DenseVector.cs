@@ -577,7 +577,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var sum = 0.0;
             var syncLock = new object();
             
-            Parallel.For(0, Count,
+            Parallel.For(
+                0, 
+                Count,
                 () => 0.0,
                 (index, localData) =>
                 {
@@ -620,7 +622,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var sum = 0.0;
             var syncLock = new object();
            
-            Parallel.For(0, Count,
+            Parallel.For(
+                0, 
+                Count,
                 () => 0.0,
                 (index, localData) =>
                 {
@@ -648,7 +652,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var syncLock = new object();
 
-            Parallel.For(0, Count,
+            Parallel.For(
+                0, 
+                Count,
                 () => 0.0,
                 (index, localData) =>
                 {

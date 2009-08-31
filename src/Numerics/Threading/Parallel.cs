@@ -30,16 +30,27 @@ namespace MathNet.Numerics.Threading
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using Properties;
 
     /// <summary>
-    /// Provides support for parallel loops. 
+    /// Provides support for parallel loops.
     /// </summary>
     internal static class Parallel
     {
+        /// <summary>
+        /// The amount to scale the foreach buffer after each iteration.
+        /// </summary>
         private const int ScalingFactor = 2;
+
+        /// <summary>
+        /// The maximum size of the foreach buffer.
+        /// </summary>
         private const int MaxBlockSize = 65536;
+
+        /// <summary>
+        /// The initial size of the for each buffer.
+        /// </summary>
+        private const int IntialBlockSize = 1024;
 
         /// <summary>
         /// Executes a for loop in which iterations may run in parallel. 
@@ -121,28 +132,25 @@ namespace MathNet.Numerics.Threading
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="localInit">The function delegate that returns the initial state of the local data for each thread.</param>
         /// <param name="body">The delegate that is invoked once per iteration.</param>
-        /// <param name="localFinally">The delegate that is invoked once per iteration.</param>
-        public static void For<T>(int fromInclusive, int toExclusive,
-            Func<T> localInit,
-            Func<int, T, T> body,
-            Action<T> localFinally)
+        /// <param name="localFinally">The delegate that performs a final action on the local state of each thread.</param>
+        public static void For<T>(int fromInclusive, int toExclusive, Func<T> localInit, Func<int, T, T> body, Action<T> localFinally)
         {
             var count = toExclusive - fromInclusive;
             var tasks = new Task<T>[ThreadQueue.ThreadCount];
             var size = count / tasks.Length;
 
-            if (count <= 0){
- //           if (count <= 1)
-//            {
-//                if (count == 1)
-  //              {
-             //       body(fromInclusive);
-    //            }
+            var intial = localInit();
+            
+            // fast forward execution if it's only one or none items            
+            if (count <= 1)
+            {
+                if (count == 1)
+                {
+                    localFinally(body(fromInclusive, intial));
+                }
 
                 return;
             }
-
-            var intial = localInit();
 
             // partition the jobs into separate sets for each but the last worked thread
             for (var i = 0; i < tasks.Length - 1; i++)
@@ -157,8 +165,10 @@ namespace MathNet.Numerics.Threading
                         {
                             localresult = body(j, (T)localresult);
                         }
+
                         return (T)localresult;
-                    }, intial );
+                    }, 
+                    intial);
                 ThreadQueue.Enqueue(tasks[i]);
             }
 
@@ -171,20 +181,25 @@ namespace MathNet.Numerics.Threading
                         {
                             localresult = body(i, (T)localresult);
                         }
+
                         return (T)localresult;
-                    }, intial );
+                    }, 
+                    intial);
 
             ThreadQueue.Enqueue(tasks[tasks.Length - 1]);
             if (tasks.Length <= 0)
             {
                 return;
             }
+
             WaitForTasksToComplete(tasks);
+
             for (var i = 0; i < tasks.Length; i++)
             {
                 localFinally(tasks[i].Result);
             }
-            CollectExceptionsAndDisposeTasks(tasks);
+
+            CollectExceptions(tasks);
         }
 
         /// <summary>
@@ -221,10 +236,10 @@ namespace MathNet.Numerics.Threading
                 return;
             }
 
-            var enumerator = source.GetEnumerator();
-            var maxBlockSize = Control.InitialThreadBlockSize;
-            var scalingFactor = ScalingFactor;
+            var maxBlockSize = IntialBlockSize;
             var tasks = new List<Task>();
+
+            var enumerator = source.GetEnumerator(); 
             while (enumerator.MoveNext())
             {
                 var pos = 0;
@@ -249,13 +264,13 @@ namespace MathNet.Numerics.Threading
 
                 ThreadQueue.Enqueue(task);
                 tasks.Add(task);
-                maxBlockSize = Math.Min(MaxBlockSize, maxBlockSize * scalingFactor);
+                maxBlockSize = Math.Min(MaxBlockSize, maxBlockSize * ScalingFactor);
             }
 
             if (tasks.Count > 0)
             {
                 WaitForTasksToComplete(tasks.ToArray());
-                CollectExceptionsAndDisposeTasks(tasks);
+                CollectExceptions(tasks);
             }
         }
 
@@ -268,21 +283,42 @@ namespace MathNet.Numerics.Threading
         /// <param name="localInit">The function delegate that returns the initial state of the local data for each thread.</param>
         /// <param name="body">The delegate that is invoked once per iteration.</param>
         /// <param name="localFinally">The delegate that performs a final action on the local state of each thread.</param>
-        public static void ForEach<TSource, TLocal>(IEnumerable<TSource> source, Func<TLocal> localInit, 
-            Func<TSource, TLocal, TLocal> body, Action<TLocal> localFinally)
+        public static void ForEach<TSource, TLocal>(IEnumerable<TSource> source, Func<TLocal> localInit, Func<TSource, TLocal, TLocal> body, Action<TLocal> localFinally)
         {
             if (body == null)
             {
                 throw new ArgumentNullException("body");
             }
 
-            var enumerator = source.GetEnumerator();
-            var maxBlockSize = Control.InitialThreadBlockSize;
-            var scalingFactor = ScalingFactor;
+            // fast forward execution in case parallelization is disabled
+            if (Control.DisableParallelization
+                || ThreadQueue.ThreadCount <= 1
+                || ThreadQueue.IsInWorkerThread)
+            {
+                var localResult = localInit();
+                foreach (var item in source)
+                {
+                    localResult = body(item, localResult);
+                }
+
+                localFinally(localResult);
+                return;
+            }
+
+            // source is a IList, call For instead.
+            if (source is IList<TSource>)
+            {
+                var list = (IList<TSource>)source;
+                For(0, list.Count, localInit, (i, local) => body(list[i], local), localFinally);
+                return;
+            }
+
+            var maxBlockSize = IntialBlockSize;
             var tasks = new List<Task<TLocal>>();
 
             var intial = localInit();
 
+            var enumerator = source.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 var pos = 0;
@@ -304,25 +340,30 @@ namespace MathNet.Numerics.Threading
                         {
                             localresult = body(list[i], (TLocal)localresult);
                         }
+
                         return (TLocal)localresult;
-                    }, intial);
+                    }, 
+                    intial);
 
                 ThreadQueue.Enqueue(task);
                 tasks.Add(task);
-                maxBlockSize = Math.Min(MaxBlockSize, maxBlockSize * scalingFactor);
+                maxBlockSize = Math.Min(MaxBlockSize, maxBlockSize * ScalingFactor);
             }
 
             if (tasks.Count <= 0)
             {
                 return;
             }
+            
             var taskArray = tasks.ToArray();
             WaitForTasksToComplete(taskArray);
+
             for (var i = 0; i < taskArray.Length; i++)
             {
                 localFinally(tasks[i].Result);
             }
-            CollectExceptionsAndDisposeTasks(taskArray);
+
+            CollectExceptions(taskArray);
         }
 
         /// <summary>
@@ -355,7 +396,7 @@ namespace MathNet.Numerics.Threading
                 || ThreadQueue.ThreadCount <= 1
                 || ThreadQueue.IsInWorkerThread)
             {
-                for (int i = 0; i < actions.Length; i++)
+                for (var i = 0; i < actions.Length; i++)
                 {
                     actions[i]();
                 }
@@ -392,7 +433,7 @@ namespace MathNet.Numerics.Threading
 
             WaitForTasksToComplete(tasks);
 
-            CollectExceptionsAndDisposeTasks(tasks);
+            CollectExceptions(tasks);
         }
 
         /// <summary>
@@ -401,17 +442,17 @@ namespace MathNet.Numerics.Threading
         /// <param name="tasks">The tasks.</param>
         private static void WaitForTasksToComplete(Task[] tasks)
         {
-             for (var i = 0; i < tasks.Length; i++)
-             {
-                    tasks[i].Wait();
-             }
+            for (var i = 0; i < tasks.Length; i++)
+            {
+                tasks[i].Wait();
+            }
         }
 
         /// <summary>
         /// Collects the exceptions and dispose tasks.
         /// </summary>
         /// <param name="tasks">The tasks.</param>
-        private static void CollectExceptionsAndDisposeTasks(IEnumerable<Task> tasks)
+        private static void CollectExceptions(IEnumerable<Task> tasks)
         {
             // collect all thrown exceptions and dispose the jobs
             var exceptions = new List<Exception>();

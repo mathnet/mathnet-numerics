@@ -94,7 +94,7 @@ namespace MathNet.Numerics.Threading
         /// <summary>
         /// Gets a value indicating whether the current thread is a parallelized worker thread.
         /// </summary>
-        internal static bool IsInWorkerThread
+        public static bool IsInWorkerThread
         {
             get { return _isInWorkerThread; }
         }
@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Threading
         /// Add a job to the queue.
         /// </summary>
         /// <param name="task">The job to run.</param>
-        internal static void Enqueue(Task task)
+        public static void Enqueue(Task task)
         {
             if (!_running)
             {
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.Threading
         /// Add a set of jobs to the queue.
         /// </summary>
         /// <param name="tasks">The jobs to run.</param>
-        internal static void Enqueue(IList<Task> tasks)
+        public static void Enqueue(IList<Task> tasks)
         {
             if (!_running)
             {
@@ -176,7 +176,6 @@ namespace MathNet.Numerics.Threading
 
                 // ...and run it
                 task.Compute();
-                //task.Set();
             }
         }
 
@@ -184,7 +183,7 @@ namespace MathNet.Numerics.Threading
         /// Start or restart the queue with the specified number of worker threads.
         /// </summary>
         /// <param name="numberOfThreads">Number of worker threads.</param>
-        internal static void Start(int numberOfThreads)
+        public static void Start(int numberOfThreads)
         {
             // instead of throwing an out of range exception, simply normalize
             numberOfThreads = Math.Max(1, Math.Min(1024, numberOfThreads));
@@ -209,7 +208,7 @@ namespace MathNet.Numerics.Threading
         /// <summary>
         /// Start the thread queue, if it is not already running.
         /// </summary>
-        internal static void Start()
+        public static void Start()
         {
             lock (_stateSync)
             {
@@ -237,7 +236,7 @@ namespace MathNet.Numerics.Threading
         /// <summary>
         /// Stop the thread queue, if it is running.
         /// </summary>
-        internal static void Shutdown()
+        public static void Shutdown()
         {
             lock (_stateSync)
             {
