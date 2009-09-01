@@ -160,6 +160,7 @@ namespace MathNet.Numerics.Threading
                 {
                     localresult = body(i, localresult);
                 }
+
                 localFinally(localresult);
                 return;
             }

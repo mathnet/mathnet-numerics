@@ -187,5 +187,178 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             Assert.AreEqual(1000, countSharedBetweenClosures);
         }
 
+        [Test, ApartmentState(ApartmentState.MTA)]
+        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        public void ParallelForInvokesEveryItemOnceMTAOnePerCoreWithIntialAndFinally(int count)
+        {
+            var items = new double[count];
+
+            // ensure One-Per-Core
+            ThreadQueue.Start(Environment.ProcessorCount);
+
+            var sum = 0.0;
+            for(var i = 0; i < items.Length; i++)
+            {
+                items[i] = 2;
+            }
+            var sync = new object();
+            Parallel.For(
+                0,
+                count,
+                () => 0.0,
+                (i, localData) =>localData += items[i],
+                localResult =>
+                {
+                    lock (sync)
+                    {
+                        sum += localResult;
+                    }
+                }
+                );
+            Assert.AreEqual(count * 2, sum);
+        }
+
+        [Test, ApartmentState(ApartmentState.STA)]
+        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        public void ParallelForInvokesEveryItemOnceSTAOnePerCoreWithIntialAndFinally(int count)
+        {
+            var items = new double[count];
+
+            // ensure One-Per-Core
+            ThreadQueue.Start(Environment.ProcessorCount);
+
+            var sum = 0.0;
+            for (var i = 0; i < items.Length; i++)
+            {
+                items[i] = 2;
+            }
+            var sync = new object();
+            Parallel.For(
+                0,
+                count,
+                () => 0.0,
+                (i, localData) => localData += items[i],
+                localResult =>
+                {
+                    lock (sync)
+                    {
+                        sum += localResult;
+                    }
+                }
+                );
+            Assert.AreEqual(count * 2, sum);
+        }
+
+        [Test, ApartmentState(ApartmentState.MTA)]
+        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        public void ParallelForInvokesEveryItemOnceMTATwoPerCoreWithIntialAndFinally(int count)
+        {
+            var items = new double[count];
+
+            ThreadQueue.Start(2 * Environment.ProcessorCount);
+
+            var sum = 0.0;
+            for (var i = 0; i < items.Length; i++)
+            {
+                items[i] = 2;
+            }
+            var sync = new object();
+            Parallel.For(
+                0,
+                count,
+                () => 0.0,
+                (i, localData) => localData += items[i],
+                localResult =>
+                {
+                    lock (sync)
+                    {
+                        sum += localResult;
+                    }
+                }
+                );
+            Assert.AreEqual(count * 2, sum);
+        }
+
+        [Test, ApartmentState(ApartmentState.STA)]
+        [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
+        public void ParallelForInvokesEveryItemOnceSTATwoPerCoreWithIntialAndFinally(int count)
+        {
+            var items = new double[count];
+
+            ThreadQueue.Start(2 * Environment.ProcessorCount);
+
+            var sum = 0.0;
+            for (var i = 0; i < items.Length; i++)
+            {
+                items[i] = 2;
+            }
+            var sync = new object();
+            Parallel.For(
+                0,
+                count,
+                () => 0.0,
+                (i, localData) => localData += items[i],
+                localResult =>
+                {
+                    lock (sync)
+                    {
+                        sum += localResult;
+                    }
+                }
+                );
+            Assert.AreEqual(count * 2, sum);
+        }
+
+       [Test, ApartmentState(ApartmentState.MTA)]
+        public void DoesDetectAndResolveRecursiveParallelizationWithIntialAndFinally()
+       {
+           int countSharedBetweenClosures = 0;
+
+           Assert.DoesNotThrow(
+               () =>
+               Parallel.For(
+                   0,
+                   10,
+                   () => 0.0,
+                   (j, localData) => Interlocked.Increment(ref countSharedBetweenClosures),
+                   localResult => { return; }
+                   ));
+
+           Assert.AreEqual(10, countSharedBetweenClosures);
+           countSharedBetweenClosures = 0;
+
+           Parallel.For(
+               0,
+               10,
+               i =>
+               Parallel.For(
+                   0,
+                   10,
+                   () => 0.0,
+                   (j, localData) => Interlocked.Increment(ref countSharedBetweenClosures),
+                   localResult => { return; }
+                   ));
+
+           Assert.AreEqual(100, countSharedBetweenClosures);
+           countSharedBetweenClosures = 0;
+
+           Parallel.For(
+               0,
+               10,
+               i =>
+               Parallel.For(
+                   0,
+                   10,
+                   j =>
+                   Parallel.For(
+                       0,
+                       10,
+                       () => 0.0,
+                       (k, localData) => Interlocked.Increment(ref countSharedBetweenClosures),
+                       localResult => { return; }
+                       )));
+
+           Assert.AreEqual(1000, countSharedBetweenClosures);
+       }
     }
 }
