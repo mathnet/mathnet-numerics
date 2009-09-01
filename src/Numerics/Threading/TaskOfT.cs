@@ -42,7 +42,7 @@ namespace MathNet.Numerics.Threading
         private readonly Func<object, TResult> _body;
 
         /// <summary>
-        /// Variable used to hold state information between interations.
+        /// Variable used to hold state information between iterations.
         /// </summary>
         private readonly object _state;
         
