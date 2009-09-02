@@ -342,7 +342,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
         }
 
-        [Test, Ignore("Depending on Special Functions")]
+        [Test]
         [Row(0.0, 0.0, 0.0, 0.5)]
         [Row(0.0, 0.0, 0.5, 0.5)]
         [Row(0.0, 0.0, 1.0, 1.0)]
@@ -356,7 +356,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(1.0, 1.0, 0.5, 0.5)]
         [Row(1.0, 1.0, 1.0, 1.0)]
         [Row(9.0, 1.0, 0.0, 0.0)]
-        [Row(9.0, 1.0, 0.5, 0.00195313)]
+        [Row(9.0, 1.0, 0.5, 0.001953125)]
         [Row(9.0, 1.0, 1.0, 1.0)]
         [Row(5.0, 100.0, 0.0, 0.0)]
         [Row(5.0, 100.0, 0.5, 1.0)]
@@ -376,7 +376,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateCumulativeDistribution(double a, double b, double x, double cdf)
         {
             var n = new Beta(a, b);
-            AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 15);
+            AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 13);
         }
     }
 }

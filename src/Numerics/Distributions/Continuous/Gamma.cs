@@ -462,9 +462,13 @@ namespace MathNet.Numerics.Distributions
                     return 0.0;
                 }
             }
+            else if (_shape == 0.0 && _invScale == 0.0)
+            {
+                return 0.0;
+            }
             else
             {
-                return SpecialFunctions.IncompleteGamma(_shape, x * _invScale, true);
+                return SpecialFunctions.GammaLowerRegularized(_shape, x * _invScale);
             } 
         }
 
