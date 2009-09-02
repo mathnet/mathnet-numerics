@@ -343,8 +343,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-
-            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+            else if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
             {
                 if (x == 0.5)
                 {
@@ -432,8 +431,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return Double.NegativeInfinity;
             }
-
-            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+            else if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
             {
                 if (x == 0.5)
                 {
@@ -519,7 +517,81 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.BetaRegularized(_shapeA, _shapeB, x);
+            if (x < 0.0)
+            {
+                return 0.0;
+            }
+            else if (x >= 1.0)
+            {
+                return 1.0;
+            }
+            else if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+            {
+                if (x < 0.5)
+                {
+                    return 0.0;
+                }
+                else
+                {
+                    return 1.0;
+                }
+            }
+            else if (Double.IsPositiveInfinity(_shapeA))
+            {
+                if (x < 1.0)
+                {
+                    return 0.0;
+                }
+                else
+                {
+                    return 1.0;
+                }
+            }
+            else if (Double.IsPositiveInfinity(_shapeB))
+            {
+                if (x >= 0.0)
+                {
+                    return 1.0;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+            else if (_shapeA == 0.0 && _shapeB == 0.0)
+            {
+                if (x >= 0.0 && x < 1.0)
+                {
+                    return 0.5;
+                }
+                else
+                {
+                    return 1.0;
+                }
+            }
+            else if (_shapeA == 0.0)
+            {
+                return 1.0;
+            }
+            else if (_shapeB == 0.0)
+            {
+                if (x >= 1.0)
+                {
+                    return 1.0;
+                }
+                else
+                {
+                    return 0.0;
+                }
+            }
+            else if (_shapeA == 1.0 && _shapeB == 1.0)
+            {
+                return x;
+            }
+            else
+            {
+                return SpecialFunctions.BetaRegularized(_shapeA, _shapeB, x);
+            }
         }
 
         /// <summary>

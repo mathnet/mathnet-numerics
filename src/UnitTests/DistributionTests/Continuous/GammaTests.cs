@@ -365,7 +365,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             var e = ied.Take(5).ToArray();
         }
 
-        [Test, Ignore("Depending on Special Functions")]
+        [Test]
         [Row(0.0, 0.0, 0.0, 0.0)]
         [Row(0.0, 0.0, 1.0, 0.0)]
         [Row(0.0, 0.0, 10.0, 0.0)]
@@ -387,7 +387,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateCumulativeDistribution(double shape, double invScale, double x, double cdf)
         {
             var n = new Gamma(shape, invScale);
-            AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 15);
+            AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 14);
         }
     }
 }

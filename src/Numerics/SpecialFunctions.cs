@@ -26,6 +26,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+// <contribution>
+//    Cephes Math Library, Stephen L. Moshier
+//    ALGLIB, Sergey Bochkanov
+// </contribution>
+
 namespace MathNet.Numerics
 {
     using System;
@@ -37,35 +42,6 @@ namespace MathNet.Numerics
     /// </summary>
     public static partial class SpecialFunctions
     {
-        /// <summary>
-        /// The order of the <see cref="GammaLn"/> approximation.
-        /// </summary>
-        private const int Gamma_n = 10;
-
-        /// <summary>
-        /// Auxiliary variable when evaluating the <see cref="GammaLn"/> function.
-        /// </summary>
-        private const double Gamma_r = 10.900511;
-
-        /// <summary>
-        /// Polynomial coefficients for the <see cref="GammaLn"/> approximation.
-        /// </summary>
-        private static readonly double[] Gamma_dk =
-            new[]
-            {
-                2.48574089138753565546e-5,
-                1.05142378581721974210,
-                -3.45687097222016235469,
-                4.51227709466894823700,
-                -2.98285225323576655721,
-                1.05639711577126713077,
-                -1.95428773191645869583e-1,
-                1.70970543404441224307e-2,
-                -5.71926117404305781283e-4,
-                4.63399473359905636708e-6,
-                -2.71994908488607703910e-9
-            };
-
         /// <summary>
         /// Initializes static members of the SpecialFunctions class.
         /// </summary>
@@ -87,8 +63,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Computes the logarithm of the Euler Beta function.
         /// </summary>
-        /// <param name="z">A positive real number.</param>
-        /// <param name="w">A positive real number.</param>
+        /// <param name="z">The first Beta parameter, a positive real number.</param>
+        /// <param name="w">The second Beta parameter, a positive real number.</param>
         /// <returns>The logarithm of the Euler Beta function evaluated at z,w.</returns>
         /// <exception cref="ArgumentException">If <paramref name="z"/> or <paramref name="w"/> are not positive.</exception>
         public static double BetaLn(double z, double w)
@@ -116,89 +92,6 @@ namespace MathNet.Numerics
         public static double Beta(double z, double w)
         {
             return System.Math.Exp(BetaLn(z, w));
-        }
-
-        /// <summary>
-        /// Computes the logarithm of the Gamma function. 
-        /// </summary>
-        /// <param name="z">The argument of the gamma function.</param>
-        /// <returns>The logarithm of the gamma function.</returns>
-        /// <remarks>
-        /// <para>This implementation of the computation of the gamma and logarithm of the gamma function follows the derivation in
-        ///     "An Analysis Of The Lanczos Gamma Approximation", Glendon Ralph Pugh, 2004.
-        /// We use the implementation listed on p. 116 which achieves an accuracy of 16 floating point digits. Although 16 digit accuracy
-        /// should be sufficient for double values, improving accuracy is possible (see p. 126 in Pugh).</para>
-        /// <para>Our unit tests suggest that the accuracy of the Gamma function is correct up to 14 floating point digits.</para>
-        /// </remarks>
-        public static double GammaLn(double z)
-        {
-            if (z < 0.5)
-            {
-                double s = Gamma_dk[0];
-                for (int i = 1; i <= Gamma_n; i++)
-                {
-                    s += Gamma_dk[i] / (i - z);
-                }
-
-                return Constants.LnPi
-                       - Math.Log(Math.Sin(Math.PI * z))
-                       - Math.Log(s)
-                       - Constants.LogTwoSqrtEOverPi
-                       - ((0.5 - z) * Math.Log((0.5 - z + Gamma_r) / Math.E));
-            }
-            else
-            {
-                double s = Gamma_dk[0];
-                for (int i = 1; i <= Gamma_n; i++)
-                {
-                    s += Gamma_dk[i] / (z + i - 1.0);
-                }
-
-                return Math.Log(s)
-                       + Constants.LogTwoSqrtEOverPi
-                       + ((z - 0.5) * Math.Log((z - 0.5 + Gamma_r) / Math.E));
-            }
-        }
-
-        /// <summary>
-        /// Computes the Gamma function. 
-        /// </summary>
-        /// <param name="z">The argument of the gamma function.</param>
-        /// <returns>The logarithm of the gamma function.</returns>
-        /// <remarks>
-        /// <para>
-        /// This implementation of the computation of the gamma and logarithm of the gamma function follows the derivation in
-        ///     "An Analysis Of The Lanczos Gamma Approximation", Glendon Ralph Pugh, 2004.
-        /// We use the implementation listed on p. 116 which should achieve an accuracy of 16 floating point digits. Although 16 digit accuracy
-        /// should be sufficient for double values, improving accuracy is possible (see p. 126 in Pugh).
-        /// </para>
-        /// <para>Our unit tests suggest that the accuracy of the Gamma function is correct up to 13 floating point digits.</para>
-        /// </remarks>
-        public static double Gamma(double z)
-        {
-            if (z < 0.5)
-            {
-                double s = Gamma_dk[0];
-                for (int i = 1; i <= Gamma_n; i++)
-                {
-                    s += Gamma_dk[i] / (i - z);
-                }
-
-                return Math.PI / (Math.Sin(Math.PI * z)
-                                  * s
-                                  * Constants.TwoSqrtEOverPi
-                                  * Math.Pow((0.5 - z + Gamma_r) / Math.E, 0.5 - z));
-            }
-            else
-            {
-                double s = Gamma_dk[0];
-                for (int i = 1; i <= Gamma_n; i++)
-                {
-                    s += Gamma_dk[i] / (z + i - 1.0);
-                }
-
-                return s * Constants.TwoSqrtEOverPi * Math.Pow((z - 0.5 + Gamma_r) / Math.E, z - 0.5);
-            }
         }
 
         /// <summary>
@@ -299,14 +192,122 @@ namespace MathNet.Numerics
             return x;
         }
 
-        public static double IncompleteGamma(double x, double z, bool reg)
+        /// <summary>
+        /// Returns the lower incomplete (unregularized) beta function
+        /// I_x(a,b) = int(t^(a-1)*(1-t)^(b-1),t=0..x) for real a &gt; 0, b &gt; 0, 1 &gt;= x &gt;= 0.
+        /// </summary>
+        /// <param name="a">The first Beta parameter, a positive real number.</param>
+        /// <param name="b">The second Beta parameter, a positive real number.</param>
+        /// <param name="x">The upper limit of the integral.</param>
+        /// <returns>The lower incomplete (unregularized) beta function.</returns>
+        public static double BetaIncomplete(double a, double b, double x)
         {
-            throw new NotImplementedException();
+            return BetaRegularized(a, b, x) * Beta(a, b);
         }
 
+        /// <summary>
+        /// Returns the regularized lower incomplete beta function
+        /// I_x(a,b) = 1/Beta(a,b) * int(t^(a-1)*(1-t)^(b-1),t=0..x) for real a &gt; 0, b &gt; 0, 1 &gt;= x &gt;= 0.
+        /// </summary>
+        /// <param name="a">The first Beta parameter, a positive real number.</param>
+        /// <param name="b">The second Beta parameter, a positive real number.</param>
+        /// <param name="x">The upper limit of the integral.</param>
+        /// <returns>The regularized lower incomplete beta function.</returns>
         public static double BetaRegularized(double a, double b, double x)
         {
-            throw new NotImplementedException();
+            if (a < 0.0 || b < 0.0)
+            {
+                throw new ArgumentOutOfRangeException("a,b", Properties.Resources.ArgumentNotNegative);
+            }
+
+            if (x < 0.0 || x > 1.0)
+            {
+                throw new ArgumentOutOfRangeException("x", Properties.Resources.ArgumentInIntervalXYInclusive);
+            }
+
+            double bt = (x == 0.0 || x == 1.0)
+                ? 0.0
+                : Math.Exp(GammaLn(a + b) - GammaLn(a) - GammaLn(b) + (a * Math.Log(x)) + (b * Math.Log(1.0 - x)));
+
+            bool symmetryTransformation = x >= (a + 1.0) / (a + b + 2.0);
+
+            /* Continued fraction representation */
+
+            const int MaxIterations = 100;
+            double eps = Precision.DoubleMachinePrecision;
+            double fpmin = Precision.Increment(0.0) / eps;
+
+            if (symmetryTransformation)
+            {
+                x = 1.0 - x;
+                double swap = a;
+                a = b;
+                b = swap;
+            }
+
+            double qab = a + b;
+            double qap = a + 1.0;
+            double qam = a - 1.0;
+            double c = 1.0;
+            double d = 1.0 - (qab * x / qap);
+
+            if (Math.Abs(d) < fpmin)
+            {
+                d = fpmin;
+            }
+
+            d = 1.0 / d;
+            double h = d;
+
+            for (int m = 1, m2 = 2; m <= MaxIterations; m++, m2 += 2)
+            {
+                double aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+                d = 1.0 + (aa * d);
+
+                if (Math.Abs(d) < fpmin)
+                {
+                    d = fpmin;
+                }
+
+                c = 1.0 + (aa / c);
+                if (Math.Abs(c) < fpmin)
+                {
+                    c = fpmin;
+                }
+
+                d = 1.0 / d;
+                h *= d * c;
+                aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+                d = 1.0 + (aa * d);
+
+                if (Math.Abs(d) < fpmin)
+                {
+                    d = fpmin;
+                }
+
+                c = 1.0 + (aa / c);
+
+                if (Math.Abs(c) < fpmin)
+                {
+                    c = fpmin;
+                }
+
+                d = 1.0 / d;
+                double del = d * c;
+                h *= del;
+
+                if (Math.Abs(del - 1.0) <= eps)
+                {
+                    if (symmetryTransformation)
+                    {
+                        return 1.0 - (bt * h / a);
+                    }
+
+                    return bt * h / a;
+                }
+            }
+
+            throw new ArgumentException(Properties.Resources.ArgumentTooLargeForIterationLimit, "a,b");
         }
     }
 }

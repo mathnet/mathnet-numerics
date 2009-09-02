@@ -104,6 +104,7 @@
     <Compile Include="Random\WH1982Tests.cs" />
     <Compile Include="Random\WH2006Tests.cs" />
     <Compile Include="SortingTests.cs" />
+    <Compile Include="SpecialFunctionsTests\GammaTests.cs" />
     <Compile Include="SpecialFunctionsTests\ErfTests.cs" />
     <Compile Include="SpecialFunctionsTests\FactorialTest.cs" />
     <Compile Include="SpecialFunctionsTests\SpecialFunctionsTests.cs" />
