@@ -226,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">The scalar to add.</param>
         public override void Add(double scalar)
         {
-            if (scalar.AlmostZero())
+            if (scalar == 0.0)
             {
                 return;
             }
@@ -379,7 +379,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">The scalar to subtract.</param>
         public override void Subtract(double scalar)
         {
-            if (scalar.AlmostZero())
+            if (scalar == 0.0)
             {
                 return;
             }

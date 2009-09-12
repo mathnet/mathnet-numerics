@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text;
 
     using Properties;
@@ -117,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">The scalar to add.</param>
         public virtual void Add(double scalar)
         {
-            if (scalar.AlmostZero())
+            if (scalar == 0.0)
             {
                 return;
             }
@@ -223,7 +222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">The scalar to subtract.</param>
         public virtual void Subtract(double scalar)
         {
-            if (scalar.AlmostZero())
+            if (scalar == 0.0)
             {
                 return;
             }
@@ -667,7 +666,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var norm = Norm();
             var clone = Clone();
-            if (norm.AlmostZero())
+            if (norm == 0.0)
             {
                 return clone;
             }

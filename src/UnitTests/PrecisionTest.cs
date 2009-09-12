@@ -184,6 +184,8 @@ namespace MathNet.Numerics.UnitTests
         public void CoerceZero()
         {
             Assert.AreEqual<double>(0.0, Precision.CoerceZero(0d));
+            Console.WriteLine(0.0.EpsilonOf());
+            Console.WriteLine(Precision.Increment(0.0));
             Assert.AreEqual<double>(0.0, Precision.CoerceZero(Precision.Increment(0.0)));
             Assert.AreEqual<double>(0.0, Precision.CoerceZero(Precision.Decrement(0.0)));
 
@@ -448,31 +450,6 @@ namespace MathNet.Numerics.UnitTests
 
             Assert.AreEqual<ulong>(3, Precision.NumbersBetween(-double.Epsilon, 2 * double.Epsilon));
             Assert.AreEqual<ulong>(3, Precision.NumbersBetween(double.Epsilon, -2 * double.Epsilon));
-        }
-
-        // AlmostZero
-        [Test]
-        public void AlmostZeroWithMaxNumbersBetween()
-        {
-            Assert.IsTrue(Precision.AlmostZero(0, 1));
-            Assert.IsTrue(Precision.AlmostZero(1 * double.Epsilon, 1));
-            Assert.IsTrue(Precision.AlmostZero(10 * double.Epsilon, 10));
-
-            Assert.IsFalse(Precision.AlmostZero(double.NegativeInfinity, 1));
-            Assert.IsFalse(Precision.AlmostZero(double.PositiveInfinity, 1));
-            Assert.IsFalse(Precision.AlmostZero(double.NaN, 1));
-        }
-
-        [Test]
-        public void AlmostZeroWithTolerance()
-        {
-            Assert.IsTrue(Precision.AlmostZero(0));
-            Assert.IsTrue(Precision.AlmostZero(1 * double.Epsilon, 2 * double.Epsilon));
-            Assert.IsTrue(Precision.AlmostZero(10 * double.Epsilon, 20 * double.Epsilon));
-
-            Assert.IsFalse(Precision.AlmostZero(double.NegativeInfinity, 1.0));
-            Assert.IsFalse(Precision.AlmostZero(double.PositiveInfinity, 1.0));
-            Assert.IsFalse(Precision.AlmostZero(double.NaN, 1.0));
         }
 
         [Test]

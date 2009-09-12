@@ -55,12 +55,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
             }
 
-            if (alpha.AlmostZero())
+            if (alpha == 0.0)
             {
                 return;
             }
 
-            if (alpha.AlmostEqual(1.0))
+            if (alpha == 1.0)
             {
                 Parallel.For(0, y.Length, i => y[i] += x[i]);
             }
@@ -70,12 +70,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
         }
 
+        /// <summary>
+        /// Scales an array. Can be used to scale a vector and a matrix.
+        /// </summary>
+        /// <param name="alpha">The scalar.</param>
+        /// <param name="x">The values to scale.</param>
+        /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
         public void ScaleArray(double alpha, double[] x)
         {
-            if (alpha.AlmostEqual(1.0))
+            if (alpha == 1.0)
             {
                 return;
             }
+
             Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
         }
     }
