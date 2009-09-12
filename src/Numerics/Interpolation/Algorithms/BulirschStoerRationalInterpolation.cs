@@ -141,7 +141,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             for (int i = 0; i < n; i++)
             {
                 double distance = Math.Abs(t - _points[i]);
-                if (distance.AlmostZero())
+                if (distance.AlmostEqual(0.0))
                 {
                     return _values[i];
                 }
@@ -166,7 +166,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     double ho = (_points[i] - t) * d[i] / hp;
 
                     double den = ho - c[i + 1];
-                    if (den.AlmostZero())
+                    if (den.AlmostEqual(0.0))
                     {
                         return double.NaN; // zero-div, singularity
                     }

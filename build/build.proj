@@ -47,6 +47,11 @@
     <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\src\Numerics\bin\Debug\MathNet.Numerics.dll"/>
   </Target>
   
+  <Target Name="SimpleTest" >
+ 		<Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll"/>
+    <Exec Command="$(MSBuildProjectDirectory)/../src/FSharpUnitTests/bin/Debug/FSharpUnitTests.exe" IgnoreExitCode="false" />
+  </Target>
+  
   <Target Name="BuildAndTest" DependsOnTargets="Test; Style; Gendarme"/>
   
   <Target Name="Release" DependsOnTargets="BuildDocs"></Target>

@@ -206,12 +206,12 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Gets a value indicating whether whether the <c>Complex</c> is zero.
+        /// Gets a value indicating whether the <c>Complex</c> is zero.
         /// </summary>
         /// <value><c>true</c> if this instance is zero; otherwise, <c>false</c>.</value>
         public bool IsZero
         {
-            get { return _real.AlmostZero() && _imag.AlmostZero(); }
+            get { return _real == 0.0 && _imag == 0.0; }
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is one; otherwise, <c>false</c>.</value>
         public bool IsOne
         {
-            get { return _real.AlmostEqual(1.0) && _imag.AlmostZero(); }
+            get { return _real == 1.0 && _imag == 0.0; }
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is I; otherwise, <c>false</c>.</value>
         public bool IsI
         {
-            get { return _real.AlmostZero() && _imag.AlmostEqual(1.0); }
+            get { return _real == 0.0 && _imag == 1.0; }
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace MathNet.Numerics
         /// <value><c>true</c> if this instance is a real number; otherwise, <c>false</c>.</value>
         public bool IsReal
         {
-            get { return _imag.AlmostZero(); }
+            get { return _imag == 0.0; }
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace MathNet.Numerics
         /// </value>
         public bool IsRealNonNegative
         {
-            get { return _imag.AlmostZero() && _real >= 0; }
+            get { return _imag == 0.0 && _real >= 0; }
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace MathNet.Numerics
 
                 // don't replace this with "Modulus"!
                 var mod = SpecialFunctions.Hypotenuse(_real, _imag);
-                if (mod.AlmostZero())
+                if (mod == 0.0)
                 {
                     return Zero;
                 }
@@ -438,7 +438,7 @@ namespace MathNet.Numerics
 
                 if (exponent.Real < 0)
                 {
-                    if (exponent.Imaginary.AlmostZero())
+                    if (exponent.Imaginary == 0.0)
                     {
                         return new Complex(double.PositiveInfinity, 0.0);
                     }
@@ -652,14 +652,14 @@ namespace MathNet.Numerics
 
             var ret = new StringBuilder();
 
-            if (!_real.AlmostZero())
+            if (_real != 0.0)
             {
                 ret.Append(_real.ToString(format, formatProvider));
             }
 
-            if (!_imag.AlmostZero())
+            if (_imag != 0.0)
             {
-                if (!_real.AlmostZero())
+                if (_real != 0.0)
                 {
                     if (_imag < 0)
                     {
@@ -676,7 +676,7 @@ namespace MathNet.Numerics
 
             if (ret.Length == 0)
             {
-                ret.Append((0.0).ToString(format, formatProvider));
+                ret.Append(0.0.ToString(format, formatProvider));
             }
 
             return ret.ToString();
@@ -910,7 +910,7 @@ namespace MathNet.Numerics
         /// <param name="divisor">The divisor.</param>
         public static Complex operator /(Complex dividend, double divisor)
         {
-            if (divisor.AlmostZero())
+            if (divisor == 0.0)
             {
                 return Infinity;
             }

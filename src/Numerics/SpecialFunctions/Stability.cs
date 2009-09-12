@@ -45,7 +45,7 @@ namespace MathNet.Numerics
                 return Math.Exp(power) - 1.0;
             }
 
-            if (x < Precision.DoubleMachinePrecision)
+            if (x < x.PositiveEpsilonOf())
             {
                 return x;
             }

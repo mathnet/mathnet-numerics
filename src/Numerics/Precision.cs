@@ -71,33 +71,7 @@ namespace MathNet.Numerics
         private const int SinglePrecision = 24;
 
         #endregion
-
-        #region Properties
-        /// <summary>
-        /// Gets the maximum relative precision of a double.
-        /// </summary>
-        /// <value>The maximum relative precision of a double.</value>
-        public static double DoubleMachinePrecision
-        {
-            get
-            {
-                return _doubleMachinePrecision;
-            }
-        }
-
-        /// <summary>
-        /// Gets the maximum relative precision of a single.
-        /// </summary>
-        /// <value>The maximum relative precision of a single.</value>
-        public static double SingleMachinePrecision
-        {
-            get
-            {
-                return _singleMachinePrecision;
-            }
-        }
-        #endregion
-
+ 
         #region Fields
 
         /// <summary>
@@ -123,6 +97,32 @@ namespace MathNet.Numerics
         /// <summary>Value representing 10 * 2^(-52)</summary>
         private static readonly double _defaultRelativeAccuracy = _doubleMachinePrecision * 10;
 
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Gets the maximum relative precision of a double.
+        /// </summary>
+        /// <value>The maximum relative precision of a double.</value>
+        public static double DoubleMachinePrecision
+        {
+            get
+            {
+                return _doubleMachinePrecision;
+            }
+        }
+
+        /// <summary>
+        /// Gets the maximum relative precision of a single.
+        /// </summary>
+        /// <value>The maximum relative precision of a single.</value>
+        public static double SingleMachinePrecision
+        {
+            get
+            {
+                return _singleMachinePrecision;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -440,7 +440,7 @@ namespace MathNet.Numerics
         /// Forces small numbers near zero to zero.
         /// </summary>
         /// <param name="a">The real number to coerce to zero, if it is almost zero.</param>
-        /// <returns>Zero if |<paramref name="a"/>| is smaller than 10*2^(-52) = 0.22e-14, <paramref name="a"/> otherwise.</returns>
+        /// <returns>Zero if |<paramref name="a"/>| is smaller than 2^(-53) = 1.11e-16, <paramref name="a"/> otherwise.</returns>
         public static double CoerceZero(this double a)
         {
             return CoerceZero(a, _doubleMachinePrecision);
@@ -683,65 +683,6 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// True if the given number is almost equal to zero, according to the specified absolute accuracy.
-        /// </summary>
-        /// <param name="a">The real number to check for being almost zero.</param>
-        /// <param name="maxNumbersBetween">The maximum number of floating point values between the two values. Must be 1 or larger.</param>
-        /// <returns>
-        /// True if |<paramref name="a"/>| is less than <paramref name="maxNumbersBetween"/> steps from zero, False otherwise.
-        /// </returns>
-        public static bool AlmostZero(this double a, long maxNumbersBetween)
-        {
-            if (maxNumbersBetween < 0)
-            {
-                throw new ArgumentOutOfRangeException("maxNumbersBetween");
-            }
-
-            if (double.IsNaN(a) || double.IsInfinity(a))
-            {
-                return false;
-            }
-
-            ulong realNumbersBetween = NumbersBetween(0.0, a);
-            return realNumbersBetween <= (ulong)maxNumbersBetween;
-        }
-
-        /// <summary>
-        /// True if the given number is almost equal to zero, according to the specified absolute accuracy.
-        /// </summary>
-        /// <param name="a">The real number to check for being almost zero.</param>
-        /// <param name="maximumAbsoluteError">The absolute threshold for <paramref name="a"/> to consider it as zero.</param>
-        /// <returns>
-        /// True if |<paramref name="a"/>| is smaller than <paramref name="maximumAbsoluteError"/>, False otherwise.
-        /// </returns>
-        public static bool AlmostZero(this double a, double maximumAbsoluteError)
-        {
-            if (maximumAbsoluteError < 0)
-            {
-                throw new ArgumentOutOfRangeException("maximumAbsoluteError");
-            }
-
-            if (double.IsNaN(a) || double.IsInfinity(a))
-            {
-                return false;
-            }
-
-            return Math.Abs(a) < maximumAbsoluteError;
-        }
-
-        /// <summary>
-        /// True if the given number is almost equal to zero.
-        /// </summary>
-        /// <param name="a">The real number to check for being almost zero.</param>
-        /// <returns>
-        /// True if |<paramref name="a"/>| is smaller than 10*2^(-52) = 0.22e-14, False otherwise.
-        /// </returns>
-        public static bool AlmostZero(this double a)
-        {
-            return AlmostZero(a, _doubleMachinePrecision);
-        }
-
-        /// <summary>
         /// Checks whether two real numbers are almost equal.
         /// </summary>
         /// <param name="a">The first number</param>
@@ -749,7 +690,8 @@ namespace MathNet.Numerics
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
         public static bool AlmostEqual(this double a, double b)
         {
-            return AlmostEqualWithError(a, b, a - b, _defaultRelativeAccuracy);
+            double diff = a - b;
+            return AlmostEqualWithError(a, b, diff, _defaultRelativeAccuracy);
         }
 
         /// <summary>
@@ -762,7 +704,8 @@ namespace MathNet.Numerics
         public static bool AlmostEqual<T>(this T a, T b)
             where T : IPrecisionSupport<T>
         {
-            return AlmostEqualWithError(a.Norm(), b.Norm(), a.NormOfDifference(b), _defaultRelativeAccuracy);
+            double diff = a.NormOfDifference(b);
+            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, _defaultRelativeAccuracy);
         }
 
         /// <summary>
@@ -912,7 +855,7 @@ namespace MathNet.Numerics
                 return false;
             }
 
-            if (AlmostZero(a) || AlmostZero(b))
+            if (Math.Abs(a) < _doubleMachinePrecision || Math.Abs(b) < _doubleMachinePrecision)
             {
                 return AlmostEqualWithAbsoluteError(a, b, diff, maximumError);
             }
@@ -1036,17 +979,17 @@ namespace MathNet.Numerics
             {
                 return a == b;
             }
+
+            if (Math.Abs(a) < _doubleMachinePrecision || Math.Abs(b) < _doubleMachinePrecision)
+            {
+                return AlmostEqualWithAbsoluteDecimalPlaces(a, b, decimalPlaces);
+            }
             
             // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
             // and any problems associated with that.
             if (a.Equals(b))
             {
                 return true;
-            }
-
-            if (AlmostZero(a) || AlmostZero(b))
-            {
-                return AlmostEqualWithAbsoluteDecimalPlaces(a, b, decimalPlaces);
             }
 
             return AlmostEqualWithRelativeDecimalPlaces(a, b, decimalPlaces);
@@ -1384,6 +1327,49 @@ namespace MathNet.Numerics
             // we can check the normal way to see if the first is
             // larger than the second.
             return a.CompareTo(b);
+        }
+
+        /// <summary>
+        /// Evaluates the minimum distance to the next distinguishable number near the argument value.
+        /// </summary>
+        /// <param name="value">The value used to determine the minimum distance.</param>
+        /// <returns>
+        /// Relative Epsilon (positive double or NaN).
+        /// </returns>
+        /// <remarks>Evaluates the <b>negative</b> epsilon. The more common positive epsilon is equal to two times this negative epsilon.</remarks>
+        /// <seealso cref="PositiveEpsilonOf(double)"/>
+        public static double EpsilonOf(this double value)
+        {
+            if (double.IsInfinity(value) || double.IsNaN(value))
+            {
+                return double.NaN;
+            }
+
+            long signed64 = BitConverter.DoubleToInt64Bits(value);
+            if (signed64 == 0)
+            {
+                signed64++;
+                return BitConverter.Int64BitsToDouble(signed64) - value;
+            }
+
+            if (signed64-- < 0)
+            {
+                return BitConverter.Int64BitsToDouble(signed64) - value;
+            }
+
+            return value - BitConverter.Int64BitsToDouble(signed64);
+        }
+
+        /// <summary>
+        /// Evaluates the minimum distance to the next distinguishable number near the argument value.
+        /// </summary>
+        /// <param name="value">The value used to determine the minimum distance.</param>
+        /// <returns>Relative Epsilon (positive double or NaN)</returns>
+        /// <remarks>Evaluates the <b>positive</b> epsilon. See also <see cref="EpsilonOf"/></remarks>
+        /// <seealso cref="EpsilonOf(double)"/>
+        public static double PositiveEpsilonOf(this double value)
+        {
+            return 2 * EpsilonOf(value);
         }
     }
 }

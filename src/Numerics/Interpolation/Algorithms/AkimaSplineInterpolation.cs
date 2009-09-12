@@ -156,7 +156,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             for (int i = 2; i < derivatives.Length - 2; i++)
             {
                 derivatives[i] =
-                    weights[i - 1].AlmostZero() && weights[i + 1].AlmostZero()
+                    weights[i - 1].AlmostEqual(0.0) && weights[i + 1].AlmostEqual(0.0)
                         ? (((samplePoints[i + 1] - samplePoints[i]) * differences[i - 1])
                            + ((samplePoints[i] - samplePoints[i - 1]) * differences[i]))
                           / (samplePoints[i + 1] - samplePoints[i - 1])
