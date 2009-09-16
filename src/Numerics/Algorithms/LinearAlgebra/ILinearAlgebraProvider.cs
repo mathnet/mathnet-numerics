@@ -284,8 +284,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Computes the Cholesky factorization of A.
         /// </summary>
-        /// <param name="a">A square, positive definite matrix. The matrix is overwritten with the
-        /// the Cholesky factorization On exit.</param>
+        /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
+        /// the Cholesky factorization.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         void CholeskyFactor(double[] a);
 
@@ -310,64 +310,36 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Computes the QR factorization of A.
         /// </summary>
-        /// <param name="a">On entry, it is the M by N A matrix to factor. On exit, 
-        /// the elements on and above the diagonal of the array
-        /// contain the min(M,N)-by-N upper trapezoidal matrix R (R is
-        /// upper triangular if m >= n); the elements below the diagonal,
-        /// with the array <paramref name="tau"/>, represent the orthogonal matrix Q as a
-        /// product of min(m,n) elementary reflectors. </param>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
-        /// <param name="tau">On exit, tau contains information needed by the <see cref="QRSolve(int,double[],double[],double[],double[])"/>
-        /// method.</param>
-        /// <remarks>This is equivalent to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(double[] a, double[] q, double[] tau);
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        void QRFactor(double[] r, double[] q);
 
         /// <summary>
         /// Computes the QR factorization of A.
         /// </summary>
-        /// <param name="a">On entry, it is the M by N A matrix to factor. On exit, 
-        /// the elements on and above the diagonal of the array
-        /// contain the min(M,N)-by-N upper trapezoidal matrix R (R is
-        /// upper triangular if m >= n); the elements below the diagonal,
-        /// with the array <paramref name="tau"/>, represent the orthogonal matrix Q as a
-        /// product of min(m,n) elementary reflectors. </param>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
-        /// <param name="tau">On exit, tau contains information needed by the <see cref="QRSolve(int,double[],double[],double[],double[])"/>
-        /// method.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
         /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
         /// work size value.</param>
-        /// <remarks>This is equivalent to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(double[] a, double[] q, double[] tau, double[] work);
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        void QRFactor(double[] r, double[] q, double[] work);
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="a">The matrix obtained by calling <see cref="QRFactor(double[],double[],double[])"/>.</param>
-        /// <param name="tau">The tau vector obtained by calling <see cref="QRFactor(double[],double[],double[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(double[],double[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],double[])"/>. </param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        /// <remarks>This is equivalent to the ORMQR LAPACK routine with the TRSM BLAS routine.</remarks>
-        void QRSolve(int columnsOfB, double[] a, double[] tau, double[] b, double[] x);
-
-        /// <summary>
-        /// Solves A*X=B for X using a previously QR factored matrix.
-        /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="a">The M by N</param>
-        /// <param name="tau">The tau vector obtained by calling <see cref="QRFactor(double[],double[],double[])"/>. </param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
-        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is equivalent to the ORMQR LAPACK routine with the TRSM BLAS routine.</remarks>
-        void QRSolve(int columnsOfB, double[] a, double[] tau, double[] b, double[] x, double[] work);
+        void QRSolve(int columnsOfB, double[] q, double[] r, double[] b, double[] x);
 
         /// <summary>
         /// Computes the singular value decomposition of A.
