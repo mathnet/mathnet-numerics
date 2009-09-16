@@ -27,7 +27,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// <summary>
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>
-    public interface ILinearAlgebra
+    public interface ILinearAlgebraProvider
     {
         /// <summary>
         /// Adds a scaled vector to another: <c>y += alpha*x</c>.

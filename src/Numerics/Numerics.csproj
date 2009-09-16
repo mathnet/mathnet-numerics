@@ -44,9 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\AlgorithmFactory.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebra.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebra.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Complex.cs" />
     <Compile Include="Constants.cs" />

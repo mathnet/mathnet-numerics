@@ -28,6 +28,7 @@
 
 namespace MathNet.Numerics
 {
+    using Algorithms.LinearAlgebra;
     using Threading;
 
     /// <summary>
@@ -43,6 +44,7 @@ namespace MathNet.Numerics
             CheckDistributionParameters = true;
             ThreadSafeRandomNumberGenerators = true;
             DisableParallelization = false;
+            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
         }
 
         /// <summary>
@@ -75,5 +77,14 @@ namespace MathNet.Numerics
         /// Gets or sets a value indicating whether parallelization shall be disabled globally.
         /// </summary>
         public static bool DisableParallelization { get; set; }
+
+        /// <summary>
+        /// Gets or sets the linear algebra provider.
+        /// </summary>
+        /// <value>The linear algebra provider.</value>
+        public static ILinearAlgebraProvider LinearAlgebraProvider
+        {
+            get; set;
+        }
     }
 }
