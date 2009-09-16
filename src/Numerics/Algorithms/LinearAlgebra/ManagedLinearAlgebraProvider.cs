@@ -85,5 +85,149 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
         }
+
+        #region ILinearAlgebraProvider Members
+
+        public int QueryWorkspaceBlockSize(string methodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double DotProduct(double[] x, double[] y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddArrays(double[] x, double[] y, double[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubtractArrays(double[] x, double[] y, double[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PointWiseMultiplyArrays(double[] x, double[] y, double[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double MatrixNorm(Norm norm, double[] matrix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double MatrixNorm(Norm norm, double[] matrix, double[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MatrixMultiply(double[] x, double[] y, double[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, double[] b, double beta, double[] c)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUFactor(double[] a, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUInverse(double[] a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUInverseFactored(double[] a, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUInverse(double[] a, double[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUInverseFactored(double[] a, int[] ipiv, double[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUSolve(int columnsOfB, double[] a, double[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUSolveFactored(int columnsOfB, double[] a, int ipiv, double[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUSolve(Transpose transposeA, int columnsOfB, double[] a, double[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, double[] a, int ipiv, double[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CholeskyFactor(double[] a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CholeskySolve(int columnsOfB, double[] a, double[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CholeskySolveFactored(int columnsOfB, double[] a, double[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRFactor(double[] a, double[] q, double[] tau)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRFactor(double[] a, double[] q, double[] tau, double[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRSolve(int columnsOfB, double[] a, double[] tau, double[] b, double[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRSolve(int columnsOfB, double[] a, double[] tau, double[] b, double[] x, double[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SinguarValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SinguarValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SvdSolve(double[] s, double[] u, double[] vt, double[] b, double[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
