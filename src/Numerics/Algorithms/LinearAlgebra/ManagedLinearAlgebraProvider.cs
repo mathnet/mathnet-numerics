@@ -1,4 +1,4 @@
-﻿// <copyright file="ManagedLinearAlgebra.cs" company="Math.NET">
+﻿// <copyright file="ManagedLinearAlgebraProvider.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 // Copyright (c) 2009 Math.NET
@@ -21,16 +21,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-using System;
-using MathNet.Numerics.Threading;
-
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
+    using System;
+    using Properties;
+    using Threading;
+
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
     public class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
+        #region ILinearAlgebraProvider Members
+
         /// <summary>
         /// Adds a scaled vector to another: <c>y += alpha*x</c>.
         /// </summary>
@@ -52,7 +55,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (y.Length != x.Length)
             {
-                throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             if (alpha == 0.0)
@@ -85,8 +88,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
         }
-
-        #region ILinearAlgebraProvider Members
 
         public int QueryWorkspaceBlockSize(string methodName)
         {
@@ -193,22 +194,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void QRFactor(double[] a, double[] q, double[] tau)
+        public void QRFactor(double[] r, double[] q)
         {
             throw new NotImplementedException();
         }
 
-        public void QRFactor(double[] a, double[] q, double[] tau, double[] work)
+        public void QRFactor(double[] r, double[] q, double[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolve(int columnsOfB, double[] a, double[] tau, double[] b, double[] x)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void QRSolve(int columnsOfB, double[] a, double[] tau, double[] b, double[] x, double[] work)
+        public void QRSolve(int columnsOfB, double[] q, double[] r, double[] b, double[] x)
         {
             throw new NotImplementedException();
         }
@@ -218,7 +214,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void SinguarValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work)
+        public void SingularValueDecomposition(
+            bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work)
         {
             throw new NotImplementedException();
         }
