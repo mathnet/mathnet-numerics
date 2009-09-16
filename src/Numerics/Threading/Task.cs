@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Threading
         {
             while (!IsCompleted && !IsFaulted)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(0);
             }
         }
     }

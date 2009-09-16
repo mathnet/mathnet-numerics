@@ -43,11 +43,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     public class DenseVector : Vector
     {
         /// <summary>
-        /// The linear algebra provider.
-        /// </summary>
-        private readonly ILinearAlgebra _linearAlgebra = AlgorithmFactory.LinearAlgebra;
-        
-        /// <summary>
         /// Initializes a new instance of the <see cref="DenseVector"/> class with a given size.
         /// </summary>
         /// <param name="size">
@@ -283,7 +278,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                _linearAlgebra.AddVectorToScaledVector(Data, 1.0, denseVector.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, 1.0, denseVector.Data);
             }
         }
 
@@ -436,7 +431,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                _linearAlgebra.AddVectorToScaledVector(Data, -1.0, denseVector.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0, denseVector.Data);
             }
         }
 
@@ -548,7 +543,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            _linearAlgebra.ScaleArray(scalar, Data);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
         }
 
         #region Vector Norms
