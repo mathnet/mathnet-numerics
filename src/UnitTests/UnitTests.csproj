@@ -108,6 +108,7 @@
     <Compile Include="SpecialFunctionsTests\ErfTests.cs" />
     <Compile Include="SpecialFunctionsTests\FactorialTest.cs" />
     <Compile Include="SpecialFunctionsTests\SpecialFunctionsTests.cs" />
+    <Compile Include="StatisticsTests\HistogramTests.cs" />
     <Compile Include="StatisticsTests\DescriptiveStatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatTestData.cs" />
