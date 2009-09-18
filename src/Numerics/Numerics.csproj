@@ -121,6 +121,7 @@
     <Compile Include="SpecialFunctions\Gamma.cs" />
     <Compile Include="SpecialFunctions\Stability.cs" />
     <Compile Include="Statistics\DescriptiveStatistics.cs" />
+    <Compile Include="Statistics\Histogram.cs" />
     <Compile Include="Statistics\Statistics.cs" />
     <Compile Include="Threading\AggregateException.cs" />
     <Compile Include="Threading\TaskOfT.cs" />
