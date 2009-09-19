@@ -37,6 +37,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     [TestFixture]
     public class HistogramTests
     {
+        private double[] smallDataset = { 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5 };
+
         #region BucketTests
         [Test]
         public void CanCreateEmptyBucket()
@@ -243,6 +245,42 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var h = new Histogram(new double[] { 1.0, 5.0, 10.0 }, 2);
             h.AddData(0.0);
             Assert.AreEqual(3, h[0].Count);
+        }
+
+        [Test]
+        public void SmallDatasetHistogramWithoutBounds()
+        {
+            Histogram hist = new Histogram(smallDataset, 9);
+
+            Assert.AreEqual(9, hist.BucketCount);
+
+            Console.WriteLine("{0}", hist);
+
+            for (int i = 0; i < 8; i++)
+            {
+                Console.WriteLine("{0} : {1}", i, hist[i].Count);
+                Assert.AreEqual(1.0, hist[i].Count);
+            }
+            Assert.AreEqual(2.0, hist[8].Count);
+
+            Assert.AreEqual(0.5, hist.LowerBound);
+            Assert.AreEqual(9.5.Increment(), hist.UpperBound);
+        }
+
+        [Test]
+        public void SmallDatasetHistogramWithBounds()
+        {
+            Histogram hist = new Histogram(smallDataset, 10, 0.0, 10.0);
+
+            Assert.AreEqual(10, hist.BucketCount);
+
+            for (int i = 0; i < 10; i++)
+            {
+                Assert.AreEqual(1.0, hist[i].Count);
+            }
+
+            Assert.AreEqual(0.0, hist.LowerBound);
+            Assert.AreEqual(10.0, hist.UpperBound);
         }
 
         #endregion
