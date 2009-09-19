@@ -200,7 +200,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns></returns>
         public override string ToString()
         {
-            return "[" + this.LowerBound + ";" + this.UpperBound + "]";
+            return "[" + this.LowerBound + ";" + this.UpperBound + ")";
         }
     }
     
@@ -244,14 +244,15 @@ namespace MathNet.Numerics.Statistics
             }
 
             double lower = data.Minimum();
-            double upper = data.Maximum().Increment();
+            double upper = data.Maximum();
             double width = (upper - lower) / nbuckets;
 
-            // Add buckets for each bin.
-            for (int n = 0; n < nbuckets; n++)
+            // Add buckets for each bin; the biggest bucket must be slightly larger then the maximal element.
+            for (int n = 0; n < nbuckets-1; n++)
             {
                 AddBucket(new Bucket(lower + n * width, lower + (n + 1) * width));
             }
+            AddBucket(new Bucket(lower + (nbuckets - 1) * width, upper.Increment()));
 
             AddData(data);
         }
@@ -300,7 +301,8 @@ namespace MathNet.Numerics.Statistics
             }
             else if (d > this.UpperBound)
             {
-                this[BucketCount - 1].UpperBound = d;
+                // Make the upper bound just slightly larger then the datapoint so it is contained in this bucket.
+                this[BucketCount - 1].UpperBound = d.Increment();
                 this[BucketCount - 1].Count++;
             }
             else

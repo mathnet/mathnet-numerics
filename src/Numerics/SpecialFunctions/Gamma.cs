@@ -290,9 +290,9 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException("a,x", Properties.Resources.ArgumentNotNegative);
             }
 
-            if (Precision.AlmostZero(a))
+            if (a.AlmostEqual(0.0))
             {
-                if (Precision.AlmostZero(x))
+                if (x.AlmostEqual(0.0))
                 {
                     // either 0 or 1, depending on the limit direction
                     return Double.NaN;
@@ -301,7 +301,7 @@ namespace MathNet.Numerics
                 return 1d;
             }
 
-            if (Precision.AlmostZero(x))
+            if (x.AlmostEqual(0.0))
             {
                 return 0d;
             }
