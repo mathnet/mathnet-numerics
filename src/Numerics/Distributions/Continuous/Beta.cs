@@ -36,7 +36,14 @@ namespace MathNet.Numerics.Distributions
     /// Implements the Beta distribution. For details about this distribution, see 
     /// <a href="http://en.wikipedia.org/wiki/Beta_distribution">Wikipedia - Beta distribution</a>.
     /// </summary>
-    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
+    /// <remarks>
+    /// <para>There are a few special cases for the parameterization of the Beta distribution. When both
+    /// shape parameters are positive infinity, the Beta distribution degenerates to a point distribution
+    /// at 0.5. When one of the shape parameters is positive infinity, the distribution degenerates to a point
+    /// distribution at the positive infinity. When both shape parameters are 0.0, the Beta distribution 
+    /// degenerates to a Bernoulli distribution with parameter 0.5. When one shape parameter is 0.0, the
+    /// distribution degenerates to a point distribution at the non-zero shape parameter.</para>
+    /// <para>The distribution will use the <see cref="System.Random"/> by default. 
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
@@ -217,10 +224,25 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return SpecialFunctions.BetaLn(_shapeA, _shapeB)
-                       - ((_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA))
-                       - ((_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB))
-                       + ((_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB));
+                if (Double.IsPositiveInfinity(_shapeA) || Double.IsPositiveInfinity(_shapeB))
+                {
+                    return 0.0;
+                }
+                else if (_shapeA == 0.0 && _shapeB == 0.0)
+                {
+                    return -Math.Log(0.5);
+                }
+                else if (_shapeA == 0.0 || _shapeB == 0.0)
+                {
+                    return 0.0;
+                }
+                else
+                {
+                    return SpecialFunctions.BetaLn(_shapeA, _shapeB)
+                           - ((_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA))
+                           - ((_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB))
+                           + ((_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB));
+                }
             }
         }
 

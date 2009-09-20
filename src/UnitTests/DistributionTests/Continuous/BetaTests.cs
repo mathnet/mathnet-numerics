@@ -139,10 +139,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             AssertEx.AreEqual<double>(mean, n.Mean);
         }
 
-        [Test, Ignore("Depending on Special Functions")]
-        [Row(0.0, 0.0, 0.5)]
-        [Row(0.0, 0.1, 0.1)]
-        [Row(1.0, 0.0, 1.0)]
+        [Test]
+        [Row(0.0, 0.0, 0.693147180559945309417232121458176568075500134360255)]
+        [Row(0.0, 0.1, 0.0)]
+        [Row(1.0, 0.0, 0.0)]
         [Row(1.0, 1.0, 0.0)]
         [Row(9.0, 1.0, -1.3083356884473304939016015849561625204060922267565917)]
         [Row(5.0, 100.0, -2.5201623187602743679459255108827601222133603091753153)]
@@ -153,7 +153,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateEntropy(double a, double b, double entropy)
         {
             var n = new Beta(a, b);
-            AssertEx.AreEqual<double>(entropy, n.Entropy);
+            AssertHelpers.AlmostEqual(entropy, n.Entropy, 14);
         }
 
         [Test]
