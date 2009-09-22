@@ -61,6 +61,7 @@
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
     <Compile Include="Distributions\IDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\VectorNormal.cs" />
     <Compile Include="Distributions\Multivariate\Dirichlet.cs" />
     <Compile Include="Distributions\Multivariate\Multinomial.cs" />
     <Compile Include="IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs" />

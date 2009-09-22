@@ -72,6 +72,7 @@
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
     <Compile Include="DistributionTests\Discrete\BernoulliTests.cs" />
     <Compile Include="DistributionTests\Discrete\DiscreteUniformTests.cs" />
+    <Compile Include="DistributionTests\Multivariate\VectorNormalTests.cs" />
     <Compile Include="DistributionTests\Multivariate\DirichletTests.cs" />
     <Compile Include="DistributionTests\Multivariate\MultinomialTests.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
