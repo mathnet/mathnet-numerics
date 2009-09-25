@@ -204,7 +204,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void QRSolve(int columnsOfB, double[] q, double[] r, double[] b, double[] x)
+        public void QRSolve(int columnsOfB, double[] r, double[] q, double[] b, double[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRSolve(int columnsOfB, double[] r, double[] q, double[] b, double[] x, double[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRSolveFactored(int columnsOfB, double[] q, double[] r, double[] b, double[] x)
         {
             throw new NotImplementedException();
         }
@@ -214,13 +224,22 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void SingularValueDecomposition(
-            bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work)
+        public void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolve(double[] s, double[] u, double[] vt, double[] b, double[] x)
+        public void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x, double[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SvdSolveFactored(int columnsOfB, double[] s, double[] u, double[] vt, double[] b, double[] x)
         {
             throw new NotImplementedException();
         }
