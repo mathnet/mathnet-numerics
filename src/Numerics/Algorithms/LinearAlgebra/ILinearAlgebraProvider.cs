@@ -332,6 +332,34 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         void QRFactor(double[] r, double[] q, double[] work);
 
         /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        void QRSolve(int columnsOfB, double[] r, double[] q, double[] b, double[] x);
+
+        /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
+        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        void QRSolve(int columnsOfB, double[] r, double[] q, double[] b, double[] x, double[] work);
+
+        /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
@@ -339,7 +367,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],double[])"/>. </param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void QRSolve(int columnsOfB, double[] q, double[] r, double[] b, double[] x);
+        void QRSolveFactored(int columnsOfB, double[] q, double[] r, double[] b, double[] x);
 
         /// <summary>
         /// Computes the singular value decomposition of A.
@@ -372,13 +400,40 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work);
 
         /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="s">The singular values of A in ascending value. </param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x);
+
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="s">The singular values of A in ascending value. </param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
+        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x, double[] work);
+
+        /// <summary>
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
+        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="s">The s values returned by <see cref="SinguarValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
         /// <param name="u">The left singular vectors returned by  <see cref="SinguarValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
         /// <param name="vt">The right singular  vectors returned by  <see cref="SinguarValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void SvdSolve(double[] s, double[] u, double[] vt, double[] b, double[] x);
+        void SvdSolveFactored(int columnsOfB, double[] s, double[] u, double[] vt, double[] b, double[] x);
     }
 }
