@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Complex.cs" />
