@@ -392,10 +392,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
-        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
-        /// work size value.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.
+        /// </param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work);
 
@@ -419,10 +419,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
-        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
-        /// work size value.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.
+        /// </param>
         void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x, double[] work);
 
         /// <summary>
