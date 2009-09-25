@@ -28,7 +28,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// <summary>
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>
-    public interface ILinearAlgebraProvider : ILinearAlgebraProvider<double>
+    public interface ILinearAlgebraProvider : ILinearAlgebraProvider<double>, ILinearAlgebraProvider<float>, ILinearAlgebraProvider<Complex>//, ILinearAlgebraProvider<Complex32>
     {
     }
 }
