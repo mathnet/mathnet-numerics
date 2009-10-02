@@ -50,7 +50,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             double mean = 0;
-            int m = 0;
+            ulong m = 0;
             foreach (var item in data)
             {
                 mean += (item - mean) / ++m;
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             double mean = 0;
-            int m = 0;
+            ulong m = 0;
             foreach (var item in data)
             {
                 if (item.HasValue)
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Statistics
 
             double variance = 0;
             double t = 0;
-            int j = 0;
+            ulong j = 0;
 
             IEnumerator<double> iterator = data.GetEnumerator();
             if (iterator.MoveNext())
@@ -133,7 +133,7 @@ namespace MathNet.Numerics.Statistics
 
             double variance = 0;
             double t = 0;
-            int j = 0;
+            ulong j = 0;
 
             IEnumerator<double?> iterator = data.GetEnumerator();
 
@@ -182,7 +182,7 @@ namespace MathNet.Numerics.Statistics
 
             double variance = 0;
             double t = 0;
-            int j = 0;
+            ulong j = 0;
 
             IEnumerator<double> iterator = data.GetEnumerator();
             if (iterator.MoveNext())
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.Statistics
 
             double variance = 0;
             double t = 0;
-            int j = 0;
+            ulong j = 0;
 
             IEnumerator<double?> iterator = data.GetEnumerator();
 
@@ -325,7 +325,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             double min = double.MaxValue;
-            int count = 0;
+            ulong count = 0;
             foreach (double? d in data)
             {
                 if (d.HasValue)
@@ -356,7 +356,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             double max = double.MinValue;
-            int count = 0;
+            ulong count = 0;
             foreach (double? d in data)
             {
                 if (d.HasValue)
@@ -387,7 +387,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             double min = double.MaxValue;
-            int count = 0;
+            ulong count = 0;
             foreach (double d in data)
             {
                 min = Math.Min(min, d);
@@ -415,7 +415,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             double max = double.MinValue;
-            int count = 0;
+            ulong count = 0;
             foreach (double d in data)
             {
                 max = Math.Max(max, d);
