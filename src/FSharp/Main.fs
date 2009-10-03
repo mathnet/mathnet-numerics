@@ -33,5 +33,8 @@ open MathNet.Numerics.LinearAlgebra.Double
 /// A module which implements some F# utility functions.
 module FSharp =
 
+    /// Construct a dense matrix from a list of floating point numbers.
+    let inline matrix (lst: list<list<float>>) = DenseMatrix.of_list lst :> Matrix
+
     /// Construct a dense vector from a list of floating point numbers.
     let inline vector (lst: list<float>) = DenseVector.of_list lst :> Vector
