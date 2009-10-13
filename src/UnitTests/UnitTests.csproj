@@ -67,12 +67,12 @@
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
+    <Compile Include="DistributionTests\Continuous\LogNormalTests.cs" />
     <Compile Include="DistributionTests\Continuous\WeibullTests.cs" />
     <Compile Include="DistributionTests\Continuous\GammaTests.cs" />
     <Compile Include="DistributionTests\Continuous\NormalTests.cs" />
     <Compile Include="DistributionTests\Discrete\BernoulliTests.cs" />
     <Compile Include="DistributionTests\Discrete\DiscreteUniformTests.cs" />
-    <Compile Include="DistributionTests\Multivariate\VectorNormalTests.cs" />
     <Compile Include="DistributionTests\Multivariate\DirichletTests.cs" />
     <Compile Include="DistributionTests\Multivariate\MultinomialTests.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
