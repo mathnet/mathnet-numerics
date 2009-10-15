@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DenseVector.fs" />
+    <Compile Include="DenseMatrix.fs" />
     <Compile Include="Vector.fs" />
     <Compile Include="Main.fs" />
     <Compile Include="Matrix.fs" />

@@ -41,7 +41,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [SetUp]
         public void SetupDistributions()
         {
-            dists = new IDistribution[7];
+            dists = new IDistribution[8];
 
             dists[0] = new Beta(1.0, 1.0);
             dists[1] = new ContinuousUniform(0.0, 1.0);
@@ -50,6 +50,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             dists[4] = new Bernoulli(0.6);
             dists[5] = new Weibull(1.0, 1.0);
             dists[6] = new DiscreteUniform(1, 10);
+            dists[7] = new LogNormal(1.0, 1.0);
         }
 
         [Test]
