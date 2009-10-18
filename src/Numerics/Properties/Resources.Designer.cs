@@ -502,6 +502,33 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The number of columns of a matrix must be positive..
+        /// </summary>
+        internal static string MatrixColumnsMustBePositive {
+            get {
+                return ResourceManager.GetString("MatrixColumnsMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of rows of a matrix must be positive..
+        /// </summary>
+        internal static string MatrixRowsMustBePositive {
+            get {
+                return ResourceManager.GetString("MatrixRowsMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of rows or columns of a matrix must be positive..
+        /// </summary>
+        internal static string MatrixRowsOrColumnsMustBePositive {
+            get {
+                return ResourceManager.GetString("MatrixRowsOrColumnsMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The two arguments can&apos;t be compared (maybe they are part of a partial ordering?).
         /// </summary>
         internal static string PartialOrderException {

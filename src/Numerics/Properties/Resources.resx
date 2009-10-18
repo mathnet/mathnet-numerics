@@ -273,4 +273,13 @@
   <data name="PartialOrderException" xml:space="preserve">
     <value>The two arguments can't be compared (maybe they are part of a partial ordering?)</value>
   </data>
+  <data name="MatrixColumnsMustBePositive" xml:space="preserve">
+    <value>The number of columns of a matrix must be positive.</value>
+  </data>
+  <data name="MatrixRowsMustBePositive" xml:space="preserve">
+    <value>The number of rows of a matrix must be positive.</value>
+  </data>
+  <data name="MatrixRowsOrColumnsMustBePositive" xml:space="preserve">
+    <value>The number of rows or columns of a matrix must be positive.</value>
+  </data>
 </root>

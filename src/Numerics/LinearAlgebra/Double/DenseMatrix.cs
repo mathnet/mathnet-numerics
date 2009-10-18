@@ -47,7 +47,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="order">the size of the square matrix.</param>
         /// <exception cref="ArgumentException">
-        /// If <paramref name="size"/> is less than one.
+        /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DenseMatrix(int order)
             : base(order)
@@ -91,13 +91,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseMatrix"/> class from a 2D array.
+        /// Initializes a new instance of the <see cref="DenseMatrix"/> class from a 2D array. This constructor
+        /// will allocate a completely new memory block for storing the dense matrix.
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
         public DenseMatrix(double[,] array)
             : base(array.GetLength(0), array.GetLength(1))
         {
-            throw new NotImplementedException();
+            Data = new double[array.GetLength(0) * array.GetLength(1)];
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    At(i, j, array[i,j]);
+                }
+            }
         }
 
         /// <summary>

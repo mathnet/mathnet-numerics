@@ -146,6 +146,27 @@ module SpecOps =
                     else Fail (sprintf "Expected actual to be same reference as expected %A" other))
                 (sprintf "Expected %A to have different reference than %A" x other)
 
+    let array_equal (expected: float []) (actual: float []) =
+        make (fun () ->
+            let mutable f = true
+            for i=0 to expected.Length-1 do
+                f <- f && (expected.[i] = actual.[i])
+            if f
+                then Pass
+                else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
+            (sprintf "NOT Expected: %A\nActual: %A" expected actual)
+
+    let array2_equal (expected: float [,]) (actual: float [,]) =
+        make (fun () ->
+            let mutable f = true
+            for i=0 to expected.GetLength(0)-1 do
+                for j=0 to expected.GetLength(1)-1 do
+                    f <- f && (expected.[i,j] = actual.[i,j])
+            if f
+                then Pass
+                else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
+            (sprintf "NOT Expected: %A\nActual: %A" expected actual)
+
     let approximately_equal (places : int) (expected: float) (actual: float) =
         make (fun () ->
             if Precision.AlmostEqualInDecimalPlaces(actual, expected, places)
@@ -157,7 +178,7 @@ module SpecOps =
         make (fun () ->
             let mutable f = true
             for i=0 to expected.Count-1 do
-              f <- f && Precision.AlmostEqualInDecimalPlaces(expected.[i], actual.[i], places)
+                f <- f && Precision.AlmostEqualInDecimalPlaces(expected.[i], actual.[i], places)
             if f
                 then Pass
                 else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
