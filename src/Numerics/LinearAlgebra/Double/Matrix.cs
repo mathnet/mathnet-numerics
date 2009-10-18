@@ -50,6 +50,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         protected Matrix(int rows, int columns)
         {
+            if (rows <= 0)
+            {
+                throw new ArgumentOutOfRangeException(Resources.MatrixRowsMustBePositive);
+            }
+
+            if (columns <= 0)
+            {
+                throw new ArgumentOutOfRangeException(Resources.MatrixColumnsMustBePositive);
+            }
+
             RowCount = rows;
             ColumnCount = columns;
         }
@@ -62,6 +72,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         protected Matrix(int order)
         {
+            if (order <= 0)
+            {
+                throw new ArgumentOutOfRangeException(Resources.MatrixRowsOrColumnsMustBePositive);
+            }
+
             RowCount = order;
             ColumnCount = order;
         }
@@ -175,16 +190,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException("target", Resources.ArgumentMatrixSameDimensions);
             }
 
-            throw new NotImplementedException();
-
-            /*
-            foreach (KeyValuePair<int, Vector> column in GetColumnEnumerator())
+            var denseMatrix = target as DenseMatrix;
+            if (denseMatrix != null)
             {
-                foreach (KeyValuePair<int, double> element in column.Value.GetIndexedEnumerator())
+                // TODO this assumes that all entries matter; if "this" is a sparse matrix,
+                // we might be able to optimize the copying a bit.
+                for (int i = 0; i < RowCount; i++)
                 {
-                    target.ValueAt(element.Key, column.Key, element.Value);
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        denseMatrix.At(i, j, this.At(i, j));
+                    }
                 }
-            }*/
+
+                return;
+            }
         }
 
         /// <summary>

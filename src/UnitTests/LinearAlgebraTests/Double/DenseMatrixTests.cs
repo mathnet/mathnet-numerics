@@ -29,7 +29,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var matrix = new DenseMatrix(testData[name]);
             for (var i = 0; i < testData[name].GetLength(0); i++)
             {
-                for (var j = 0; j < testData[name].GetLength(0); j++)
+                for (var j = 0; j < testData[name].GetLength(1); j++)
                 {
                     Assert.AreEqual(testData[name][i,j], matrix[i,j]);
                 }

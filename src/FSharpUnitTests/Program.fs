@@ -36,7 +36,7 @@ let VectorTests =
     
     specs "Vector" [
         spec "Vector.to_array"
-            (Vector.to_array smallv |> should equal [|0.3;0.3;0.3;0.3;0.3|])
+            (Vector.to_array smallv |> should array_equal [|0.3;0.3;0.3;0.3;0.3|])
         spec "Vector.to_list"
             (Vector.to_list smallv |> should equal [0.3;0.3;0.3;0.3;0.3])
         spec "Vector.mapInPlace"
@@ -97,7 +97,7 @@ let MatrixTests =
         spec "Matrix.foldi"
             (Matrix.foldi (fun i j acc x -> acc + x + float (i+j)) 0.0 smallM |> should equal 5.2)
         spec "Matrix.toArray2"
-            (Matrix.toArray2 smallM |> should equal (Array2D.create 2 2 0.3))
+            (Matrix.toArray2 smallM |> should array2_equal (Array2D.create 2 2 0.3))
         spec "Matrix.forall"
             (Matrix.forall (fun x -> x = 0.3) smallM |> should equal true)
         spec "Matrix.exists"

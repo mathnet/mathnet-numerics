@@ -17,12 +17,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [SetUp]
         public void SetupDistributions()
         {
+            testData = new Dictionary<string, double[,]>();
             testData.Add("Singular3x3", new double[,] { { 1, 1, 2 }, { 1, 1, 2 }, { 1, 1, 2 } });
             testData.Add("Square3x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } });
             testData.Add("Square4x4", new double[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0, 1.1, 2.2, 3.3 }, { -4.4, 5.5, 6.6, -7.7 } });
             testData.Add("Tall3x2", new double[,] { { -1.1, -2.2 }, { 0, 1.1 }, { -4.4, 5.5 } });
             testData.Add("Wide2x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 } });
 
+            testMatrices = new Dictionary<string, Matrix>();
             foreach(var name in testData.Keys)
             {
                 testMatrices.Add(name, CreateMatrix(testData[name]));
@@ -46,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(matrix.ColumnCount, clone.ColumnCount);
             for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (var j = 0; j < matrix.RowCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i,j], clone[i,j]);
                 }
@@ -70,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(matrix.ColumnCount, clone.ColumnCount);
             for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (var j = 0; j < matrix.RowCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j], clone[i, j]);
                 }
@@ -112,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         [Row(0, 2)]
         [Row(-1, 1)]
-        [ExpectedArgumentException]
+        [ExpectedArgumentOutOfRangeException]
         public void ThrowsArgumentExceptionIfSizeIsNotPositive(int rows, int columns)
         {
             var A = CreateMatrix(rows, columns);
