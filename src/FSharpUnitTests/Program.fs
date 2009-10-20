@@ -14,10 +14,10 @@ let DenseVectorTests =
     specs "DenseVector" [
         spec "DenseVector.init"
             (DenseVector.init 100 (fun i -> float i / 100.0) |> should equal largev)
-        spec "DenseVector.of_list"
-            (DenseVector.of_list [ for i in 0 .. 99 -> float i / 100.0 ] |> should equal largev)
-        spec "DenseVector.of_seq"
-            (DenseVector.of_seq (seq { for i in 0 .. 99 -> float i / 100.0 }) |> should equal largev)
+        spec "DenseVector.ofList"
+            (DenseVector.ofList [ for i in 0 .. 99 -> float i / 100.0 ] |> should equal largev)
+        spec "DenseVector.ofSeq"
+            (DenseVector.ofSeq (seq { for i in 0 .. 99 -> float i / 100.0 }) |> should equal largev)
         spec "DenseVector.rangef"
             (DenseVector.rangef 0.0 0.01 0.99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> 0.01 * float i |] ) ))
         spec "DenseVector.range"
@@ -35,10 +35,10 @@ let VectorTests =
     let largev = new DenseVector( Array.init 100 (fun i -> float i / 100.0) ) :> Vector
     
     specs "Vector" [
-        spec "Vector.to_array"
-            (Vector.to_array smallv |> should array_equal [|0.3;0.3;0.3;0.3;0.3|])
-        spec "Vector.to_list"
-            (Vector.to_list smallv |> should equal [0.3;0.3;0.3;0.3;0.3])
+        spec "Vector.toArray"
+            (Vector.toArray smallv |> should array_equal [|0.3;0.3;0.3;0.3;0.3|])
+        spec "Vector.toList"
+            (Vector.toList smallv |> should equal [0.3;0.3;0.3;0.3;0.3])
         spec "Vector.mapInPlace"
             ( let w = smallv.Clone()
               Vector.mapInPlace (fun x -> 2.0 * x) w
@@ -127,9 +127,9 @@ let MatrixTests =
         spec "Matrix.foldRow"
             (Matrix.foldRow (+) 0.0 largeM 0 |> should equal 4950.0)
         spec "Matrix.foldByCol"
-            (Matrix.foldByCol (+) 0.0 smallM |> should equal (DenseVector.of_list [0.6;0.6] :> Vector))
+            (Matrix.foldByCol (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector))
         spec "Matrix.foldByRow"
-            (Matrix.foldByRow (+) 0.0 smallM |> should equal (DenseVector.of_list [0.6;0.6] :> Vector))
+            (Matrix.foldByRow (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector))
     ]
 
 
@@ -147,14 +147,14 @@ let DenseMatrixTests =
             (DenseMatrix.init 100 100 (fun i j -> float i * 100.0 + float j) |> should equal largeM)
         spec "DenseMatrix.identity"
             (DenseMatrix.identity 10 |> should equal (DenseMatrix.init 10 10 (fun i j -> if i = j then 1.0 else 0.0)))
-        spec "DenseMatrix.of_list"
-            (DenseMatrix.of_list [[0.3;0.3];[0.3;0.3]] |> should equal smallM)
-        spec "DenseMatrix.of_seq"
-            (DenseMatrix.of_seq (Seq.of_list [[0.3;0.3];[0.3;0.3]]) |> should equal smallM)
-        spec "DenseMatrix.of_array2"
-            (DenseMatrix.of_array2 (Array2D.create 2 2 0.3) |> should equal smallM)
-        spec "DenseMatrix.init_dense"
-            (DenseMatrix.init_dense 100 100 (seq { for i in 0 .. 99 do
+        spec "DenseMatrix.ofList"
+            (DenseMatrix.ofList [[0.3;0.3];[0.3;0.3]] |> should equal smallM)
+        spec "DenseMatrix.ofSeq"
+            (DenseMatrix.ofSeq (Seq.ofList [[0.3;0.3];[0.3;0.3]]) |> should equal smallM)
+        spec "DenseMatrix.ofArray2"
+            (DenseMatrix.ofArray2 (Array2D.create 2 2 0.3) |> should equal smallM)
+        spec "DenseMatrix.initDense"
+            (DenseMatrix.initDense 100 100 (seq { for i in 0 .. 99 do
                                                    for j in 0 .. 99 -> (i,j, float i * 100.0 + float j)}) |> should equal largeM)
         (*spec "DenseMatrix.constDiag"
             (DenseMatrix.constDiag 100 2.0 |> should equal (2.0 * (DenseMatrix.identity 100)))

@@ -8,7 +8,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     public abstract partial class MatrixTests
     {
-        protected Dictionary<string, double[,]> testData;
+        protected Dictionary<string, double[,]> testData2D;
         protected Dictionary<string, Matrix> testMatrices;
 
         protected abstract Matrix CreateMatrix(int rows, int columns);
@@ -17,17 +17,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [SetUp]
         public void SetupDistributions()
         {
-            testData = new Dictionary<string, double[,]>();
-            testData.Add("Singular3x3", new double[,] { { 1, 1, 2 }, { 1, 1, 2 }, { 1, 1, 2 } });
-            testData.Add("Square3x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } });
-            testData.Add("Square4x4", new double[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0, 1.1, 2.2, 3.3 }, { -4.4, 5.5, 6.6, -7.7 } });
-            testData.Add("Tall3x2", new double[,] { { -1.1, -2.2 }, { 0, 1.1 }, { -4.4, 5.5 } });
-            testData.Add("Wide2x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 } });
+            testData2D = new Dictionary<string, double[,]>();
+            testData2D.Add("Singular3x3", new double[,] { { 1, 1, 2 }, { 1, 1, 2 }, { 1, 1, 2 } });
+            testData2D.Add("Square3x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } });
+            testData2D.Add("Square4x4", new double[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } });
+            testData2D.Add("Tall3x2", new double[,] { { -1.1, -2.2 }, { 0, 1.1 }, { -4.4, 5.5 } });
+            testData2D.Add("Wide2x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 } });
 
             testMatrices = new Dictionary<string, Matrix>();
-            foreach(var name in testData.Keys)
+            foreach(var name in testData2D.Keys)
             {
-                testMatrices.Add(name, CreateMatrix(testData[name]));
+                testMatrices.Add(name, CreateMatrix(testData2D[name]));
             }
         }
 
@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCloneMatrix(string name)
         {
-            var matrix = CreateMatrix(testData[name]);
+            var matrix = CreateMatrix(testData2D[name]);
             var clone = matrix.Clone();
 
             Assert.AreNotSame(matrix, clone);
@@ -64,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCloneMatrixUsingICloneable(string name)
         {
-            var matrix = CreateMatrix(testData[name]);
+            var matrix = CreateMatrix(testData2D[name]);
             var clone = (Matrix)((ICloneable)matrix).Clone();
 
             Assert.AreNotSame(matrix, clone);
@@ -102,9 +102,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanEquateMatrices(string name)
         {
-            var matrix1 = CreateMatrix(testData[name]);
-            var matrix2 = CreateMatrix(testData[name]);
-            var matrix3 = CreateMatrix(testData[name].GetLength(0), testData[name].GetLength(1));
+            var matrix1 = CreateMatrix(testData2D[name]);
+            var matrix2 = CreateMatrix(testData2D[name]);
+            var matrix3 = CreateMatrix(testData2D[name].GetLength(0), testData2D[name].GetLength(1));
             Assert.IsTrue(matrix1.Equals(matrix1));
             Assert.IsTrue(matrix1.Equals(matrix2));
             Assert.IsFalse(matrix1.Equals(matrix3));
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3")]
         public void TestingForEqualityWithNonMatrixReturnsFalse(string name)
         {
-            var matrix = CreateMatrix(testData[name]);
+            var matrix = CreateMatrix(testData2D[name]);
             Assert.IsFalse(matrix.Equals(2));
         }
 
@@ -140,8 +140,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3")]
         public void CanTestForEqualityUsingObjectEquals(string name)
         {
-            var matrix1 = CreateMatrix(testData[name]);
-            var matrix2 = CreateMatrix(testData[name]);
+            var matrix1 = CreateMatrix(testData2D[name]);
+            var matrix2 = CreateMatrix(testData2D[name]);
             Assert.IsTrue(matrix1.Equals((object)matrix2));
         }
 

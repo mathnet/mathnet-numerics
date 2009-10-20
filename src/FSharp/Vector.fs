@@ -34,12 +34,12 @@ open MathNet.Numerics.LinearAlgebra
 module Vector =
         
     /// Transform a vector into an array.
-    let inline to_array (v: #Vector) =
+    let inline toArray (v: #Vector) =
         let n = v.Count
         Array.init n (fun i -> v.Item(i))
         
     /// Transform a vector into an array.
-    let inline to_list (v: #Vector) =
+    let inline toList (v: #Vector) =
         let n = v.Count
         List.init n (fun i -> v.Item(i))
 

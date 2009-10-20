@@ -34,7 +34,7 @@ open MathNet.Numerics.LinearAlgebra.Double
 module FSharp =
 
     /// Construct a dense matrix from a list of floating point numbers.
-    let inline matrix (lst: list<list<float>>) = DenseMatrix.of_list lst :> Matrix
+    let inline matrix (lst: list<list<float>>) = DenseMatrix.ofList lst :> Matrix
 
     /// Construct a dense vector from a list of floating point numbers.
-    let inline vector (lst: list<float>) = DenseVector.of_list lst :> Vector
+    let inline vector (lst: list<float>) = DenseVector.ofList lst :> Vector

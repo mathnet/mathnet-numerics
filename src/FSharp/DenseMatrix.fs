@@ -49,9 +49,9 @@ module DenseMatrix =
         A
     
     /// Create a matrix from a list of float lists. Every list in the master list specifies a row.
-    let inline of_list (fll: float list list) =
+    let inline ofList (fll: float list list) =
         let n = List.length fll
-        let m = List.length (List.hd fll)
+        let m = List.length (List.head fll)
         let A = DenseMatrix(n,m)
         fll |> List.iteri (fun i fl ->
                             if (List.length fl) <> m then failwith "Each subrow must be of the same length." else
@@ -59,9 +59,9 @@ module DenseMatrix =
         A
     
     /// Create a matrix from a list of sequences. Every sequence in the master sequence specifies a row.
-    let inline of_seq (fss: #seq<#seq<float>>) =
+    let inline ofSeq (fss: #seq<#seq<float>>) =
         let n = Seq.length fss
-        let m = Seq.length (Seq.hd fss)
+        let m = Seq.length (Seq.head fss)
         let A = DenseMatrix(n,m)
         fss |> Seq.iteri (fun i fs ->
                             if (Seq.length fs) <> m then failwith "Each subrow must be of the same length." else
@@ -69,10 +69,10 @@ module DenseMatrix =
         A
 
     /// Create a matrix from a 2D array of floating point numbers.
-    let inline of_array2 (arr: float[,]) = new DenseMatrix(arr)
+    let inline ofArray2 (arr: float[,]) = new DenseMatrix(arr)
     
     /// Create a matrix with the given entries.
-    let inline init_dense (n: int) (m: int) (es: #seq<int * int * float>) =
+    let inline initDense (n: int) (m: int) (es: #seq<int * int * float>) =
         let A = new DenseMatrix(n,m)
         Seq.iter (fun (i,j,f) -> A.[i,j] <- f) es
         A
