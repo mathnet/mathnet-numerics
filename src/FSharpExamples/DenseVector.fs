@@ -25,6 +25,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+module MathNet.Numerics.FSharp.Examples.DenseVector
 
 open MathNet.Numerics.FSharp
 open MathNet.Numerics.LinearAlgebra
@@ -36,7 +37,7 @@ let v = Double.DenseVector.init 100 (fun i -> float i / 100.0)
 let w = vector (List.init 100 (fun i -> float i ** 2.0))
 
 // Vectors can also be constructed from sequences.
-let t = Double.DenseVector.of_seq (seq { for i in 1 .. 100 do yield float i })
+let t = Double.DenseVector.ofSeq (seq { for i in 1 .. 100 do yield float i })
 
 // We can now add two vectors together ...
 let z = v + w

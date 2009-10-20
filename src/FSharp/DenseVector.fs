@@ -41,14 +41,14 @@ module DenseVector =
         v
 
     /// Create a vector from a float list.
-    let inline of_list (fl: float list) =
+    let inline ofList (fl: float list) =
         let n = List.length fl
         let v = Double.DenseVector(n)
         fl |> List.iteri (fun i f -> v.[i] <- f)
         v
     
     /// Create a vector from a sequences.
-    let inline of_seq (fs: #seq<float>) =
+    let inline ofSeq (fs: #seq<float>) =
         let n = Seq.length fs
         let v = DenseVector(n)
         fs |> Seq.iteri (fun i f -> v.[i] <- f)

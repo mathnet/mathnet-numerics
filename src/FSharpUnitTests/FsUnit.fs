@@ -196,7 +196,7 @@ module SpecOps =
             (sprintf "NOT Expected: %A\nActual: %A" expected actual)
 
 module Results =
-    open Microsoft.FSharp.Text.Printf
+    open Microsoft.FSharp.Text
     
     let internal currentResults = new ResizeArray<string * Result>()
     
@@ -225,11 +225,11 @@ module Results =
         
     let summary () =
         let buff = new System.Text.StringBuilder()
-        bprintf buff "%d passed.\n%d failed.\n%d erred." (passedCount()) (failedCount()) (erredCount())
+        buff.AppendFormat("{0} passed.\n{1} failed.\n{2} erred.", passedCount(), failedCount(), erredCount()) |> ignore
         failed()
-        |> Seq.iter (function (lbl,Fail msg) -> bprintf buff "\n----\nFailed: %s\n%s" lbl msg | _ -> ())
+        |> Seq.iter (function (lbl,Fail msg) -> buff.AppendFormat("\n----\nFailed: {0}\n{1}", lbl, msg) |> ignore | _ -> ())
         erred()
-        |> Seq.iter (function (lbl,Error msg) -> bprintf buff "\n----\nErred: %s\n%s" lbl msg | _ -> ())
+        |> Seq.iter (function (lbl,Error msg) -> buff.AppendFormat("\n----\nErred: {0}\n{1}", lbl, msg) |> ignore | _ -> ())
         buff.ToString()
     
 

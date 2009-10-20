@@ -25,6 +25,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+module MathNet.Numerics.FSharp.Examples.Apply
 
 open MathNet.Numerics
 open MathNet.Numerics.LinearAlgebra.Double
