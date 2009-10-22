@@ -282,4 +282,7 @@
   <data name="MatrixRowsOrColumnsMustBePositive" xml:space="preserve">
     <value>The number of rows or columns of a matrix must be positive.</value>
   </data>
+  <data name="ArgumentBetween0And1" xml:space="preserve">
+    <value>The argument must be between 0 and 1.</value>
+  </data>
 </root>
