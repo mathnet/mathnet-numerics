@@ -230,5 +230,35 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         {
             AssertHelpers.AlmostEqual(f, SpecialFunctions.BetaRegularized(a,b,x), 12);
         }
+
+        [Test]
+        [Row(0.000000, Double.NegativeInfinity)]
+        [Row(0.000010, -11.512915464920228103874353849992239636376994324587)]
+        [Row(0.001000, -6.9067547786485535272274487616830597875179908939086)]
+        [Row(0.100000, -2.1972245773362193134015514347727700402304323440139)]
+        [Row(0.500000, 0.0)]
+        [Row(0.900000, 2.1972245773362195801634726294284168954491240598975)]
+        [Row(0.999000, 6.9067547786485526081487245019905638981131702804661)]
+        [Row(0.999990, 11.512915464924779098232747799811946290419057060965)]
+        [Row(1.000000, Double.PositiveInfinity)]
+        public void Logit(double p, double x)
+        {
+            AssertHelpers.AlmostEqual(x, SpecialFunctions.Logit(p), 15);
+        }
+
+        [Test]
+        [Row(0.000000, Double.NegativeInfinity)]
+        [Row(0.000010, -11.512915464920228103874353849992239636376994324587)]
+        [Row(0.001000, -6.9067547786485535272274487616830597875179908939086)]
+        [Row(0.100000, -2.1972245773362193134015514347727700402304323440139)]
+        [Row(0.500000, 0.0)]
+        [Row(0.900000, 2.1972245773362195801634726294284168954491240598975)]
+        [Row(0.999000, 6.9067547786485526081487245019905638981131702804661)]
+        [Row(0.999990, 11.512915464924779098232747799811946290419057060965)]
+        [Row(1.000000, Double.PositiveInfinity)]
+        public void Logistic(double x, double p)
+        {
+            AssertHelpers.AlmostEqual(x, SpecialFunctions.Logistic(p), 15);
+        }
     }
 }
