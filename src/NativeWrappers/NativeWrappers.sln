@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATLASWrapper", "ATLASWrapper.vcproj", "{A848B8C9-E72A-4716-A8F1-04104CC2422F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATLASWrapper", "ATLAS\ATLASWrapper.vcproj", "{A848B8C9-E72A-4716-A8F1-04104CC2422F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

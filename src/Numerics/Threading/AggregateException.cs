@@ -35,6 +35,7 @@ namespace MathNet.Numerics.Threading
     /// <summary>
     /// Represents multiple errors that occur during application execution.
     /// </summary>
+    [Serializable]
     public class AggregateException : Exception
     {
         /// <summary>
