@@ -162,7 +162,7 @@ namespace MathNet.Numerics
         /// Gets a value representing the imaginary unit number. This field is constant.
         /// </summary>
         /// <value>A value representing the imaginary unit number.</value>
-        public static Complex I
+        public static Complex ImaginaryOne
         {
             get { return _i; }
         }
@@ -226,8 +226,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets a value indicating whether the <c>Complex</c> is the imaginary unit.
         /// </summary>
-        /// <value><c>true</c> if this instance is I; otherwise, <c>false</c>.</value>
-        public bool IsI
+        /// <value><c>true</c> if this instance is ImaginaryOne; otherwise, <c>false</c>.</value>
+        public bool IsImaginaryOne
         {
             get { return _real == 0.0 && _imag == 1.0; }
         }
@@ -302,32 +302,32 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Gets or modulus of this <c>Complex</c>.
+        /// Gets the magnitude or modulus of this <c>Complex</c>.
         /// </summary>
-        /// <seealso cref="Argument"/>
-        public double Modulus
+        /// <seealso cref="Phase"/>
+        public double Magnitude
         {
             get { return Math.Sqrt((_real * _real) + (_imag * _imag)); }
         }
 
         /// <summary>
-        /// Gets the squared modulus of this <c>Complex</c>.
+        /// Gets the squared magnitude of this <c>Complex</c>.
         /// </summary>
-        /// <seealso cref="Argument"/>
-        public double ModulusSquared
+        /// <seealso cref="Phase"/>
+        public double MagnitudeSquared
         {
             get { return (_real * _real) + (_imag * _imag); }
         }
 
         /// <summary>
-        /// Gets argument of this <c>Complex</c>.
+        /// Gets phase or argument of this <c>Complex</c>.
         /// </summary>
         /// <remarks>
-        /// Argument always returns a value bigger than negative Pi and
+        /// Phase always returns a value bigger than negative Pi and
         /// smaller or equal to Pi. If this <c>Complex</c> is zero, the Complex
         /// is assumed to be positive real with an argument of zero.
         /// </remarks>
-        public double Argument
+        public double Phase
         {
             get
             {
@@ -367,7 +367,7 @@ namespace MathNet.Numerics
                     return new Complex(-Constants.Sqrt1Over2, Constants.Sqrt1Over2);
                 }
 
-                // don't replace this with "Modulus"!
+                // don't replace this with "Magnitude"!
                 var mod = SpecialFunctions.Hypotenuse(_real, _imag);
                 if (mod == 0.0)
                 {
@@ -410,7 +410,7 @@ namespace MathNet.Numerics
                 return new Complex(Math.Log(_real), 0.0);
             }
 
-            return new Complex(0.5 * Math.Log(ModulusSquared), Argument);
+            return new Complex(0.5 * Math.Log(MagnitudeSquared), Phase);
         }
 
         /// <summary>
@@ -883,7 +883,7 @@ namespace MathNet.Numerics
                 return Infinity;
             }
 
-            var modSquared = divisor.ModulusSquared;
+            var modSquared = divisor.MagnitudeSquared;
             return new Complex(
                 ((dividend._real * divisor._real) + (dividend._imag * divisor._imag)) / modSquared,
                 ((dividend._imag * divisor._real) - (dividend._real * divisor._imag)) / modSquared);
@@ -900,7 +900,7 @@ namespace MathNet.Numerics
                 return Infinity;
             }
 
-            var zmod = divisor.ModulusSquared;
+            var zmod = divisor.MagnitudeSquared;
             return new Complex(dividend * divisor._real / zmod, -dividend * divisor._imag / zmod);
         }
 
@@ -916,16 +916,6 @@ namespace MathNet.Numerics
             }
 
             return new Complex(dividend._real / divisor, dividend._imag / divisor);
-        }
-
-        /// <summary>
-        /// Implicit conversion of a real double to a real <c>Complex</c>.
-        /// </summary>
-        /// <param name="number">The double value to convert.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Complex(double number)
-        {
-            return new Complex(number, 0.0);
         }
 
         /// <summary>
@@ -1019,7 +1009,7 @@ namespace MathNet.Numerics
         /// </returns>
         double IPrecisionSupport<Complex>.Norm()
         {
-            return ModulusSquared;
+            return MagnitudeSquared;
         }
 
         /// <summary>
@@ -1034,7 +1024,7 @@ namespace MathNet.Numerics
         /// </returns>
         double IPrecisionSupport<Complex>.NormOfDifference(Complex otherValue)
         {
-            return (this - otherValue).ModulusSquared;
+            return (this - otherValue).MagnitudeSquared;
         }
 
         #endregion
@@ -1285,6 +1275,337 @@ namespace MathNet.Numerics
             return ret;
         }
 
+        #endregion
+
+        #region Conversion
+        /// <summary>
+        /// Explicit conversion of a real decimal to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The decimal value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static explicit operator Complex(decimal value)
+        {
+            return new Complex((double)value, 0.0);
+        }
+
+        /// <summary>
+        /// Implicit conversion of a real byte to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The byte value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(byte value)
+        {
+            return new Complex(value, 0.0);
+        }
+
+        /// <summary>
+        /// Implicit conversion of a real short to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The short value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(short value)
+        {
+            return new Complex(value, 0.0);
+        }
+
+        /// <summary>
+        /// Implicit conversion of a real int to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The int value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(int value)
+        {
+            return new Complex(value, 0.0);
+        }
+
+        /// <summary>
+        /// Implicit conversion of a real long to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The long value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(long value)
+        {
+            return new Complex(value, 0.0);
+        }
+
+        /// <summary>
+        /// Implicit conversion of a real uint to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The uint value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(uint value)
+        {
+            return new Complex(value, 0.0);
+        }
+
+        /// <summary>
+        /// Implicit conversion of a real ulong to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The ulong value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(ulong value)
+        {
+            return new Complex(value, 0.0);
+        }
+
+        /// <summary>
+        /// Implicit conversion of a real float to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The float value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(float value)
+        {
+            return new Complex(value, 0.0);
+        }
+        
+        /// <summary>
+        /// Implicit conversion of a real double to a real <c>Complex</c>.
+        /// </summary>
+        /// <param name="value">The double value to convert.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Complex(double value)
+        {
+            return new Complex(value, 0.0);
+        }
+
+        #endregion
+        
+        #region Static methods from .NET 4.0
+        /// <summary>
+        /// Gets the absolute value (or magnitude) of a complex number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>The absolute value (or magnitude) of a complex number.</returns>
+        public static double Abs(Complex value)
+        {
+            return value.Magnitude;
+        }
+
+        /// <summary>
+        /// Trigonometric Arc Cosine of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The arc cosine of a complex number.
+        /// </returns>
+        public static Complex Acos(Complex value)
+        {
+            return value.InverseCosine();
+        }
+
+        /// <summary>
+        /// Trigonometric Arc Sine of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The arc sine of a complex number.
+        /// </returns>
+        public static Complex Asin(Complex value)
+        {
+            return value.InverseSine();
+        }
+
+        /// <summary>
+        /// Trigonometric Arc Tangent of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The arc tangent of a complex number.
+        /// </returns>
+        public static Complex Atan(Complex value)
+        {
+            return value.InverseTangent();
+        }
+
+        /// <summary>
+        /// Trigonometric Cosine of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The cosine of a complex number.
+        /// </returns>
+        public static Complex Cos(Complex value)
+        {
+            return value.Cosine();
+        }
+
+        /// <summary>
+        /// Trigonometric Sine of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The Sine of a complex number.
+        /// </returns>
+        public static Complex Sin(Complex value)
+        {
+            return value.Sine();
+        }
+
+        /// <summary>
+        /// Trigonometric Tangent of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The tangent of a complex number.
+        /// </returns>
+        public static Complex Tan(Complex value)
+        {
+            return value.Tangent();
+        }
+
+        /// <summary>
+        /// Trigonometric Hyperbolic Cosine of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The hyperbolic cosine of a complex number.
+        /// </returns>
+        public static Complex Cosh(Complex value)
+        {
+            return value.HyperbolicCosine();
+        }
+
+        /// <summary>
+        /// Trigonometric Hyperbolic Sine of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The hyperbolic sine of a complex number.
+        /// </returns>
+        public static Complex Sinh(Complex value)
+        {
+            return value.HyperbolicSine();
+        }
+
+        /// <summary>
+        /// Trigonometric Hyperbolic Tangent of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The hyperbolic tangent of a complex number.
+        /// </returns>
+        public static Complex Tanh(Complex value)
+        {
+            return value.HyperbolicTangent();
+        }
+
+        /// <summary>
+        /// Exponential of a <c>Complex</c> number (exp(x), E^x).
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The exponential of a complex number.
+        /// </returns>
+        public static Complex Exp(Complex value)
+        {
+            return value.Exponential();
+        }
+
+        /// <summary>
+        /// Constructs a <c>Complex</c> from its magnitude and phase.
+        /// </summary>
+        /// <param name="magnitude">
+        /// Must be non-negative.
+        /// </param>
+        /// <param name="phase">
+        /// Real number.
+        /// </param>
+        /// <returns>
+        /// A new <c>Complex</c> from the given values.
+        /// </returns>
+        /// <seealso cref="WithModulusArgument"/>
+        public static Complex FromPolarCoordinates(double magnitude, double phase)
+        {
+            return WithModulusArgument(magnitude, phase);
+        }
+
+        /// <summary>
+        /// Natural Logarithm  of a <c>Complex</c> number (exp(x), E^x).
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The natural logarithm of a complex number.
+        /// </returns>
+        public static Complex Log(Complex value)
+        {
+            return value.NaturalLogarithm();
+        }
+
+        /// <summary>
+        /// Returns the logarithm of a specified complex number in a specified base
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <param name="baseValue">The base of the logarithm.</param>
+        /// <returns>The logarithm of value in base baseValue.</returns>
+        public static Complex Log(Complex value, double baseValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Returns the base-10 logarithm of a specified complex number in a specified base
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>The base-10 logarithm of the complex number.</returns>
+        public static Complex Log10(Complex value)
+        {
+            return Log(value, 10);
+        }
+
+        /// <summary>
+        /// Raise this a <c>Complex</c>number to the given value.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <param name="power">The exponent.</param>
+        /// <returns>
+        /// The complex number raised to the given exponent.
+        /// </returns>
+        public static Complex Pow(Complex value, Complex power)
+        {
+            return value.Power(power);
+        }
+
+        /// <summary>
+        /// Raise this a <c>Complex</c>number to the given value.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <param name="power">The exponent.</param>
+        /// <returns>
+        /// The complex number raised to the given exponent.
+        /// </returns>
+        public static Complex Pow(Complex value, double power)
+        {
+            return value.Power(power);
+        }
+
+        /// <summary>
+        /// Returns the multiplicative inverse of a complex number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>The reciprocal of value.</returns>
+        /// <remarks>If value is <see cref="Zero"/>, the method returns <see cref="Zero"/>. Otherwise, it returns the result of the expression <see cref="One"/> / value. </remarks>
+        public static Complex Reciprocal(Complex value)
+        {
+            if (value.IsZero)
+            {
+                return _zero;
+            }
+
+            return 1.0 / value;
+        }
+
+        /// <summary>
+        /// The Square Root (power 1/2) of a <c>Complex</c> number.
+        /// </summary>
+        /// <param name="value">A complex number.</param>
+        /// <returns>
+        /// The square root of a complex number.
+        /// </returns>
+        public static Complex Sqrt(Complex value)
+        {
+            return value.SquareRoot();
+        }
+        
         #endregion
     }
 }
