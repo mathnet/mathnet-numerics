@@ -44,9 +44,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\LinearAlgebra\Atlas\AtlasLinearAlgebraProvider.cs">
+      <DependentUpon>AtlasLinearAlgebraProvider.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Algorithms\LinearAlgebra\Atlas\SafeNativeMethods.cs">
+      <DependentUpon>SafeNativeMethods.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Algorithms\LinearAlgebra\NativeAlgebraProvider.include" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.cs">
+      <DependentUpon>MklLinearAlgebraProvider.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SafeNativeMethods.tt</DependentUpon>
+    </Compile>
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Complex.cs" />
     <Compile Include="Constants.cs" />
@@ -144,6 +165,28 @@
     <None Include="..\MathNet.Numerics.snk">
       <Link>MathNet.Numerics.snk</Link>
     </None>
+    <None Include="Algorithms\LinearAlgebra\Atlas\AtlasLinearAlgebraProvider.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AtlasLinearAlgebraProvider.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\Atlas\SafeNativeMethods.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MklLinearAlgebraProvider.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\SafeNativeMethods.include">
+      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
