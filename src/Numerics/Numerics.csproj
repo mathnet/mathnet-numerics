@@ -79,6 +79,8 @@
     <Compile Include="Distributions\Continuous\Gamma.cs" />
     <Compile Include="Distributions\Continuous\Normal.cs" />
     <Compile Include="Distributions\Discrete\Bernoulli.cs" />
+    <Compile Include="Distributions\Discrete\Binomial.cs" />
+    <Compile Include="Distributions\Discrete\Categorical.cs" />
     <Compile Include="Distributions\Discrete\DiscreteUniform.cs" />
     <Compile Include="Distributions\IContinuousDistribution.cs" />
     <Compile Include="Distributions\IDiscreteDistribution.cs" />
