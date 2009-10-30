@@ -1,0 +1,6 @@
+﻿<#@ template language="C#v3.5" debug="true" #>
+<#@ output extenstion="cs" #>
+<# string namespaceSuffix = "Atlas";
+   string library = "ATLAS"; 
+#>
+<#@ include file="..\SafeNativeMethods.include" #>
