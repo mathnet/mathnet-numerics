@@ -490,7 +490,7 @@ namespace MathNet.Numerics
         public static Complex InverseCosecant(this Complex value)
         {
             var inv = 1 / value;
-            return -Complex.I * ((Complex.I * inv) + (1 - inv.Square()).SquareRoot()).NaturalLogarithm();
+            return -Complex.ImaginaryOne * ((Complex.ImaginaryOne * inv) + (1 - inv.Square()).SquareRoot()).NaturalLogarithm();
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex InverseCosine(this Complex value)
         {
-            return -Complex.I * (value + (Complex.I * (1 - value.Square()).SquareRoot())).NaturalLogarithm();
+            return -Complex.ImaginaryOne * (value + (Complex.ImaginaryOne * (1 - value.Square()).SquareRoot())).NaturalLogarithm();
         }
 
         /// <summary>
@@ -554,8 +554,8 @@ namespace MathNet.Numerics
                 return Math.PI / 2.0;
             }
 
-            var inv = Complex.I / value;
-            return (Complex.I * 0.5) * ((1.0 - inv).NaturalLogarithm() - (1.0 + inv).NaturalLogarithm());
+            var inv = Complex.ImaginaryOne / value;
+            return (Complex.ImaginaryOne * 0.5) * ((1.0 - inv).NaturalLogarithm() - (1.0 + inv).NaturalLogarithm());
         }
 
         /// <summary>
@@ -755,7 +755,7 @@ namespace MathNet.Numerics
         public static Complex InverseSecant(this Complex value)
         {
             var inv = 1 / value;
-            return -Complex.I * (inv + (Complex.I * (1 - inv.Square()).SquareRoot())).NaturalLogarithm();
+            return -Complex.ImaginaryOne * (inv + (Complex.ImaginaryOne * (1 - inv.Square()).SquareRoot())).NaturalLogarithm();
         }
 
         /// <summary>
@@ -783,7 +783,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex InverseSine(this Complex value)
         {
-            return -Complex.I * ((1 - value.Square()).SquareRoot() + (Complex.I * value)).NaturalLogarithm();
+            return -Complex.ImaginaryOne * ((1 - value.Square()).SquareRoot() + (Complex.ImaginaryOne * value)).NaturalLogarithm();
         }
 
         /// <summary>

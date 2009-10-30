@@ -265,7 +265,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanDetermineIfImaginaryUnit()
         {
             var complex = new Complex(0, 1);
-            Assert.IsTrue(complex.IsI, "Imaginary unit");
+            Assert.IsTrue(complex.IsImaginaryOne, "Imaginary unit");
         }
 
         [Test]
@@ -458,9 +458,9 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         [Row(0.0, 1.0, 1.0)]
         [Row(-1.0, 1.0, 1.4142135623730951)]
         [Row(-111.1, 111.1, 157.11912677965086)]
-        public void CanComputeModulus(double real, double imag, double expected)
+        public void CanComputeMagnitude(double real, double imag, double expected)
         {
-            Assert.AreEqual(expected, new Complex(real, imag).Modulus);
+            Assert.AreEqual(expected, new Complex(real, imag).Magnitude);
         }
 
         [Test]
