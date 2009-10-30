@@ -2,8 +2,16 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
+	ProjectSection(SolutionItems) = preProject
+		Common\blas.c = Common\blas.c
+		Common\resource.h = Common\resource.h
+		Common\resource.rc = Common\resource.rc
+		Common\WindowsDLL.cpp = Common\WindowsDLL.cpp
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATLASWrapper", "ATLAS\ATLASWrapper.vcproj", "{A848B8C9-E72A-4716-A8F1-04104CC2422F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MKLWrapper", "MKL\MKLWrapper.vcproj", "{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,10 @@ Global
 		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Debug|Win32.Build.0 = Debug|Win32
 		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Release|Win32.ActiveCfg = Release|Win32
 		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Release|Win32.Build.0 = Release|Win32
+		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Win32.Build.0 = Debug|Win32
+		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Release|Win32.ActiveCfg = Release|Win32
+		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
