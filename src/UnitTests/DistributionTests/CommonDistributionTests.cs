@@ -41,7 +41,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [SetUp]
         public void SetupDistributions()
         {
-            dists = new IDistribution[8];
+            dists = new IDistribution[10];
 
             dists[0] = new Beta(1.0, 1.0);
             dists[1] = new ContinuousUniform(0.0, 1.0);
@@ -51,6 +51,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             dists[5] = new Weibull(1.0, 1.0);
             dists[6] = new DiscreteUniform(1, 10);
             dists[7] = new LogNormal(1.0, 1.0);
+            dists[8] = new Binomial(0.7, 10);
+            dists[9] = new Categorical(0.7);
         }
 
         [Test]

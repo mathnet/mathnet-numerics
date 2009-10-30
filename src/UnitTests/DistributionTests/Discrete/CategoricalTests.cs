@@ -1,4 +1,4 @@
-// <copyright file="MultinomialTests.cs" company="Math.NET">
+// <copyright file="CategorialTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     using MathNet.Numerics.Distributions;
 
     [TestFixture]
-    public class MultinomialTests
+    public class CategoricalTests
     {
         double[] badP;
         double[] badP2;
@@ -47,42 +47,42 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             Control.CheckDistributionParameters = true;
             badP = new double[] { -1.0, 1.0 };
             badP2 = new double[] { 0.0, 0.0 };
-            smallP = new double[] {1.0, 1.0, 1.0};
-            largeP = new double[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0};
+            smallP = new double[] { 1.0, 1.0, 1.0 };
+            largeP = new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0 };
         }
 
         [Test]
-        public void CanCreateMultinomial()
+        public void CanCreateCategorical()
         {
-            var m = new Multinomial(largeP, 4);
+            var m = new Categorical(largeP, 4);
             AssertEx.AreEqual<double[]>(largeP, m.P);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void MultinomialCreateFailsWithNegativeRatios()
+        public void CategoricalCreateFailsWithNegativeRatios()
         {
-            var m = new Multinomial(badP, 4);
+            var m = new Categorical(badP, 4);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void MultinomialCreateFailsWithAllZeroRatios()
+        public void CategoricalCreateFailsWithAllZeroRatios()
         {
-            var m = new Multinomial(badP2, 4);
+            var m = new Categorical(badP2, 4);
         }
 
         [Test]
         public void ValidateToString()
         {
-            var b = new Multinomial(smallP, 4);
-            AssertEx.AreEqual<string>("Multinomial(Dimension = 3)", b.ToString());
+            var b = new Categorical(smallP);
+            AssertEx.AreEqual<string>("Categorical(Dimension = 3)", b.ToString());
         }
 
         [Test]
         public void CanSetProbability()
         {
-            var b = new Multinomial(largeP, 4);
+            var b = new Categorical(largeP, 4);
             b.P = smallP;
         }
 
@@ -90,27 +90,27 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetProbabilityFails()
         {
-            var b = new Multinomial(largeP, 4);
+            var b = new Categorical(largeP, 4);
             b.P = badP;
         }
 
         [Test]
         public void CanSampleStatic()
         {
-            var d = Multinomial.Sample(new Random(), largeP, 4);
+            var d = Categorical.Sample(new Random(), largeP, 4);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void FailSampleStatic()
         {
-            var d = Multinomial.Sample(new Random(), badP, 4);
+            var d = Categorical.Sample(new Random(), badP, 4);
         }
 
         [Test]
         public void CanSample()
         {
-            var n = new Multinomial(largeP, 4);
+            var n = new Categorical(largeP, 4);
             var d = n.Sample();
         }
     }
