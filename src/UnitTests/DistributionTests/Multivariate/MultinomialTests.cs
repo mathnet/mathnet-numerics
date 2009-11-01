@@ -76,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateToString()
         {
             var b = new Multinomial(smallP, 4);
-            AssertEx.AreEqual<string>("Multinomial(Dimension = 3)", b.ToString());
+            AssertEx.AreEqual<string>("Multinomial(Dimension = 3, Number of Trails = 4)", b.ToString());
         }
 
         [Test]

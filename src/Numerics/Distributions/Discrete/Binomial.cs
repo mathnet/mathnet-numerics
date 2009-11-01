@@ -89,7 +89,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>false <paramref name="p"/> is not in the interval [0.0,1.0] or <paramref name="n"/> is negative, true otherwise.</exception>
         private static bool IsValidParameterSet(double p, int n)
         {
-            if(p < 0.0 || p > 1.0)
+            if(p < 0.0 || p > 1.0 || Double.IsNaN(p))
             {
                 return false;
             }
@@ -206,11 +206,16 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
+                if (_p == 0.0 || _p == 1.0)
+                {
+                    return 0.0;
+                }
+
                 double E = 0.0;
-                for(int i = 0; i < _n; i++)
+                for(int i = 0; i <= _n; i++)
                 {
                     double p = Probability(i);
-                    E += p * Math.Log(p);
+                    E -= p * Math.Log(p);
                 }
                 return E;
             }
@@ -263,7 +268,19 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get { return (int) Math.Floor((_n + 1) * _p); }
+            get
+            {
+                if (_p == 1.0)
+                {
+                    return _n;
+                }
+                else if (_p == 0.0)
+                {
+                    return 0;
+                }
+
+                return (int) Math.Floor((_n + 1) * _p);
+            }
         }
 
         /// <summary>
@@ -289,22 +306,58 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
+            if (_p == 0.0 && val == 0)
+            {
+                return 1.0;
+            }
+            else if (_p == 0.0)
+            {
+                return 0.0;
+            }
+
+            if (_p == 1.0 && val == _n)
+            {
+                return 1.0;
+            }
+            else if (_p == 1.0)
+            {
+                return 0.0;
+            }
+
             return SpecialFunctions.Binomial(_n, val) * Math.Pow(_p, val) * Math.Pow(1.0 - _p, _n - val);
         }
 
         /// <summary>
-        /// Computes the probability of a specific value.
+        /// Computes the log probability of a specific value.
         /// </summary>
         public double ProbabilityLn(int val)
         {
             if (val < 0)
             {
-                return 0.0;
+                return Double.NegativeInfinity;
             }
 
             if (val > _n)
             {
+                return Double.NegativeInfinity;
+            }
+
+            if (_p == 0.0 && val == 0)
+            {
                 return 0.0;
+            }
+            else if (_p == 0.0)
+            {
+                return Double.NegativeInfinity;
+            }
+
+            if (_p == 1.0 && val == _n)
+            {
+                return 0.0;
+            }
+            else if (_p == 1.0)
+            {
+                return Double.NegativeInfinity;
             }
 
             return SpecialFunctions.BinomialLn(_n, val) + val * Math.Log(_p) + (_n - val) * Math.Log(1.0 - _p);

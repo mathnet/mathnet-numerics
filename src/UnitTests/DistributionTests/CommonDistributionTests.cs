@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             dists[6] = new DiscreteUniform(1, 10);
             dists[7] = new LogNormal(1.0, 1.0);
             dists[8] = new Binomial(0.7, 10);
-            dists[9] = new Categorical(0.7);
+            dists[9] = new Categorical(new double[] { 0.7, 0.3 });
         }
 
         [Test]
