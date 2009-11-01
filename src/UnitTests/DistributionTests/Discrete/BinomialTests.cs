@@ -92,13 +92,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        [Row(0.0, 4)]
-        [Row(0.3, 3)]
-        [Row(1.0, 2)]
-        public void ValidateEntropy(double p, int n)
+        [Row(0.0, 4, 0.0)]
+        [Row(0.3, 3, 1.1404671643037712668976423399228972051669206536461)]
+        [Row(1.0, 2, 0.0)]
+        public void ValidateEntropy(double p, int n, double e)
         {
             var b = new Binomial(p,n);
-            AssertHelpers.AlmostEqual(n * (-(1.0 - p) * Math.Log(1.0 - p) - p * Math.Log(p)), b.Entropy, 14);
+            AssertHelpers.AlmostEqual(e, b.Entropy, 14);
         }
 
         [Test]
@@ -112,13 +112,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        [Row(0.0, 4, 0.0)]
-        [Row(0.3, 3, 1.0)]
-        [Row(1.0, 2, 1.0)]
-        public void ValidateMode(double p, int n, double m)
+        [Row(0.0, 4, 0)]
+        [Row(0.3, 3, 1)]
+        [Row(1.0, 2, 2)]
+        public void ValidateMode(double p, int n, int m)
         {
             var b = new Binomial(p,n);
-            AssertEx.AreEqual<double>(m, b.Mode);
+            AssertEx.AreEqual<int>(m, b.Mode);
         }
 
         [Test]
@@ -138,7 +138,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         [Row(0.000000, 1, 0, 1.0)]
         [Row(0.000000, 1, 1, 0.0)]
-        [Row(0.000000, 1, 1, 0.0)]
         [Row(0.000000, 3, 0, 1.0)]
         [Row(0.000000, 3, 1, 0.0)]
         [Row(0.000000, 3, 3, 0.0)]
@@ -147,7 +146,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(0.000000, 10, 10, 0.0)]
         [Row(0.300000, 1, 0, 0.69999999999999995559107901499373838305473327636719)]
         [Row(0.300000, 1, 1, 0.2999999999999999888977697537484345957636833190918)]
-        [Row(0.300000, 1, 1, 0.2999999999999999888977697537484345957636833190918)]
         [Row(0.300000, 3, 0, 0.34299999999999993471888615204079956461021032657166)]
         [Row(0.300000, 3, 1, 0.44099999999999992772448109690231306411849135972008)]
         [Row(0.300000, 3, 3, 0.026999999999999997002397833512077451789759292859569)]
@@ -155,7 +153,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(0.300000, 10, 1, 0.12106082099999992639752977030555903089040470780077)]
         [Row(0.300000, 10, 10, 0.0000059048999999999978147480206303047454017251032868501)]
         [Row(1.000000, 1, 0, 0.0)]
-        [Row(1.000000, 1, 1, 1.0)]
         [Row(1.000000, 1, 1, 1.0)]
         [Row(1.000000, 3, 0, 0.0)]
         [Row(1.000000, 3, 1, 0.0)]
@@ -166,21 +163,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void ValidateProbability(double p, int n, int x, double d)
         {
             var b = new Binomial(p,n);
-            AssertEx.AreEqual(d, b.Probability(x));
+            AssertHelpers.AlmostEqual(d, b.Probability(x), 14);
         }
 
         [Test]
         [Row(0.000000, 1, 0, 0.0)]
-        [Row(0.000000, 1, 1, -inf)]
-        [Row(0.000000, 1, 1, -inf)]
+        [Row(0.000000, 1, 1, Double.NegativeInfinity)]
         [Row(0.000000, 3, 0, 0.0)]
-        [Row(0.000000, 3, 1, -inf)]
-        [Row(0.000000, 3, 3, -inf)]
+        [Row(0.000000, 3, 1, Double.NegativeInfinity)]
+        [Row(0.000000, 3, 3, Double.NegativeInfinity)]
         [Row(0.000000, 10, 0, 0.0)]
-        [Row(0.000000, 10, 1, -inf)]
-        [Row(0.000000, 10, 10, -inf)]
+        [Row(0.000000, 10, 1, Double.NegativeInfinity)]
+        [Row(0.000000, 10, 10, Double.NegativeInfinity)]
         [Row(0.300000, 1, 0, -0.3566749439387324423539544041072745145718090708995)]
-        [Row(0.300000, 1, 1, -1.2039728043259360296301803719337238685164245381839)]
         [Row(0.300000, 1, 1, -1.2039728043259360296301803719337238685164245381839)]
         [Row(0.300000, 3, 0, -1.0700248318161973270618632123218235437154272126985)]
         [Row(0.300000, 3, 1, -0.81871040353529122294284394322574719301255212216016)]
@@ -188,19 +183,18 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(0.300000, 10, 0, -3.566749439387324423539544041072745145718090708995)]
         [Row(0.300000, 10, 1, -2.1114622067804823267977785542148302920616046876506)]
         [Row(0.300000, 10, 10, -12.039728043259360296301803719337238685164245381839)]
-        [Row(1.000000, 1, 0, -inf)]
+        [Row(1.000000, 1, 0, Double.NegativeInfinity)]
         [Row(1.000000, 1, 1, 0.0)]
-        [Row(1.000000, 1, 1, 0.0)]
-        [Row(1.000000, 3, 0, -inf)]
-        [Row(1.000000, 3, 1, -inf)]
+        [Row(1.000000, 3, 0, Double.NegativeInfinity)]
+        [Row(1.000000, 3, 1, Double.NegativeInfinity)]
         [Row(1.000000, 3, 3, 0.0)]
-        [Row(1.000000, 10, 0, -inf)]
-        [Row(1.000000, 10, 1, -inf)]
+        [Row(1.000000, 10, 0, Double.NegativeInfinity)]
+        [Row(1.000000, 10, 1, Double.NegativeInfinity)]
         [Row(1.000000, 10, 10, 0.0)]
         public void ValidateProbabilityLn(double p, int n, int x, double dln)
         {
             var b = new Binomial(p,n);
-            AssertEx.AreEqual(dln, b.ProbabilityLn(x));
+            AssertHelpers.AlmostEqual(dln, b.ProbabilityLn(x), 14);
         }
 
         [Test]

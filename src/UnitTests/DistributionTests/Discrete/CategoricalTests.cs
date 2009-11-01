@@ -54,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void CanCreateCategorical()
         {
-            var m = new Categorical(largeP, 4);
+            var m = new Categorical(largeP);
             AssertEx.AreEqual<double[]>(largeP, m.P);
         }
 
@@ -62,14 +62,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CategoricalCreateFailsWithNegativeRatios()
         {
-            var m = new Categorical(badP, 4);
+            var m = new Categorical(badP);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CategoricalCreateFailsWithAllZeroRatios()
         {
-            var m = new Categorical(badP2, 4);
+            var m = new Categorical(badP2);
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test]
         public void CanSetProbability()
         {
-            var b = new Categorical(largeP, 4);
+            var b = new Categorical(largeP);
             b.P = smallP;
         }
 
@@ -90,27 +90,27 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetProbabilityFails()
         {
-            var b = new Categorical(largeP, 4);
+            var b = new Categorical(largeP);
             b.P = badP;
         }
 
         [Test]
         public void CanSampleStatic()
         {
-            var d = Categorical.Sample(new Random(), largeP, 4);
+            var d = Categorical.Sample(new Random(), largeP);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void FailSampleStatic()
         {
-            var d = Categorical.Sample(new Random(), badP, 4);
+            var d = Categorical.Sample(new Random(), badP);
         }
 
         [Test]
         public void CanSample()
         {
-            var n = new Categorical(largeP, 4);
+            var n = new Categorical(largeP);
             var d = n.Sample();
         }
     }
