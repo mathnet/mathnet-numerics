@@ -130,7 +130,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="token">First token of the number.</param>
         /// <param name="culture">Culture Info.</param>
-        /// <returns></returns>
+        /// <returns>The parsed double number using the given culture information.</returns>
         /// <exception cref="FormatException" />
         internal static double ParseDouble(ref LinkedListNode<string> token, CultureInfo culture)
         {

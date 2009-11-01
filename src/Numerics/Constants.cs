@@ -164,7 +164,6 @@ namespace MathNet.Numerics
 
         #endregion
 
-
         #region UNIVERSAL CONSTANTS
 
         /// <summary>Speed of Light in Vacuum: c_0 = 2.99792458e8 [m s^-1] (defined, exact; 2007 CODATA)</summary>
