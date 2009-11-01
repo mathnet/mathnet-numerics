@@ -1539,7 +1539,11 @@ namespace MathNet.Numerics
         /// <returns>The logarithm of value in base baseValue.</returns>
         public static Complex Log(Complex value, double baseValue)
         {
-            throw new NotImplementedException();
+            if( baseValue == 1.0)
+            {
+                return double.NaN;
+            }
+            return value.NaturalLogarithm() / Math.Log(baseValue, Math.E);
         }
 
         /// <summary>
