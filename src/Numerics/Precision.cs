@@ -95,7 +95,10 @@ namespace MathNet.Numerics
         private static readonly int _numberOfDecimalPlacesForFloats;
 
         /// <summary>Value representing 10 * 2^(-52)</summary>
-        private static readonly double _defaultRelativeAccuracy = _doubleMachinePrecision * 10;
+        private static readonly double _defaultDoubleRelativeAccuracy = _doubleMachinePrecision * 10;
+
+        /// <summary>Value representing 10 * 2^(-52)</summary>
+        private static readonly float _defaultSingleRelativeAccuracy = (float)(_singleMachinePrecision * 10);
 
         #endregion
 
@@ -691,7 +694,19 @@ namespace MathNet.Numerics
         public static bool AlmostEqual(this double a, double b)
         {
             double diff = a - b;
-            return AlmostEqualWithError(a, b, diff, _defaultRelativeAccuracy);
+            return AlmostEqualWithError(a, b, diff, _defaultDoubleRelativeAccuracy);
+        }
+
+        /// <summary>
+        /// Checks whether two real numbers are almost equal.
+        /// </summary>
+        /// <param name="a">The first number</param>
+        /// <param name="b">The second number</param>
+        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
+        public static bool AlmostEqual(this float a, float b)
+        {
+            double diff = a - b;
+            return AlmostEqualWithError(a, b, diff, _defaultSingleRelativeAccuracy);
         }
 
         /// <summary>
@@ -705,7 +720,7 @@ namespace MathNet.Numerics
             where T : IPrecisionSupport<T>
         {
             double diff = a.NormOfDifference(b);
-            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, _defaultRelativeAccuracy);
+            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, _defaultDoubleRelativeAccuracy);
         }
 
         /// <summary>
@@ -985,6 +1000,62 @@ namespace MathNet.Numerics
                 return AlmostEqualWithAbsoluteDecimalPlaces(a, b, decimalPlaces);
             }
             
+            // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
+            // and any problems associated with that.
+            if (a.Equals(b))
+            {
+                return true;
+            }
+
+            return AlmostEqualWithRelativeDecimalPlaces(a, b, decimalPlaces);
+        }
+
+        /// <summary>
+        /// Compares two floats and determines if they are equal to within the specified number of decimal places or not. If the numbers
+        /// are very close to zero an absolute difference is compared, otherwise the relative difference is compared.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// 0.005 and 0.015, but not 0.02 and not 0.00
+        /// </para>
+        /// </remarks>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
+        /// <returns><see langword="true" /> if both doubles are equal to each other within the specified number of decimal places; otherwise <see langword="false" />.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Thrown if <paramref name="decimalPlaces"/> is smaller than zero.
+        /// </exception>
+        public static bool AlmostEqualInDecimalPlaces(this float a, float b, int decimalPlaces)
+        {
+            if (decimalPlaces <= 0)
+            {
+                // Can't have a negative number of decimal places
+                throw new ArgumentOutOfRangeException("decimalPlaces");
+            }
+
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves.
+            if (double.IsNaN(a) || double.IsNaN(b))
+            {
+                return false;
+            }
+
+            // If A or B are infinity (positive or negative) then
+            // only return true if they are exactly equal to each other -
+            // that is, if they are both infinities of the same sign.
+            if (double.IsInfinity(a) || double.IsInfinity(b))
+            {
+                return a == b;
+            }
+
+            if (Math.Abs(a) < _doubleMachinePrecision || Math.Abs(b) < _doubleMachinePrecision)
+            {
+                return AlmostEqualWithAbsoluteDecimalPlaces(a, b, decimalPlaces);
+            }
+
             // If both numbers are equal, get out now. This should remove the possibility of both numbers being zero
             // and any problems associated with that.
             if (a.Equals(b))
