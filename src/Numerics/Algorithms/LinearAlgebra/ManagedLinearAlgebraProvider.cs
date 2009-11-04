@@ -575,5 +575,170 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         #endregion
+
+        #region ILinearAlgebraProvider<Complex32> Members
+
+
+        public void AddVectorToScaledVector(Complex32[] y, Complex32 alpha, Complex32[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ScaleArray(Complex32 alpha, Complex32[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex32 DotProduct(Complex32[] x, Complex32[] y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubtractArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PointWiseMultiplyArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex32 MatrixNorm(Norm norm, Complex32[] matrix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Complex32 MatrixNorm(Norm norm, Complex32[] matrix, Complex32[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MatrixMultiply(Complex32[] x, Complex32[] y, Complex32[] result)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, Complex32[] b, Complex32 beta, Complex32[] c)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUFactor(Complex32[] a, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUInverse(Complex32[] a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUInverseFactored(Complex32[] a, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUInverse(Complex32[] a, Complex32[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUInverseFactored(Complex32[] a, int[] ipiv, Complex32[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUSolve(int columnsOfB, Complex32[] a, Complex32[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUSolveFactored(int columnsOfB, Complex32[] a, int ipiv, Complex32[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUSolve(Transpose transposeA, int columnsOfB, Complex32[] a, Complex32[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex32[] a, int ipiv, Complex32[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CholeskyFactor(Complex32[] a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CholeskySolve(int columnsOfB, Complex32[] a, Complex32[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CholeskySolveFactored(int columnsOfB, Complex32[] a, Complex32[] b)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRFactor(Complex32[] r, Complex32[] q)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRFactor(Complex32[] r, Complex32[] q, Complex32[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRSolve(int columnsOfB, Complex32[] r, Complex32[] q, Complex32[] b, Complex32[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRSolve(int columnsOfB, Complex32[] r, Complex32[] q, Complex32[] b, Complex32[] x, Complex32[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void QRSolveFactored(int columnsOfB, Complex32[] q, Complex32[] r, Complex32[] b, Complex32[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SinguarValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SvdSolve(Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SvdSolve(Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x, Complex32[] work)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SvdSolveFactored(int columnsOfB, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

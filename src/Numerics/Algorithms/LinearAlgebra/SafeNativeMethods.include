@@ -49,8 +49,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void d_axpy(int n, double alpha, double[] x, [In, Out] double[] y);
 
-        //[DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        //internal static extern void c_axpy(int n, ref Complex32 alpha, Complex32[] x, [In, Out] Complex32[] y);
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_axpy(int n, ref Complex32 alpha, Complex32[] x, [In, Out] Complex32[] y);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_axpy(int n, ref Complex alpha, Complex[] x, [In, Out] Complex[] y);

@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\LinearAlgebra\Atlas\AtlasLinearAlgebraProvider.cs">
-      <DependentUpon>AtlasLinearAlgebraProvider.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>AtlasLinearAlgebraProvider.tt</DependentUpon>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Atlas\SafeNativeMethods.cs">
       <DependentUpon>SafeNativeMethods.tt</DependentUpon>
@@ -59,9 +59,9 @@
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs" />
     <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.cs">
-      <DependentUpon>MklLinearAlgebraProvider.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>MklLinearAlgebraProvider.tt</DependentUpon>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.cs">
       <AutoGen>True</AutoGen>
