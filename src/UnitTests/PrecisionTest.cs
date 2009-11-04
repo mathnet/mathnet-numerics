@@ -35,7 +35,7 @@ namespace MathNet.Numerics.UnitTests
     public sealed class PrecisionTest
     {
         private const double _acceptableError = 1e-12;
-        private readonly double _doublePrecision = System.Math.Pow(2, -53);
+        private readonly double _doublePrecision = Math.Pow(2, -53);
 
         [Test]
         public void Magnitude()

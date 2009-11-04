@@ -158,5 +158,39 @@ namespace MathNet.Numerics
             token = token.Next;
             return value;
         }
+
+        /// <summary>
+        /// Globalized Parsing: Parse a float number
+        /// </summary>
+        /// <param name="token">First token of the number.</param>
+        /// <param name="culture">Culture Info.</param>
+        /// <returns>The parsed float number using the given culture information.</returns>
+        /// <exception cref="FormatException" />
+        internal static float ParseSingle(ref LinkedListNode<string> token, CultureInfo culture)
+        {
+            // in case the + and - in scientific notation are separated, join them back together.
+            if (token.Value.EndsWith("e", true, culture))
+            {
+                if (token.Next == null || token.Next.Next == null)
+                {
+                    throw new FormatException();
+                }
+
+                token.Value = token.Value + token.Next.Value + token.Next.Next.Value;
+
+                var list = token.List;
+                list.Remove(token.Next.Next);
+                list.Remove(token.Next);
+            }
+
+            float value;
+            if (!Single.TryParse(token.Value, NumberStyles.Any, culture, out value))
+            {
+                throw new FormatException();
+            }
+
+            token = token.Next;
+            return value;
+        }
     }
 }

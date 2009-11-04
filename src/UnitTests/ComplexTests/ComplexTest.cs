@@ -794,12 +794,12 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         }
 
         [Test]
-        public void CanConvertDoulbeComplex()
+        public void CanConvertComplex32ToComplex()
         {
-            const double orginal = 123.456789;
-            var complex = (Complex)orginal;
-            Assert.AreEqual(123.456789, complex.Real);
-            Assert.AreEqual(0.0, complex.Imaginary);
+            var complex32 = new Complex32(123.456f, -78.9f);
+            var complex = (Complex)complex32;
+            Assert.AreEqual(123.456f, (float)complex.Real);
+            Assert.AreEqual(-78.9f, (float)complex.Imaginary);
         }
    }
 }
