@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MbUnit.Framework;
 
