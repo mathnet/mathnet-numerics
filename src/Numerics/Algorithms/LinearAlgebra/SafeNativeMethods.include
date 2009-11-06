@@ -1,4 +1,4 @@
-﻿// <copyright file="Constants.cs" company="Math.NET">
+﻿// <copyright file="SafeNativeMethods.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -36,9 +36,15 @@ using System.Security;
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
 {
+    /// <summary>
+    /// P/Invoke methods to the native math libraries.
+    /// </summary>
     [SuppressUnmanagedCodeSecurity]
     internal static class SafeNativeMethods
     {
+        /// <summary>
+        /// Name of the native DLL.
+        /// </summary>
         private const string DllName = "MathNET.Numerics.<#=library#>.dll";
 
         #region BLAS
@@ -55,6 +61,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_axpy(int n, ref Complex alpha, Complex[] x, [In, Out] Complex[] y);
         
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_scale(int n, float alpha, [Out] float[] x);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_scale(int n, double alpha, [Out] double[] x);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_scale(int n, ref Complex32 alpha, [In, Out] Complex32[] x);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_scale(int n, ref Complex alpha, [In, Out] Complex[] x);
+        
         #endregion BLAS
-	}
+    }
 }
