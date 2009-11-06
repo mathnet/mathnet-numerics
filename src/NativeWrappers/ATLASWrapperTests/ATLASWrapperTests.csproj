@@ -73,7 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Win32\Debug\MathNET.Numerics.ATLAS.dll">
+    <Content Include="..\Win32\Release\MathNET.Numerics.ATLAS.dll">
       <Link>MathNET.Numerics.ATLAS.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
