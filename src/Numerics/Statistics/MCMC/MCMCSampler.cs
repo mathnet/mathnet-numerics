@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         protected int mSamples;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractRandomNumberGenerator"/> class.
+        /// Initializes a new instance of the <see cref="McmcSampler"/> class.
         /// </summary>
         /// <remarks>Thread safe instances are two and half times slower than non-thread
         /// safe classes.</remarks>
