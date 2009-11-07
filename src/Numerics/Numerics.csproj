@@ -150,7 +150,12 @@
     <Compile Include="Statistics\Correlation.cs" />
     <Compile Include="Statistics\DescriptiveStatistics.cs" />
     <Compile Include="Statistics\Histogram.cs" />
+    <Compile Include="Statistics\MCMC\MCMCSampler.cs" />
+    <Compile Include="Statistics\MCMC\MetropolisHastingsSampler.cs" />
+    <Compile Include="Statistics\MCMC\MetropolisSampler.cs" />
+    <Compile Include="Statistics\MCMC\RejectionSampler.cs" />
     <Compile Include="Statistics\Statistics.cs" />
+    <Compile Include="Statistics\MCMC\UnivariateSliceSampler.cs" />
     <Compile Include="Threading\AggregateException.cs" />
     <Compile Include="Threading\TaskOfT.cs" />
     <Compile Include="Threading\Parallel.cs" />

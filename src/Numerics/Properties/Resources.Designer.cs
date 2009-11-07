@@ -547,6 +547,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The sampler&apos;s proposal distribution is not upper bounding the target density..
+        /// </summary>
+        internal static string ProposalDistributionNoUpperBound {
+            get {
+                return ResourceManager.GetString("ProposalDistributionNoUpperBound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This special case is not supported yet (but is planned)..
         /// </summary>
         internal static string SpecialCasePlannedButNotImplementedYet {

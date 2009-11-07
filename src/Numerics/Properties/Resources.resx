@@ -285,4 +285,7 @@
   <data name="ArgumentBetween0And1" xml:space="preserve">
     <value>The argument must be between 0 and 1.</value>
   </data>
+  <data name="ProposalDistributionNoUpperBound" xml:space="preserve">
+    <value>The sampler's proposal distribution is not upper bounding the target density.</value>
+  </data>
 </root>
