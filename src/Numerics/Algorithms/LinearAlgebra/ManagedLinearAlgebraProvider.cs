@@ -94,24 +94,130 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Computes the dot product between two vectors.
+        /// </summary>
+        /// <param name="x">The first argument of the dot product.</param>
+        /// <param name="y">The second argument of the dot product.</param>
+        /// <returns>The dot product between <paramref name="x"/> and <paramref name="y"/>.</returns>
         public double DotProduct(double[] x, double[] y)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y.Length != x.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            double d = 0.0;
+
+            for (int i = 0; i < y.Length; i++)
+            {
+                d += y[i] * x[i];
+            }
+
+            return d;
         }
 
+        /// <summary>
+        /// Adds two arrays together and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to add.</param>
+        /// <param name="y">The second argument to add.</param>
+        /// <param name="result">The result to write the addition into.</param>
         public void AddArrays(double[] x, double[] y, double[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+            
+            Parallel.For(0, y.Length, i => result[i] = x[i] + y[i]);
         }
 
+        /// <summary>
+        /// Subtract two arrays and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to subtract.</param>
+        /// <param name="y">The second argument to subtract.</param>
+        /// <param name="result">The result to write the subtraction into.</param>
         public void SubtractArrays(double[] x, double[] y, double[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] - y[i]);
         }
 
+        /// <summary>
+        /// Pointwise multiplies two arrays and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to pointwise multiply.</param>
+        /// <param name="y">The second argument to pointwise multiply.</param>
+        /// <param name="result">The result to write the pointwise multiplication into.</param>
         public void PointWiseMultiplyArrays(double[] x, double[] y, double[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
         }
 
         public double MatrixNorm(Norm norm, double[] matrix)
