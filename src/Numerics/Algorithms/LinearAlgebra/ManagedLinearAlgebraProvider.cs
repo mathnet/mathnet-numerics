@@ -32,6 +32,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// </summary>
     public class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
+        #region Workspace information Members
+
+        public int QueryWorkspaceBlockSize(string methodName)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region ILinearAlgebraProvider<double> Members
 
         /// <summary>
@@ -81,17 +90,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
         public void ScaleArray(double alpha, double[] x)
         {
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
             if (alpha == 1.0)
             {
                 return;
             }
 
             Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
-        }
-
-        public int QueryWorkspaceBlockSize(string methodName)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -354,35 +363,190 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
         #region ILinearAlgebraProvider<float> Members
 
-
+        /// <summary>
+        /// Adds a scaled vector to another: <c>y += alpha*x</c>.
+        /// </summary>
+        /// <param name="y">The vector to update.</param>
+        /// <param name="alpha">The value to scale <paramref name="x"/> by.</param>
+        /// <param name="x">The vector to add to <paramref name="y"/>.</param>
+        /// <remarks>This equivalent to the AXPY BLAS routine.</remarks>
         public void AddVectorToScaledVector(float[] y, float alpha, float[] x)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y.Length != x.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (alpha == 0.0)
+            {
+                return;
+            }
+
+            if (alpha == 1.0)
+            {
+                Parallel.For(0, y.Length, i => y[i] += x[i]);
+            }
+            else
+            {
+                Parallel.For(0, y.Length, i => y[i] += alpha * x[i]);
+            }
         }
 
+        /// <summary>
+        /// Scales an array. Can be used to scale a vector and a matrix.
+        /// </summary>
+        /// <param name="alpha">The scalar.</param>
+        /// <param name="x">The values to scale.</param>
+        /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
         public void ScaleArray(float alpha, float[] x)
         {
-            throw new NotImplementedException();
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (alpha == 1.0)
+            {
+                return;
+            }
+
+            Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
         }
 
+        /// <summary>
+        /// Computes the dot product between two vectors.
+        /// </summary>
+        /// <param name="x">The first argument of the dot product.</param>
+        /// <param name="y">The second argument of the dot product.</param>
+        /// <returns>The dot product between <paramref name="x"/> and <paramref name="y"/>.</returns>
         public float DotProduct(float[] x, float[] y)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y.Length != x.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            float d = 0.0F;
+
+            for (int i = 0; i < y.Length; i++)
+            {
+                d += y[i] * x[i];
+            }
+
+            return d;
         }
 
+        /// <summary>
+        /// Adds two arrays together and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to add.</param>
+        /// <param name="y">The second argument to add.</param>
+        /// <param name="result">The result to write the addition into.</param>
         public void AddArrays(float[] x, float[] y, float[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] + y[i]);
         }
 
+        /// <summary>
+        /// Subtract two arrays and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to subtract.</param>
+        /// <param name="y">The second argument to subtract.</param>
+        /// <param name="result">The result to write the subtraction into.</param>
         public void SubtractArrays(float[] x, float[] y, float[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] - y[i]);
         }
 
+        /// <summary>
+        /// Pointwise multiplies two arrays and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to pointwise multiply.</param>
+        /// <param name="y">The second argument to pointwise multiply.</param>
+        /// <param name="result">The result to write the pointwise multiplication into.</param>
         public void PointWiseMultiplyArrays(float[] x, float[] y, float[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
         }
 
         public float MatrixNorm(Norm norm, float[] matrix)
@@ -519,35 +683,190 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
         #region ILinearAlgebraProvider<Complex> Members
 
-
+        /// <summary>
+        /// Adds a scaled vector to another: <c>y += alpha*x</c>.
+        /// </summary>
+        /// <param name="y">The vector to update.</param>
+        /// <param name="alpha">The value to scale <paramref name="x"/> by.</param>
+        /// <param name="x">The vector to add to <paramref name="y"/>.</param>
+        /// <remarks>This equivalent to the AXPY BLAS routine.</remarks>
         public void AddVectorToScaledVector(Complex[] y, Complex alpha, Complex[] x)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y.Length != x.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (alpha == 0.0)
+            {
+                return;
+            }
+
+            if (alpha == 1.0)
+            {
+                Parallel.For(0, y.Length, i => y[i] += x[i]);
+            }
+            else
+            {
+                Parallel.For(0, y.Length, i => y[i] += alpha * x[i]);
+            }
         }
 
+        /// <summary>
+        /// Scales an array. Can be used to scale a vector and a matrix.
+        /// </summary>
+        /// <param name="alpha">The scalar.</param>
+        /// <param name="x">The values to scale.</param>
+        /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
         public void ScaleArray(Complex alpha, Complex[] x)
         {
-            throw new NotImplementedException();
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (alpha == 1.0)
+            {
+                return;
+            }
+
+            Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
         }
 
+        /// <summary>
+        /// Computes the dot product between two vectors.
+        /// </summary>
+        /// <param name="x">The first argument of the dot product.</param>
+        /// <param name="y">The second argument of the dot product.</param>
+        /// <returns>The dot product between <paramref name="x"/> and <paramref name="y"/>.</returns>
         public Complex DotProduct(Complex[] x, Complex[] y)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y.Length != x.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Complex d = new Complex(0.0, 0.0);
+
+            for (int i = 0; i < y.Length; i++)
+            {
+                d += y[i] * x[i];
+            }
+
+            return d;
         }
 
+        /// <summary>
+        /// Adds two arrays together and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to add.</param>
+        /// <param name="y">The second argument to add.</param>
+        /// <param name="result">The result to write the addition into.</param>
         public void AddArrays(Complex[] x, Complex[] y, Complex[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] + y[i]);
         }
 
+        /// <summary>
+        /// Subtract two arrays and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to subtract.</param>
+        /// <param name="y">The second argument to subtract.</param>
+        /// <param name="result">The result to write the subtraction into.</param>
         public void SubtractArrays(Complex[] x, Complex[] y, Complex[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] - y[i]);
         }
 
+        /// <summary>
+        /// Pointwise multiplies two arrays and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to pointwise multiply.</param>
+        /// <param name="y">The second argument to pointwise multiply.</param>
+        /// <param name="result">The result to write the pointwise multiplication into.</param>
         public void PointWiseMultiplyArrays(Complex[] x, Complex[] y, Complex[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
         }
 
         public Complex MatrixNorm(Norm norm, Complex[] matrix)
@@ -684,35 +1003,190 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
         #region ILinearAlgebraProvider<Complex32> Members
 
-
+        /// <summary>
+        /// Adds a scaled vector to another: <c>y += alpha*x</c>.
+        /// </summary>
+        /// <param name="y">The vector to update.</param>
+        /// <param name="alpha">The value to scale <paramref name="x"/> by.</param>
+        /// <param name="x">The vector to add to <paramref name="y"/>.</param>
+        /// <remarks>This equivalent to the AXPY BLAS routine.</remarks>
         public void AddVectorToScaledVector(Complex32[] y, Complex32 alpha, Complex32[] x)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y.Length != x.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (alpha == 0.0F)
+            {
+                return;
+            }
+
+            if (alpha == 1.0F)
+            {
+                Parallel.For(0, y.Length, i => y[i] += x[i]);
+            }
+            else
+            {
+                Parallel.For(0, y.Length, i => y[i] += alpha * x[i]);
+            }
         }
 
+        /// <summary>
+        /// Scales an array. Can be used to scale a vector and a matrix.
+        /// </summary>
+        /// <param name="alpha">The scalar.</param>
+        /// <param name="x">The values to scale.</param>
+        /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
         public void ScaleArray(Complex32 alpha, Complex32[] x)
         {
-            throw new NotImplementedException();
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (alpha.IsOne)
+            {
+                return;
+            }
+
+            Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
         }
 
+        /// <summary>
+        /// Computes the dot product between two vectors.
+        /// </summary>
+        /// <param name="x">The first argument of the dot product.</param>
+        /// <param name="y">The second argument of the dot product.</param>
+        /// <returns>The dot product between <paramref name="x"/> and <paramref name="y"/>.</returns>
         public Complex32 DotProduct(Complex32[] x, Complex32[] y)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y.Length != x.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Complex32 d = new Complex32(0.0F, 0.0F);
+
+            for (int i = 0; i < y.Length; i++)
+            {
+                d += y[i] * x[i];
+            }
+
+            return d;
         }
 
+        /// <summary>
+        /// Adds two arrays together and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to add.</param>
+        /// <param name="y">The second argument to add.</param>
+        /// <param name="result">The result to write the addition into.</param>
         public void AddArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] + y[i]);
         }
 
+        /// <summary>
+        /// Subtract two arrays and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to subtract.</param>
+        /// <param name="y">The second argument to subtract.</param>
+        /// <param name="result">The result to write the subtraction into.</param>
         public void SubtractArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] - y[i]);
         }
 
+        /// <summary>
+        /// Pointwise multiplies two arrays and writes the result in a third array.
+        /// </summary>
+        /// <param name="x">The first argument to pointwise multiply.</param>
+        /// <param name="y">The second argument to pointwise multiply.</param>
+        /// <param name="result">The result to write the pointwise multiplication into.</param>
         public void PointWiseMultiplyArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Parallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
         }
 
         public Complex32 MatrixNorm(Norm norm, Complex32[] matrix)
