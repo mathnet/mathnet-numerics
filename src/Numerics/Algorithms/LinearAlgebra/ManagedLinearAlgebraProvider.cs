@@ -104,11 +104,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the dot product between two vectors.
+        /// Computes the dot product of x and y.
         /// </summary>
-        /// <param name="x">The first argument of the dot product.</param>
-        /// <param name="y">The second argument of the dot product.</param>
-        /// <returns>The dot product between <paramref name="x"/> and <paramref name="y"/>.</returns>
+        /// <param name="x">The vector x.</param>
+        /// <param name="y">The vector y.</param>
+        /// <returns>The dot product of x and y.</returns>
+        /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
         public double DotProduct(double[] x, double[] y)
         {
             if (y == null)
@@ -137,11 +138,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Adds two arrays together and writes the result in a third array.
+        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used 
+        /// to add vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to add.</param>
-        /// <param name="y">The second argument to add.</param>
-        /// <param name="result">The result to write the addition into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the addition.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void AddArrays(double[] x, double[] y, double[] result)
         {
             if (y == null)
@@ -168,11 +173,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Subtract two arrays and writes the result in a third array.
+        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used 
+        /// to subtract vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to subtract.</param>
-        /// <param name="y">The second argument to subtract.</param>
-        /// <param name="result">The result to write the subtraction into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the subtraction.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void SubtractArrays(double[] x, double[] y, double[] result)
         {
             if (y == null)
@@ -199,11 +208,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise multiplies two arrays and writes the result in a third array.
+        /// Does a point wise multiplication of two arrays <c>z = x * y</c>. This can be used
+        /// to multiple elements of vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to pointwise multiply.</param>
-        /// <param name="y">The second argument to pointwise multiply.</param>
-        /// <param name="result">The result to write the pointwise multiplication into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise multiplication.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void PointWiseMultiplyArrays(double[] x, double[] y, double[] result)
         {
             if (y == null)
@@ -239,9 +252,92 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void MatrixMultiply(double[] x, double[] y, double[] result)
+        /// <summary>
+        /// Multiples two matrices. <c>result = x * y</c>
+        /// </summary>
+        /// <param name="x">The x matrix.</param>
+        /// <param name="xRows">The number of rows in the x matrix.</param>
+        /// <param name="xColumns">The number of columns in the x matrix.</param>
+        /// <param name="y">The y matrix.</param>
+        /// <param name="yRows">The number of rows in the y matrix.</param>
+        /// <param name="yColumns">The number of columns in the y matrix.</param>
+        /// <param name="result">Where to store the result of the multiplication.</param>
+        /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
+        /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
+        public void MatrixMultiply(double[] x, int xRows, int xColumns, double[] y, int yRows, int yColumns, double[] result)
         {
-            throw new NotImplementedException();
+            // First check some basic requirement on the parameters of the matrix multiplication.
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (xRows * xColumns != x.Length)
+            {
+                throw new ArgumentException("x.Length != xRows * xColumns");
+            }
+
+            if (yRows * yColumns != y.Length)
+            {
+                throw new ArgumentException("y.Length != yRows * yColumns");
+            }
+
+            if (xColumns != yRows)
+            {
+                throw new ArgumentException("xColumns != yRows");
+            }
+
+            if (xRows * yColumns != result.Length)
+            {
+                throw new ArgumentException("xRows * yColumns != result.Length");
+            }
+
+            // Check whether we will be overwriting any of our inputs and make copies if necessary.
+            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
+            // as result, we can do it on a row wise basis. We should investigate this.
+            double[] xdata;
+            if (ReferenceEquals(x, result))
+            {
+                xdata = (double[]) x.Clone();
+            }
+            else
+            {
+                xdata = x;
+            }
+
+            double[] ydata;
+            if (ReferenceEquals(y, result))
+            {
+                ydata = (double[]) y.Clone();
+            }
+            else
+            {
+                ydata = y;
+            }
+
+            // Start the actual matrix multiplication.
+            // TODO - For small matrices we should get rid of the parallelism because of startup costs.
+            // Perhaps the following implementations would be a good one
+            // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
+            Parallel.For(0, xRows, i =>
+            {
+                for (int j = 0; j < yColumns; j++)
+                {
+                    for (int k = 0; k < xColumns; k++)
+                    {
+                        result[j + yColumns * i] += xdata[k + xColumns * i] * ydata[j + yColumns * k];
+                    }
+                }
+            });
         }
 
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, double[] b, double beta, double[] c)
@@ -424,11 +520,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the dot product between two vectors.
+        /// Computes the dot product of x and y.
         /// </summary>
-        /// <param name="x">The first argument of the dot product.</param>
-        /// <param name="y">The second argument of the dot product.</param>
-        /// <returns>The dot product between <paramref name="x"/> and <paramref name="y"/>.</returns>
+        /// <param name="x">The vector x.</param>
+        /// <param name="y">The vector y.</param>
+        /// <returns>The dot product of x and y.</returns>
+        /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
         public float DotProduct(float[] x, float[] y)
         {
             if (y == null)
@@ -457,11 +554,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Adds two arrays together and writes the result in a third array.
+        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used 
+        /// to add vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to add.</param>
-        /// <param name="y">The second argument to add.</param>
-        /// <param name="result">The result to write the addition into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the addition.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void AddArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
@@ -488,11 +589,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Subtract two arrays and writes the result in a third array.
+        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used 
+        /// to subtract vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to subtract.</param>
-        /// <param name="y">The second argument to subtract.</param>
-        /// <param name="result">The result to write the subtraction into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the subtraction.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void SubtractArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
@@ -519,11 +624,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise multiplies two arrays and writes the result in a third array.
+        /// Does a point wise multiplication of two arrays <c>z = x * y</c>. This can be used
+        /// to multiple elements of vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to pointwise multiply.</param>
-        /// <param name="y">The second argument to pointwise multiply.</param>
-        /// <param name="result">The result to write the pointwise multiplication into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise multiplication.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void PointWiseMultiplyArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
@@ -559,9 +668,92 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void MatrixMultiply(float[] x, float[] y, float[] result)
+        /// <summary>
+        /// Multiples two matrices. <c>result = x * y</c>
+        /// </summary>
+        /// <param name="x">The x matrix.</param>
+        /// <param name="xRows">The number of rows in the x matrix.</param>
+        /// <param name="xColumns">The number of columns in the x matrix.</param>
+        /// <param name="y">The y matrix.</param>
+        /// <param name="yRows">The number of rows in the y matrix.</param>
+        /// <param name="yColumns">The number of columns in the y matrix.</param>
+        /// <param name="result">Where to store the result of the multiplication.</param>
+        /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
+        /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
+        public void MatrixMultiply(float[] x, int xRows, int xColumns, float[] y, int yRows, int yColumns, float[] result)
         {
-            throw new NotImplementedException();
+            // First check some basic requirement on the parameters of the matrix multiplication.
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (xRows * xColumns != x.Length)
+            {
+                throw new ArgumentException("x.Length != xRows * xColumns");
+            }
+
+            if (yRows * yColumns != y.Length)
+            {
+                throw new ArgumentException("y.Length != yRows * yColumns");
+            }
+
+            if (xColumns != yRows)
+            {
+                throw new ArgumentException("xColumns != yRows");
+            }
+
+            if (xRows * yColumns != result.Length)
+            {
+                throw new ArgumentException("xRows * yColumns != result.Length");
+            }
+
+            // Check whether we will be overwriting any of our inputs and make copies if necessary.
+            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
+            // as result, we can do it on a row wise basis. We should investigate this.
+            float[] xdata;
+            if (ReferenceEquals(x, result))
+            {
+                xdata = (float[]) x.Clone();
+            }
+            else
+            {
+                xdata = x;
+            }
+
+            float[] ydata;
+            if (ReferenceEquals(y, result))
+            {
+                ydata = (float[]) y.Clone();
+            }
+            else
+            {
+                ydata = y;
+            }
+
+            // Start the actual matrix multiplication.
+            // TODO - For small matrices we should get rid of the parallelism because of startup costs.
+            // Perhaps the following implementations would be a good one
+            // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
+            Parallel.For(0, xRows, i =>
+            {
+                for (int j = 0; j < yColumns; j++)
+                {
+                    for (int k = 0; k < xColumns; k++)
+                    {
+                        result[j + yColumns * i] += xdata[k + xColumns * i] * ydata[j + yColumns * k];
+                    }
+                }
+            });
         }
 
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, float[] b, float beta, float[] c)
@@ -744,11 +936,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the dot product between two vectors.
+        /// Computes the dot product of x and y.
         /// </summary>
-        /// <param name="x">The first argument of the dot product.</param>
-        /// <param name="y">The second argument of the dot product.</param>
-        /// <returns>The dot product between <paramref name="x"/> and <paramref name="y"/>.</returns>
+        /// <param name="x">The vector x.</param>
+        /// <param name="y">The vector y.</param>
+        /// <returns>The dot product of x and y.</returns>
+        /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
         public Complex DotProduct(Complex[] x, Complex[] y)
         {
             if (y == null)
@@ -777,11 +970,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Adds two arrays together and writes the result in a third array.
+        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used 
+        /// to add vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to add.</param>
-        /// <param name="y">The second argument to add.</param>
-        /// <param name="result">The result to write the addition into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the addition.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void AddArrays(Complex[] x, Complex[] y, Complex[] result)
         {
             if (y == null)
@@ -808,11 +1005,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Subtract two arrays and writes the result in a third array.
+        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used 
+        /// to subtract vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to subtract.</param>
-        /// <param name="y">The second argument to subtract.</param>
-        /// <param name="result">The result to write the subtraction into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the subtraction.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void SubtractArrays(Complex[] x, Complex[] y, Complex[] result)
         {
             if (y == null)
@@ -839,11 +1040,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise multiplies two arrays and writes the result in a third array.
+        /// Does a point wise multiplication of two arrays <c>z = x * y</c>. This can be used
+        /// to multiple elements of vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to pointwise multiply.</param>
-        /// <param name="y">The second argument to pointwise multiply.</param>
-        /// <param name="result">The result to write the pointwise multiplication into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise multiplication.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void PointWiseMultiplyArrays(Complex[] x, Complex[] y, Complex[] result)
         {
             if (y == null)
@@ -878,10 +1083,93 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         {
             throw new NotImplementedException();
         }
-
-        public void MatrixMultiply(Complex[] x, Complex[] y, Complex[] result)
+        
+        /// <summary>
+        /// Multiples two matrices. <c>result = x * y</c>
+        /// </summary>
+        /// <param name="x">The x matrix.</param>
+        /// <param name="xRows">The number of rows in the x matrix.</param>
+        /// <param name="xColumns">The number of columns in the x matrix.</param>
+        /// <param name="y">The y matrix.</param>
+        /// <param name="yRows">The number of rows in the y matrix.</param>
+        /// <param name="yColumns">The number of columns in the y matrix.</param>
+        /// <param name="result">Where to store the result of the multiplication.</param>
+        /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
+        /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
+        public void MatrixMultiply(Complex[] x, int xRows, int xColumns, Complex[] y, int yRows, int yColumns, Complex[] result)
         {
-            throw new NotImplementedException();
+            // First check some basic requirement on the parameters of the matrix multiplication.
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (xRows * xColumns != x.Length)
+            {
+                throw new ArgumentException("x.Length != xRows * xColumns");
+            }
+
+            if (yRows * yColumns != y.Length)
+            {
+                throw new ArgumentException("y.Length != yRows * yColumns");
+            }
+
+            if (xColumns != yRows)
+            {
+                throw new ArgumentException("xColumns != yRows");
+            }
+
+            if (xRows * yColumns != result.Length)
+            {
+                throw new ArgumentException("xRows * yColumns != result.Length");
+            }
+
+            // Check whether we will be overwriting any of our inputs and make copies if necessary.
+            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
+            // as result, we can do it on a row wise basis. We should investigate this.
+            double[] xdata;
+            if (ReferenceEquals(x, result))
+            {
+                xdata = (Complex[]) x.Clone();
+            }
+            else
+            {
+                xdata = x;
+            }
+
+            double[] ydata;
+            if (ReferenceEquals(y, result))
+            {
+                ydata = (Complex[]) y.Clone();
+            }
+            else
+            {
+                ydata = y;
+            }
+
+            // Start the actual matrix multiplication.
+            // TODO - For small matrices we should get rid of the parallelism because of startup costs.
+            // Perhaps the following implementations would be a good one
+            // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
+            Parallel.For(0, xRows, i =>
+                {
+                    for (int j = 0; j < yColumns; j++)
+                    {
+                        for (int k = 0; k < xColumns; k++)
+                        {
+                            result[j + yColumns * i] += xdata[k + xColumns * i] * ydata[j + yColumns * k];
+                        }
+                    }
+                });
         }
 
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, Complex[] b, Complex beta, Complex[] c)
@@ -1064,11 +1352,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the dot product between two vectors.
+        /// Computes the dot product of x and y.
         /// </summary>
-        /// <param name="x">The first argument of the dot product.</param>
-        /// <param name="y">The second argument of the dot product.</param>
-        /// <returns>The dot product between <paramref name="x"/> and <paramref name="y"/>.</returns>
+        /// <param name="x">The vector x.</param>
+        /// <param name="y">The vector y.</param>
+        /// <returns>The dot product of x and y.</returns>
+        /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
         public Complex32 DotProduct(Complex32[] x, Complex32[] y)
         {
             if (y == null)
@@ -1097,11 +1386,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Adds two arrays together and writes the result in a third array.
+        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used 
+        /// to add vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to add.</param>
-        /// <param name="y">The second argument to add.</param>
-        /// <param name="result">The result to write the addition into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the addition.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void AddArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
             if (y == null)
@@ -1128,11 +1421,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Subtract two arrays and writes the result in a third array.
+        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used 
+        /// to subtract vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to subtract.</param>
-        /// <param name="y">The second argument to subtract.</param>
-        /// <param name="result">The result to write the subtraction into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the subtraction.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void SubtractArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
             if (y == null)
@@ -1159,11 +1456,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise multiplies two arrays and writes the result in a third array.
+        /// Does a point wise multiplication of two arrays <c>z = x * y</c>. This can be used
+        /// to multiple elements of vectors or matrices.
         /// </summary>
-        /// <param name="x">The first argument to pointwise multiply.</param>
-        /// <param name="y">The second argument to pointwise multiply.</param>
-        /// <param name="result">The result to write the pointwise multiplication into.</param>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise multiplication.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
         public void PointWiseMultiplyArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
             if (y == null)
@@ -1199,9 +1500,92 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void MatrixMultiply(Complex32[] x, Complex32[] y, Complex32[] result)
+        /// <summary>
+        /// Multiples two matrices. <c>result = x * y</c>
+        /// </summary>
+        /// <param name="x">The x matrix.</param>
+        /// <param name="xRows">The number of rows in the x matrix.</param>
+        /// <param name="xColumns">The number of columns in the x matrix.</param>
+        /// <param name="y">The y matrix.</param>
+        /// <param name="yRows">The number of rows in the y matrix.</param>
+        /// <param name="yColumns">The number of columns in the y matrix.</param>
+        /// <param name="result">Where to store the result of the multiplication.</param>
+        /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
+        /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
+        public void MatrixMultiply(Complex32[] x, int xRows, int xColumns, Complex32[] y, int yRows, int yColumns, Complex32[] result)
         {
-            throw new NotImplementedException();
+            // First check some basic requirement on the parameters of the matrix multiplication.
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (xRows * xColumns != x.Length)
+            {
+                throw new ArgumentException("x.Length != xRows * xColumns");
+            }
+
+            if (yRows * yColumns != y.Length)
+            {
+                throw new ArgumentException("y.Length != yRows * yColumns");
+            }
+
+            if (xColumns != yRows)
+            {
+                throw new ArgumentException("xColumns != yRows");
+            }
+
+            if (xRows * yColumns != result.Length)
+            {
+                throw new ArgumentException("xRows * yColumns != result.Length");
+            }
+
+            // Check whether we will be overwriting any of our inputs and make copies if necessary.
+            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
+            // as result, we can do it on a row wise basis. We should investigate this.
+            Complex32[] xdata;
+            if (ReferenceEquals(x, result))
+            {
+                xdata = (Complex32[]) x.Clone();
+            }
+            else
+            {
+                xdata = x;
+            }
+
+            Complex32[] ydata;
+            if (ReferenceEquals(y, result))
+            {
+                ydata = (Complex32[]) y.Clone();
+            }
+            else
+            {
+                ydata = y;
+            }
+
+            // Start the actual matrix multiplication.
+            // TODO - For small matrices we should get rid of the parallelism because of startup costs.
+            // Perhaps the following implementations would be a good one
+            // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
+            Parallel.For(0, xRows, i =>
+            {
+                for (int j = 0; j < yColumns; j++)
+                {
+                    for (int k = 0; k < xColumns; k++)
+                    {
+                        result[j + yColumns * i] += xdata[k + xColumns * i] * ydata[j + yColumns * k];
+                    }
+                }
+            });
         }
 
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, Complex32[] b, Complex32 beta, Complex32[] c)
