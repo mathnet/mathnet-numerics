@@ -176,11 +176,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Multiples two matrices. <c>result = x * y</c>
         /// </summary>
         /// <param name="x">The x matrix.</param>
+        /// <param name="xRows">The number of rows in the x matrix.</param>
+        /// <param name="xColumns">The number of columns in the x matrix.</param>
         /// <param name="y">The y matrix.</param>
+        /// <param name="yRows">The number of rows in the y matrix.</param>
+        /// <param name="yColumns">The number of columns in the y matrix.</param>
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
-        void MatrixMultiply(T[] x, T[] y, T[] result);
+        void MatrixMultiply(T[] x, int xRows, int xColumns, T[] y, int yRows, int yColumns, T[] result);
 
         /// <summary>
         /// Multiplies two matrices and updates another with the result. <c>c = alpha*op(a)*op(b) + beta*c</c>
