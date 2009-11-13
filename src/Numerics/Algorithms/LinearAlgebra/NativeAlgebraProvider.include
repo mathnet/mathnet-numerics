@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             throw new NotImplementedException();
         }
 
-        public void MatrixMultiply(double[] x, double[] y, double[] result)
+        public void MatrixMultiply(double[] x, int xRows, int xColumns, double[] y, int yRows, int yColumns, double[] result)
         {
             throw new NotImplementedException();
         }
@@ -301,7 +301,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             throw new NotImplementedException();
         }
 
-        public void MatrixMultiply(float[] x, float[] y, float[] result)
+        public void MatrixMultiply(float[] x, int xRows, int xColumns, float[] y, int yRows, int yColumns, float[] result)
         {
             throw new NotImplementedException();
         }
@@ -486,7 +486,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             throw new NotImplementedException();
         }
 
-        public void MatrixMultiply(Complex[] x, Complex[] y, Complex[] result)
+        public void MatrixMultiply(Complex[] x, int xRows, int xColumns, Complex[] y, int yRows, int yColumns, Complex[] result)
         {
             throw new NotImplementedException();
         }
@@ -670,7 +670,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             throw new NotImplementedException();
         }
 
-        public void MatrixMultiply(Complex32[] x, Complex32[] y, Complex32[] result)
+        public void MatrixMultiply(Complex32[] x, int xRows, int xColumns, Complex32[] y, int yRows, int yColumns, Complex32[] result)
         {
             throw new NotImplementedException();
         }
