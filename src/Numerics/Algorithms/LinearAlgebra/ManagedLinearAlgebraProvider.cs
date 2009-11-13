@@ -1136,7 +1136,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // Check whether we will be overwriting any of our inputs and make copies if necessary.
             // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
             // as result, we can do it on a row wise basis. We should investigate this.
-            double[] xdata;
+            Complex[] xdata;
             if (ReferenceEquals(x, result))
             {
                 xdata = (Complex[]) x.Clone();
@@ -1146,7 +1146,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 xdata = x;
             }
 
-            double[] ydata;
+            Complex[] ydata;
             if (ReferenceEquals(y, result))
             {
                 ydata = (Complex[]) y.Clone();
