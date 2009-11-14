@@ -1,4 +1,4 @@
-﻿// <copyright file="GammaTests.cs" company="Math.NET">
+﻿// <copyright file="CommonDistributionTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -30,63 +30,168 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
 {
     using System;
     using System.Linq;
+    using System.Collections.Generic;
     using MbUnit.Framework;
     using MathNet.Numerics.Distributions;
+    using MathNet.Numerics.Statistics;
 
     [TestFixture]
     public class CommonDistributionTests
     {
-        private IDistribution[] dists;
+        // The number of samples we want.
+        private int numberOfTestSamples = 100000;
+        // The accuracy of the histograms.
+        private double sampleAccuracy = 0.01;
+        // The number of buckets to use to test against the cdf.
+        private int numberOfBuckets = 100;
+        // The list of discrete distributions which we test.
+        private List<IDiscreteDistribution> discreteDistributions;
+        // The list of continuous distributions which we test.
+        private List<IContinuousDistribution> continuousDistributions;
 
         [SetUp]
         public void SetupDistributions()
         {
-            dists = new IDistribution[10];
+            discreteDistributions = new List<IDiscreteDistribution>();
+            discreteDistributions.Add(new Bernoulli(0.6));
+            discreteDistributions.Add(new Binomial(0.7, 10));
+            discreteDistributions.Add(new Categorical(new double[] { 0.7, 0.3 }));
+            discreteDistributions.Add(new DiscreteUniform(1, 10));
 
-            dists[0] = new Beta(1.0, 1.0);
-            dists[1] = new ContinuousUniform(0.0, 1.0);
-            dists[2] = new Gamma(1.0, 1.0);
-            dists[3] = new Normal(0.0, 1.0);
-            dists[4] = new Bernoulli(0.6);
-            dists[5] = new Weibull(1.0, 1.0);
-            dists[6] = new DiscreteUniform(1, 10);
-            dists[7] = new LogNormal(1.0, 1.0);
-            dists[8] = new Binomial(0.7, 10);
-            dists[9] = new Categorical(new double[] { 0.7, 0.3 });
+            continuousDistributions = new List<IContinuousDistribution>();
+            continuousDistributions.Add(new Beta(1.0, 1.0));
+            continuousDistributions.Add(new ContinuousUniform(0.0, 1.0));
+            continuousDistributions.Add(new Gamma(1.0, 1.0));
+            continuousDistributions.Add(new Normal(0.0, 1.0));
+            continuousDistributions.Add(new Weibull(1.0, 1.0));
+            continuousDistributions.Add(new LogNormal(1.0, 1.0));
         }
 
         [Test]
-        [Row(0)]
-        [Row(1)]
-        [Row(2)]
-        [Row(3)]
-        [Row(4)]
+        [MultipleAsserts]
         public void ValidateThatUnivariateDistributionsHaveRandomSource(int i)
         {
-            Assert.IsNotNull(dists[i].RandomSource);
+            foreach(var dd in discreteDistributions)
+            {
+                Assert.IsNotNull(dd.RandomSource);
+            }
+
+            foreach(var cd in continuousDistributions)
+            {
+                Assert.IsNotNull(cd.RandomSource);
+            }
         }
 
         [Test]
-        [Row(0)]
-        [Row(1)]
-        [Row(2)]
-        [Row(3)]
-        [Row(4)]
+        [MultipleAsserts]
         public void CanSetRandomSource(int i)
         {
-            dists[i].RandomSource = new Random();
+            foreach(var dd in discreteDistributions)
+            {
+                dd.RandomSource = new Random();
+            }
+
+            foreach(var cd in continuousDistributions)
+            {
+                cd.RandomSource = new Random();
+            }
         }
 
         [Test]
-        [Row(0)]
-        [Row(1)]
-        [Row(2)]
-        [Row(3)]
-        [Row(4)]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [MultipleAsserts]
         public void FailSetRandomSourceWithNullReference(int i)
         {
-            dists[i].RandomSource = null;
+            foreach(var dd in discreteDistributions)
+            {
+                Assert.Throws<ArgumentNullException>(() => dd.RandomSource = null);
+            }
+
+            foreach(var cd in continuousDistributions)
+            {
+                Assert.Throws<ArgumentNullException>(() => cd.RandomSource = null);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void SampleFollowsCorrectDistribution()
+        {
+            // The test samples from the distributions, builds a histogram and checks
+            // whether the histogram follows the CDF.
+            foreach (var dd in discreteDistributions)
+            {
+                int[] samples = new int[numberOfTestSamples];
+                for (int i = 0; i < numberOfTestSamples; i++)
+                {
+                    samples[i] = dd.Sample();
+                }
+
+                var histogram = new Histogram(samples.Select(x => (double)x), numberOfBuckets);
+                for (int i = 0; i < numberOfBuckets; i++)
+                {
+                    var bucket = histogram.GetBucket(i);
+                    double empiricalProbability = bucket.Count / (double)numberOfTestSamples;
+                    double realProbability = dd.CumulativeDistribution(bucket.UpperBound)
+                        - dd.CumulativeDistribution(bucket.LowerBound);
+                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy);
+                }
+            }
+
+            foreach (var cd in continuousDistributions)
+            {
+                double[] samples = new double[numberOfTestSamples];
+                for (int i = 0; i < numberOfTestSamples; i++)
+                {
+                    samples[i] = cd.Sample();
+                }
+
+                var histogram = new Histogram(samples, numberOfBuckets);
+                for (int i = 0; i < numberOfBuckets; i++)
+                {
+                    var bucket = histogram.GetBucket(i);
+                    double empiricalProbability = bucket.Count / (double)numberOfTestSamples;
+                    double realProbability = cd.CumulativeDistribution(bucket.UpperBound)
+                        - cd.CumulativeDistribution(bucket.LowerBound);
+                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy);
+                }
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void SamplesFollowsCorrectDistribution()
+        {
+            // The test samples from the distributions, builds a histogram and checks
+            // whether the histogram follows the CDF.
+            foreach (var dd in discreteDistributions)
+            {
+                var samples = dd.Samples().Take(numberOfTestSamples).Select(x => (double)x);
+
+                var histogram = new Histogram(samples, numberOfBuckets);
+                for (int i = 0; i < numberOfBuckets; i++)
+                {
+                    var bucket = histogram.GetBucket(i);
+                    double empiricalProbability = bucket.Count / (double)numberOfTestSamples;
+                    double realProbability = dd.CumulativeDistribution(bucket.UpperBound)
+                        - dd.CumulativeDistribution(bucket.LowerBound);
+                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy);
+                }
+            }
+
+            foreach (var cd in continuousDistributions)
+            {
+                var samples = cd.Samples().Take(numberOfTestSamples);
+
+                var histogram = new Histogram(samples, numberOfBuckets);
+                for (int i = 0; i < numberOfBuckets; i++)
+                {
+                    var bucket = histogram.GetBucket(i);
+                    double empiricalProbability = bucket.Count / (double)numberOfTestSamples;
+                    double realProbability = cd.CumulativeDistribution(bucket.UpperBound)
+                        - cd.CumulativeDistribution(bucket.LowerBound);
+                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy);
+                }
+            }
         }
     }
 }
