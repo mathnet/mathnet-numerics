@@ -322,7 +322,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>The number of successful trials.</returns>
         public int Sample()
         {
-            return DoSample(RandomSource, _p);
+            return Sample(RandomSource, _p);
         }
 
         /// <summary>
@@ -331,10 +331,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of successful trial counts.</returns>
         public IEnumerable<int> Samples()
         {
-            while (true)
-            {
-                yield return DoSample(RandomSource, _p);
-            }
+            return Samples(RandomSource, _p);
         }
 
         #endregion

@@ -35,10 +35,10 @@ namespace MathNet.Numerics.Statistics
 
     /// <summary>
     /// A <see cref="Histogram"/> consists of a series of <see cref="Bucket"/>s, 
-    /// each representing a region limited by a lower bound (inclusive) and an upper bound (exclusive).
+    /// each representing a region limited by a lower bound (exclusive) and an upper bound (inclusive).
     /// </summary>
     [Serializable]
-    public class Bucket : IComparable<Bucket>
+    public class Bucket : IComparable<Bucket>, ICloneable
     {
         /// <summary>
         /// This <c>IComparer</c> performs comparisons between a point and a bucket.
@@ -55,11 +55,11 @@ namespace MathNet.Numerics.Statistics
             {
                 if (bkt2.Width == 0.0)
                 {
-                    return -bkt1.Contains(bkt2.LowerBound);
+                    return -bkt1.Contains(bkt2.UpperBound);
                 }
                 else
                 {
-                    return -bkt2.Contains(bkt1.LowerBound);
+                    return -bkt2.Contains(bkt1.UpperBound);
                 }
             }
         }
@@ -109,6 +109,15 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Creates a copy of the Bucket with the lowerbound, upperbound and counts exactly equal.
+        /// </summary>
+        /// <returns>A cloned Bucket object.</returns>
+        public Object Clone()
+        {
+            return new Bucket(LowerBound, UpperBound, Count);
+        }
+
+        /// <summary>
         /// Width of the Bucket.
         /// </summary>
         public double Width
@@ -132,9 +141,9 @@ namespace MathNet.Numerics.Statistics
         /// smaller than the bucket, +1 if the point is larger than the bucket.</returns>
         public int Contains(double x)
         {
-            if (LowerBound <= x)
+            if (LowerBound < x)
             {
-                if (UpperBound > x)
+                if (UpperBound >= x)
                 {
                     return 0;
                 }
@@ -146,7 +155,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Comparison of two disjoint buckets.
+        /// Comparison of two disjoint buckets. The buckets cannot be overlapping.
         /// </summary>
         public int CompareTo(Bucket bucket)
         {
@@ -200,7 +209,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns></returns>
         public override string ToString()
         {
-            return "[" + this.LowerBound + ";" + this.UpperBound + ")";
+            return "(" + this.LowerBound + ";" + this.UpperBound + "] = " + this.Count;
         }
     }
     
@@ -247,12 +256,13 @@ namespace MathNet.Numerics.Statistics
             double upper = data.Maximum();
             double width = (upper - lower) / nbuckets;
 
-            // Add buckets for each bin; the biggest bucket must be slightly larger then the maximal element.
-            for (int n = 0; n < nbuckets-1; n++)
+            // Add buckets for each bin; the smallest bucket's lowerbound must be slightly smaller
+            // than the minimal element.
+            AddBucket(new Bucket(lower.Decrement(), lower + width));
+            for (int n = 1; n < nbuckets; n++)
             {
                 AddBucket(new Bucket(lower + n * width, lower + (n + 1) * width));
             }
-            AddBucket(new Bucket(lower + (nbuckets - 1) * width, upper.Increment()));
 
             AddData(data);
         }
@@ -294,20 +304,23 @@ namespace MathNet.Numerics.Statistics
         /// <param name="d">The datapoint which we want to add.</param>
         public void AddData(double d)
         {
+            // Sort if needed.
+            LazySort();
+
             if (d < this.LowerBound)
             {
-                this[0].LowerBound = d;
-                this[0].Count++;
+                // Make the lower bound just slightly smaller than the datapoint so it is contained in this bucket.
+                buckets[0].LowerBound = d.Decrement();
+                buckets[0].Count++;
             }
             else if (d > this.UpperBound)
             {
-                // Make the upper bound just slightly larger then the datapoint so it is contained in this bucket.
-                this[BucketCount - 1].UpperBound = d.Increment();
-                this[BucketCount - 1].Count++;
+                buckets[BucketCount - 1].UpperBound = d;
+                buckets[BucketCount - 1].Count++;
             }
             else
             {
-                GetBucketOf(d).Count++;
+                buckets[GetBucketIndexOf(d)].Count++;
             }
         }
 
@@ -346,23 +359,13 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Returns the <c>Bucket</c> with index <paramref name="i"/>.
-        /// </summary>
-        /// <param name="i">The index of the bucket to retrieve.</param>
-        /// <returns>A reference to the bucket at index <paramref name="i"/>.</returns>
-        public Bucket GetBucket(int i)
-        {
-            return buckets[i];
-        }
-
-        /// <summary>
         /// Returns the <c>Bucket</c> that contains the value <c>v</c>. 
         /// </summary>
         /// <param name="v">The point to search the bucket for.</param>
-        /// <returns>The bucket containing the point.</returns>
+        /// <returns>A copy of the bucket containing point <paramref name="v"/>.</returns>
         public Bucket GetBucketOf(double v)
         {
-            return buckets[GetBucketIndexOf(v)];
+            return (Bucket) buckets[GetBucketIndexOf(v)].Clone();
         }
 
         /// <summary>
@@ -415,13 +418,13 @@ namespace MathNet.Numerics.Statistics
         /// Gets the <c>n</c>'th bucket.
         /// </summary>
         /// <param name="n">The index of the bucket to be returned.</param>
-        /// <returns>The <c>n</c>'th bucket.</returns>
+        /// <returns>A copy of the <c>n</c>'th bucket.</returns>
         public Bucket this[int n]
         {
             get
             {
                 LazySort();
-                return buckets[n];
+                return (Bucket) buckets[n].Clone();
             }
         }
         

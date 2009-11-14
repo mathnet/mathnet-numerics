@@ -255,8 +255,13 @@ namespace MathNet.Numerics.Distributions
                 return 1.0;
             }
 
-            int k = (int) Math.Floor(x);
-            return (_n - k) * Combinatorics.Combinations(_n,k) * SpecialFunctions.BetaRegularized(_n - k, 1 + k, 1-_p);
+            double cdf = 0.0;
+            for (int i = 0; i <= (int) Math.Floor(x); i++)
+            {
+                cdf += Combinatorics.Combinations(_n, i) * Math.Pow(_p, i) * Math.Pow(1.0 - _p, _n - i);
+            }
+
+            return cdf;
         }
 
         #endregion
@@ -366,7 +371,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Samples a Binomially distributed random variable.
         /// </summary>
-        /// <returns>The number of successful trials.</returns>
+        /// <returns>The number of successes in <paramref name="n"/> trials.</returns>
         public int Sample()
         {
             return DoSample(RandomSource, _p, _n);
@@ -375,7 +380,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Samples an array of Bernoulli distributed random variables.
         /// </summary>
-        /// <returns>a sequence of successful trial counts.</returns>
+        /// <returns>a sequence of successes in <paramref name="n"/> trials.</returns>
         public IEnumerable<int> Samples()
         {
             while (true)
@@ -392,7 +397,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The success probability of a trial; must be in the interval [0.0, 1.0].</param>
         /// <param name="n">The number of trials; must be positive.</param>
-        /// <returns>The number of successes in <see cref="N"/> trials.</returns>
+        /// <returns>The number of successes in <paramref name="n"/> trials.</returns>
         public static int Sample(System.Random rnd, double p, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
@@ -409,7 +414,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The success probability of a trial; must be in the interval [0.0, 1.0].</param>
         /// <param name="n">The number of trials; must be positive.</param>
-        /// <returns>a sequence of successful trial counts.</returns>
+        /// <returns>a sequence of successes in <paramref name="n"/> trials.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, double p, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))

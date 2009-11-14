@@ -95,7 +95,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
+        [Row(0.0, -1)]
         [Row(1.0, 0)]
+        [Row(1.5, 0)]
         [Row(2.0, 1)]
         [Row(-1.0, -1)]
         public void ValidateContains(double x, int r)
@@ -106,9 +108,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
         #endregion
 
+        #region Histogram Tests
 
-
-        #region
         [Test]
         public void CanCreateEmptyHistogram()
         {
@@ -123,9 +124,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
-        [Row(0.0, 0)]
         [Row(0.5, 0)]
-        [Row(1.0, 1)]
+        [Row(1.0, 0)]
         [Row(10.0, 3)]
         [Row(10000.0, 4)]
         public void CanGetBucketIndexOf(double x, double i)
@@ -137,6 +137,21 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             h.AddBucket(new Bucket(3.0, 20.0));
             h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
             Assert.AreEqual(i, h.GetBucketIndexOf(x));
+        }
+
+        [Test]
+        [Row(0.0)]
+        [Row(-1.0)]
+        [ExpectedArgumentException]
+        public void CanGetBucketIndexOfFailsWhenBucketDoesntExist(double x)
+        {
+            var h = new Histogram();
+            h.AddBucket(new Bucket(0.0, 1.0));
+            h.AddBucket(new Bucket(1.0, 2.0));
+            h.AddBucket(new Bucket(2.0, 3.0));
+            h.AddBucket(new Bucket(3.0, 20.0));
+            h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
+            int i = h.GetBucketIndexOf(x);
         }
 
         [Test]
@@ -256,18 +271,19 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Console.WriteLine("{0}", hist);
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 1; i < 9; i++)
             {
                 Console.WriteLine("{0} : {1}", i, hist[i].Count);
                 Assert.AreEqual(1.0, hist[i].Count);
             }
-            Assert.AreEqual(2.0, hist[8].Count);
+            Assert.AreEqual(2.0, hist[0].Count);
 
-            Assert.AreEqual(0.5, hist.LowerBound);
-            Assert.AreEqual(9.5.Increment(), hist.UpperBound);
+            Assert.AreEqual(0.5.Decrement(), hist.LowerBound);
+            Assert.AreEqual(9.5, hist.UpperBound);
         }
 
         [Test]
+        [MultipleAsserts]
         public void SmallDatasetHistogramWithBounds()
         {
             Histogram hist = new Histogram(smallDataset, 10, 0.0, 10.0);
