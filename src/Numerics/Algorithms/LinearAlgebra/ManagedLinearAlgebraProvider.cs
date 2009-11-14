@@ -340,7 +340,22 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             });
         }
 
-        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, double[] b, double beta, double[] c)
+        /// <summary>
+        /// Multiplies two matrices and updates another with the result. <c>c = alpha*op(a)*op(b) + beta*c</c>
+        /// </summary>
+        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
+        /// <param name="transposeB">How to transpose the <paramref name="b"/> matrix.</param>
+        /// <param name="alpha">The value to scale <paramref name="a"/> matrix.</param>
+        /// <param name="a">The a matrix.</param>
+        /// <param name="aRows">The number of rows in the <paramref name="a"/> matrix.</param>
+        /// <param name="aColumns">The number of columns in the <paramref name="a"/> matrix.</param>
+        /// <param name="b">The b matrix</param>
+        /// <param name="bRows">The number of rows in the <paramref name="b"/> matrix.</param>
+        /// <param name="bColumns">The number of columns in the <paramref name="b"/> matrix.</param>
+        /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
+        /// <param name="c">The c matrix.</param>
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, 
+            int aRows, int aColumns, double[] b, int bRows, int bColumns, double beta, double[] c)
         {
             throw new NotImplementedException();
         }
@@ -756,7 +771,22 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             });
         }
 
-        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, float[] b, float beta, float[] c)
+        /// <summary>
+        /// Multiplies two matrices and updates another with the result. <c>c = alpha*op(a)*op(b) + beta*c</c>
+        /// </summary>
+        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
+        /// <param name="transposeB">How to transpose the <paramref name="b"/> matrix.</param>
+        /// <param name="alpha">The value to scale <paramref name="a"/> matrix.</param>
+        /// <param name="a">The a matrix.</param>
+        /// <param name="aRows">The number of rows in the <paramref name="a"/> matrix.</param>
+        /// <param name="aColumns">The number of columns in the <paramref name="a"/> matrix.</param>
+        /// <param name="b">The b matrix</param>
+        /// <param name="bRows">The number of rows in the <paramref name="b"/> matrix.</param>
+        /// <param name="bColumns">The number of columns in the <paramref name="b"/> matrix.</param>
+        /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
+        /// <param name="c">The c matrix.</param>
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, 
+            int aRows, int aColumns, float[] b, int bRows, int bColumns, float beta, float[] c)
         {
             throw new NotImplementedException();
         }
@@ -1172,7 +1202,22 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 });
         }
 
-        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, Complex[] b, Complex beta, Complex[] c)
+        /// <summary>
+        /// Multiplies two matrices and updates another with the result. <c>c = alpha*op(a)*op(b) + beta*c</c>
+        /// </summary>
+        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
+        /// <param name="transposeB">How to transpose the <paramref name="b"/> matrix.</param>
+        /// <param name="alpha">The value to scale <paramref name="a"/> matrix.</param>
+        /// <param name="a">The a matrix.</param>
+        /// <param name="aRows">The number of rows in the <paramref name="a"/> matrix.</param>
+        /// <param name="aColumns">The number of columns in the <paramref name="a"/> matrix.</param>
+        /// <param name="b">The b matrix</param>
+        /// <param name="bRows">The number of rows in the <paramref name="b"/> matrix.</param>
+        /// <param name="bColumns">The number of columns in the <paramref name="b"/> matrix.</param>
+        /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
+        /// <param name="c">The c matrix.</param>
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, 
+            int aRows, int aColumns, Complex[] b, int bRows, int bColumns, Complex beta, Complex[] c)
         {
             throw new NotImplementedException();
         }
@@ -1588,7 +1633,22 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             });
         }
 
-        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, Complex32[] b, Complex32 beta, Complex32[] c)
+        /// <summary>
+        /// Multiplies two matrices and updates another with the result. <c>c = alpha*op(a)*op(b) + beta*c</c>
+        /// </summary>
+        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
+        /// <param name="transposeB">How to transpose the <paramref name="b"/> matrix.</param>
+        /// <param name="alpha">The value to scale <paramref name="a"/> matrix.</param>
+        /// <param name="a">The a matrix.</param>
+        /// <param name="aRows">The number of rows in the <paramref name="a"/> matrix.</param>
+        /// <param name="aColumns">The number of columns in the <paramref name="a"/> matrix.</param>
+        /// <param name="b">The b matrix</param>
+        /// <param name="bRows">The number of rows in the <paramref name="b"/> matrix.</param>
+        /// <param name="bColumns">The number of columns in the <paramref name="b"/> matrix.</param>
+        /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
+        /// <param name="c">The c matrix.</param>
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, 
+            int aRows, int aColumns, Complex32[] b, int bRows, int bColumns, Complex32 beta, Complex32[] c)
         {
             throw new NotImplementedException();
         }
