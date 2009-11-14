@@ -346,6 +346,16 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Returns the <c>Bucket</c> with index <paramref name="i"/>.
+        /// </summary>
+        /// <param name="i">The index of the bucket to retrieve.</param>
+        /// <returns>A reference to the bucket at index <paramref name="i"/>.</returns>
+        public Bucket GetBucket(int i)
+        {
+            return buckets[i];
+        }
+
+        /// <summary>
         /// Returns the <c>Bucket</c> that contains the value <c>v</c>. 
         /// </summary>
         /// <param name="v">The point to search the bucket for.</param>
