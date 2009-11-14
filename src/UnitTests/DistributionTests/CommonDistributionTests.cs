@@ -32,8 +32,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     using System.Linq;
     using System.Collections.Generic;
     using MbUnit.Framework;
-    using MathNet.Numerics.Distributions;
+    using MathNet.Numerics.Random;
     using MathNet.Numerics.Statistics;
+    using MathNet.Numerics.Distributions;
 
     [TestFixture]
     public class CommonDistributionTests
@@ -116,29 +117,34 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [MultipleAsserts]
         public void SampleFollowsCorrectDistribution()
         {
+            Random rnd = new MersenneTwister();
+
             // The test samples from the distributions, builds a histogram and checks
             // whether the histogram follows the CDF.
             foreach (var dd in discreteDistributions)
             {
-                int[] samples = new int[numberOfTestSamples];
+                dd.RandomSource = rnd;
+
+                double[] samples = new double[numberOfTestSamples];
                 for (int i = 0; i < numberOfTestSamples; i++)
                 {
-                    samples[i] = dd.Sample();
+                    samples[i] = (double) dd.Sample();
                 }
 
-                var histogram = new Histogram(samples.Select(x => (double)x), numberOfBuckets);
+                var histogram = new Histogram(samples, numberOfBuckets);
                 for (int i = 0; i < numberOfBuckets; i++)
                 {
-                    var bucket = histogram.GetBucket(i);
+                    var bucket = histogram[i];
                     double empiricalProbability = bucket.Count / (double)numberOfTestSamples;
                     double realProbability = dd.CumulativeDistribution(bucket.UpperBound)
                         - dd.CumulativeDistribution(bucket.LowerBound);
-                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy);
+                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy, dd.ToString());
                 }
             }
 
             foreach (var cd in continuousDistributions)
             {
+                cd.RandomSource = rnd;
                 double[] samples = new double[numberOfTestSamples];
                 for (int i = 0; i < numberOfTestSamples; i++)
                 {
@@ -148,11 +154,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 var histogram = new Histogram(samples, numberOfBuckets);
                 for (int i = 0; i < numberOfBuckets; i++)
                 {
-                    var bucket = histogram.GetBucket(i);
+                    var bucket = histogram[i];
                     double empiricalProbability = bucket.Count / (double)numberOfTestSamples;
                     double realProbability = cd.CumulativeDistribution(bucket.UpperBound)
                         - cd.CumulativeDistribution(bucket.LowerBound);
-                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy);
+                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy, cd.ToString());
                 }
             }
         }
@@ -161,35 +167,39 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [MultipleAsserts]
         public void SamplesFollowsCorrectDistribution()
         {
+            Random rnd = new MersenneTwister();
+
             // The test samples from the distributions, builds a histogram and checks
             // whether the histogram follows the CDF.
             foreach (var dd in discreteDistributions)
             {
+                dd.RandomSource = rnd;
                 var samples = dd.Samples().Take(numberOfTestSamples).Select(x => (double)x);
 
                 var histogram = new Histogram(samples, numberOfBuckets);
                 for (int i = 0; i < numberOfBuckets; i++)
                 {
-                    var bucket = histogram.GetBucket(i);
+                    var bucket = histogram[i];
                     double empiricalProbability = bucket.Count / (double)numberOfTestSamples;
                     double realProbability = dd.CumulativeDistribution(bucket.UpperBound)
                         - dd.CumulativeDistribution(bucket.LowerBound);
-                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy);
+                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy, dd.ToString());
                 }
             }
 
             foreach (var cd in continuousDistributions)
             {
+                cd.RandomSource = rnd;
                 var samples = cd.Samples().Take(numberOfTestSamples);
 
                 var histogram = new Histogram(samples, numberOfBuckets);
                 for (int i = 0; i < numberOfBuckets; i++)
                 {
-                    var bucket = histogram.GetBucket(i);
+                    var bucket = histogram[i];
                     double empiricalProbability = bucket.Count / (double)numberOfTestSamples;
                     double realProbability = cd.CumulativeDistribution(bucket.UpperBound)
                         - cd.CumulativeDistribution(bucket.LowerBound);
-                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy);
+                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), sampleAccuracy, cd.ToString());
                 }
             }
         }
