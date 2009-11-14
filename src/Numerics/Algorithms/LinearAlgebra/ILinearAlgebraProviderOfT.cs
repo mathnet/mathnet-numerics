@@ -193,10 +193,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="transposeB">How to transpose the <paramref name="b"/> matrix.</param>
         /// <param name="alpha">The value to scale <paramref name="a"/> matrix.</param>
         /// <param name="a">The a matrix.</param>
+        /// <param name="aRows">The number of rows in the <paramref name="a"/> matrix.</param>
+        /// <param name="aColumns">The number of columns in the <paramref name="a"/> matrix.</param>
         /// <param name="b">The b matrix</param>
+        /// <param name="bRows">The number of rows in the <paramref name="b"/> matrix.</param>
+        /// <param name="bColumns">The number of columns in the <paramref name="b"/> matrix.</param>
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
-        void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, T alpha, T[] a, T[] b, T beta, T[] c);
+        void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, T alpha, T[] a, 
+            int aRows, int aColumns, T[] b, int bRows, int bColumns, T beta, T[] c);
 
         /// <summary>
         /// Computes the LU factorization of A.
