@@ -50,7 +50,7 @@ namespace MathNet.Numerics.Distributions
     public class Categorical : IDiscreteDistribution
     {
         /// <summary>
-        /// Stores the normalized categorical probabilities.
+        /// Stores the unnormalized categorical probabilities.
         /// </summary>
         private double[] _p;
 
@@ -71,24 +71,31 @@ namespace MathNet.Numerics.Distributions
             RandomSource = new System.Random();
         }
 
-        /* TODO
         /// <summary>
-        /// Generate a categorical distribution from histogram <paramref name="h"/>. The distribution will
-        /// not be automatically updated when the histogram changes.
+        /// Initializes a new instance of the Categorical class from a histogram <paramref name="h"/>. The distribution 
+        /// will not be automatically updated when the histogram changes. The categorical distribution will have
+        /// one value for each bucket and a probability for that value proportional to the bucket count.
         /// </summary>
-        public Categorical(Histogram h)
+        /// <param name="h">The histogram from which to create the categorical variable.</param>
+        public Categorical(Histogram histogram)
         {
-            // The probability distribution vector.
-            _p = new double[h.BinCount];
-
-            // Fill in the distribution vector.
-            for (int i = 0; i < h.BinCount; i++)
+            if (histogram == null)
             {
-                _p[i] = h[i];
+                throw new ArgumentNullException("Cannot create a categorical variable from a null histogram.");
             }
 
-            RandomNumberGenerator = new System.Random();
-        }*/
+            // The probability distribution vector.
+            double[] p = new double[histogram.BucketCount];
+
+            // Fill in the distribution vector.
+            for (int i = 0; i < histogram.BucketCount; i++)
+            {
+                p[i] = histogram[i].Count;
+            }
+
+            SetParameters(p);
+            RandomSource = new System.Random();
+        }
 
         /// <summary>
         /// A string representation of the distribution.
@@ -144,13 +151,28 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the probability of generating a one.
+        /// Gets or sets the normalized probability vector of the multinomial.
         /// </summary>
+        /// <remarks>Note that sometimes the normalized probability vector cannot be represented
+        /// exactly in a floating point representation.</remarks>
         public double[] P
         {
             get
             {
-                return (double[]) _p.Clone();
+                double[] p = (double[]) _p.Clone();
+
+                double sum = 0.0;
+                for (int i = 0; i < p.Length; i++)
+                {
+                    sum += p[i];
+                }
+
+                for (int i = 0; i < p.Length; i++)
+                {
+                    p[i] /= sum;
+                }
+
+                return p;
             }
 
             set

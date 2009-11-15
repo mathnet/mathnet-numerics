@@ -32,6 +32,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     using System.Linq;
     using MbUnit.Framework;
     using MathNet.Numerics.Distributions;
+    using MathNet.Numerics.Statistics;
 
     [TestFixture]
     public class CategoricalTests
@@ -55,7 +56,28 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void CanCreateCategorical()
         {
             var m = new Categorical(largeP);
-            AssertEx.AreEqual<double[]>(largeP, m.P);
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanCreateCategoricalFromHistogram()
+        {
+            double[] smallDataset = { 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5 };
+            Histogram hist = new Histogram(smallDataset, 10, 0.0, 10.0);
+            var m = new Categorical(hist);
+
+            for (int i = 0; i <= m.Maximum; i++)
+            {
+                AssertEx.AreEqual<double>(1.0/10.0, m.P[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CategoricalCreateFailsWithNullHistogram()
+        {
+            Histogram h = null;
+            var m = new Categorical(h);
         }
 
         [Test]
