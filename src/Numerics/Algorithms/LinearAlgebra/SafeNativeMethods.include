@@ -73,6 +73,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_scale(int n, ref Complex alpha, [In, Out] Complex[] x);
         
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern float s_dot_product(int n, float[] x, float[] y);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern double d_dot_product(int n, double[] x, double[] y);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern Complex32 c_dot_product(int n, Complex32[] x, Complex32[] y);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern Complex z_dot_product(int n, Complex[] x, Complex[] y);
+        
         #endregion BLAS
     }
 }

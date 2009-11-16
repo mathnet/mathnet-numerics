@@ -79,14 +79,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public interface ILinearAlgebraProvider<T> where T : struct
     {
-        /// <summary>
+        /*/// <summary>
         /// Queries the provider for the optimal, workspace block size
         /// for the given routine.
         /// </summary>
         /// <param name="methodName">Name of the method to query.</param>
         /// <returns>-1 if the provider cannot compute the workspace size; otherwise
         /// the suggested block size.</returns>
-        int QueryWorkspaceBlockSize(string methodName);
+        int QueryWorkspaceBlockSize(string methodName);*/
         
         /// <summary>
         /// Adds a scaled vector to another: <c>y += alpha*x</c>.
@@ -233,8 +233,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
-        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         void LUInverse(T[] a, T[] work);
@@ -245,8 +244,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
-        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
+        /// but should be N*blocksize. The blocksize is machine dependent.  On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         void LUInverseFactored(T[] a, int[] ipiv, T[] work);
@@ -335,8 +333,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
-        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         void QRFactor(T[] r, T[] q, T[] work);
@@ -364,8 +361,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. Use <see cref="QueryWorkspaceBlockSize"/>
-        /// to determine the optimal size of the work array. On exit, work[0] contains the optimal
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         void QRSolve(int columnsOfB, T[] r, T[] q, T[] b, T[] x, T[] work);
 
