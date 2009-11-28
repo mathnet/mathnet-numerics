@@ -294,8 +294,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
         /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        void CholeskyFactor(T[] a);
+        void CholeskyFactor(T[] a, int order);
 
         /// <summary>
         /// Solves A*X=B for X using Cholesky factorization.
