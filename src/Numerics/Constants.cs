@@ -162,6 +162,11 @@ namespace MathNet.Numerics
         /// </summary>
         public const int SizeOfDouble = sizeof(double);
 
+        /// <summary>
+        /// The size of a float in bytes.
+        /// </summary>
+        public const int SizeOfFloat = sizeof(float);
+
         #endregion
 
         #region UNIVERSAL CONSTANTS

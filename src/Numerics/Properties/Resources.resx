@@ -288,4 +288,10 @@
   <data name="ProposalDistributionNoUpperBound" xml:space="preserve">
     <value>The sampler's proposal distribution is not upper bounding the target density.</value>
   </data>
+  <data name="ArgumentMatrixPositiveDefinite" xml:space="preserve">
+    <value>Matrix must be positive definite.</value>
+  </data>
+  <data name="ArgumentArraysSameLength" xml:space="preserve">
+    <value>The array arguments must have the same length.</value>
+  </data>
 </root>

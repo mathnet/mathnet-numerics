@@ -357,7 +357,330 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, 
             int aRows, int aColumns, double[] b, int bRows, int bColumns, double beta, double[] c)
         {
-            throw new NotImplementedException();
+            // Choose nonsensical values for the number of rows and columns in c; fill them in depending
+            // on the operations on a and b.
+            int cRows = -1;
+            int cColumns = -1;
+
+            // First check some basic requirement on the parameters of the matrix multiplication.
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if ((int)transposeA > 111 && (int)transposeB > 111)
+            {
+                if (aRows != bColumns)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aColumns * bRows != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aColumns;
+                cColumns = bRows;
+            }
+            else if ((int)transposeA > 111)
+            {
+                if (aRows != bRows)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aColumns * bColumns != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aColumns;
+                cColumns = bColumns;
+            }
+            else if ((int)transposeB > 111)
+            {
+                if (aColumns != bColumns)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aRows * bRows != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aRows;
+                cColumns = bRows;
+            }
+            else
+            {
+                if (aColumns != bRows)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aRows * bColumns != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aRows;
+                cColumns = bColumns;
+            }
+
+            if (Precision.AlmostEqual(0.0, alpha)
+                && Precision.AlmostEqual(0.0, beta))
+            {
+                Array.Clear(c, 0, c.Length);
+                return;
+            }
+
+
+            // Check whether we will be overwriting any of our inputs and make copies if necessary.
+            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
+            // as result, we can do it on a row wise basis. We should investigate this.
+            double[] adata;
+            if (ReferenceEquals(a, c))
+            {
+                adata = (double[])a.Clone();
+            }
+            else
+            {
+                adata = a;
+            }
+
+            double[] bdata;
+            if (ReferenceEquals(b, c))
+            {
+                bdata = (double[])b.Clone();
+            }
+            else
+            {
+                bdata = b;
+            }
+
+            if (Precision.AlmostEqual(1.0, alpha))
+            {
+                if (Precision.AlmostEqual(0.0, beta))
+                {
+                    if ((int)transposeA > 111 && (int)transposeB > 111)
+                    {
+                        Parallel.For(0, aColumns, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != bRows; i++)
+                            {
+                                int iIndex = i * aRows;
+                                double s = 0;
+                                for (int l = 0; l != bColumns; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeA > 111)
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aColumns; i++)
+                            {
+                                int iIndex = i * aRows;
+                                double s = 0;
+                                for (int l = 0; l != aRows; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeB > 111)
+                    {
+                        Parallel.For(0, bRows, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                double s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                double s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s;
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    if ((int)transposeA > 111 && (int)transposeB > 111)
+                    {
+                        Parallel.For(0, aColumns, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != bRows; i++)
+                            {
+                                int iIndex = i * aRows;
+                                double s = 0;
+                                for (int l = 0; l != bColumns; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = c[jIndex + i] * beta + s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeA > 111)
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aColumns; i++)
+                            {
+                                int iIndex = i * aRows;
+                                double s = 0;
+                                for (int l = 0; l != aRows; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                            }
+                        });
+                    }
+                    else if ((int)transposeB > 111)
+                    {
+                        Parallel.For(0, bRows, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                double s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s + c[jIndex + i] * beta;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                double s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                            }
+                        });
+                    }
+                }
+            }
+            else
+            {
+                if ((int)transposeA > 111 && (int)transposeB > 111)
+                {
+                    Parallel.For(0, aColumns, j =>
+                    {
+                        int jIndex = j * cRows;
+                        for (int i = 0; i != bRows; i++)
+                        {
+                            int iIndex = i * aRows;
+                            double s = 0;
+                            for (int l = 0; l != bColumns; l++)
+                            {
+                                s += adata[iIndex + l] * bdata[l * bRows + j];
+                            }
+                            c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
+                        }
+                    });
+                }
+                else if ((int)transposeA > 111)
+                {
+                    Parallel.For(0, bColumns, j =>
+                    {
+                        int jcIndex = j * cRows;
+                        int jbIndex = j * bRows;
+                        for (int i = 0; i != aColumns; i++)
+                        {
+                            int iIndex = i * aRows;
+                            double s = 0;
+                            for (int l = 0; l != aRows; l++)
+                            {
+                                s += adata[iIndex + l] * bdata[jbIndex + l];
+                            }
+                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                        }
+                    });
+                }
+                else if ((int)transposeB > 111)
+                {
+                    Parallel.For(0, bRows, j =>
+                    {
+                        int jIndex = j * cRows;
+                        for (int i = 0; i != aRows; i++)
+                        {
+                            double s = 0;
+                            for (int l = 0; l != aColumns; l++)
+                            {
+                                s += adata[l * aRows + i] * bdata[l * bRows + j];
+                            }
+                            c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
+                        }
+                    });
+                }
+                else
+                {
+                    Parallel.For(0, bColumns, j =>
+                    {
+                        int jcIndex = j * cRows;
+                        int jbIndex = j * bRows;
+                        for (int i = 0; i != aRows; i++)
+                        {
+                            double s = 0;
+                            for (int l = 0; l != aColumns; l++)
+                            {
+                                s += adata[l * aRows + i] * bdata[jbIndex + l];
+                            }
+                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                        }
+                    });
+                }
+            }
         }
 
         public void LUFactor(double[] a, int[] ipiv)
@@ -405,9 +728,48 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void CholeskyFactor(double[] a)
+        /// <summary>
+        /// Computes the Cholesky factorization of A.
+        /// </summary>
+        /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
+        /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
+        /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
+        public void CholeskyFactor(double[] a, int order)
         {
-            throw new NotImplementedException();
+            double[] factor = new double[a.Length];
+
+            for (int j = 0; j < order; j++)
+            {
+                double d = 0.0;
+                int index;
+                for (int k = 0; k < j; k++)
+                {
+                    double s = 0.0;
+                    int i;
+                    for (i = 0; i < k; i++)
+                    {
+                        s += factor[i * order + k] * factor[i * order + j];
+                    }
+                    int tmp = k * order;
+                    index = tmp + j;
+                    factor[index] = s = (a[index] - s) / factor[tmp + k];
+                    d += s * s;
+                }
+                index = j * order + j;
+                d = a[index] - d;
+                if (d <= 0.0)
+                {
+                    throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+                }
+                factor[index] = System.Math.Sqrt(d);
+                for (int k = j + 1; k < order; k++)
+                {
+                    factor[k * order + j] = 0.0;
+                }
+            }
+
+            Buffer.BlockCopy(factor, 0, a, 0, factor.Length * Constants.SizeOfDouble);
         }
 
         public void CholeskySolve(int columnsOfB, double[] a, double[] b)
@@ -788,7 +1150,330 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, 
             int aRows, int aColumns, float[] b, int bRows, int bColumns, float beta, float[] c)
         {
-            throw new NotImplementedException();
+            // Choose nonsensical values for the number of rows and columns in c; fill them in depending
+            // on the operations on a and b.
+            int cRows = -1;
+            int cColumns = -1;
+
+            // First check some basic requirement on the parameters of the matrix multiplication.
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if ((int)transposeA > 111 && (int)transposeB > 111)
+            {
+                if (aRows != bColumns)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aColumns * bRows != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aColumns;
+                cColumns = bRows;
+            }
+            else if ((int)transposeA > 111)
+            {
+                if (aRows != bRows)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aColumns * bColumns != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aColumns;
+                cColumns = bColumns;
+            }
+            else if ((int)transposeB > 111)
+            {
+                if (aColumns != bColumns)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aRows * bRows != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aRows;
+                cColumns = bRows;
+            }
+            else
+            {
+                if (aColumns != bRows)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aRows * bColumns != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aRows;
+                cColumns = bColumns;
+            }
+
+            if (Precision.AlmostEqual(0.0, alpha)
+                && Precision.AlmostEqual(0.0, beta))
+            {
+                Array.Clear(c, 0, c.Length);
+                return;
+            }
+
+
+            // Check whether we will be overwriting any of our inputs and make copies if necessary.
+            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
+            // as result, we can do it on a row wise basis. We should investigate this.
+            float[] adata;
+            if (ReferenceEquals(a, c))
+            {
+                adata = (float[])a.Clone();
+            }
+            else
+            {
+                adata = a;
+            }
+
+            float[] bdata;
+            if (ReferenceEquals(b, c))
+            {
+                bdata = (float[])b.Clone();
+            }
+            else
+            {
+                bdata = b;
+            }
+
+            if (Precision.AlmostEqual(1.0, alpha))
+            {
+                if (Precision.AlmostEqual(0.0, beta))
+                {
+                    if ((int)transposeA > 111 && (int)transposeB > 111)
+                    {
+                        Parallel.For(0, aColumns, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != bRows; i++)
+                            {
+                                int iIndex = i * aRows;
+                                float s = 0;
+                                for (int l = 0; l != bColumns; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeA > 111)
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aColumns; i++)
+                            {
+                                int iIndex = i * aRows;
+                                float s = 0;
+                                for (int l = 0; l != aRows; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeB > 111)
+                    {
+                        Parallel.For(0, bRows, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                float s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                float s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s;
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    if ((int)transposeA > 111 && (int)transposeB > 111)
+                    {
+                        Parallel.For(0, aColumns, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != bRows; i++)
+                            {
+                                int iIndex = i * aRows;
+                                float s = 0;
+                                for (int l = 0; l != bColumns; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = c[jIndex + i] * beta + s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeA > 111)
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aColumns; i++)
+                            {
+                                int iIndex = i * aRows;
+                                float s = 0;
+                                for (int l = 0; l != aRows; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                            }
+                        });
+                    }
+                    else if ((int)transposeB > 111)
+                    {
+                        Parallel.For(0, bRows, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                float s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s + c[jIndex + i] * beta;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                float s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                            }
+                        });
+                    }
+                }
+            }
+            else
+            {
+                if ((int)transposeA > 111 && (int)transposeB > 111)
+                {
+                    Parallel.For(0, aColumns, j =>
+                    {
+                        int jIndex = j * cRows;
+                        for (int i = 0; i != bRows; i++)
+                        {
+                            int iIndex = i * aRows;
+                            float s = 0;
+                            for (int l = 0; l != bColumns; l++)
+                            {
+                                s += adata[iIndex + l] * bdata[l * bRows + j];
+                            }
+                            c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
+                        }
+                    });
+                }
+                else if ((int)transposeA > 111)
+                {
+                    Parallel.For(0, bColumns, j =>
+                    {
+                        int jcIndex = j * cRows;
+                        int jbIndex = j * bRows;
+                        for (int i = 0; i != aColumns; i++)
+                        {
+                            int iIndex = i * aRows;
+                            float s = 0;
+                            for (int l = 0; l != aRows; l++)
+                            {
+                                s += adata[iIndex + l] * bdata[jbIndex + l];
+                            }
+                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                        }
+                    });
+                }
+                else if ((int)transposeB > 111)
+                {
+                    Parallel.For(0, bRows, j =>
+                    {
+                        int jIndex = j * cRows;
+                        for (int i = 0; i != aRows; i++)
+                        {
+                            float s = 0;
+                            for (int l = 0; l != aColumns; l++)
+                            {
+                                s += adata[l * aRows + i] * bdata[l * bRows + j];
+                            }
+                            c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
+                        }
+                    });
+                }
+                else
+                {
+                    Parallel.For(0, bColumns, j =>
+                    {
+                        int jcIndex = j * cRows;
+                        int jbIndex = j * bRows;
+                        for (int i = 0; i != aRows; i++)
+                        {
+                            float s = 0;
+                            for (int l = 0; l != aColumns; l++)
+                            {
+                                s += adata[l * aRows + i] * bdata[jbIndex + l];
+                            }
+                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                        }
+                    });
+                }
+            }
         }
 
         public void LUFactor(float[] a, int[] ipiv)
@@ -836,9 +1521,48 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void CholeskyFactor(float[] a)
+        /// <summary>
+        /// Computes the Cholesky factorization of A.
+        /// </summary>
+        /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
+        /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
+        /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
+        public void CholeskyFactor(float[] a, int order)
         {
-            throw new NotImplementedException();
+            float[] factor = new float[a.Length];
+
+            for (int j = 0; j < order; j++)
+            {
+                float d = 0.0F;
+                int index;
+                for (int k = 0; k < j; k++)
+                {
+                    float s = 0.0F;
+                    int i;
+                    for (i = 0; i < k; i++)
+                    {
+                        s += factor[i * order + k] * factor[i * order + j];
+                    }
+                    int tmp = k * order;
+                    index = tmp + j;
+                    factor[index] = s = (a[index] - s) / factor[tmp + k];
+                    d += s * s;
+                }
+                index = j * order + j;
+                d = a[index] - d;
+                if (d <= 0.0F)
+                {
+                    throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+                }
+                factor[index] = (float) System.Math.Sqrt(d);
+                for (int k = j + 1; k < order; k++)
+                {
+                    factor[k * order + j] = 0.0F;
+                }
+            }
+
+            Buffer.BlockCopy(factor, 0, a, 0, factor.Length * Constants.SizeOfFloat);
         }
 
         public void CholeskySolve(int columnsOfB, float[] a, float[] b)
@@ -1219,7 +1943,330 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, 
             int aRows, int aColumns, Complex[] b, int bRows, int bColumns, Complex beta, Complex[] c)
         {
-            throw new NotImplementedException();
+            // Choose nonsensical values for the number of rows and columns in c; fill them in depending
+            // on the operations on a and b.
+            int cRows = -1;
+            int cColumns = -1;
+
+            // First check some basic requirement on the parameters of the matrix multiplication.
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if ((int)transposeA > 111 && (int)transposeB > 111)
+            {
+                if (aRows != bColumns)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aColumns * bRows != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aColumns;
+                cColumns = bRows;
+            }
+            else if ((int)transposeA > 111)
+            {
+                if (aRows != bRows)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aColumns * bColumns != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aColumns;
+                cColumns = bColumns;
+            }
+            else if ((int)transposeB > 111)
+            {
+                if (aColumns != bColumns)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aRows * bRows != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aRows;
+                cColumns = bRows;
+            }
+            else
+            {
+                if (aColumns != bRows)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aRows * bColumns != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aRows;
+                cColumns = bColumns;
+            }
+
+            if (Precision.AlmostEqual(0.0, alpha)
+                && Precision.AlmostEqual(0.0, beta))
+            {
+                Array.Clear(c, 0, c.Length);
+                return;
+            }
+
+
+            // Check whether we will be overwriting any of our inputs and make copies if necessary.
+            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
+            // as result, we can do it on a row wise basis. We should investigate this.
+            Complex[] adata;
+            if (ReferenceEquals(a, c))
+            {
+                adata = (Complex[])a.Clone();
+            }
+            else
+            {
+                adata = a;
+            }
+
+            Complex[] bdata;
+            if (ReferenceEquals(b, c))
+            {
+                bdata = (Complex[])b.Clone();
+            }
+            else
+            {
+                bdata = b;
+            }
+
+            if (Precision.AlmostEqual(1.0, alpha))
+            {
+                if (Precision.AlmostEqual(0.0, beta))
+                {
+                    if ((int)transposeA > 111 && (int)transposeB > 111)
+                    {
+                        Parallel.For(0, aColumns, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != bRows; i++)
+                            {
+                                int iIndex = i * aRows;
+                                Complex s = 0;
+                                for (int l = 0; l != bColumns; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeA > 111)
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aColumns; i++)
+                            {
+                                int iIndex = i * aRows;
+                                Complex s = 0;
+                                for (int l = 0; l != aRows; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeB > 111)
+                    {
+                        Parallel.For(0, bRows, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                Complex s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                Complex s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s;
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    if ((int)transposeA > 111 && (int)transposeB > 111)
+                    {
+                        Parallel.For(0, aColumns, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != bRows; i++)
+                            {
+                                int iIndex = i * aRows;
+                                Complex s = 0;
+                                for (int l = 0; l != bColumns; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = c[jIndex + i] * beta + s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeA > 111)
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aColumns; i++)
+                            {
+                                int iIndex = i * aRows;
+                                Complex s = 0;
+                                for (int l = 0; l != aRows; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                            }
+                        });
+                    }
+                    else if ((int)transposeB > 111)
+                    {
+                        Parallel.For(0, bRows, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                Complex s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s + c[jIndex + i] * beta;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                Complex s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                            }
+                        });
+                    }
+                }
+            }
+            else
+            {
+                if ((int)transposeA > 111 && (int)transposeB > 111)
+                {
+                    Parallel.For(0, aColumns, j =>
+                    {
+                        int jIndex = j * cRows;
+                        for (int i = 0; i != bRows; i++)
+                        {
+                            int iIndex = i * aRows;
+                            Complex s = 0;
+                            for (int l = 0; l != bColumns; l++)
+                            {
+                                s += adata[iIndex + l] * bdata[l * bRows + j];
+                            }
+                            c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
+                        }
+                    });
+                }
+                else if ((int)transposeA > 111)
+                {
+                    Parallel.For(0, bColumns, j =>
+                    {
+                        int jcIndex = j * cRows;
+                        int jbIndex = j * bRows;
+                        for (int i = 0; i != aColumns; i++)
+                        {
+                            int iIndex = i * aRows;
+                            Complex s = 0;
+                            for (int l = 0; l != aRows; l++)
+                            {
+                                s += adata[iIndex + l] * bdata[jbIndex + l];
+                            }
+                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                        }
+                    });
+                }
+                else if ((int)transposeB > 111)
+                {
+                    Parallel.For(0, bRows, j =>
+                    {
+                        int jIndex = j * cRows;
+                        for (int i = 0; i != aRows; i++)
+                        {
+                            Complex s = 0;
+                            for (int l = 0; l != aColumns; l++)
+                            {
+                                s += adata[l * aRows + i] * bdata[l * bRows + j];
+                            }
+                            c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
+                        }
+                    });
+                }
+                else
+                {
+                    Parallel.For(0, bColumns, j =>
+                    {
+                        int jcIndex = j * cRows;
+                        int jbIndex = j * bRows;
+                        for (int i = 0; i != aRows; i++)
+                        {
+                            Complex s = 0;
+                            for (int l = 0; l != aColumns; l++)
+                            {
+                                s += adata[l * aRows + i] * bdata[jbIndex + l];
+                            }
+                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                        }
+                    });
+                }
+            }
         }
 
         public void LUFactor(Complex[] a, int[] ipiv)
@@ -1267,7 +2314,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void CholeskyFactor(Complex[] a)
+        /// <summary>
+        /// Computes the Cholesky factorization of A.
+        /// </summary>
+        /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
+        /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
+        /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
+        public void CholeskyFactor(Complex[] a, int order)
         {
             throw new NotImplementedException();
         }
@@ -1650,7 +2704,330 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, 
             int aRows, int aColumns, Complex32[] b, int bRows, int bColumns, Complex32 beta, Complex32[] c)
         {
-            throw new NotImplementedException();
+            // Choose nonsensical values for the number of rows and columns in c; fill them in depending
+            // on the operations on a and b.
+            int cRows = -1;
+            int cColumns = -1;
+
+            // First check some basic requirement on the parameters of the matrix multiplication.
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if ((int)transposeA > 111 && (int)transposeB > 111)
+            {
+                if (aRows != bColumns)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aColumns * bRows != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aColumns;
+                cColumns = bRows;
+            }
+            else if ((int)transposeA > 111)
+            {
+                if (aRows != bRows)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aColumns * bColumns != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aColumns;
+                cColumns = bColumns;
+            }
+            else if ((int)transposeB > 111)
+            {
+                if (aColumns != bColumns)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aRows * bRows != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aRows;
+                cColumns = bRows;
+            }
+            else
+            {
+                if (aColumns != bRows)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (aRows * bColumns != c.Length)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                cRows = aRows;
+                cColumns = bColumns;
+            }
+
+            if (Precision.AlmostEqual((Complex32)0.0, alpha)
+                && Precision.AlmostEqual((Complex32)0.0, beta))
+            {
+                Array.Clear(c, 0, c.Length);
+                return;
+            }
+
+
+            // Check whether we will be overwriting any of our inputs and make copies if necessary.
+            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
+            // as result, we can do it on a row wise basis. We should investigate this.
+            Complex32[] adata;
+            if (ReferenceEquals(a, c))
+            {
+                adata = (Complex32[])a.Clone();
+            }
+            else
+            {
+                adata = a;
+            }
+
+            Complex32[] bdata;
+            if (ReferenceEquals(b, c))
+            {
+                bdata = (Complex32[])b.Clone();
+            }
+            else
+            {
+                bdata = b;
+            }
+
+            if (Precision.AlmostEqual((Complex32)1.0, alpha))
+            {
+                if (Precision.AlmostEqual((Complex32)0.0, beta))
+                {
+                    if ((int)transposeA > 111 && (int)transposeB > 111)
+                    {
+                        Parallel.For(0, aColumns, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != bRows; i++)
+                            {
+                                int iIndex = i * aRows;
+                                Complex32 s = 0;
+                                for (int l = 0; l != bColumns; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeA > 111)
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aColumns; i++)
+                            {
+                                int iIndex = i * aRows;
+                                Complex32 s = 0;
+                                for (int l = 0; l != aRows; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeB > 111)
+                    {
+                        Parallel.For(0, bRows, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                Complex32 s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                Complex32 s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s;
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    if ((int)transposeA > 111 && (int)transposeB > 111)
+                    {
+                        Parallel.For(0, aColumns, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != bRows; i++)
+                            {
+                                int iIndex = i * aRows;
+                                Complex32 s = 0;
+                                for (int l = 0; l != bColumns; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = c[jIndex + i] * beta + s;
+                            }
+                        });
+                    }
+                    else if ((int)transposeA > 111)
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aColumns; i++)
+                            {
+                                int iIndex = i * aRows;
+                                Complex32 s = 0;
+                                for (int l = 0; l != aRows; l++)
+                                {
+                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                            }
+                        });
+                    }
+                    else if ((int)transposeB > 111)
+                    {
+                        Parallel.For(0, bRows, j =>
+                        {
+                            int jIndex = j * cRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                Complex32 s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                }
+                                c[jIndex + i] = s + c[jIndex + i] * beta;
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Parallel.For(0, bColumns, j =>
+                        {
+                            int jcIndex = j * cRows;
+                            int jbIndex = j * bRows;
+                            for (int i = 0; i != aRows; i++)
+                            {
+                                Complex32 s = 0;
+                                for (int l = 0; l != aColumns; l++)
+                                {
+                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                }
+                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                            }
+                        });
+                    }
+                }
+            }
+            else
+            {
+                if ((int)transposeA > 111 && (int)transposeB > 111)
+                {
+                    Parallel.For(0, aColumns, j =>
+                    {
+                        int jIndex = j * cRows;
+                        for (int i = 0; i != bRows; i++)
+                        {
+                            int iIndex = i * aRows;
+                            Complex32 s = 0;
+                            for (int l = 0; l != bColumns; l++)
+                            {
+                                s += adata[iIndex + l] * bdata[l * bRows + j];
+                            }
+                            c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
+                        }
+                    });
+                }
+                else if ((int)transposeA > 111)
+                {
+                    Parallel.For(0, bColumns, j =>
+                    {
+                        int jcIndex = j * cRows;
+                        int jbIndex = j * bRows;
+                        for (int i = 0; i != aColumns; i++)
+                        {
+                            int iIndex = i * aRows;
+                            Complex32 s = 0;
+                            for (int l = 0; l != aRows; l++)
+                            {
+                                s += adata[iIndex + l] * bdata[jbIndex + l];
+                            }
+                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                        }
+                    });
+                }
+                else if ((int)transposeB > 111)
+                {
+                    Parallel.For(0, bRows, j =>
+                    {
+                        int jIndex = j * cRows;
+                        for (int i = 0; i != aRows; i++)
+                        {
+                            Complex32 s = 0;
+                            for (int l = 0; l != aColumns; l++)
+                            {
+                                s += adata[l * aRows + i] * bdata[l * bRows + j];
+                            }
+                            c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
+                        }
+                    });
+                }
+                else
+                {
+                    Parallel.For(0, bColumns, j =>
+                    {
+                        int jcIndex = j * cRows;
+                        int jbIndex = j * bRows;
+                        for (int i = 0; i != aRows; i++)
+                        {
+                            Complex32 s = 0;
+                            for (int l = 0; l != aColumns; l++)
+                            {
+                                s += adata[l * aRows + i] * bdata[jbIndex + l];
+                            }
+                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                        }
+                    });
+                }
+            }
         }
 
         public void LUFactor(Complex32[] a, int[] ipiv)
@@ -1698,7 +3075,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void CholeskyFactor(Complex32[] a)
+        /// <summary>
+        /// Computes the Cholesky factorization of A.
+        /// </summary>
+        /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
+        /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
+        /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
+        public void CholeskyFactor(Complex32[] a, int order)
         {
             throw new NotImplementedException();
         }

@@ -346,8 +346,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
         /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        public void CholeskyFactor(double[] a)
+        public void CholeskyFactor(double[] a, int order)
         {
             throw new NotImplementedException();
         }
@@ -842,8 +843,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
         /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        public void CholeskyFactor(float[] a)
+        public void CholeskyFactor(float[] a, int order)
         {
             throw new NotImplementedException();
         }
@@ -1338,8 +1340,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
         /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        public void CholeskyFactor(Complex[] a)
+        public void CholeskyFactor(Complex[] a, int order)
         {
             throw new NotImplementedException();
         }
@@ -1834,8 +1837,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="a">On entry, a square, positive definite matrix. On exit, the matrix is overwritten with the
         /// the Cholesky factorization.</param>
+        /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        public void CholeskyFactor(Complex32[] a)
+        public void CholeskyFactor(Complex32[] a, int order)
         {
             throw new NotImplementedException();
         }
