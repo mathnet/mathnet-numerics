@@ -207,9 +207,9 @@ namespace MathNet.Numerics.Threading
 
             WaitForTasksToComplete(tasks);
 
-            for (var i = 0; i < tasks.Length; i++)
+            foreach (var t in tasks)
             {
-                localFinally(tasks[i].Result);
+                localFinally(t.Result);
             }
 
             CollectExceptions(tasks);
@@ -453,9 +453,9 @@ namespace MathNet.Numerics.Threading
         /// <param name="tasks">The tasks.</param>
         private static void WaitForTasksToComplete(Task[] tasks)
         {
-            for (var i = 0; i < tasks.Length; i++)
+            foreach (var task in tasks)
             {
-                tasks[i].Wait();
+                task.Wait();
             }
         }
 

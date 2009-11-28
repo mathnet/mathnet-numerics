@@ -184,8 +184,6 @@ namespace MathNet.Numerics.UnitTests
         public void CoerceZero()
         {
             Assert.AreEqual<double>(0.0, Precision.CoerceZero(0d));
-            Console.WriteLine(0.0.EpsilonOf());
-            Console.WriteLine(Precision.Increment(0.0));
             Assert.AreEqual<double>(0.0, Precision.CoerceZero(Precision.Increment(0.0)));
             Assert.AreEqual<double>(0.0, Precision.CoerceZero(Precision.Decrement(0.0)));
 
