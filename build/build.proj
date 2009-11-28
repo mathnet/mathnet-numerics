@@ -19,6 +19,11 @@
     <Exec Command="$(MSBuildProjectDirectory)/../src/FSharpUnitTests/bin/Debug/FSharpUnitTests.exe" IgnoreExitCode="false" />
   </Target>
 
+  <Target Name="TestLite" DependsOnTargets="Compile">
+    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" />
+    <Exec Command="$(MSBuildProjectDirectory)/../src/FSharpUnitTests/bin/Debug/FSharpUnitTests.exe" IgnoreExitCode="false" />
+  </Target>
+
   <Target Name="Style">
     <CreateItem Include="../src/Numerics/**/*.cs">
       <Output TaskParameter="Include" ItemName="StyleCopFiles" />

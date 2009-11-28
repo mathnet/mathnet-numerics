@@ -269,11 +269,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.AreEqual(9, hist.BucketCount);
 
-            Console.WriteLine("{0}", hist);
-
             for (int i = 1; i < 9; i++)
             {
-                Console.WriteLine("{0} : {1}", i, hist[i].Count);
                 Assert.AreEqual(1.0, hist[i].Count);
             }
             Assert.AreEqual(2.0, hist[0].Count);

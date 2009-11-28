@@ -53,16 +53,6 @@ namespace MathNet.Numerics.Threading
         private static readonly Queue<Task> _queue = new Queue<Task>();
 
         /// <summary>
-        /// Maximum number of jobs that can be in the queue at the same time. 
-        /// </summary>
-        private const int MaximumQueueLength = 4096;
-
-        /// <summary>
-        /// Counting Semaphore to make the worker thread wait for jobs
-        /// </summary>
-        private static Semaphore _tasksAvailableSemaphore;
-
-        /// <summary>
         /// Running flag, used to signal worker threads to stop cleanly.
         /// </summary>
         private static bool _running = true;
@@ -113,9 +103,8 @@ namespace MathNet.Numerics.Threading
             lock (_queueSync)
             {
                 _queue.Enqueue(task);
+                Monitor.Pulse(_queueSync);
             }
-
-            _tasksAvailableSemaphore.Release();
         }
 
         /// <summary>
@@ -135,9 +124,9 @@ namespace MathNet.Numerics.Threading
                 {
                     _queue.Enqueue(task);
                 }
-            }
 
-            _tasksAvailableSemaphore.Release(tasks.Count);
+                Monitor.PulseAll(_queueSync);
+            }
         }
 
         /// <summary>
@@ -149,13 +138,9 @@ namespace MathNet.Numerics.Threading
 
             while (_running)
             {
-                // Wait until a job is available, or we should shut down
-                _tasksAvailableSemaphore.WaitOne();
-
                 // Check whether we should shut down
                 if (!_running)
                 {
-                    _tasksAvailableSemaphore.Release();
                     break;
                 }
 
@@ -167,13 +152,17 @@ namespace MathNet.Numerics.Threading
                     {
                         task = _queue.Dequeue();
                     }
+                    else
+                    {
+                        Monitor.Wait(_queueSync);
+                    }
                 }
 
                 if (task == null)
                 {
                     continue;
                 }
-
+                
                 // ...and run it
                 task.Compute();
             }
@@ -185,11 +174,11 @@ namespace MathNet.Numerics.Threading
         /// <param name="numberOfThreads">Number of worker threads.</param>
         public static void Start(int numberOfThreads)
         {
-            // instead of throwing an out of range exception, simply normalize
-            numberOfThreads = Math.Max(1, Math.Min(1024, numberOfThreads));
-
             lock (_stateSync)
             {
+                // instead of throwing an out of range exception, simply normalize
+                numberOfThreads = Math.Max(1, Math.Min(1024, numberOfThreads));
+
                 if (_threads != null)
                 {
                     if (_threads.Length == numberOfThreads)
@@ -203,7 +192,7 @@ namespace MathNet.Numerics.Threading
                 ThreadCount = numberOfThreads;
                 Start();
             }
-        }
+         }
 
         /// <summary>
         /// Start the thread queue, if it is not already running.
@@ -217,8 +206,8 @@ namespace MathNet.Numerics.Threading
                     return;
                 }
 
-                _tasksAvailableSemaphore = new Semaphore(_queue.Count, MaximumQueueLength);
-                _running = true;
+                _running = true; 
+                
                 _threads = new Thread[ThreadCount];
 
                 for (var i = 0; i < _threads.Length; i++)
@@ -238,25 +227,27 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         public static void Shutdown()
         {
+            // try to stop the worker threads cleanly
             lock (_stateSync)
             {
                 if (_threads == null)
                 {
                     return;
                 }
-
-                // try to stop the worker threads cleanly
+                
                 _running = false;
-                _tasksAvailableSemaphore.Release();
+
+                lock (_queueSync)
+                {
+                    Monitor.PulseAll(_queueSync);
+                }
 
                 // wait until all threads have stopped
                 foreach (var thread in _threads)
                 {
                     thread.Join();
                 }
-
-                _tasksAvailableSemaphore.Close();
-                _tasksAvailableSemaphore = null;
+                
                 _threads = null;
             }
         }
