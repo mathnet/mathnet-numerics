@@ -1,0 +1,350 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0CCA2BA4-9DF2-4E9B-8A77-0A1F61A96A77}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MathNet.Numerics</RootNamespace>
+    <AssemblyName>MathNet.Numerics.Silverlight</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs">
+      <Link>Algorithms\ILinearAlgebraProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs">
+      <Link>Algorithms\ILinearAlgebraProviderOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs">
+      <Link>Algorithms\ManagedLinearAlgebraProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Combinatorics.cs">
+      <Link>Combinatorics.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Complex.cs">
+      <Link>Complex.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Complex32.cs">
+      <Link>Complex32.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Control.cs">
+      <Link>Control.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Beta.cs">
+      <Link>Distributions\Continuous\Beta.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\ContinuousUniform.cs">
+      <Link>Distributions\Continuous\ContinuousUniform.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Gamma.cs">
+      <Link>Distributions\Continuous\Gamma.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\LogNormal.cs">
+      <Link>Distributions\Continuous\LogNormal.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Normal.cs">
+      <Link>Distributions\Continuous\Normal.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Weibull.cs">
+      <Link>Distributions\Continuous\Weibull.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\Bernoulli.cs">
+      <Link>Distributions\Discrete\Bernoulli.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\Binomial.cs">
+      <Link>Distributions\Discrete\Binomial.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\Categorical.cs">
+      <Link>Distributions\Discrete\Categorical.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\DiscreteUniform.cs">
+      <Link>Distributions\Discrete\DiscreteUniform.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\IContinuousDistribution.cs">
+      <Link>Distributions\IContinuousDistribution.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\IDiscreteDistribution.cs">
+      <Link>Distributions\IDiscreteDistribution.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\IDistribution.cs">
+      <Link>Distributions\IDistribution.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Multivariate\Dirichlet.cs">
+      <Link>Distributions\Multivariate\Dirichlet.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Multivariate\Multinomial.cs">
+      <Link>Distributions\Multivariate\Multinomial.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\GlobalizationHelper.cs">
+      <Link>GlobalizationHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.Bluestein.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.Naive.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.Options.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteFourierTransform.RadixN.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteHartleyTransform.Naive.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs">
+      <Link>IntegralTransforms\Algorithms\DiscreteHartleyTransform.Options.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\FourierOptions.cs">
+      <Link>IntegralTransforms\FourierOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\HartleyOptions.cs">
+      <Link>IntegralTransforms\HartleyOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IntegralTransforms\Transform.cs">
+      <Link>IntegralTransforms\Transform.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Integration\Algorithms\DoubleExponentialTransformation.cs">
+      <Link>Integration\Algorithms\DoubleExponentialTransformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Integration\Algorithms\NewtonCotesTrapeziumRule.cs">
+      <Link>Integration\Algorithms\NewtonCotesTrapeziumRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Integration\Algorithms\SimpsonRule.cs">
+      <Link>Integration\Algorithms\SimpsonRule.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Integration\Integrate.cs">
+      <Link>Integration\Integrate.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\AkimaSplineInterpolation.cs">
+      <Link>Interpolation\Algorithms\AkimaSplineInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\BarycentricInterpolation.cs">
+      <Link>Interpolation\Algorithms\BarycentricInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\BulirschStoerRationalInterpolation.cs">
+      <Link>Interpolation\Algorithms\BulirschStoerRationalInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\CubicHermiteSplineInterpolation.cs">
+      <Link>Interpolation\Algorithms\CubicHermiteSplineInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\CubicSplineInterpolation.cs">
+      <Link>Interpolation\Algorithms\CubicSplineInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\EquidistantPolynomialInterpolation.cs">
+      <Link>Interpolation\Algorithms\EquidistantPolynomialInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\FloaterHormannRationalInterpolation.cs">
+      <Link>Interpolation\Algorithms\FloaterHormannRationalInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\LinearSplineInterpolation.cs">
+      <Link>Interpolation\Algorithms\LinearSplineInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\NevillePolynomialInterpolation.cs">
+      <Link>Interpolation\Algorithms\NevillePolynomialInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Algorithms\SplineInterpolation.cs">
+      <Link>Interpolation\Algorithms\SplineInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\IInterpolation.cs">
+      <Link>Interpolation\IInterpolation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\Interpolate.cs">
+      <Link>Interpolation\Interpolate.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Interpolation\SplineBoundaryCondition.cs">
+      <Link>Interpolation\SplineBoundaryCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\IPrecisionSupport.cs">
+      <Link>IPrecisionSupport.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\DenseMatrix.cs">
+      <Link>LinearAlgebra\Double\DenseMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\DenseVector.cs">
+      <Link>LinearAlgebra\Double\DenseVector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.cs">
+      <Link>LinearAlgebra\Double\Matrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Vector.cs">
+      <Link>LinearAlgebra\Double\Vector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\NumberTheory\IntegerTheory.cs">
+      <Link>NumberTheory\IntegerTheory.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\NumberTheory\IntegerTheory.Euclid.cs">
+      <Link>NumberTheory\IntegerTheory.Euclid.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Precision.cs">
+      <Link>Precision.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\AbstractRandomNumberGenerator.cs">
+      <Link>Random\AbstractRandomNumberGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\Mcg31m1.cs">
+      <Link>Random\Mcg31m1.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\Mcg59.cs">
+      <Link>Random\Mcg59.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\MersenneTwister.cs">
+      <Link>Random\MersenneTwister.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\Mrg32k3a.cs">
+      <Link>Random\Mrg32k3a.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\SystemCrypto.cs">
+      <Link>Random\SystemCrypto.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\SystemRandomExtensions.cs">
+      <Link>Random\SystemRandomExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\WH1982.cs">
+      <Link>Random\WH1982.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Random\WH2006.cs">
+      <Link>Random\WH2006.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Sampling\Sample.Chebyshev.cs">
+      <Link>Sampling\Sample.Chebyshev.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Sampling\Sample.Equidistant.cs">
+      <Link>Sampling\Sample.Equidistant.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Sampling\Sample.Random.cs">
+      <Link>Sampling\Sample.Random.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Sorting.cs">
+      <Link>Sorting.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions.cs">
+      <Link>SpecialFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\Erf.cs">
+      <Link>SpecialFunctions\Erf.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\Factorial.cs">
+      <Link>SpecialFunctions\Factorial.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\Gamma.cs">
+      <Link>SpecialFunctions\Gamma.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\Stability.cs">
+      <Link>SpecialFunctions\Stability.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\Correlation.cs">
+      <Link>Statistics\Correlation.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\DescriptiveStatistics.cs">
+      <Link>Statistics\DescriptiveStatistics.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\Histogram.cs">
+      <Link>Statistics\Histogram.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\MCMCSampler.cs">
+      <Link>Statistics\MCMC\MCMCSampler.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\MetropolisHastingsSampler.cs">
+      <Link>Statistics\MCMC\MetropolisHastingsSampler.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\MetropolisSampler.cs">
+      <Link>Statistics\MCMC\MetropolisSampler.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\RejectionSampler.cs">
+      <Link>Statistics\MCMC\RejectionSampler.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\MCMC\UnivariateSliceSampler.cs">
+      <Link>Statistics\MCMC\UnivariateSliceSampler.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Statistics\Statistics.cs">
+      <Link>Statistics\Statistics.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Threading\AggregateException.cs">
+      <Link>Threading\AggregateException.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Threading\Parallel.cs">
+      <Link>Threading\Parallel.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Threading\Task.cs">
+      <Link>Threading\Task.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Threading\TaskOfT.cs">
+      <Link>Threading\TaskOfT.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Threading\ThreadQueue.cs">
+      <Link>Threading\ThreadQueue.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Trigonometry.cs">
+      <Link>Trigonometry.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

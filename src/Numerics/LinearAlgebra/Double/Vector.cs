@@ -39,8 +39,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// Defines the base class for <c>Vector</c> classes.
     /// </summary>
+#if !SILVERLIGHT
     [Serializable]
-    public abstract class Vector : IFormattable, IEnumerable<double>, ICloneable, IEquatable<Vector>
+#endif
+    public abstract class Vector :
+#if SILVERLIGHT
+    IFormattable, IEnumerable<double>, IEquatable<Vector>
+#else
+    IFormattable, IEnumerable<double>, IEquatable<Vector>, ICloneable
+#endif    
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Vector"/> class. 
@@ -781,6 +788,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         #region Implemented Interfaces
 
+#if !SILVERLIGHT
         #region ICloneable
 
         /// <summary>
@@ -795,6 +803,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
+#endif
 
         #region IEnumerable
 
@@ -946,7 +955,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
+#if SILVERLIGHT
+                hash ^= Precision.DoubleToInt64Bits(this[i]);
+#else
                 hash ^= BitConverter.DoubleToInt64Bits(this[i]);
+#endif
             }
 
             return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
