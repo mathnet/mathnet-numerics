@@ -67,7 +67,9 @@ namespace MathNet.Numerics
     /// Wikipedia</a>
     /// </para>
     /// </remarks>
+#if !SILVERLIGHT
     [Serializable]
+#endif
     [StructLayout(LayoutKind.Sequential)]
     public struct Complex32 : IFormattable, IEquatable<Complex32>, IPrecisionSupport<Complex32>
     {
@@ -566,7 +568,7 @@ namespace MathNet.Numerics
         {
             if (modulus < 0.0f)
             {
-                throw new ArgumentOutOfRangeException("modulus", modulus, Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException("modulus", Resources.ArgumentNotNegative);
             }
 
             return new Complex32(modulus * (float)Math.Cos(argument), modulus * (float)Math.Sin(argument));
@@ -1198,7 +1200,11 @@ namespace MathNet.Numerics
                 }
             }
 
+#if SILVERLIGHT
+            var value = GlobalizationHelper.ParseSingle(ref token);
+#else
             var value = GlobalizationHelper.ParseSingle(ref token, format.GetCultureInfo());
+#endif
 
             // handle suffix imaginary symbol
             if (token != null && (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0

@@ -36,8 +36,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
+#if !SILVERLIGHT
     [Serializable]
-    public abstract class Matrix : IFormattable, ICloneable, IEquatable<Matrix>
+#endif
+    public abstract class Matrix : 
+#if SILVERLIGHT
+   IFormattable, IEquatable<Matrix>
+#else
+ IFormattable, IEquatable<Matrix>, ICloneable
+#endif
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Matrix"/> class.
@@ -237,6 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         #region Implemented Interfaces
 
+#if !SILVERLIGHT
         #region ICloneable
 
         /// <summary>
@@ -251,6 +259,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
+#endif
 
         #region IEquatable<Matrix>
 
@@ -391,7 +400,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 var col = i % ColumnCount;
                 var row = (i - col) / RowCount;
 
+#if SILVERLIGHT
+                hash ^= Precision.DoubleToInt64Bits(this[row, col]);
+#else
                 hash ^= BitConverter.DoubleToInt64Bits(this[row, col]);
+#endif
             }
 
             return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);

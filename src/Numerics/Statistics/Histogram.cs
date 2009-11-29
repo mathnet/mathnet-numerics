@@ -29,16 +29,23 @@
 namespace MathNet.Numerics.Statistics
 {
     using System;
-    using System.Text;
     using System.Collections.Generic;
+    using System.Text;
     using Properties;
 
     /// <summary>
     /// A <see cref="Histogram"/> consists of a series of <see cref="Bucket"/>s, 
     /// each representing a region limited by a lower bound (exclusive) and an upper bound (inclusive).
     /// </summary>
+#if !SILVERLIGHT
     [Serializable]
-    public class Bucket : IComparable<Bucket>, ICloneable
+#endif
+    public class Bucket :
+#if SILVERLIGHT
+   IComparable<Bucket>
+#else
+    IComparable<Bucket>, ICloneable
+#endif        
     {
         /// <summary>
         /// This <c>IComparer</c> performs comparisons between a point and a bucket.
@@ -64,7 +71,7 @@ namespace MathNet.Numerics.Statistics
             }
         }
 
-        static PointComparer pointComparer = new PointComparer();
+        private static PointComparer pointComparer = new PointComparer();
 
         /// <summary>
         /// Lower Bound of the Bucket.
@@ -112,7 +119,7 @@ namespace MathNet.Numerics.Statistics
         /// Creates a copy of the Bucket with the lowerbound, upperbound and counts exactly equal.
         /// </summary>
         /// <returns>A cloned Bucket object.</returns>
-        public Object Clone()
+        public object Clone()
         {
             return new Bucket(LowerBound, UpperBound, Count);
         }
@@ -159,7 +166,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public int CompareTo(Bucket bucket)
         {
-            if(this.UpperBound > bucket.LowerBound && this.LowerBound < bucket.LowerBound)
+            if (this.UpperBound > bucket.LowerBound && this.LowerBound < bucket.LowerBound)
             {
                 throw new ArgumentException(Resources.PartialOrderException);
             }
@@ -216,18 +223,20 @@ namespace MathNet.Numerics.Statistics
     /// <summary>
     /// A class which computes histograms of data.
     /// </summary>
+#if !SILVERLIGHT
     [Serializable]
+#endif
     public class Histogram
     {
         /// <summary>
         /// Contains all the <c>Bucket</c>s of the <c>Histogram</c>.
         /// </summary>
-        List<Bucket> buckets;
+        private List<Bucket> buckets;
 
         /// <summary>
         /// Indicates whether the elements of <c>buckets</c> are currently sorted.
         /// </summary>
-        bool areBucketsSorted;
+        private bool areBucketsSorted;
 
         /// <summary>
         /// Initializes a new instance of the Histogram class.
@@ -281,6 +290,7 @@ namespace MathNet.Numerics.Statistics
             {
                 throw new ArgumentOutOfRangeException("The histogram lowerbound must be smaller than the upper bound.");
             }
+
             if (nbuckets < 1)
             {
                 throw new ArgumentOutOfRangeException("The number of bins in a histogram should be at least 1.");
@@ -380,9 +390,9 @@ namespace MathNet.Numerics.Statistics
             LazySort();
 
             // Binary search for the bucket index.
-            int index = buckets.BinarySearch(new Bucket(v,v), Bucket.DefaultPointComparer);
+            int index = buckets.BinarySearch(new Bucket(v, v), Bucket.DefaultPointComparer);
 
-            if(index < 0)
+            if (index < 0)
             {
                 throw new ArgumentException(Resources.ArgumentHistogramContainsNot);
             }
@@ -410,7 +420,7 @@ namespace MathNet.Numerics.Statistics
             get
             {
                 LazySort();
-                return buckets[buckets.Count-1].UpperBound;
+                return buckets[buckets.Count - 1].UpperBound;
             }
         }
 
@@ -444,7 +454,8 @@ namespace MathNet.Numerics.Statistics
             get
             {
                 double totalCount = 0;
-                for(int i = 0; i < this.BucketCount; i++)
+               
+                for (int i = 0; i < this.BucketCount; i++)
                 {
                     totalCount += this[i].Count;
                 }
@@ -459,7 +470,8 @@ namespace MathNet.Numerics.Statistics
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach(Bucket b in buckets)
+           
+            foreach (Bucket b in buckets)
             {
                 sb.Append(b.ToString());
             }
