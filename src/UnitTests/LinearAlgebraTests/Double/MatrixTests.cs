@@ -15,12 +15,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         protected abstract Matrix CreateMatrix(double[,] data);
 
         [SetUp]
-        public void SetupDistributions()
+        public void SetupMatrices()
         {
             testData2D = new Dictionary<string, double[,]>();
             testData2D.Add("Singular3x3", new double[,] { { 1, 1, 2 }, { 1, 1, 2 }, { 1, 1, 2 } });
             testData2D.Add("Square3x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } });
             testData2D.Add("Square4x4", new double[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } });
+            testData2D.Add("Singular4x4", new double[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } });
             testData2D.Add("Tall3x2", new double[,] { { -1.1, -2.2 }, { 0, 1.1 }, { -4.4, 5.5 } });
             testData2D.Add("Wide2x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 } });
 
@@ -160,5 +161,207 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void MatrixGetHashCode()
         {
         }
+
+        #region Elementary operations
+        [Test]
+        [Row("Singular3x3", "Square3x3")]
+        [Row("Singular4x4", "Square4x4")]
+        public void AddMatrix(string mtxA, string mtxB)
+        {
+            var A = testMatrices[mtxA];
+            var B = testMatrices[mtxB];
+
+            Matrix matrix = A.Clone();
+            matrix.Add(B);
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], A[i, j] + B[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddMatrixThrowsExceptionWhenArgumentIsNull()
+        {
+            Matrix matrix = testMatrices["Singular4x4"];
+            Matrix other = null;
+            matrix.Add(other);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddMatrixThrowsExceptionArgumentHasTooFewColumns()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Tall3x2"];
+            matrix.Add(other);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddMatrixThrowsExceptionArgumentHasTooFewRows()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Wide2x3"];
+            matrix.Add(other);
+        }
+
+        [Test]
+        [Row("Singular3x3", "Square3x3")]
+        [Row("Singular4x4", "Square4x4")]
+        public void AddOperator(string mtxA, string mtxB)
+        {
+            var A = testMatrices[mtxA];
+            var B = testMatrices[mtxB];
+            
+            Matrix result = A + B;
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                for (int j = 0; j < A.ColumnCount; j++)
+                {
+                    Assert.AreEqual(result[i,j], A[i, j] + B[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddOperatorThrowsExceptionWhenLeftsideIsNull()
+        {
+            Matrix matrix = null;
+            Matrix other = testMatrices["Singular3x3"];
+            Matrix result = matrix + other;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void AddOperatorThrowsExceptionWhenRightsideIsNull()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = null;
+            Matrix result = matrix + other;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddOperatorThrowsExceptionWhenRightsideHasTooFewColumns()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Tall3x2"];
+            Matrix result = matrix + other;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddOperatorThrowsExceptionWhenRightsideHasTooFewRows()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Wide2x3"];
+            Matrix result = matrix + other;
+        }
+
+        [Test]
+        [Row("Singular3x3", "Square3x3")]
+        [Row("Singular4x4", "Square4x4")]
+        public void SubtractMatrix(string mtxA, string mtxB)
+        {
+            var A = testMatrices[mtxA];
+            var B = testMatrices[mtxB];
+
+            Matrix matrix = A.Clone();
+            matrix.Subtract(B);
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], A[i, j] - B[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SubtractMatrixThrowsExceptionWhenRightSideIsNull()
+        {
+            Matrix matrix = testMatrices["Singular4x4"];
+            Matrix other = null;
+            matrix.Subtract(other);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SubtractMatrixThrowsExceptionWhenRightSideHasTooFewColumns()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Tall3x2"];
+            matrix.Subtract(other);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SubtractMatrixThrowsExceptionWhenRightSideHasTooFewRows()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Wide2x3"];
+            matrix.Subtract(other);
+        }
+
+        [Test]
+        [Row("Singular3x3", "Square3x3")]
+        [Row("Singular4x4", "Square4x4")]
+        public void SubtractOperator(string mtxA, string mtxB)
+        {
+            var A = testMatrices[mtxA];
+            var B = testMatrices[mtxB];
+
+            Matrix result = A - B;
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                for (int j = 0; j < A.ColumnCount; j++)
+                {
+                    Assert.AreEqual(result[i, j], A[i, j] - B[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SubtractOperatorThrowsExceptionWhenLeftsideIsNull()
+        {
+            Matrix matrix = null;
+            Matrix other = testMatrices["Singular3x3"];
+            Matrix result = matrix - other;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SubtractOperatorThrowsExceptionWhenRightsideIsNull()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = null;
+            Matrix result = matrix - other;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SubtractOperatorThrowsExceptionWhenRightsideHasTooFewColumns()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Tall3x2"];
+            Matrix result = matrix - other;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SubtractOperatorThrowsExceptionWhenRightsideHasTooFewRows()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Wide2x3"];
+            Matrix result = matrix - other;
+        }
+        #endregion
     }
 }

@@ -7,10 +7,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
     public class DenseMatrixTests : MatrixTests
     {
-        protected double[] SquareMatrix = new double[] { -1.1, 0.0, 1.0, -4.4, -2.2, 1.1, 2.1, 5.5, -3.3, 2.2, 6.2, 6.6, -4.4, 3.3, 4.3, -7.7 };
-        protected int SquareMatrixRows = 4;
-        protected int SquareMatrixColumns = 4;
-
         protected override Matrix CreateMatrix(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);

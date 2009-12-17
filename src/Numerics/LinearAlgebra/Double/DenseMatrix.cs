@@ -181,5 +181,69 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             Data[column * RowCount + row] = value;
         }
+
+        #region Elementary operations
+        /// <summary>
+        /// Adds another matrix to this matrix. The result will be written into this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public override void Add(Matrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+            }
+
+            DenseMatrix m = other as DenseMatrix;
+            if (m == null)
+            {
+                Parallel.For(0, RowCount, i =>
+                    Parallel.For(0, ColumnCount, j =>
+                        At(i, j, At(i, j) + other.At(i, j))));
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.AddArrays(Data, m.Data, Data);
+            }
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public override void Subtract(Matrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+            }
+
+            DenseMatrix m = other as DenseMatrix;
+            if (m == null)
+            {
+                Parallel.For(0, RowCount, i =>
+                    Parallel.For(0, ColumnCount, j =>
+                        At(i, j, At(i, j) - other.At(i, j))));
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.SubtractArrays(Data, m.Data, Data);
+            }
+        }
+        #endregion
     }
 }
