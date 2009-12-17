@@ -412,6 +412,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
+
+        /// <summary>
+        /// Sets all values to zero.
+        /// </summary>
+        public virtual void Clear()
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, 0);
+                }
+            }
+        }
         
         #region Elementary operations
         /// <summary>

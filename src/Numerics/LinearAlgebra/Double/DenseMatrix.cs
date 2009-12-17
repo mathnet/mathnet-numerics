@@ -182,6 +182,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             Data[column * RowCount + row] = value;
         }
 
+        /// <summary>
+        /// Sets all values to zero.
+        /// </summary>
+        public override void Clear()
+        {
+            Array.Clear(Data, 0, Data.Length);
+        }
+
         #region Elementary operations
         /// <summary>
         /// Adds another matrix to this matrix. The result will be written into this matrix.

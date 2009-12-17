@@ -162,6 +162,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
         }
 
+        [Test]
+        public void CanClearMatrix()
+        {
+            Matrix matrix = (Matrix) testMatrices["Singular3x3"].Clone();
+            matrix.Clear();
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(0, matrix[i, j]);
+                }
+            }
+        }
+
         #region Elementary operations
         [Test]
         [Row("Singular3x3", "Square3x3")]
