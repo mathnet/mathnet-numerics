@@ -30,6 +30,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
     using System.Text;
+    using Threading;
 
     using Properties;
 
@@ -410,6 +411,118 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
         }
 
+        #endregion
+        
+        #region Elementary operations
+        /// <summary>
+        /// Adds another matrix to this matrix. The result will be written into this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public virtual void Add(Matrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+            }
+
+            Parallel.For(0, RowCount, i => 
+                Parallel.For(0, ColumnCount, j =>
+                    At(i, j, At(i,j) + other.At(i,j))));
+        }
+
+        /// <summary>
+        /// Adds two matrices together and returns the results.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
+        /// is denser.</remarks>
+        /// <param name="leftSide">The left matrix to add.</param>
+        /// <param name="rightSide">The right matrix to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix operator +(Matrix leftSide, Matrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+            }
+
+            Matrix ret = leftSide.Clone();
+            ret.Add(rightSide);
+            return ret;
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public virtual void Subtract(Matrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+            }
+
+            Parallel.For(0, RowCount, i =>
+                Parallel.For(0, ColumnCount, j =>
+                    At(i, j, At(i, j) - other.At(i, j))));
+        }
+
+        /// <summary>
+        /// Subtracts two matrices together and returns the results.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
+        /// is denser.</remarks>
+        /// <param name="leftSide">The left matrix to subtract.</param>
+        /// <param name="rightSide">The right matrix to subtract.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix operator -(Matrix leftSide, Matrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+            }
+
+            Matrix ret = leftSide.Clone();
+            ret.Subtract(rightSide);
+            return ret;
+        }
         #endregion
     }
 }
