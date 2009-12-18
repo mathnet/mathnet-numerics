@@ -130,12 +130,6 @@
     <Compile Include="TrigonometryTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics.csproj">
-      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
-      <Name>Numerics</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\..\data\NIST\AtmWtAgt.dat">
       <Link>data\NIST\AtmWtAgt.dat</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -367,6 +361,12 @@
     <None Include="..\MathNet.Numerics.snk">
       <Link>MathNet.Numerics.snk</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics.csproj">
+      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
