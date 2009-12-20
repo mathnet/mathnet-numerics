@@ -199,36 +199,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public override void Add(Matrix other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
-            }
-
             DenseMatrix m = other as DenseMatrix;
             if (m == null)
             {
-                Parallel.For(0, RowCount, i =>
-                    Parallel.For(0, ColumnCount, j =>
-                        At(i, j, At(i, j) + other.At(i, j))));
+                base.Add(other);
             }
             else
             {
-                Control.LinearAlgebraProvider.AddArrays(Data, m.Data, Data);
+                Add(other);
             }
         }
 
         /// <summary>
-        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
+        /// Adds another <see cref="DenseMatrix"/> to this matrix. The result will be written into this matrix.
         /// </summary>
-        /// <param name="other">The matrix to subtract.</param>
+        /// <param name="other">The <see cref="DenseMatrix"/> to add to this matrix.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Subtract(Matrix other)
+        public void Add(DenseMatrix other)
         {
             if (other == null)
             {
@@ -240,17 +228,47 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
             }
 
+            Control.LinearAlgebraProvider.AddArrays(Data, other.Data, Data);
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public override void Subtract(Matrix other)
+        {
             DenseMatrix m = other as DenseMatrix;
             if (m == null)
             {
-                Parallel.For(0, RowCount, i =>
-                    Parallel.For(0, ColumnCount, j =>
-                        At(i, j, At(i, j) - other.At(i, j))));
+                base.Subtract(other);
             }
             else
             {
-                Control.LinearAlgebraProvider.SubtractArrays(Data, m.Data, Data);
+                Subtract(m);
             }
+        }
+
+        /// <summary>
+        /// Subtracts another <see cref="DenseMatrix"/> from this matrix. The result will be written into this matrix.
+        /// </summary>
+        /// <param name="other">The <see cref="DenseMatrix"/> to subtract.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public void Subtract(DenseMatrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+            }
+            
+            Control.LinearAlgebraProvider.SubtractArrays(Data, other.Data, Data);
         }
         #endregion
     }
