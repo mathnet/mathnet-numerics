@@ -446,9 +446,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
             }
 
-            Parallel.For(0, RowCount, i => 
-                Parallel.For(0, ColumnCount, j =>
-                    At(i, j, At(i,j) + other.At(i,j))));
+            Parallel.For(0, RowCount, i =>
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, At(i, j) + other.At(i, j));
+                }
+            });
         }
 
         /// <summary>
@@ -502,8 +506,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             Parallel.For(0, RowCount, i =>
-                Parallel.For(0, ColumnCount, j =>
-                    At(i, j, At(i, j) - other.At(i, j))));
+            {
+                for(int j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, At(i, j) - other.At(i, j));
+                }
+            });
         }
 
         /// <summary>
