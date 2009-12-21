@@ -37,5 +37,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             vector[0] = 100.0;
             Assert.AreEqual(100.0, data[0]);
         }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanCreateMatrix()
+        {
+            var vector = new DenseVector(3);
+            var matrix = vector.CreateMatrix(2, 3);
+            Assert.AreEqual(2, matrix.RowCount);
+            Assert.AreEqual(3, matrix.ColumnCount);
+        }
     }
 }
