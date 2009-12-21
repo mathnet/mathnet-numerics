@@ -684,7 +684,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         #endregion
 
-        #region Coping and Conversion
+        #region Copying and Conversion
         /// <summary>
         /// Returns a deep-copy clone of the vector.
         /// </summary>

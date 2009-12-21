@@ -31,8 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using Algorithms;
-    using Algorithms.LinearAlgebra;
     using NumberTheory;
     using Properties;
     using Threading;
@@ -159,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override Matrix CreateMatrix(int rows, int columns)
         {
-            throw new NotImplementedException();
+            return new DenseMatrix(rows, columns);
         }
 
         /// <summary>
