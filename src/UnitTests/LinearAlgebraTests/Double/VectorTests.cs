@@ -150,7 +150,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var vector = CreateVector(new double[] { 1, 2, 3, 4 });
             Assert.AreEqual(2145910784, vector.GetHashCode());
         }
-        
+
+        [Test]
+        public void GetIndexedEnumerator()
+        {
+            Vector vector = CreateVector(_data);
+            foreach (KeyValuePair<int, double> pair in vector.GetIndexedEnumerator())
+            {
+                Assert.AreEqual(_data[pair.Key], pair.Value);
+            }
+        }
+
         protected abstract Vector CreateVector(int size);
 
         protected abstract Vector CreateVector(IList<double> data);
