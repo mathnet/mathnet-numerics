@@ -160,6 +160,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Matrix must be positive definite..
+        /// </summary>
+        internal static string ArgumentMatrixPositiveDefinite {
+            get {
+                return ResourceManager.GetString("ArgumentMatrixPositiveDefinite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Matrix column dimensions must agree..
         /// </summary>
         internal static string ArgumentMatrixSameColumnDimension {
