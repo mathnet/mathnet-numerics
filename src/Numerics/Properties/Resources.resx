@@ -135,7 +135,7 @@
   <data name="ArgumentMatrixSameColumnDimension" xml:space="preserve">
     <value>Matrix column dimensions must agree.</value>
   </data>
-  <data name="ArgumentMatrixSameDimensions" xml:space="preserve">
+  <data name="ArgumentMatrixDimensions" xml:space="preserve">
     <value>Matrix dimensions must agree.</value>
   </data>
   <data name="ArgumentMatrixSameRowDimension" xml:space="preserve">

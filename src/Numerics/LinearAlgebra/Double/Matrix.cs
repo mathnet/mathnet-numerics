@@ -436,7 +436,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
             Parallel.For(
@@ -476,7 +476,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
             Matrix ret = leftSide.Clone();
@@ -499,7 +499,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
             Parallel.For(
@@ -539,12 +539,123 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
             Matrix ret = leftSide.Clone();
             ret.Subtract(rightSide);
             return ret;
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="NotConformableException">If <strong>this.Columns != other.Rows</strong>.</exception>
+        /// <exception cref="NotConformableException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
+        public virtual void Multiply(Matrix other, Matrix result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != other.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                Matrix tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                Multiply(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                Parallel.For(0, this.RowCount, j =>
+                {
+                    for (int i = 0; i != other.ColumnCount; i++)
+                    {
+                        double s = 0;
+                        for (int l = 0; l < this.ColumnCount; l++)
+                        {
+                            s += this.At(j, l) * other.At(l, i);
+                        }
+                        result.At(i, j, s);
+                    }
+                });
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with another matrix and returns the result.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
+        /// is denser.</remarks>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <exception cref="NotConformableException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        public virtual Matrix Multiply(Matrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (ColumnCount != other.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            Matrix result = CreateMatrix(RowCount, other.ColumnCount);
+            Multiply(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Multiplies two matrices.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
+        /// is denser.</remarks>
+        /// <param name="leftSide">The left matrix to multiply.</param>
+        /// <param name="rightSide">The right matrix to multiply.</param>
+        /// <returns>The result of multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        /// <exception cref="NotConformableException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
+        public static Matrix operator *(Matrix leftSide, Matrix rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide.ColumnCount != rightSide.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            return leftSide.Multiply(rightSide);
         }
         #endregion
     }
