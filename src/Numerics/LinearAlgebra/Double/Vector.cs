@@ -837,7 +837,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
-
+        /// <summary>
+        /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerator{T}"/> over this vector that contains the position and value of each
+        /// non-zero element.</returns>
+        /// <remarks>The enumerator returns a <seealso cref="KeyValuePair{T,K}"/> with the key being the element index and the value 
+        /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
+        /// with a zero value.</remarks>
+        public virtual IEnumerable<KeyValuePair<int, double>> GetIndexedEnumerator()
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                yield return new KeyValuePair<int, double>(i, this[i]);
+            }
+        }
+ 
         #region IEquatable<Vector>
 
         /// <summary>
