@@ -206,7 +206,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Add(other);
+                Add(m);
             }
         }
 
