@@ -33,17 +33,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gallio, Version=3.0.6.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+    <Reference Include="Gallio, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Gallio_3.0.6.787\bin\Gallio.dll</HintPath>
+      <HintPath>..\..\lib\Gallio_3.1.397.0\bin\Gallio.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit, Version=3.0.6.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+    <Reference Include="MbUnit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Gallio_3.0.6.787\bin\MbUnit.dll</HintPath>
+      <HintPath>..\..\lib\Gallio_3.1.397.0\bin\MbUnit.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit35, Version=3.0.6.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+    <Reference Include="MbUnit35, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Gallio_3.0.6.787\bin\MbUnit35.dll</HintPath>
+      <HintPath>..\..\lib\Gallio_3.1.397.0\bin\MbUnit35.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
