@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Gallio.MSBuildTasks</name>
+  </assembly>
+  <members>
+    <member name="T:Gallio.MSBuildTasks.Gallio">
+      <summary>
+            An MSBuild task that provides support for running Gallio tests.
+            </summary>
+    </member>
+    <member name="M:Gallio.MSBuildTasks.Gallio.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:Gallio.MSBuildTasks.Gallio" /> class</summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.ApplicationBaseDirectory">
+      <summary>
+        <para>
+            Gets or sets the relative or absolute path of the application base directory,
+            or null to use a default value selected by the consumer.
+            </para>
+        <para>
+            If relative, the path is based on the current working directory,
+            so a value of "" causes the current working directory to be used.
+            </para>
+        <para>
+            The default is null.
+            </para>
+      </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.AssertCount">
+      <summary>
+            Gets the number of assertions evaluated.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.Debug">
+      <summary>
+        <para>
+            Attaches the debugger to the test process when set to true.
+            </para>
+        <para>
+            The default is false.
+            </para>
+      </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.DoNotRun">
+      <summary>
+            Sets whether to load the tests but not run them.  This option may be used to produce a
+            report that contains test metadata for consumption by other tools.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.Duration">
+      <summary>
+            Gets the duration of the tests execution in seconds.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.EchoResults">
+      <summary>
+            Sets whether to echo results to the screen as tests finish.  If this option is set
+            to true, the default, test results are echoed to the console
+            in varying detail depending on the current verbosity level.  Otherwise
+            only final summary statistics are displayed.
+            </summary>
+    </member>
+    <member name="M:Gallio.MSBuildTasks.Gallio.Execute">
+      <summary>
+                    When overridden in a derived class, executes the task.
+                </summary>
+      <returns>true if the task successfully executed; otherwise, false.
+                </returns>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.ExitCode">
+      <summary>
+            Gets the exit code of the tests execution.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.FailedCount">
+      <summary>
+            Gets the total number of test cases that were run and failed.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.Files">
+      <summary>
+            The list of relative or absolute paths of test files, projects and assemblies to execute.
+            Wildcards may be used.  This is required.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.Filter">
+      <summary>
+        <para>
+      Sets the filter set to apply, which consists of a sequence of one or more inclusion
+      or exclusion filter rules prefixed using 'include' (optional) or 'exclude'.
+    </para>
+      </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.HintDirectories">
+      <summary>
+            The list of directories used for loading referenced assemblies and other dependent resources.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.IgnoreAnnotations">
+      <summary>
+        <para>
+            Sets whether to ignore annotations when determining the result code.
+            If false (default), then error annotations, usually indicative of broken tests, will cause
+            a failure result to be generated.
+            </para>
+      </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.IgnoreFailures">
+      <summary>
+            Sets whether test failures will be ignored and allow the build to proceed.
+            When set to <c>false</c>, test failures will cause the build to fail.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.InconclusiveCount">
+      <summary>
+            Gets the total number of test cases that ran and were inconclusive.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.PassedCount">
+      <summary>
+            Gets the total number of test cases that were run and passed.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.PluginDirectories">
+      <summary>
+            Additional Gallio plugin directories to search recursively.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.ReportDirectory">
+      <summary>
+            Sets the name of the directory where the reports will be put.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.ReportFormatterProperties">
+      <summary>
+            Specifies option property key/value pairs for the report formatter.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.ReportNameFormat">
+      <summary>
+            Sets the format string to use to generate the reports filenames.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.ReportTypes">
+      <summary>
+            A list of the types of reports to generate, separated by semicolons. 
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.RunCount">
+      <summary>
+            Gets the total number of test cases that were run.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.RunnerExtensions">
+      <summary>
+        <para>
+            Specifies the type, assembly, and parameters of custom test runner
+            extensions to use during the test run in the form:
+            '[Namespace.]Type,Assembly[;Parameters]'.
+            </para>
+        <para>
+            eg. 'FancyLogger,MyCustomExtensions.dll;SomeParameters'
+            </para>
+      </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.RunnerProperties">
+      <summary>
+            Specifies option property key/value pairs for the test runner.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.RunnerType">
+      <summary>
+            Sets the type of test runner to use.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.RunTimeLimit">
+      <summary>
+            Sets the maximum amount of time (in seconds) the tests can run
+            before they are canceled. The default is an infinite time to run.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.RuntimeVersion">
+      <summary>
+        <para>
+            Gets or sets the version of the .Net runtime to use for running tests.
+            </para>
+        <para>
+            For the CLR, this must be the name of one of the framework directories in %SystemRoot%\Microsoft.Net\Framework.  eg. 'v2.0.50727'.
+            </para>
+        <para>
+            The default is null which uses the most recent installed and supported framework.
+            </para>
+      </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.ShadowCopy">
+      <summary>
+        <para>
+            Enables shadow copying when set to true.
+            </para>
+        <para>
+            Shadow copying allows the original assemblies to be modified while the tests are running.
+            However, shadow copying may occasionally cause some tests to fail if they depend on their original location.
+            </para>
+        <para>
+            The default is false.
+            </para>
+      </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.ShowReports">
+      <summary>
+            Sets whether to show generated reports in a window using the default system application
+            registered to the report file type.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.SkippedCount">
+      <summary>
+            Gets the total number of test cases that did not run because they were skipped.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.StepCount">
+      <summary>
+            Gets the total number of test steps run.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.TestCount">
+      <summary>
+            Gets the total number of test cases run.
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.Verbosity">
+      <summary>
+            The verbosity to use when logging.  The default is "Normal".
+            </summary>
+    </member>
+    <member name="P:Gallio.MSBuildTasks.Gallio.WorkingDirectory">
+      <summary>
+        <para>
+            Gets or sets the relative or absolute path of the working directory
+            or null to use a default value selected by the consumer.
+            </para>
+        <para>
+            If relative, the path is based on the current working directory,
+            so a value of "" causes the current working directory to be used.
+            </para>
+        <para>
+            The default is null.
+            </para>
+      </summary>
+    </member>
+  </members>
+</doc>

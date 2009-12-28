@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE HelpCollection[]>
+<HelpCollection DTDVersion="1.0" FileVersion="0.0.0.0" LangId="1033" Title="Gallio API Documentation" Copyright="Copyright 2005-2009 Gallio Project - http://www.gallio.org/">
+  <TOCDef File="Gallio.HxT" />
+  <KeywordIndexDef File="Gallio_A.HxK" />
+  <KeywordIndexDef File="Gallio_B.HxK" />
+  <KeywordIndexDef File="Gallio_F.HxK" />
+  <KeywordIndexDef File="Gallio_K.HxK" />
+  <KeywordIndexDef File="Gallio_NamedURLIndex.HxK" />
+  <KeywordIndexDef File="Gallio_S.HxK" />
+  <ItemMoniker Name="!DefaultTOC" ProgId="HxDs.HxHierarchy" InitData="Gallio" />
+  <ItemMoniker Name="!DefaultFullTextSearch" ProgId="HxDs.HxFullTextSearch" InitData="FTS" />
+  <ItemMoniker Name="!DefaultAssociativeIndex" ProgId="HxDs.HxIndex" InitData="A" />
+  <ItemMoniker Name="!DefaultDynamicLinkIndex" ProgId="HxDs.HxIndex" InitData="B" />
+  <ItemMoniker Name="!DefaultContextWindowIndex" ProgId="HxDs.HxIndex" InitData="F" />
+  <ItemMoniker Name="!DefaultKeywordIndex" ProgId="HxDs.HxIndex" InitData="K" />
+  <ItemMoniker Name="!DefaultNamedUrlIndex" ProgId="HxDs.HxIndex" InitData="NamedUrlIndex" />
+  <ItemMoniker Name="!DefaultSearchWindowIndex" ProgId="HxDs.HxIndex" InitData="S" />
+</HelpCollection>

@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://www.gallio.org/" elementFormDefault="qualified" targetNamespace="http://www.gallio.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="plugin" nillable="true" type="tns:Plugin" />
+  <xs:complexType name="Plugin">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="dependencies" type="tns:ArrayOfDependency" />
+      <xs:element minOccurs="0" maxOccurs="1" name="files" type="tns:ArrayOfFile" />
+      <xs:element minOccurs="0" maxOccurs="1" name="assemblies" type="tns:ArrayOfAssembly" />
+      <xs:element minOccurs="0" maxOccurs="1" name="services" type="tns:ArrayOfService" />
+      <xs:element minOccurs="0" maxOccurs="1" name="components" type="tns:ArrayOfComponent" />
+      <xs:element minOccurs="0" maxOccurs="1" name="parameters" type="tns:KeyValueTable" />
+      <xs:element minOccurs="0" maxOccurs="1" name="traits" type="tns:KeyValueTable" />
+      <xs:element minOccurs="0" maxOccurs="1" name="probingPaths" type="tns:ArrayOfString" />
+    </xs:sequence>
+    <xs:attribute name="pluginId" type="xs:string" />
+    <xs:attribute name="enableCondition" type="xs:string" />
+    <xs:attribute name="recommendedInstallationPath" type="xs:string" />
+    <xs:attribute name="pluginType" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfDependency">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="dependency" type="tns:Dependency" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Dependency">
+    <xs:attribute name="pluginId" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfFile">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="file" type="tns:File" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="File">
+    <xs:attribute name="path" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfAssembly">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="assembly" type="tns:Assembly" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Assembly">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="bindingRedirects" type="tns:ArrayOfBindingRedirect" />
+    </xs:sequence>
+    <xs:attribute name="fullName" type="xs:string" />
+    <xs:attribute name="codeBase" type="xs:string" />
+    <xs:attribute name="qualifyPartialName" type="xs:boolean" use="required" />
+    <xs:attribute name="applyPublisherPolicy" type="xs:boolean" use="required" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfBindingRedirect">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="bindingRedirect" type="tns:BindingRedirect" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BindingRedirect">
+    <xs:attribute name="oldVersion" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfService">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="service" type="tns:Service" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Service">
+    <xs:attribute name="serviceId" type="xs:string" />
+    <xs:attribute name="serviceType" type="xs:string" />
+    <xs:attribute name="defaultComponentType" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfComponent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="component" type="tns:Component" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Component">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="parameters" type="tns:KeyValueTable" />
+      <xs:element minOccurs="0" maxOccurs="1" name="traits" type="tns:KeyValueTable" />
+    </xs:sequence>
+    <xs:attribute name="componentId" type="xs:string" />
+    <xs:attribute name="serviceId" type="xs:string" />
+    <xs:attribute name="componentType" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="KeyValueTable">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfString">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="probingPath" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="testProject" nillable="true" type="tns:TestProjectData" />
+  <xs:complexType name="TestProjectData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="testPackage" type="tns:TestPackageData" />
+      <xs:element minOccurs="0" maxOccurs="1" name="testFilters" type="tns:ArrayOfFilterInfo" />
+      <xs:element minOccurs="0" maxOccurs="1" name="extensionSpecifications" type="tns:ArrayOfString4" />
+      <xs:element minOccurs="0" maxOccurs="1" name="reportDirectory" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="reportNameFormat" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TestPackageData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="files" type="tns:ArrayOfString1" />
+      <xs:element minOccurs="0" maxOccurs="1" name="hintDirectories" type="tns:ArrayOfString2" />
+      <xs:element minOccurs="0" maxOccurs="1" name="excludedFrameworkIds" type="tns:ArrayOfString3" />
+      <xs:element minOccurs="0" maxOccurs="1" name="properties" type="tns:PropertySet" />
+    </xs:sequence>
+    <xs:attribute name="shadowCopy" type="xs:boolean" use="required" />
+    <xs:attribute name="debug" type="xs:boolean" use="required" />
+    <xs:attribute name="applicationBaseDirectory" type="xs:string" />
+    <xs:attribute name="workingDirectory" type="xs:string" />
+    <xs:attribute name="runtimeVersion" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfString1">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="file" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfString2">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="hintDirectory" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfString3">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="excludedFrameworkId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfFilterInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="testFilter" type="tns:FilterInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FilterInfo">
+    <xs:attribute name="filterName" type="xs:string" />
+    <xs:attribute name="filterExpr" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfString4">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="extensionSpecification" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="report" nillable="true" type="tns:Report" />
+  <xs:complexType name="Report">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="testPackage" type="tns:TestPackageData" />
+      <xs:element minOccurs="0" maxOccurs="1" name="testModel" type="tns:TestModelData" />
+      <xs:element minOccurs="0" maxOccurs="1" name="testPackageRun" type="tns:TestPackageRun" />
+      <xs:element minOccurs="0" maxOccurs="1" name="logEntries" type="tns:ArrayOfLogEntry" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TestModelData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="test" type="tns:TestData" />
+      <xs:element minOccurs="0" maxOccurs="1" name="annotations" type="tns:ArrayOfAnnotationData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TestData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:TestComponentData">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="children" type="tns:ArrayOfTestData" />
+          <xs:element minOccurs="0" maxOccurs="1" name="parameters" type="tns:ArrayOfTestParameterData" />
+        </xs:sequence>
+        <xs:attribute name="fullName" type="xs:string" />
+        <xs:attribute name="isTestCase" type="xs:boolean" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TestComponentData" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="codeReference" type="tns:CodeReference" />
+      <xs:element minOccurs="1" maxOccurs="1" name="codeLocation" type="tns:CodeLocation" />
+      <xs:element minOccurs="0" maxOccurs="1" name="metadata" type="tns:PropertyBag" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="TestStepData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:TestComponentData">
+        <xs:attribute name="fullName" type="xs:string" />
+        <xs:attribute name="parentId" type="xs:string" />
+        <xs:attribute name="testId" type="xs:string" />
+        <xs:attribute name="isPrimary" type="xs:boolean" use="required" />
+        <xs:attribute name="isTestCase" type="xs:boolean" use="required" />
+        <xs:attribute name="isDynamic" type="xs:boolean" use="required" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TestParameterData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:TestComponentData" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfTestData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="test" type="tns:TestData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfTestParameterData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="parameter" type="tns:TestParameterData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfAnnotationData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="annotation" type="tns:AnnotationData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AnnotationData">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="codeLocation" type="tns:CodeLocation" />
+      <xs:element minOccurs="1" maxOccurs="1" name="codeReference" type="tns:CodeReference" />
+    </xs:sequence>
+    <xs:attribute name="type" type="tns:AnnotationType" use="required" />
+    <xs:attribute name="message" type="xs:string" />
+    <xs:attribute name="details" type="xs:string" />
+  </xs:complexType>
+  <xs:simpleType name="AnnotationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="info" />
+      <xs:enumeration value="warning" />
+      <xs:enumeration value="error" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TestPackageRun">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="testStepRun" type="tns:TestStepRun" />
+      <xs:element minOccurs="0" maxOccurs="1" name="statistics" type="tns:Statistics" />
+    </xs:sequence>
+    <xs:attribute name="startTime" type="xs:dateTime" use="required" />
+    <xs:attribute name="endTime" type="xs:dateTime" use="required" />
+  </xs:complexType>
+  <xs:complexType name="TestStepRun">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="testStep" type="tns:TestStepData" />
+      <xs:element minOccurs="0" maxOccurs="1" name="children" type="tns:ArrayOfTestStepRun" />
+      <xs:element minOccurs="0" maxOccurs="1" name="result" type="tns:TestResult" />
+      <xs:element minOccurs="0" maxOccurs="1" name="testLog" type="tns:StructuredDocument" />
+    </xs:sequence>
+    <xs:attribute name="startTime" type="xs:dateTime" use="required" />
+    <xs:attribute name="endTime" type="xs:dateTime" use="required" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfTestStepRun">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="testStepRun" type="tns:TestStepRun" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TestResult">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="outcome" type="tns:TestOutcome" />
+    </xs:sequence>
+    <xs:attribute name="assertCount" type="xs:int" use="required" />
+    <xs:attribute name="duration" type="xs:double" use="required" />
+  </xs:complexType>
+  <xs:complexType name="StructuredDocument">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="streams" type="tns:ArrayOfStructuredStream" />
+      <xs:element minOccurs="0" maxOccurs="1" name="attachments" type="tns:ArrayOfAttachmentData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfStructuredStream">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="stream" type="tns:StructuredStream" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StructuredStream">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="body" type="tns:BodyTag" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="BodyTag">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ContainerTag" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ContainerTag" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Tag">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="contents" type="tns:ArrayOfChoice1" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Tag" abstract="true" />
+  <xs:complexType name="EmbedTag">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Tag">
+        <xs:attribute name="attachmentName" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfChoice1">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element minOccurs="0" maxOccurs="1" name="marker" type="tns:MarkerTag" />
+      <xs:element minOccurs="0" maxOccurs="1" name="section" type="tns:SectionTag" />
+      <xs:element minOccurs="0" maxOccurs="1" name="embed" type="tns:EmbedTag" />
+      <xs:element minOccurs="0" maxOccurs="1" name="text" type="xs:string" />
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="MarkerTag">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ContainerTag">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="attributes" type="tns:ArrayOfAttribute" />
+        </xs:sequence>
+        <xs:attribute name="class" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfAttribute">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="tns:Attribute" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Attribute">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="SectionTag">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ContainerTag">
+        <xs:attribute name="name" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfAttachmentData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="attachment" type="tns:AttachmentData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AttachmentData">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" />
+        <xs:attribute name="contentType" type="xs:string" />
+        <xs:attribute name="encoding" type="tns:AttachmentEncoding" use="required" />
+        <xs:attribute name="contentPath" type="xs:string" />
+        <xs:attribute name="contentDisposition" type="tns:AttachmentContentDisposition" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="AttachmentEncoding">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="text" />
+      <xs:enumeration value="base64" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="AttachmentContentDisposition">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="absent" />
+      <xs:enumeration value="link" />
+      <xs:enumeration value="inline" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Statistics">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="outcomeSummaries" type="tns:ArrayOfTestOutcomeSummary" />
+    </xs:sequence>
+    <xs:attribute name="assertCount" type="xs:int" use="required" />
+    <xs:attribute name="duration" type="xs:double" use="required" />
+    <xs:attribute name="runCount" type="xs:int" use="required" />
+    <xs:attribute name="passedCount" type="xs:int" use="required" />
+    <xs:attribute name="failedCount" type="xs:int" use="required" />
+    <xs:attribute name="inconclusiveCount" type="xs:int" use="required" />
+    <xs:attribute name="skippedCount" type="xs:int" use="required" />
+    <xs:attribute name="testCount" type="xs:int" use="required" />
+    <xs:attribute name="stepCount" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfTestOutcomeSummary">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="outcomeSummary" type="tns:TestOutcomeSummary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TestOutcomeSummary">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="outcome" type="tns:TestOutcome" />
+    </xs:sequence>
+    <xs:attribute name="count" type="xs:int" use="required" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfLogEntry">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="logEntry" type="tns:LogEntry" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LogEntry">
+    <xs:attribute name="severity" type="tns:LogSeverity" use="required" />
+    <xs:attribute name="message" type="xs:string" />
+    <xs:attribute name="details" type="xs:string" />
+  </xs:complexType>
+  <xs:simpleType name="LogSeverity">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="debug" />
+      <xs:enumeration value="info" />
+      <xs:enumeration value="important" />
+      <xs:enumeration value="warning" />
+      <xs:enumeration value="error" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TestOutcome">
+    <xs:attribute name="status" type="xs:string" use="required" />
+    <xs:attribute name="value" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="PropertyBag">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="value" type="xs:string" />
+          </xs:sequence>
+          <xs:attribute name="key" type="xs:string" use="required" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PropertySet">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="entry">
+        <xs:complexType>
+          <xs:attribute name="key" type="xs:string" use="required" />
+          <xs:attribute name="value" type="xs:string" use="required" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CodeLocation">
+    <xs:attribute name="path" type="xs:string" use="optional" />
+    <xs:attribute name="line" type="xs:int" use="optional" />
+    <xs:attribute name="column" type="xs:int" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="CodeReference">
+    <xs:attribute name="assembly" type="xs:string" use="optional" />
+    <xs:attribute name="namespace" type="xs:string" use="optional" />
+    <xs:attribute name="type" type="xs:string" use="optional" />
+    <xs:attribute name="member" type="xs:string" use="optional" />
+    <xs:attribute name="parameter" type="xs:string" use="optional" />
+  </xs:complexType>
+</xs:schema>
