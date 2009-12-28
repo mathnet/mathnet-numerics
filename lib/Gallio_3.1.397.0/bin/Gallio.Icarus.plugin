@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<plugin pluginId="Gallio.Icarus"
+        recommendedInstallationPath=""
+        xmlns="http://www.gallio.org/">
+  
+  <traits>
+    <name>Gallio Icarus Test Runner</name>
+    <version>3.1.0.0</version>
+    <description>A GUI based test runner.</description>
+    <icon>plugin://Gallio.Icarus/Resources/Gallio.Icarus.ico</icon>
+  </traits>
+
+  <dependencies>
+    <dependency pluginId="Gallio.UI" />
+  </dependencies>
+
+  <files>
+    <file path="Gallio.Icarus.plugin" />
+    <file path="Gallio.Icarus.exe" />
+    <file path="Gallio.Icarus.exe.config" />
+    <file path="Gallio.Icarus.XmlSerializers.dll" />
+    <file path="Aga.Controls.dll" />
+    <file path="ICSharpCode.TextEditor.dll" />
+    <file path="WeifenLuo.WinFormsUI.Docking.dll" />
+    <file path="Resources\Gallio.Icarus.ico" />
+  </files>
+  
+  <services>
+
+    <service serviceId="Gallio.Icarus.WindowManager"
+             serviceType="Gallio.Icarus.IWindowManager, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.FileWatcher"
+             serviceType="Gallio.Icarus.Remoting.IFileWatcher, Gallio.Icarus" />
+  
+    <!-- Controllers -->
+
+    <service serviceId="Gallio.Icarus.ProgressController" 
+             serviceType="Gallio.Icarus.Controllers.IProgressController, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.TestController"
+             serviceType="Gallio.Icarus.Controllers.Interfaces.ITestController, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.OptionsController" 
+             serviceType="Gallio.Icarus.Controllers.Interfaces.IOptionsController, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.ProjectController" 
+             serviceType="Gallio.Icarus.Controllers.Interfaces.IProjectController, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.SourceCodeController"
+             serviceType="Gallio.Icarus.Controllers.Interfaces.ISourceCodeController, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.ReportController" 
+             serviceType="Gallio.Icarus.Controllers.Interfaces.IReportController, Gallio.Icarus" />
+    
+    <service serviceId="Gallio.Icarus.TestResultsController"
+             serviceType="Gallio.Icarus.Controllers.Interfaces.ITestResultsController, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.RuntimeLogController" 
+             serviceType="Gallio.Icarus.Controllers.Interfaces.IRuntimeLogController, Gallio.Icarus" />
+    
+    <service serviceId="Gallio.Icarus.ExecutionLogController" 
+             serviceType="Gallio.Icarus.Controllers.Interfaces.IExecutionLogController, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.AnnotationsController" 
+             serviceType="Gallio.Icarus.Controllers.Interfaces.IAnnotationsController, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.FilterController" 
+             serviceType="Gallio.Icarus.Controllers.IFilterController, Gallio.Icarus" />
+    
+    <!-- Models -->
+
+    <service serviceId="Gallio.Icarus.TestTreeModel"
+         serviceType="Gallio.Icarus.Models.ITestTreeModel, Gallio.Icarus" />
+
+    <service serviceId="Gallio.Icarus.ProjectTreeModel"
+         serviceType="Gallio.Icarus.Models.IProjectTreeModel, Gallio.Icarus" />
+
+    <!-- Packages -->
+
+    <service serviceId="Gallio.Icarus.Package"
+         serviceType="Gallio.Icarus.IPackage, Gallio.Icarus" />
+
+    <!-- Services -->
+    
+    <service serviceId="Gallio.Icarus.ReportService"
+         serviceType="Gallio.Icarus.Services.Interfaces.IReportService, Gallio.Icarus" />
+  </services>
+  <components>    
+    <component componentId="Gallio.Icarus.FileWatcher"
+               serviceId="Gallio.Icarus.FileWatcher"
+               componentType="Gallio.Icarus.Remoting.FileWatcher, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.WindowManager" 
+               serviceId="Gallio.Icarus.WindowManager" 
+               componentType="Gallio.Icarus.WindowManager, Gallio.Icarus" />
+
+    <!-- Control panel -->
+
+    <component componentId="Gallio.Icarus.ControlPanel.RootPaneProvider"
+               serviceId="Gallio.UI.PreferencePaneProvider">
+      <traits>
+        <path>Icarus</path>
+        <order>-75</order>
+        <icon>plugin://Gallio.Icarus/Resources/Gallio.Icarus.ico</icon>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.Icarus.ControlPanel.TestStatusPaneProvider"
+           serviceId="Gallio.UI.PreferencePaneProvider"
+           componentType="Gallio.Icarus.ControlPanel.TestStatusPaneProvider, Gallio.Icarus">
+      <traits>
+        <path>Icarus/Appearance/Test Status</path>
+        <order>100</order>
+        <icon>plugin://Gallio.Icarus/Resources/Gallio.Icarus.ico</icon>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.Icarus.ControlPanel.StartupPaneProvider"
+           serviceId="Gallio.UI.PreferencePaneProvider"
+           componentType="Gallio.Icarus.ControlPanel.StartupPaneProvider, Gallio.Icarus">
+      <traits>
+        <path>Icarus/Startup</path>
+        <order>200</order>
+        <icon>plugin://Gallio.Icarus/Resources/Gallio.Icarus.ico</icon>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.Icarus.ControlPanel.TestExplorerPaneProvider" 
+               serviceId="Gallio.UI.PreferencePaneProvider" 
+               componentType="Gallio.Icarus.ControlPanel.TestExplorerPaneProvider, Gallio.Icarus">
+      <traits>
+        <path>Icarus/Test Explorer</path>
+        <order>300</order>
+        <icon>plugin://Gallio.Icarus/Resources/Gallio.Icarus.ico</icon>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.Icarus.ControlPanel.TreeViewCategoryPaneProvider" 
+               serviceId="Gallio.UI.PreferencePaneProvider" 
+               componentType="Gallio.Icarus.ControlPanel.TreeViewCategoryPaneProvider, Gallio.Icarus">
+      <traits>
+        <path>Icarus/Test Explorer/Tree View Categories</path>
+        <order>1</order>
+        <icon>plugin://Gallio.Icarus/Resources/Gallio.Icarus.ico</icon>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.Icarus.ControlPanel.ReportsPaneProvider" 
+               serviceId="Gallio.UI.PreferencePaneProvider" 
+               componentType="Gallio.Icarus.ControlPanel.ReportsPaneProvider, Gallio.Icarus">
+      <traits>
+        <path>Icarus/Reports</path>
+        <order>1</order>
+        <icon>plugin://Gallio.Icarus/Resources/Gallio.Icarus.ico</icon>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.Icarus.ControlPanel.ProgressMonitoringPaneProvider" 
+               serviceId="Gallio.UI.PreferencePaneProvider" 
+               componentType="Gallio.Icarus.ControlPanel.ProgressMonitoringPaneProvider, Gallio.Icarus">
+      <traits>
+        <path>Icarus/Appearance/Progress Monitoring</path>
+        <order>1</order>
+        <icon>plugin://Gallio.Icarus/Resources/Gallio.Icarus.ico</icon>
+      </traits>
+    </component>
+    
+    <!-- Controllers -->
+
+    <component componentId="Gallio.Icarus.ProgressController" 
+               serviceId="Gallio.Icarus.ProgressController" 
+               componentType="Gallio.Icarus.Controllers.ProgressController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.TestController"
+               serviceId="Gallio.Icarus.TestController"
+               componentType="Gallio.Icarus.Controllers.TestController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.ProjectController" 
+               serviceId="Gallio.Icarus.ProjectController" 
+               componentType="Gallio.Icarus.Controllers.ProjectController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.SourceCodeController"
+               serviceId="Gallio.Icarus.SourceCodeController"
+               componentType="Gallio.Icarus.Controllers.SourceCodeController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.ReportController"
+       serviceId="Gallio.Icarus.ReportController"
+       componentType="Gallio.Icarus.Controllers.ReportController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.TestResultsController" 
+               serviceId="Gallio.Icarus.TestResultsController" 
+               componentType="Gallio.Icarus.Controllers.TestResultsController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.ExecutionLogController"
+               serviceId="Gallio.Icarus.ExecutionLogController"
+               componentType="Gallio.Icarus.Controllers.ExecutionLogController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.AnnotationsController" 
+               serviceId="Gallio.Icarus.AnnotationsController"
+               componentType="Gallio.Icarus.Controllers.AnnotationsController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.OptionsController" 
+               serviceId="Gallio.Icarus.OptionsController" 
+               componentType="Gallio.Icarus.Controllers.OptionsController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.RuntimeLogController"
+               serviceId="Gallio.Icarus.RuntimeLogController"
+               componentType="Gallio.Icarus.Controllers.RuntimeLogController, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.FilterController" 
+               serviceId="Gallio.Icarus.FilterController" 
+               componentType="Gallio.Icarus.Controllers.FilterController, Gallio.Icarus" />
+    
+    <!-- Models -->
+
+    <component componentId="Gallio.Icarus.TestTreeModel"
+           serviceId="Gallio.Icarus.TestTreeModel"
+           componentType="Gallio.Icarus.Models.TestTreeModel, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.ProjectTreeModel"
+           serviceId="Gallio.Icarus.ProjectTreeModel"
+           componentType="Gallio.Icarus.Models.ProjectTreeModel, Gallio.Icarus" />
+    
+    <!-- Packages -->
+
+    <component componentId="Gallio.Icarus.PluginBrowserPackage" 
+               serviceId="Gallio.Icarus.Package" 
+               componentType="Gallio.Icarus.Packages.PluginBrowserPackage, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.CodeViewerPackage" 
+               serviceId="Gallio.Icarus.Package" 
+               componentType="Gallio.Icarus.Packages.CodeViewerPackage, Gallio.Icarus" />
+
+    <component componentId="Gallio.Icarus.ProjectsPackage" 
+               serviceId="Gallio.Icarus.Package" 
+               componentType="Gallio.Icarus.Packages.ProjectsPackage, Gallio.Icarus" />
+    
+    <!-- Services -->
+
+    <component componentId="Gallio.Icarus.ReportService" 
+               serviceId="Gallio.Icarus.ReportService" 
+               componentType="Gallio.Icarus.Services.ReportService, Gallio.Icarus" />
+    
+  </components>
+  
+</plugin>

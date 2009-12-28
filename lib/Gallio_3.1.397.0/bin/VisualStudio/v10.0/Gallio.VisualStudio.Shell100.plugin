@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<plugin pluginId="Gallio.VisualStudio.Shell100"
+        recommendedInstallationPath="VisualStudio\v10.0"
+        enableCondition="${process:DEVENV.EXE_V10.0} or ${process:VSTESTHOST.EXE_V10.0} or ${process:QTAGENT.EXE_V10.0} or ${process:QTAGENT32.EXE_V10.0} or ${process:QTDCAGENT.EXE_V10.0} or ${process:QTDCAGENT32.EXE_V10.0}"
+        xmlns="http://www.gallio.org/">
+  <traits>
+    <name>Visual Studio 2010 Integration Shell</name>
+    <version>3.1.0.0</version>
+    <description>Provides a framework for hosting Gallio plugins within Visual Studio 2010.</description>
+  </traits>
+
+  <dependencies>
+    <dependency pluginId="Gallio.VisualStudio.Shell" />
+  </dependencies>
+
+  <files>
+    <file path="Gallio.VisualStudio.Shell100.plugin" />
+    <file path="Gallio.VisualStudio.Shell100.dll" />
+    <file path="Gallio.VisualStudio.Shell100.addin" />
+  </files>
+  
+  <probingPaths>
+    <probingPath>v10.0</probingPath>
+  </probingPaths>
+  
+  <assemblies>
+    <assembly fullName="Gallio.VisualStudio.Shell100, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+              codeBase="Gallio.VisualStudio.Shell100.dll"
+              qualifyPartialName="true" />
+
+    <assembly fullName="Gallio.Loader, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"/>
+  </assemblies>
+
+  <components>
+    <component componentId="Shell100.Shell"
+               serviceId="Shell.Shell"
+               componentType="Gallio.VisualStudio.Shell.Core.DefaultShell, Gallio.VisualStudio.Shell100" />
+
+    <component componentId="Shell100.CommandManager"
+               serviceId="Shell.CommandManager"
+               componentType="Gallio.VisualStudio.Shell.UI.Commands.DefaultCommandManager, Gallio.VisualStudio.Shell100" />
+
+    <component componentId="Shell100.CommandManagerShellExtension"
+               serviceId="Shell.ShellExtension"
+               componentType="Gallio.VisualStudio.Shell.UI.Commands.DefaultCommandManagerShellExtension, Gallio.VisualStudio.Shell100" />
+
+    <component componentId="Shell100.ToolWindowManager"
+               serviceId="Shell.ToolWindowManager"
+               componentType="Gallio.VisualStudio.Shell.UI.ToolWindows.DefaultToolWindowManager, Gallio.VisualStudio.Shell100" />
+  </components>
+</plugin>

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<plugin pluginId="Gallio.UI"
+        recommendedInstallationPath=""
+        xmlns="http://www.gallio.org/">
+  <traits>
+    <name>Gallio UI Library</name>
+    <version>3.1.0.0</version>
+    <description>Gallio UI components.</description>
+    <icon>plugin://Gallio/Resources/Gallio.ico</icon>
+  </traits>
+
+  <dependencies>
+    <dependency pluginId="Gallio" />
+  </dependencies>
+
+  <files>
+    <file path="Gallio.UI.plugin" />
+    <file path="Gallio.UI.dll" />
+    <file path="Gallio.UI.pdb" />
+    <file path="Gallio.UI.xml" />
+  </files>
+
+  <assemblies>
+    <assembly fullName="Gallio.UI, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e"
+              codeBase="Gallio.UI.dll"
+              qualifyPartialName="true" />
+  </assemblies>
+
+  <services>
+    <service serviceId="Gallio.UI.ControlPanelPresenter"
+             serviceType="Gallio.UI.ControlPanel.IControlPanelPresenter, Gallio.UI" />
+
+    <service serviceId="Gallio.UI.ControlPanelTabProvider"
+             serviceType="Gallio.UI.ControlPanel.IControlPanelTabProvider, Gallio.UI" />
+
+    <service serviceId="Gallio.UI.PreferencePaneProvider"
+             serviceType="Gallio.UI.ControlPanel.Preferences.IPreferencePaneProvider, Gallio.UI"
+             defaultComponentType="Gallio.UI.ControlPanel.Preferences.PlaceholderPreferencePaneProvider, Gallio.UI"/>
+
+    <service serviceId="Gallio.UI.TaskManager" 
+             serviceType="Gallio.UI.ProgressMonitoring.ITaskManager, Gallio.UI" />
+
+    <service serviceId="Gallio.UI.UnhandledExceptionPolicy"
+         serviceType="Gallio.UI.Common.Policies.IUnhandledExceptionPolicy, Gallio.UI" />
+  </services>
+
+  <components>
+    <component componentId="Gallio.UI.ControlPanelPresenter"
+               serviceId="Gallio.UI.ControlPanelPresenter"
+               componentType="Gallio.UI.ControlPanel.ControlPanelPresenter, Gallio.UI" />
+
+    <component componentId="Gallio.UI.PreferenceControlPanelTabProvider"
+               serviceId="Gallio.UI.ControlPanelTabProvider"
+               componentType="Gallio.UI.ControlPanel.Preferences.PreferenceControlPanelTabProvider, Gallio.UI">
+      <traits>
+        <name>Preferences</name>
+        <order>0</order>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.UI.PluginControlPanelTabProvider"
+               serviceId="Gallio.UI.ControlPanelTabProvider"
+               componentType="Gallio.UI.ControlPanel.Plugins.PluginControlPanelTabProvider, Gallio.UI">
+      <traits>
+        <name>Plugins</name>
+        <order>100</order>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.UI.PlaceholderPreferencePaneProvider"
+               serviceId="Gallio.UI.PreferencePaneProvider">
+      <traits>
+        <path>Gallio</path>
+        <order>-100</order>
+        <icon>plugin://Gallio/Resources/Gallio.ico</icon>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.UI.RuntimePreferencePaneProvider"
+               serviceId="Gallio.UI.PreferencePaneProvider"
+               componentType="Gallio.UI.ControlPanel.Preferences.RuntimePreferencePaneProvider, Gallio.UI">
+      <traits>
+        <path>Gallio/Runtime</path>
+        <icon>plugin://Gallio/Resources/Gallio.ico</icon>
+        <scope>Machine</scope>
+      </traits>
+    </component>
+
+    <component componentId="Gallio.UI.RuntimePreferencePaneCommitterElevatedCommand"
+               serviceId="Gallio.ElevatedCommand"
+               componentType="Gallio.UI.ControlPanel.Preferences.RuntimePreferencePaneCommitterElevatedCommand, Gallio.UI" />
+
+    <component componentId="Gallio.UI.TaskManager" 
+               serviceId="Gallio.UI.TaskManager" 
+               componentType="Gallio.UI.ProgressMonitoring.TaskManager, Gallio.UI" />
+
+    <component componentId="Gallio.UI.UnhandledExceptionPolicy" 
+               serviceId="Gallio.UI.UnhandledExceptionPolicy" 
+               componentType="Gallio.UI.Common.Policies.UnhandledExceptionPolicy, Gallio.UI" />
+  </components>
+</plugin>

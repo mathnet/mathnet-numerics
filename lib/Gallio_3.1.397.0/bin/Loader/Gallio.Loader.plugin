@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<plugin pluginId="Gallio.Loader"
+        recommendedInstallationPath="Loader"
+        xmlns="http://www.gallio.org/">
+  <traits>
+    <name>Gallio.Loader</name>
+    <version>3.1.0.0</version>
+    <description>Enables external applications to load Gallio components.</description>
+    <icon>plugin://Gallio/Resources/Gallio.ico</icon>
+  </traits>
+
+  <files>
+    <file path="Gallio.Loader.plugin" />
+    <file path="Gallio.Loader.dll" />
+    <file path="Gallio.Loader.pdb" />
+    <file path="Gallio.Loader.xml" />
+  </files>
+</plugin>
