@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildAndTest" ToolsVersion="3.5">
   <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.3\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
-  <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.0.6.787\bin\Gallio.MSBuildTasks.dll" />
+  <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.1.397.0\bin\Gallio.MSBuildTasks.dll" />
 
   <PropertyGroup>
     <Config Condition="'$(Config)' == ''">Debug</Config>
@@ -15,12 +15,12 @@
   </Target>
   
   <Target Name="Test" DependsOnTargets="Compile">
-    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration" />
+    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration" />
     <Exec Command="$(MSBuildProjectDirectory)/../src/FSharpUnitTests/bin/Debug/FSharpUnitTests.exe" IgnoreExitCode="false" />
   </Target>
 
   <Target Name="TestLite" DependsOnTargets="Compile">
-    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" />
+    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" />
     <Exec Command="$(MSBuildProjectDirectory)/../src/FSharpUnitTests/bin/Debug/FSharpUnitTests.exe" IgnoreExitCode="false" />
   </Target>
 
