@@ -44,7 +44,7 @@
   </Target>
 
   <Target Name="Coverage" DependsOnTargets="Compile">
-    <Exec Command="ncover.console.exe ..\lib\Gallio_3.0.6.787\bin\Gallio.Echo.exe ..\src\UnitTests\bin\Debug\MathNet.Numerics.UnitTests.dll //pm gallio.host.exe  //eas zlib.net;MathNet.Numerics.UnitTests //et .*Resources;.*Exception //p &quot;Math.NET Numerics&quot;" />
+    <Exec Command="ncover.console.exe ..\lib\Gallio_3.1.397.0\bin\Gallio.Echo.exe ..\src\UnitTests\bin\Debug\MathNet.Numerics.UnitTests.dll //pm gallio.host.exe  //eas zlib.net;MathNet.Numerics.UnitTests //et .*Resources;.*Exception //p &quot;Math.NET Numerics&quot;" />
     <Exec Command="ncover.reporting.exe coverage.xml //or FullCoverageReport:Html //op NCoverReport" />
 	</Target>
   
