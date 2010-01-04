@@ -6,6 +6,8 @@ using MbUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
+    using System.Collections;
+
     public abstract partial class VectorTests
     {
         private readonly double[] _data = {1, 2, 3, 4, 5};
@@ -67,6 +69,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         [Test]
         [MultipleAsserts]
+        public void CanCopyPartialVectorToSelf()
+        {
+            var vector = CreateVector(_data);
+            vector.CopyTo(vector, 0, 2, 2);
+
+            Assert.AreEqual(1.0, vector[0]);
+            Assert.AreEqual(2.0, vector[1]);
+            Assert.AreEqual(1.0, vector[2]);
+            Assert.AreEqual(2.0, vector[3]);
+            Assert.AreEqual(5.0, vector[4]);
+        }
+
+        [Test]
+        [MultipleAsserts]
         public void CanCopyVectorToAnother()
         {
             var vector = CreateVector(_data);
@@ -104,6 +120,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             foreach (var element in vector)
             {
                 Assert.AreEqual(index + 1, element);
+                index++;
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanEnumerateOverVectorUsingIEnumerable()
+        {
+            var vector = CreateVector(_data);
+            var index = 0;
+
+            var enumerable = (IEnumerable)vector;
+            foreach (var element in enumerable)
+            {
+                Assert.AreEqual(index + 1, (double)element);
                 index++;
             }
         }

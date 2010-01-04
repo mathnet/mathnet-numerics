@@ -775,8 +775,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, destination))
             {
                 var tmpVector = destination.CreateVector(destination.Count);
-                CopyTo(tmpVector, offset, destinationOffset, count);
-                tmpVector.CopyTo(destination);
+                CopyTo(tmpVector);
+                Parallel.For(0, count, index => destination[destinationOffset + index] = this[offset + index]);
             }
             else
             {

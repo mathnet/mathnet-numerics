@@ -1,9 +1,7 @@
 ﻿namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using System;
     using System.Collections.Generic;
-
-    using MathNet.Numerics.LinearAlgebra.Double;
+    using LinearAlgebra.Double;
 
     internal class UserDefinedVector : Vector
     {
