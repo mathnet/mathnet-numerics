@@ -25,19 +25,67 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         [Test]
         [MultipleAsserts]
-        public void CanCreateVectorFromArray()
+        public void CanCreateDenseVectorFromArray()
         {
-            var data = new[] { 1.0, 2.0, 3.0, 4.0 };
-            var vector = new DenseVector(data);
-            Assert.AreSame(data, vector.Data);
-            for( var i = 0; i < data.Length; i++)
+            var vector = new DenseVector(_data);
+            Assert.AreSame(_data, vector.Data);
+            for (var i = 0; i < _data.Length; i++)
             {
-                Assert.AreEqual(data[i], vector[i]);
+                Assert.AreEqual(_data[i], vector[i]);
             }
             vector[0] = 100.0;
-            Assert.AreEqual(100.0, data[0]);
+            Assert.AreEqual(100.0, _data[0]);
         }
 
+        [Test]
+        [MultipleAsserts]
+        public void CanCreateDenseVectorFromAnotherDenseVector()
+        {
+            var vector = new DenseVector(_data);
+            var other = new DenseVector(vector);
+            
+            
+            Assert.AreNotSame(vector, other);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(vector[i], other[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanCreateDenseVectorFromAnotherVector()
+        {
+            var vector = (Vector)new DenseVector(_data);
+            var other = new DenseVector(vector);
+
+            Assert.AreNotSame(vector, other);
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(vector[i], other[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanCreateDenseVectorFromUserDefinedVector()
+        {
+            var vector = new UserDefinedVector(_data);
+            var other = new DenseVector(vector);
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(vector[i], other[i]);
+            }
+        }
+
+        [Test]
+        public void CanCreateDenseVectorWithConstantValues()
+        {
+            var vector = new DenseVector(5, 5);
+            Assert.ForAll(vector, value => value == 5);
+        }
+        
         [Test]
         [MultipleAsserts]
         public void CanCreateDenseMatrix()
@@ -53,8 +101,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanConvertDenseVectorToArray()
         {
-            var data = new[] { 0.0, 1.0, 2.0, 3.0, 4.0 };
-            var vector = new DenseVector(data);
+            var vector = new DenseVector(_data);
             var array = (double[])vector;
             Assert.IsInstanceOfType(typeof(double[]), array);
             Assert.AreSame(vector.Data, array);
@@ -69,6 +116,109 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var vector = (DenseVector)array;
             Assert.IsInstanceOfType(typeof(DenseVector), vector);
             Assert.AreElementsEqual(array, array);
+        }
+
+        [Test]
+        public void CanCallUnaryPlusOperatorOnDenseVector()
+        {
+            var vector = new DenseVector(_data);
+            var other = +vector;
+            Assert.AreSame(vector, other, "Should be the same vector");
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanAddTwoDenseVectorsUsingOperator()
+        {
+            var vector = new DenseVector(_data);
+            var other = new DenseVector(_data);
+            var result = vector + other;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i] * 2.0, result[i]);
+            }
+        }
+
+        [Test]
+        public void CanCallUnaryNegationOperatorOnDenseVector()
+        {
+            var vector = new DenseVector(_data);
+            var other = -vector;
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(-_data[i], other[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanSubtractTwoDenseVectorsUsingOperator()
+        {
+            var vector = new DenseVector(_data);
+            var other = new DenseVector(_data);
+            var result = vector - other;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(0.0, result[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanMultiplyDenseVectorByScalarUsingOperators()
+        {
+            var vector = new DenseVector(_data);
+            vector = vector * 2.0;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+
+            vector = vector * 1.0;
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+
+            vector = new DenseVector(_data);
+            vector = 2.0 * vector;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+
+            vector = 1.0 * vector;
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanDivideDenseVectorByScalarUsingOperators()
+        {
+            var vector = new DenseVector(_data);
+            vector = vector / 2.0;
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+            }
+
+            vector = vector / 1.0;
+            for (var i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+            }
         }
     }
 }
