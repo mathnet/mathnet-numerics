@@ -30,7 +30,7 @@
 
         public override Matrix CreateMatrix(int rows, int columns)
         {
-            throw new NotImplementedException();
+            return new UserDefinedMatrix(rows, columns);
         }
 
         public override Vector CreateVector(int size)
