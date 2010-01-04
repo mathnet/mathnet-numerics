@@ -82,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// copying the values from another.
         /// </summary>
         /// <param name="other">
-        /// The matrix to create the new matrix from.
+        /// The vector to create the new vector from.
         /// </param>
         public DenseVector(Vector other)
             : this(other.Count)
@@ -96,6 +96,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 Buffer.BlockCopy(vector.Data, 0, Data, 0, Data.Length * Constants.SizeOfDouble);
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DenseVector"/> class by
+        /// copying the values from another.
+        /// </summary>
+        /// <param name="other">
+        /// The vector to create the new vector from.
+        /// </param>
+        public DenseVector(DenseVector other)
+            : this(other.Count)
+        {
+            Buffer.BlockCopy(other.Data, 0, Data, 0, Data.Length * Constants.SizeOfDouble);
         }
 
         /// <summary>
@@ -603,8 +616,64 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return;
             }
-
             Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
+        }
+
+        /// <summary>
+        /// Multiplies a vector with a scalar.
+        /// </summary>
+        /// <param name="leftSide">The vector to scale.</param>
+        /// <param name="rightSide">The scalar value.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static DenseVector operator *(DenseVector leftSide, double rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            var ret = (DenseVector)leftSide.Clone();
+            ret.Multiply(rightSide);
+            return ret;
+        }
+
+        /// <summary>
+        /// Multiplies a vector with a scalar.
+        /// </summary>
+        /// <param name="leftSide">The scalar value.</param>
+        /// <param name="rightSide">The vector to scale.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseVector operator *(double leftSide, DenseVector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            var ret = (DenseVector)rightSide.Clone();
+            ret.Multiply(leftSide);
+            return ret;
+        }
+
+        /// <summary>
+        /// Divides a vector with a scalar.
+        /// </summary>
+        /// <param name="leftSide">The vector to divide.</param>
+        /// <param name="rightSide">The scalar value.</param>
+        /// <returns>The result of the division.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static DenseVector operator /(DenseVector leftSide, double rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            var ret = (DenseVector)leftSide.Clone();
+            ret.Multiply(1.0 / rightSide);
+            return ret;
         }
 
         #region Vector Norms

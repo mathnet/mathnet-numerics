@@ -13,6 +13,12 @@
             _data = new double[size];
         }
 
+        public UserDefinedVector(double[] data)
+            : base(data.Length)
+        {
+            _data = data;
+        }
+
         public override double this[int index]
         {
             get

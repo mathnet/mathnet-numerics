@@ -10,7 +10,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
     public abstract partial class VectorTests
     {
-        private readonly double[] _data = {1, 2, 3, 4, 5};
+        protected readonly double[] _data = {1, 2, 3, 4, 5};
 
         [Test]
         [MultipleAsserts]
@@ -111,31 +111,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        [MultipleAsserts]
         public void CanEnumerateOverVector()
         {
             var vector = CreateVector(_data);
-            var index = 0;
+            Assert.AreElementsEqual(_data, vector);
 
-            foreach (var element in vector)
-            {
-                Assert.AreEqual(index + 1, element);
-                index++;
-            }
         }
 
         [Test]
         [MultipleAsserts]
         public void CanEnumerateOverVectorUsingIEnumerable()
         {
-            var vector = CreateVector(_data);
+            var enumerable = (IEnumerable)CreateVector(_data);
             var index = 0;
-
-            var enumerable = (IEnumerable)vector;
             foreach (var element in enumerable)
             {
-                Assert.AreEqual(index + 1, (double)element);
-                index++;
+                Assert.AreEqual(_data[index++], (double)element);
             }
         }
 

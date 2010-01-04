@@ -58,7 +58,7 @@
   </Target>
   
   <Target Name="CSharpTest" >
- 		<Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Assemblies="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll"/>
+ 		<Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll"/>
   </Target>
   
   <Target Name="BuildAndTest" DependsOnTargets="Test; Style; Gendarme"/>
