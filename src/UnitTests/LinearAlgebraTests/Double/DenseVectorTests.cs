@@ -40,12 +40,35 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         [Test]
         [MultipleAsserts]
-        public void CanCreateMatrix()
+        public void CanCreateDenseMatrix()
         {
             var vector = new DenseVector(3);
             var matrix = vector.CreateMatrix(2, 3);
             Assert.AreEqual(2, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
+        }
+
+
+        [Test]
+        [MultipleAsserts]
+        public void CanConvertDenseVectorToArray()
+        {
+            var data = new[] { 0.0, 1.0, 2.0, 3.0, 4.0 };
+            var vector = new DenseVector(data);
+            var array = (double[])vector;
+            Assert.IsInstanceOfType(typeof(double[]), array);
+            Assert.AreSame(vector.Data, array);
+            Assert.AreElementsEqual(vector, array);
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanConvertArrayToDenseVector()
+        {
+            var array = new[] { 0.0, 1.0, 2.0, 3.0, 4.0 };
+            var vector = (DenseVector)array;
+            Assert.IsInstanceOfType(typeof(DenseVector), vector);
+            Assert.AreElementsEqual(array, array);
         }
     }
 }

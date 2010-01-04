@@ -719,7 +719,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != target.Count)
             {
-                throw new ArgumentException("target", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
 
             if (ReferenceEquals(this, target))
@@ -782,6 +782,51 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                Parallel.For(0, count, index => destination[destinationOffset + index] = this[offset + index]);
             }
+        }
+
+        /// <summary>
+        /// Returns the data contained in the vector as an array.
+        /// </summary>
+        /// <returns>The vector's data as an array.</returns>        
+        public virtual double[] ToArray()
+        {
+            var ret = new double[Count];
+            for (var i = 0; i < ret.Length; i++)
+            {
+                ret[i] = this[i];
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Create a matrix based on this vector in column form (one single column).
+        /// </summary>
+        /// <returns>This vector as a column matrix.</returns>
+        public virtual Matrix ToColumnMatrix()
+        {
+            var matrix = CreateMatrix(Count, 1);
+            for (var i = 0; i < Count; i++)
+            {
+                matrix[i, 0] = this[i];
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Create a matrix based on this vector in row form (one single row).
+        /// </summary>
+        /// <returns>This vector as a row matrix.</returns>
+        public virtual Matrix ToRowMatrix()
+        {
+            var matrix = CreateMatrix(1, Count);
+            for (var i = 0; i < Count; i++)
+            {
+                matrix[0, i] = this[i];
+            }
+
+            return matrix;
         }
 
         #endregion
