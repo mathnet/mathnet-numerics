@@ -90,11 +90,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var vector = other as DenseVector;
             if (vector == null)
             {
-                // using enumerators since they will be more efficient for copying sparse matrices
-             //   foreach (var item in other.GetIndexedEnumerator())
-               // {
-                 //   Data[item.Key] = item.Value;
-                // }
                 Parallel.For(0, Count, index => this[index] = other[index]);
             }
             else
@@ -115,13 +110,79 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        ///  Gets the vector's data.
+        ///  Gets the vector's internal data.
         /// </summary>
-        /// <value>The vector's data.</value>
+        /// <value>The vector's internal data.</value>
+        /// <remarks>Changing values in the array also changes the corresponding value in vector. Use with care.</remarks>
         internal double[] Data
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Returns a reference to the internal data structure.
+        /// </summary>
+        /// <param name="vector">The DenseVector whose internal data we are
+        /// returning.</param>
+        /// <returns>
+        /// A reference to the internal date of the given vector.
+        /// </returns>
+        public static implicit operator double[](DenseVector vector)
+        {
+            if (vector == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return vector.Data;
+        }
+
+        /// <summary>
+        /// Returns a vector bound directly to a reference of the provided array.
+        /// </summary>
+        /// <param name="array">The array to bind to the DenseVector object.</param>
+        /// <returns>
+        /// A DenseVector whose values are bound to the given array.
+        /// </returns>
+        public static implicit operator DenseVector(double[] array)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new DenseVector(array);
+        }
+
+        /// <summary>
+        /// Create a matrix based on this vector in column form (one single column).
+        /// </summary>
+        /// <returns>This vector as a column matrix.</returns>
+        public override Matrix ToColumnMatrix()
+        {
+            var matrix = new DenseMatrix(Count, 1);
+            for (var i = 0; i < Data.Length; i++)
+            {
+                matrix[i, 0] = Data[i];
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Create a matrix based on this vector in row form (one single row).
+        /// </summary>
+        /// <returns>This vector as a row matrix.</returns>
+        public override Matrix ToRowMatrix()
+        {
+            var matrix = new DenseMatrix(1, Count);
+            for (var i = 0; i < Data.Length; i++)
+            {
+                matrix[0, i] = Data[i];
+            }
+
+            return matrix;
         }
 
         /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
@@ -196,7 +257,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != target.Count)
             {
-                throw new ArgumentException("target", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
 
             var otherVector = target as DenseVector;
@@ -243,7 +304,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != result.Count)
             {
-                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             CopyTo(result);
@@ -265,7 +326,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != other.Count)
             {
-                throw new ArgumentException("other", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             var denseVector = other as DenseVector;
@@ -298,12 +359,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != other.Count)
             {
-                throw new ArgumentException("other", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             if (Count != result.Count)
             {
-                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
@@ -358,7 +419,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (leftSide.Count != rightSide.Count)
             {
-                throw new ArgumentException("rightSide", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             var ret = leftSide.Clone();
@@ -396,7 +457,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != result.Count)
             {
-                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             CopyTo(result);
@@ -418,7 +479,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != other.Count)
             {
-                throw new ArgumentException("other", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             var denseVector = other as DenseVector;
@@ -451,12 +512,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Count != other.Count)
             {
-                throw new ArgumentException("other", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             if (Count != result.Count)
             {
-                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
@@ -510,7 +571,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (leftSide.Count != rightSide.Count)
             {
-                throw new ArgumentException("rightSide", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             var ret = leftSide.Clone();

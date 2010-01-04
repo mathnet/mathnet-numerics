@@ -161,6 +161,48 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        [Test]
+        [MultipleAsserts]
+        public void CanConvertVectorToArray()
+        {
+            var vector = new DenseVector(_data);
+            var array = vector.ToArray();
+            Assert.AreNotSame(array, vector.Data);
+            Assert.AreElementsEqual(vector, array);
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanConvertVectorToColumnMatrix()
+        {
+            var vector = new DenseVector(_data);
+            var matrix = vector.ToColumnMatrix();
+            
+            Assert.AreEqual(vector.Count, matrix.RowCount);
+            Assert.AreEqual(1, matrix.ColumnCount);
+            
+            for(var i = 0; i < vector.Count; i++)
+            {
+                Assert.AreEqual(vector[i], matrix[i, 0]);
+            }
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanConvertVectorToRowMatrix()
+        {
+            var vector = new DenseVector(_data);
+            var matrix = vector.ToRowMatrix();
+
+            Assert.AreEqual(vector.Count, matrix.ColumnCount);
+            Assert.AreEqual(1, matrix.RowCount);
+
+            for (var i = 0; i < vector.Count; i++)
+            {
+                Assert.AreEqual(vector[i], matrix[0, i]);
+            }
+        }
+
         protected abstract Vector CreateVector(int size);
 
         protected abstract Vector CreateVector(IList<double> data);
