@@ -162,12 +162,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        [MultipleAsserts]
         public void CanConvertVectorToArray()
         {
-            var vector = new DenseVector(_data);
+            var vector = CreateVector(_data);
             var array = vector.ToArray();
-            Assert.AreNotSame(array, vector.Data);
             Assert.AreElementsEqual(vector, array);
         }
 
@@ -175,7 +173,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanConvertVectorToColumnMatrix()
         {
-            var vector = new DenseVector(_data);
+            var vector = CreateVector(_data);
             var matrix = vector.ToColumnMatrix();
             
             Assert.AreEqual(vector.Count, matrix.RowCount);
@@ -191,7 +189,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanConvertVectorToRowMatrix()
         {
-            var vector = new DenseVector(_data);
+            var vector = CreateVector(_data);
             var matrix = vector.ToRowMatrix();
 
             Assert.AreEqual(vector.Count, matrix.ColumnCount);
