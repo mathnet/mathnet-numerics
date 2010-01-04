@@ -30,9 +30,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
     using System.Text;
-    using Threading;
-
     using Properties;
+    using Threading;
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -195,23 +194,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
-                throw new ArgumentException("target", Resources.ArgumentMatrixSameDimensions);
+                throw new ArgumentException(Resources.ArgumentMatrixSameDimensions, "target");
             }
 
-            var denseMatrix = target as DenseMatrix;
-            if (denseMatrix != null)
+            // TODO this assumes that all entries matter; if "this" is a sparse matrix,
+            // we might be able to optimize the copying a bit.
+            for (int i = 0; i < RowCount; i++)
             {
-                // TODO this assumes that all entries matter; if "this" is a sparse matrix,
-                // we might be able to optimize the copying a bit.
-                for (int i = 0; i < RowCount; i++)
+                for (int j = 0; j < ColumnCount; j++)
                 {
-                    for (int j = 0; j < ColumnCount; j++)
-                    {
-                        denseMatrix.At(i, j, this.At(i, j));
-                    }
+                    target.At(i, j, At(i, j));
                 }
-
-                return;
             }
         }
 
@@ -240,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override string ToString()
         {
-            return this.ToString(null, null);
+            return ToString(null, null);
         }
 
         #region Implemented Interfaces
@@ -446,13 +439,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
             }
 
-            Parallel.For(0, RowCount, i =>
-            {
-                for (int j = 0; j < ColumnCount; j++)
+            Parallel.For(
+                0, 
+                RowCount, 
+                i =>
                 {
-                    At(i, j, At(i, j) + other.At(i, j));
-                }
-            });
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        At(i, j, At(i, j) + other.At(i, j));
+                    }
+                });
         }
 
         /// <summary>
@@ -472,6 +468,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentNullException("rightSide");
             }
+
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
@@ -505,13 +502,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameDimensions);
             }
 
-            Parallel.For(0, RowCount, i =>
-            {
-                for(int j = 0; j < ColumnCount; j++)
+            Parallel.For(
+                0,
+                RowCount,
+                i =>
                 {
-                    At(i, j, At(i, j) - other.At(i, j));
-                }
-            });
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        At(i, j, At(i, j) - other.At(i, j));
+                    }
+                });
         }
 
         /// <summary>
@@ -531,6 +531,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentNullException("rightSide");
             }
+
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
