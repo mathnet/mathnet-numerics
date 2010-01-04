@@ -259,14 +259,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
+            
+            if (ReferenceEquals(this, target))
+            {
+                return;
+            }
 
             var otherVector = target as DenseVector;
             if (otherVector == null)
             {
-                for (var index = 0; index < Data.Length; index++)
-                {
-                    target[index] = Data[index];
-                }
+                Parallel.For(0, Data.Length, index => target[index] = Data[index]);
             }
             else
             {

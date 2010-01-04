@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using MbUnit.Framework;
-
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
+﻿namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using LinearAlgebra.Double;
 
