@@ -434,8 +434,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 cColumns = bColumns;
             }
 
-            if (Precision.AlmostEqual(0.0, alpha)
-                && Precision.AlmostEqual(0.0, beta))
+            if (alpha == 0.0 && beta == 0.0)
             {
                 Array.Clear(c, 0, c.Length);
                 return;
@@ -465,9 +464,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 bdata = b;
             }
 
-            if (Precision.AlmostEqual(1.0, alpha))
+            if (alpha == 1.0)
             {
-                if (Precision.AlmostEqual(0.0, beta))
+                if (beta == 0.0)
                 {
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
@@ -1227,8 +1226,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 cColumns = bColumns;
             }
 
-            if (Precision.AlmostEqual(0.0, alpha)
-                && Precision.AlmostEqual(0.0, beta))
+            if (alpha == 0.0 && beta == 0.0)
             {
                 Array.Clear(c, 0, c.Length);
                 return;
@@ -1258,9 +1256,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 bdata = b;
             }
 
-            if (Precision.AlmostEqual(1.0, alpha))
+            if (alpha == 1.0)
             {
-                if (Precision.AlmostEqual(0.0, beta))
+                if (beta == 0.0)
                 {
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
@@ -2020,8 +2018,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 cColumns = bColumns;
             }
 
-            if (Precision.AlmostEqual(0.0, alpha)
-                && Precision.AlmostEqual(0.0, beta))
+            if (alpha == 0.0 && beta == 0.0)
             {
                 Array.Clear(c, 0, c.Length);
                 return;
@@ -2051,9 +2048,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 bdata = b;
             }
 
-            if (Precision.AlmostEqual(1.0, alpha))
+            if (alpha == 1.0)
             {
-                if (Precision.AlmostEqual(0.0, beta))
+                if (beta == 0.0)
                 {
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
@@ -2781,8 +2778,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 cColumns = bColumns;
             }
 
-            if (Precision.AlmostEqual((Complex32)0.0, alpha)
-                && Precision.AlmostEqual((Complex32)0.0, beta))
+            if (alpha.IsZero && beta.IsZero)
             {
                 Array.Clear(c, 0, c.Length);
                 return;
@@ -2812,9 +2808,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 bdata = b;
             }
 
-            if (Precision.AlmostEqual((Complex32)1.0, alpha))
+            if (alpha.IsOne)
             {
-                if (Precision.AlmostEqual((Complex32)0.0, beta))
+                if (beta.IsZero)
                 {
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
