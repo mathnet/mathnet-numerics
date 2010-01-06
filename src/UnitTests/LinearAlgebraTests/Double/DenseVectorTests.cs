@@ -27,14 +27,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCreateDenseVectorFromArray()
         {
-            var vector = new DenseVector(_data);
-            Assert.AreSame(_data, vector.Data);
-            for (var i = 0; i < _data.Length; i++)
+            var data = new double[_data.Length];
+            System.Array.Copy(_data, data, _data.Length);
+            var vector = new DenseVector(data);
+
+            Assert.AreSame(data, vector.Data);
+            for (var i = 0; i < data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i]);
+                Assert.AreEqual(data[i], vector[i]);
             }
             vector[0] = 100.0;
-            Assert.AreEqual(100.0, _data[0]);
+            Assert.AreEqual(100.0, data[0]);
         }
 
         [Test]
