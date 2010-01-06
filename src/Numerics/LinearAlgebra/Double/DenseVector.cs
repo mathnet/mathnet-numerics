@@ -612,10 +612,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">The scalar to multiply.</param>
         public override void Multiply(double scalar)
         {
-            if (scalar.AlmostEqual(1.0))
+            if (scalar == 1.0)
             {
                 return;
             }
+
             Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
         }
 

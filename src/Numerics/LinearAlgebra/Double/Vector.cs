@@ -335,7 +335,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">The scalar to multiply.</param>
         public virtual void Multiply(double scalar)
         {
-            if (scalar.AlmostEqual(1.0))
+            if (scalar == 1.0)
             {
                 return;
             }
@@ -376,7 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">The scalar to divide with.</param>
         public virtual void Divide(double scalar)
         {
-            if (scalar.AlmostEqual(1.0))
+            if (scalar == 1.0)
             {
                 return;
             }
