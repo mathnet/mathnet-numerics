@@ -19,13 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKLWrapper64Tests", "MKLWra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKLWrapper32Tests", "MKLWrapper32Tests\MKLWrapper32Tests.csproj", "{D0AD591B-0CE6-4A6D-8DEA-01777EE09BC3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LinearAlgebra", "LinearAlgebra", "{28304BC9-F668-4D43-9055-E1D37090F7A2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Double", "Double", "{7957ECEC-3AAE-40CD-9A79-8DFDF284B3FE}"
-	ProjectSection(SolutionItems) = preProject
-		Common\LinearAlgebra\Double\NativeVectorTests.cs = Common\LinearAlgebra\Double\NativeVectorTests.cs
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,9 +96,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{28304BC9-F668-4D43-9055-E1D37090F7A2} = {5A0892FF-82CE-40FC-BCE1-73810C615F52}
-		{7957ECEC-3AAE-40CD-9A79-8DFDF284B3FE} = {28304BC9-F668-4D43-9055-E1D37090F7A2}
 	EndGlobalSection
 EndGlobal

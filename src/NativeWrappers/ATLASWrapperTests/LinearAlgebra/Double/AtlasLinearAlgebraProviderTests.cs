@@ -1,9 +1,9 @@
 ﻿namespace MathNet.Numerics.ATLASWrapperTests.LinearAlgebra.Double
 {
     using MbUnit.Framework;
-    using Numerics.LinearAlgebra.Double;
+    using UnitTests.LinearAlgebraTests.Double;
 
-    public class AtlasVectorTests : NativeVectorTests
+    public class AtlasLinearAlgebraProviderTests : LinearAlgebraProviderTests
     {
         [FixtureSetUp] 
         public void SetUpProvider()
