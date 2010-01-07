@@ -70,11 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\LinearAlgebra\Double\NativeVectorTests.cs">
-      <Link>LinearAlgebra\Double\NativeVectorTests.cs</Link>
-    </Compile>
-    <Compile Include="..\MKLWrapper32Tests\LinearAlgebra\Double\MklVectorTests.cs">
-      <Link>LinearAlgebra\Double\MklVectorTests.cs</Link>
+    <Compile Include="..\MKLWrapper32Tests\LinearAlgebra\Double\MklLinearAlgebraProviderTests.cs">
+      <Link>LinearAlgebra\Double\MklLinearAlgebraProviderTests.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -66,10 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\LinearAlgebra\Double\NativeVectorTests.cs">
-      <Link>LinearAlgebra\Double\NativeVectorTests.cs</Link>
-    </Compile>
-    <Compile Include="LinearAlgebra\Double\AtlasVectorTests.cs" />
+    <Compile Include="LinearAlgebra\Double\AtlasLinearAlgebraProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

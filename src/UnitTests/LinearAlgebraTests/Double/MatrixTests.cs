@@ -6,6 +6,7 @@ using MbUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
+    [TestFixture]
     public abstract partial class MatrixTests
     {
         protected Dictionary<string, double[,]> testData2D;

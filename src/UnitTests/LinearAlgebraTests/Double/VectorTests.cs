@@ -8,6 +8,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using System.Collections;
 
+    [TestFixture]
     public abstract partial class VectorTests
     {
         protected readonly double[] _data = {1, 2, 3, 4, 5};
