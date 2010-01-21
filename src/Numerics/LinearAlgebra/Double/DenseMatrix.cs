@@ -78,7 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         /// <param name="columns">
         /// The number of columns.
-        /// </param
+        /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
         public DenseMatrix(int rows, int columns, double value)
             : base(rows, columns)
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// will reference the one dimensional array and not copy it.
         /// </summary>
         /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param
+        /// <param name="columns">The number of columns.</param>
         /// <param name="array">The one dimensional array to create this matrix from. This array should store the matrix in column-major order. <seealso cref="http://en.wikipedia.org/wiki/Row-major_order"/></param>
         public DenseMatrix(int rows, int columns, double[] array)
             : base(rows, columns)
@@ -146,6 +146,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override Matrix CreateMatrix(int numberOfRows, int numberOfColumns)
         {
             return new DenseMatrix(numberOfRows, numberOfColumns);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="Vector"/> with a the given dimension.
+        /// </summary>
+        /// <param name="size">The size of the vector.</param>
+        /// <returns>
+        /// A <see cref="Vector"/> with the given dimension.
+        /// </returns>
+        public override Vector CreateVector(int size)
+        {
+            return new DenseVector(size);
         }
 
         /// <summary>
