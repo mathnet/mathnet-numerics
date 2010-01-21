@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Distributions
         /// will not be automatically updated when the histogram changes. The categorical distribution will have
         /// one value for each bucket and a probability for that value proportional to the bucket count.
         /// </summary>
-        /// <param name="h">The histogram from which to create the categorical variable.</param>
+        /// <param name="histogram">The histogram from which to create the categorical variable.</param>
         public Categorical(Histogram histogram)
         {
             if (histogram == null)

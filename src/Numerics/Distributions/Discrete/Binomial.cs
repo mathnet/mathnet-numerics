@@ -86,7 +86,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">The success probability of a trial.</param>
         /// <param name="n">The number of trials.</param>
-        /// <returns>false <paramref name="p"/> is not in the interval [0.0,1.0] or <paramref name="n"/> is negative, true otherwise.</exception>
+        /// <returns>false <paramref name="p"/> is not in the interval [0.0,1.0] or <paramref name="n"/> is negative, true otherwise.</returns>
         private static bool IsValidParameterSet(double p, int n)
         {
             if(p < 0.0 || p > 1.0 || Double.IsNaN(p))
