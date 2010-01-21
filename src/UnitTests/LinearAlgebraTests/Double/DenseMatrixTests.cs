@@ -17,6 +17,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return new DenseMatrix(data);
         }
 
+        protected override Vector CreateVector(int size)
+        {
+            return new DenseVector(size);
+        }
+
+        protected override Vector CreateVector(double[] data)
+        {
+            return new DenseVector(data);
+        }
+
         [Test]
         public void CanCreateMatrixFrom1DArray()
         {

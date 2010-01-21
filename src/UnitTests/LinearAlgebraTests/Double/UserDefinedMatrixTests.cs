@@ -30,6 +30,11 @@
         {
             return new UserDefinedMatrix(numberOfRows, numberOfColumns);
         }
+
+        public override Vector CreateVector(int size)
+        {
+            return new UserDefinedVector(size);
+        }
     }
 
     public class UserDefinedMatrixTests : MatrixTests
@@ -42,6 +47,16 @@
         protected override Matrix CreateMatrix(double[,] data)
         {
             return new UserDefinedMatrix(data);
+        }
+
+        protected override Vector CreateVector(int size)
+        {
+            return new UserDefinedVector(size);
+        }
+
+        protected override Vector CreateVector(double[] data)
+        {
+            return new UserDefinedVector(data);
         }
     }
 }

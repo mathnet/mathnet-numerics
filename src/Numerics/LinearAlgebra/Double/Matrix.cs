@@ -194,7 +194,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameDimensions, "target");
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "target");
             }
 
             // TODO this assumes that all entries matter; if "this" is a sparse matrix,
@@ -226,6 +226,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public abstract Matrix CreateMatrix(int numberOfRows, int numberOfColumns);
 
         /// <summary>
+        /// Creates a <see cref="Vector"/> with a the given dimension.
+        /// </summary>
+        /// <param name="size">The size of the vector.</param>
+        /// <returns>
+        /// A <see cref="Vector"/> with the given dimension.
+        /// </returns>
+        /// <remarks>
+        /// Creates a vector of the same type as the current matrix.
+        /// </remarks>
+        public abstract Vector CreateVector(int size);
+
+        /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// <returns>
@@ -234,6 +246,211 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override string ToString()
         {
             return ToString(null, null);
+        }
+
+        /// <summary>
+        /// Copies a row into an <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="index">The row to copy.</param>
+        /// <returns>A <see cref="Vector"/> containing the copied elements.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
+        /// or greater than or equal to the number of rows.</exception>
+        public virtual Vector GetRow(int index)
+        {
+            Vector ret = CreateVector(ColumnCount);
+            GetRow(index, 0, ColumnCount, ret);
+            return ret;
+        }
+
+        /// <summary>
+        /// Copies a row into to the given <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="index">The row to copy.</param>
+        /// <param name="result">The <see cref="Vector"/> to copy the row into.</param>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
+        /// or greater than or equal to the number of rows.</exception>
+        /// <exception cref="NotConformableException">If <b>this.Columns != result.Count</b>.</exception>
+        public virtual void GetRow(int index, Vector result)
+        {
+            GetRow(index, 0, ColumnCount, result);
+        }
+
+        /// <summary>
+        /// Copies the requested row elements into a new <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="rowIndex">The row to copy elements from.</param>
+        /// <param name="columnIndex">The column to start copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <returns>A <see cref="Vector"/> containing the requested elements.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If:
+        /// <list><item><paramref name="rowIndex"/> is negative,
+        /// or greater than or equal to the number of rows.</item>
+        /// <item><paramref name="columnIndex"/> is negative,
+        /// or greater than or equal to the number of columns.</item>
+        /// <item><c>(columnIndex + length) &gt;= Columns.</c></item></list></exception>        
+        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        public virtual Vector GetRow(int rowIndex, int columnIndex, int length)
+        {
+            Vector ret = CreateVector(length);
+            GetRow(rowIndex, columnIndex, length, ret);
+            return ret;
+        }
+
+        /// <summary>
+        /// Copies the requested row elements into a new <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="rowIndex">The row to copy elements from.</param>
+        /// <param name="columnIndex">The column to start copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is negative,
+        /// or greater than or equal to the number of columns.</exception>        
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is negative,
+        /// or greater than or equal to the number of rows.</exception>        
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> + <paramref name="length"/>  
+        /// is greater than or equal to the number of rows.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        /// <exception cref="NotConformableException">If <strong>result.Count &lt; length</strong>.</exception>
+        public virtual void GetRow(int rowIndex, int columnIndex, int length, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (rowIndex >= RowCount || rowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+            if (columnIndex >= ColumnCount || columnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            if (columnIndex + length > ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            if (length < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
+            }
+
+            if (result.Count < length)
+            {
+                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+            }
+
+            for (int i = columnIndex, j = 0; i < columnIndex + length; i++, j++)
+            {
+                result[j] = At(rowIndex, i);
+            }
+        }
+
+        /// <summary>
+        /// Copies a column into a new <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="index">The column to copy.</param>
+        /// <returns>A <see cref="Vector"/> containing the copied elements.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
+        /// or greater than or equal to the number of columns.</exception>
+        public virtual Vector GetColumn(int index)
+        {
+            Vector result = CreateVector(RowCount);
+            GetColumn(index, 0, RowCount, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Copies a column into to the given <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="index">The column to copy.</param>
+        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
+        /// or greater than or equal to the number of columns.</exception>
+        /// <exception cref="NotConformableException">If <b>this.Rows != result.Count</b>.</exception>
+        public virtual void GetColumn(int index, Vector result)
+        {
+            GetColumn(index, 0, RowCount, result);
+        }
+
+        /// <summary>
+        /// Copies the requested column elements into a new <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="columnIndex">The column to copy elements from.</param>
+        /// <param name="rowIndex">The row to start copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <returns>A <see cref="Vector"/> containing the requested elements.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If:
+        /// <list><item><paramref name="columnIndex"/> is negative,
+        /// or greater than or equal to the number of columns.</item>
+        /// <item><paramref name="rowIndex"/> is negative,
+        /// or greater than or equal to the number of rows.</item>
+        /// <item><c>(rowIndex + length) &gt;= Rows.</c></item></list>
+        /// </exception>        
+        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        public virtual Vector GetColumn(int columnIndex, int rowIndex, int length)
+        {
+            Vector result = CreateVector(length);
+            GetColumn(columnIndex, rowIndex, length, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Copies the requested column elements into the given vector.
+        /// </summary>
+        /// <param name="columnIndex">The column to copy elements from.</param>
+        /// <param name="rowIndex">The row to start copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is negative,
+        /// or greater than or equal to the number of columns.</exception>        
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is negative,
+        /// or greater than or equal to the number of rows.</exception>        
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> + <paramref name="length"/>  
+        /// is greater than or equal to the number of rows.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        /// <exception cref="NotConformableException">If <strong>result.Count &lt; length</strong>.</exception>
+        public virtual void GetColumn(int columnIndex, int rowIndex, int length, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (columnIndex >= ColumnCount || columnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+            if (rowIndex >= RowCount || rowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            if (rowIndex + length > RowCount)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            if (length < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
+            }
+
+            if (result.Count < length)
+            {
+                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+            }
+
+            for (int i = rowIndex, j = 0; i < rowIndex + length; i++, j++)
+            {
+                result[j] = At(i, columnIndex);
+            }
         }
 
         #region Implemented Interfaces
