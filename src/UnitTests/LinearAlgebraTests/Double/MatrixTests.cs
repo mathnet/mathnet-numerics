@@ -606,6 +606,85 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Matrix other = testMatrices["Wide2x3"];
             Matrix result = matrix - other;
         }
+
+        [Test]
+        [Row("Singular3x3", "Square3x3")]
+        [Row("Singular4x4", "Square4x4")]
+        [Row("Wide2x3", "Square3x3")]
+        [Row("Wide2x3", "Tall3x2")]
+        [Row("Tall3x2", "Wide2x3")]
+        [MultipleAsserts]
+        public void CanMultiplyMatrixWithMatrix(string nameA, string nameB)
+        {
+            Matrix A = testMatrices[nameA];
+            Matrix B = testMatrices[nameB];
+            Matrix C = A * B;
+
+            Assert.AreEqual(C.RowCount, A.RowCount);
+            Assert.AreEqual(C.ColumnCount, B.ColumnCount);
+
+            for (int i = 0; i < C.RowCount; i++)
+            {
+                for (int j = 0; j < C.ColumnCount; j++)
+                {
+                    Assert.AreEqual(A.GetRow(i) * B.GetColumn(j), C[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MultiplyMatrixMatrixFailsWhenSizesAreIncompatible()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix other = testMatrices["Wide2x3"];
+            Matrix result = matrix * other;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void MultiplyMatrixMatrixFailsWhenLeftArgumentIsNull()
+        {
+            Matrix matrix = null;
+            Matrix other = testMatrices["Wide2x3"];
+            Matrix result = matrix * other;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void MultiplyMatrixMatrixFailsWhenRightArgumentIsNull()
+        {
+            Matrix matrix = testMatrices["Wide2x3"];
+            Matrix other = null;
+            Matrix result = matrix * other;
+        }
+
+        [Test]
+        [Row("Singular3x3", "Square3x3")]
+        [Row("Singular4x4", "Square4x4")]
+        [Row("Wide2x3", "Square3x3")]
+        [Row("Wide2x3", "Tall3x2")]
+        [Row("Tall3x2", "Wide2x3")]
+        [MultipleAsserts]
+        public void CanMultiplyMatrixWithMatrix(string nameA, string nameB)
+        {
+            Matrix A = testMatrices[nameA];
+            Matrix B = testMatrices[nameB];
+            Matrix C = CreateMatrix(A.RowCount, B.ColumnCount);
+            A.Multiply(B, C);
+
+            Assert.AreEqual(C.RowCount, A.RowCount);
+            Assert.AreEqual(C.ColumnCount, B.ColumnCount);
+
+            for (int i = 0; i < C.RowCount; i++)
+            {
+                for (int j = 0; j < C.ColumnCount; j++)
+                {
+                    Assert.AreEqual(A.GetRow(i) * B.GetColumn(j), C[i, j]);
+                }
+            }
+        }
+
         #endregion
     }
 }
