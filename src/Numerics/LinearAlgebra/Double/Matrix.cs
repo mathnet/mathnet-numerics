@@ -812,7 +812,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         {
                             s += this.At(j, l) * other.At(l, i);
                         }
-                        result.At(i, j, s);
+                        result.At(j, i, s);
                     }
                 });
             }
