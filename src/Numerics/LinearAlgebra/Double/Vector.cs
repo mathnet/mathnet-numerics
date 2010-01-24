@@ -371,6 +371,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Computes the dot product between this vector and another vector.
+        /// </summary>
+        /// <param name="other">The other vector to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null" />.</exception>
+        public virtual double DotProduct(Vector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            double dot = 0.0;
+            for (int i = 0; i < Count; i++)
+            {
+                dot += this[i] * other[i];
+            }
+
+            return dot;
+        }
+
+        /// <summary>
         /// Divides each element of the vector by a scalar.
         /// </summary>
         /// <param name="scalar">The scalar to divide with.</param>
@@ -542,6 +570,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var ret = rightSide.Clone();
             ret.Multiply(leftSide);
             return ret;
+        }
+
+        /// <summary>
+        /// Computes the dot product between two <strong>Vectors</strong>.
+        /// </summary>
+        /// <param name="leftSide">The left row vector.</param>
+        /// <param name="rightSide">The right column vector.</param>
+        /// <returns>The dot product between the two vectors.</returns>
+        /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static double operator *(Vector leftSide, Vector rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.Count != rightSide.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
+            }
+
+            return leftSide.DotProduct(rightSide);
         }
 
         /// <summary>

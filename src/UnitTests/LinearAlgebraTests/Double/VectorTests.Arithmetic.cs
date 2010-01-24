@@ -628,5 +628,73 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Vector vector = null;
             Assert.Throws<ArgumentNullException>(() => vector = vector / 2.0);
         }
+
+        [Test]
+        public void CanDotProduct()
+        {
+            Vector dataA = CreateVector(_data);
+            Vector dataB = CreateVector(_data);
+
+            Assert.AreEqual(55.0, dataA.DotProduct(dataB));
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void DotProductThrowsExceptionWhenArgumentIsNull()
+        {
+            Vector dataA = CreateVector(_data);
+            Vector dataB = null;
+
+            dataA.DotProduct(dataB);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void DotProductThrowsExceptionWhenArgumentHasDifferentSize()
+        {
+            Vector dataA = CreateVector(_data);
+            Vector dataB = CreateVector(new double[] {1, 2, 3, 4, 5, 6});
+
+            dataA.DotProduct(dataB);
+        }
+
+        [Test]
+        public void CanDotProductUsingOperator()
+        {
+            Vector dataA = CreateVector(_data);
+            Vector dataB = CreateVector(_data);
+
+            Assert.AreEqual(55.0, dataA * dataB);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void OperatorDotProductThrowsExceptionWhenLeftArgumentIsNull()
+        {
+            Vector dataA = CreateVector(_data);
+            Vector dataB = null;
+
+            double d = dataA * dataB;
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void OperatorDotProductThrowsExceptionWhenRightArgumentIsNull()
+        {
+            Vector dataA = null;
+            Vector dataB = CreateVector(_data);
+
+            double d = dataA * dataB;
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void OperatorDotProductThrowsExceptionWhenArgumentHasDifferentSize()
+        {
+            Vector dataA = CreateVector(_data);
+            Vector dataB = CreateVector(new double[] { 1, 2, 3, 4, 5, 6 });
+
+            double d = dataA * dataB;
+        }
     }
 }
