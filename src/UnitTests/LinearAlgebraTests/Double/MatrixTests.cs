@@ -666,7 +666,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3", "Tall3x2")]
         [Row("Tall3x2", "Wide2x3")]
         [MultipleAsserts]
-        public void CanMultiplyMatrixWithMatrix(string nameA, string nameB)
+        public void CanMultiplyMatrixWithMatrixIntoResult(string nameA, string nameB)
         {
             Matrix A = testMatrices[nameA];
             Matrix B = testMatrices[nameB];
