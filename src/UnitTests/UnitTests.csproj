@@ -90,6 +90,7 @@
     <Compile Include="InterpolationTests\InterpolationFunctionalContract.cs" />
     <Compile Include="InterpolationTests\InterpolationInfrastructureContract.cs" />
     <Compile Include="InterpolationTests\InterpolationFunctionalTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\MatrixTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Double\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\ManagedLinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrixTests.cs" />
