@@ -116,6 +116,7 @@
     <Compile Include="Interpolation\IInterpolation.cs" />
     <Compile Include="Interpolation\Interpolate.cs" />
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
+    <Compile Include="LinearAlgebra\Double\Matrix.Arithmetic.cs" />
     <Compile Include="LinearAlgebra\Double\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.cs" />
