@@ -39,6 +39,57 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     public abstract partial class Matrix
     {
         /// <summary>
+        /// Multiplies each element of this matrix with a scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply with.</param>
+        public virtual void Multiply(double scalar)
+        {
+            if (Precision.AlmostEqualInDecimalPlaces(1.0, scalar, 15))
+            {
+                return;
+            }
+
+            Parallel.For(
+                0,
+                RowCount,
+                i =>
+                {
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        At(i, j, At(i, j) * scalar);
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to multiply.</param>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public virtual void Multiply(double scalar, Matrix result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount)
+            {
+                throw new ArgumentException("result", Resources.ArgumentMatrixSameRowDimension);
+            }
+
+            if (result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException("result", Resources.ArgumentMatrixSameColumnDimension);
+            }
+
+            CopyTo(result);
+            result.Multiply(scalar);
+        }
+
+        /// <summary>
         /// Adds another matrix to this matrix. The result will be written into this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
