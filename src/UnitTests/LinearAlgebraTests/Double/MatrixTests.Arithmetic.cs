@@ -9,6 +9,73 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     public abstract partial class MatrixTests
     {
         [Test]
+        [Row(0)]
+        [Row(1)]
+        [Row(2.2)]
+        [MultipleAsserts]
+        public void CanMultiplyWithScalar(double scalar)
+        {
+            var matrix = testMatrices["Singular3x3"];
+            var clone = matrix.Clone();
+            clone.Multiply(scalar);
+
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j] * scalar, clone[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [Row(0)]
+        [Row(1)]
+        [Row(2.2)]
+        [MultipleAsserts]
+        public void CanMultiplyWithScalarIntoResult(double scalar)
+        {
+            var matrix = testMatrices["Singular3x3"];
+            var result = matrix.Clone();
+            matrix.Multiply(scalar, result);
+
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j] * scalar, result[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void MultiplyWithScalarIntoResultFailsWhenResultIsNull()
+        {
+            var matrix = testMatrices["Singular3x3"];
+            Matrix result = null;
+            matrix.Multiply(2.3, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void MultiplyWithScalarFailsWhenResultHasMoreRows()
+        {
+            var matrix = testMatrices["Singular3x3"];
+            Matrix result = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            matrix.Multiply(2.3, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void MultiplyWithScalarFailsWhenResultHasMoreColumns()
+        {
+            var matrix = testMatrices["Singular3x3"];
+            Matrix result = CreateMatrix(matrix.RowCount, matrix.ColumnCount + 1);
+            matrix.Multiply(2.3, result);
+        }
+
+        [Test]
         [Row("Singular3x3", "Square3x3")]
         [Row("Singular4x4", "Square4x4")]
         public void AddMatrix(string mtxA, string mtxB)
