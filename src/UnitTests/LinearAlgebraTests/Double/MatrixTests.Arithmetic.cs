@@ -33,6 +33,44 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(1)]
         [Row(2.2)]
         [MultipleAsserts]
+        public void CanOperatorLeftMultiplyWithScalar(double scalar)
+        {
+            var matrix = testMatrices["Singular3x3"];
+            var clone = matrix * scalar;
+
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j] * scalar, clone[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [Row(0)]
+        [Row(1)]
+        [Row(2.2)]
+        [MultipleAsserts]
+        public void CanOperatorRightMultiplyWithScalar(double scalar)
+        {
+            var matrix = testMatrices["Singular3x3"];
+            var clone = matrix * scalar;
+
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j] * scalar, clone[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [Row(0)]
+        [Row(1)]
+        [Row(2.2)]
+        [MultipleAsserts]
         public void CanMultiplyWithScalarIntoResult(double scalar)
         {
             var matrix = testMatrices["Singular3x3"];
@@ -76,9 +114,25 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void OperatorLeftMultiplyWithScalarFailsWhenMatrixIsNull()
+        {
+            Matrix matrix = null;
+            Matrix result = 2.3 * matrix;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void OperatorRightMultiplyWithScalarFailsWhenMatrixIsNull()
+        {
+            Matrix matrix = null;
+            Matrix result = matrix * 2.3;
+        }
+
+        [Test]
         [Row("Singular3x3", "Square3x3")]
         [Row("Singular4x4", "Square4x4")]
-        public void AddMatrix(string mtxA, string mtxB)
+        public void CanAddMatrix(string mtxA, string mtxB)
         {
             var A = testMatrices[mtxA];
             var B = testMatrices[mtxB];
@@ -178,7 +232,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         [Row("Singular3x3", "Square3x3")]
         [Row("Singular4x4", "Square4x4")]
-        public void SubtractMatrix(string mtxA, string mtxB)
+        public void CanSubtractMatrix(string mtxA, string mtxB)
         {
             var A = testMatrices[mtxA];
             var B = testMatrices[mtxB];
