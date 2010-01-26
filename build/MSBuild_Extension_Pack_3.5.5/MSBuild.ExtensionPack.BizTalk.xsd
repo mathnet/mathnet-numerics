@@ -50,9 +50,13 @@
             <xs:complexContent>
                 <xs:extension base="msb:TaskType">
                     <xs:attribute name="TaskAction" use="required">
-                        <xs:enumeration value="CheckExists"/>
-                        <xs:enumeration value="Create"/>
-                        <xs:enumeration value="Delete"/>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Delete"/>
+                            </xs:restriction>
+                        </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="MachineName"/>
                     <xs:attribute name="DatabaseServer"/>
@@ -72,12 +76,16 @@
             <xs:complexContent>
                 <xs:extension base="msb:TaskType">
                     <xs:attribute name="TaskAction" use="required">
-                        <xs:enumeration value="CheckExists"/>
-                        <xs:enumeration value="Create"/>
-                        <xs:enumeration value="Delete"/>
-                        <xs:enumeration value="GetState"/>
-                        <xs:enumeration value="Start"/>
-                        <xs:enumeration value="Stop"/>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="GetState"/>
+                                <xs:enumeration value="Start"/>
+                                <xs:enumeration value="Stop"/>
+                            </xs:restriction>
+                        </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="MachineName"/>
                     <xs:attribute name="HostName" type="msb:non_empty_string" use="required"/>
@@ -96,9 +104,13 @@
             <xs:complexContent>
                 <xs:extension base="msb:TaskType">
                     <xs:attribute name="TaskAction" use="required">
-                        <xs:enumeration value="Add"/>
-                        <xs:enumeration value="CheckExists"/>
-                        <xs:enumeration value="RTemove"/>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Add"/>
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Remove"/>
+                            </xs:restriction>
+                        </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="MachineName"/>
                     <xs:attribute name="DatabaseServer"/>
@@ -119,10 +131,14 @@
             <xs:complexContent>
                 <xs:extension base="msb:TaskType">
                     <xs:attribute name="TaskAction" use="required">
-                        <xs:enumeration value="CheckExists"/>
-                        <xs:enumeration value="Create"/>
-                        <xs:enumeration value="Delete"/>
-                        <xs:enumeration value="Update"/>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="Update"/>
+                            </xs:restriction>
+                        </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="MachineName"/>
                     <xs:attribute name="DatabaseServer"/>
@@ -145,9 +161,13 @@
             <xs:complexContent>
                 <xs:extension base="msb:TaskType">
                     <xs:attribute name="TaskAction" use="required">
-                        <xs:enumeration value="CheckExists"/>
-                        <xs:enumeration value="Create"/>
-                        <xs:enumeration value="Delete"/>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Delete"/>
+                            </xs:restriction>
+                        </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="MachineName"/>
                     <xs:attribute name="DatabaseServer"/>

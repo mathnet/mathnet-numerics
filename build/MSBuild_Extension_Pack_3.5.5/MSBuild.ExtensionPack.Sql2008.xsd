@@ -14,7 +14,7 @@
                                 <xs:enumeration value="GetConnectionCount"/>
                                 <xs:enumeration value="GetInfo"/>
                             </xs:restriction>
-                        </xs:simpleType>                        
+                        </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="NoPooling" />
                     <xs:attribute name="ConnectionCount" />
@@ -33,14 +33,10 @@
                                 <xs:enumeration value="Backup"/>
                                 <xs:enumeration value="CheckExists"/>
                                 <xs:enumeration value="Create"/>
-                                <xs:enumeration value="DataFilePath"/>
                                 <xs:enumeration value="Delete"/>
                                 <xs:enumeration value="DeleteBackupHistory"/>
-                                <xs:enumeration value="FileGroupName"/>
                                 <xs:enumeration value="GetConnectionCount"/>
                                 <xs:enumeration value="GetInfo"/>
-                                <xs:enumeration value="LogFilePath"/>
-                                <xs:enumeration value="LogName"/>
                                 <xs:enumeration value="Rename"/>
                                 <xs:enumeration value="Restore"/>
                                 <xs:enumeration value="Script"/>
@@ -50,21 +46,27 @@
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
-                    <xs:attribute name="NoPooling" />
-                    <xs:attribute name="ReplaceDatabase" />
-                    <xs:attribute name="Incremental" />
-                    <xs:attribute name="Force" />
-                    <xs:attribute name="DatabaseItem" />
-                    <xs:attribute name="LogName"/>
                     <xs:attribute name="BackupAction"/>
-                    <xs:attribute name="RestoreAction"/>
-                    <xs:attribute name="NotificationInterval" />
-                    <xs:attribute name="DataFilePath" />
-                    <xs:attribute name="LogFilePath" />
-                    <xs:attribute name="OutputFilePath" />
-                    <xs:attribute name="Exists" />
-                    <xs:attribute name="Information" />
+                    <xs:attribute name="Collation" />
                     <xs:attribute name="ConnectionCount" />
+                    <xs:attribute name="DatabaseItem" />
+                    <xs:attribute name="DataFilePath" />
+                    <xs:attribute name="Exists" />
+                    <xs:attribute name="FileGroupName"/>
+                    <xs:attribute name="Force" />
+                    <xs:attribute name="Incremental" />
+                    <xs:attribute name="Information" />
+                    <xs:attribute name="LogFilePath" />
+                    <xs:attribute name="LogName"/>
+                    <xs:attribute name="NewDataFilePath"/>
+                    <xs:attribute name="NoPooling" />
+                    <xs:attribute name="NotificationInterval" />
+                    <xs:attribute name="OutputFilePath" />
+                    <xs:attribute name="PrimaryDataFileName" />
+                    <xs:attribute name="ReplaceDatabase" />
+                    <xs:attribute name="RestoreAction"/>
+                    <xs:attribute name="SecondaryDataFilePath"/>
+                    <xs:attribute name="SecondaryDataFileName"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>

@@ -31,12 +31,15 @@
                             <xs:restriction base="xs:string">
                                 <xs:enumeration value="GetLatest"/>
                                 <xs:enumeration value="Queue"/>
+                                <xs:enumeration value="RelatedChangesets"/>
+                                <xs:enumeration value="RelatedWorkItems"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="BuildDefinitionName"/>
                     <xs:attribute name="TeamFoundationServerUrl" use="required"/>
                     <xs:attribute name="TeamProject" use="required"/>
+                    <xs:attribute name="BuildUri"/>
                     <xs:attribute name="Status"/>
                     <xs:attribute name="Version"/>
                 </xs:extension>

@@ -68,6 +68,8 @@
                         </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="Message" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="ProxyUserName"/>
+                    <xs:attribute name="ProxyUserPassword"/>
                     <xs:attribute name="TwitterUrl" type="msb:non_empty_string" use="required"/>
                 </xs:extension>
             </xs:complexContent>
@@ -112,9 +114,13 @@
                                 <xs:enumeration value="AddUser"/>
                                 <xs:enumeration value="AddGroup"/>
                                 <xs:enumeration value="AddUserToGroup"/>
+                                <xs:enumeration value="CheckGroupExists"/>
+                                <xs:enumeration value="CheckUserExists"/>
+                                <xs:enumeration value="CheckUserPassword"/>
                                 <xs:enumeration value="DeleteUser"/>
                                 <xs:enumeration value="DeleteGroup"/>
                                 <xs:enumeration value="DeleteUserFromGroup"/>
+                                <xs:enumeration value="GetUserPassword"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
@@ -127,6 +133,8 @@
                     <xs:attribute name="PasswordNeverExpires"/>
                     <xs:attribute name="Domain"/>
                     <xs:attribute name="GroupType"/>
+                    <xs:attribute name="BindingContextOptions"/>
+                    <xs:attribute name="ContextTypeStore"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -342,9 +350,34 @@
                     </xs:attribute>
                     <xs:attribute name="Exists"/>
                     <xs:attribute name="User"/>
+                    <xs:attribute name="ServiceDisplayName"/>
                     <xs:attribute name="ServiceName"/>
                     <xs:attribute name="ServicePath"/>
                     <xs:attribute name="Password"/>
+                    <xs:attribute name="ServiceDependencies"/>
+                    <xs:attribute name="RemoteUser"/>
+                    <xs:attribute name="RemoteUserPassword"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.WshShell" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CreateShortcut"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="FilePath" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Name" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Description"/>
+                    <xs:attribute name="IconLocation"/>
+                    <xs:attribute name="ShortcutPath"/>
+                    <xs:attribute name="WorkingDirectory"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -389,31 +422,52 @@
                                 <xs:enumeration value="GetChecksum"/>
                                 <xs:enumeration value="GetTempFileName"/>
                                 <xs:enumeration value="FilterByContent"/>
+                                <xs:enumeration value="Move"/>
                                 <xs:enumeration value="Replace"/>
                                 <xs:enumeration value="SetAttributes"/>
                                 <xs:enumeration value="RemoveAttributes"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
-                    <xs:attribute name="RegexPattern"/>
-                    <xs:attribute name="Replacement"/>
-                    <xs:attribute name="Path"/>
-                    <xs:attribute name="TextEncoding"/>
-                    <xs:attribute name="CommentIdentifiers"/>
-                    <xs:attribute name="Files"/>
-                    <xs:attribute name="TotalLinecount"/>
-                    <xs:attribute name="CommentLinecount"/>
-                    <xs:attribute name="EmptyLinecount"/>
-                    <xs:attribute name="TotalFilecount"/>
+                    <xs:attribute name="Checksum"/>
                     <xs:attribute name="CodeLinecount"/>
+                    <xs:attribute name="CommentIdentifiers"/>
+                    <xs:attribute name="CommentLinecount"/>
+                    <xs:attribute name="ElapsedTime"/>
+                    <xs:attribute name="EmptyLinecount"/>
                     <xs:attribute name="ExcludedFilecount"/>
+                    <xs:attribute name="ExcludedFiles"/>
+                    <xs:attribute name="Files"/>
                     <xs:attribute name="IncludedFilecount"/>
+                    <xs:attribute name="IncludedFiles"/>
                     <xs:attribute name="MaxSize"/>
                     <xs:attribute name="MinSize"/>
-                    <xs:attribute name="ElapsedTime"/>
-                    <xs:attribute name="Checksum"/>
-                    <xs:attribute name="ExcludedFiles"/>
-                    <xs:attribute name="IncludedFiles"/>
+                    <xs:attribute name="Path"/>
+                    <xs:attribute name="RegexPattern"/>
+                    <xs:attribute name="Replacement"/>
+                    <xs:attribute name="TargetPath"/>
+                    <xs:attribute name="TextEncoding"/>
+                    <xs:attribute name="TotalFilecount"/>
+                    <xs:attribute name="TotalLinecount"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.FileVersion" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Increment"/>
+                                <xs:enumeration value="Reset"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="File"/>
+                    <xs:attribute name="Increment"/>
+                    <xs:attribute name="Value"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -447,6 +501,7 @@
                             <xs:restriction base="xs:string">
                                 <xs:enumeration value="AddSecurity"/>
                                 <xs:enumeration value="DeleteAll"/>
+                                <xs:enumeration value="Get"/>
                                 <xs:enumeration value="Move"/>
                                 <xs:enumeration value="RemoveContent"/>
                                 <xs:enumeration value="RemoveSecurity"/>
@@ -457,6 +512,7 @@
                     <xs:attribute name="Match"/>
                     <xs:attribute name="TargetPath"/>
                     <xs:attribute name="Force"/>
+                    <xs:attribute name="Recursive"/>
                     <xs:attribute name="Users"/>
                     <xs:attribute name="AccessType"/>
                 </xs:extension>
@@ -518,6 +574,14 @@
                     <xs:attribute name="TaskAction" use="required">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddDays"/>
+                                <xs:enumeration value="AddHours"/>
+                                <xs:enumeration value="AddMilliseconds"/>
+                                <xs:enumeration value="AddMinutes"/>
+                                <xs:enumeration value="AddMonths"/>
+                                <xs:enumeration value="AddSeconds"/>
+                                <xs:enumeration value="AddTicks"/>
+                                <xs:enumeration value="AddYears"/>
                                 <xs:enumeration value="CheckBetween"/>
                                 <xs:enumeration value="CheckLater"/>
                                 <xs:enumeration value="Get"/>
@@ -530,6 +594,220 @@
                     <xs:attribute name="Format"/>
                     <xs:attribute name="Result"/>
                     <xs:attribute name="UseUtc"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.DynamicExecute" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>Executes .NET code dynamically.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:annotation>
+                            <xs:documentation>Specifies the task action to do.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Run">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Compiles and executes code.
+                                            Required: @Code.
+                                            Optional: @Inputs, @Outputs, @Input1, @Input2, @Input3.
+                                            Outputs: &quot;Output1&quot;, &quot;Output2&quot;, &quot;Output3&quot;, &quot;OutputMethodId&quot;.
+                                            Rare Optional: @References, @UsingNamespaces, @NoDefaultParameters, @NoDefaultReferences, @NoDefaultUsingNamespaces.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Call">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Calls a method. The method must have been previously defined by &quot;Define&quot;.
+                                            Required: @MethodId.
+                                            Optional: @Input1, @Input2, @Input3.
+                                            Outputs: &quot;Output1&quot;, &quot;Output2&quot;, &quot;Output3&quot;.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Define">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Defines a method containing code.
+                                            Required: @Code.
+                                            Optional: @Inputs, @Outputs.
+                                            Outputs: &quot;OutputMethodId&quot;.
+                                            Rare Optional: @References, @UsingNamespaces, @NoDefaultParameters, @NoDefaultReferences, @NoDefaultUsingNamespaces.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Create">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Creates a closure.
+                                            Required: @MethodId.
+                                            Outputs: &quot;OutputClosureId&quot;.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="SetInput">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Sets an argument value for a closure.
+                                            Required: @ClosureId, @Name, @InputValue.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Invoke">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Invokes a closure.
+                                            Required: @ClosureId.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="GetOutput">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Retrieves a result value from a closure.
+                                            Required: @ClosureId, @Name.
+                                            Outputs: &quot;OutputValue&quot;
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Destroy">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Destroys a closure.
+                                            Required: @ClosureId.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Code">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The actual method code.
+                                Required for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Inputs">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The input parameters for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Outputs">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The output parameters for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="References">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Additional assembly references for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="UsingNamespaces">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Additional namespace scope imports for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="NoDefaultParameters">
+                        <xs:annotation>
+                            <xs:documentation>
+                                If true, no default parameters are passed to the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="NoDefaultReferences">
+                        <xs:annotation>
+                            <xs:documentation>
+                                If true, no default assembly references are linked to the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="NoDefaultUsingNamespaces">
+                        <xs:annotation>
+                            <xs:documentation>
+                                If true, no namespace scopes are imported for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="MethodId">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The method on which to perform the task action.
+                                Required for: &quot;Call&quot;, &quot;Create&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="ClosureId">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The closure on which to perform the task action.
+                                Required for: &quot;SetInput&quot;, &quot;Invoke&quot;, &quot;GetOutput&quot;, &quot;Destroy&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Name">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The name of the parameter to set or get.
+                                Required for: &quot;SetInput&quot;, &quot;GetOutput&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="InputValue">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The value to pass for this parameter.
+                                Required for: &quot;SetInput&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Input1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The value to pass for the first parameter.
+                                Optional for: &quot;Run&quot;, &quot;Call&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Input2">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The value to pass for the second parameter.
+                                Optional for: &quot;Run&quot;, &quot;Call&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Input3">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The value to pass for the third parameter.
+                                Optional for: &quot;Run&quot;, &quot;Call&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -599,6 +877,7 @@
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
                                 <xs:enumeration value="Escape"/>
+                                <xs:enumeration value="FilterItems"/>
                                 <xs:enumeration value="GetCommonItems"/>
                                 <xs:enumeration value="GetCurrentDirectory"/>
                                 <xs:enumeration value="GetDistinctItems"/>
@@ -614,6 +893,8 @@
                         </xs:simpleType>
                     </xs:attribute>
                     <xs:attribute name="CurrentDirectory"/>
+                    <xs:attribute name="RegexPattern"/>
+                    <xs:attribute name="MetaData"/>
                     <xs:attribute name="Position"/>
                     <xs:attribute name="ItemString"/>
                     <xs:attribute name="Separator"/>
@@ -657,6 +938,7 @@
                             <xs:restriction base="xs:string">
                                 <xs:enumeration value="Compare"/>
                                 <xs:enumeration value="EndsWith"/>
+                                <xs:enumeration value="Format"/>
                                 <xs:enumeration value="GetLength"/>
                                 <xs:enumeration value="Insert"/>
                                 <xs:enumeration value="PadLeft"/>
@@ -839,6 +1121,30 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.SqlServer.SqlExecute" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Execute"/>
+                                <xs:enumeration value="ExecuteRawReader"/>
+                                <xs:enumeration value="ExecuteReader"/>
+                                <xs:enumeration value="ExecuteScalar"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="ConnectionString"/>
+                    <xs:attribute name="Sql"/>
+                    <xs:attribute name="Files"/>
+                    <xs:attribute name="CommandTimeout"/>
+                    <xs:attribute name="Retry"/>
+                    <xs:attribute name="UseTransaction"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="MSBuild.ExtensionPack.SqlServer.SqlVersion" substitutionGroup="msb:Task">
         <xs:complexType>
             <xs:complexContent>
@@ -897,6 +1203,7 @@
                     <xs:attribute name="TaskAction" use="required">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
+                                <xs:enumeration value="Confirm"/>
                                 <xs:enumeration value="Show"/>
                                 <xs:enumeration value="Prompt"/>
                             </xs:restriction>
@@ -907,6 +1214,9 @@
                     <xs:attribute name="Button1Text"/>
                     <xs:attribute name="Button2Text"/>
                     <xs:attribute name="Button3Text"/>
+                    <xs:attribute name="ConfirmText"/>
+                    <xs:attribute name="ErrorText"/>
+                    <xs:attribute name="ErrorTitle"/>
                     <xs:attribute name="Text" type="msb:non_empty_string" use="required"/>
                     <xs:attribute name="Title"/>
                     <xs:attribute name="MessageColour"/>
@@ -957,8 +1267,11 @@
                                 <xs:enumeration value="Checkin"/>
                                 <xs:enumeration value="Delete"/>
                                 <xs:enumeration value="Get"/>
+                                <xs:enumeration value="GetProperties"/>
+                                <xs:enumeration value="GetChangeset"/>
                                 <xs:enumeration value="Merge"/>
                                 <xs:enumeration value="GetPendingChanges"/>
+                                <xs:enumeration value="Resolve"/>
                                 <xs:enumeration value="UndoCheckout"/>
                                 <xs:enumeration value="Undelete"/>
                             </xs:restriction>
@@ -1067,6 +1380,7 @@
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
+                    <xs:attribute name="Timeout"/>
                     <xs:attribute name="Url" type="msb:non_empty_string" use="required"/>
                 </xs:extension>
             </xs:complexContent>
@@ -1166,6 +1480,47 @@
                     <xs:attribute name="Properties"/>
                     <xs:attribute name="Name"/>
                     <xs:attribute name="Website" type="msb:non_empty_string" use="required"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Web.WebClient" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="DownloadFile"/>
+                                <xs:enumeration value="OpenRead"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="FileName"/>
+                    <xs:attribute name="Url" type="msb:non_empty_string" use="required"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Xml.XmlFile" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddAttribute"/>
+                                <xs:enumeration value="AddElement"/>
+                                <xs:enumeration value="RemoveAttribute"/>
+                                <xs:enumeration value="RemoveElement"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Element"/>
+                    <xs:attribute name="ParentElement"/>
+                    <xs:attribute name="Key"/>
+                    <xs:attribute name="Value"/>
+                    <xs:attribute name="File"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
