@@ -66,7 +66,7 @@
   
   <Target Name="CheckStyle" DependsOnTargets="StyleCop; Gendarme"/>
 
-  <Target Name="Release" DependsOnTargets="DependsOnTargets="UpdateTemplates; Test; BuildDocs">
+  <Target Name="Release" DependsOnTargets="UpdateTemplates; Test; BuildDocs">
      <MSBuild.ExtensionPack.Framework.Assembly TaskAction="GetInfo" NetAssembly="bin\MathNet.Numerics.dll">
    	    <Output TaskParameter="OutputItems" ItemName="Info"/>
      </MSBuild.ExtensionPack.Framework.Assembly>
