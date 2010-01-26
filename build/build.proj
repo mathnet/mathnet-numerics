@@ -9,7 +9,7 @@
     <Optimize Condition="'$(Optimize)' == ''">False</Optimize>
   </PropertyGroup>
 
-  <Target Name="Compile" DependsOnTargets="UpdateTemplates">
+  <Target Name="Compile">
     <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" />
     <MSBuild Projects="../src/FSharpUnitTests/FSharpUnitTests.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" />
   </Target>
@@ -64,7 +64,9 @@
      <RemoveDir Directories="bin;Help;Release;NCoverReport" />
   </Target>
   
-  <Target Name="Release">
+  <Target Name="CheckStyle" DependsOnTargets="StyleCop; Gendarme"/>
+
+  <Target Name="Release" DependsOnTargets="DependsOnTargets="UpdateTemplates; Test; BuildDocs">
      <MSBuild.ExtensionPack.Framework.Assembly TaskAction="GetInfo" NetAssembly="bin\MathNet.Numerics.dll">
    	    <Output TaskParameter="OutputItems" ItemName="Info"/>
      </MSBuild.ExtensionPack.Framework.Assembly>
@@ -84,5 +86,6 @@
      <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(ReleaseFiles)" ZipFileName="Release\MathNet.Numerics.%(Info.FileVersion).zip"/>
    </Target>
   
-   <Target Name="CheckStyle" DependsOnTargets="StyleCop; Gendarme"/>
+  <Target Name="Full" DependsOnTargets="Release; Coverage" />
+   
 </Project>

@@ -34,5 +34,5 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
   </PropertyGroup>
   <!-- Import the SHFB build targets -->
-  <Import Project="..\tools\Sandcastle Help File Builder\SandcastleHelpFileBuilder.targets" />
+  <Import Project="C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\SandcastleHelpFileBuilder.targets" />
 </Project>
