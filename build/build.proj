@@ -110,6 +110,6 @@
         UserPassword="$(TwitterPass)"/>
 	</Target>
   
-  <Target Name="Full" DependsOnTargets="UploadRelease; Coverage" />
+  <Target Name="Full" DependsOnTargets="Release; Coverage" />
    
 </Project>
