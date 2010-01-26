@@ -16,14 +16,15 @@
     <!-- SHFB properties -->
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>Math.NET-Numerics</HtmlHelpName>
-    <CopyrightText>Copyright 2009 Math.NET Project</CopyrightText>
+    <CopyrightText>Copyright 2009-2010 Math.NET Project</CopyrightText>
     <HelpTitle>Math.NET Numerics</HelpTitle>
-    <SandcastlePath>..\tools\Sandcastle\</SandcastlePath>
+    <SandcastlePath>..\..\..\Program Files (x86)\Sandcastle\</SandcastlePath>
     <WorkingPath>doc\</WorkingPath>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\src\Managed\bin\Release\MathNet.Numerics.dll" />
-      <DocumentationSource sourceFile="..\src\Managed\bin\Release\MathNet.Numerics.xml" />
-    </DocumentationSources>
+      <DocumentationSource sourceFile="bin\MathNet.Numerics.dll" />
+<DocumentationSource sourceFile="bin\MathNet.Numerics.FSharp.dll" />
+<DocumentationSource sourceFile="bin\MathNet.Numerics.FSharp.xml" />
+<DocumentationSource sourceFile="bin\MathNet.Numerics.xml" /></DocumentationSources>
     <Preliminary>True</Preliminary>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
