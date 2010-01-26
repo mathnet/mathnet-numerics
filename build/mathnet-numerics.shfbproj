@@ -18,7 +18,7 @@
     <HtmlHelpName>Math.NET-Numerics</HtmlHelpName>
     <CopyrightText>Copyright 2009-2010 Math.NET Project</CopyrightText>
     <HelpTitle>Math.NET Numerics</HelpTitle>
-    <SandcastlePath>..\..\..\Program Files (x86)\Sandcastle\</SandcastlePath>
+    <SandcastlePath>c:\Program Files (x86)\Sandcastle\</SandcastlePath>
     <WorkingPath>doc\</WorkingPath>
     <DocumentationSources>
       <DocumentationSource sourceFile="bin\MathNet.Numerics.dll" />
