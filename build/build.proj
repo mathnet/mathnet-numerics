@@ -1,5 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildAndTest" ToolsVersion="3.5">
-  <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.3\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
+  <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
+  <UsingTask TaskName="MSBuild.ExtensionPack.Framework.Assembly" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.dll" />
+  <UsingTask TaskName="MSBuild.ExtensionPack.Compression.Zip" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.JSharp.dll" />
   <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.1.397.0\bin\Gallio.MSBuildTasks.dll" />
 
   <PropertyGroup>
@@ -7,24 +9,17 @@
     <Optimize Condition="'$(Optimize)' == ''">False</Optimize>
   </PropertyGroup>
 
-  <Target Name="Compile">
-    <MSBuild Projects="../src/Numerics/Numerics.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
-    <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
-    <MSBuild Projects="../src/FSharp/FSharp.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
-    <MSBuild Projects="../src/FSharpUnitTests/FSharpUnitTests.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
+  <Target Name="Compile" DependsOnTargets="UpdateTemplates">
+    <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" />
+    <MSBuild Projects="../src/FSharpUnitTests/FSharpUnitTests.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" />
   </Target>
   
   <Target Name="Test" DependsOnTargets="Compile">
-    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration" />
-    <Exec Command="$(MSBuildProjectDirectory)/../src/FSharpUnitTests/bin/Debug/FSharpUnitTests.exe" IgnoreExitCode="false" />
+    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="./bin/MathNet.Numerics.UnitTests.dll" />
+    <Exec Command="$(MSBuildProjectDirectory)/bin/FSharpUnitTests.exe" IgnoreExitCode="false" />
   </Target>
 
-  <Target Name="TestLite" DependsOnTargets="Compile">
-    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll" />
-    <Exec Command="$(MSBuildProjectDirectory)/../src/FSharpUnitTests/bin/Debug/FSharpUnitTests.exe" IgnoreExitCode="false" />
-  </Target>
-
-  <Target Name="Style">
+  <Target Name="StyleCop">
     <CreateItem Include="../src/Numerics/**/*.cs">
       <Output TaskParameter="Include" ItemName="StyleCopFiles" />
     </CreateItem>
@@ -36,10 +31,10 @@
     </MSBuild.ExtensionPack.CodeQuality.StyleCop>
     <Message Text="StyleCop Succeeded: $(AllPassed), Violations: $(Violations)" />
     <Warning Text="%(Failures.Identity) - Failed on Line %(Failures.LineNumber). %(Failures.CheckId): %(Failures.Message)" />
-    <!--Error Text="StyleCop analysis warnings occured" Condition="'$(AllPassed)' == 'False'"  /-->
+
   </Target>
   
-  <Target Name="BuildDocs" DependsOnTargets="Compile">
+  <Target Name="BuildDocs">
     <MSBuild Projects="./mathnet-numerics.shfbproj" />
   </Target>
 
@@ -52,7 +47,7 @@
     <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\src\Numerics\bin\Debug\MathNet.Numerics.dll"/>
   </Target>
   
-    <Target Name="CSharpCompile">
+  <Target Name="CSharpCompile">
     <MSBuild Projects="../src/Numerics/Numerics.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
     <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
   </Target>
@@ -61,7 +56,29 @@
  		<Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll"/>
   </Target>
   
-  <Target Name="BuildAndTest" DependsOnTargets="Test; Style; Gendarme"/>
+  <Target Name="UpdateTemplates">
+    <Exec Command="$(MSBuildProjectDirectory)\t4.bat"/>
+  </Target>
+
+  <Target Name="Clean">
+     <RemoveDir Directories="bin;Help;Release;NCoverReport" />
+  </Target>
   
-  <Target Name="Release" DependsOnTargets="BuildDocs"></Target>
+  <Target Name="Release" DependsOnTargets="Test; BuildDocs">
+     <MSBuild.ExtensionPack.Framework.Assembly TaskAction="GetInfo" NetAssembly="bin\MathNet.Numerics.dll">
+   	    <Output TaskParameter="OutputItems" ItemName="Info"/>
+     </MSBuild.ExtensionPack.Framework.Assembly>
+
+     <ItemGroup>
+         <ReleaseFiles Include="bin\MathNet.Numerics.dll" />
+         <ReleaseFiles Include="bin\MathNet.Numerics.XML" />
+         <ReleaseFiles Include="bin\MathNet.Numerics.FSharp.dll" />
+         <ReleaseFiles Include="bin\MathNet.Numerics.FSharp.XML" />
+     </ItemGroup>
+
+     <MakeDir Directories="$(MSBuildProjectDirectory)\Release" />
+     <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(ReleaseFiles)" ZipFileName="Release\MathNet.Numerics.%(Info.FileVersion).zip"/>
+   </Target>
+  
+   <Target Name="CheckStyle" DependsOnTargets="StyleCop; Gendarme"/>
 </Project>

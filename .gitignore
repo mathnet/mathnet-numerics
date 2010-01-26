@@ -7,3 +7,6 @@ coverage.*
 _ReSharper*
 *.marcus
 *.bak
+bin
+*.vsdoc
+*.XML
