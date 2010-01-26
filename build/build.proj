@@ -64,19 +64,23 @@
      <RemoveDir Directories="bin;Help;Release;NCoverReport" />
   </Target>
   
-  <Target Name="Release" DependsOnTargets="Test; BuildDocs">
+  <Target Name="Release">
      <MSBuild.ExtensionPack.Framework.Assembly TaskAction="GetInfo" NetAssembly="bin\MathNet.Numerics.dll">
    	    <Output TaskParameter="OutputItems" ItemName="Info"/>
      </MSBuild.ExtensionPack.Framework.Assembly>
+
+     <MakeDir Directories="$(MSBuildProjectDirectory)\Release" />
+     <Copy SourceFiles="..\COPYRIGHT.markdown" DestinationFiles="Release\COPYRIGHT" />
 
      <ItemGroup>
          <ReleaseFiles Include="bin\MathNet.Numerics.dll" />
          <ReleaseFiles Include="bin\MathNet.Numerics.XML" />
          <ReleaseFiles Include="bin\MathNet.Numerics.FSharp.dll" />
          <ReleaseFiles Include="bin\MathNet.Numerics.FSharp.XML" />
+         <ReleaseFiles Include="Help\Math.NET-Numerics.chm" />
+         <ReleaseFiles Include="Release\COPYRIGHT" />
      </ItemGroup>
-
-     <MakeDir Directories="$(MSBuildProjectDirectory)\Release" />
+     
      <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(ReleaseFiles)" ZipFileName="Release\MathNet.Numerics.%(Info.FileVersion).zip"/>
    </Target>
   
