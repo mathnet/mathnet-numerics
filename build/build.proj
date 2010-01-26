@@ -1,9 +1,11 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildAndTest" ToolsVersion="3.5">
   <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.Framework.Assembly" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.dll" />
+  <UsingTask TaskName="MSBuild.ExtensionPack.Communication.Twitter" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MMSBuild.ExtensionPack.Communication.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.Compression.Zip" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.JSharp.dll" />
   <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.1.397.0\bin\Gallio.MSBuildTasks.dll" />
-
+  <UsingTask TaskName="UploadFiles" AssemblyFile=".\CodePlexApi\CodePlex.WebServices.Client.dll" />
+  
   <PropertyGroup>
     <Config Condition="'$(Config)' == ''">Debug</Config>
     <Optimize Condition="'$(Optimize)' == ''">False</Optimize>
@@ -83,9 +85,31 @@
          <ReleaseFiles Include="Release\COPYRIGHT" />
      </ItemGroup>
      
-     <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(ReleaseFiles)" ZipFileName="Release\MathNet.Numerics.%(Info.FileVersion).zip"/>
+     <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(ReleaseFiles)" ZipFileName="Release\MathNet.Numerics.Latest.zip"/>
    </Target>
+
+   <ItemGroup>
+	    <ReleaseFile Include="Release\MathNet.Numerics.Latest.zip">
+			   <Name>Math.NET.Numerics.Latest.zip</Name>
+			   <FileType>RuntimeBinary</FileType>
+		  </ReleaseFile>
+   </ItemGroup>
+   
+   <Target Name="UploadRelease" DependsOnTargets="Release">
+      <UploadFiles  
+          ProjectName="$mathnetnumerics" 
+		      ReleaseName="$Daily Builds" 
+		      ReleaseFiles="@(ReleaseFile)" 
+		      Password="$(CodeplexPassword)"
+		      Username="$(CodeplexUser)" 
+	    />
+     <MSBuild.ExtensionPack.Communication.Twitter 
+        TaskAction="Tweet" 
+        Message="A new alpha build is up on CodePlex - http://bit.ly/8B5X26" 
+        UserName="$(TwitterUser)" 
+        UserPassword="$(TwitterPass)"/>
+	</Target>
   
-  <Target Name="Full" DependsOnTargets="Release; Coverage" />
+  <Target Name="Full" DependsOnTargets="UploadRelease; Coverage" />
    
 </Project>
