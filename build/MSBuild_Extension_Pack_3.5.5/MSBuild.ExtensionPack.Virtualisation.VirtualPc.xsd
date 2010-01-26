@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+// <copyright file="MSBuild.ExtensionPack.Virtualisation.VirtualPc.xsd">(c) http://www.codeplex.com/MSBuildExtensionPack. This source is subject to the Microsoft Permissive License. See http://www.microsoft.com/resources/sharedsource/licensingbasics/sharedsourcelicenses.mspx. All other rights reserved.</copyright>
+-->
+<xs:schema xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="Microsoft.Build.Core.xsd" />
+    <xs:element name="MSBuild.ExtensionPack.Virtualisation.VirtualPc" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddHardDiskConnectionTaskAction"/>
+                                <xs:enumeration value="ClickMouse"/>
+                                <xs:enumeration value="DiscardSavedState"/>
+                                <xs:enumeration value="DiscardUndoDisks"/>
+                                <xs:enumeration value="IsHeartBeating"/>
+                                <xs:enumeration value="IsScreenLocked"/>
+                                <xs:enumeration value="List"/>
+                                <xs:enumeration value="Logoff"/>
+                                <xs:enumeration value="MergeUndoDisks"/>
+                                <xs:enumeration value="Pause"/>
+                                <xs:enumeration value="RemoveHardDiskConnectionTaskAction"/>
+                                <xs:enumeration value="Reset"/>
+                                <xs:enumeration value="Restart"/>
+                                <xs:enumeration value="Resume"/>
+                                <xs:enumeration value="Save"/>
+                                <xs:enumeration value="Shutdown"/>
+                                <xs:enumeration value="Startup"/>
+                                <xs:enumeration value="TakeScreenshot"/>
+                                <xs:enumeration value="TurnOff"/>
+                                <xs:enumeration value="TypeAsciiText"/>
+                                <xs:enumeration value="TypeKeySequence"/>
+                                <xs:enumeration value="WaitForLowCpuUtilization"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="BusNumber"/>
+                    <xs:attribute name="DeviceNumber"/>
+                    <xs:attribute name="FileName"/>
+                    <xs:attribute name="MaxCpuThreshold"/>
+                    <xs:attribute name="MaxCpuUsage"/>
+                    <xs:attribute name="Name"/>
+                    <xs:attribute name="Text"/>
+                    <xs:attribute name="VirtualMachineCount"/>
+                    <xs:attribute name="WaitForCompletion"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
