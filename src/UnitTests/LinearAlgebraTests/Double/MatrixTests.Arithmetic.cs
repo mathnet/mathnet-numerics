@@ -29,6 +29,77 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
+        public void CanMultiplyWithVector()
+        {
+            var A = testMatrices["Singular3x3"];
+            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            var y = A * x;
+
+            Assert.AreEqual(A.RowCount, y.Count);
+
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                var ar = A.GetRow(i);
+                var dot = ar * x;
+                Assert.AreEqual(dot, y[i]);
+            }
+        }
+
+        [Test]
+        public void CanMultiplyWithVectorIntoResult()
+        {
+            var A = testMatrices["Singular3x3"];
+            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            var y = new DenseVector(3);
+            A.Multiply(x, y);
+
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                var ar = A.GetRow(i);
+                var dot = ar * x;
+                Assert.AreEqual(dot, y[i]);
+            }
+        }
+
+        [Test]
+        public void CanMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
+        {
+            var A = testMatrices["Singular3x3"];
+            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            var y = x;
+            A.Multiply(x, x);
+
+            Assert.AreSame(y, x);
+
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                var ar = A.GetRow(i);
+                var dot = ar * x;
+                Assert.AreEqual(dot, y[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void MultiplyWithVectorIntoResultFailsWhenResultIsNull()
+        {
+            var A = testMatrices["Singular3x3"];
+            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            Vector y = null;
+            A.Multiply(x, y);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void MultiplyWithVectorIntoResultFailsWhenResultIsTooLarge()
+        {
+            var A = testMatrices["Singular3x3"];
+            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            Vector y = new DenseVector(4);
+            A.Multiply(x, y);
+        }
+
+        [Test]
         [Row(0)]
         [Row(1)]
         [Row(2.2)]
