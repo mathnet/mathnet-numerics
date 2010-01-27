@@ -150,6 +150,142 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Multiplies this matrix by a vector and returns the result.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If rightSide is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <c>this.ColumnCount != rightSide.Count</c>.</exception>
+        public virtual Vector Multiply(Vector rightSide)
+        {
+            Vector ret = CreateVector(RowCount);
+            Multiply(rightSide, ret);
+            return ret;
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with a vector and places the results into the result matrix.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.ColumnCount != rightSide.Count</strong>.</exception>
+        public virtual void Multiply(Vector rightSide, Vector result)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (ColumnCount != rightSide.Count)
+            {
+                throw new ArgumentException("rightSide", Resources.ArgumentMatrixDimensions);
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (RowCount != result.Count)
+            {
+                throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
+            }
+
+            if (ReferenceEquals(rightSide, result))
+            {
+                Vector tmp = result.CreateVector(result.Count);
+                Multiply(rightSide, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                Parallel.For(
+                    0,
+                    RowCount,
+                    i =>
+                    {
+                        double s = 0;
+                        for (int j = 0; j != ColumnCount; j++)
+                        {
+                            s += At(i, j) * rightSide[j];
+                        }
+                        result[i] = s;
+                    });
+            }
+        }
+
+        /// <summary>
+        /// Left multiply a matrix with a vector ( = vector * matrix ).
+        /// </summary>
+        /// <param name="leftSide">The vector to multiply with.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.RowCount != leftSide.Count</strong>.</exception>
+        public virtual Vector LeftMultiply(Vector leftSide)
+        {
+            Vector ret = CreateVector(ColumnCount);
+            LeftMultiply(leftSide, ret);
+            return ret;
+        }
+
+        /// <summary>
+        /// Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector.
+        /// </summary>
+        /// <param name="leftSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If leftSide is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.RowCount != leftSide.Count</strong>.</exception>
+        public virtual void LeftMultiply(Vector leftSide, Vector result)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (RowCount != leftSide.Count)
+            {
+                throw new ArgumentException("leftSide", Resources.ArgumentMatrixDimensions);
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != result.Count)
+            {
+                throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
+            }
+
+            if (ReferenceEquals(leftSide, result))
+            {
+                Vector tmp = result.CreateVector(result.Count);
+                LeftMultiply(leftSide, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                Parallel.For(
+                    0,
+                    ColumnCount,
+                    j =>
+                    {
+                        double s = 0;
+                        for (int i = 0; i != leftSide.Count; i++)
+                        {
+                            s += leftSide[i] * At(i, j);
+                        }
+                        result[j] = s;
+                    });
+            }
+        }
+
+        /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
@@ -362,6 +498,40 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return leftSide.Multiply(rightSide);
+        }
+
+        /// <summary>
+        /// Multiplies a <strong>Matrix</strong> and a <see cref="Vector"/>.
+        /// </summary>
+        /// <param name="leftSide">The matrix to multiply.</param>
+        /// <param name="rightSide">The vector to multiply.</param>
+        /// <returns>The result of multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator *(Matrix leftSide, Vector rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.Multiply(rightSide);
+        }
+
+        /// <summary>
+        /// Multiplies a <see cref="Vector"/> and a <strong>Matrix</strong>.
+        /// </summary>
+        /// <param name="leftSide">The vector to multiply.</param>
+        /// <param name="rightSide">The matrix to multiply.</param>
+        /// <returns>The result of multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Vector operator *(Vector leftSide, Matrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.LeftMultiply(leftSide);
         }
     }
 }
