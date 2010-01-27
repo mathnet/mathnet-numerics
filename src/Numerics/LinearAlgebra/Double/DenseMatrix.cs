@@ -284,6 +284,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Multiplies each element of this matrix with a scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply with.</param>
+        public override void Multiply(double scalar)
+        {
+            Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
+        }
+
+        /// <summary>
         /// Multiplies this dense matrix with another dense matrix and places the results into the result dense matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>

@@ -97,6 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     }
                 });
         }
+
         /// <summary>
         /// Multiplies each element of this matrix with a scalar.
         /// </summary>
