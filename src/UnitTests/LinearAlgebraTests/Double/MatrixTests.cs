@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCloneMatrixUsingICloneable(string name)
         {
-            var matrix = CreateMatrix(testData2D[name]);
+            var matrix = testMatrices[name];
             var clone = (Matrix)((ICloneable)matrix).Clone();
 
             Assert.AreNotSame(matrix, clone);
@@ -81,6 +81,56 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                     Assert.AreEqual(matrix[i, j], clone[i, j]);
                 }
             }
+        }
+
+        [Test]
+        [Row("Singular3x3")]
+        [Row("Square3x3")]
+        [Row("Square4x4")]
+        [Row("Tall3x2")]
+        [Row("Wide2x3")]
+        [MultipleAsserts]
+        public void CanCopyTo(string name)
+        {
+            var matrix = testMatrices[name];
+            var copy = CreateMatrix(matrix.RowCount, matrix.ColumnCount);
+            matrix.CopyTo(copy);
+
+            Assert.AreNotSame(matrix, copy);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], copy[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CopyToFailsWhenTargetIsNull()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix target = null;
+            matrix.CopyTo(target);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void CopyToFailsWhenTargetHasMoreRows()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            matrix.CopyTo(target);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void CopyToFailsWhenTargetHasMoreColumns()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            matrix.CopyTo(target);
         }
 
         [Test]
