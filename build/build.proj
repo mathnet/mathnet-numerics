@@ -85,11 +85,11 @@
          <ReleaseFiles Include="Release\COPYRIGHT" />
      </ItemGroup>
      
-     <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(ReleaseFiles)" ZipFileName="Release\MathNet.Numerics.Latest.zip"/>
+     <MSBuild.ExtensionPack.Compression.Zip TaskAction="Create" CompressFiles="@(ReleaseFiles)" ZipFileName="Release\MathNet.Numerics.%(Info.AssemblyVersion).zip"/>
    </Target>
 
    <ItemGroup>
-	    <ReleaseFile Include="Release\MathNet.Numerics.Latest.zip">
+	    <ReleaseFile Include="Release\MathNet.Numerics.zip">
 			   <Name>Math.NET.Numerics.Latest.zip</Name>
 			   <FileType>RuntimeBinary</FileType>
 		  </ReleaseFile>
