@@ -478,5 +478,78 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 }
             }
         }
+
+        [Test]
+        [Row("Singular3x3")]
+        [Row("Square3x3")]
+        [Row("Square4x4")]
+        [Row("Tall3x2")]
+        [Row("Wide2x3")]
+        [MultipleAsserts]
+        public void CanNegate(string name)
+        {
+            var matrix = testMatrices[name];
+            var copy = matrix.Clone();
+
+            copy.Negate();
+
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(-matrix[i, j], copy[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [Row("Singular3x3")]
+        [Row("Square3x3")]
+        [Row("Square4x4")]
+        [Row("Tall3x2")]
+        [Row("Wide2x3")]
+        [MultipleAsserts]
+        public void CanNegateIntoResult(string name)
+        {
+            var matrix = testMatrices[name];
+            var copy = matrix.Clone();
+
+            matrix.Negate(copy);
+
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(-matrix[i, j], copy[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void NegateIntoResultFailsWhenResultIsNull()
+        {
+            var matrix = testMatrices["Singular3x3"];
+            Matrix copy = null;
+            matrix.Negate(copy);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void NegateIntoResultFailsWhenResultHasMoreRows()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            matrix.Negate(target);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void NegateIntoResultFailsWhenResultHasMoreColumns()
+        {
+            Matrix matrix = testMatrices["Singular3x3"];
+            Matrix target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            matrix.Negate(target);
+        }
     }
 }

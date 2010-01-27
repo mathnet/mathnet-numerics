@@ -107,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedArgumentNullException]
         public void CopyToFailsWhenTargetIsNull()
         {
             Matrix matrix = testMatrices["Singular3x3"];
