@@ -71,11 +71,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             Assert.AreSame(y, x);
 
+            y = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
             for (int i = 0; i < A.RowCount; i++)
             {
                 var ar = A.GetRow(i);
-                var dot = ar * x;
-                Assert.AreEqual(dot, y[i]);
+                var dot = ar * y;
+                Assert.AreEqual(dot, x[i]);
             }
         }
 
