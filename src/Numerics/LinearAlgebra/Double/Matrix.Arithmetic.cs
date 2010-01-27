@@ -366,6 +366,36 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Negates each element of this matrix.
+        /// </summary>        
+        public virtual void Negate()
+        {
+            Multiply(-1);
+        }
+
+        /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
+        public virtual void Negate(Matrix result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            CopyTo(result);
+            result.Negate();
+        }
+
+        /// <summary>
         /// Adds two matrices together and returns the results.
         /// </summary>
         /// <remarks>This operator will allocate new memory for the result. It will
@@ -399,6 +429,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Returns a <strong>Matrix</strong> containing the same values of rightSide. 
+        /// </summary>
+        /// <param name="rightSide">The matrix to get the values from.</param>
+        /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix operator +(Matrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return rightSide.Clone();
+        }
+
+        /// <summary>
         /// Subtracts two matrices together and returns the results.
         /// </summary>
         /// <remarks>This operator will allocate new memory for the result. It will
@@ -428,6 +474,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             Matrix ret = leftSide.Clone();
             ret.Subtract(rightSide);
+            return ret;
+        }
+
+        /// <summary>
+        /// Negates each element of the matrix.
+        /// </summary>
+        /// <param name="rightSide">The matrix to negate.</param>
+        /// <returns>A matrix containing the negated values.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static Matrix operator -(Matrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            Matrix ret = rightSide.Clone();
+            ret.Negate();
             return ret;
         }
 
