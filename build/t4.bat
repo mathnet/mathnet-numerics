@@ -1,8 +1,4 @@
-if defined %CommonProgramFiles(x86)% (
-	set common=%CommonProgramFiles%
-) else (
-	set common=%CommonProgramFiles(x86)%
-)
+if "%CommonProgramFiles(x86)%"=="" (set common=%CommonProgramFiles%) else (set common=%CommonProgramFiles(x86)%)
 
 "%common%\Microsoft Shared\TextTemplating\1.2\texttransform.exe" -out ..\src\Numerics\Version.cs -P "%ProgramFiles%\Reference Assemblies\Microsoft\Framework\v3.5" ..\src\Numerics\Version.tt
 
