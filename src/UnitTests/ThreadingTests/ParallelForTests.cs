@@ -144,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             }
         }
 
-        [Test, ApartmentState(ApartmentState.MTA)]
+        [Test, ApartmentState(ApartmentState.MTA), Timeout(30)]
         public void DoesDetectAndResolveRecursiveParallelization()
         {
             int countSharedBetweenClosures = 0;
@@ -309,7 +309,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             Assert.AreEqual(count * 2, sum);
         }
 
-       [Test, ApartmentState(ApartmentState.MTA)]
+       [Test, ApartmentState(ApartmentState.MTA), Timeout(30)]
         public void DoesDetectAndResolveRecursiveParallelizationWithIntialAndFinally()
        {
            int countSharedBetweenClosures = 0;
