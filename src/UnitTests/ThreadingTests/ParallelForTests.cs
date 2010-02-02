@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
     [TestFixture]
     public class ParallelForTests
     {
-        [Test, ApartmentState(ApartmentState.MTA)]
+        [Test, ApartmentState(ApartmentState.MTA), Timeout(15)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
         public void ParallelForInvokesEveryItemOnceMTAOnePerCore(int count)
         {
@@ -54,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             }
         }
 
-        [Test, ApartmentState(ApartmentState.STA)]
+        [Test, ApartmentState(ApartmentState.STA), Timeout(15)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
         public void ParallelForInvokesEveryItemOnceSTAOnePerCore(int count)
         {
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             }
         }
 
-        [Test, ApartmentState(ApartmentState.MTA)]
+        [Test, ApartmentState(ApartmentState.MTA), Timeout(15)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
         public void ParallelForInvokesEveryItemOnceMTATwoPerCore(int count)
         {
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             }
         }
 
-        [Test, ApartmentState(ApartmentState.STA)]
+        [Test, ApartmentState(ApartmentState.STA), Timeout(15)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
         public void ParallelForInvokesEveryItemOnceSTATwoPerCore(int count)
         {
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             }
         }
 
-        [Test, ApartmentState(ApartmentState.MTA)]
+        [Test, ApartmentState(ApartmentState.MTA), Timeout(15)]
         public void DoesNotGetConfusedByMultipleStartShutdown()
         {
             ThreadQueue.Shutdown();
@@ -144,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             }
         }
 
-        [Test, ApartmentState(ApartmentState.MTA), Timeout(30)]
+        [Test, ApartmentState(ApartmentState.MTA), Timeout(15)]
         public void DoesDetectAndResolveRecursiveParallelization()
         {
             int countSharedBetweenClosures = 0;
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             Assert.AreEqual(1000, countSharedBetweenClosures);
         }
 
-        [Test, ApartmentState(ApartmentState.MTA)]
+        [Test, ApartmentState(ApartmentState.MTA), Timeout(15)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
         public void ParallelForInvokesEveryItemOnceMTAOnePerCoreWithIntialAndFinally(int count)
         {
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             Assert.AreEqual(count * 2, sum);
         }
 
-        [Test, ApartmentState(ApartmentState.STA)]
+        [Test, ApartmentState(ApartmentState.STA), Timeout(15)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
         public void ParallelForInvokesEveryItemOnceSTAOnePerCoreWithIntialAndFinally(int count)
         {
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             Assert.AreEqual(count * 2, sum);
         }
 
-        [Test, ApartmentState(ApartmentState.MTA)]
+        [Test, ApartmentState(ApartmentState.MTA), Timeout(15)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
         public void ParallelForInvokesEveryItemOnceMTATwoPerCoreWithIntialAndFinally(int count)
         {
@@ -279,7 +279,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             Assert.AreEqual(count * 2, sum);
         }
 
-        [Test, ApartmentState(ApartmentState.STA)]
+        [Test, ApartmentState(ApartmentState.STA), Timeout(15)]
         [Column(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101)]
         public void ParallelForInvokesEveryItemOnceSTATwoPerCoreWithIntialAndFinally(int count)
         {
@@ -309,7 +309,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             Assert.AreEqual(count * 2, sum);
         }
 
-       [Test, ApartmentState(ApartmentState.MTA), Timeout(30)]
+        [Test, ApartmentState(ApartmentState.MTA), Timeout(15)]
         public void DoesDetectAndResolveRecursiveParallelizationWithIntialAndFinally()
        {
            int countSharedBetweenClosures = 0;
