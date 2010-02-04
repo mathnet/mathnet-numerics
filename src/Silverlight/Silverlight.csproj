@@ -207,6 +207,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\DenseVector.cs">
       <Link>LinearAlgebra\Double\DenseVector.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.Arithmetic.cs">
+      <Link>LinearAlgebra\Double\Matrix.Arithmetic.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.cs">
       <Link>LinearAlgebra\Double\Matrix.cs</Link>
     </Compile>
