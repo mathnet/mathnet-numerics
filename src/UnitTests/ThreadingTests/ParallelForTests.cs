@@ -108,7 +108,7 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             }
         }
 
-        [Test, ApartmentState(ApartmentState.MTA), Timeout(15)]
+        [Test, MultipleAsserts, ApartmentState(ApartmentState.MTA), Timeout(15)]
         public void DoesNotGetConfusedByMultipleStartShutdown()
         {
             ThreadQueue.Shutdown();
@@ -132,8 +132,8 @@ namespace MathNet.Numerics.UnitTests.ThreadingTests
             Assert.AreEqual(2, ThreadQueue.ThreadCount);
 
             var items = new int[50];
-
             Parallel.For(0, items.Length, i => items[i]++);
+
             Parallel.For(0, items.Length, i => items[i] += 1000);
 
             ThreadQueue.Shutdown();

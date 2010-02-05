@@ -138,16 +138,17 @@ namespace MathNet.Numerics.Threading
 
             while (_running)
             {
-                // Check whether we should shut down
-                if (!_running)
-                {
-                    break;
-                }
-
                 // Get the job...
                 Task task = null;
+
                 lock (_queueSync)
                 {
+                    // Check whether we should shut down
+                    if (!_running)
+                    {
+                        break;
+                    }
+
                     if (_queue.Count > 0)
                     {
                         task = _queue.Dequeue();
@@ -162,10 +163,12 @@ namespace MathNet.Numerics.Threading
                 {
                     continue;
                 }
-                
+
                 // ...and run it
                 task.Compute();
             }
+
+            _isInWorkerThread = false;
         }
 
         /// <summary>
