@@ -1,5 +1,6 @@
 ﻿namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
+    using System;
     using Algorithms.LinearAlgebra;
     using MbUnit.Framework;
 
@@ -8,40 +9,96 @@
     {
         protected ILinearAlgebraProvider<double> Provider{ get; set;}
 
-        [Test, Ignore]
-        public void CanAddVectorToScaledVector(double[] y, double alpha, double[] x)
+        private double[] y = new [] { 1.1, 2.2, 3.3, 4.4, 5.5 };
+        private double[] x = new[] { 6.6, 7.7, 8.8, 9.9, 10.1 };
+
+        [Test, MultipleAsserts]
+        public void CanAddVectorToScaledVector()
         {
-            
+            var result = new double[y.Length];
+            Array.Copy(y, result, y.Length);
+
+            Provider.AddVectorToScaledVector(result, 0, x);
+            for (var i = 0; i < y.Length; i++)
+            {
+                Assert.AreEqual(y[i], result[i]);
+            }
+
+            Array.Copy(y, result, y.Length);
+            Provider.AddVectorToScaledVector(result, 1, x);
+            for (var i = 0; i < y.Length; i++)
+            {
+                Assert.AreEqual(y[i] + x[i], result[i]);
+            }
+
+            Array.Copy(y, result, y.Length);
+            Provider.AddVectorToScaledVector(result, Math.PI, x);
+            for( var i = 0; i < y.Length; i++)
+            {
+                Assert.AreEqual(y[i] + Math.PI * x[i], result[i]);
+            }
         }
 
-        [Test, Ignore]
-        public void CanScaleArray(double alpha, double[] x)
+        [Test, MultipleAsserts]
+        public void CanScaleArray()
         {
+            var result = new double[y.Length];
+
+            Array.Copy(y, result, y.Length);
+            Provider.ScaleArray(1, result);
+            for (var i = 0; i < y.Length; i++)
+            {
+                Assert.AreEqual(y[i], result[i]);
+            }
+
+            Array.Copy(y, result, y.Length);
+            Provider.ScaleArray(Math.PI, result);
+            for (var i = 0; i < y.Length; i++)
+            {
+                Assert.AreEqual(y[i] * Math.PI, result[i]);
+            }
+        }
+
+        [Test]
+        public void CanComputeDotProduct()
+        {
+            var result = Provider.DotProduct(x, y);
+            Console.WriteLine(result);
+            AssertHelpers.AlmostEqual(152.35, result, 15);
 
         }
 
-        [Test, Ignore]
-        public void CanComputeDotProduct(double[] x, double[] y)
+        [Test]
+        public void CanAddArrays()
         {
-
+            var result = new double[y.Length];
+            Provider.AddArrays(x, y, result);
+            for (var i = 0; i < result.Length; i++)
+            {
+                Assert.AreEqual(x[i] + y[i], result[i]);
+            }
         }
 
-        [Test, Ignore]
-        public void CanAddArrays(double[] x, double[] y, double[] result)
+        [Test]
+        public void CanSubtractArrays()
         {
-
-        }
-
-        [Test, Ignore]
-        public void CanSubtractArrays(double[] x, double[] y, double[] result)
-        {
-
+            var result = new double[y.Length];
+            Provider.SubtractArrays(x, y, result);
+            for (var i = 0; i < result.Length; i++)
+            {
+                Assert.AreEqual(x[i] - y[i], result[i]);
+            }
         }
         
-        [Test, Ignore]
-        public void CanPointWiseMultiplyArrays(double[] x, double[] y, double[] result)
+        [Test]
+        public void CanPointWiseMultiplyArrays()
         {
-
+            var result = new double[y.Length];
+            Provider.PointWiseMultiplyArrays(x, y, result);
+            for (var i = 0; i < result.Length; i++)
+            {
+                Assert.AreEqual(x[i] * y[i], result[i]);
+            }
         }
 
         [Test, Ignore]

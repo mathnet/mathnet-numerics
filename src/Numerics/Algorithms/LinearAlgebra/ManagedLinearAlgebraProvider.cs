@@ -32,15 +32,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// </summary>
     public class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
-        #region Workspace information Members
-
-        public int QueryWorkspaceBlockSize(string methodName)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
         #region ILinearAlgebraProvider<double> Members
 
         /// <summary>
