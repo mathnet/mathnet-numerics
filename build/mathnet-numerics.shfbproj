@@ -18,7 +18,7 @@
     <HtmlHelpName>Math.NET-Numerics</HtmlHelpName>
     <CopyrightText>Copyright 2009-2010 Math.NET Project</CopyrightText>
     <HelpTitle>Math.NET Numerics</HelpTitle>
-    <SandcastlePath>c:\Program Files (x86)\Sandcastle\</SandcastlePath>
+    <SandcastlePath>c:\Programme\Sandcastle\</SandcastlePath>
     <WorkingPath>doc\</WorkingPath>
     <DocumentationSources>
       <DocumentationSource sourceFile="bin\MathNet.Numerics.dll" />
@@ -34,5 +34,5 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
   </PropertyGroup>
   <!-- Import the SHFB build targets -->
-  <Import Project="C:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\SandcastleHelpFileBuilder.targets" />
+  <Import Project="C:\Programme\EWSoftware\Sandcastle Help File Builder\SandcastleHelpFileBuilder.targets" />
 </Project>
