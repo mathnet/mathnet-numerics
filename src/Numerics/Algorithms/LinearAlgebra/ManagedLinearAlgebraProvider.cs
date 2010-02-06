@@ -727,39 +727,41 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(double[] a, int order)
         {
-            double[] factor = new double[a.Length];
-
-            for (int j = 0; j < order; j++)
+            for (var j = 0; j < order; j++)
             {
-                double d = 0.0;
+                var d = 0.0;
                 int index;
-                for (int k = 0; k < j; k++)
-                {
-                    double s = 0.0;
-                    int i;
-                    for (i = 0; i < k; i++)
+                Parallel.For(
+                    0,
+                    j,
+                    k =>
+                    // for (var k = 0; k < j; k++)
                     {
-                        s += factor[i * order + k] * factor[i * order + j];
-                    }
-                    int tmp = k * order;
-                    index = tmp + j;
-                    factor[index] = s = (a[index] - s) / factor[tmp + k];
-                    d += s * s;
-                }
+                        var s = 0.0;
+                        int i;
+                        for (i = 0; i < k; i++)
+                        {
+                            s += a[i * order + k] * a[i * order + j];
+                        }
+                        var tmp = k * order;
+                        index = tmp + j;
+                        a[index] = s = (a[index] - s) / a[tmp + k];
+                        d += s * s;
+                    });
+
                 index = j * order + j;
                 d = a[index] - d;
                 if (d <= 0.0)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
-                factor[index] = System.Math.Sqrt(d);
-                for (int k = j + 1; k < order; k++)
+
+                a[index] = System.Math.Sqrt(d);
+                for (var k = j + 1; k < order; k++)
                 {
-                    factor[k * order + j] = 0.0;
+                    a[k * order + j] = 0.0;
                 }
             }
-
-            Buffer.BlockCopy(factor, 0, a, 0, factor.Length * Constants.SizeOfDouble);
         }
 
         public void CholeskySolve(int columnsOfB, double[] a, double[] b)

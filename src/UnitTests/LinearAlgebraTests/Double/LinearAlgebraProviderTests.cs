@@ -2,6 +2,7 @@
 {
     using System;
     using Algorithms.LinearAlgebra;
+    using LinearAlgebra.Double;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -176,10 +177,27 @@
 
         }
 
-        [Test, Ignore]
-        public void CanComputeCholeskyFactor(double[] a, int order)
+        [Test]
+        public void CanComputeCholeskyFactor()
         {
-
+            var matrix = new double[] { 1, 1, 1, 1, 1, 5, 5, 5, 1, 5, 14, 14, 1, 5, 14, 15 };
+            Provider.CholeskyFactor(matrix, 4);
+            Assert.AreEqual(matrix[0], 1);
+            Assert.AreEqual(matrix[1], 1);
+            Assert.AreEqual(matrix[2], 1);
+            Assert.AreEqual(matrix[3], 1);
+            Assert.AreEqual(matrix[4], 0);
+            Assert.AreEqual(matrix[5], 2);
+            Assert.AreEqual(matrix[6], 2);
+            Assert.AreEqual(matrix[7], 2);
+            Assert.AreEqual(matrix[8], 0);
+            Assert.AreEqual(matrix[9], 0);
+            Assert.AreEqual(matrix[10], 3);
+            Assert.AreEqual(matrix[11], 3);
+            Assert.AreEqual(matrix[12], 0);
+            Assert.AreEqual(matrix[13], 0);
+            Assert.AreEqual(matrix[14], 0);
+            Assert.AreEqual(matrix[15], 1);
         }
 
         [Test, Ignore]
