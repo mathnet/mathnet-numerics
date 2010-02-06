@@ -78,7 +78,11 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         static ThreadQueue()
         {
+            #if SILVERLIGHT
+            Start(1);
+            #else
             Start(Environment.ProcessorCount);
+            #endif
         }
 
         /// <summary>
