@@ -118,12 +118,21 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            double d = 0.0;
-
-            for (int i = 0; i < y.Length; i++)
-            {
-                d += y[i] * x[i];
-            }
+            var sync = new object();
+            var d = 0.0;
+            Parallel.For(
+                0,
+                y.Length,
+                () => 0.0,
+                (i, localData) => localData += y[i] * x[i],
+                localResult =>
+                {
+                    lock (sync)
+                    {
+                        d += localResult;
+                    }
+                }
+                );
 
             return d;
         }
@@ -731,23 +740,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 var d = 0.0;
                 int index;
-                Parallel.For(
-                    0,
-                    j,
-                    k =>
-                    // for (var k = 0; k < j; k++)
+                for (var k = 0; k < j; k++)
+                {
+                    var s = 0.0;
+                    int i;
+                    for (i = 0; i < k; i++)
                     {
-                        var s = 0.0;
-                        int i;
-                        for (i = 0; i < k; i++)
-                        {
-                            s += a[i * order + k] * a[i * order + j];
-                        }
-                        var tmp = k * order;
-                        index = tmp + j;
-                        a[index] = s = (a[index] - s) / a[tmp + k];
-                        d += s * s;
-                    });
+                        s += a[i * order + k] * a[i * order + j];
+                    }
+                    var tmp = k * order;
+                    index = tmp + j;
+                    a[index] = s = (a[index] - s) / a[tmp + k];
+                    d += s * s;
+                }
 
                 index = j * order + j;
                 d = a[index] - d;
@@ -756,7 +761,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
 
-                a[index] = System.Math.Sqrt(d);
+                a[index] = Math.Sqrt(d);
                 for (var k = j + 1; k < order; k++)
                 {
                     a[k * order + j] = 0.0;
