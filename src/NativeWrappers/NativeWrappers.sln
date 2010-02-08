@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
 		Common\blas.c = Common\blas.c
+		Common\common.h = Common\common.h
 		Common\resource.h = Common\resource.h
 		Common\resource.rc = Common\resource.rc
 		Common\WindowsDLL.cpp = Common\WindowsDLL.cpp

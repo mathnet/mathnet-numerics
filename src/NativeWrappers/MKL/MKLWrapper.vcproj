@@ -118,7 +118,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\source\mathnet-marcus\src\NativeWrappers\MKL&quot;;&quot;C:\Program Files (x86)\Intel\Compiler\11.1\046\mkl\include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\source\mathnet-marcus\src\NativeWrappers\Common&quot;;&quot;C:\source\mathnet-marcus\src\NativeWrappers\MKL&quot;;&quot;C:\Program Files (x86)\Intel\Compiler\11.1\046\mkl\include&quot;"
 				PreprocessorDefinitions="_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -272,7 +272,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;C:\source\mathnet-marcus\src\NativeWrappers\MKL&quot;;&quot;C:\Program Files (x86)\Intel\Compiler\11.1\046\mkl\include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\source\mathnet-marcus\src\NativeWrappers\Common&quot;;&quot;C:\source\mathnet-marcus\src\NativeWrappers\MKL&quot;;&quot;C:\Program Files (x86)\Intel\Compiler\11.1\046\mkl\include&quot;"
 				PreprocessorDefinitions="_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -336,6 +336,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\lapack.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\vector_functions.c"
+				>
+			</File>
+			<File
 				RelativePath="..\Common\WindowsDLL.cpp"
 				>
 			</File>
@@ -347,6 +355,10 @@
 			>
 			<File
 				RelativePath=".\blas.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Common\common.h"
 				>
 			</File>
 		</Filter>

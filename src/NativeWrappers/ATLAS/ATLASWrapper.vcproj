@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\source\mathnet-marcus\src\NativeWrappers\ATLAS&quot;;C:\cygwin\tmp\ATLAS\include"
+				AdditionalIncludeDirectories="&quot;C:\source\mathnet-marcus\src\NativeWrappers\Common&quot;;&quot;C:\source\mathnet-marcus\src\NativeWrappers\ATLAS&quot;;C:\cygwin\tmp\ATLAS\include"
 				PreprocessorDefinitions="_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -115,7 +115,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;C:\source\mathnet-marcus\src\NativeWrappers\ATLAS&quot;;C:\cygwin\tmp\ATLAS\include"
+				AdditionalIncludeDirectories="&quot;C:\source\mathnet-marcus\src\NativeWrappers\Common&quot;;&quot;C:\source\mathnet-marcus\src\NativeWrappers\ATLAS&quot;;C:\cygwin\tmp\ATLAS\include"
 				PreprocessorDefinitions="_WINDOWS"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -178,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\lapack.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Common\WindowsDLL.cpp"
 				>
 			</File>
@@ -189,6 +193,10 @@
 			>
 			<File
 				RelativePath=".\blas.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Common\common.h"
 				>
 			</File>
 		</Filter>
