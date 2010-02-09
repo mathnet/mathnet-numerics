@@ -421,7 +421,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 for (int j = 0; j < C.ColumnCount; j++)
                 {
-                    Assert.AreEqual(A.GetRow(i) * B.GetColumn(j), C[i, j]);
+                    AssertHelpers.AlmostEqual(A.GetRow(i) * B.GetColumn(j), C[i, j], 15);
                 }
             }
         }
@@ -474,7 +474,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 for (int j = 0; j < C.ColumnCount; j++)
                 {
-                    Assert.AreEqual(A.GetRow(i) * B.GetColumn(j), C[i, j]);
+                    AssertHelpers.AlmostEqual(A.GetRow(i) * B.GetColumn(j), C[i, j], 15);
                 }
             }
         }
