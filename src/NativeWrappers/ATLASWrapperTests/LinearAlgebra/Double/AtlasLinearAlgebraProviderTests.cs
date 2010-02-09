@@ -8,7 +8,7 @@
         [FixtureSetUp] 
         public void SetUpProvider()
         {
-            Control.LinearAlgebraProvider  = new Algorithms.LinearAlgebra.Atlas.AtlasLinearAlgebraProvider();
+            Provider  = new Algorithms.LinearAlgebra.Atlas.AtlasLinearAlgebraProvider();
         }
     }
 }
