@@ -36,7 +36,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
     /// </summary>
     public class <#=library#>LinearAlgebraProvider : ILinearAlgebraProvider
     {
-       #region ILinearAlgebraProvider<double> Members
+<# if( !library.Equals("Mkl") ){ #>
+		private readonly ILinearAlgebraProvider _managedProvider = new ManagedLinearAlgebraProvider();
+<#} #>
+ 
+		#region ILinearAlgebraProvider<double> Members
 
         /// <summary>
         /// Adds a scaled vector to another: <c>y += alpha*x</c>.
@@ -130,7 +134,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void AddArrays(double[] x, double[] y, double[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.d_vector_add( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.AddArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -145,7 +173,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void SubtractArrays(double[] x, double[] y, double[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.d_vector_subtract( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.SubtractArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -160,7 +212,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void PointWiseMultiplyArrays(double[] x, double[] y, double[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.d_vector_multiply( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.PointWiseMultiplyArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -350,7 +426,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(double[] a, int order)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+            
+			if ( order < 1)
+            {
+                throw new ArgumentException(Properties.Resources.ArgumentMustBePositive, "order");
+            }
+			
+			SafeNativeMethods.d_cholesky_factor(order, a);
         }
         
         /// <summary>
@@ -627,7 +713,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void AddArrays(float[] x, float[] y, float[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.s_vector_add( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.AddArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -642,7 +752,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void SubtractArrays(float[] x, float[] y, float[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.s_vector_subtract( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.SubtractArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -657,7 +791,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void PointWiseMultiplyArrays(float[] x, float[] y, float[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.s_vector_multiply( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.PointWiseMultiplyArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -847,7 +1005,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(float[] a, int order)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+            
+			if ( order < 1)
+            {
+                throw new ArgumentException(Properties.Resources.ArgumentMustBePositive, "order");
+            }
+			
+			SafeNativeMethods.s_cholesky_factor(order, a);
         }
 
         /// <summary>
@@ -1124,7 +1292,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void AddArrays(Complex[] x, Complex[] y, Complex[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.z_vector_add( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.AddArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -1139,7 +1331,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void SubtractArrays(Complex[] x, Complex[] y, Complex[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.z_vector_subtract( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.SubtractArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -1154,7 +1370,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void PointWiseMultiplyArrays(Complex[] x, Complex[] y, Complex[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.z_vector_multiply( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.PointWiseMultiplyArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -1344,7 +1584,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(Complex[] a, int order)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+            
+			if ( order < 1)
+            {
+                throw new ArgumentException(Properties.Resources.ArgumentMustBePositive, "order");
+            }
+			
+			SafeNativeMethods.z_cholesky_factor(order, a);
         }
 
         /// <summary>
@@ -1621,7 +1871,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void AddArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.c_vector_add( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.AddArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -1636,7 +1910,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void SubtractArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.c_vector_subtract( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.SubtractArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -1651,7 +1949,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// routine.</remarks>
         public void PointWiseMultiplyArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
-            throw new NotImplementedException();
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+            
+<# if( library.Equals("Mkl") ){ #>
+			SafeNativeMethods.c_vector_multiply( x.Length, x, y, result );
+<#} else {#>
+			_managedProvider.PointWiseMultiplyArrays(x, y, result);
+<#} #>
         }
 
         /// <summary>
@@ -1841,7 +2163,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(Complex32[] a, int order)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+            
+			if ( order < 1)
+            {
+                throw new ArgumentException(Properties.Resources.ArgumentMustBePositive, "order");
+            }
+			
+			SafeNativeMethods.c_cholesky_factor(order, a);
         }
 
         /// <summary>

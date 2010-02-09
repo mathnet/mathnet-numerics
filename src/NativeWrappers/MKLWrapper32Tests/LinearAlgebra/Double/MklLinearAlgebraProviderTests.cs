@@ -1,4 +1,4 @@
-﻿namespace MathNet.Numerics.MKLWrapperTests.LinearAlgebra.Double
+﻿namespace MathNet.Numerics.MklWrapperTests.LinearAlgebra.Double
 {
     using MbUnit.Framework;
     using UnitTests.LinearAlgebraTests.Double;
@@ -8,7 +8,7 @@
         [FixtureSetUp] 
         public void SetUpProvider()
         {
-            Control.LinearAlgebraProvider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+            Provider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
         }
     }
 }

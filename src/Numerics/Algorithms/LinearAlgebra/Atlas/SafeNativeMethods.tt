@@ -4,3 +4,6 @@
    string library = "ATLAS"; 
 #>
 <#@ include file="..\SafeNativeMethods.include" #>
+
+    }
+}

@@ -64,9 +64,7 @@
         public void CanComputeDotProduct()
         {
             var result = Provider.DotProduct(x, y);
-            Console.WriteLine(result);
             AssertHelpers.AlmostEqual(152.35, result, 15);
-
         }
 
         [Test]

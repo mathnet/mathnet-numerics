@@ -86,5 +86,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         internal static extern Complex z_dot_product(int n, Complex[] x, Complex[] y);
         
         #endregion BLAS
-    }
-}
+        
+		#region LAPACK
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_cholesky_factor(int n, [In, Out] float[] a);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_cholesky_factor(int n, [In, Out] double[] a);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_cholesky_factor(int n, [In, Out] Complex32[] a);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_cholesky_factor(int n, [In, Out] Complex[] a);
+
+		#endregion LAPACK
