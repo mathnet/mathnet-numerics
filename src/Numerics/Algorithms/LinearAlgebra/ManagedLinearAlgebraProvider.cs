@@ -330,12 +330,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
             Parallel.For(0, xRows, i =>
             {
+                int ixIndex = i * xColumns;
+                int iyIndex = i * yColumns;
                 for (int j = 0; j < yColumns; j++)
                 {
+                    double s = 0;
                     for (int k = 0; k < xColumns; k++)
                     {
-                        result[j + yColumns * i] += xdata[k + xColumns * i] * ydata[j + yColumns * k];
+                        s += xdata[k + ixIndex] * ydata[j + yColumns * k];
                     }
+                    result[j + iyIndex] = s;
                 }
             });
         }
@@ -357,10 +361,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, 
             int aRows, int aColumns, double[] b, int bRows, int bColumns, double beta, double[] c)
         {
-            // Choose nonsensical values for the number of rows and columns in c; fill them in depending
+            // Choose nonsensical values for the number of rows in c; fill them in depending
             // on the operations on a and b.
             int cRows = -1;
-            int cColumns = -1;
 
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (a == null)
@@ -386,7 +389,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 }
 
                 cRows = aColumns;
-                cColumns = bRows;
             }
             else if ((int)transposeA > 111)
             {
@@ -401,7 +403,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 }
 
                 cRows = aColumns;
-                cColumns = bColumns;
             }
             else if ((int)transposeB > 111)
             {
@@ -416,7 +417,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 }
 
                 cRows = aRows;
-                cColumns = bRows;
             }
             else
             {
@@ -431,7 +431,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 }
 
                 cRows = aRows;
-                cColumns = bColumns;
             }
 
             if (alpha == 0.0 && beta == 0.0)

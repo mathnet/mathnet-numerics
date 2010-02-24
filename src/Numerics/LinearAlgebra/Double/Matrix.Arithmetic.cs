@@ -1,4 +1,4 @@
-﻿// <copyright file="Matrix.cs" company="Math.NET">
+﻿// <copyright file="Matrix.Arithmetic.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -212,6 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         {
                             s += At(i, j) * rightSide[j];
                         }
+
                         result[i] = s;
                     });
             }
@@ -280,6 +281,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         {
                             s += leftSide[i] * At(i, j);
                         }
+
                         result[j] = s;
                     });
             }
@@ -292,8 +294,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="NotConformableException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="NotConformableException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
         public virtual void Multiply(Matrix other, Matrix result)
         {
             if (other == null)
@@ -324,18 +326,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Parallel.For(0, this.RowCount, j =>
-                {
-                    for (int i = 0; i != other.ColumnCount; i++)
+                Parallel.For(
+                    0,
+                    this.RowCount,
+                    j =>
                     {
-                        double s = 0;
-                        for (int l = 0; l < this.ColumnCount; l++)
+                        for (int i = 0; i != other.ColumnCount; i++)
                         {
-                            s += this.At(j, l) * other.At(l, i);
+                            double s = 0;
+                            for (int l = 0; l < this.ColumnCount; l++)
+                            {
+                                s += this.At(j, l) * other.At(l, i);
+                            }
+
+                            result.At(j, i, s);
                         }
-                        result.At(j, i, s);
-                    }
-                });
+                    });
             }
         }
 
@@ -346,8 +352,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
         /// is denser.</remarks>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="NotConformableException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of the multiplication.</returns>
         public virtual Matrix Multiply(Matrix other)
         {
             if (other == null)
@@ -543,7 +550,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The right matrix to multiply.</param>
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="NotConformableException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
+        /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
         public static Matrix operator *(Matrix leftSide, Matrix rightSide)
         {
             if (leftSide == null)

@@ -281,7 +281,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
         public void MatrixMultiply(double[] x, int xRows, int xColumns, double[] y, int yRows, int yColumns, double[] result)
         {
-            throw new NotImplementedException();
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0, x, xRows, xColumns, y, yRows, yColumns, 0.0, result);
         }
 
         /// <summary>
@@ -860,7 +860,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
         public void MatrixMultiply(float[] x, int xRows, int xColumns, float[] y, int yRows, int yColumns, float[] result)
         {
-            throw new NotImplementedException();
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, x, xRows, xColumns, y, yRows, yColumns, 0.0f, result);
         }
 
         /// <summary>
@@ -1439,7 +1439,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
         public void MatrixMultiply(Complex[] x, int xRows, int xColumns, Complex[] y, int yRows, int yColumns, Complex[] result)
         {
-            throw new NotImplementedException();
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex.One, x, xRows, xColumns, y, yRows, yColumns, Complex.Zero, result);
         }
 
         /// <summary>
@@ -2018,7 +2018,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
         public void MatrixMultiply(Complex32[] x, int xRows, int xColumns, Complex32[] y, int yRows, int yColumns, Complex32[] result)
         {
-            throw new NotImplementedException();
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, x, xRows, xColumns, y, yRows, yColumns, Complex32.Zero, result);
         }
 
         /// <summary>

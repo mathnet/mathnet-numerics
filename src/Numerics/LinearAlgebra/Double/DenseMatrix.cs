@@ -29,13 +29,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using Algorithms;
-    using Algorithms.LinearAlgebra;
-    using NumberTheory;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
@@ -52,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseMatrix(int order)
             : base(order)
         {
-            Data = new double[order*order];
+            Data = new double[order * order];
         }
 
         /// <summary>
@@ -116,13 +110,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    At(i, j, array[i,j]);
+                    At(i, j, array[i, j]);
                 }
             }
         }
 
         /// <summary>
-        /// Gets or sets the matrix's data.
+        /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
         internal double[] Data
@@ -174,7 +168,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override double At(int row, int column)
         {
-            return Data[column * RowCount + row];
+            return Data[(column * RowCount) + row];
         }
 
         /// <summary>
@@ -191,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         public override void At(int row, int column, double value)
         {
-            Data[column * RowCount + row] = value;
+            Data[(column * RowCount) + row] = value;
         }
 
         /// <summary>
@@ -299,8 +293,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="NotConformableException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="NotConformableException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
         public void Multiply(DenseMatrix other, DenseMatrix result)
         {
             if (other == null)
@@ -323,17 +317,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                Matrix tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
-                Multiply(other, tmp);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.MatrixMultiply(this.Data, this.RowCount, this.ColumnCount,
-                    other.Data, other.RowCount, other.ColumnCount, result.Data);
-            }
+            Control.LinearAlgebraProvider.MatrixMultiply(this.Data, this.RowCount, this.ColumnCount, other.Data, other.RowCount, other.ColumnCount, result.Data);
         }
 
         /// <summary>
@@ -343,8 +327,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
         /// is denser.</remarks>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="NotConformableException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of multiplication.</returns>
         public Matrix Multiply(DenseMatrix other)
         {
             if (other == null)
@@ -357,8 +342,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            Matrix result = CreateMatrix(RowCount, other.ColumnCount);
-            Multiply(other, result);
+            DenseMatrix result = (DenseMatrix)CreateMatrix(RowCount, other.ColumnCount);
+            this.Multiply(other, result);
             return result;
         }
 
@@ -369,7 +354,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The right matrix to multiply.</param>
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="NotConformableException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
+        /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
         public static DenseMatrix operator *(DenseMatrix leftSide, DenseMatrix rightSide)
         {
             if (leftSide == null)
