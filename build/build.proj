@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildAndTest" ToolsVersion="3.5">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Test" ToolsVersion="3.5">
   <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.Framework.Assembly" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.Communication.Twitter" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MMSBuild.ExtensionPack.Communication.dll" />

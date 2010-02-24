@@ -28,7 +28,7 @@ DLLEXPORT void d_scale(const int n, const double alpha, double x[]){
 DLLEXPORT void c_scale(const int n, const Complex8 alpha, Complex8 x[]){
 	cblas_cscal(n, &alpha, x, 1);
 }
-	
+
 DLLEXPORT void z_scale(const int n, const Complex16 alpha, Complex16 x[]){
 	cblas_zscal(n, &alpha, x, 1);
 }
@@ -53,6 +53,30 @@ DLLEXPORT Complex16 z_dot_product(const int n, const Complex16 x[], const Comple
 	return ret;
 }
 
+DLLEXPORT void s_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const int m, const int n, const int k, const float alpha, const float x[], const float y[], const float beta, float c[]){
+	int lda = transA == CblasNoTrans ? m : k;
+	int ldb = transB == CblasNoTrans ? k : n;
 
+	cblas_sgemm(CblasColMajor, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m);
+}
 
+DLLEXPORT void d_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const int m, const int n, const int k, const double alpha, const double x[], const double y[], const double beta, double c[]){
+	int lda = transA == CblasNoTrans ? m : k;
+	int ldb = transB == CblasNoTrans ? k : n;
 
+	cblas_dgemm(CblasColMajor, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m);
+}
+
+DLLEXPORT void c_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const int m, const int n, const int k, const Complex8 alpha, const Complex8 x[], const Complex8 y[], const Complex8 beta, Complex8 c[]){
+	int lda = transA == CblasNoTrans ? m : k;
+	int ldb = transB == CblasNoTrans ? k : n;
+
+	cblas_cgemm(CblasColMajor, transA, transB, m, n, k, &alpha, x, lda, y, ldb, &beta, c, m);
+}
+
+DLLEXPORT void z_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB, const int m, const int n, const int k, const Complex16 alpha, const Complex16 x[], const Complex16 y[], const Complex16 beta, Complex16 c[]){
+	int lda = transA == CblasNoTrans ? m : k;
+	int ldb = transB == CblasNoTrans ? k : n;
+
+	cblas_zgemm(CblasColMajor, transA, transB, m, n, k, &alpha, x, lda, y, ldb, &beta, c, m);
+}
