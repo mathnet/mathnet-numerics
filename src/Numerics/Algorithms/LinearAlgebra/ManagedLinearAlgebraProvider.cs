@@ -328,20 +328,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            Parallel.For(0, xRows, i =>
-            {
-                int ixIndex = i * xColumns;
-                int iyIndex = i * yColumns;
-                for (int j = 0; j < yColumns; j++)
-                {
-                    double s = 0;
-                    for (int k = 0; k < xColumns; k++)
-                    {
-                        s += xdata[k + ixIndex] * ydata[j + yColumns * k];
-                    }
-                    result[j + iyIndex] = s;
-                }
-            });
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose,Transpose.DontTranspose,1.0,x,xRows,xColumns,y,yRows,yColumns,0.0,result);
         }
 
         /// <summary>
@@ -1117,16 +1104,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            Parallel.For(0, xRows, i =>
-            {
-                for (int j = 0; j < yColumns; j++)
-                {
-                    for (int k = 0; k < xColumns; k++)
-                    {
-                        result[j + yColumns * i] += xdata[k + xColumns * i] * ydata[j + yColumns * k];
-                    }
-                }
-            });
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, x, xRows, xColumns, y, yRows, yColumns, 0.0f, result);
+
         }
 
         /// <summary>
@@ -1909,16 +1888,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            Parallel.For(0, xRows, i =>
-                {
-                    for (int j = 0; j < yColumns; j++)
-                    {
-                        for (int k = 0; k < xColumns; k++)
-                        {
-                            result[j + yColumns * i] += xdata[k + xColumns * i] * ydata[j + yColumns * k];
-                        }
-                    }
-                });
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex.One, x, xRows, xColumns, y, yRows, yColumns, Complex.Zero, result);
         }
 
         /// <summary>
@@ -2669,16 +2639,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            Parallel.For(0, xRows, i =>
-            {
-                for (int j = 0; j < yColumns; j++)
-                {
-                    for (int k = 0; k < xColumns; k++)
-                    {
-                        result[j + yColumns * i] += xdata[k + xColumns * i] * ydata[j + yColumns * k];
-                    }
-                }
-            });
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, x, xRows, xColumns, y, yRows, yColumns, Complex32.Zero, result);
         }
 
         /// <summary>
