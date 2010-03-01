@@ -348,9 +348,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Multiplies this matrix with another matrix and returns the result.
         /// </summary>
-        /// <remarks>This operator will allocate new memory for the result. It will
-        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
-        /// is denser.</remarks>
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
