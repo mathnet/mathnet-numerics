@@ -50,11 +50,10 @@
   </Target>
   
   <Target Name="CSharpCompile">
-    <MSBuild Projects="../src/Numerics/Numerics.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
     <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
   </Target>
   
-  <Target Name="CSharpTest" >
+  <Target Name="CSharpTest" DependsOnTargets="CSharpCompile">
  		<Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll"/>
   </Target>
   

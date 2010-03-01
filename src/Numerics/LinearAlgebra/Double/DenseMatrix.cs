@@ -78,7 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             : base(rows, columns)
         {
             Data = new double[rows * columns];
-            for (int i = 0; i < Data.Length; i++)
+            for (var i = 0; i < Data.Length; i++)
             {
                 Data[i] = value;
             }
@@ -105,12 +105,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseMatrix(double[,] array)
             : base(array.GetLength(0), array.GetLength(1))
         {
-            Data = new double[array.GetLength(0) * array.GetLength(1)];
-            for (int i = 0; i < array.GetLength(0); i++)
+            var rows = array.GetLength(0);
+            var columns = array.GetLength(1);
+            Data = new double[rows * columns];
+            for (var i = 0; i < rows; i++)
             {
-                for (int j = 0; j < array.GetLength(1); j++)
+                for (var j = 0; j < columns; j++)
                 {
-                    At(i, j, array[i, j]);
+                    Data[(j * rows) + i] = array[i, j];
                 }
             }
         }
@@ -119,14 +121,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
-        internal double[] Data
-        {
-            get;
-            private set;
-        }
+        internal double[] Data { get; private set; }
 
         /// <summary>
-        /// Creates a <strong>DenseMatrix</strong> for the given number of rows and columns.
+        /// Creates a <c>DenseMatrix</c> for the given number of rows and columns.
         /// </summary>
         /// <param name="numberOfRows">
         /// The number of rows.
@@ -135,7 +133,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The number of columns.
         /// </param>
         /// <returns>
-        /// A <strong>DenseMatrix</strong> with the given dimensions.
+        /// A <c>DenseMatrix</c> with the given dimensions.
         /// </returns>
         public override Matrix CreateMatrix(int numberOfRows, int numberOfColumns)
         {
@@ -197,6 +195,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #region Elementary operations
+
         /// <summary>
         /// Adds another matrix to this matrix. The result will be written into this matrix.
         /// </summary>
@@ -205,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public override void Add(Matrix other)
         {
-            DenseMatrix m = other as DenseMatrix;
+            var m = other as DenseMatrix;
             if (m == null)
             {
                 base.Add(other);
@@ -245,7 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         public override void Subtract(Matrix other)
         {
-            DenseMatrix m = other as DenseMatrix;
+            var m = other as DenseMatrix;
             if (m == null)
             {
                 base.Subtract(other);
@@ -273,7 +272,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
-            
+
             Control.LinearAlgebraProvider.SubtractArrays(Data, other.Data, Data);
         }
 
@@ -295,7 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public void Multiply(DenseMatrix other, DenseMatrix result)
+        public override void Multiply(Matrix other, Matrix result)
         {
             if (other == null)
             {
@@ -317,20 +316,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            Control.LinearAlgebraProvider.MatrixMultiply(this.Data, this.RowCount, this.ColumnCount, other.Data, other.RowCount, other.ColumnCount, result.Data);
+            var m = other as DenseMatrix;
+            var r = result as DenseMatrix;
+
+            if (m == null || r == null)
+            {
+                base.Multiply(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiply(
+                    Data,
+                    RowCount,
+                    ColumnCount,
+                    m.Data,
+                    m.RowCount,
+                    m.ColumnCount,
+                    r.Data);
+            }
         }
 
         /// <summary>
         /// Multiplies this matrix with another matrix and returns the result.
         /// </summary>
-        /// <remarks>This operator will allocate new memory for the result. It will
-        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
-        /// is denser.</remarks>
         /// <param name="other">The matrix to multiply with.</param>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
-        public Matrix Multiply(DenseMatrix other)
+        public override Matrix Multiply(Matrix other)
         {
             if (other == null)
             {
@@ -342,8 +355,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            DenseMatrix result = (DenseMatrix)CreateMatrix(RowCount, other.ColumnCount);
-            this.Multiply(other, result);
+            var m = other as DenseMatrix;
+            if (m == null)
+            {
+                return base.Multiply(other);
+            }
+
+            var result = (DenseMatrix)CreateMatrix(RowCount, other.ColumnCount);
+            Multiply(other, result);
             return result;
         }
 
@@ -374,6 +393,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             return (DenseMatrix)leftSide.Multiply(rightSide);
         }
+
         #endregion
     }
 }

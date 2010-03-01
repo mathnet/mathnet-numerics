@@ -6,7 +6,7 @@
     using MbUnit.Framework;
 
     [TestFixture]
-    public abstract class LinearAlgebraProviderTests
+    public abstract class LinearAlgebraProviderTests : MatrixLoader
     {
         protected ILinearAlgebraProvider<double> Provider{ get; set;}
 
@@ -109,17 +109,60 @@
 
         }
 
-        [Test, Ignore]
-        public void CanMatrixMultiply(double[] x, int xRows, int xColumns, double[] y, int yRows, int yColumns, double[] result)
+        [Test, MultipleAsserts]
+        [Row("Singular3x3", "Square3x3")]
+        [Row("Singular4x4", "Square4x4")]
+        [Row("Wide2x3", "Square3x3")]
+        [Row("Wide2x3", "Tall3x2")]
+        [Row("Tall3x2", "Wide2x3")]
+        public void CanMatrixMultiply(string nameX, string nameY)
         {
+            var x = (DenseMatrix)testMatrices[nameX];
+            var y = (DenseMatrix)testMatrices[nameY];
+            var c = (DenseMatrix)CreateMatrix(x.RowCount, y.ColumnCount);
 
+            Provider.MatrixMultiply(x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, c.Data);
+
+            for (int i = 0; i < c.RowCount; i++)
+            {
+                for (int j = 0; j < c.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(x.GetRow(i) * y.GetColumn(j), c[i, j], 15);
+                }
+            }
         }
 
-        [Test, Ignore]
-        public void CanMatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a,
-            int aRows, int aColumns, double[] b, int bRows, int bColumns, double beta, double[] c)
+        [Test, MultipleAsserts]
+        [Row("Singular3x3", "Square3x3")]
+        [Row("Singular4x4", "Square4x4")]
+        [Row("Wide2x3", "Square3x3")]
+        [Row("Wide2x3", "Tall3x2")]
+        [Row("Tall3x2", "Wide2x3")]
+        public void CanMatrixMultiplyWithUpdate(string nameX, string nameY)
         {
+            var x = (DenseMatrix)testMatrices[nameX];
+            var y = (DenseMatrix)testMatrices[nameY];
+            var c = (DenseMatrix)CreateMatrix(x.RowCount, y.ColumnCount);
 
+            Provider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.0, x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, 1.0, c.Data);
+
+            for (int i = 0; i < c.RowCount; i++)
+            {
+                for (int j = 0; j < c.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(2 * (x.GetRow(i) * y.GetColumn(j)), c[i, j], 15);
+                }
+            }
+
+            Provider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.0, x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, 1.0, c.Data);
+
+            for (int i = 0; i < c.RowCount; i++)
+            {
+                for (int j = 0; j < c.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(4 * (x.GetRow(i) * y.GetColumn(j)), c[i, j], 15);
+                }
+            }
         }
 
         [Test, Ignore]
@@ -268,6 +311,26 @@
         public void CanComputeSvdSolveFactored(int columnsOfB, double[] s, double[] u, double[] vt, double[] b, double[] x)
         {
 
+        }
+
+        protected override Matrix CreateMatrix(int rows, int columns)
+        {
+            return new DenseMatrix(rows, columns);
+        }
+
+        protected override Matrix CreateMatrix(double[,] data)
+        {
+            return new DenseMatrix(data);
+        }
+
+        protected override Vector CreateVector(int size)
+        {
+            return new DenseVector(size);
+        }
+
+        protected override Vector CreateVector(double[] data)
+        {
+            return new DenseVector(data);
         }
     }
 }
