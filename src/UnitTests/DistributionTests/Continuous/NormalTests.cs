@@ -116,7 +116,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(0.0, Double.PositiveInfinity)]
         public void CanCreateNormalFromMeanAndPrecision(double mean, double prec)
         {
-            var n = Normal.WithMeanAndPrecision(mean, prec);
+            var n = Normal.WithMeanPrecision(mean, prec);
             AssertHelpers.AlmostEqual(mean, n.Mean, 15);
             AssertHelpers.AlmostEqual(prec, n.Precision, 15);
         }
