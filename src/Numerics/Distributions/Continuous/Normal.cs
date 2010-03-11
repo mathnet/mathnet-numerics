@@ -110,7 +110,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="prec">The precision of the normal distribution.</param>
         /// <returns>a normal distribution.</returns>
-        public static Normal WithMeanAndPrecision(double mean, double prec)
+        public static Normal WithMeanPrecision(double mean, double prec)
         {
             return new Normal(mean, 1.0 / Math.Sqrt(prec));
         }
