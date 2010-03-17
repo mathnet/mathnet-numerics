@@ -95,6 +95,9 @@
     <Compile Include="..\Numerics\Distributions\Continuous\Normal.cs">
       <Link>Distributions\Continuous\Normal.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\StudentT.cs">
+      <Link>Distributions\Continuous\StudentT.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Distributions\Continuous\Weibull.cs">
       <Link>Distributions\Continuous\Weibull.cs</Link>
     </Compile>

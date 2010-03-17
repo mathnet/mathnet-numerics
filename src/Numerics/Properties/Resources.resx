@@ -294,4 +294,7 @@
   <data name="ArgumentArraysSameLength" xml:space="preserve">
     <value>The array arguments must have the same length.</value>
   </data>
+  <data name="UndefinedMoment" xml:space="preserve">
+    <value>The moment of the distribution is undefined.</value>
+  </data>
 </root>
