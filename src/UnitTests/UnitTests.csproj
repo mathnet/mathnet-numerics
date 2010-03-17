@@ -92,6 +92,7 @@
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
     <Compile Include="DistributionTests\Continuous\ContinuousUniformTests.cs" />
+    <Compile Include="DistributionTests\Continuous\StudentTTests.cs" />
     <Compile Include="DistributionTests\Continuous\LogNormalTests.cs" />
     <Compile Include="DistributionTests\Continuous\WeibullTests.cs" />
     <Compile Include="DistributionTests\Continuous\GammaTests.cs" />

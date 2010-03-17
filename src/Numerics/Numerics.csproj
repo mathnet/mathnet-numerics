@@ -212,6 +212,7 @@
     <None Include="Algorithms\LinearAlgebra\SafeNativeMethods.include">
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
     </None>
+    <Compile Include="Distributions\Continuous\StudentT.cs" />
     <Compile Include="Version.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

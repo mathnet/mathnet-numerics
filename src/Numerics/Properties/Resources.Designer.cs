@@ -583,6 +583,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The moment of the distribution is undefined..
+        /// </summary>
+        internal static string UndefinedMoment {
+            get {
+                return ResourceManager.GetString("UndefinedMoment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A user defined provider has not been specified..
         /// </summary>
         internal static string UserDefinedProviderNotSpecified {
