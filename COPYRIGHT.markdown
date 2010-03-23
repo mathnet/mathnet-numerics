@@ -33,6 +33,9 @@ covered by the following copyrights:
 ALGLIB
 ------
 
+Any code from ALGLIB is from version 2.0.1 which is distributed 
+under the license below.
+
 Copyright (c) 2007, Sergey Bochkanov (ALGLIB project).
 
 Redistribution and use in source and binary forms, with or without
