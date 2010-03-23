@@ -51,20 +51,24 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             AssertEx.AreEqual<double>(1.0, n.DegreesOfFreedom);
         }
 
-        /*[Test, MultipleAsserts]
-        [Row(0.0, 0.0)]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void CanCreateNormal(double mean, double sdev)
+        [Test, MultipleAsserts]
+        [Row(0.0, 1.0, 1.0)]
+        [Row(0.0, 0.1, 1.0)]
+        [Row(0.0, 1.0, 1.0)]
+        [Row(0.0, 10.0, 1.0)]
+        [Row(0.0, 10.0, Double.PositiveInfinity)]
+        [Row(10.0, 1.0, 1.0)]
+        [Row(-5.0, 100.0, 1.0)]
+        [Row(0.0, Double.PositiveInfinity, 1.0)]
+        public void CanCreateStudentT(double location, double scale, double dof)
         {
-            var n = new Normal(mean, sdev);
-            AssertEx.AreEqual<double>(mean, n.Mean);
-            AssertEx.AreEqual<double>(sdev, n.StdDev);
+            var n = new StudentT(location, scale, dof);
+            AssertEx.AreEqual<double>(0.0, n.Location);
+            AssertEx.AreEqual<double>(1.0, n.Scale);
+            AssertEx.AreEqual<double>(1.0, n.DegreesOfFreedom);
         }
+
+        /*
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
