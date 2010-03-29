@@ -335,7 +335,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { throw new NotSupportedException(); }
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>

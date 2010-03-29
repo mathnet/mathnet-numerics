@@ -213,6 +213,7 @@
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
     </None>
     <Compile Include="Distributions\Continuous\StudentT.cs" />
+    <Compile Include="Distributions\Multivariate\NormalGamma.cs" />
     <Compile Include="Version.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -37,8 +37,8 @@ namespace MathNet.Numerics.Distributions
     /// <a href="http://en.wikipedia.org/wiki/Student%27s_t-distribution">Wikipedia - Student's t-distribution</a>.
     /// </summary>
     /// <remarks><para>We use a slightly generalized version (compared to Wikipedia) of the Student t-distribution.
-    /// Namely, one which also parameterizes the location and scale. See the book "Bayesian Data Analysis" for more
-    /// details.</para>
+    /// Namely, one which also parameterizes the location and scale. See the book "Bayesian Data Analysis" by Gelman
+    /// et al. for more details.</para>
     /// <para>The distribution will use the <see cref="System.Random"/> by default. 
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
@@ -210,7 +210,17 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _location; }
+            get
+            {
+                if (_dof > 1.0)
+                {
+                    return _location;
+                }
+                else
+                {
+                    return Double.NaN;
+                }
+            }
         }
 
         /// <summary>
