@@ -54,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test, MultipleAsserts]
         [Row(0.0, 1.0, 1.0)]
         [Row(0.0, 0.1, 1.0)]
-        [Row(0.0, 1.0, 1.0)]
+        [Row(0.0, 1.0, 3.0)]
         [Row(0.0, 10.0, 1.0)]
         [Row(0.0, 10.0, Double.PositiveInfinity)]
         [Row(10.0, 1.0, 1.0)]
@@ -63,152 +63,127 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void CanCreateStudentT(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(0.0, n.Location);
-            AssertEx.AreEqual<double>(1.0, n.Scale);
-            AssertEx.AreEqual<double>(1.0, n.DegreesOfFreedom);
+            AssertEx.AreEqual<double>(location, n.Location);
+            AssertEx.AreEqual<double>(scale, n.Scale);
+            AssertEx.AreEqual<double>(dof, n.DegreesOfFreedom);
         }
-
-        /*
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN, 1.0)]
-        [Row(1.0, Double.NaN)]
-        [Row(Double.NaN, Double.NaN)]
-        [Row(1.0, -1.0)]
-        public void NormalCreateFailsWithBadParameters(double mean, double sdev)
+        [Row(Double.NaN, 1.0, 1.0)]
+        [Row(0.0, Double.NaN, 1.0)]
+        [Row(0.0, 1.0, Double.NaN)]
+        [Row(0.0, -10.0, 1.0)]
+        [Row(0.0, 10.0, -1.0)]
+        public void StudentTCreateFailsWithBadParameters(double location, double scale, double dof)
         {
-            var n = new Normal(mean, sdev);
-        }
-
-        [Test, MultipleAsserts]
-        [Row(0.0, 0.0)]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void CanCreateNormalFromMeanAndStdDev(double mean, double sdev)
-        {
-            var n = Normal.WithMeanStdDev(mean, sdev);
-            AssertEx.AreEqual<double>(mean, n.Mean);
-            AssertEx.AreEqual<double>(sdev, n.StdDev);
-        }
-
-        [Test, MultipleAsserts]
-        [Row(0.0, 0.0)]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void CanCreateNormalFromMeanAndVariance(double mean, double var)
-        {
-            var n = Normal.WithMeanVariance(mean, var);
-            AssertHelpers.AlmostEqual(mean, n.Mean, 16);
-            AssertHelpers.AlmostEqual(var, n.Variance, 16);
-        }
-
-        [Test, MultipleAsserts]
-        [Row(0.0, 0.0)]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void CanCreateNormalFromMeanAndPrecision(double mean, double prec)
-        {
-            var n = Normal.WithMeanPrecision(mean, prec);
-            AssertHelpers.AlmostEqual(mean, n.Mean, 15);
-            AssertHelpers.AlmostEqual(prec, n.Precision, 15);
+            var n = new StudentT(location, scale, dof);
         }
 
         [Test]
         public void ValidateToString()
         {
-            var n = new Normal(1.0, 2.0);
-            AssertEx.AreEqual<string>("Normal(Mean = 1, StdDev = 2)", n.ToString());
-        }
-
-        [Test]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetPrecision(double prec)
-        {
-            var n = new Normal();
-            n.Precision = prec;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SetPrecisionFailsWithNegativePrecision()
-        {
-            var n = new Normal();
-            n.Precision = -1.0;
-        }
-
-        [Test]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetVariance(double var)
-        {
-            var n = new Normal();
-            n.Variance = var;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SetVarianceFailsWithNegativeVariance()
-        {
-            var n = new Normal();
-            n.Variance = -1.0;
-        }
-
-        [Test]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetStdDev(double sdev)
-        {
-            var n = new Normal();
-            n.StdDev = sdev;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SetStdDevFailsWithNegativeStdDev()
-        {
-            var n = new Normal();
-            n.StdDev = -1.0;
+            var n = new StudentT(1.0, 2.0, 1.0);
+            AssertEx.AreEqual<string>("StudentT(Location = 1, Scale = 2, DoF = 1)", n.ToString());
         }
 
         [Test]
         [Row(Double.NegativeInfinity)]
+        [Row(-5.0)]
         [Row(-0.0)]
         [Row(0.0)]
         [Row(0.1)]
         [Row(1.0)]
         [Row(10.0)]
         [Row(Double.PositiveInfinity)]
-        public void CanSetMean(double mean)
+        public void CanSetLocation(double loc)
         {
-            var n = new Normal();
-            n.Mean = mean;
+            var n = new StudentT();
+            n.Location = loc;
         }
+
+        [Test]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void CanSetScale(double scale)
+        {
+            var n = new StudentT();
+            n.Scale = scale;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Row(-1.0)]
+        [Row(-0.0)]
+        [Row(0.0)]
+        public void SetScaleFailsWithNonPositiveScale(double scale)
+        {
+            {
+                var n = new StudentT();
+                n.Scale = scale;
+            }
+        }
+
+        [Test]
+        [Row(0.1)]
+        [Row(1.0)]
+        [Row(10.0)]
+        [Row(Double.PositiveInfinity)]
+        public void CanSetDoF(double dof)
+        {
+            var n = new StudentT();
+            n.DegreesOfFreedom = dof;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Row(-1.0)]
+        [Row(-0.0)]
+        [Row(0.0)]
+        public void SetDofFailsWithNonPositiveDoF(double dof)
+        {
+            {
+                var n = new StudentT();
+                n.DegreesOfFreedom = dof;
+            }
+        }
+
+        [Test]
+        [Row(0.0, 1.0, 1.0, Double.NaN)]
+        [Row(0.0, 0.1, 1.0, Double.NaN)]
+        [Row(0.0, 1.0, 3.0, 0.0)]
+        [Row(0.0, 10.0, 1.0, Double.NaN)]
+        [Row(0.0, 10.0, 2.0, 0.0)]
+        [Row(0.0, 10.0, Double.PositiveInfinity, 0.0)]
+        [Row(10.0, 1.0, 1.0, Double.NaN)]
+        [Row(-5.0, 100.0, 1.5, -5.0)]
+        [Row(0.0, Double.PositiveInfinity, 1.0)]
+        public void ValidateMean(double location, double scale, double dof, double mean)
+        {
+            var n = new StudentT(location, scale, dof);
+            AssertEx.AreEqual<double>(n.Mean, mean);
+        }
+/*
+        [Test]
+        [Row(0.0, 1.0, 1.0)]
+        [Row(0.0, 0.1, 1.0)]
+        [Row(0.0, 1.0, 3.0)]
+        [Row(0.0, 10.0, 1.0)]
+        [Row(0.0, 10.0, 2.0)]
+        [Row(0.0, 10.0, 3.0)]
+        [Row(0.0, 10.0, Double.PositiveInfinity)]
+        [Row(10.0, 1.0, 1.0)]
+        [Row(-5.0, 100.0, 1.0)]
+        [Row(0.0, Double.PositiveInfinity, 1.0)]
+        public void ValidateVariance(double location, double scale, double dof, double var)
+        {
+            var n = new StudentT(location, scale, dof);
+            AssertEx.AreEqual<double>(n.Variance, location);
+        }
+
+        
 
         [Test]
         [Row(-0.0)]
@@ -217,7 +192,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(1.0)]
         [Row(10.0)]
         [Row(Double.PositiveInfinity)]
-        public void ValidateEntropy(double sdev)
+        public void Entropy(double sdev)
         {
             var n = new Normal(1.0, sdev);
             AssertEx.AreEqual<double>(MathNet.Numerics.Constants.LogSqrt2PiE + Math.Log(n.StdDev), n.Entropy);

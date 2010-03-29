@@ -103,6 +103,7 @@
     <Compile Include="DistributionTests\Discrete\DiscreteUniformTests.cs" />
     <Compile Include="DistributionTests\Multivariate\DirichletTests.cs" />
     <Compile Include="DistributionTests\Multivariate\MultinomialTests.cs" />
+    <Compile Include="DistributionTests\Multivariate\NormalGammaTests.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
     <Compile Include="IntegralTransformsTests\MatchingNaiveTransformTest.cs" />
