@@ -159,214 +159,190 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(0.0, 10.0, Double.PositiveInfinity, 0.0)]
         [Row(10.0, 1.0, 1.0, Double.NaN)]
         [Row(-5.0, 100.0, 1.5, -5.0)]
-        [Row(0.0, Double.PositiveInfinity, 1.0)]
+        [Row(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
         public void ValidateMean(double location, double scale, double dof, double mean)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(n.Mean, mean);
+            AssertEx.AreEqual<double>(mean, n.Mean);
         }
-/*
+
+        [Test]
+        [Row(0.0, 1.0, 1.0, Double.NaN)]
+        [Row(0.0, 0.1, 1.0, Double.NaN)]
+        [Row(0.0, 1.0, 3.0, 3.0)]
+        [Row(0.0, 10.0, 1.0, Double.NaN)]
+        [Row(0.0, 10.0, 2.0, Double.PositiveInfinity)]
+        [Row(0.0, 10.0, 2.5, 50.0)]
+        [Row(0.0, 10.0, Double.PositiveInfinity, 10.0)]
+        [Row(10.0, 1.0, 1.0, Double.NaN)]
+        [Row(10.0, 1.0, 2.5, 5.0)]
+        [Row(-5.0, 100.0, 1.5, Double.PositiveInfinity)]
+        [Row(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
+        public void ValidateVariance(double location, double scale, double dof, double var)
+        {
+            var n = new StudentT(location, scale, dof);
+            AssertEx.AreEqual<double>(var, n.Variance);
+        }
+
+        [Test]
+        [Row(0.0, 1.0, 1.0, Double.NaN)]
+        [Row(0.0, 0.1, 1.0, Double.NaN)]
+        [Row(0.0, 1.0, 3.0, 1.7320508075688772935274463415059)]
+        [Row(0.0, 10.0, 1.0, Double.NaN)]
+        [Row(0.0, 10.0, 2.0, Double.PositiveInfinity)]
+        [Row(0.0, 10.0, 2.5, 7.0710678118654752440084436210485)]
+        [Row(0.0, 10.0, Double.PositiveInfinity, 3.1622776601683793319988935444327)]
+        [Row(10.0, 1.0, 1.0, Double.NaN)]
+        [Row(10.0, 1.0, 2.5, 2.2360679774997896964091736687313)]
+        [Row(-5.0, 100.0, 1.5, Double.PositiveInfinity)]
+        [Row(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
+        public void ValidateStdDev(double location, double scale, double dof, double sdev)
+        {
+            var n = new StudentT(location, scale, dof);
+            AssertEx.AreEqual<double>(sdev, n.StdDev);
+        }
+
         [Test]
         [Row(0.0, 1.0, 1.0)]
         [Row(0.0, 0.1, 1.0)]
         [Row(0.0, 1.0, 3.0)]
         [Row(0.0, 10.0, 1.0)]
         [Row(0.0, 10.0, 2.0)]
-        [Row(0.0, 10.0, 3.0)]
+        [Row(0.0, 10.0, 2.5)]
         [Row(0.0, 10.0, Double.PositiveInfinity)]
         [Row(10.0, 1.0, 1.0)]
-        [Row(-5.0, 100.0, 1.0)]
+        [Row(10.0, 1.0, 2.5)]
+        [Row(-5.0, 100.0, 1.5)]
         [Row(0.0, Double.PositiveInfinity, 1.0)]
-        public void ValidateVariance(double location, double scale, double dof, double var)
+        public void ValidateMode(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(n.Variance, location);
-        }
-
-        
-
-        [Test]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void Entropy(double sdev)
-        {
-            var n = new Normal(1.0, sdev);
-            AssertEx.AreEqual<double>(MathNet.Numerics.Constants.LogSqrt2PiE + Math.Log(n.StdDev), n.Entropy);
+            AssertEx.AreEqual<double>(location, n.Mode);
         }
 
         [Test]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateSkewness(double sdev)
+        [Row(0.0, 1.0, 1.0)]
+        [Row(0.0, 0.1, 1.0)]
+        [Row(0.0, 1.0, 3.0)]
+        [Row(0.0, 10.0, 1.0)]
+        [Row(0.0, 10.0, 2.0)]
+        [Row(0.0, 10.0, 2.5)]
+        [Row(0.0, 10.0, Double.PositiveInfinity)]
+        [Row(10.0, 1.0, 1.0)]
+        [Row(10.0, 1.0, 2.5)]
+        [Row(-5.0, 100.0, 1.5)]
+        [Row(0.0, Double.PositiveInfinity, 1.0)]
+        public void ValidateMedian(double location, double scale, double dof)
         {
-            var n = new Normal(1.0, sdev);
-            AssertEx.AreEqual<double>(0.0, n.Skewness);
-        }
-
-        [Test]
-        [Row(Double.NegativeInfinity)]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMode(double mean)
-        {
-            var n = new Normal(mean, 1.0);
-            AssertEx.AreEqual<double>(mean, n.Mode);
-        }
-
-        [Test]
-        [Row(Double.NegativeInfinity)]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMedian(double mean)
-        {
-            var n = new Normal(mean, 1.0);
-            AssertEx.AreEqual<double>(mean, n.Median);
+            var n = new StudentT(location, scale, dof);
+            AssertEx.AreEqual<double>(location, n.Median);
         }
 
         [Test]
         public void ValidateMinimum()
         {
-            var n = new Normal();
+            var n = new StudentT();
             AssertEx.AreEqual<double>(System.Double.NegativeInfinity, n.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
-            var n = new Normal();
+            var n = new StudentT();
             AssertEx.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
         }
 
         [Test]
-        [Row(0.0, 0.0)]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void ValidateDensity(double mean, double sdev)
+        [Row(0.0, 1.0, 1.0, 0.0, 0.318309886183791)]
+        [Row(0.0, 1.0, 1.0, 1.0, 0.159154943091895)]
+        [Row(0.0, 1.0, 1.0, -1.0, 0.159154943091895)]
+        [Row(0.0, 1.0, 1.0, 2.0, 0.063661977236758)]
+        [Row(0.0, 1.0, 1.0, -2.0, 0.063661977236758)]
+        [Row(0.0, 1.0, 2.0, 0.0, 0.353553390593274)]
+        [Row(0.0, 1.0, 2.0, 1.0, 0.192450089729875)]
+        [Row(0.0, 1.0, 2.0, -1.0, 0.192450089729875)]
+        [Row(0.0, 1.0, 2.0, 2.0, 0.068041381743977)]
+        [Row(0.0, 1.0, 2.0, -2.0, 0.068041381743977)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.398942280401433)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.241970724519143)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.053990966513188)]
+        public void ValidateDensity(double location, double scale, double dof, double x, double p)
         {
-            var n = Normal.WithMeanStdDev(mean, sdev);
-            for(int i = 0; i < 11; i++)
-            {
-                double x = i - 5.0;
-                double d = (mean - x)/sdev;
-                double pdf = Math.Exp(-0.5*d*d)/(sdev*Constants.Sqrt2Pi);
-                AssertEx.AreEqual<double>(pdf, n.Density(x));
-            }
+            var n = new StudentT(location, scale, dof);
+            AssertHelpers.AlmostEqual(p, n.Density(x), 13);
         }
 
         [Test]
-        [Row(0.0, 0.0)]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void ValidateDensityLn(double mean, double sdev)
+        [Row(0.0, 1.0, 1.0, 0.0, -1.144729885849399)]
+        [Row(0.0, 1.0, 1.0, 1.0, -1.837877066409348)]
+        [Row(0.0, 1.0, 1.0, -1.0, -1.837877066409348)]
+        [Row(0.0, 1.0, 1.0, 2.0, -2.754167798283503)]
+        [Row(0.0, 1.0, 1.0, -2.0, -2.754167798283503)]
+        [Row(0.0, 1.0, 2.0, 0.0, -1.039720770839917)]
+        [Row(0.0, 1.0, 2.0, 1.0, -1.647918433002166)]
+        [Row(0.0, 1.0, 2.0, -1.0, -1.647918433002166)]
+        [Row(0.0, 1.0, 2.0, 2.0, -2.687639203842085)]
+        [Row(0.0, 1.0, 2.0, -2.0, -2.687639203842085)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 0.0, -0.918938533204672)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 1.0, -1.418938533204674)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 2.0, -2.918938533204674)]
+        public void ValidateDensityLn(double location, double scale, double dof, double x, double p)
         {
-            var n = Normal.WithMeanStdDev(mean, sdev);
-            for (int i = 0; i < 11; i++)
-            {
-                double x = i - 5.0;
-                double d = (mean - x) / sdev;
-                double pdfln = -0.5 * d * d - Math.Log(sdev) - Constants.LogSqrt2Pi;
-                AssertEx.AreEqual<double>(pdfln, n.DensityLn(x));
-            }
+            var n = new StudentT(location, scale, dof);
+            AssertHelpers.AlmostEqual(p, n.DensityLn(x), 13);
         }
 
         [Test]
         public void CanSampleStatic()
         {
-            var d = Normal.Sample(new Random(), 0.0, 1.0);
+            var d = StudentT.Sample(new Random(), 0.0, 1.0, 3.0);
         }
 
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = Normal.Samples(new Random(), 0.0, 1.0);
+            var ied = StudentT.Samples(new Random(), 0.0, 1.0, 3.0);
             var arr = ied.Take(5).ToArray();
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void FailSampleStatic()
+        [Row(0.0, Double.NaN, 1.0)]
+        [Row(0.0, 1.0, Double.NaN)]
+        [Row(0.0, -1.0, 1.0)]
+        [Row(0.0, 1.0, -1.0)]
+        [Row(Double.NaN, 1.0, Double.NaN)]
+        public void FailSampleStatic(double location, double scale, double dof)
         {
-            var d = Normal.Sample(new Random(), 0.0, -1.0);
+            var d = StudentT.Sample(new Random(), location, scale, dof);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void FailSampleSequenceStatic()
+        [Row(0.0, Double.NaN, 1.0)]
+        [Row(0.0, 1.0, Double.NaN)]
+        [Row(0.0, -1.0, 1.0)]
+        [Row(0.0, 1.0, -1.0)]
+        [Row(Double.NaN, 1.0, 1.0)]
+        public void FailSampleSequenceStatic(double location, double scale, double dof)
         {
-            var ied = Normal.Samples(new Random(), 0.0, -1.0).First();
+            var ied = StudentT.Samples(new Random(), location, scale, dof);
+            var e = ied.Take(5).ToArray();
         }
 
         [Test]
         public void CanSample()
         {
-            var n = new Normal();
+            var n = new StudentT();
             var d = n.Sample();
         }
 
         [Test]
         public void CanSampleSequence()
         {
-            var n = new Normal();
+            var n = new StudentT();
             var ied = n.Samples();
             var e = ied.Take(5).ToArray();
         }
-
-        [Test]
-        [Row(Double.NegativeInfinity, 0.0)]
-        [Row(-5.0, 0.00000028665157187919391167375233287464535385442301361187883)]
-        [Row(-2.0, 0.0002326290790355250363499258867279847735487493358890356)]
-        [Row(-0.0, 0.0062096653257761351669781045741922211278977469230927036)]
-        [Row(0.0, 0.0062096653257761351669781045741922211278977469230927036)]
-        [Row(4.0, 0.30853753872598689636229538939166226011639782444542207)]
-        [Row(5.0, 0.5)]
-        [Row(6.0, 0.69146246127401310363770461060833773988360217555457859)]
-        [Row(10.0, 0.9937903346742238648330218954258077788721022530769078)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        public void ValidateCumulativeDistribution(double x, double f)
-        {
-            var n = Normal.WithMeanStdDev(5.0, 2.0);
-            AssertHelpers.AlmostEqual(f, n.CumulativeDistribution(x), 10);
-        }
-
-        [Test]
-        [Row(Double.NegativeInfinity, 0.0)]
-        [Row(-5.0, 0.00000028665157187919391167375233287464535385442301361187883)]
-        [Row(-2.0, 0.0002326290790355250363499258867279847735487493358890356)]
-        [Row(-0.0, 0.0062096653257761351669781045741922211278977469230927036)]
-        [Row(0.0, 0.0062096653257761351669781045741922211278977469230927036)]
-        [Row(4.0, 0.30853753872598689636229538939166226011639782444542207)]
-        [Row(5.0, 0.5)]
-        [Row(6.0, 0.69146246127401310363770461060833773988360217555457859)]
-        [Row(10.0, 0.9937903346742238648330218954258077788721022530769078)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        public void ValidateInverseCumulativeDistribution(double x, double f)
-        {
-            var n = Normal.WithMeanStdDev(5.0, 2.0);
-            AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 15);
-        }*/
     }
 }
