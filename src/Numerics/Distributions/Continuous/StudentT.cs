@@ -230,9 +230,13 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_dof > 2.0)
+                if (Double.IsPositiveInfinity(_dof))
                 {
-                    return _dof / (_dof - 2.0) / _scale;
+                    return _scale;
+                }
+                else if (_dof > 2.0)
+                {
+                    return _dof * _scale / (_dof - 2.0);
                 }
                 else if (_dof > 1.0)
                 {
@@ -240,7 +244,7 @@ namespace MathNet.Numerics.Distributions
                 }
                 else
                 {
-                    throw new Exception(Resources.UndefinedMoment);
+                    return Double.NaN;
                 }
             }
         }
@@ -252,9 +256,13 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_dof > 2.0)
+                if (Double.IsPositiveInfinity(_dof))
                 {
-                    return Math.Sqrt(_dof / (_dof - 2.0));
+                    return Math.Sqrt(_scale);
+                }
+                else if (_dof > 2.0)
+                {
+                    return Math.Sqrt(_dof * _scale / (_dof - 2.0));
                 }
                 else if (_dof > 1.0)
                 {
@@ -262,7 +270,7 @@ namespace MathNet.Numerics.Distributions
                 }
                 else
                 {
-                    throw new Exception(Resources.UndefinedMoment);
+                    return Double.NaN;
                 }
             }
         }
@@ -325,12 +333,19 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            double d = (x - _location) / _scale;
-            return SpecialFunctions.Gamma((_dof + 1.0) / 2.0)
-                * Math.Pow(1.0 + d * d / _dof, -0.5 * (_dof + 1.0))
-                / SpecialFunctions.Gamma(_dof / 2.0)
-                / Math.Sqrt(_dof * Math.PI)
-                / _scale;
+            if (Double.IsPositiveInfinity(_dof))
+            {
+                return Normal.Density(_location, Math.Sqrt(_scale), x);
+            }
+            else
+            {
+                double d = (x - _location) / _scale;
+                return SpecialFunctions.Gamma((_dof + 1.0) / 2.0)
+                    * Math.Pow(1.0 + d * d / _dof, -0.5 * (_dof + 1.0))
+                    / SpecialFunctions.Gamma(_dof / 2.0)
+                    / Math.Sqrt(_dof * Math.PI)
+                    / _scale;
+            }
         }
 
         /// <summary>
@@ -340,12 +355,19 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            double d = (x - _location) / _scale;
-            return SpecialFunctions.GammaLn((_dof + 1.0) / 2.0)
-                - 0.5 * (_dof + 1.0) * Math.Log(1.0 + d * d / _dof)
-                - SpecialFunctions.GammaLn(_dof / 2.0)
-                -0.5 * Math.Log(_dof * Math.PI)
-                - Math.Log(_scale);
+            if (Double.IsPositiveInfinity(_dof))
+            {
+                return Normal.DensityLn(_location, Math.Sqrt(_scale), x);
+            }
+            else
+            {
+                double d = (x - _location) / _scale;
+                return SpecialFunctions.GammaLn((_dof + 1.0) / 2.0)
+                    - 0.5 * (_dof + 1.0) * Math.Log(1.0 + d * d / _dof)
+                    - SpecialFunctions.GammaLn(_dof / 2.0)
+                    - 0.5 * Math.Log(_dof * Math.PI)
+                    - Math.Log(_scale);
+            }
         }
 
         /// <summary>
@@ -356,6 +378,7 @@ namespace MathNet.Numerics.Distributions
         public double CumulativeDistribution(double x)
         {
             throw new NotImplementedException();
+            // TODO Jurgen: once this is implemented; enable the StudentT stuff in commondistributiontests.
         }
 
         /// <summary>
@@ -364,7 +387,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            throw new NotImplementedException();
+            return _location + _scale * Sample(RandomSource, _dof);
         }
 
         /// <summary>
@@ -373,7 +396,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                yield return _location + _scale * Sample(RandomSource, _dof);
+            }
         }
         #endregion
 
@@ -392,7 +418,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            throw new NotImplementedException();
+            return location + scale * Sample(rng, dof);
         }
 
         /// <summary>
@@ -410,7 +436,27 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            throw new NotImplementedException();
+            while (true)
+            {
+                yield return location + scale * Sample(rng, dof);
+            }
+        }
+
+        /// <summary>
+        /// Samples standard student-t distributed random variables.
+        /// </summary>
+        /// <remarks>The algorithm is method 2 in section 5, chapter 9 
+        /// in L. Devroye's "Non-Uniform Random Variate Generation"</remarks>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="dof">The degrees of freedom for the standard student-t distribution.</param>
+        /// <returns>a random number from the standard student-t distribution.</returns>
+        internal static double Sample(Random rnd, double dof)
+        {
+            double dummy = 0.0;
+            var n = Normal.SampleBoxMuller(rnd, out dummy);
+            var g = Gamma.Sample(rnd, dof / 2.0, 1.0);
+
+            return Math.Sqrt(2.0 * dof / g) * n;
         }
     }
 }

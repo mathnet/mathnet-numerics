@@ -66,6 +66,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             continuousDistributions.Add(new Normal(0.0, 1.0));
             continuousDistributions.Add(new Weibull(1.0, 1.0));
             continuousDistributions.Add(new LogNormal(1.0, 1.0));
+            //continuousDistributions.Add(new StudentT(0.0, 1.0, 3.0));
         }
 
         [Test]

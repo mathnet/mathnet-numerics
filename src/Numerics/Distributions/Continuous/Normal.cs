@@ -285,12 +285,37 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Computes the density of the normal distribution.
         /// </summary>
+        /// <param name="mean">The mean of the normal distribution.</param>
+        /// <param name="sdev">The standard deviation of the normal distribution.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        internal static double Density(double mean, double sdev, double x)
+        {
+            double d = (x - mean) / sdev;
+            return Math.Exp(-0.5 * d * d) / (Constants.Sqrt2Pi * sdev);
+        }
+
+        /// <summary>
+        /// Computes the log density of the normal distribution.
+        /// </summary>
+        /// <param name="mean">The mean of the normal distribution.</param>
+        /// <param name="sdev">The standard deviation of the normal distribution.</param>
+        /// <param name="x">The location at which to compute the density.</param>
+        /// <returns>the log density at <paramref name="x"/>.</returns>
+        internal static double DensityLn(double mean, double sdev, double x)
+        {
+            double d = (x - mean) / sdev;
+            return (-0.5 * d * d) - Math.Log(sdev) - Constants.LogSqrt2Pi;
+        }
+
+        /// <summary>
+        /// Computes the density of the normal distribution.
+        /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
-            double d = (x - _mean) / _stdDev;
-            return Math.Exp(-0.5 * d * d) / (Constants.Sqrt2Pi * _stdDev);
+            return Density(_mean, _stdDev, x);
         }
 
         /// <summary>
@@ -300,8 +325,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
-            double d = (x - _mean) / _stdDev;
-            return (-0.5 * d * d) - Math.Log(_stdDev) - Constants.LogSqrt2Pi;
+            return DensityLn(_mean, _stdDev, x);
         }
 
         /// <summary>
