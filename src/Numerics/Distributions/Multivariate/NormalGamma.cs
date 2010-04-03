@@ -183,6 +183,7 @@ namespace MathNet.Numerics.Distributions
         public double MeanLocation
         {
             get { return _meanLocation; }
+            set { SetParameters(value, _meanScale, _precisionShape, _precisionInvScale); }
         }
 
         /// <summary>
@@ -191,6 +192,7 @@ namespace MathNet.Numerics.Distributions
         public double MeanScale
         {
             get { return _meanScale; }
+            set { SetParameters(_meanLocation, value, _precisionShape, _precisionInvScale); }
         }
 
         /// <summary>

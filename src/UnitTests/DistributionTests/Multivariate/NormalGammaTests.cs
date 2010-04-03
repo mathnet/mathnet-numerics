@@ -37,14 +37,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     public class NormalGammaTests
     {
         [Test, MultipleAsserts]
-        public void NormalGammaTest()
+        [Row(0.0, 1.0, 1.0, 1.0)]
+        [Row(10.0, 1.0, 2.0, 2.0)]
+        public void CanCreateNormalGamma(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
-            NormalGamma ng = new NormalGamma(10.0, 1.0, 2.0, 2.0);
+            NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
 
-            AssertEx.AreEqual<double>(10.0, ng.MeanLocation);
-            AssertEx.AreEqual<double>(1.0, ng.MeanScale);
-            AssertEx.AreEqual<double>(2.0, ng.PrecisionShape);
-            AssertEx.AreEqual<double>(2.0, ng.PrecisionInverseScale);
+            AssertEx.AreEqual<double>(meanLocation, ng.MeanLocation);
+            AssertEx.AreEqual<double>(meanScale, ng.MeanScale);
+            AssertEx.AreEqual<double>(precShape, ng.PrecisionShape);
+            AssertEx.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
         }
 
         [Test]
@@ -52,9 +54,54 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Row(1.0, 1.0, -1.0, 1.0)]
         [Row(1.0, 1.0, 1.0, -1.0)]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void InvalidParams(double a, double b, double c, double d)
+        public void NormalGammaConstructorFailsWithInvalidParams(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
-            var nb = new NormalGamma(a, b, c, d);
+            var nb = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
+        }
+
+        [Test]
+        [Row(0.0, 1.0, 1.0, 1.0)]
+        [Row(10.0, 1.0, 2.0, 2.0)]
+        public void CanGetMeanLocation(double meanLocation, double meanScale, double precShape, double precInvScale)
+        {
+            NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
+            AssertEx.AreEqual<double>(meanLocation, ng.MeanLocation);
+        }
+
+        [Test, MultipleAsserts]
+        [Row(0.0, 1.0, 1.0, 1.0)]
+        [Row(10.0, 1.0, 2.0, 2.0)]
+        public void CanSetMeanLocation(double meanLocation, double meanScale, double precShape, double precInvScale)
+        {
+            NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
+            ng.MeanLocation = -5.0;
+
+            AssertEx.AreEqual<double>(-5.0, ng.MeanLocation);
+            AssertEx.AreEqual<double>(meanScale, ng.MeanScale);
+            AssertEx.AreEqual<double>(precShape, ng.PrecisionShape);
+            AssertEx.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
+        }
+
+        [Test]
+        [Row(0.0, 1.0, 1.0, 1.0)]
+        [Row(10.0, 1.0, 2.0, 2.0)]
+        public void CanGetMeanScale(double meanLocation, double meanScale, double precShape, double precInvScale)
+        {
+            NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
+            AssertEx.AreEqual<double>(meanScale, ng.MeanScale);
+        }
+
+        [Test, MultipleAsserts]
+        [Row(0.0, 1.0, 1.0, 1.0)]
+        [Row(10.0, 1.0, 2.0, 2.0)]
+        public void CanSetMeanScale(double meanLocation, double meanScale, double precShape, double precInvScale)
+        {
+            NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
+            ng.MeanScale = 5.0;
+            AssertEx.AreEqual<double>(meanLocation, ng.MeanLocation);
+            AssertEx.AreEqual<double>(5.0, ng.MeanScale);
+            AssertEx.AreEqual<double>(precShape, ng.PrecisionShape);
+            AssertEx.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
         }
     }
 }
