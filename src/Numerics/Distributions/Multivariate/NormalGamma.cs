@@ -201,6 +201,7 @@ namespace MathNet.Numerics.Distributions
         public double PrecisionShape
         {
             get { return _precisionShape; }
+            set { SetParameters(_meanLocation, _meanScale, value, _precisionInvScale); }
         }
 
         /// <summary>
@@ -209,6 +210,28 @@ namespace MathNet.Numerics.Distributions
         public double PrecisionInverseScale
         {
             get { return _precisionInvScale; }
+            set { SetParameters(_meanLocation, _meanScale, _precisionShape, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public Random RandomSource
+        {
+            get
+            {
+                return _random;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                _random = value;
+            }
         }
 
         /// <summary>
@@ -217,7 +240,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns></returns>
         public StudentT MeanMarginal()
         {
-            return new StudentT(_meanLocation, _meanScale * _precisionShape / _precisionInvScale, 2.0 * _precisionShape);
+            if (Double.IsPositiveInfinity(_precisionInvScale))
+            {
+                return new StudentT(_meanLocation, _meanScale * _precisionShape, Double.PositiveInfinity);
+            }
+            else
+            {
+                return new StudentT(_meanLocation, _meanScale * _precisionShape / _precisionInvScale, 2.0 * _precisionShape);
+            }
         }
 
         /// <summary>
@@ -229,7 +259,6 @@ namespace MathNet.Numerics.Distributions
             return new Gamma(_precisionShape, _precisionInvScale);
         }
 
-        /*
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
@@ -249,11 +278,7 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
-        /// <summary>
-        /// Gets or sets the random number generator.
-        /// </summary>
-        /// <value>The random number generator used to generate a random sample.</value>
-        public System.Random RandomNumberGenerator { get; set; }
+        /*
 
         /// <summary>
         /// The mode of the distribution.
@@ -376,31 +401,6 @@ namespace MathNet.Numerics.Distributions
         public MeanPrecisionPair[] Sample(int size)
         {
             return NormalGamma.Sample(RandomNumberGenerator, size, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
-        }
-
-        /// <summary>
-        /// Checks the parameters of a NormalGamma distribution.
-        /// </summary>
-        /// <param name="meanScale">The scale of the mean.</param>
-        /// <param name="precShape">The shape of the precision.</param>
-        /// <param name="precInvScale">The inverse scale of the precision.</param>
-        /// <exception cref="ArgumentOutOfRangeException">If the mean scale is negative.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the inverse precision scale is negative.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the precision shape is negative.</exception>
-        private static void CheckParameters(double meanScale, double precShape, double precInvScale)
-        {
-            if (meanScale < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("meanScale", Resources.ParameterCannotBeNegative);
-            }
-            else if (precShape <= 0.0)
-            {
-                throw new ArgumentOutOfRangeException("precShape", Resources.ParameterCannotBeNegative);
-            }
-            else if (precInvScale <= 0.0)
-            {
-                throw new ArgumentOutOfRangeException("precInvScale", Resources.ParameterCannotBeNegative);
-            }
         }
 
         /// <summary>
