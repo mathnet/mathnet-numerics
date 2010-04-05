@@ -80,14 +80,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        public void HasRandomSource(int i)
+        public void HasRandomSource()
         {
             Dirichlet d = new Dirichlet(0.3, 5);
             Assert.IsNotNull(d.RandomSource);
         }
 
         [Test]
-        public void CanSetRandomSource(int i)
+        public void CanSetRandomSource()
         {
             Dirichlet d = new Dirichlet(0.3, 5);
             d.RandomSource = new Random();
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void FailSetRandomSourceWithNullReference(int i)
+        public void FailSetRandomSourceWithNullReference()
         {
             Dirichlet d = new Dirichlet(0.3, 5);
             d.RandomSource = null;

@@ -191,7 +191,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         }
 
         [Test]
-        [ExpectedException(typeof(NotSupportedException))]
+        [ExpectedException(typeof(NotImplementedException))]
         [Row(0.0, 0.0)]
         [Row(0.0, 0.1)]
         [Row(1.0, 0.0)]
