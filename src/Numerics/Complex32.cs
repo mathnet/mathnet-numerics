@@ -1,9 +1,7 @@
 // <copyright file="Complex32.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,10 +10,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -131,8 +127,8 @@ namespace MathNet.Numerics
 #endif
         public Complex32(float real, float imaginary)
         {
-            _real = real;
-            _imag = imaginary;
+            this._real = real;
+            this._imag = imaginary;
         }
 
         #endregion
@@ -153,7 +149,10 @@ namespace MathNet.Numerics
         /// <value>A value representing the infinity value.</value>
         public static Complex32 Infinity
         {
-            get { return _infinity; }
+            get
+            {
+                return _infinity;
+            }
         }
 
         /// <summary>
@@ -162,7 +161,10 @@ namespace MathNet.Numerics
         /// <value>A value representing not-a-number.</value>
         public static Complex32 NaN
         {
-            get { return _nan; }
+            get
+            {
+                return _nan;
+            }
         }
 
         /// <summary>
@@ -171,7 +173,10 @@ namespace MathNet.Numerics
         /// <value>A value representing the imaginary unit number.</value>
         public static Complex32 ImaginaryOne
         {
-            get { return _i; }
+            get
+            {
+                return _i;
+            }
         }
 
         /// <summary>
@@ -180,7 +185,10 @@ namespace MathNet.Numerics
         /// <value>A value representing the zero value.</value>
         public static Complex32 Zero
         {
-            get { return new Complex32(0.0f, 0.0f); }
+            get
+            {
+                return new Complex32(0.0f, 0.0f);
+            }
         }
 
         /// <summary>
@@ -189,7 +197,10 @@ namespace MathNet.Numerics
         /// <value>A value representing the <c>1</c> value.</value>
         public static Complex32 One
         {
-            get { return _one; }
+            get
+            {
+                return _one;
+            }
         }
 
         #endregion Properties
@@ -203,8 +214,10 @@ namespace MathNet.Numerics
 #if !SILVERLIGHT
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 #endif
-
-            get { return _real; }
+                get
+            {
+                return this._real;
+            }
         }
 
         /// <summary>
@@ -216,84 +229,86 @@ namespace MathNet.Numerics
 #if !SILVERLIGHT
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 #endif
-
-            get { return _imag; }
+                get
+            {
+                return this._imag;
+            }
         }
 
         /// <summary>
         /// Gets a value indicating whether the <c>Complex32</c> is zero.
         /// </summary>
-        /// <value><c>true</c> if this instance is zero; otherwise, <c>false</c>.</value>
+        /// <returns><c>true</c> if this instance is zero; otherwise, <c>false</c>.</returns>
         public bool IsZero()
         {
-            return _real == 0.0f && _imag == 0.0f; 
+            return this._real == 0.0f && this._imag == 0.0f;
         }
 
         /// <summary>
         /// Gets a value indicating whether the <c>Complex32</c> is one.
         /// </summary>
-        /// <value><c>true</c> if this instance is one; otherwise, <c>false</c>.</value>
+        /// <returns><c>true</c> if this instance is one; otherwise, <c>false</c>.</returns>
         public bool IsOne()
         {
-            return _real == 1.0f && _imag == 0.0f; 
+            return this._real == 1.0f && this._imag == 0.0f;
         }
 
         /// <summary>
         /// Gets a value indicating whether the <c>Complex32</c> is the imaginary unit.
         /// </summary>
-        /// <value><c>true</c> if this instance is ImaginaryOne; otherwise, <c>false</c>.</value>
+        /// <returns><c>true</c> if this instance is ImaginaryOne; otherwise, <c>false</c>.</returns>
         public bool IsImaginaryOne()
         {
-            return _real == 0.0f && _imag == 1.0f;
+            return this._real == 0.0f && this._imag == 1.0f;
         }
 
         /// <summary>
         /// Gets a value indicating whether the provided <c>Complex32</c>evaluates
         /// to a value that is not a number.
         /// </summary>
-        /// <value>
+        /// <returns>
         /// <c>true</c> if this instance is <see cref="NaN"/>; otherwise,
         /// <c>false</c>.
-        /// </value>
+        /// </returns>
         public bool IsNaN()
         {
-            return float.IsNaN(_real) || float.IsNaN(_imag); 
+            return float.IsNaN(this._real) || float.IsNaN(this._imag);
         }
 
         /// <summary>
         /// Gets a value indicating whether the provided <c>Complex32</c> evaluates to an
         /// infinite value.
         /// </summary>
-        /// <value>
+        /// <returns>
         ///     <c>true</c> if this instance is infinite; otherwise, <c>false</c>.
-        /// </value>
+        /// </returns>
         /// <remarks>
         /// True if it either evaluates to a complex infinity
         /// or to a directed infinity.
         /// </remarks>
         public bool IsInfinity()
         {
-            return float.IsInfinity(_real) || float.IsInfinity(_imag); 
+            return float.IsInfinity(this._real) || float.IsInfinity(this._imag);
         }
 
         /// <summary>
         /// Gets a value indicating whether the provided <c>Complex32</c> is real.
         /// </summary>
-        /// <value><c>true</c> if this instance is a real number; otherwise, <c>false</c>.</value>
+        /// <returns><c>true</c> if this instance is a real number; otherwise, <c>false</c>.</returns>
         public bool IsReal()
         {
-            return _imag == 0.0f; 
+            return this._imag == 0.0f;
         }
 
         /// <summary>
         /// Gets a value indicating whether the provided <c>Complex32</c> is real and not negative, that is &gt;= 0.
         /// </summary>
-        /// <value>
+        /// <returns>
         ///     <c>true</c> if this instance is real nonnegative number; otherwise, <c>false</c>.
-        /// </value>
+        /// </returns>
         public bool IsRealNonNegative()
         {
-            return _imag == 0.0f && _real >= 0; 
+            return this._imag == 0.0f && this._real >= 0;
         }
 
         /// <summary>
@@ -311,85 +326,95 @@ namespace MathNet.Numerics
         /// a = b.Conjugate
         /// </code>
         /// </remarks>
+        /// <returns>The conjugate of this <c>Complex32</c></returns>
         public Complex32 Conjugate()
         {
-            return new Complex32(_real, -_imag);
+            return new Complex32(this._real, -this._imag);
         }
 
         /// <summary>
         /// Gets the magnitude or modulus of this <c>Complex32</c>.
         /// </summary>
+        /// <returns>The magnitude or modulus of this <c>Complex32</c></returns>
         /// <seealso cref="Phase"/>
         public float Magnitude
         {
-            get { return (float)Math.Sqrt((_real * _real) + (_imag * _imag)); }
+            get
+            {
+                return (float)Math.Sqrt((this._real * this._real) + (this._imag * this._imag));
+            }
         }
 
         /// <summary>
         /// Gets the squared magnitude of this <c>Complex32</c>.
         /// </summary>
-        /// <seealso cref="Phase"/>
+        /// <returns>The squared magnitude of this <c>Complex32</c></returns>
         public float MagnitudeSquared
         {
-            get { return (_real * _real) + (_imag * _imag); }
+            get
+            {
+                return (this._real * this._real) + (this._imag * this._imag);
+            }
         }
 
         /// <summary>
-        /// Gets phase or argument of this <c>Complex32</c>.
+        /// Gets the phase or argument of this <c>Complex32</c>.
         /// </summary>
         /// <remarks>
         /// Phase always returns a value bigger than negative Pi and
         /// smaller or equal to Pi. If this <c>Complex32</c> is zero, the Complex32
         /// is assumed to be positive real with an argument of zero.
         /// </remarks>
+        /// <returns>The phase or argument of this <c>Complex32</c></returns>
         public float Phase
         {
             get
             {
-                if (IsReal() && _real < 0)
+                if (this.IsReal() && this._real < 0)
                 {
                     return (float)Math.PI;
                 }
 
-                return IsRealNonNegative() ? 0.0f : (float)Math.Atan2(_imag, _real);
+                return this.IsRealNonNegative() ? 0.0f : (float)Math.Atan2(this._imag, this._real);
             }
         }
 
         /// <summary>
         /// Gets the unity of this complex (same argument, but on the unit circle; exp(I*arg))
         /// </summary>
+        /// <returns>The unity of this <c>Complex32</c>.</returns>
         public Complex32 Sign
         {
             get
             {
-                if (float.IsPositiveInfinity(_real) && float.IsPositiveInfinity(_imag))
+                if (float.IsPositiveInfinity(this._real) && float.IsPositiveInfinity(this._imag))
                 {
                     return new Complex32((float)Constants.Sqrt1Over2, (float)Constants.Sqrt1Over2);
                 }
 
-                if (float.IsPositiveInfinity(_real) && float.IsNegativeInfinity(_imag))
+                if (float.IsPositiveInfinity(this._real) && float.IsNegativeInfinity(this._imag))
                 {
                     return new Complex32((float)Constants.Sqrt1Over2, -(float)Constants.Sqrt1Over2);
                 }
 
-                if (float.IsNegativeInfinity(_real) && float.IsPositiveInfinity(_imag))
+                if (float.IsNegativeInfinity(this._real) && float.IsPositiveInfinity(this._imag))
                 {
                     return new Complex32(-(float)Constants.Sqrt1Over2, -(float)Constants.Sqrt1Over2);
                 }
 
-                if (float.IsNegativeInfinity(_real) && float.IsNegativeInfinity(_imag))
+                if (float.IsNegativeInfinity(this._real) && float.IsNegativeInfinity(this._imag))
                 {
                     return new Complex32(-(float)Constants.Sqrt1Over2, (float)Constants.Sqrt1Over2);
                 }
 
                 // don't replace this with "Magnitude"!
-                var mod = SpecialFunctions.Hypotenuse(_real, _imag);
+                var mod = SpecialFunctions.Hypotenuse(this._real, this._imag);
                 if (mod == 0.0f)
                 {
                     return Zero;
                 }
 
-                return new Complex32((float)(_real / mod), (float)(_imag / mod));
+                return new Complex32((float)(this._real / mod), (float)(this._imag / mod));
             }
         }
 
@@ -403,13 +428,13 @@ namespace MathNet.Numerics
         /// </returns>
         public Complex32 Exponential()
         {
-            var exp = (float)Math.Exp(_real);
-            if (IsReal())
+            var exp = (float)Math.Exp(this._real);
+            if (this.IsReal())
             {
                 return new Complex32(exp, 0.0f);
             }
 
-            return new Complex32(exp * (float)Trig.Cosine(_imag), exp * (float)Trig.Sine(_imag));
+            return new Complex32(exp * (float)Trig.Cosine(this._imag), exp * (float)Trig.Sine(this._imag));
         }
 
         /// <summary>
@@ -420,12 +445,12 @@ namespace MathNet.Numerics
         /// </returns>
         public Complex32 NaturalLogarithm()
         {
-            if (IsRealNonNegative())
+            if (this.IsRealNonNegative())
             {
-                return new Complex32((float)Math.Log(_real), 0.0f);
+                return new Complex32((float)Math.Log(this._real), 0.0f);
             }
 
-            return new Complex32(0.5f * (float)Math.Log(MagnitudeSquared), Phase);
+            return new Complex32(0.5f * (float)Math.Log(this.MagnitudeSquared), this.Phase);
         }
 
         /// <summary>
@@ -439,7 +464,7 @@ namespace MathNet.Numerics
         /// </returns>
         public Complex32 Power(Complex32 exponent)
         {
-            if (IsZero())
+            if (this.IsZero())
             {
                 if (exponent.IsZero())
                 {
@@ -464,7 +489,7 @@ namespace MathNet.Numerics
                 return NaN;
             }
 
-            return (exponent * NaturalLogarithm()).Exponential();
+            return (exponent * this.NaturalLogarithm()).Exponential();
         }
 
         /// <summary>
@@ -478,7 +503,7 @@ namespace MathNet.Numerics
         /// </returns>
         public Complex32 Root(Complex32 rootExponent)
         {
-            return Power(1 / rootExponent);
+            return this.Power(1 / rootExponent);
         }
 
         /// <summary>
@@ -489,12 +514,12 @@ namespace MathNet.Numerics
         /// </returns>
         public Complex32 Square()
         {
-            if (IsReal())
+            if (this.IsReal())
             {
-                return new Complex32(_real * _real, 0.0f);
+                return new Complex32(this._real * this._real, 0.0f);
             }
 
-            return new Complex32((_real * _real) - (_imag * _imag), 2 * _real * _imag);
+            return new Complex32((this._real * this._real) - (this._imag * this._imag), 2 * this._real * this._imag);
         }
 
         /// <summary>
@@ -505,32 +530,32 @@ namespace MathNet.Numerics
         /// </returns>
         public Complex32 SquareRoot()
         {
-            if (IsRealNonNegative())
+            if (this.IsRealNonNegative())
             {
-                return new Complex32((float)Math.Sqrt(_real), 0.0f);
+                return new Complex32((float)Math.Sqrt(this._real), 0.0f);
             }
 
             Complex32 result;
 
-            var absReal = Math.Abs(Real);
-            var absImag = Math.Abs(Imaginary);
+            var absReal = Math.Abs(this.Real);
+            var absImag = Math.Abs(this.Imaginary);
             double w;
             if (absReal >= absImag)
             {
-                var ratio = Imaginary / Real;
+                var ratio = this.Imaginary / this.Real;
                 w = Math.Sqrt(absReal) * Math.Sqrt(0.5 * (1.0f + Math.Sqrt(1.0f + (ratio * ratio))));
             }
             else
             {
-                var ratio = Real / Imaginary;
+                var ratio = this.Real / this.Imaginary;
                 w = Math.Sqrt(absImag) * Math.Sqrt(0.5 * (Math.Abs(ratio) + Math.Sqrt(1.0f + (ratio * ratio))));
             }
 
-            if (Real >= 0.0f)
+            if (this.Real >= 0.0f)
             {
-                result = new Complex32((float)w, (float)(Imaginary / (2.0f * w)));
+                result = new Complex32((float)w, (float)(this.Imaginary / (2.0f * w)));
             }
-            else if (Imaginary >= 0.0f)
+            else if (this.Imaginary >= 0.0f)
             {
                 result = new Complex32((float)(absImag / (2.0 * w)), (float)w);
             }
@@ -599,7 +624,7 @@ namespace MathNet.Numerics
         /// </returns>
         public override string ToString()
         {
-            return ToString(null, null);
+            return this.ToString(null, null);
         }
 
         /// <summary>
@@ -614,7 +639,7 @@ namespace MathNet.Numerics
         /// </param>
         public string ToString(string format)
         {
-            return ToString(format, null);
+            return this.ToString(format, null);
         }
 
         /// <summary>
@@ -629,7 +654,7 @@ namespace MathNet.Numerics
         /// </param>
         public string ToString(IFormatProvider formatProvider)
         {
-            return ToString(null, formatProvider);
+            return this.ToString(null, formatProvider);
         }
 
         /// <summary>
@@ -655,28 +680,28 @@ namespace MathNet.Numerics
         {
             var numberFormatInfo = formatProvider.GetNumberFormatInfo();
 
-            if (IsNaN())
+            if (this.IsNaN())
             {
                 return numberFormatInfo.NaNSymbol;
             }
 
-            if (IsInfinity())
+            if (this.IsInfinity())
             {
                 return numberFormatInfo.PositiveInfinitySymbol;
             }
 
             var ret = new StringBuilder();
 
-            if (_real != 0.0f)
+            if (this._real != 0.0f)
             {
-                ret.Append(_real.ToString(format, formatProvider));
+                ret.Append(this._real.ToString(format, formatProvider));
             }
 
-            if (_imag != 0.0f)
+            if (this._imag != 0.0f)
             {
-                if (_real != 0.0f)
+                if (this._real != 0.0f)
                 {
-                    if (_imag < 0)
+                    if (this._imag < 0)
                     {
                         ret.Append(" ");
                     }
@@ -686,7 +711,7 @@ namespace MathNet.Numerics
                     }
                 }
 
-                ret.Append(_imag.ToString(format, formatProvider)).Append("i");
+                ret.Append(this._imag.ToString(format, formatProvider)).Append("i");
             }
 
             if (ret.Length == 0)
@@ -714,17 +739,17 @@ namespace MathNet.Numerics
         /// </param>
         public bool Equals(Complex32 other)
         {
-            if (IsNaN() || other.IsNaN())
+            if (this.IsNaN() || other.IsNaN())
             {
                 return false;
             }
 
-            if (IsInfinity() && other.IsInfinity())
+            if (this.IsInfinity() && other.IsInfinity())
             {
                 return true;
             }
 
-            return _real.AlmostEqual(other._real) && _imag.AlmostEqual(other._imag);
+            return this._real.AlmostEqual(other._real) && this._imag.AlmostEqual(other._imag);
         }
 
         /// <summary>
@@ -739,7 +764,7 @@ namespace MathNet.Numerics
         /// </remarks>
         public override int GetHashCode()
         {
-            return _real.GetHashCode() ^ (-_imag.GetHashCode());
+            return this._real.GetHashCode() ^ (-this._imag.GetHashCode());
         }
 
         /// <summary>
@@ -755,7 +780,7 @@ namespace MathNet.Numerics
         /// </param>
         public override bool Equals(object obj)
         {
-            return (obj is Complex32) && Equals((Complex32)obj);
+            return (obj is Complex32) && this.Equals((Complex32)obj);
         }
 
         #endregion
@@ -865,7 +890,7 @@ namespace MathNet.Numerics
         public static Complex32 operator *(Complex32 multiplicand, Complex32 multiplier)
         {
             return new Complex32(
-                (multiplicand._real * multiplier._real) - (multiplicand._imag * multiplier._imag),
+                (multiplicand._real * multiplier._real) - (multiplicand._imag * multiplier._imag), 
                 (multiplicand._real * multiplier._imag) + (multiplicand._imag * multiplier._real));
         }
 
@@ -900,7 +925,7 @@ namespace MathNet.Numerics
 
             var modSquared = divisor.MagnitudeSquared;
             return new Complex32(
-                ((dividend._real * divisor._real) + (dividend._imag * divisor._imag)) / modSquared,
+                ((dividend._real * divisor._real) + (dividend._imag * divisor._imag)) / modSquared, 
                 ((dividend._imag * divisor._real) - (dividend._real * divisor._imag)) / modSquared);
         }
 
@@ -942,7 +967,6 @@ namespace MathNet.Numerics
 #if !SILVERLIGHT
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 #endif
-
         public Complex32 Plus()
         {
             return this;
@@ -957,7 +981,6 @@ namespace MathNet.Numerics
 #if !SILVERLIGHT
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 #endif
-
         public Complex32 Negate()
         {
             return -this;
@@ -975,7 +998,6 @@ namespace MathNet.Numerics
 #if !SILVERLIGHT
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 #endif
-
         public Complex32 Add(Complex32 other)
         {
             return this + other;
@@ -993,7 +1015,6 @@ namespace MathNet.Numerics
 #if !SILVERLIGHT
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 #endif
-
         public Complex32 Subtract(Complex32 other)
         {
             return this - other;
@@ -1011,7 +1032,6 @@ namespace MathNet.Numerics
 #if !SILVERLIGHT
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 #endif
-
         public Complex32 Multiply(Complex32 multiplier)
         {
             return this * multiplier;
@@ -1029,7 +1049,6 @@ namespace MathNet.Numerics
 #if !SILVERLIGHT
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
 #endif
-
         public Complex32 Divide(Complex32 divisor)
         {
             return this / divisor;
@@ -1048,7 +1067,7 @@ namespace MathNet.Numerics
         /// </returns>
         double IPrecisionSupport<Complex32>.Norm()
         {
-            return MagnitudeSquared;
+            return this.MagnitudeSquared;
         }
 
         /// <summary>
@@ -1131,8 +1150,8 @@ namespace MathNet.Numerics
             var keywords =
                 new[]
                 {
-                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol,
-                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol,
+                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol, 
+                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol, 
                     "+", "-", "i", "j"
                 };
 
@@ -1212,7 +1231,7 @@ namespace MathNet.Numerics
                 }
             }
 
-            bool negative = false;
+            var negative = false;
             if (token.Value == "-")
             {
                 negative = true;
@@ -1321,6 +1340,7 @@ namespace MathNet.Numerics
         #endregion
 
         #region Conversion
+
         /// <summary>
         /// Explicit conversion of a real decimal to a <c>Complex32</c>.
         /// </summary>
@@ -1444,7 +1464,7 @@ namespace MathNet.Numerics
         {
             return new Complex32(value, 0.0f);
         }
-        
+
         /// <summary>
         /// Implicit conversion of a real double to a <c>Complex32</c>.
         /// </summary>
@@ -1455,6 +1475,10 @@ namespace MathNet.Numerics
             return new Complex32((float)value, 0.0f);
         }
 
+        /// <summary>
+        /// Converts this <c>Complex32</c> to a <see cref="Complex"/>.
+        /// </summary>
+        /// <returns>A <see cref="Complex"/> with the same values as this <c>Complex32</c>.</returns>
         public Complex ToComplex()
         {
             return new Complex(this._real, this._imag);
