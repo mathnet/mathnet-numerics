@@ -24,9 +24,10 @@
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Numerics;
+    using System.Threading.Tasks;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// The managed linear algebra provider.
@@ -66,11 +67,27 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (alpha == 1.0)
             {
-                Parallel.For(0, y.Length, i => y[i] += x[i]);
+                Parallel.ForEach(
+                    Partitioner.Create(0, y.Length), 
+                    (range, loopState) =>
+                    {
+                        for (var i = range.Item1; i < range.Item2; i++)
+                        {
+                            y[i] += x[i];
+                        }
+                    });
             }
             else
             {
-                Parallel.For(0, y.Length, i => y[i] += alpha * x[i]);
+                Parallel.ForEach(
+                    Partitioner.Create(0, y.Length), 
+                    (range, loopState) =>
+                    {
+                        for (var i = range.Item1; i < range.Item2; i++)
+                        {
+                            y[i] += alpha * x[i];
+                        }
+                    });
             }
         }
 
@@ -92,7 +109,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 return;
             }
 
-            Parallel.For(0, x.Length, i => x[i] = alpha * x[i]);
+            Parallel.ForEach(
+                Partitioner.Create(0, x.Length), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        x[i] = alpha * x[i];
+                    }
+                });
         }
 
         /// <summary>
@@ -121,19 +146,26 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             var sync = new object();
             var d = 0.0;
-            Parallel.For(
-                0,
-                y.Length,
-                () => 0.0,
-                (i, localData) => localData += y[i] * x[i],
+
+            Parallel.ForEach(
+                Partitioner.Create(0, y.Length), 
+                () => 0.0, 
+                (range, loopState, localData) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        localData += y[i] * x[i];
+                    }
+
+                    return localData;
+                }, 
                 localResult =>
                 {
                     lock (sync)
                     {
                         d += localResult;
                     }
-                }
-                );
+                });
 
             return d;
         }
@@ -169,8 +201,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
-            
-            Parallel.For(0, y.Length, i => result[i] = x[i] + y[i]);
+
+            Parallel.ForEach(
+                Partitioner.Create(0, y.Length), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        result[i] = x[i] + y[i];
+                    }
+                });
         }
 
         /// <summary>
@@ -205,7 +245,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            Parallel.For(0, y.Length, i => result[i] = x[i] - y[i]);
+            Parallel.ForEach(
+                Partitioner.Create(0, y.Length), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        result[i] = x[i] - y[i];
+                    }
+                });
         }
 
         /// <summary>
@@ -239,8 +287,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
-
-            Parallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
+            
+            Parallel.ForEach(
+                Partitioner.Create(0, y.Length), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        result[i] = x[i] * y[i];
+                    }
+                });
         }
 
         public double MatrixNorm(Norm norm, double[] matrix)
@@ -272,6 +328,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 throw new ArgumentNullException("x");
             }
+
             if (y == null)
             {
                 throw new ArgumentNullException("y");
@@ -308,7 +365,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             double[] xdata;
             if (ReferenceEquals(x, result))
             {
-                xdata = (double[]) x.Clone();
+                xdata = (double[])x.Clone();
             }
             else
             {
@@ -318,7 +375,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             double[] ydata;
             if (ReferenceEquals(y, result))
             {
-                ydata = (double[]) y.Clone();
+                ydata = (double[])y.Clone();
             }
             else
             {
@@ -329,7 +386,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose,Transpose.DontTranspose,1.0,x,xRows,xColumns,y,yRows,yColumns,0.0,result);
+            this.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0, xdata, xRows, xColumns, ydata, yRows, yColumns, 0.0, result);
         }
 
         /// <summary>
@@ -347,11 +404,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, 
-            int aRows, int aColumns, double[] b, int bRows, int bColumns, double beta, double[] c)
+                                             int aRows, int aColumns, double[] b, int bRows, int bColumns, double beta, double[] c)
         {
             // Choose nonsensical values for the number of rows in c; fill them in depending
             // on the operations on a and b.
-            int cRows = -1;
+            var cRows = -1;
 
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (a == null)
@@ -427,7 +484,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 return;
             }
 
-
             // Check whether we will be overwriting any of our inputs and make copies if necessary.
             // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
             // as result, we can do it on a row wise basis. We should investigate this.
@@ -457,142 +513,190 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 {
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
-                        Parallel.For(0, aColumns, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != bRows; i++)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, aColumns), 
+                            (range, loopState) =>
                             {
-                                int iIndex = i * aRows;
-                                double s = 0;
-                                for (int l = 0; l != bColumns; l++)
+                                for (var j = range.Item1; j < range.Item2; j++)
                                 {
-                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                    var jIndex = j * cRows;
+                                    for (var i = 0; i != bRows; i++)
+                                    {
+                                        var iIndex = i * aRows;
+                                        double s = 0;
+                                        for (var l = 0; l != bColumns; l++)
+                                        {
+                                            s += adata[iIndex + l] * bdata[l * bRows + j];
+                                        }
+
+                                        c[jIndex + i] = s;
+                                    }
                                 }
-                                c[jIndex + i] = s;
-                            }
-                        });
+                            });
                     }
                     else if ((int)transposeA > 111)
                     {
-                        Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aColumns; i++)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, bColumns), 
+                            (range, loopState) =>
                             {
-                                int iIndex = i * aRows;
-                                double s = 0;
-                                for (int l = 0; l != aRows; l++)
+                                for (var j = range.Item1; j < range.Item2; j++)
                                 {
-                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                    var jcIndex = j * cRows;
+                                    var jbIndex = j * bRows;
+                                    for (var i = 0; i != aColumns; i++)
+                                    {
+                                        var iIndex = i * aRows;
+                                        double s = 0;
+                                        for (var l = 0; l != aRows; l++)
+                                        {
+                                            s += adata[iIndex + l] * bdata[jbIndex + l];
+                                        }
+
+                                        c[jcIndex + i] = s;
+                                    }
                                 }
-                                c[jcIndex + i] = s;
-                            }
-                        });
+                            });
                     }
                     else if ((int)transposeB > 111)
                     {
-                        Parallel.For(0, bRows, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != aRows; i++)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, bRows), 
+                            (range, loopState) =>
                             {
-                                double s = 0;
-                                for (int l = 0; l != aColumns; l++)
+                                for (var j = range.Item1; j < range.Item2; j++)
                                 {
-                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                    var jIndex = j * cRows;
+                                    for (var i = 0; i != aRows; i++)
+                                    {
+                                        double s = 0;
+                                        for (var l = 0; l != aColumns; l++)
+                                        {
+                                            s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                        }
+
+                                        c[jIndex + i] = s;
+                                    }
                                 }
-                                c[jIndex + i] = s;
-                            }
-                        });
+                            });
                     }
                     else
                     {
-                        Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aRows; i++)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, bColumns), 
+                            (range, loopState) =>
                             {
-                                double s = 0;
-                                for (int l = 0; l != aColumns; l++)
+                                for (var j = range.Item1; j < range.Item2; j++)
                                 {
-                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                    var jcIndex = j * cRows;
+                                    var jbIndex = j * bRows;
+                                    for (var i = 0; i != aRows; i++)
+                                    {
+                                        double s = 0;
+                                        for (var l = 0; l != aColumns; l++)
+                                        {
+                                            s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                        }
+
+                                        c[jcIndex + i] = s;
+                                    }
                                 }
-                                c[jcIndex + i] = s;
-                            }
-                        });
+                            });
                     }
                 }
                 else
                 {
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
-                        Parallel.For(0, aColumns, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != bRows; i++)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, aColumns), 
+                            (range, loopState) =>
                             {
-                                int iIndex = i * aRows;
-                                double s = 0;
-                                for (int l = 0; l != bColumns; l++)
+                                for (var j = range.Item1; j < range.Item2; j++)
                                 {
-                                    s += adata[iIndex + l] * bdata[l * bRows + j];
+                                    var jIndex = j * cRows;
+                                    for (var i = 0; i != bRows; i++)
+                                    {
+                                        var iIndex = i * aRows;
+                                        double s = 0;
+                                        for (var l = 0; l != bColumns; l++)
+                                        {
+                                            s += adata[iIndex + l] * bdata[l * bRows + j];
+                                        }
+
+                                        c[jIndex + i] = c[jIndex + i] * beta + s;
+                                    }
                                 }
-                                c[jIndex + i] = c[jIndex + i] * beta + s;
-                            }
-                        });
+                            });
                     }
                     else if ((int)transposeA > 111)
                     {
-                        Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aColumns; i++)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, bColumns), 
+                            (range, loopState) =>
                             {
-                                int iIndex = i * aRows;
-                                double s = 0;
-                                for (int l = 0; l != aRows; l++)
+                                for (var j = range.Item1; j < range.Item2; j++)
                                 {
-                                    s += adata[iIndex + l] * bdata[jbIndex + l];
+                                    var jcIndex = j * cRows;
+                                    var jbIndex = j * bRows;
+                                    for (var i = 0; i != aColumns; i++)
+                                    {
+                                        var iIndex = i * aRows;
+                                        double s = 0;
+                                        for (var l = 0; l != aRows; l++)
+                                        {
+                                            s += adata[iIndex + l] * bdata[jbIndex + l];
+                                        }
+
+                                        c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                                    }
                                 }
-                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
-                            }
-                        });
+                            });
                     }
                     else if ((int)transposeB > 111)
                     {
-                        Parallel.For(0, bRows, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != aRows; i++)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, bRows), 
+                            (range, loopState) =>
                             {
-                                double s = 0;
-                                for (int l = 0; l != aColumns; l++)
+                                for (var j = range.Item1; j < range.Item2; j++)
                                 {
-                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                    var jIndex = j * cRows;
+                                    for (var i = 0; i != aRows; i++)
+                                    {
+                                        double s = 0;
+                                        for (var l = 0; l != aColumns; l++)
+                                        {
+                                            s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                        }
+
+                                        c[jIndex + i] = s + c[jIndex + i] * beta;
+                                    }
                                 }
-                                c[jIndex + i] = s + c[jIndex + i] * beta;
-                            }
-                        });
+                            });
                     }
                     else
                     {
-                        Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aRows; i++)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, bColumns), 
+                            (range, loopState) =>
                             {
-                                double s = 0;
-                                for (int l = 0; l != aColumns; l++)
+                                for (var j = range.Item1; j < range.Item2; j++)
                                 {
-                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                    var jcIndex = j * cRows;
+                                    var jbIndex = j * bRows;
+                                    for (var i = 0; i != aRows; i++)
+                                    {
+                                        double s = 0;
+                                        for (var l = 0; l != aColumns; l++)
+                                        {
+                                            s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                        }
+
+                                        c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                                    }
                                 }
-                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
-                            }
-                        });
+                            });
                     }
                 }
             }
@@ -600,71 +704,95 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 if ((int)transposeA > 111 && (int)transposeB > 111)
                 {
-                    Parallel.For(0, aColumns, j =>
-                    {
-                        int jIndex = j * cRows;
-                        for (int i = 0; i != bRows; i++)
+                    Parallel.ForEach(
+                        Partitioner.Create(0, aColumns), 
+                        (range, loopState) =>
                         {
-                            int iIndex = i * aRows;
-                            double s = 0;
-                            for (int l = 0; l != bColumns; l++)
+                            for (var j = range.Item1; j < range.Item2; j++)
                             {
-                                s += adata[iIndex + l] * bdata[l * bRows + j];
+                                var jIndex = j * cRows;
+                                for (var i = 0; i != bRows; i++)
+                                {
+                                    var iIndex = i * aRows;
+                                    double s = 0;
+                                    for (var l = 0; l != bColumns; l++)
+                                    {
+                                        s += adata[iIndex + l] * bdata[l * bRows + j];
+                                    }
+
+                                    c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
+                                }
                             }
-                            c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
-                        }
-                    });
+                        });
                 }
                 else if ((int)transposeA > 111)
                 {
-                    Parallel.For(0, bColumns, j =>
-                    {
-                        int jcIndex = j * cRows;
-                        int jbIndex = j * bRows;
-                        for (int i = 0; i != aColumns; i++)
+                    Parallel.ForEach(
+                        Partitioner.Create(0, bColumns), 
+                        (range, loopState) =>
                         {
-                            int iIndex = i * aRows;
-                            double s = 0;
-                            for (int l = 0; l != aRows; l++)
+                            for (var j = range.Item1; j < range.Item2; j++)
                             {
-                                s += adata[iIndex + l] * bdata[jbIndex + l];
+                                var jcIndex = j * cRows;
+                                var jbIndex = j * bRows;
+                                for (var i = 0; i != aColumns; i++)
+                                {
+                                    var iIndex = i * aRows;
+                                    double s = 0;
+                                    for (var l = 0; l != aRows; l++)
+                                    {
+                                        s += adata[iIndex + l] * bdata[jbIndex + l];
+                                    }
+
+                                    c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                                }
                             }
-                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
-                        }
-                    });
+                        });
                 }
                 else if ((int)transposeB > 111)
                 {
-                    Parallel.For(0, bRows, j =>
-                    {
-                        int jIndex = j * cRows;
-                        for (int i = 0; i != aRows; i++)
+                    Parallel.ForEach(
+                        Partitioner.Create(0, bRows), 
+                        (range, loopState) =>
                         {
-                            double s = 0;
-                            for (int l = 0; l != aColumns; l++)
+                            for (var j = range.Item1; j < range.Item2; j++)
                             {
-                                s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                var jIndex = j * cRows;
+                                for (var i = 0; i != aRows; i++)
+                                {
+                                    double s = 0;
+                                    for (var l = 0; l != aColumns; l++)
+                                    {
+                                        s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                    }
+
+                                    c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
+                                }
                             }
-                            c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
-                        }
-                    });
+                        });
                 }
                 else
                 {
-                    Parallel.For(0, bColumns, j =>
-                    {
-                        int jcIndex = j * cRows;
-                        int jbIndex = j * bRows;
-                        for (int i = 0; i != aRows; i++)
+                    Parallel.ForEach(
+                        Partitioner.Create(0, bColumns), 
+                        (range, loopState) =>
                         {
-                            double s = 0;
-                            for (int l = 0; l != aColumns; l++)
+                            for (var j = range.Item1; j < range.Item2; j++)
                             {
-                                s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                var jcIndex = j * cRows;
+                                var jbIndex = j * bRows;
+                                for (var i = 0; i != aRows; i++)
+                                {
+                                    double s = 0;
+                                    for (var l = 0; l != aColumns; l++)
+                                    {
+                                        s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                    }
+
+                                    c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                                }
                             }
-                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
-                        }
-                    });
+                        });
                 }
             }
         }
@@ -735,6 +863,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     {
                         s += a[i * order + k] * a[i * order + j];
                     }
+
                     var tmp = k * order;
                     index = tmp + j;
                     a[index] = s = (a[index] - s) / a[tmp + k];
@@ -904,9 +1033,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            float d = 0.0F;
+            var d = 0.0F;
 
-            for (int i = 0; i < y.Length; i++)
+            for (var i = 0; i < y.Length; i++)
             {
                 d += y[i] * x[i];
             }
@@ -1048,6 +1177,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 throw new ArgumentNullException("x");
             }
+
             if (y == null)
             {
                 throw new ArgumentNullException("y");
@@ -1084,7 +1214,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             float[] xdata;
             if (ReferenceEquals(x, result))
             {
-                xdata = (float[]) x.Clone();
+                xdata = (float[])x.Clone();
             }
             else
             {
@@ -1094,7 +1224,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             float[] ydata;
             if (ReferenceEquals(y, result))
             {
-                ydata = (float[]) y.Clone();
+                ydata = (float[])y.Clone();
             }
             else
             {
@@ -1105,8 +1235,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, x, xRows, xColumns, y, yRows, yColumns, 0.0f, result);
-
+            this.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, x, xRows, xColumns, y, yRows, yColumns, 0.0f, result);
         }
 
         /// <summary>
@@ -1124,12 +1253,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, 
-            int aRows, int aColumns, float[] b, int bRows, int bColumns, float beta, float[] c)
+                                             int aRows, int aColumns, float[] b, int bRows, int bColumns, float beta, float[] c)
         {
             // Choose nonsensical values for the number of rows and columns in c; fill them in depending
             // on the operations on a and b.
-            int cRows = -1;
-            int cColumns = -1;
+            var cRows = -1;
+            var cColumns = -1;
 
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (a == null)
@@ -1240,70 +1369,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
                         Parallel.For(0, aColumns, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != bRows; i++)
-                            {
-                                int iIndex = i * aRows;
-                                float s = 0;
-                                for (int l = 0; l != bColumns; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jIndex = j * cRows;
+                                                      for (var i = 0; i != bRows; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          float s = 0;
+                                                          for (var l = 0; l != bColumns; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                          }
+
+                                                          c[jIndex + i] = s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeA > 111)
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aColumns; i++)
-                            {
-                                int iIndex = i * aRows;
-                                float s = 0;
-                                for (int l = 0; l != aRows; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aColumns; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          float s = 0;
+                                                          for (var l = 0; l != aRows; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeB > 111)
                     {
                         Parallel.For(0, bRows, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                float s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s;
-                            }
-                        });
+                                               {
+                                                   var jIndex = j * cRows;
+                                                   for (var i = 0; i != aRows; i++)
+                                                   {
+                                                       float s = 0;
+                                                       for (var l = 0; l != aColumns; l++)
+                                                       {
+                                                           s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                       }
+
+                                                       c[jIndex + i] = s;
+                                                   }
+                                               });
                     }
                     else
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                float s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aRows; i++)
+                                                      {
+                                                          float s = 0;
+                                                          for (var l = 0; l != aColumns; l++)
+                                                          {
+                                                              s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s;
+                                                      }
+                                                  });
                     }
                 }
                 else
@@ -1311,70 +1444,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
                         Parallel.For(0, aColumns, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != bRows; i++)
-                            {
-                                int iIndex = i * aRows;
-                                float s = 0;
-                                for (int l = 0; l != bColumns; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = c[jIndex + i] * beta + s;
-                            }
-                        });
+                                                  {
+                                                      var jIndex = j * cRows;
+                                                      for (var i = 0; i != bRows; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          float s = 0;
+                                                          for (var l = 0; l != bColumns; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                          }
+
+                                                          c[jIndex + i] = c[jIndex + i] * beta + s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeA > 111)
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aColumns; i++)
-                            {
-                                int iIndex = i * aRows;
-                                float s = 0;
-                                for (int l = 0; l != aRows; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aColumns; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          float s = 0;
+                                                          for (var l = 0; l != aRows; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeB > 111)
                     {
                         Parallel.For(0, bRows, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                float s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s + c[jIndex + i] * beta;
-                            }
-                        });
+                                               {
+                                                   var jIndex = j * cRows;
+                                                   for (var i = 0; i != aRows; i++)
+                                                   {
+                                                       float s = 0;
+                                                       for (var l = 0; l != aColumns; l++)
+                                                       {
+                                                           s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                       }
+
+                                                       c[jIndex + i] = s + c[jIndex + i] * beta;
+                                                   }
+                                               });
                     }
                     else
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                float s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aRows; i++)
+                                                      {
+                                                          float s = 0;
+                                                          for (var l = 0; l != aColumns; l++)
+                                                          {
+                                                              s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                                                      }
+                                                  });
                     }
                 }
             }
@@ -1383,70 +1520,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 if ((int)transposeA > 111 && (int)transposeB > 111)
                 {
                     Parallel.For(0, aColumns, j =>
-                    {
-                        int jIndex = j * cRows;
-                        for (int i = 0; i != bRows; i++)
-                        {
-                            int iIndex = i * aRows;
-                            float s = 0;
-                            for (int l = 0; l != bColumns; l++)
-                            {
-                                s += adata[iIndex + l] * bdata[l * bRows + j];
-                            }
-                            c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
-                        }
-                    });
+                                              {
+                                                  var jIndex = j * cRows;
+                                                  for (var i = 0; i != bRows; i++)
+                                                  {
+                                                      var iIndex = i * aRows;
+                                                      float s = 0;
+                                                      for (var l = 0; l != bColumns; l++)
+                                                      {
+                                                          s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                      }
+
+                                                      c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
+                                                  }
+                                              });
                 }
                 else if ((int)transposeA > 111)
                 {
                     Parallel.For(0, bColumns, j =>
-                    {
-                        int jcIndex = j * cRows;
-                        int jbIndex = j * bRows;
-                        for (int i = 0; i != aColumns; i++)
-                        {
-                            int iIndex = i * aRows;
-                            float s = 0;
-                            for (int l = 0; l != aRows; l++)
-                            {
-                                s += adata[iIndex + l] * bdata[jbIndex + l];
-                            }
-                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
-                        }
-                    });
+                                              {
+                                                  var jcIndex = j * cRows;
+                                                  var jbIndex = j * bRows;
+                                                  for (var i = 0; i != aColumns; i++)
+                                                  {
+                                                      var iIndex = i * aRows;
+                                                      float s = 0;
+                                                      for (var l = 0; l != aRows; l++)
+                                                      {
+                                                          s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                      }
+
+                                                      c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                                                  }
+                                              });
                 }
                 else if ((int)transposeB > 111)
                 {
                     Parallel.For(0, bRows, j =>
-                    {
-                        int jIndex = j * cRows;
-                        for (int i = 0; i != aRows; i++)
-                        {
-                            float s = 0;
-                            for (int l = 0; l != aColumns; l++)
-                            {
-                                s += adata[l * aRows + i] * bdata[l * bRows + j];
-                            }
-                            c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
-                        }
-                    });
+                                           {
+                                               var jIndex = j * cRows;
+                                               for (var i = 0; i != aRows; i++)
+                                               {
+                                                   float s = 0;
+                                                   for (var l = 0; l != aColumns; l++)
+                                                   {
+                                                       s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                   }
+
+                                                   c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
+                                               }
+                                           });
                 }
                 else
                 {
                     Parallel.For(0, bColumns, j =>
-                    {
-                        int jcIndex = j * cRows;
-                        int jbIndex = j * bRows;
-                        for (int i = 0; i != aRows; i++)
-                        {
-                            float s = 0;
-                            for (int l = 0; l != aColumns; l++)
-                            {
-                                s += adata[l * aRows + i] * bdata[jbIndex + l];
-                            }
-                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
-                        }
-                    });
+                                              {
+                                                  var jcIndex = j * cRows;
+                                                  var jbIndex = j * bRows;
+                                                  for (var i = 0; i != aRows; i++)
+                                                  {
+                                                      float s = 0;
+                                                      for (var l = 0; l != aColumns; l++)
+                                                      {
+                                                          s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                      }
+
+                                                      c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                                                  }
+                                              });
                 }
             }
         }
@@ -1505,33 +1646,36 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(float[] a, int order)
         {
-            float[] factor = new float[a.Length];
+            var factor = new float[a.Length];
 
-            for (int j = 0; j < order; j++)
+            for (var j = 0; j < order; j++)
             {
-                float d = 0.0F;
+                var d = 0.0F;
                 int index;
-                for (int k = 0; k < j; k++)
+                for (var k = 0; k < j; k++)
                 {
-                    float s = 0.0F;
+                    var s = 0.0F;
                     int i;
                     for (i = 0; i < k; i++)
                     {
                         s += factor[i * order + k] * factor[i * order + j];
                     }
-                    int tmp = k * order;
+
+                    var tmp = k * order;
                     index = tmp + j;
                     factor[index] = s = (a[index] - s) / factor[tmp + k];
                     d += s * s;
                 }
+
                 index = j * order + j;
                 d = a[index] - d;
                 if (d <= 0.0F)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
-                factor[index] = (float) System.Math.Sqrt(d);
-                for (int k = j + 1; k < order; k++)
+
+                factor[index] = (float)Math.Sqrt(d);
+                for (var k = j + 1; k < order; k++)
                 {
                     factor[k * order + j] = 0.0F;
                 }
@@ -1688,9 +1832,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            Complex d = new Complex(0.0, 0.0);
+            var d = new Complex(0.0, 0.0);
 
-            for (int i = 0; i < y.Length; i++)
+            for (var i = 0; i < y.Length; i++)
             {
                 d += y[i] * x[i];
             }
@@ -1812,7 +1956,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         {
             throw new NotImplementedException();
         }
-        
+
         /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>
         /// </summary>
@@ -1832,6 +1976,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 throw new ArgumentNullException("x");
             }
+
             if (y == null)
             {
                 throw new ArgumentNullException("y");
@@ -1868,7 +2013,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             Complex[] xdata;
             if (ReferenceEquals(x, result))
             {
-                xdata = (Complex[]) x.Clone();
+                xdata = (Complex[])x.Clone();
             }
             else
             {
@@ -1878,7 +2023,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             Complex[] ydata;
             if (ReferenceEquals(y, result))
             {
-                ydata = (Complex[]) y.Clone();
+                ydata = (Complex[])y.Clone();
             }
             else
             {
@@ -1889,7 +2034,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex.One, x, xRows, xColumns, y, yRows, yColumns, Complex.Zero, result);
+            this.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex.One, x, xRows, xColumns, y, yRows, yColumns, Complex.Zero, result);
         }
 
         /// <summary>
@@ -1907,12 +2052,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex alpha, Complex[] a, 
-            int aRows, int aColumns, Complex[] b, int bRows, int bColumns, Complex beta, Complex[] c)
+                                             int aRows, int aColumns, Complex[] b, int bRows, int bColumns, Complex beta, Complex[] c)
         {
             // Choose nonsensical values for the number of rows and columns in c; fill them in depending
             // on the operations on a and b.
-            int cRows = -1;
-            int cColumns = -1;
+            var cRows = -1;
+            var cColumns = -1;
 
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (a == null)
@@ -2023,70 +2168,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
                         Parallel.For(0, aColumns, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != bRows; i++)
-                            {
-                                int iIndex = i * aRows;
-                                Complex s = 0;
-                                for (int l = 0; l != bColumns; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jIndex = j * cRows;
+                                                      for (var i = 0; i != bRows; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          Complex s = 0;
+                                                          for (var l = 0; l != bColumns; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                          }
+
+                                                          c[jIndex + i] = s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeA > 111)
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aColumns; i++)
-                            {
-                                int iIndex = i * aRows;
-                                Complex s = 0;
-                                for (int l = 0; l != aRows; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aColumns; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          Complex s = 0;
+                                                          for (var l = 0; l != aRows; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeB > 111)
                     {
                         Parallel.For(0, bRows, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                Complex s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s;
-                            }
-                        });
+                                               {
+                                                   var jIndex = j * cRows;
+                                                   for (var i = 0; i != aRows; i++)
+                                                   {
+                                                       Complex s = 0;
+                                                       for (var l = 0; l != aColumns; l++)
+                                                       {
+                                                           s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                       }
+
+                                                       c[jIndex + i] = s;
+                                                   }
+                                               });
                     }
                     else
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                Complex s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aRows; i++)
+                                                      {
+                                                          Complex s = 0;
+                                                          for (var l = 0; l != aColumns; l++)
+                                                          {
+                                                              s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s;
+                                                      }
+                                                  });
                     }
                 }
                 else
@@ -2094,70 +2243,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
                         Parallel.For(0, aColumns, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != bRows; i++)
-                            {
-                                int iIndex = i * aRows;
-                                Complex s = 0;
-                                for (int l = 0; l != bColumns; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = c[jIndex + i] * beta + s;
-                            }
-                        });
+                                                  {
+                                                      var jIndex = j * cRows;
+                                                      for (var i = 0; i != bRows; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          Complex s = 0;
+                                                          for (var l = 0; l != bColumns; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                          }
+
+                                                          c[jIndex + i] = c[jIndex + i] * beta + s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeA > 111)
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aColumns; i++)
-                            {
-                                int iIndex = i * aRows;
-                                Complex s = 0;
-                                for (int l = 0; l != aRows; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aColumns; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          Complex s = 0;
+                                                          for (var l = 0; l != aRows; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeB > 111)
                     {
                         Parallel.For(0, bRows, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                Complex s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s + c[jIndex + i] * beta;
-                            }
-                        });
+                                               {
+                                                   var jIndex = j * cRows;
+                                                   for (var i = 0; i != aRows; i++)
+                                                   {
+                                                       Complex s = 0;
+                                                       for (var l = 0; l != aColumns; l++)
+                                                       {
+                                                           s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                       }
+
+                                                       c[jIndex + i] = s + c[jIndex + i] * beta;
+                                                   }
+                                               });
                     }
                     else
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                Complex s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aRows; i++)
+                                                      {
+                                                          Complex s = 0;
+                                                          for (var l = 0; l != aColumns; l++)
+                                                          {
+                                                              s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                                                      }
+                                                  });
                     }
                 }
             }
@@ -2166,70 +2319,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 if ((int)transposeA > 111 && (int)transposeB > 111)
                 {
                     Parallel.For(0, aColumns, j =>
-                    {
-                        int jIndex = j * cRows;
-                        for (int i = 0; i != bRows; i++)
-                        {
-                            int iIndex = i * aRows;
-                            Complex s = 0;
-                            for (int l = 0; l != bColumns; l++)
-                            {
-                                s += adata[iIndex + l] * bdata[l * bRows + j];
-                            }
-                            c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
-                        }
-                    });
+                                              {
+                                                  var jIndex = j * cRows;
+                                                  for (var i = 0; i != bRows; i++)
+                                                  {
+                                                      var iIndex = i * aRows;
+                                                      Complex s = 0;
+                                                      for (var l = 0; l != bColumns; l++)
+                                                      {
+                                                          s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                      }
+
+                                                      c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
+                                                  }
+                                              });
                 }
                 else if ((int)transposeA > 111)
                 {
                     Parallel.For(0, bColumns, j =>
-                    {
-                        int jcIndex = j * cRows;
-                        int jbIndex = j * bRows;
-                        for (int i = 0; i != aColumns; i++)
-                        {
-                            int iIndex = i * aRows;
-                            Complex s = 0;
-                            for (int l = 0; l != aRows; l++)
-                            {
-                                s += adata[iIndex + l] * bdata[jbIndex + l];
-                            }
-                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
-                        }
-                    });
+                                              {
+                                                  var jcIndex = j * cRows;
+                                                  var jbIndex = j * bRows;
+                                                  for (var i = 0; i != aColumns; i++)
+                                                  {
+                                                      var iIndex = i * aRows;
+                                                      Complex s = 0;
+                                                      for (var l = 0; l != aRows; l++)
+                                                      {
+                                                          s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                      }
+
+                                                      c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                                                  }
+                                              });
                 }
                 else if ((int)transposeB > 111)
                 {
                     Parallel.For(0, bRows, j =>
-                    {
-                        int jIndex = j * cRows;
-                        for (int i = 0; i != aRows; i++)
-                        {
-                            Complex s = 0;
-                            for (int l = 0; l != aColumns; l++)
-                            {
-                                s += adata[l * aRows + i] * bdata[l * bRows + j];
-                            }
-                            c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
-                        }
-                    });
+                                           {
+                                               var jIndex = j * cRows;
+                                               for (var i = 0; i != aRows; i++)
+                                               {
+                                                   Complex s = 0;
+                                                   for (var l = 0; l != aColumns; l++)
+                                                   {
+                                                       s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                   }
+
+                                                   c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
+                                               }
+                                           });
                 }
                 else
                 {
                     Parallel.For(0, bColumns, j =>
-                    {
-                        int jcIndex = j * cRows;
-                        int jbIndex = j * bRows;
-                        for (int i = 0; i != aRows; i++)
-                        {
-                            Complex s = 0;
-                            for (int l = 0; l != aColumns; l++)
-                            {
-                                s += adata[l * aRows + i] * bdata[jbIndex + l];
-                            }
-                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
-                        }
-                    });
+                                              {
+                                                  var jcIndex = j * cRows;
+                                                  var jbIndex = j * bRows;
+                                                  for (var i = 0; i != aRows; i++)
+                                                  {
+                                                      Complex s = 0;
+                                                      for (var l = 0; l != aColumns; l++)
+                                                      {
+                                                          s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                      }
+
+                                                      c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                                                  }
+                                              });
                 }
             }
         }
@@ -2439,9 +2596,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            Complex32 d = new Complex32(0.0F, 0.0F);
+            var d = new Complex32(0.0F, 0.0F);
 
-            for (int i = 0; i < y.Length; i++)
+            for (var i = 0; i < y.Length; i++)
             {
                 d += y[i] * x[i];
             }
@@ -2583,6 +2740,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 throw new ArgumentNullException("x");
             }
+
             if (y == null)
             {
                 throw new ArgumentNullException("y");
@@ -2619,7 +2777,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             Complex32[] xdata;
             if (ReferenceEquals(x, result))
             {
-                xdata = (Complex32[]) x.Clone();
+                xdata = (Complex32[])x.Clone();
             }
             else
             {
@@ -2629,7 +2787,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             Complex32[] ydata;
             if (ReferenceEquals(y, result))
             {
-                ydata = (Complex32[]) y.Clone();
+                ydata = (Complex32[])y.Clone();
             }
             else
             {
@@ -2640,7 +2798,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, x, xRows, xColumns, y, yRows, yColumns, Complex32.Zero, result);
+            this.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, x, xRows, xColumns, y, yRows, yColumns, Complex32.Zero, result);
         }
 
         /// <summary>
@@ -2658,12 +2816,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, 
-            int aRows, int aColumns, Complex32[] b, int bRows, int bColumns, Complex32 beta, Complex32[] c)
+                                             int aRows, int aColumns, Complex32[] b, int bRows, int bColumns, Complex32 beta, Complex32[] c)
         {
             // Choose nonsensical values for the number of rows and columns in c; fill them in depending
             // on the operations on a and b.
-            int cRows = -1;
-            int cColumns = -1;
+            var cRows = -1;
+            var cColumns = -1;
 
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (a == null)
@@ -2774,70 +2932,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
                         Parallel.For(0, aColumns, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != bRows; i++)
-                            {
-                                int iIndex = i * aRows;
-                                Complex32 s = 0;
-                                for (int l = 0; l != bColumns; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jIndex = j * cRows;
+                                                      for (var i = 0; i != bRows; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          Complex32 s = 0;
+                                                          for (var l = 0; l != bColumns; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                          }
+
+                                                          c[jIndex + i] = s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeA > 111)
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aColumns; i++)
-                            {
-                                int iIndex = i * aRows;
-                                Complex32 s = 0;
-                                for (int l = 0; l != aRows; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aColumns; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          Complex32 s = 0;
+                                                          for (var l = 0; l != aRows; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeB > 111)
                     {
                         Parallel.For(0, bRows, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                Complex32 s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s;
-                            }
-                        });
+                                               {
+                                                   var jIndex = j * cRows;
+                                                   for (var i = 0; i != aRows; i++)
+                                                   {
+                                                       Complex32 s = 0;
+                                                       for (var l = 0; l != aColumns; l++)
+                                                       {
+                                                           s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                       }
+
+                                                       c[jIndex + i] = s;
+                                                   }
+                                               });
                     }
                     else
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                Complex32 s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aRows; i++)
+                                                      {
+                                                          Complex32 s = 0;
+                                                          for (var l = 0; l != aColumns; l++)
+                                                          {
+                                                              s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s;
+                                                      }
+                                                  });
                     }
                 }
                 else
@@ -2845,70 +3007,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
                         Parallel.For(0, aColumns, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != bRows; i++)
-                            {
-                                int iIndex = i * aRows;
-                                Complex32 s = 0;
-                                for (int l = 0; l != bColumns; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = c[jIndex + i] * beta + s;
-                            }
-                        });
+                                                  {
+                                                      var jIndex = j * cRows;
+                                                      for (var i = 0; i != bRows; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          Complex32 s = 0;
+                                                          for (var l = 0; l != bColumns; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                          }
+
+                                                          c[jIndex + i] = c[jIndex + i] * beta + s;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeA > 111)
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aColumns; i++)
-                            {
-                                int iIndex = i * aRows;
-                                Complex32 s = 0;
-                                for (int l = 0; l != aRows; l++)
-                                {
-                                    s += adata[iIndex + l] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aColumns; i++)
+                                                      {
+                                                          var iIndex = i * aRows;
+                                                          Complex32 s = 0;
+                                                          for (var l = 0; l != aRows; l++)
+                                                          {
+                                                              s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                                                      }
+                                                  });
                     }
                     else if ((int)transposeB > 111)
                     {
                         Parallel.For(0, bRows, j =>
-                        {
-                            int jIndex = j * cRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                Complex32 s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[l * bRows + j];
-                                }
-                                c[jIndex + i] = s + c[jIndex + i] * beta;
-                            }
-                        });
+                                               {
+                                                   var jIndex = j * cRows;
+                                                   for (var i = 0; i != aRows; i++)
+                                                   {
+                                                       Complex32 s = 0;
+                                                       for (var l = 0; l != aColumns; l++)
+                                                       {
+                                                           s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                       }
+
+                                                       c[jIndex + i] = s + c[jIndex + i] * beta;
+                                                   }
+                                               });
                     }
                     else
                     {
                         Parallel.For(0, bColumns, j =>
-                        {
-                            int jcIndex = j * cRows;
-                            int jbIndex = j * bRows;
-                            for (int i = 0; i != aRows; i++)
-                            {
-                                Complex32 s = 0;
-                                for (int l = 0; l != aColumns; l++)
-                                {
-                                    s += adata[l * aRows + i] * bdata[jbIndex + l];
-                                }
-                                c[jcIndex + i] = s + c[jcIndex + i] * beta;
-                            }
-                        });
+                                                  {
+                                                      var jcIndex = j * cRows;
+                                                      var jbIndex = j * bRows;
+                                                      for (var i = 0; i != aRows; i++)
+                                                      {
+                                                          Complex32 s = 0;
+                                                          for (var l = 0; l != aColumns; l++)
+                                                          {
+                                                              s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                          }
+
+                                                          c[jcIndex + i] = s + c[jcIndex + i] * beta;
+                                                      }
+                                                  });
                     }
                 }
             }
@@ -2917,70 +3083,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 if ((int)transposeA > 111 && (int)transposeB > 111)
                 {
                     Parallel.For(0, aColumns, j =>
-                    {
-                        int jIndex = j * cRows;
-                        for (int i = 0; i != bRows; i++)
-                        {
-                            int iIndex = i * aRows;
-                            Complex32 s = 0;
-                            for (int l = 0; l != bColumns; l++)
-                            {
-                                s += adata[iIndex + l] * bdata[l * bRows + j];
-                            }
-                            c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
-                        }
-                    });
+                                              {
+                                                  var jIndex = j * cRows;
+                                                  for (var i = 0; i != bRows; i++)
+                                                  {
+                                                      var iIndex = i * aRows;
+                                                      Complex32 s = 0;
+                                                      for (var l = 0; l != bColumns; l++)
+                                                      {
+                                                          s += adata[iIndex + l] * bdata[l * bRows + j];
+                                                      }
+
+                                                      c[jIndex + i] = c[jIndex + i] * beta + alpha * s;
+                                                  }
+                                              });
                 }
                 else if ((int)transposeA > 111)
                 {
                     Parallel.For(0, bColumns, j =>
-                    {
-                        int jcIndex = j * cRows;
-                        int jbIndex = j * bRows;
-                        for (int i = 0; i != aColumns; i++)
-                        {
-                            int iIndex = i * aRows;
-                            Complex32 s = 0;
-                            for (int l = 0; l != aRows; l++)
-                            {
-                                s += adata[iIndex + l] * bdata[jbIndex + l];
-                            }
-                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
-                        }
-                    });
+                                              {
+                                                  var jcIndex = j * cRows;
+                                                  var jbIndex = j * bRows;
+                                                  for (var i = 0; i != aColumns; i++)
+                                                  {
+                                                      var iIndex = i * aRows;
+                                                      Complex32 s = 0;
+                                                      for (var l = 0; l != aRows; l++)
+                                                      {
+                                                          s += adata[iIndex + l] * bdata[jbIndex + l];
+                                                      }
+
+                                                      c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                                                  }
+                                              });
                 }
                 else if ((int)transposeB > 111)
                 {
                     Parallel.For(0, bRows, j =>
-                    {
-                        int jIndex = j * cRows;
-                        for (int i = 0; i != aRows; i++)
-                        {
-                            Complex32 s = 0;
-                            for (int l = 0; l != aColumns; l++)
-                            {
-                                s += adata[l * aRows + i] * bdata[l * bRows + j];
-                            }
-                            c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
-                        }
-                    });
+                                           {
+                                               var jIndex = j * cRows;
+                                               for (var i = 0; i != aRows; i++)
+                                               {
+                                                   Complex32 s = 0;
+                                                   for (var l = 0; l != aColumns; l++)
+                                                   {
+                                                       s += adata[l * aRows + i] * bdata[l * bRows + j];
+                                                   }
+
+                                                   c[jIndex + i] = alpha * s + c[jIndex + i] * beta;
+                                               }
+                                           });
                 }
                 else
                 {
                     Parallel.For(0, bColumns, j =>
-                    {
-                        int jcIndex = j * cRows;
-                        int jbIndex = j * bRows;
-                        for (int i = 0; i != aRows; i++)
-                        {
-                            Complex32 s = 0;
-                            for (int l = 0; l != aColumns; l++)
-                            {
-                                s += adata[l * aRows + i] * bdata[jbIndex + l];
-                            }
-                            c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
-                        }
-                    });
+                                              {
+                                                  var jcIndex = j * cRows;
+                                                  var jbIndex = j * bRows;
+                                                  for (var i = 0; i != aRows; i++)
+                                                  {
+                                                      Complex32 s = 0;
+                                                      for (var l = 0; l != aColumns; l++)
+                                                      {
+                                                          s += adata[l * aRows + i] * bdata[jbIndex + l];
+                                                      }
+
+                                                      c[jcIndex + i] = alpha * s + c[jcIndex + i] * beta;
+                                                  }
+                                              });
                 }
             }
         }

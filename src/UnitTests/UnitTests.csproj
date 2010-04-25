@@ -153,8 +153,6 @@
     <Compile Include="StatisticsTests\StatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatTestData.cs" />
     <Compile Include="StatisticsTests\MCMCTests\UnivariateSliceSamplerTests.cs" />
-    <Compile Include="ThreadingTests\ParallelForEachTests.cs" />
-    <Compile Include="ThreadingTests\ParallelForTests.cs" />
     <Compile Include="TrigonometryTest.cs" />
   </ItemGroup>
   <ItemGroup>

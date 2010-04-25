@@ -338,21 +338,6 @@
     <Compile Include="..\Numerics\Statistics\Statistics.cs">
       <Link>Statistics\Statistics.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Threading\AggregateException.cs">
-      <Link>Threading\AggregateException.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\Threading\Parallel.cs">
-      <Link>Threading\Parallel.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\Threading\Task.cs">
-      <Link>Threading\Task.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\Threading\TaskOfT.cs">
-      <Link>Threading\TaskOfT.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\Threading\ThreadQueue.cs">
-      <Link>Threading\ThreadQueue.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\Trigonometry.cs">
       <Link>Trigonometry.cs</Link>
     </Compile>

@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Text;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -270,7 +269,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of rows.</exception>
-        /// <exception cref="NotConformableException">If <b>this.Columns != result.Count</b>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <b>this.Columns != result.Count</b>.</exception>
         public virtual void GetRow(int index, Vector result)
         {
             GetRow(index, 0, ColumnCount, result);
@@ -312,7 +311,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> + <paramref name="length"/>  
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        /// <exception cref="NotConformableException">If <strong>result.Count &lt; length</strong>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
         public virtual void GetRow(int rowIndex, int columnIndex, int length, Vector result)
         {
             if (result == null)
@@ -324,6 +323,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
+
             if (columnIndex >= ColumnCount || columnIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
@@ -341,7 +341,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (result.Count < length)
             {
-                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             for (int i = columnIndex, j = 0; i < columnIndex + length; i++, j++)
@@ -372,7 +372,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of columns.</exception>
-        /// <exception cref="NotConformableException">If <b>this.Rows != result.Count</b>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <b>this.Rows != result.Count</b>.</exception>
         public virtual void GetColumn(int index, Vector result)
         {
             GetColumn(index, 0, RowCount, result);
@@ -415,7 +415,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> + <paramref name="length"/>  
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        /// <exception cref="NotConformableException">If <strong>result.Count &lt; length</strong>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
         public virtual void GetColumn(int columnIndex, int rowIndex, int length, Vector result)
         {
             if (result == null)
@@ -427,6 +427,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
+
             if (rowIndex >= RowCount || rowIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
@@ -444,7 +445,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (result.Count < length)
             {
-                throw new ArgumentException("result", Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             for (int i = rowIndex, j = 0; i < rowIndex + length; i++, j++)

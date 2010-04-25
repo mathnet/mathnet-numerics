@@ -1,9 +1,7 @@
 ﻿// <copyright file="DiscreteFourierTransform.RadixN.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
-//
 // Copyright (c) 2009 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,10 +10,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -29,10 +25,11 @@
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Numerics;
+    using System.Threading.Tasks;
     using NumberTheory;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
@@ -46,17 +43,17 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// <param name="samples">Sample vector</param>
         private static void Radix2Reorder<T>(T[] samples)
         {
-            int j = 0;
-            for (int i = 0; i < samples.Length - 1; i++)
+            var j = 0;
+            for (var i = 0; i < samples.Length - 1; i++)
             {
                 if (i < j)
                 {
-                    T temp = samples[i];
+                    var temp = samples[i];
                     samples[i] = samples[j];
                     samples[j] = temp;
                 }
 
-                int m = samples.Length;
+                var m = samples.Length;
 
                 do
                 {
@@ -77,14 +74,14 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         private static void Radix2Step(Complex[] samples, int exponentSign, int levelSize, int k)
         {
             // Twiddle Factor
-            double exponent = (exponentSign * k) * Constants.Pi / levelSize;
-            Complex w = new Complex(Math.Cos(exponent), Math.Sin(exponent));
+            var exponent = (exponentSign * k) * Constants.Pi / levelSize;
+            var w = new Complex(Math.Cos(exponent), Math.Sin(exponent));
 
-            int step = levelSize << 1;
-            for (int i = k; i < samples.Length; i += step)
+            var step = levelSize << 1;
+            for (var i = k; i < samples.Length; i += step)
             {
-                Complex ai = samples[i];
-                Complex t = w * samples[i + levelSize];
+                var ai = samples[i];
+                var t = w * samples[i + levelSize];
                 samples[i] = ai + t;
                 samples[i + levelSize] = ai - t;
             }
@@ -104,9 +101,9 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             }
 
             Radix2Reorder(samples);
-            for (int levelSize = 1; levelSize < samples.Length; levelSize *= 2)
+            for (var levelSize = 1; levelSize < samples.Length; levelSize *= 2)
             {
-                for (int k = 0; k < levelSize; k++)
+                for (var k = 0; k < levelSize; k++)
                 {
                     Radix2Step(samples, exponentSign, levelSize, k);
                 }
@@ -127,13 +124,18 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             }
 
             Radix2Reorder(samples);
-            for (int levelSize = 1; levelSize < samples.Length; levelSize *= 2)
+            for (var levelSize = 1; levelSize < samples.Length; levelSize *= 2)
             {
-                int size = levelSize;
-                Parallel.For(
-                    0,
-                    size,
-                    k => Radix2Step(samples, exponentSign, size, k));
+                var size = levelSize;
+                Parallel.ForEach(
+                    Partitioner.Create(0, size), 
+                    (range, loopState) =>
+                    {
+                        for (var k = range.Item1; k < range.Item2; k++)
+                        {
+                            Radix2Step(samples, exponentSign, size, k);
+                        }
+                    });
             }
         }
 
