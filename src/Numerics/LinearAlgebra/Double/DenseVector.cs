@@ -1,9 +1,7 @@
 ﻿// <copyright file="DenseVector.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
-//
 // Copyright (c) 2009 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,10 +10,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -29,11 +25,12 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Threading.Tasks;
     using NumberTheory;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// A vector using dense storage.
@@ -52,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseVector(int size)
             : base(size)
         {
-            Data = new double[size];
+            this.Data = new double[size];
         }
 
         /// <summary>
@@ -71,9 +68,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseVector(int size, double value)
             : this(size)
         {
-            for (var index = 0; index < Data.Length; index++)
+            for (var index = 0; index < this.Data.Length; index++)
             {
-                Data[index] = value;
+                this.Data[index] = value;
             }
         }
 
@@ -90,11 +87,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var vector = other as DenseVector;
             if (vector == null)
             {
-                Parallel.For(0, Count, index => this[index] = other[index]);
+                Parallel.ForEach(
+                    Partitioner.Create(0, this.Data.Length), 
+                    (range, loopState) =>
+                    {
+                        for (var index = range.Item1; index < range.Item2; index++)
+                        {
+                            this[index] = other[index];
+                        }
+                    });
             }
             else
             {
-                Buffer.BlockCopy(vector.Data, 0, Data, 0, Data.Length * Constants.SizeOfDouble);
+                Buffer.BlockCopy(vector.Data, 0, this.Data, 0, this.Data.Length * Constants.SizeOfDouble);
             }
         }
 
@@ -108,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseVector(DenseVector other)
             : this(other.Count)
         {
-            Buffer.BlockCopy(other.Data, 0, Data, 0, Data.Length * Constants.SizeOfDouble);
+            Buffer.BlockCopy(other.Data, 0, this.Data, 0, this.Data.Length * Constants.SizeOfDouble);
         }
 
         /// <summary>
@@ -119,7 +124,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// changes to the vector will also change the array.</remarks>
         public DenseVector(double[] array) : base(array.Length)
         {
-            Data = array;
+            this.Data = array;
         }
 
         /// <summary>
@@ -174,10 +179,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>This vector as a column matrix.</returns>
         public override Matrix ToColumnMatrix()
         {
-            var matrix = new DenseMatrix(Count, 1);
-            for (var i = 0; i < Data.Length; i++)
+            var matrix = new DenseMatrix(this.Count, 1);
+            for (var i = 0; i < this.Data.Length; i++)
             {
-                matrix[i, 0] = Data[i];
+                matrix[i, 0] = this.Data[i];
             }
 
             return matrix;
@@ -189,10 +194,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>This vector as a row matrix.</returns>
         public override Matrix ToRowMatrix()
         {
-            var matrix = new DenseMatrix(1, Count);
-            for (var i = 0; i < Data.Length; i++)
+            var matrix = new DenseMatrix(1, this.Count);
+            for (var i = 0; i < this.Data.Length; i++)
             {
-                matrix[0, i] = Data[i];
+                matrix[0, i] = this.Data[i];
             }
 
             return matrix;
@@ -207,12 +212,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             get
             {
-                return Data[index];
+                return this.Data[index];
             }
 
             set
             {
-                Data[index] = value;
+                this.Data[index] = value;
             }
         }
 
@@ -268,11 +273,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("target");
             }
 
-            if (Count != target.Count)
+            if (this.Count != target.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
-            
+
             if (ReferenceEquals(this, target))
             {
                 return;
@@ -281,11 +286,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var otherVector = target as DenseVector;
             if (otherVector == null)
             {
-                Parallel.For(0, Data.Length, index => target[index] = Data[index]);
+                Parallel.ForEach(
+                    Partitioner.Create(0, this.Data.Length), 
+                    (range, loopState) =>
+                    {
+                        for (var index = range.Item1; index < range.Item2; index++)
+                        {
+                            target[index] = this.Data[index];
+                        }
+                    });
             }
             else
             {
-                Buffer.BlockCopy(Data, 0, otherVector.Data, 0, Data.Length * Constants.SizeOfDouble);
+                Buffer.BlockCopy(this.Data, 0, otherVector.Data, 0, this.Data.Length * Constants.SizeOfDouble);
             }
         }
 
@@ -300,7 +313,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.For(0, Count, i => Data[i] += scalar);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Data.Length), 
+                (range, loopState) =>
+                {
+                    for (var index = range.Item1; index < range.Item2; index++)
+                    {
+                        this.Data[index] += scalar;
+                    }
+                });
         }
 
         /// <summary>
@@ -317,12 +338,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CopyTo(result);
+            this.CopyTo(result);
             result.Add(scalar);
         }
 
@@ -339,7 +360,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -352,7 +373,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, 1.0, denseVector.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(this.Data, 1.0, denseVector.Data);
             }
         }
 
@@ -372,12 +393,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -390,7 +411,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
+                this.CopyTo(result);
                 result.Add(other);
             }
         }
@@ -453,7 +474,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.For(0, Count, i => Data[i] -= scalar);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Data.Length), 
+                (range, loopState) =>
+                {
+                    for (var index = range.Item1; index < range.Item2; index++)
+                    {
+                        this.Data[index] -= scalar;
+                    }
+                });
         }
 
         /// <summary>
@@ -470,12 +499,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CopyTo(result);
+            this.CopyTo(result);
             result.Subtract(scalar);
         }
 
@@ -485,14 +514,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The vector to subtract from this one.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-         public override void Subtract(Vector other)
+        public override void Subtract(Vector other)
         {
             if (other == null)
             {
                 throw new ArgumentNullException("other");
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -505,19 +534,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0, denseVector.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(this.Data, -1.0, denseVector.Data);
             }
         }
 
-         /// <summary>
-         /// Subtracts another vector to this vector and stores the result into the result vector.
-         /// </summary>
-         /// <param name="other">The vector to subtract from this one.</param>
-         /// <param name="result">The vector to store the result of the subtraction.</param>
-         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <summary>
+        /// Subtracts another vector to this vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to subtract from this one.</param>
+        /// <param name="result">The vector to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public override void Subtract(Vector other, Vector result)
         {
             if (result == null)
@@ -525,12 +554,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -543,7 +572,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
+                this.CopyTo(result);
                 result.Subtract(other);
             }
         }
@@ -601,8 +630,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
         public override Vector Negate()
         {
-            var result = new DenseVector(Count);
-            Parallel.For(0, Count, i => result[i] = -Data[i]);
+            var result = new DenseVector(this.Count);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Data.Length), 
+                (range, loopState) =>
+                {
+                    for (var index = range.Item1; index < range.Item2; index++)
+                    {
+                        result[index] = -this.Data[index];
+                    }
+                });
+
             return result;
         }
 
@@ -617,7 +655,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, this.Data);
         }
 
         /// <summary>
@@ -634,11 +672,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
-
 
             var denseVector = other as DenseVector;
 
@@ -646,10 +683,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return base.DotProduct(other);
             }
-            else
-            {
-                return Control.LinearAlgebraProvider.DotProduct(this.Data, denseVector.Data);
-            }
+            
+            return Control.LinearAlgebraProvider.DotProduct(this.Data, denseVector.Data);
         }
 
         /// <summary>
@@ -746,9 +781,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double Norm()
         {
             var sum = 0.0;
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < this.Data.Length; i++)
             {
-                sum = SpecialFunctions.Hypotenuse(sum, Data[i]);
+                sum = SpecialFunctions.Hypotenuse(sum, this.Data[i]);
             }
 
             return sum;
@@ -762,16 +797,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var sum = 0.0;
             var syncLock = new object();
-            
-            Parallel.For(
-                0, 
-                Count,
-                () => 0.0,
-                (index, localData) =>
+
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                () => 0.0, 
+                (range, loop, localData) =>
                 {
-                    localData += Math.Abs(Data[index]);
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        localData += Math.Abs(this.Data[i]);
+                    }
+
                     return localData;
-                },
+                }, 
                 localResult =>
                 {
                     lock (syncLock)
@@ -797,26 +835,29 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (1 == p)
             {
-                return Norm1();
+                return this.Norm1();
             }
 
             if (2 == p)
             {
-                return Norm();
+                return this.Norm();
             }
 
             var sum = 0.0;
             var syncLock = new object();
-           
-            Parallel.For(
-                0, 
-                Count,
-                () => 0.0,
-                (index, localData) =>
+
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                () => 0.0, 
+                (range, loop, localData) =>
                 {
-                    localData += Math.Pow(Math.Abs(Data[index]), p);
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        localData += Math.Pow(Math.Abs(this.Data[i]), p);
+                    }
+
                     return localData;
-                },
+                }, 
                 localResult =>
                 {
                     lock (syncLock)
@@ -838,15 +879,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var syncLock = new object();
 
-            Parallel.For(
-                0, 
-                Count,
-                () => 0.0,
-                (index, localData) =>
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                () => 0.0, 
+                (range, loop, localData) =>
                 {
-                    localData = Math.Max(localData, Math.Abs(Data[index]));
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        localData = Math.Max(localData, Math.Abs(this.Data[i]));
+                    }
+
                     return localData;
-                },
+                }, 
                 localResult =>
                 {
                     lock (syncLock)
@@ -940,7 +984,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             // parsing
             var data = new double[(tokens.Count + 1) >> 1];
-            for (int i = 0; i < data.Length; i++)
+            for (var i = 0; i < data.Length; i++)
             {
                 if (token == null || token.Value == textInfo.ListSeparator)
                 {

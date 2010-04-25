@@ -32,9 +32,12 @@
           <Item>unsafe</Item>
           <Item>volatile</Item>
         </MODIFIERS_ORDER>
+        <PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE>False</PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE>
         <PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE>False</PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE>
+        <PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE>False</PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE>
         <PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE>False</PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE>
         <PLACE_WHILE_ON_NEW_LINE>True</PLACE_WHILE_ON_NEW_LINE>
+        <REDUNDANT_THIS_QUALIFIER_STYLE>ALWAYS_USE</REDUNDANT_THIS_QUALIFIER_STYLE>
         <SPACE_AFTER_TYPECAST_PARENTHESES>False</SPACE_AFTER_TYPECAST_PARENTHESES>
         <SPACE_AROUND_MULTIPLICATIVE_OP>True</SPACE_AROUND_MULTIPLICATIVE_OP>
         <SPACE_BEFORE_SIZEOF_PARENTHESES>False</SPACE_BEFORE_SIZEOF_PARENTHESES>
@@ -45,6 +48,7 @@
         <WRAP_ARGUMENTS_STYLE>CHOP_IF_LONG</WRAP_ARGUMENTS_STYLE>
         <WRAP_BEFORE_BINARY_OPSIGN>True</WRAP_BEFORE_BINARY_OPSIGN>
         <WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT>True</WRAP_BEFORE_FIRST_TYPE_PARAMETER_CONSTRAINT>
+        <WRAP_LINES>False</WRAP_LINES>
         <WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE>CHOP_ALWAYS</WRAP_OBJECT_AND_COLLECTION_INITIALIZER_STYLE>
         <WRAP_PARAMETERS_STYLE>CHOP_IF_LONG</WRAP_PARAMETERS_STYLE>
       </FormatSettings>
@@ -68,6 +72,10 @@
         <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="StaticReadonly" />
         <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
         <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
+        <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+        <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateConstants" />
+        <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
       </Naming2>
     </CSharp>
     <VB>

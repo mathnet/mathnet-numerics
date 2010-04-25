@@ -180,11 +180,6 @@
     <Compile Include="Statistics\MCMC\RejectionSampler.cs" />
     <Compile Include="Statistics\Statistics.cs" />
     <Compile Include="Statistics\MCMC\UnivariateSliceSampler.cs" />
-    <Compile Include="Threading\AggregateException.cs" />
-    <Compile Include="Threading\TaskOfT.cs" />
-    <Compile Include="Threading\Parallel.cs" />
-    <Compile Include="Threading\Task.cs" />
-    <Compile Include="Threading\ThreadQueue.cs" />
     <Compile Include="Trigonometry.cs" />
   </ItemGroup>
   <ItemGroup>

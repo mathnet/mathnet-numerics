@@ -1,9 +1,7 @@
 ﻿// <copyright file="Vector.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
-//
-// Copyright (c) 2009 Math.NET
-//
+// Copyright (c) 2009-2010 Math.NET
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,10 +10,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,11 +26,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
     using System.Collections;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Text;
-
+    using System.Threading.Tasks;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// Defines the base class for <c>Vector</c> classes.
@@ -46,8 +42,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 #if SILVERLIGHT
     IFormattable, IEnumerable<double>, IEquatable<Vector>
 #else
-    IFormattable, IEnumerable<double>, IEquatable<Vector>, ICloneable
-#endif    
+        IFormattable, IEnumerable<double>, IEquatable<Vector>, ICloneable
+#endif
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Vector"/> class. 
@@ -66,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "size");
             }
 
-            Count = size;
+            this.Count = size;
         }
 
         /// <summary>
@@ -117,10 +113,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public abstract Vector CreateVector(int size);
 
         #region Elementary operations
+
         /// <summary>
         /// Adds a scalar to each element of the vector.
         /// </summary>
-        /// <param name="scalar">The scalar to add.</param>
+        /// <param name="scalar">
+        /// The scalar to add.
+        /// </param>
         public virtual void Add(double scalar)
         {
             if (scalar == 0.0)
@@ -128,16 +127,32 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.For(0, Count, i => this[i] += scalar);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        this[i] += scalar;
+                    }
+                });
         }
 
         /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to add.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <param name="scalar">
+        /// The scalar to add.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the addition.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If the result vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="result"/> are not the same size.
+        /// </exception>
         public virtual void Add(double scalar, Vector result)
         {
             if (result == null)
@@ -145,14 +160,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (!ReferenceEquals(this, result))
             {
-                CopyTo(result);
+                this.CopyTo(result);
             }
 
             result.Add(scalar);
@@ -161,8 +176,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns this vector.
         /// </summary>
-        /// <returns>This vector.</returns>
-        /// <remarks>Added as an alternative to the unary addition operator.</remarks>
+        /// <returns>
+        /// This vector.
+        /// </returns>
+        /// <remarks>
+        /// Added as an alternative to the unary addition operator.
+        /// </remarks>
         public virtual Vector Plus()
         {
             return this;
@@ -171,9 +190,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Adds another vector to this vector.
         /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <param name="other">
+        /// The vector to add to this one.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If the other vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="other"/> are not the same size.
+        /// </exception>
         public virtual void Add(Vector other)
         {
             if (other == null)
@@ -181,23 +206,43 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            Parallel.For(0, Count, i => this[i] += other[i]);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        this[i] += other[i];
+                    }
+                });
         }
 
         /// <summary>
         /// Adds another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <param name="other">
+        /// The vector to add to this one.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the addition.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If the other vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// If the result vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="other"/> are not the same size.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="result"/> are not the same size.
+        /// </exception>
         public virtual void Add(Vector other, Vector result)
         {
             if (result == null)
@@ -205,7 +250,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -218,7 +263,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
+                this.CopyTo(result);
                 result.Add(other);
             }
         }
@@ -226,7 +271,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Subtracts a scalar from each element of the vector.
         /// </summary>
-        /// <param name="scalar">The scalar to subtract.</param>
+        /// <param name="scalar">
+        /// The scalar to subtract.
+        /// </param>
         public virtual void Subtract(double scalar)
         {
             if (scalar == 0.0)
@@ -234,16 +281,32 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.For(0, Count, i => this[i] -= scalar);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        this[i] -= scalar;
+                    }
+                });
         }
 
         /// <summary>
-        ///  Subtracts a scalar from each element of the vector and stores the result in the result vector.
+        /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to subtract.</param>
-        /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <param name="scalar">
+        /// The scalar to subtract.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the subtraction.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If the result vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="result"/> are not the same size.
+        /// </exception>
         public virtual void Subtract(double scalar, Vector result)
         {
             if (result == null)
@@ -251,14 +314,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (!ReferenceEquals(this, result))
             {
-                CopyTo(result);
+                this.CopyTo(result);
             }
 
             result.Subtract(scalar);
@@ -267,8 +330,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns a negated vector.
         /// </summary>
-        /// <returns>The negated vector.</returns>
-        /// <remarks>Added as an alternative to the unary negation operator.</remarks>
+        /// <returns>
+        /// The negated vector.
+        /// </returns>
+        /// <remarks>
+        /// Added as an alternative to the unary negation operator.
+        /// </remarks>
         public virtual Vector Negate()
         {
             return this * -1;
@@ -277,9 +344,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Subtracts another vector from this vector.
         /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <param name="other">
+        /// The vector to subtract from this one.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If the other vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="other"/> are not the same size.
+        /// </exception>
         public virtual void Subtract(Vector other)
         {
             if (other == null)
@@ -287,23 +360,43 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            Parallel.For(0, Count, i => this[i] -= other[i]);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        this[i] -= other[i];
+                    }
+                });
         }
 
         /// <summary>
         /// Subtracts another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <param name="other">
+        /// The vector to subtract from this one.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the subtraction.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If the other vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// If the result vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="other"/> are not the same size.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="result"/> are not the same size.
+        /// </exception>
         public virtual void Subtract(Vector other, Vector result)
         {
             if (result == null)
@@ -311,7 +404,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -324,7 +417,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
+                this.CopyTo(result);
                 result.Subtract(other);
             }
         }
@@ -332,7 +425,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Multiplies a scalar to each element of the vector.
         /// </summary>
-        /// <param name="scalar">The scalar to multiply.</param>
+        /// <param name="scalar">
+        /// The scalar to multiply.
+        /// </param>
         public virtual void Multiply(double scalar)
         {
             if (scalar == 1.0)
@@ -340,16 +435,32 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.For(0, Count, index => this[index] *= scalar);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                (range, loopState) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        this[i] *= scalar;
+                    }
+                });
         }
 
         /// <summary>
         /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to multiply.</param>
-        /// <param name="result">The vector to store the result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <param name="scalar">
+        /// The scalar to multiply.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the multiplication.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If the result vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="result"/> are not the same size.
+        /// </exception>
         public virtual void Multiply(double scalar, Vector result)
         {
             if (result == null)
@@ -357,14 +468,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
-        
+
             if (!ReferenceEquals(this, result))
             {
-                CopyTo(result);
+                this.CopyTo(result);
             }
 
             result.Multiply(scalar);
@@ -373,10 +484,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null" />.</exception>
+        /// <param name="other">
+        /// The other vector to add.
+        /// </param>
+        /// <returns>
+        /// The result of the addition.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="other"/> is not of the same size.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="other"/> is <see langword="null"/>.
+        /// </exception>
         public virtual double DotProduct(Vector other)
         {
             if (other == null)
@@ -384,13 +503,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            double dot = 0.0;
-            for (int i = 0; i < Count; i++)
+            var dot = 0.0;
+            for (var i = 0; i < this.Count; i++)
             {
                 dot += this[i] * other[i];
             }
@@ -401,7 +520,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Divides each element of the vector by a scalar.
         /// </summary>
-        /// <param name="scalar">The scalar to divide with.</param>
+        /// <param name="scalar">
+        /// The scalar to divide with.
+        /// </param>
         public virtual void Divide(double scalar)
         {
             if (scalar == 1.0)
@@ -409,16 +530,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Multiply(1.0 / scalar);
+            this.Multiply(1.0 / scalar);
         }
 
         /// <summary>
-        ///  Divides each element of the vector by a scalar and stores the result in the result vector.
+        /// Divides each element of the vector by a scalar and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to divide with.</param>
-        /// <param name="result">The vector to store the result of the division.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <param name="scalar">
+        /// The scalar to divide with.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the division.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If the result vector is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this vector and <paramref name="result"/> are not the same size.
+        /// </exception>
         public virtual void Divide(double scalar, Vector result)
         {
             if (result == null)
@@ -426,21 +555,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (Count != result.Count)
+            if (this.Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (!ReferenceEquals(this, result))
             {
-                CopyTo(result);
+                this.CopyTo(result);
             }
 
             result.Multiply(1.0 / scalar);
         }
+
         #endregion
 
         #region Arithmetic Operator Overloading
+
         /// <summary>
         /// Returns a <strong>Vector</strong> containing the same values of rightSide. 
         /// </summary>
@@ -631,7 +762,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual double Norm()
         {
-            return NormP(2);
+            return this.NormP(2);
         }
 
         /// <summary>
@@ -642,7 +773,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual double SquaredNorm()
         {
-            var norm = Norm();
+            var norm = this.Norm();
             return norm * norm;
         }
 
@@ -654,14 +785,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual double Norm1()
         {
-            return NormP(1);
+            return this.NormP(1);
         }
 
         /// <summary>
         /// Computes the p-Norm.
         /// </summary>
-        /// <param name="p">The p value.</param>
-        /// <returns>Scalar ret = (sum(abs(this[i])^p))^(1/p)</returns>
+        /// <param name="p">
+        /// The p value.
+        /// </param>
+        /// <returns>
+        /// Scalar ret = (sum(abs(this[i])^p))^(1/p)
+        /// </returns>
         public virtual double NormP(int p)
         {
             if (1 > p)
@@ -671,15 +806,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var sum = 0.0;
             var syncLock = new object();
-            Parallel.For(
-                0, 
-                Count, 
-                () => 0.0,
-                (index, localData) =>
+
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                () => 0.0, 
+                (range, loop, localData) =>
                 {
-                    localData += Math.Pow(Math.Abs(this[index]), p);
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        localData += Math.Pow(Math.Abs(this[i]), p);
+                    }
+
                     return localData;
-                },
+                }, 
                 localResult =>
                 {
                     lock (syncLock)
@@ -701,15 +840,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var max = 0.0;
             var syncLock = new object();
-            Parallel.For(
-                0, 
-                Count,
-                () => 0.0,
-                (index, localData) =>
+
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                () => 0.0, 
+                (range, loop, localData) =>
                 {
-                    localData = Math.Max(localData, Math.Abs(this[index]));
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        localData = Math.Max(localData, Math.Abs(this[i]));
+                    }
+
                     return localData;
-                },
+                }, 
                 localResult =>
                 {
                     lock (syncLock)
@@ -724,11 +867,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Normalizes this vector to a unit vector with respect to the Eucliden 2-Norm.
         /// </summary>
-        /// <returns>This vector normalized to a unit vector with respect to the Eucliden 2-Norm.</returns>
+        /// <returns>
+        /// This vector normalized to a unit vector with respect to the Eucliden 2-Norm.
+        /// </returns>
         public virtual Vector Normalize()
         {
-            var norm = Norm();
-            var clone = Clone();
+            var norm = this.Norm();
+            var clone = this.Clone();
             if (norm == 0.0)
             {
                 return clone;
@@ -741,6 +886,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #endregion
 
         #region Copying and Conversion
+
         /// <summary>
         /// Returns a deep-copy clone of the vector.
         /// </summary>
@@ -749,8 +895,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public Vector Clone()
         {
-            var retrunVector = CreateVector(Count);
-            CopyTo(retrunVector);
+            var retrunVector = this.CreateVector(this.Count);
+            this.CopyTo(retrunVector);
             return retrunVector;
         }
 
@@ -773,7 +919,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("target");
             }
 
-            if (Count != target.Count)
+            if (this.Count != target.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
@@ -783,7 +929,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.For(0, Count, index => target[index] = this[index]);
+            Parallel.ForEach(
+                Partitioner.Create(0, this.Count), 
+                (range, loopState) =>
+                {
+                    for (var index = range.Item1; index < range.Item2; index++)
+                    {
+                        target[index] = this[index];
+                    }
+                });
         }
 
         /// <summary>
@@ -808,12 +962,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("destination");
             }
 
-            if (offset >= Count)
+            if (offset >= this.Count)
             {
                 throw new ArgumentOutOfRangeException("offset");
             }
 
-            if (offset + count > Count)
+            if (offset + count > this.Count)
             {
                 throw new ArgumentOutOfRangeException("count");
             }
@@ -831,22 +985,41 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, destination))
             {
                 var tmpVector = destination.CreateVector(destination.Count);
-                CopyTo(tmpVector);
-                Parallel.For(0, count, index => destination[destinationOffset + index] = this[offset + index]);
+                this.CopyTo(tmpVector);
+
+                Parallel.ForEach(
+                    Partitioner.Create(0, count), 
+                    (range, loopState) =>
+                    {
+                        for (var index = range.Item1; index < range.Item2; index++)
+                        {
+                            destination[destinationOffset + index] = tmpVector[offset + index];
+                        }
+                    });
             }
             else
             {
-               Parallel.For(0, count, index => destination[destinationOffset + index] = this[offset + index]);
+                Parallel.ForEach(
+                    Partitioner.Create(0, count), 
+                    (range, loopState) =>
+                    {
+                        for (var index = range.Item1; index < range.Item2; index++)
+                        {
+                            destination[destinationOffset + index] = this[offset + index];
+                        }
+                    });
             }
         }
 
         /// <summary>
         /// Returns the data contained in the vector as an array.
         /// </summary>
-        /// <returns>The vector's data as an array.</returns>        
+        /// <returns>
+        /// The vector's data as an array.
+        /// </returns>
         public virtual double[] ToArray()
         {
-            var ret = new double[Count];
+            var ret = new double[this.Count];
             for (var i = 0; i < ret.Length; i++)
             {
                 ret[i] = this[i];
@@ -858,11 +1031,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Create a matrix based on this vector in column form (one single column).
         /// </summary>
-        /// <returns>This vector as a column matrix.</returns>
+        /// <returns>
+        /// This vector as a column matrix.
+        /// </returns>
         public virtual Matrix ToColumnMatrix()
         {
-            var matrix = CreateMatrix(Count, 1);
-            for (var i = 0; i < Count; i++)
+            var matrix = this.CreateMatrix(this.Count, 1);
+            for (var i = 0; i < this.Count; i++)
             {
                 matrix[i, 0] = this[i];
             }
@@ -873,11 +1048,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Create a matrix based on this vector in row form (one single row).
         /// </summary>
-        /// <returns>This vector as a row matrix.</returns>
+        /// <returns>
+        /// This vector as a row matrix.
+        /// </returns>
         public virtual Matrix ToRowMatrix()
         {
-            var matrix = CreateMatrix(1, Count);
-            for (var i = 0; i < Count; i++)
+            var matrix = this.CreateMatrix(1, this.Count);
+            for (var i = 0; i < this.Count; i++)
             {
                 matrix[0, i] = this[i];
             }
@@ -890,6 +1067,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #region Implemented Interfaces
 
 #if !SILVERLIGHT
+
         #region ICloneable
 
         /// <summary>
@@ -900,10 +1078,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         object ICloneable.Clone()
         {
-            return Clone();
+            return this.Clone();
         }
 
         #endregion
+
 #endif
 
         #region IEnumerable
@@ -916,7 +1095,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         #endregion
@@ -931,29 +1110,36 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual IEnumerator<double> GetEnumerator()
         {
-            for (var index = 0; index < Count; index++)
+            for (var index = 0; index < this.Count; index++)
             {
                 yield return this[index];
             }
         }
 
         #endregion
+
         /// <summary>
         /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
         /// </summary>
-        /// <returns>An <see cref="IEnumerator{T}"/> over this vector that contains the position and value of each
-        /// non-zero element.</returns>
-        /// <remarks>The enumerator returns a <seealso cref="KeyValuePair{T,K}"/> with the key being the element index and the value 
+        /// <returns>
+        /// An <see cref="IEnumerator{T}"/> over this vector that contains the position and value of each
+        /// non-zero element.
+        /// </returns>
+        /// <remarks>
+        /// The enumerator returns a 
+        /// <seealso cref="KeyValuePair{T,K}"/>
+        /// with the key being the element index and the value 
         /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
-        /// with a zero value.</remarks>
+        /// with a zero value.
+        /// </remarks>
         public virtual IEnumerable<KeyValuePair<int, double>> GetIndexedEnumerator()
         {
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < this.Count; i++)
             {
                 yield return new KeyValuePair<int, double>(i, this[i]);
             }
         }
- 
+
         #region IEquatable<Vector>
 
         /// <summary>
@@ -973,7 +1159,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return false;
             }
 
-            if (Count != other.Count)
+            if (this.Count != other.Count)
             {
                 return false;
             }
@@ -985,7 +1171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             // If all else fails, perform element wise comparison.
-            for (var index = 0; index < Count; index++)
+            for (var index = 0; index < this.Count; index++)
             {
                 if (!this[index].AlmostEqual(other[index]))
                 {
@@ -1011,7 +1197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public string ToString(IFormatProvider formatProvider)
         {
-            return ToString(null, formatProvider);
+            return this.ToString(null, formatProvider);
         }
 
         /// <summary>
@@ -1029,10 +1215,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public string ToString(string format, IFormatProvider formatProvider)
         {
             var stringBuilder = new StringBuilder();
-            for (var index = 0; index < Count; index++)
+            for (var index = 0; index < this.Count; index++)
             {
                 stringBuilder.Append(this[index].ToString(format, formatProvider));
-                if (index != Count - 1)
+                if (index != this.Count - 1)
                 {
                     stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
                 }
@@ -1050,13 +1236,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">
+        /// The <see cref="System.Object"/> to compare with this instance.
+        /// </param>
         /// <returns>
-        ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as Vector);
+            return this.Equals(obj as Vector);
         }
 
         /// <summary>
@@ -1067,7 +1255,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(Count, 20);
+            var hashNum = Math.Min(this.Count, 20);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
@@ -1089,8 +1277,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override string ToString()
         {
-            return ToString(null, null);
+            return this.ToString(null, null);
         }
+
         #endregion
     }
 }

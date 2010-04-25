@@ -30,9 +30,9 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
     using System.Numerics;
+    using System.Threading.Tasks;
     using NumberTheory;
-    using Threading;
-
+    
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
     /// </summary>
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             Complex[] b = new Complex[m];
             Complex[] a = new Complex[m];
 
-            Parallel.Run(
+            Parallel.Invoke(
                 () =>
                 {
                     // Build and transform padded sequence b_k = exp(I*Pi*k^2/N)

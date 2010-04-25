@@ -1,9 +1,7 @@
 ﻿// <copyright file="DiscreteFourierTransform.Naive.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
-//
 // Copyright (c) 2009 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,10 +10,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -29,8 +25,9 @@
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Numerics;
-    using Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
@@ -45,23 +42,25 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
         /// <returns>Corresponding frequency-space vector.</returns>
         internal static Complex[] Naive(Complex[] samples, int exponentSign)
         {
-            double w0 = exponentSign * Constants.Pi2 / samples.Length;
+            var w0 = exponentSign * Constants.Pi2 / samples.Length;
             var spectrum = new Complex[samples.Length];
 
-            Parallel.For(
-                0,
-                samples.Length,
-                k =>
+            Parallel.ForEach(
+                Partitioner.Create(0, samples.Length), 
+                (range, loopState) =>
                 {
-                    double wk = w0 * k;
-                    Complex sum = Complex.Zero;
-                    for (int n = 0; n < samples.Length; n++)
+                    for (var k = range.Item1; k < range.Item2; k++)
                     {
-                        double w = n * wk;
-                        sum += samples[n] * new Complex(Math.Cos(w), Math.Sin(w));
-                    }
+                        var wk = w0 * k;
+                        var sum = Complex.Zero;
+                        for (var n = 0; n < samples.Length; n++)
+                        {
+                            var w = n * wk;
+                            sum += samples[n] * new Complex(Math.Cos(w), Math.Sin(w));
+                        }
 
-                    spectrum[k] = sum;
+                        spectrum[k] = sum;
+                    }
                 });
 
             return spectrum;

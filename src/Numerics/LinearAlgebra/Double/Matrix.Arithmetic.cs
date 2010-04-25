@@ -1,9 +1,7 @@
 ﻿// <copyright file="Matrix.Arithmetic.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
-//
 // Copyright (c) 2009 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,10 +10,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -29,9 +25,9 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using System.Text;
+    using System.Collections.Concurrent;
+    using System.Threading.Tasks;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -51,19 +47,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            if (other.RowCount != this.RowCount || other.ColumnCount != this.ColumnCount)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            Parallel.For(
-                0, 
-                RowCount, 
-                i =>
+            Parallel.ForEach(
+                Partitioner.Create(0, this.RowCount), 
+                (range, loopState) =>
                 {
-                    for (int j = 0; j < ColumnCount; j++)
+                    for (var i = range.Item1; i < range.Item2; i++)
                     {
-                        At(i, j, At(i, j) + other.At(i, j));
+                        for (var j = 0; j < this.ColumnCount; j++)
+                        {
+                            this.At(i, j, this.At(i, j) + other.At(i, j));
+                        }
                     }
                 });
         }
@@ -81,19 +79,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            if (other.RowCount != this.RowCount || other.ColumnCount != this.ColumnCount)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            Parallel.For(
-                0,
-                RowCount,
-                i =>
+            Parallel.ForEach(
+                Partitioner.Create(0, this.RowCount), 
+                (range, loopState) =>
                 {
-                    for (int j = 0; j < ColumnCount; j++)
+                    for (var i = range.Item1; i < range.Item2; i++)
                     {
-                        At(i, j, At(i, j) - other.At(i, j));
+                        for (var j = 0; j < this.ColumnCount; j++)
+                        {
+                            this.At(i, j, this.At(i, j) - other.At(i, j));
+                        }
                     }
                 });
         }
@@ -104,19 +104,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">The scalar to multiply with.</param>
         public virtual void Multiply(double scalar)
         {
-            if (Precision.AlmostEqualInDecimalPlaces(1.0, scalar, 15))
+            if (1.0.AlmostEqualInDecimalPlaces(scalar, 15))
             {
                 return;
             }
 
-            Parallel.For(
-                0,
-                RowCount,
-                i =>
+            Parallel.ForEach(
+                Partitioner.Create(0, this.RowCount), 
+                (range, loopState) =>
                 {
-                    for (int j = 0; j < ColumnCount; j++)
+                    for (var i = range.Item1; i < range.Item2; i++)
                     {
-                        At(i, j, At(i, j) * scalar);
+                        for (var j = 0; j < this.ColumnCount; j++)
+                        {
+                            this.At(i, j, this.At(i, j) * scalar);
+                        }
                     }
                 });
         }
@@ -135,17 +137,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != RowCount)
+            if (result.RowCount != this.RowCount)
             {
-                throw new ArgumentException("result", Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
             }
 
-            if (result.ColumnCount != ColumnCount)
+            if (result.ColumnCount != this.ColumnCount)
             {
-                throw new ArgumentException("result", Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
             }
 
-            CopyTo(result);
+            this.CopyTo(result);
             result.Multiply(scalar);
         }
 
@@ -158,7 +160,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <c>this.ColumnCount != rightSide.Count</c>.</exception>
         public virtual Vector Multiply(Vector rightSide)
         {
-            Vector ret = CreateVector(RowCount);
+            var ret = this.CreateVector(this.RowCount);
             Multiply(rightSide, ret);
             return ret;
         }
@@ -179,9 +181,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("rightSide");
             }
 
-            if (ColumnCount != rightSide.Count)
+            if (this.ColumnCount != rightSide.Count)
             {
-                throw new ArgumentException("rightSide", Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "rightSide");
             }
 
             if (result == null)
@@ -189,31 +191,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (RowCount != result.Count)
+            if (this.RowCount != result.Count)
             {
-                throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
             if (ReferenceEquals(rightSide, result))
             {
-                Vector tmp = result.CreateVector(result.Count);
+                var tmp = result.CreateVector(result.Count);
                 Multiply(rightSide, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                Parallel.For(
-                    0,
-                    RowCount,
-                    i =>
+                Parallel.ForEach(
+                    Partitioner.Create(0, this.RowCount), 
+                    (range, loopState) =>
                     {
-                        double s = 0;
-                        for (int j = 0; j != ColumnCount; j++)
+                        for (var i = range.Item1; i < range.Item2; i++)
                         {
-                            s += At(i, j) * rightSide[j];
-                        }
+                            double s = 0;
+                            for (var j = 0; j != this.ColumnCount; j++)
+                            {
+                                s += this.At(i, j) * rightSide[j];
+                            }
 
-                        result[i] = s;
+                            result[i] = s;
+                        }
                     });
             }
         }
@@ -227,8 +231,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>this.RowCount != leftSide.Count</strong>.</exception>
         public virtual Vector LeftMultiply(Vector leftSide)
         {
-            Vector ret = CreateVector(ColumnCount);
-            LeftMultiply(leftSide, ret);
+            var ret = this.CreateVector(this.ColumnCount);
+            this.LeftMultiply(leftSide, ret);
             return ret;
         }
 
@@ -248,9 +252,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            if (RowCount != leftSide.Count)
+            if (this.RowCount != leftSide.Count)
             {
-                throw new ArgumentException("leftSide", Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "leftSide");
             }
 
             if (result == null)
@@ -258,31 +262,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (ColumnCount != result.Count)
+            if (this.ColumnCount != result.Count)
             {
-                throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
             if (ReferenceEquals(leftSide, result))
             {
-                Vector tmp = result.CreateVector(result.Count);
-                LeftMultiply(leftSide, tmp);
+                var tmp = result.CreateVector(result.Count);
+                this.LeftMultiply(leftSide, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                Parallel.For(
-                    0,
-                    ColumnCount,
-                    j =>
+                Parallel.ForEach(
+                    Partitioner.Create(0, this.ColumnCount), 
+                    (range, loopState) =>
                     {
-                        double s = 0;
-                        for (int i = 0; i != leftSide.Count; i++)
+                        for (var j = range.Item1; j < range.Item2; j++)
                         {
-                            s += leftSide[i] * At(i, j);
-                        }
+                            double s = 0;
+                            for (var i = 0; i != leftSide.Count; i++)
+                            {
+                                s += leftSide[i] * this.At(i, j);
+                            }
 
-                        result[j] = s;
+                            result[j] = s;
+                        }
                     });
             }
         }
@@ -308,38 +314,40 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (ColumnCount != other.RowCount)
+            if (this.ColumnCount != other.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            if (result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
+            if (result.RowCount != this.RowCount || result.ColumnCount != other.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                Matrix tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
                 Multiply(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                Parallel.For(
-                    0,
-                    this.RowCount,
-                    j =>
+                Parallel.ForEach(
+                    Partitioner.Create(0, this.RowCount), 
+                    (range, loopState) =>
                     {
-                        for (int i = 0; i != other.ColumnCount; i++)
+                        for (var j = range.Item1; j < range.Item2; j++)
                         {
-                            double s = 0;
-                            for (int l = 0; l < this.ColumnCount; l++)
+                            for (var i = 0; i != other.ColumnCount; i++)
                             {
-                                s += this.At(j, l) * other.At(l, i);
-                            }
+                                double s = 0;
+                                for (var l = 0; l < this.ColumnCount; l++)
+                                {
+                                    s += this.At(j, l) * other.At(l, i);
+                                }
 
-                            result.At(j, i, s);
+                                result.At(j, i, s);
+                            }
                         }
                     });
             }
@@ -359,12 +367,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (ColumnCount != other.RowCount)
+            if (this.ColumnCount != other.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            Matrix result = CreateMatrix(RowCount, other.ColumnCount);
+            var result = this.CreateMatrix(this.RowCount, other.ColumnCount);
             Multiply(other, result);
             return result;
         }
@@ -374,7 +382,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>        
         public virtual void Negate()
         {
-            Multiply(-1);
+            this.Multiply(-1);
         }
 
         /// <summary>
@@ -390,12 +398,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            CopyTo(result);
+            this.CopyTo(result);
             result.Negate();
         }
 
@@ -427,7 +435,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            Matrix ret = leftSide.Clone();
+            var ret = leftSide.Clone();
             ret.Add(rightSide);
             return ret;
         }
@@ -476,7 +484,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            Matrix ret = leftSide.Clone();
+            var ret = leftSide.Clone();
             ret.Subtract(rightSide);
             return ret;
         }
@@ -494,7 +502,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("rightSide");
             }
 
-            Matrix ret = rightSide.Clone();
+            var ret = rightSide.Clone();
             ret.Negate();
             return ret;
         }
@@ -513,7 +521,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            Matrix ret = leftSide.Clone();
+            var ret = leftSide.Clone();
             ret.Multiply(rightSide);
             return ret;
         }
@@ -532,7 +540,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("rightSide");
             }
 
-            Matrix ret = rightSide.Clone();
+            var ret = rightSide.Clone();
             ret.Multiply(leftSide);
             return ret;
         }
