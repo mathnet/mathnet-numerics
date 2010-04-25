@@ -30,6 +30,7 @@
 namespace MathNet.Numerics.UnitTests
 {
     using System.Collections.Generic;
+    using System.Numerics;
     using MbUnit.Framework;
 
     /// <summary>
@@ -149,6 +150,24 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         public static void AlmostEqualList<T>(IList<T> expected, IList<T> actual, double maximumError)
             where T : IPrecisionSupport<T>
+        {
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if (!actual[i].AlmostEqualWithError(expected[i], maximumError))
+                {
+                    Assert.Fail("Not equal within a maximum error {0}. Expected:{1}; Actual:{2}", maximumError, expected[i], actual[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the expected value and the actual value are equal up to a certain
+        /// maximum error.
+        /// </summary>
+        /// <param name="expected">The expected value list.</param>
+        /// <param name="actual">The actual value list.</param>
+        /// <param name="maximumError">The accuracy required for being almost equal.</param>
+        public static void AlmostEqualList(IList<Complex> expected, IList<Complex> actual, double maximumError)
         {
             for (int i = 0; i < expected.Count; i++)
             {

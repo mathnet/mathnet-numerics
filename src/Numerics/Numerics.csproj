@@ -63,6 +63,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -91,7 +92,7 @@
       <DependentUpon>SafeNativeMethods.tt</DependentUpon>
     </Compile>
     <Compile Include="Combinatorics.cs" />
-    <Compile Include="Complex.cs" />
+    <Compile Include="ComplexExtensions.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Complex32.cs" />

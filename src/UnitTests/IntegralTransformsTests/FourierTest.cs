@@ -34,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using IntegralTransforms.Algorithms;
     using MbUnit.Framework;
     using Sampling;
+    using System.Numerics;
 
     [TestFixture]
     public class FourierTest

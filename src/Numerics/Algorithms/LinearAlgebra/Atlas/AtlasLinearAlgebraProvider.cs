@@ -29,6 +29,7 @@
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
 {
     using System;
+    using System.Numerics;
     using Properties;
 
     /// <summary>
@@ -1256,7 +1257,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (alpha.IsZero)
+            if (alpha.IsZero())
             {
                 return;
             }
@@ -1275,9 +1276,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
             if (x == null)
             {
                 throw new ArgumentNullException("x");
-            } 
+            }
 
-            if (alpha.IsOne)
+            if (alpha.IsOne())
             {
                 return;
             }
@@ -1852,7 +1853,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (alpha.IsZero)
+            if (alpha.IsZero())
             {
                 return;
             }
@@ -1871,9 +1872,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
             if (x == null)
             {
                 throw new ArgumentNullException("x");
-            } 
+            }
 
-            if (alpha.IsOne)
+            if (alpha.IsOne())
             {
                 return;
             }

@@ -24,6 +24,7 @@
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     using System;
+    using System.Numerics;
     using Properties;
     using Threading;
 
@@ -2406,7 +2407,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("x");
             }
 
-            if (alpha.IsOne)
+            if (alpha.IsOne())
             {
                 return;
             }
@@ -2736,7 +2737,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 cColumns = bColumns;
             }
 
-            if (alpha.IsZero && beta.IsZero)
+            if (alpha.IsZero() && beta.IsZero())
             {
                 Array.Clear(c, 0, c.Length);
                 return;
@@ -2766,9 +2767,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 bdata = b;
             }
 
-            if (alpha.IsOne)
+            if (alpha.IsOne())
             {
-                if (beta.IsZero)
+                if (beta.IsZero())
                 {
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {

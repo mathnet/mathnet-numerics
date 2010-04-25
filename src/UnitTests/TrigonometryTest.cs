@@ -1,7 +1,7 @@
 ﻿namespace MathNet.Numerics.UnitTests
 {
     using System;
-
+    using System.Numerics;
     using MbUnit.Framework;
 
     [TestFixture]
