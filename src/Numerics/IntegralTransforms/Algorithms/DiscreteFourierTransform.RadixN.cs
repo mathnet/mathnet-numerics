@@ -29,6 +29,7 @@
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
+    using System.Numerics;
     using NumberTheory;
     using Properties;
     using Threading;

@@ -25,6 +25,8 @@
 // INITIAL DRAFT MISSING EXCEPTION SPECIFICATIONS
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
+    using System.Numerics;
+
     /// <summary>
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>

@@ -29,6 +29,7 @@
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System;
+    using System.Numerics;
     using Distributions;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;

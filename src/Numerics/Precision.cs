@@ -30,6 +30,7 @@ namespace MathNet.Numerics
 {
     using System;
     using System.Collections.Generic;
+    using System.Numerics;
 
     /// <summary>
     /// Utilities for working with floating point numbers.
@@ -778,6 +779,23 @@ namespace MathNet.Numerics
         /// <see langword="true" /> if both doubles are almost equal up to the
         /// specified maximum error, <see langword="false" /> otherwise.
         /// </returns>
+        public static bool AlmostEqualWithError(this Complex a, Complex b, double maximumError)
+        {
+            double diff = a.NormOfDifference(b);
+            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, maximumError);
+        }
+
+        /// <summary>
+        /// Compares two doubles and determines if they are equal within
+        /// the specified maximum error.
+        /// </summary>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="maximumError">The accuracy required for being almost equal.</param>
+        /// <returns>
+        /// <see langword="true" /> if both doubles are almost equal up to the
+        /// specified maximum error, <see langword="false" /> otherwise.
+        /// </returns>
         public static bool AlmostEqualWithError(this double a, double b, double maximumError)
         {
             return AlmostEqualWithError(a, b, a - b, maximumError);
@@ -811,6 +829,42 @@ namespace MathNet.Numerics
             for (int i = 0; i < a.Count; i++)
             {
                 if (!AlmostEqualWithError(a[i], b[i], a[i] - b[i], maximumError))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compares two lists of doubles and determines if they are equal within the
+        /// specified maximum error.
+        /// </summary>
+        /// <param name="a">The first value list.</param>
+        /// <param name="b">The second value list.</param>
+        /// <param name="maximumError">
+        /// The accuracy required for being almost equal.
+        /// </param>
+        /// <returns>
+        /// <see langword="true" /> if both doubles are almost equal up to the specified
+        /// maximum error, <see langword="false" /> otherwise.
+        /// </returns>
+        public static bool AlmostEqualListWithError(this IList<Complex> a, IList<Complex> b, double maximumError)
+        {
+            if (a == null && b == null)
+            {
+                return true;
+            }
+
+            if (a == null || b == null || a.Count != b.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < a.Count; i++)
+            {
+                if (!AlmostEqualWithError(a[i].Norm(), b[i].Norm(), a[i].NormOfDifference(b[i]), maximumError))
                 {
                     return false;
                 }

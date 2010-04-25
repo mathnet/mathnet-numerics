@@ -36,6 +36,8 @@ using System.Security;
 
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
 {
+    using System.Numerics;
+
     /// <summary>
     /// P/Invoke methods to the native math libraries.
     /// </summary>

@@ -28,6 +28,7 @@
 
 namespace MathNet.Numerics.IntegralTransforms
 {
+    using System.Numerics;
     using Algorithms;
 
     /// <summary>

@@ -29,6 +29,7 @@
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
+    using System.Numerics;
     using NumberTheory;
     using Threading;
 
@@ -91,7 +92,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
                     // Build and transform padded sequence a_k = x_k * exp(-I*Pi*k^2/N)
                     for (int i = 0; i < samples.Length; i++)
                     {
-                        a[i] = sequence[i].Conjugate * samples[i];
+                        a[i] = sequence[i].Conjugate() * samples[i];
                     }
 
                     Radix2(a, -1);
@@ -107,7 +108,7 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             var nbinv = 1.0 / m;
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = nbinv * sequence[i].Conjugate * a[i];
+                samples[i] = nbinv * sequence[i].Conjugate() * a[i];
             }
         }
 

@@ -35,6 +35,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using MbUnit.Framework;
     using Sampling;
     using Statistics;
+    using System.Numerics;
 
     [TestFixture]
     public class ParsevalTheoremTest
@@ -48,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, count);
 
-            var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared).Mean();
+            var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
@@ -56,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // Default -> Symmetric Scaling
             Transform.FourierForward(work);
 
-            var frequencySpaceEnergy = (from s in work select s.MagnitudeSquared).Mean();
+            var frequencySpaceEnergy = (from s in work select s.MagnitudeSquared()).Mean();
 
             Assert.AreApproximatelyEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);
         }

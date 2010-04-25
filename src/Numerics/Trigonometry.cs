@@ -25,6 +25,7 @@
 namespace MathNet.Numerics
 {
     using System;
+    using System.Numerics;
 
     /// <summary>
     /// Double-precision trigonometry toolkit.
@@ -61,7 +62,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Cosecant(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(Cosecant(value.Real), 0d);
             }
@@ -98,7 +99,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Cosine(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(Cosine(value.Real), 0.0);
             }
@@ -133,7 +134,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Cotangent(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(Cotangent(value.Real), 0d);
             }
@@ -226,14 +227,14 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex HyperbolicCosecant(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(HyperbolicCosecant(value.Real), 0.0);
             }
 
             var exp = value.Exponential();
 
-            if (exp.IsInfinity)
+            if (exp.IsInfinity())
             {
                 return Complex.Zero;
             }
@@ -266,7 +267,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex HyperbolicCosine(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(HyperbolicCosine(value.Real), 0.0);
             }
@@ -313,7 +314,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex HyperbolicCotangent(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(HyperbolicCotangent(value.Real), 0.0);
             }
@@ -356,14 +357,14 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex HyperbolicSecant(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(HyperbolicSecant(value.Real), 0.0);
             }
 
             var exp = value.Exponential();
 
-            if (exp.IsInfinity)
+            if (exp.IsInfinity())
             {
                 return Complex.Zero;
             }
@@ -396,7 +397,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex HyperbolicSine(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(HyperbolicSine(value.Real), 0.0);
             }
@@ -443,7 +444,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex HyperbolicTangent(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(HyperbolicTangent(value.Real), 0.0);
             }
@@ -549,7 +550,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex InverseCotangent(this Complex value)
         {
-            if (value.IsZero)
+            if (value.IsZero())
             {
                 return Math.PI / 2.0;
             }
@@ -868,7 +869,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Secant(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(Secant(value.Real), 0d);
             }
@@ -905,7 +906,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Sine(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(Sine(value.Real), 0.0);
             }
@@ -940,7 +941,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static Complex Tangent(this Complex value)
         {
-            if (value.IsReal)
+            if (value.IsReal())
             {
                 return new Complex(Tangent(value.Real), 0.0);
             }
