@@ -331,11 +331,23 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Computes the cumulative distribution function of the normal distribution.
         /// </summary>
+        /// <param name="mean">The mean of the normal distribution.</param>
+        /// <param name="sdev">The standard deviation of the normal distribution.</param>
+        /// <param name="x">The location at which to compute the cumulative density.</param>
+        /// <returns>the cumulative density at <paramref name="x"/>.</returns>
+        internal static double CumulativeDistribution(double mean, double sdev, double x)
+        {
+            return 0.5 * (1.0 + SpecialFunctions.Erf((x - mean) / (sdev * Constants.Sqrt2)));
+        }
+
+        /// <summary>
+        /// Computes the cumulative distribution function of the normal distribution.
+        /// </summary>
         /// <param name="x">The location at which to compute the cumulative density.</param>
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return 0.5 * (1.0 + SpecialFunctions.Erf((x - _mean) / (_stdDev * Math.Sqrt(2.0))));
+            return CumulativeDistribution(_mean, _stdDev, x);
         }
 
         /// <summary>
