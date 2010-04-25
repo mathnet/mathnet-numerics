@@ -1,9 +1,7 @@
 ﻿// <copyright file="ComplexExtensions.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,10 +10,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -40,63 +36,69 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets a value indicating whether the <c>Complex32</c> is zero.
         /// </summary>
-        /// <value><c>true</c> if this instance is zero; otherwise, <c>false</c>.</value>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns><c>true</c> if this instance is zero; otherwise, <c>false</c>.</returns>
         public static bool IsZero(this Complex complex)
         {
-            return complex.Real == 0.0 && complex.Imaginary == 0.0; 
+            return complex.Real == 0.0 && complex.Imaginary == 0.0;
         }
 
         /// <summary>
         /// Gets a value indicating whether the <c>Complex32</c> is one.
         /// </summary>
-        /// <value><c>true</c> if this instance is one; otherwise, <c>false</c>.</value>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns><c>true</c> if this instance is one; otherwise, <c>false</c>.</returns>
         public static bool IsOne(this Complex complex)
         {
-             return complex.Real == 1.0 && complex.Imaginary == 0.0; 
+            return complex.Real == 1.0 && complex.Imaginary == 0.0;
         }
 
         /// <summary>
         /// Gets a value indicating whether the <c>Complex32</c> is the imaginary unit.
         /// </summary>
-        /// <value><c>true</c> if this instance is ImaginaryOne; otherwise, <c>false</c>.</value>
+        /// <returns><c>true</c> if this instance is ImaginaryOne; otherwise, <c>false</c>.</returns>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         public static bool IsImaginaryOne(this Complex complex)
         {
-            return complex.Real == 0.0 && complex.Imaginary == 1.0; 
+            return complex.Real == 0.0 && complex.Imaginary == 1.0;
         }
 
         /// <summary>
         /// Gets a value indicating whether the provided <c>Complex32</c>evaluates
         /// to a value that is not a number.
         /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is <see cref="NaN"/>; otherwise,
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>
+        /// <c>true</c> if this instance is <c>NaN</c>; otherwise,
         /// <c>false</c>.
-        /// </value>
+        /// </returns>
         public static bool IsNaN(this Complex complex)
         {
-            return double.IsNaN(complex.Real) || double.IsNaN(complex.Imaginary); 
+            return double.IsNaN(complex.Real) || double.IsNaN(complex.Imaginary);
         }
 
         /// <summary>
         /// Gets a value indicating whether the provided <c>Complex32</c> evaluates to an
         /// infinite value.
         /// </summary>
-        /// <value>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>
         ///     <c>true</c> if this instance is infinite; otherwise, <c>false</c>.
-        /// </value>
+        /// </returns>
         /// <remarks>
         /// True if it either evaluates to a complex infinity
         /// or to a directed infinity.
         /// </remarks>
         public static bool IsInfinity(this Complex complex)
         {
-            return double.IsInfinity(complex.Real) || double.IsInfinity(complex.Imaginary); 
+            return double.IsInfinity(complex.Real) || double.IsInfinity(complex.Imaginary);
         }
 
         /// <summary>
         /// Gets a value indicating whether the provided <c>Complex32</c> is real.
         /// </summary>
-        /// <value><c>true</c> if this instance is a real number; otherwise, <c>false</c>.</value>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns><c>true</c> if this instance is a real number; otherwise, <c>false</c>.</returns>
         public static bool IsReal(this Complex complex)
         {
             return complex.Imaginary == 0.0;
@@ -105,17 +107,19 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets a value indicating whether the provided <c>Complex32</c> is real and not negative, that is &gt;= 0.
         /// </summary>
-        /// <value>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>
         ///     <c>true</c> if this instance is real nonnegative number; otherwise, <c>false</c>.
-        /// </value>
+        /// </returns>
         public static bool IsRealNonNegative(this Complex complex)
         {
-            return complex.Imaginary == 0.0f && complex.Real >= 0; 
+            return complex.Imaginary == 0.0f && complex.Real >= 0;
         }
 
         /// <summary>
-        /// Gets the conjugate of this <c>Complex32</c>.
+        /// Gets the conjugate of the <c>Complex</c> number.
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <remarks>
         /// The semantic of <i>setting the conjugate</i> is such that
         /// <code>
@@ -128,22 +132,26 @@ namespace MathNet.Numerics
         /// a = b.Conjugate
         /// </code>
         /// </remarks>
+        /// <returns>The conjugate of the <see cref="Complex"/> number.</returns>
         public static Complex Conjugate(this Complex complex)
         {
-            return new Complex(complex.Real, -complex.Imaginary); 
+            return new Complex(complex.Real, -complex.Imaginary);
         }
 
         /// <summary>
-        /// Gets the squared magnitude of this <c>Complex</c>.
+        /// Gets the squared magnitude of the <c>Complex</c> number.
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
+        /// <returns>The squared magnitude of the <c>Complex</c> number.</returns>
         public static double MagnitudeSquared(this Complex complex)
         {
-            return (complex.Real * complex.Real) + (complex.Imaginary * complex.Imaginary); 
+            return (complex.Real * complex.Real) + (complex.Imaginary * complex.Imaginary);
         }
 
         /// <summary>
         /// Exponential of this <c>Complex</c> (exp(x), E^x).
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <returns>
         /// The exponential of this complex number.
         /// </returns>
@@ -161,6 +169,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Natural Logarithm of this <c>Complex</c> (Base E).
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <returns>
         /// The natural logarithm of this complex number.
         /// </returns>
@@ -177,6 +186,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Raise this <c>Complex</c> to the given value.
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <param name="exponent">
         /// The exponent.
         /// </param>
@@ -216,6 +226,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Raise this <c>Complex</c> to the inverse of the given value.
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <param name="rootExponent">
         /// The root exponent.
         /// </param>
@@ -230,6 +241,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// The Square (power 2) of this <c>Complex</c>
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <returns>
         /// The square of this complex number.
         /// </returns>
@@ -246,6 +258,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// The Square Root (power 1/2) of this <c>Complex</c>
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <returns>
         /// The square root of this complex number.
         /// </returns>
@@ -292,6 +305,7 @@ namespace MathNet.Numerics
         /// Returns a Norm of a value of this type, which is appropriate for measuring how
         /// close this value is to zero.
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <returns>A norm of this value.</returns>
         public static double Norm(this Complex complex)
         {
@@ -302,11 +316,12 @@ namespace MathNet.Numerics
         /// Returns a Norm of the difference of two values of this type, which is
         /// appropriate for measuring how close together these two values are.
         /// </summary>
+        /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <param name="otherValue">The value to compare with.</param>
         /// <returns>A norm of the difference between this and the other value.</returns>
         public static double NormOfDifference(this Complex complex, Complex otherValue)
         {
-            return (complex- otherValue).MagnitudeSquared();
+            return (complex - otherValue).MagnitudeSquared();
         }
 
         /// <summary>
@@ -370,8 +385,8 @@ namespace MathNet.Numerics
             var keywords =
                 new[]
                 {
-                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol,
-                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol,
+                    textInfo.ListSeparator, numberFormatInfo.NaNSymbol, 
+                    numberFormatInfo.NegativeInfinitySymbol, numberFormatInfo.PositiveInfinitySymbol, 
                     "+", "-", "i", "j"
                 };
 
@@ -382,7 +397,7 @@ namespace MathNet.Numerics
 
             // parse the left part
             bool isLeftPartImaginary;
-            double leftPart = ParsePart(ref token, out isLeftPartImaginary, formatProvider);
+            var leftPart = ParsePart(ref token, out isLeftPartImaginary, formatProvider);
             if (token == null)
             {
                 return isLeftPartImaginary ? new Complex(0, leftPart) : new Complex(leftPart, 0);
@@ -401,7 +416,7 @@ namespace MathNet.Numerics
                 }
 
                 bool isRightPartImaginary;
-                double rightPart = ParsePart(ref token, out isRightPartImaginary, formatProvider);
+                var rightPart = ParsePart(ref token, out isRightPartImaginary, formatProvider);
 
                 return new Complex(leftPart, rightPart);
             }
@@ -409,7 +424,7 @@ namespace MathNet.Numerics
             {
                 // format: real + imag
                 bool isRightPartImaginary;
-                double rightPart = ParsePart(ref token, out isRightPartImaginary, formatProvider);
+                var rightPart = ParsePart(ref token, out isRightPartImaginary, formatProvider);
 
                 if (!(isLeftPartImaginary ^ isRightPartImaginary))
                 {
@@ -451,7 +466,7 @@ namespace MathNet.Numerics
                 }
             }
 
-            bool negative = false;
+            var negative = false;
             if (token.Value == "-")
             {
                 negative = true;
@@ -511,7 +526,7 @@ namespace MathNet.Numerics
         /// </param>
         /// <returns>
         /// If the conversion succeeds, the result will contain a complex number equivalent to value. 
-        /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized
+        /// Otherwise the result will contain Complex.Zero.  This parameter is passed uninitialized.
         /// </returns>
         public static bool TryToComplex(this string value, out Complex result)
         {
@@ -557,21 +572,78 @@ namespace MathNet.Numerics
             return ret;
         }
 
+        /// <summary>
+        /// Creates a <c>Complex32</c> number based on a string. The string can be in the
+        /// following formats (without the quotes): 'n', 'ni', 'n +/- ni',
+        /// 'ni +/- n', 'n,n', 'n,ni,' '(n,n)', or '(n,ni)', where n is a double.
+        /// </summary>
+        /// <returns>
+        /// A complex number containing the value specified by the given string.
+        /// </returns>
+        /// <param name="value">
+        /// the string to parse.
+        /// </param>
         public static Complex32 ToComplex32(this string value)
         {
             return Complex32.Parse(value);
         }
 
+        /// <summary>
+        /// Creates a <c>Complex32</c> number based on a string. The string can be in the
+        /// following formats (without the quotes): 'n', 'ni', 'n +/- ni',
+        /// 'ni +/- n', 'n,n', 'n,ni,' '(n,n)', or '(n,ni)', where n is a double.
+        /// </summary>
+        /// <returns>
+        /// A complex number containing the value specified by the given string.
+        /// </returns>
+        /// <param name="value">
+        /// the string to parse.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific
+        /// formatting information.
+        /// </param>
         public static Complex32 ToComplex32(this string value, IFormatProvider formatProvider)
         {
             return Complex32.Parse(value, formatProvider);
         }
 
+        /// <summary>
+        /// Converts the string representation of a complex number to a single-precision complex number equivalent. 
+        /// A return value indicates whether the conversion succeeded or failed.
+        /// </summary>
+        /// <param name="value">
+        /// A string containing a complex number to convert. 
+        /// </param>
+        /// <param name="result">
+        /// The parsed value.
+        /// </param>
+        /// <returns>
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value. 
+        /// Otherwise the result will contain complex32.Zero.  This parameter is passed uninitialized.
+        /// </returns>
         public static bool TryToComplex32(this string value, out Complex32 result)
         {
             return Complex32.TryParse(value, out result);
         }
 
+        /// <summary>
+        /// Converts the string representation of a complex number to single-precision complex number equivalent.
+        /// A return value indicates whether the conversion succeeded or failed.
+        /// </summary>
+        /// <param name="value">
+        /// A string containing a complex number to convert.
+        /// </param>
+        /// <param name="formatProvider">
+        /// An <see cref="IFormatProvider"/> that supplies culture-specific formatting information about value.
+        /// </param>
+        /// <param name="result">
+        /// The parsed value.
+        /// </param>
+        /// <returns>
+        /// If the conversion succeeds, the result will contain a complex number equivalent to value.
+        /// Otherwise the result will contain Complex.Zero.  This parameter is passed uninitialized.
+        /// </returns>
         public static bool TryToComplex32(this string value, IFormatProvider formatProvider, out Complex32 result)
         {
             return Complex32.TryParse(value, formatProvider, out result);
