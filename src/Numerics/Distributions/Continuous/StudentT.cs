@@ -333,6 +333,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(double x)
         {
+            // TODO JVG we can probably do a better job for Cauchy special case
             if (Double.IsPositiveInfinity(_dof))
             {
                 return Normal.Density(_location, Math.Sqrt(_scale), x);
@@ -355,6 +356,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         public double DensityLn(double x)
         {
+            // TODO JVG we can probably do a better job for Cauchy special case
             if (Double.IsPositiveInfinity(_dof))
             {
                 return Normal.DensityLn(_location, Math.Sqrt(_scale), x);
@@ -377,8 +379,25 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            throw new NotImplementedException();
-            // TODO Jurgen: once this is implemented; enable the StudentT stuff in commondistributiontests.
+            // TODO JVG we can probably do a better job for Cauchy special case
+            if (Double.IsPositiveInfinity(_dof))
+            {
+                return Normal.CumulativeDistribution(_location, _scale, x);
+            }
+            else
+            {
+                double k = (x - _location) / _scale;
+                double h = _dof / (_dof + k * k);
+                double ib = 0.5 * SpecialFunctions.BetaRegularized(_dof / 2.0, 0.5, h);
+                if (x <= _location)
+                {
+                    return ib;
+                }
+                else
+                {
+                    return 1.0 - ib;
+                }
+            }
         }
 
         /// <summary>

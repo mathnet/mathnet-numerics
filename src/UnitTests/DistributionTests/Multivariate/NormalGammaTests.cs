@@ -31,6 +31,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     using System;
     using System.Linq;
     using MbUnit.Framework;
+    using MathNet.Numerics.Random;
+    using MathNet.Numerics.Statistics;
     using MathNet.Numerics.Distributions;
 
     [TestFixture]
@@ -198,6 +200,92 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         {
             NormalGamma ng = new NormalGamma(0.0, 1.0, 1.0, 1.0);
             ng.RandomSource = new Random();
+        }
+
+        /// <summary>
+        /// Test the method which samples one variable at a time.
+        /// </summary>
+        [Test]
+        public void SampleFollowsCorrectDistribution()
+        {
+            Random rnd = new MersenneTwister();
+            var cd = new NormalGamma(1.0, 4.0, 3.0, 3.5);
+
+            // Sample from the distribution.
+            MeanPrecisionPair[] samples = new MeanPrecisionPair[CommonDistributionTests.NumberOfTestSamples];
+            for (int i = 0; i < CommonDistributionTests.NumberOfTestSamples; i++)
+            {
+                samples[i] = cd.Sample();
+            }
+
+            // Extract the mean and precisions.
+            var means = samples.Select(mp => mp.Mean);
+            var precs = samples.Select(mp => mp.Precision);
+            var meanMarginal = cd.MeanMarginal();
+            var precMarginal = cd.PrecisionMarginal();
+
+            // Check the mean distribution.
+            var histogram = new Histogram(means, CommonDistributionTests.NumberOfBuckets);
+            for (int i = 0; i < CommonDistributionTests.NumberOfBuckets; i++)
+            {
+                var bucket = histogram[i];
+                double empiricalProbability = bucket.Count / (double)CommonDistributionTests.NumberOfTestSamples;
+                double realProbability = meanMarginal.CumulativeDistribution(bucket.UpperBound)
+                    - meanMarginal.CumulativeDistribution(bucket.LowerBound);
+                Assert.LessThan(Math.Abs(empiricalProbability - realProbability), CommonDistributionTests.SampleAccuracy, cd.ToString());
+            }
+
+            // Check the precision distribution.
+            histogram = new Histogram(precs, CommonDistributionTests.NumberOfBuckets);
+            for (int i = 0; i < CommonDistributionTests.NumberOfBuckets; i++)
+            {
+                var bucket = histogram[i];
+                double empiricalProbability = bucket.Count / (double)CommonDistributionTests.NumberOfTestSamples;
+                double realProbability = precMarginal.CumulativeDistribution(bucket.UpperBound)
+                    - precMarginal.CumulativeDistribution(bucket.LowerBound);
+                Assert.LessThan(Math.Abs(empiricalProbability - realProbability), CommonDistributionTests.SampleAccuracy, cd.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Test the method which samples a sequence of variables.
+        /// </summary>
+        [Test]
+        public void SamplesFollowsCorrectDistribution()
+        {
+            Random rnd = new MersenneTwister();
+            var cd = new NormalGamma(1.0, 4.0, 3.0, 3.5);
+
+            // Sample from the distribution.
+            var samples = cd.Samples().Take(CommonDistributionTests.NumberOfTestSamples).ToArray();
+
+            // Extract the mean and precisions.
+            var means = samples.Select(mp => mp.Mean);
+            var precs = samples.Select(mp => mp.Precision);
+            var meanMarginal = cd.MeanMarginal();
+            var precMarginal = cd.PrecisionMarginal();
+
+            // Check the mean distribution.
+            var histogram = new Histogram(means, CommonDistributionTests.NumberOfBuckets);
+            for (int i = 0; i < CommonDistributionTests.NumberOfBuckets; i++)
+            {
+                var bucket = histogram[i];
+                double empiricalProbability = bucket.Count / (double)CommonDistributionTests.NumberOfTestSamples;
+                double realProbability = meanMarginal.CumulativeDistribution(bucket.UpperBound)
+                    - meanMarginal.CumulativeDistribution(bucket.LowerBound);
+                Assert.LessThan(Math.Abs(empiricalProbability - realProbability), CommonDistributionTests.SampleAccuracy, cd.ToString());
+            }
+
+            // Check the precision distribution.
+            histogram = new Histogram(precs, CommonDistributionTests.NumberOfBuckets);
+            for (int i = 0; i < CommonDistributionTests.NumberOfBuckets; i++)
+            {
+                var bucket = histogram[i];
+                double empiricalProbability = bucket.Count / (double)CommonDistributionTests.NumberOfTestSamples;
+                double realProbability = precMarginal.CumulativeDistribution(bucket.UpperBound)
+                    - precMarginal.CumulativeDistribution(bucket.LowerBound);
+                Assert.LessThan(Math.Abs(empiricalProbability - realProbability), CommonDistributionTests.SampleAccuracy, cd.ToString());
+            }
         }
     }
 }

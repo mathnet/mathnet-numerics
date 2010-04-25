@@ -281,44 +281,6 @@ namespace MathNet.Numerics.Distributions
         /*
 
         /// <summary>
-        /// The mode of the distribution.
-        /// </summary>
-        /// <value></value>
-        public MeanPrecisionPair Mode
-        {
-            get
-            {
-                if (Double.IsPositiveInfinity(_precisionInvScale))
-                {
-                    return new MeanPrecisionPair(_meanLocation, _precisionShape);
-                }
-                else
-                {
-                    return new MeanPrecisionPair(_meanLocation, _precisionShape / _precisionInvScale);
-                }
-            }
-        }
-
-        /// <summary>
-        /// The median of the distribution.
-        /// </summary>
-        /// <value></value>
-        public MeanPrecisionPair Median
-        {
-            get
-            {
-                if (Double.IsPositiveInfinity(_precisionInvScale))
-                {
-                    return new MeanPrecisionPair(_meanLocation, _precisionShape);
-                }
-                else
-                {
-                    return new MeanPrecisionPair(_meanLocation, _precisionShape / _precisionInvScale);
-                }
-            }
-        }
-
-        /// <summary>
         /// Evaluates the probability density function for a NormalGamma distribution.
         /// </summary>
         public double Density(MeanPrecisionPair mp)
@@ -382,40 +344,43 @@ namespace MathNet.Numerics.Distributions
                 return (_precisionShape - 0.5) * System.Math.Log(prec) + _precisionShape * System.Math.Log(_precisionInvScale) + e
                         - Math.Constants.LogSqrt2Pi - Math.SpecialFunctions.GammaLn(_precisionShape);
             }
-        }
+        }*/
 
         /// <summary>
-        /// Samples a NormalGamma distributed random variable.
+        /// Generates a sample from the NormalGamma distribution.
         /// </summary>
-        /// <returns>A random number from this distribution.</returns>
+        /// <returns>a sample from the distribution.</returns>
         public MeanPrecisionPair Sample()
         {
-            return NormalGamma.Sample(RandomNumberGenerator, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
+            return NormalGamma.Sample(RandomSource, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
         }
 
         /// <summary>
-        /// Samples an array of NormalGamma distributed random variables.
+        /// Generates a sequence of samples from the NormalGamma distribution
         /// </summary>
-        /// <param name="size">The number of variables needed.</param>
-        /// <returns>An array of random numbers from this distribution.</returns>
-        public MeanPrecisionPair[] Sample(int size)
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public IEnumerable<MeanPrecisionPair> Samples()
         {
-            return NormalGamma.Sample(RandomNumberGenerator, size, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
+            while (true)
+            {
+                yield return NormalGamma.Sample(RandomSource, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
+            }
         }
 
         /// <summary>
-        /// Samples an array of NormalGamma distributed random variables.
+        /// Generates a sample from the NormalGamma distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
         /// <param name="precShape">The shape of the precision.</param>
         /// <param name="precInvScale">The inverse scale of the precision.</param>
+        /// <returns>a sample from the distribution.</returns>
         public static MeanPrecisionPair Sample(System.Random rnd, double meanLocation, double meanScale, double precShape, double precInvScale)
         {
-            if (Control.CheckDistributionParameters)
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precShape, precInvScale))
             {
-                CheckParameters(meanScale, precShape, precInvScale);
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             MeanPrecisionPair mp = new MeanPrecisionPair();
@@ -437,61 +402,54 @@ namespace MathNet.Numerics.Distributions
             }
             else
             {
-                mp.Mean = Normal.Sample(rnd, meanLocation, System.Math.Sqrt(meanScale / mp.Precision));
+                mp.Mean = Normal.Sample(rnd, meanLocation, System.Math.Sqrt(1.0 / (meanScale * mp.Precision)));
             }
 
             return mp;
         }
 
         /// <summary>
-        /// Samples an array of NormalGamma distributed random variables.
+        /// Generates a sequence of samples from the NormalGamma distribution
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="n">The number of variables needed.</param>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
         /// <param name="precShape">The shape of the precision.</param>
         /// <param name="precInvScale">The inverse scale of the precision.</param>
-        public static MeanPrecisionPair[] Sample(System.Random rnd, int n, double meanLocation, double meanScale, double precShape, double precInvScale)
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<MeanPrecisionPair> Samples(System.Random rnd, double meanLocation, double meanScale, double precShape, double precInvScale)
         {
-            if (Control.CheckDistributionParameters)
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precShape, precInvScale))
             {
-                CheckParameters(meanScale, precShape, precInvScale);
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            // First sample all the precisions independently.
-            double[] precs = null;
-            if (Double.IsPositiveInfinity(precInvScale))
+            while (true)
             {
-                precs = new double[n];
-                for (int i = 0; i < n; i++)
+                MeanPrecisionPair mp = new MeanPrecisionPair();
+
+                // Sample the precision.
+                if (Double.IsPositiveInfinity(precInvScale))
                 {
-                    precs[i] = precShape;
-                }
-            }
-            else
-            {
-                precs = Gamma.Sample(rnd, n, precShape, precInvScale);
-            }
-
-            // Construct all the mean precision pairs.
-            MeanPrecisionPair[] arr = new MeanPrecisionPair[n];
-
-            // Conditionally sample all the mean.
-            for (int i = 0; i < n; i++)
-            {
-                arr[i].Precision = precs[i];
-                if (meanScale == 0.0)
-                {
-                    arr[i].Mean = meanLocation;
+                    mp.Precision = precShape;
                 }
                 else
                 {
-                    arr[i].Mean = Normal.Sample(rnd, meanLocation, System.Math.Sqrt(meanScale / precs[i]));
+                    mp.Precision = Gamma.Sample(rnd, precShape, precInvScale);
                 }
-            }
 
-            return arr;
-        }*/
+                // Sample the mean.
+                if (meanScale == 0.0)
+                {
+                    mp.Mean = meanLocation;
+                }
+                else
+                {
+                    mp.Mean = Normal.Sample(rnd, meanLocation, System.Math.Sqrt(1.0 / (meanScale * mp.Precision)));
+                }
+
+                yield return mp;
+            }
+        }
     }
 }

@@ -344,5 +344,25 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             var ied = n.Samples();
             var e = ied.Take(5).ToArray();
         }
+
+        [Test]
+        [Row(0.0, 1.0, 1.0, 0.0, 0.5)]
+        [Row(0.0, 1.0, 1.0, 1.0, 0.75)]
+        [Row(0.0, 1.0, 1.0, -1.0, 0.25)]
+        [Row(0.0, 1.0, 1.0, 2.0, 0.852416382349567)]
+        [Row(0.0, 1.0, 1.0, -2.0, 0.147583617650433)]
+        [Row(0.0, 1.0, 2.0, 0.0, 0.5)]
+        [Row(0.0, 1.0, 2.0, 1.0, 0.788675134594813)]
+        [Row(0.0, 1.0, 2.0, -1.0, 0.211324865405187)]
+        [Row(0.0, 1.0, 2.0, 2.0, 0.908248290463863)]
+        [Row(0.0, 1.0, 2.0, -2.0, 0.091751709536137)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.5)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.841344746068543)]
+        [Row(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.977249868051821)]
+        public void ValidateCumulativeDistribution(double location, double scale, double dof, double x, double c)
+        {
+            var n = new StudentT(location, scale, dof);
+            AssertHelpers.AlmostEqual(c, n.CumulativeDistribution(x), 13);
+        }
     }
 }
