@@ -25,9 +25,8 @@
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Numerics;
-    using System.Threading.Tasks;
+    using Threading;
 
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
@@ -45,23 +44,21 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             var w0 = exponentSign * Constants.Pi2 / samples.Length;
             var spectrum = new Complex[samples.Length];
 
-            Parallel.ForEach(
-                Partitioner.Create(0, samples.Length), 
-                (range, loopState) =>
-                {
-                    for (var k = range.Item1; k < range.Item2; k++)
-                    {
-                        var wk = w0 * k;
-                        var sum = Complex.Zero;
-                        for (var n = 0; n < samples.Length; n++)
-                        {
-                            var w = n * wk;
-                            sum += samples[n] * new Complex(Math.Cos(w), Math.Sin(w));
-                        }
+            CommonParallel.For(
+               0,
+               samples.Length,
+               index =>
+               {
+                   var wk = w0 * index;
+                   var sum = Complex.Zero;
+                   for (var n = 0; n < samples.Length; n++)
+                   {
+                       var w = n * wk;
+                       sum += samples[n] * new Complex(Math.Cos(w), Math.Sin(w));
+                   }
 
-                        spectrum[k] = sum;
-                    }
-                });
+                   spectrum[index] = sum;
+               });
 
             return spectrum;
         }

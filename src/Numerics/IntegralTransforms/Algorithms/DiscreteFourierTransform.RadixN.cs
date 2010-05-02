@@ -25,11 +25,10 @@
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Numerics;
-    using System.Threading.Tasks;
     using NumberTheory;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
@@ -127,15 +126,11 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             for (var levelSize = 1; levelSize < samples.Length; levelSize *= 2)
             {
                 var size = levelSize;
-                Parallel.ForEach(
-                    Partitioner.Create(0, size), 
-                    (range, loopState) =>
-                    {
-                        for (var k = range.Item1; k < range.Item2; k++)
-                        {
-                            Radix2Step(samples, exponentSign, size, k);
-                        }
-                    });
+
+                CommonParallel.For(
+                    0, 
+                    size, 
+                    index => Radix2Step(samples, exponentSign, size, index));
             }
         }
 

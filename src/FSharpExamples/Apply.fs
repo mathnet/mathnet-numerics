@@ -27,6 +27,7 @@
 // </copyright>
 module MathNet.Numerics.FSharp.Examples.Apply
 
+open System.Numerics
 open MathNet.Numerics
 open MathNet.Numerics.LinearAlgebra.Double
 
