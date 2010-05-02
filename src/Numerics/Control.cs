@@ -28,6 +28,7 @@
 
 namespace MathNet.Numerics
 {
+    using System;
     using Algorithms.LinearAlgebra;
 
     /// <summary>
@@ -35,6 +36,13 @@ namespace MathNet.Numerics
     /// </summary>
     public static class Control
     {
+#if !SILVERLIGHT
+        /// <summary>
+        /// Initial number of threads to use;
+        /// </summary>
+        private static int _numberOfThreads = Environment.ProcessorCount;
+#endif
+
         /// <summary>
         /// Initializes static members of the Control class.
         /// </summary>
@@ -74,6 +82,29 @@ namespace MathNet.Numerics
         public static ILinearAlgebraProvider LinearAlgebraProvider
         {
             get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating how many parallel worker threads shall be used
+        /// when parallelization is applicable.
+        /// </summary>
+        /// <remarks>The Silverlight version of the library defaults to one thread.</remarks>
+        public static int NumberOfParallelWorkerThreads
+        {
+#if SILVERLIGHT
+            get { return ThreadQueue.ThreadCount; }
+            set { ThreadQueue.Start(value); }
+#else
+            get
+            {
+                return _numberOfThreads;
+            }
+
+            set
+            {   // instead of throwing an out of range exception, simply normalize
+                _numberOfThreads = Math.Max(1, Math.Min(1024, value));
+            }
+#endif
         }
     }
 }

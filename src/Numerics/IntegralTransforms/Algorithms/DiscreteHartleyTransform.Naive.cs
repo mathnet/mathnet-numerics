@@ -25,8 +25,7 @@
 namespace MathNet.Numerics.IntegralTransforms.Algorithms
 {
     using System;
-    using System.Collections.Concurrent;
-    using System.Threading.Tasks;
+    using Threading;
 
     /// <summary>
     /// Fast (FHT) Implementation of the Discrete Hartley Transform (DHT).
@@ -43,22 +42,20 @@ namespace MathNet.Numerics.IntegralTransforms.Algorithms
             var w0 = Constants.Pi2 / samples.Length;
             var spectrum = new double[samples.Length];
 
-            Parallel.ForEach(
-                Partitioner.Create(0, samples.Length), 
-                (range, loopState) =>
+            CommonParallel.For(
+                0, 
+                samples.Length,
+                index =>
                 {
-                    for (var k = range.Item1; k < range.Item2; k++)
+                    var wk = w0 * index;
+                    var sum = 0.0;
+                    for (var n = 0; n < samples.Length; n++)
                     {
-                        var wk = w0 * k;
-                        var sum = 0.0;
-                        for (var n = 0; n < samples.Length; n++)
-                        {
-                            var w = n * wk;
-                            sum += samples[n] * Constants.Sqrt2 * Math.Cos(w - Constants.PiOver4);
-                        }
-
-                        spectrum[k] = sum;
+                        var w = n * wk;
+                        sum += samples[n] * Constants.Sqrt2 * Math.Cos(w - Constants.PiOver4);
                     }
+
+                    spectrum[index] = sum;
                 });
 
             return spectrum;

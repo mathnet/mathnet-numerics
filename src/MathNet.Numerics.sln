@@ -13,7 +13,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpExamples", "FSharpExa
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests", "FSharpUnitTests\FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight", "Silverlight\Silverlight.csproj", "{0CCA2BA4-9DF2-4E9B-8A77-0A1F61A96A77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight", "Silverlight\Silverlight.csproj", "{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,10 @@ Global
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0CCA2BA4-9DF2-4E9B-8A77-0A1F61A96A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0CCA2BA4-9DF2-4E9B-8A77-0A1F61A96A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0CCA2BA4-9DF2-4E9B-8A77-0A1F61A96A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0CCA2BA4-9DF2-4E9B-8A77-0A1F61A96A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
