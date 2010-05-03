@@ -473,9 +473,9 @@ namespace MathNet.Numerics.Distributions
         {
             double dummy = 0.0;
             var n = Normal.SampleBoxMuller(rnd, out dummy);
-            var g = Gamma.Sample(rnd, dof / 2.0, 1.0);
+            var g = Gamma.Sample(rnd, 0.5 * dof, 0.5);
 
-            return Math.Sqrt(2.0 * dof / g) * n;
+            return Math.Sqrt(dof / g) * n;
         }
     }
 }

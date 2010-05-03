@@ -44,11 +44,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     public class CommonDistributionTests
     {
         // The number of samples we want.
-        public static int NumberOfTestSamples = 10000000;
-        // The accuracy of the histograms.
-        public static double SampleAccuracy = 0.01;
-        // The number of buckets to use to test against the cdf.
+        public static int NumberOfTestSamples = 3500000;
+        // The number of buckets in the histogram for the sampling function tests.
         public static int NumberOfBuckets = 100;
+        // The error we want to tolerate for sampling functions.
+        public static double Error = 0.01;
+        // The error probability we want to tolerate for sampling functions.
+        public static double ErrorProbability = 0.001;
         // The list of discrete distributions which we test.
         private List<IDiscreteDistribution> discreteDistributions;
         // The list of continuous distributions which we test.
@@ -75,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
 
         [Test]
         [MultipleAsserts]
-        public void ValidateThatUnivariateDistributionsHaveRandomSource(int i)
+        public void ValidateThatUnivariateDistributionsHaveRandomSource()
         {
             foreach(var dd in discreteDistributions)
             {
@@ -90,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
 
         [Test]
         [MultipleAsserts]
-        public void CanSetRandomSource(int i)
+        public void CanSetRandomSource()
         {
             foreach(var dd in discreteDistributions)
             {
@@ -105,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
 
         [Test]
         [MultipleAsserts]
-        public void FailSetRandomSourceWithNullReference(int i)
+        public void FailSetRandomSourceWithNullReference()
         {
             foreach(var dd in discreteDistributions)
             {
@@ -127,18 +129,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         {
             Random rnd = new MersenneTwister(1);
 
-            // The test samples from the distributions, builds a histogram and checks
-            // whether the histogram follows the CDF.
             foreach (var dd in discreteDistributions)
             {
                 dd.RandomSource = rnd;
-
                 double[] samples = new double[NumberOfTestSamples];
                 for (int i = 0; i < NumberOfTestSamples; i++)
                 {
-                    samples[i] = (double) dd.Sample();
+                    samples[i] = (double)dd.Sample();
                 }
-
+                VapnikChervonenkisTest(Error, ErrorProbability, samples, dd);
             }
 
             foreach (var cd in continuousDistributions)
@@ -149,16 +148,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 {
                     samples[i] = cd.Sample();
                 }
-
-                var histogram = new Histogram(samples, NumberOfBuckets);
-                for (int i = 0; i < NumberOfBuckets; i++)
-                {
-                    var bucket = histogram[i];
-                    double empiricalProbability = bucket.Count / (double)NumberOfTestSamples;
-                    double realProbability = cd.CumulativeDistribution(bucket.UpperBound)
-                        - cd.CumulativeDistribution(bucket.LowerBound);
-                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), SampleAccuracy, cd.ToString());
-                }
+                VapnikChervonenkisTest(Error, ErrorProbability, samples, cd);
             }
         }
 
@@ -171,38 +161,41 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         {
             Random rnd = new MersenneTwister(1);
 
-            // The test samples from the distributions, builds a histogram and checks
-            // whether the histogram follows the CDF.
             foreach (var dd in discreteDistributions)
             {
                 dd.RandomSource = rnd;
-                var samples = dd.Samples().Take(NumberOfTestSamples).Select(x => (double)x);
-
-                var histogram = new Histogram(samples, NumberOfBuckets);
-                for (int i = 0; i < NumberOfBuckets; i++)
-                {
-                    var bucket = histogram[i];
-                    double empiricalProbability = bucket.Count / (double)NumberOfTestSamples;
-                    double realProbability = dd.CumulativeDistribution(bucket.UpperBound)
-                        - dd.CumulativeDistribution(bucket.LowerBound);
-                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), SampleAccuracy, dd.ToString());
-                }
+                VapnikChervonenkisTest(Error, ErrorProbability, dd.Samples().Select(x => (double) x).Take(NumberOfTestSamples), dd);
             }
 
             foreach (var cd in continuousDistributions)
             {
                 cd.RandomSource = rnd;
-                var samples = cd.Samples().Take(NumberOfTestSamples);
+                VapnikChervonenkisTest(Error, ErrorProbability, cd.Samples().Take(NumberOfTestSamples), cd);
+            }
+        }
 
-                var histogram = new Histogram(samples, NumberOfBuckets);
-                for (int i = 0; i < NumberOfBuckets; i++)
-                {
-                    var bucket = histogram[i];
-                    double empiricalProbability = bucket.Count / (double)NumberOfTestSamples;
-                    double realProbability = cd.CumulativeDistribution(bucket.UpperBound)
-                        - cd.CumulativeDistribution(bucket.LowerBound);
-                    Assert.LessThan(Math.Abs(empiricalProbability - realProbability), SampleAccuracy, cd.ToString());
-                }
+        /// <summary>
+        /// <para>Using VC-dimension, we can bound the probability of making an error when estimating empirical probability
+        /// distributions. We are using Theorem 2.41 in "All Of Nonparametric Statistics".
+        /// http://books.google.com/books?id=MRFlzQfRg7UC&lpg=PP1&dq=all%20of%20nonparametric%20statistics&pg=PA22#v=onepage&q=%22shatter%20coe%EF%AC%83cients%20do%20not%22&f=false .</para>
+        /// <para>Note that for intervals on the real line the VC-dimension is 2.</para>
+        /// </summary>
+        /// <param name="epsilon">The error we are willing to tolerate.</param>
+        /// <param name="delta">The error probability we are willing to tolerate.</param>
+        /// <param name="s">The samples to use for testing.</param>
+        /// <param name="dist">The distribution we are testing.</param>
+        public static void VapnikChervonenkisTest(double epsilon, double delta, IEnumerable<double> s, IDistribution dist)
+        {
+            double N = (double) s.Count();
+            Assert.GreaterThan(N, Math.Ceiling(32.0 * Math.Log(16.0 / delta) / epsilon / epsilon));
+
+            var histogram = new Histogram(s, NumberOfBuckets);
+
+            for (int i = 0; i < NumberOfBuckets; i++)
+            {
+                double p = dist.CumulativeDistribution(histogram[i].UpperBound) - dist.CumulativeDistribution(histogram[i].LowerBound);
+                double pe = histogram[i].Count / N;
+                Assert.LessThan(Math.Abs(p - pe), epsilon, dist.ToString());
             }
         }
     }

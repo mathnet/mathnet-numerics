@@ -224,27 +224,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             var meanMarginal = cd.MeanMarginal();
             var precMarginal = cd.PrecisionMarginal();
 
-            // Check the mean distribution.
-            var histogram = new Histogram(means, CommonDistributionTests.NumberOfBuckets);
-            for (int i = 0; i < CommonDistributionTests.NumberOfBuckets; i++)
-            {
-                var bucket = histogram[i];
-                double empiricalProbability = bucket.Count / (double)CommonDistributionTests.NumberOfTestSamples;
-                double realProbability = meanMarginal.CumulativeDistribution(bucket.UpperBound)
-                    - meanMarginal.CumulativeDistribution(bucket.LowerBound);
-                Assert.LessThan(Math.Abs(empiricalProbability - realProbability), CommonDistributionTests.SampleAccuracy, cd.ToString());
-            }
-
             // Check the precision distribution.
-            histogram = new Histogram(precs, CommonDistributionTests.NumberOfBuckets);
-            for (int i = 0; i < CommonDistributionTests.NumberOfBuckets; i++)
-            {
-                var bucket = histogram[i];
-                double empiricalProbability = bucket.Count / (double)CommonDistributionTests.NumberOfTestSamples;
-                double realProbability = precMarginal.CumulativeDistribution(bucket.UpperBound)
-                    - precMarginal.CumulativeDistribution(bucket.LowerBound);
-                Assert.LessThan(Math.Abs(empiricalProbability - realProbability), CommonDistributionTests.SampleAccuracy, cd.ToString());
-            }
+            CommonDistributionTests.VapnikChervonenkisTest(
+                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorProbability,
+                precs,
+                precMarginal);
+
+            // Check the mean distribution.
+            CommonDistributionTests.VapnikChervonenkisTest(
+                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorProbability, 
+                means,
+                meanMarginal);
         }
 
         /// <summary>
@@ -265,27 +257,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             var meanMarginal = cd.MeanMarginal();
             var precMarginal = cd.PrecisionMarginal();
 
-            // Check the mean distribution.
-            var histogram = new Histogram(means, CommonDistributionTests.NumberOfBuckets);
-            for (int i = 0; i < CommonDistributionTests.NumberOfBuckets; i++)
-            {
-                var bucket = histogram[i];
-                double empiricalProbability = bucket.Count / (double)CommonDistributionTests.NumberOfTestSamples;
-                double realProbability = meanMarginal.CumulativeDistribution(bucket.UpperBound)
-                    - meanMarginal.CumulativeDistribution(bucket.LowerBound);
-                Assert.LessThan(Math.Abs(empiricalProbability - realProbability), CommonDistributionTests.SampleAccuracy, cd.ToString());
-            }
-
             // Check the precision distribution.
-            histogram = new Histogram(precs, CommonDistributionTests.NumberOfBuckets);
-            for (int i = 0; i < CommonDistributionTests.NumberOfBuckets; i++)
-            {
-                var bucket = histogram[i];
-                double empiricalProbability = bucket.Count / (double)CommonDistributionTests.NumberOfTestSamples;
-                double realProbability = precMarginal.CumulativeDistribution(bucket.UpperBound)
-                    - precMarginal.CumulativeDistribution(bucket.LowerBound);
-                Assert.LessThan(Math.Abs(empiricalProbability - realProbability), CommonDistributionTests.SampleAccuracy, cd.ToString());
-            }
+            CommonDistributionTests.VapnikChervonenkisTest(
+                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorProbability,
+                precs,
+                precMarginal);
+
+            // Check the mean distribution.
+            CommonDistributionTests.VapnikChervonenkisTest(
+                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorProbability, 
+                means,
+                meanMarginal);
         }
     }
 }
