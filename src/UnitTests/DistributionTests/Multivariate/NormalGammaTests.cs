@@ -153,7 +153,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         [Test, MultipleAsserts]
         [Row(0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 2.0)]
         [Row(10.0, 1.0, 2.0, 2.0, 10.0, 1.0, 4.0)]
-        [Row(10.0, 1.0, 2.0, Double.PositiveInfinity, 10.0, 2.0, Double.PositiveInfinity)]
+        [Row(10.0, 1.0, 2.0, Double.PositiveInfinity, 10.0, 0.5, Double.PositiveInfinity)]
         public void CanGetMeanMarginal(double meanLocation, double meanScale, double precShape, double precInvScale,
             double meanMarginalMean, double meanMarginalScale, double meanMarginalDoF)
         {
@@ -209,7 +209,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public void SampleFollowsCorrectDistribution()
         {
             Random rnd = new MersenneTwister();
-            var cd = new NormalGamma(1.0, 4.0, 3.0, 3.5);
+            //var cd = new NormalGamma(1.0, 4.0, 3.0, 3.5);
+            var cd = new NormalGamma(1.0, 4.0, 7.0, 3.5);
 
             // Sample from the distribution.
             MeanPrecisionPair[] samples = new MeanPrecisionPair[CommonDistributionTests.NumberOfTestSamples];
