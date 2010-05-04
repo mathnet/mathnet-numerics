@@ -242,11 +242,11 @@ namespace MathNet.Numerics.Distributions
         {
             if (Double.IsPositiveInfinity(_precisionInvScale))
             {
-                return new StudentT(_meanLocation, _meanScale * _precisionShape, Double.PositiveInfinity);
+                return new StudentT(_meanLocation, 1.0 / (_meanScale * _precisionShape), Double.PositiveInfinity);
             }
             else
             {
-                return new StudentT(_meanLocation, _meanScale * _precisionShape / _precisionInvScale, 2.0 * _precisionShape);
+                return new StudentT(_meanLocation, Math.Sqrt(_precisionInvScale / (_meanScale * _precisionShape)), 2.0 * _precisionShape);
             }
         }
 
