@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2010 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.NumberTheory
                 return 0;
             }
 
-            long gcd = Math.Abs(integers[0]);
+            var gcd = Math.Abs(integers[0]);
 
             for (int i = 1; (i < integers.Count) && (gcd > 1); i++)
             {
@@ -118,8 +118,8 @@ namespace MathNet.Numerics.NumberTheory
 
             while (b != 0)
             {
-                long quot = a / b;
-                long rem = a % b;
+            	long rem;
+            	long quot = Math.DivRem(a, b, out rem);
                 a = b;
                 b = rem;
 
@@ -177,7 +177,7 @@ namespace MathNet.Numerics.NumberTheory
                 return 1;
             }
 
-            long lcm = Math.Abs(integers[0]);
+            var lcm = Math.Abs(integers[0]);
 
             for (int i = 1; i < integers.Count; i++)
             {
