@@ -29,6 +29,7 @@
 namespace MathNet.Numerics.UnitTests.NumberTheoryTests
 {
     using System;
+    using System.Numerics;
     using NumberTheory;
     using MbUnit.Framework;
 

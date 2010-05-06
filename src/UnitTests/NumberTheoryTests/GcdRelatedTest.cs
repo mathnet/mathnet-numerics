@@ -92,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         [Test]
         public void ListGcdHandlesSpecialInputCorrectly()
         {
-            Assert.AreEqual(0, IntegerTheory.GreatestCommonDivisor(), "Gcd()");
+            Assert.AreEqual(0, IntegerTheory.GreatestCommonDivisor(new long[0]), "Gcd()");
             Assert.AreEqual(100, IntegerTheory.GreatestCommonDivisor(-100), "Gcd(-100)");
         }
 
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         {
             Assert.Throws(
                 typeof (ArgumentNullException),
-                () => IntegerTheory.GreatestCommonDivisor(null));
+                () => IntegerTheory.GreatestCommonDivisor((long[])null));
         }
 
         [Test]
@@ -147,7 +147,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         [Test]
         public void ListLcmHandlesSpecialInputCorrectly()
         {
-            Assert.AreEqual(1, IntegerTheory.LeastCommonMultiple(), "Lcm()");
+            Assert.AreEqual(1, IntegerTheory.LeastCommonMultiple(new long[0]), "Lcm()");
             Assert.AreEqual(100, IntegerTheory.LeastCommonMultiple(-100), "Lcm(-100)");
         }
 
@@ -156,7 +156,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         {
             Assert.Throws(
                 typeof(ArgumentNullException),
-                () => IntegerTheory.LeastCommonMultiple(null));
+                () => IntegerTheory.LeastCommonMultiple((long[])null));
         }
     }
 }

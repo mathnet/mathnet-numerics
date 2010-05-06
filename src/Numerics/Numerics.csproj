@@ -144,6 +144,7 @@
     <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.cs" />
     <Compile Include="LinearAlgebra\Double\Vector.cs" />
+    <Compile Include="NumberTheory\IntegerTheory.Euclid.Big.cs" />
     <Compile Include="NumberTheory\IntegerTheory.cs" />
     <Compile Include="NumberTheory\IntegerTheory.Euclid.cs" />
     <Compile Include="Precision.cs" />
