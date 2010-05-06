@@ -1,8 +1,10 @@
 ﻿// <copyright file="Erf.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2010 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -24,7 +26,6 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-// </copyright>
 
 // This file uses code from the Boost Project.
 //  (C) Copyright John Maddock 2006.
@@ -34,7 +35,7 @@
 // In particular the following functions are based on Boost:
 //  * double ErfImp(double z, bool invert)
 //  * double ErfInvImpl(double p, double q, double s)
-//
+// </copyright>
 
 namespace MathNet.Numerics
 {

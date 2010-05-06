@@ -1,8 +1,10 @@
 ﻿// <copyright file="MCMCSampler.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2010 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,9 +31,8 @@
 namespace MathNet.Numerics.Statistics.Mcmc
 {
     using System;
-    using MathNet.Numerics.Properties;
 
-    /// <summary>
+	/// <summary>
     /// A method which samples datapoints from a proposal distribution. The implementation of this sampler
     /// is stateless: no variables are saved between two calls to Sample. This proposal is different from
     /// <seealso cref="LocalProposalSampler{T}"/> in that it doesn't take any parameters; it samples random
