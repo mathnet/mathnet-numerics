@@ -1,8 +1,10 @@
 // <copyright file="CategorialTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2010 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -26,15 +28,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.DistributionTests
+namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 {
-    using System;
-    using System.Linq;
-    using MbUnit.Framework;
-    using MathNet.Numerics.Distributions;
-    using MathNet.Numerics.Statistics;
+	using System;
+	using MbUnit.Framework;
+	using Distributions;
+	using Statistics;
 
-    [TestFixture]
+	[TestFixture]
     public class CategoricalTests
     {
         double[] badP;
