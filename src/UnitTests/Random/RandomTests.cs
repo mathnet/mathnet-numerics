@@ -1,8 +1,10 @@
 ﻿// <copyright file="SystemRandomExtensionTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2010 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,9 +33,8 @@ namespace MathNet.Numerics.UnitTests.RandomTests
     using System;
     using System.Threading;
     using MbUnit.Framework;
-    using MathNet.Numerics.Random;
 
-    public abstract class RandomTests
+	public abstract class RandomTests
     {
         private const int _n = 10000;
         private readonly Type _randomType;

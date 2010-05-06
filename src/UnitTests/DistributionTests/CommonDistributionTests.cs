@@ -1,8 +1,10 @@
 ﻿// <copyright file="CommonDistributionTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2010 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,9 +34,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     using System.Linq;
     using System.Collections.Generic;
     using MbUnit.Framework;
-    using MathNet.Numerics.Random;
-    using MathNet.Numerics.Statistics;
-    using MathNet.Numerics.Distributions;
+    using Random;
+    using Statistics;
+    using Distributions;
 
     /// <summary>
     /// This class will perform various tests on discrete and continuous univariate distributions. The multivariate distributions
