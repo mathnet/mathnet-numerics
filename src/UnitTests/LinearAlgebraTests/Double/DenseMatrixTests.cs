@@ -120,5 +120,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 }
             }
         }
+
+        [Test]
+        public void CanCreateIdentity()
+        {
+            var matrix = DenseMatrix.Identity(5);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(1.0, matrix[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(0.0, matrix[i, j]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        [Row(0)]
+        [Row(-1)]
+        [ExpectedArgumentException]
+        public void IdentityFailsWithZeroOrNegativeOrder(int order)
+        {
+            var matrix = DenseMatrix.Identity(order);
+        }
     }
 }
