@@ -397,5 +397,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
+
+        #region Static constructors for special matrices.
+        /// <summary>
+        /// Initializes a square <see cref="DenseMatrix"/> with all zero's except for ones on the diagonal.
+        /// </summary>
+        /// <param name="order">the size of the square matrix.</param>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="order"/> is less than one.
+        /// </exception>
+        public static DenseMatrix Identity(int order)
+        {
+            var m = new DenseMatrix(order);
+            for (int i = 0; i < order; i++)
+            {
+                m[i, i] = 1.0;
+            }
+            return m;
+        }
+        #endregion
     }
 }
