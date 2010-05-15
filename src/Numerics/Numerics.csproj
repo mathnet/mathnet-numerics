@@ -139,6 +139,9 @@
     <Compile Include="Interpolation\IInterpolation.cs" />
     <Compile Include="Interpolation\Interpolate.cs" />
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
+    <Compile Include="LinearAlgebra\Double\Decomposition\Cholesky.cs" />
+    <Compile Include="LinearAlgebra\Double\Decomposition\ExtensionMethods.cs" />
+    <Compile Include="LinearAlgebra\Double\Decomposition\DenseCholesky.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.Arithmetic.cs" />
     <Compile Include="LinearAlgebra\Double\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
@@ -246,6 +249,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
