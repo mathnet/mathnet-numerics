@@ -639,5 +639,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 }
             }
         }
+
+        /// <summary>
+        /// Returns the transpose of this matrix.
+        /// </summary>        
+        /// <returns>The transpose of this matrix.</returns>
+        public virtual Matrix Transpose()
+        {
+            Matrix ret = CreateMatrix(ColumnCount, RowCount);
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    ret.At(j, i, At(i, j));
+                }
+            }
+            return ret;
+        }
     }
 }

@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Decomposition
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     using System.Collections.Generic;
     using MbUnit.Framework;
     using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Decomposition;
+    using LinearAlgebra.Double.Factorization;
 
     public class CholeskyTests
     {
@@ -41,8 +41,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Decomposition
         [Row(1)]
         [Row(10)]
         [Row(100)]
-        [Row(1000)]
-        public void CanDecomposeIdentity(int order)
+        public void CanFactorizeIdentity(int order)
         {
             var I = DenseMatrix.Identity(order);
             var C = I.Cholesky();
@@ -86,13 +85,63 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Decomposition
         [Row(1)]
         [Row(10)]
         [Row(100)]
-        [Row(1000)]
         public void IdentityDeterminantIsOne(int order)
         {
             var I = DenseMatrix.Identity(order);
             var C = I.Cholesky();
             Assert.AreEqual(1.0, C.Determinant);
             Assert.AreEqual(0.0, C.DeterminantLn);
+        }
+
+        [Test]
+        [Row(1)]
+        [Row(2)]
+        [Row(5)]
+        [Row(10)]
+        [Row(50)]
+        [Row(100)]
+        [MultipleAsserts]
+        public void CanFactorizeRandomMatrix(int order)
+        {
+            // Fill a matrix with standard random numbers.
+            var normal = new Distributions.Normal();
+            normal.RandomSource = new Random.MersenneTwister(1);
+            var A = new DenseMatrix(order);
+            for (int i = 0; i < order; i++)
+            {
+                for (int j = 0; j < order; j++)
+                {
+                    A[i, j] = normal.Sample();
+                }
+            }
+
+            // Generate a matrix which is positive definite.
+            var X = A.Transpose() * A;
+            var chol = X.Cholesky();
+            var C = chol.Factor;
+
+            // Make sure the Cholesky factor has the right dimensions.
+            Assert.AreEqual(order, C.RowCount);
+            Assert.AreEqual(order, C.ColumnCount);
+
+            // Make sure the Cholesky factor is lower triangular.
+            for (int i = 0; i < C.RowCount; i++) 
+            {
+                for (int j = i+1; j < C.ColumnCount; j++)
+                {
+                    Assert.AreEqual(0.0, C[i, j]);
+                }
+            }
+
+            // Make sure the cholesky factor times it's transpose is the original matrix.
+            var XfromC = C * C.Transpose();
+            for (int i = 0; i < XfromC.RowCount; i++) 
+            {
+                for (int j = 0; j < XfromC.ColumnCount; j++)
+                {
+                    Assert.AreApproximatelyEqual(X[i,j], XfromC[i, j], 1.0e-13);
+                }
+            }
         }
     }
 }
