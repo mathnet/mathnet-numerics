@@ -196,6 +196,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             Array.Clear(Data, 0, Data.Length);
         }
 
+        /// <summary>
+        /// Returns the transpose of this matrix.
+        /// </summary>        
+        /// <returns>The transpose of this matrix.</returns>
+        public override Matrix Transpose()
+        {
+            DenseMatrix ret = new DenseMatrix(ColumnCount, RowCount);
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                int index = j * RowCount;
+                for (int i = 0; i < RowCount; i++)
+                {
+                    ret.Data[i * ColumnCount + j] = Data[index + i];
+                }
+            }
+            return ret;
+        }
+
         #region Elementary operations
 
         /// <summary>

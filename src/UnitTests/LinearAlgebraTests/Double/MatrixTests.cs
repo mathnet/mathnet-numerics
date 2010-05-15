@@ -457,5 +457,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Vector result = CreateVector(matrix.RowCount - 1);
             matrix.GetColumn(0, 0, matrix.RowCount, result);
         }
+
+        [Test]
+        [Row("Singular3x3")]
+        [Row("Square3x3")]
+        [Row("Square4x4")]
+        [Row("Tall3x2")]
+        [Row("Wide2x3")]
+        [MultipleAsserts]
+        public void CanTransposeMatrix(string name)
+        {
+            var matrix = CreateMatrix(testData2D[name]);
+            var transpose = matrix.Transpose();
+
+            Assert.AreNotSame(matrix, transpose);
+            Assert.AreEqual(matrix.RowCount, transpose.ColumnCount);
+            Assert.AreEqual(matrix.ColumnCount, transpose.RowCount);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], transpose[j, i]);
+                }
+            }
+        }
     }
 }

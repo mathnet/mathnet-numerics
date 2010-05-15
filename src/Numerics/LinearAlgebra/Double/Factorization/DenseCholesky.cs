@@ -28,30 +28,25 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Decomposition
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Properties;
 
     /// <summary>
-    /// <para>A class which encapsulates the functionality of a Cholesky decomposition for dense matrices.</para>
-    /// <para>For a symmetric, positive definite matrix A, the Cholesky decomposition
+    /// <para>A class which encapsulates the functionality of a Cholesky factorization for dense matrices.</para>
+    /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
     /// is an lower triangular matrix L so that A = L*L'.</para>
     /// </summary>
     /// <remarks>
-    /// The computation of the Cholesky decomposition is done at construction time. If the matrix is not symmetric
+    /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
     public class DenseCholesky : Cholesky
     {
         /// <summary>
-        /// Stores the Cholesky factor for the decomposition.
-        /// </summary>
-        private DenseMatrix _factor;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DenseCholesky"/> class. This object will compute the
-        /// Cholesky decomposition when the constructor is called and cache it's factorization.
+        /// Cholesky factorization when the constructor is called and cache it's factorization.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
@@ -70,48 +65,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Decomposition
             }
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            _factor = (DenseMatrix)matrix.Clone();
-            Control.LinearAlgebraProvider.CholeskyFactor(_factor.Data, _factor.RowCount);
-        }
-
-        /// <summary>
-        /// Returns the lower triangular form of the Cholesky matrix.
-        /// </summary>
-        public override Matrix Factor
-        {
-            get { return _factor; }
-        }
-
-        /// <summary>
-        /// The determinant of the matrix for which the Cholesky matrix was computed.
-        /// </summary>
-        public override double Determinant
-        {
-            get
-            {
-                double det = 1.0;
-                for (int j = 0; j < _factor.RowCount; j++)
-                {
-                    det *= (_factor[j, j] * _factor[j, j]);
-                }
-                return det;
-            }
-        }
-
-        /// <summary>
-        /// The log determinant of the matrix for which the Cholesky matrix was computed.
-        /// </summary>
-        public override double DeterminantLn
-        {
-            get
-            {
-                double det = 0.0;
-                for (int j = 0; j < _factor.RowCount; j++)
-                {
-                    det += (2.0 * Math.Log(_factor[j, j]));
-                }
-                return det;
-            }
+            var factor = (DenseMatrix)matrix.Clone();
+            Control.LinearAlgebraProvider.CholeskyFactor(factor.Data, factor.RowCount);
+            mFactor = factor;
         }
     }
 }

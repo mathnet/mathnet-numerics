@@ -28,22 +28,27 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Decomposition
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Properties;
 
     /// <summary>
-    /// <para>A class which encapsulates the functionality of a Cholesky decomposition.</para>
-    /// <para>For a symmetric, positive definite matrix A, the Cholesky decomposition
+    /// <para>A class which encapsulates the functionality of a Cholesky factorization.</para>
+    /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
     /// is an lower triangular matrix L so that A = L*L'.</para>
     /// </summary>
     /// <remarks>
-    /// The computation of the Cholesky decomposition is done at construction time. If the matrix is not symmetric
+    /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
     public abstract class Cholesky
     {
+        /// <summary>
+        /// Stores the Cholesky factor.
+        /// </summary>
+        protected Matrix mFactor;
+
         /// <summary>
         /// Internal method which routes the call to perform the Cholesky factorization to the appropriate class.
         /// </summary>
@@ -61,18 +66,43 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Decomposition
         }
 
         /// <summary>
-        /// A reference to the lower triangular form of the Cholesky matrix.
+        /// Returns the lower triangular form of the Cholesky matrix.
         /// </summary>
-        public abstract Matrix Factor { get; }
+        public virtual Matrix Factor
+        {
+            get { return mFactor; }
+        }
 
         /// <summary>
         /// The determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public abstract double Determinant { get; }
+        public virtual double Determinant
+        {
+            get
+            {
+                double det = 1.0;
+                for (int j = 0; j < mFactor.RowCount; j++)
+                {
+                    det *= (mFactor[j, j] * mFactor[j, j]);
+                }
+                return det;
+            }
+        }
 
         /// <summary>
         /// The log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public abstract double DeterminantLn { get; }
+        public virtual double DeterminantLn
+        {
+            get
+            {
+                double det = 0.0;
+                for (int j = 0; j < mFactor.RowCount; j++)
+                {
+                    det += (2.0 * Math.Log(mFactor[j, j]));
+                }
+                return det;
+            }
+        }
     }
 }

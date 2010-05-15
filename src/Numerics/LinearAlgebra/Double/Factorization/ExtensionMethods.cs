@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Decomposition
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Properties;
 
     /// <summary>
-    /// Extension methods which return decompositions for the various matrix classes.
+    /// Extension methods which return factorizations for the various matrix classes.
     /// </summary>
     public static class ExtensionMethods
     {
@@ -45,7 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Decomposition
         /// <returns>The Cholesky decomposition object.</returns>
         public static Cholesky Cholesky(this Matrix matrix)
         {
-            return Decomposition.Cholesky.Create(matrix);
+            return Factorization.Cholesky.Create(matrix);
         }
     }
 }
