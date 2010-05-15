@@ -139,9 +139,9 @@
     <Compile Include="Interpolation\IInterpolation.cs" />
     <Compile Include="Interpolation\Interpolate.cs" />
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
-    <Compile Include="LinearAlgebra\Double\Decomposition\Cholesky.cs" />
-    <Compile Include="LinearAlgebra\Double\Decomposition\ExtensionMethods.cs" />
-    <Compile Include="LinearAlgebra\Double\Decomposition\DenseCholesky.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\Cholesky.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\ExtensionMethods.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\DenseCholesky.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.Arithmetic.cs" />
     <Compile Include="LinearAlgebra\Double\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
