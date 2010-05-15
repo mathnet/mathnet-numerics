@@ -32,8 +32,9 @@ namespace MathNet.Numerics
 {
     using System;
     using Algorithms.LinearAlgebra;
+    using Threading;
 
-	/// <summary>
+    /// <summary>
     /// Sets parameters for the library.
     /// </summary>
     public static class Control

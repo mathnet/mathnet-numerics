@@ -10,3 +10,4 @@ _ReSharper*
 bin
 *.vsdoc
 *.XML
+Version1.cs
