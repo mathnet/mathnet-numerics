@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -48,7 +44,7 @@ namespace MathNet.Numerics.NumberTheory
         {
             while (b != 0)
             {
-                long remainder = a % b;
+                var remainder = a % b;
                 a = b;
                 b = remainder;
             }
@@ -76,7 +72,7 @@ namespace MathNet.Numerics.NumberTheory
 
             var gcd = Math.Abs(integers[0]);
 
-            for (int i = 1; (i < integers.Count) && (gcd > 1); i++)
+            for (var i = 1; (i < integers.Count) && (gcd > 1); i++)
             {
                 gcd = GreatestCommonDivisor(gcd, integers[i]);
             }
@@ -111,21 +107,25 @@ namespace MathNet.Numerics.NumberTheory
         /// The <c>gcd</c> of 45 and 18 is 9: 18 = 2*9, 45 = 5*9. 9 = 1*45 -2*18, therefore x=1 and y=-2.
         /// </example>
         public static long ExtendedGreatestCommonDivisor(
-            long a,
-            long b,
-            out long x,
+            long a, 
+            long b, 
+            out long x, 
             out long y)
         {
             long mp = 1, np = 0, m = 0, n = 1;
 
             while (b != 0)
             {
-            	long rem;
-            	long quot = Math.DivRem(a, b, out rem);
+                long rem;
+#if SILVERLIGHT
+                var quot = SilverlightUtilities.DivRem(a, b, out rem);
+#else
+                long quot = Math.DivRem(a, b, out rem);
+#endif
                 a = b;
                 b = rem;
 
-                long tmp = m;
+                var tmp = m;
                 m = mp - (quot * m);
                 mp = tmp;
 
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.NumberTheory
 
             var lcm = Math.Abs(integers[0]);
 
-            for (int i = 1; i < integers.Count; i++)
+            for (var i = 1; i < integers.Count; i++)
             {
                 lcm = LeastCommonMultiple(lcm, integers[i]);
             }

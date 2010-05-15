@@ -314,7 +314,14 @@
     <Compile Include="..\Numerics\Trigonometry.cs">
       <Link>Trigonometry.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Version1.cs">
+      <Link>Version1.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Version.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SilverlightUtilities.cs" />
     <Compile Include="Threading\AggregateException.cs" />
     <Compile Include="Threading\Parallel.cs" />
     <Compile Include="Threading\Task.cs" />
