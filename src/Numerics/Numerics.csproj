@@ -77,14 +77,19 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MklLinearAlgebraProvider.cs</LastGenOutput>
+    </None>
     <None Include="Algorithms\LinearAlgebra\NativeAlgebraProvider.include" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs" />
     <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>MklLinearAlgebraProvider.tt</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.cs">
       <AutoGen>True</AutoGen>
@@ -204,10 +209,6 @@
     <None Include="Algorithms\LinearAlgebra\Atlas\SafeNativeMethods.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MklLinearAlgebraProvider.cs</LastGenOutput>
     </None>
     <None Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

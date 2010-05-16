@@ -776,14 +776,59 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
         }
 
-        public void CholeskySolve(int columnsOfB, double[] a, double[] b)
+        /// <summary>
+        /// Solves A*X=B for X using Cholesky factorization.
+        /// </summary>
+        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
+        public void CholeskySolve(double[] a, int aOrder, double[] b, int bRows, int bColumns)
         {
             throw new NotImplementedException();
         }
 
-        public void CholeskySolveFactored(int columnsOfB, double[] a, double[] b)
+        /// <summary>
+        /// Solves A*X=B for X using a previously factored A matrix.
+        /// </summary>
+        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
+        public void CholeskySolveFactored(double[] a, int aOrder, double[] b, int bRows, int bColumns)
         {
-            throw new NotImplementedException();
+            for (int c = 0; c < bColumns; c++)
+            {
+                int cindex = c * aOrder;
+
+                // Solve L*Y = B;
+                double sum;
+                for (int i = 0; i < aOrder; i++)
+                {
+                    sum = b[c * aOrder + i];
+                    for (int k = i - 1; k >= 0; k--)
+                    {
+                        sum -= a[k * aOrder + i] * b[cindex + k];
+                    }
+                    b[cindex + i] = sum / a[i * aOrder + i];
+                }
+
+                // Solve L'*X = Y;
+                for (int i = aOrder - 1; i >= 0; i--)
+                {
+                    sum = b[cindex + i];
+                    int iindex = i * aOrder;
+                    for (int k = i + 1; k < aOrder; k++)
+                    {
+                        sum -= a[iindex + k] * b[cindex + k];
+                    }
+                    b[cindex + i] = sum / a[iindex + i];
+                }
+            }
         }
 
         public void QRFactor(double[] r, double[] q)
@@ -1575,12 +1620,30 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             Buffer.BlockCopy(factor, 0, a, 0, factor.Length * Constants.SizeOfFloat);
         }
 
-        public void CholeskySolve(int columnsOfB, float[] a, float[] b)
+        /// <summary>
+        /// Solves A*X=B for X using Cholesky factorization.
+        /// </summary>
+        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
+        public void CholeskySolve(float[] a, int aOrder, float[] b, int bRows, int bColumns)
         {
             throw new NotImplementedException();
         }
 
-        public void CholeskySolveFactored(int columnsOfB, float[] a, float[] b)
+        /// <summary>
+        /// Solves A*X=B for X using a previously factored A matrix.
+        /// </summary>
+        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
+        public void CholeskySolveFactored(float[] a, int aOrder, float[] b, int bRows, int bColumns)
         {
             throw new NotImplementedException();
         }
@@ -2339,12 +2402,30 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void CholeskySolve(int columnsOfB, Complex[] a, Complex[] b)
+        /// <summary>
+        /// Solves A*X=B for X using Cholesky factorization.
+        /// </summary>
+        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
+        public void CholeskySolve(Complex[] a, int aOrder, Complex[] b, int bRows, int bColumns)
         {
             throw new NotImplementedException();
         }
 
-        public void CholeskySolveFactored(int columnsOfB, Complex[] a, Complex[] b)
+        /// <summary>
+        /// Solves A*X=B for X using a previously factored A matrix.
+        /// </summary>
+        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
+        public void CholeskySolveFactored(Complex[] a, int aOrder, Complex[] b, int bRows, int bColumns)
         {
             throw new NotImplementedException();
         }
@@ -3103,12 +3184,30 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void CholeskySolve(int columnsOfB, Complex32[] a, Complex32[] b)
+        /// <summary>
+        /// Solves A*X=B for X using Cholesky factorization.
+        /// </summary>
+        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
+        public void CholeskySolve(Complex32[] a, int aOrder, Complex32[] b, int bRows, int bColumns)
         {
             throw new NotImplementedException();
         }
 
-        public void CholeskySolveFactored(int columnsOfB, Complex32[] a, Complex32[] b)
+        /// <summary>
+        /// Solves A*X=B for X using a previously factored A matrix.
+        /// </summary>
+        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
+        public void CholeskySolveFactored(Complex32[] a, int aOrder, Complex32[] b, int bRows, int bColumns)
         {
             throw new NotImplementedException();
         }

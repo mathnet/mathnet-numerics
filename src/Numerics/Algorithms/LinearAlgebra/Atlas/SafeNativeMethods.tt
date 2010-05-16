@@ -1,4 +1,4 @@
-﻿<#@ template language="C#v3.5" debug="true" #>
+﻿<#@ template language="C#" debug="true" #>
 <#@ output extenstion="cs" #>
 <# string namespaceSuffix = "Atlas";
    string library = "ATLAS"; 
