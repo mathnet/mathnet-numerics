@@ -69,5 +69,144 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             Control.LinearAlgebraProvider.CholeskyFactor(factor.Data, factor.RowCount);
             mFactor = factor;
         }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
+        /// </summary>
+        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
+        /// <returns>The left hand side <see cref="Matrix"/>, <b>X</b>.</returns>
+        public override Matrix Solve(Matrix input)
+        {
+            // Check for proper arguments.
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            var X = new DenseMatrix(input.RowCount, input.ColumnCount);
+            Solve(input, X);
+            return X;
+        }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
+        /// </summary>
+        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
+        public override void Solve(Matrix input, Matrix result)
+        {
+            // Check for proper arguments.
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            // Check for proper dimensions.
+            if (result.RowCount != input.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+            }
+
+            if (result.ColumnCount != input.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+            }
+
+            if (input.RowCount != mFactor.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            var dinput = input as DenseMatrix;
+            if (dinput == null)
+            {
+                throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
+            }
+
+            var dresult = input as DenseMatrix;
+            if (dresult == null)
+            {
+                throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
+            }
+
+            // Copy the contents of input to result.
+            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
+
+            // Cholesky solve by overwriting result.
+            var dfactor = mFactor as DenseMatrix;
+            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.RowCount, dresult.ColumnCount);
+        }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
+        /// </summary>
+        /// <param name="input">The right hand side vector, <b>b</b>.</param>
+        /// <returns>The left hand side <see cref="DenseVector"/>, <b>x</b>.</returns>
+        public override Vector Solve(Vector input)
+        {
+            // Check for proper arguments.
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            var x = new DenseVector(input.Count);
+            Solve(input, x);
+            return x;
+        }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
+        /// </summary>
+        /// <param name="input">The right hand side vector, <b>b</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
+        public override void Solve(Vector input, Vector result)
+        {
+            // Check for proper arguments.
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            // Check for proper dimensions.
+            if (input.Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (input.Count != mFactor.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            var dinput = input as DenseVector;
+            if (dinput == null)
+            {
+                throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
+            }
+
+            var dresult = input as DenseVector;
+            if (dresult == null)
+            {
+                throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
+            }
+
+            // Copy the contents of input to result.
+            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
+
+            // Cholesky solve by overwriting result.
+            var dfactor = mFactor as DenseMatrix;
+            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.Count, 1);
+        }
     }
 }

@@ -104,5 +104,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 return det;
             }
         }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
+        /// </summary>
+        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
+        /// <returns>The left hand side <see cref="Matrix"/>, <b>X</b>.</returns>
+        public abstract Matrix Solve(Matrix input);
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
+        /// </summary>
+        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
+        public abstract void Solve(Matrix input, Matrix result);
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
+        /// </summary>
+        /// <param name="input">The right hand side vector, <b>b</b>.</param>
+        /// <returns>The left hand side <see cref="Vector"/>, <b>x</b>.</returns>
+        public abstract Vector Solve(Vector input);
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
+        /// </summary>
+        /// <param name="input">The right hand side vector, <b>b</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
+        public abstract void Solve(Vector input, Vector result);
     }
 }
