@@ -63,5 +63,55 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        public static Matrix GenerateRandomMatrix(int row, int col)
+        {
+            // Fill a matrix with standard random numbers.
+            var normal = new Distributions.Normal();
+            normal.RandomSource = new Random.MersenneTwister(1);
+            var A = new DenseMatrix(row, col);
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    A[i, j] = normal.Sample();
+                }
+            }
+
+            // Generate a matrix which is positive definite.
+            return A;
+        }
+
+        public static Matrix GenerateRandomPositiveDefiniteMatrix(int order)
+        {
+            // Fill a matrix with standard random numbers.
+            var normal = new Distributions.Normal();
+            normal.RandomSource = new Random.MersenneTwister(1);
+            var A = new DenseMatrix(order);
+            for (int i = 0; i < order; i++)
+            {
+                for (int j = 0; j < order; j++)
+                {
+                    A[i, j] = normal.Sample();
+                }
+            }
+
+            // Generate a matrix which is positive definite.
+            return A.Transpose() * A;
+        }
+
+        public static Vector GenerateRandomVector(int order)
+        {
+            // Fill a matrix with standard random numbers.
+            var normal = new Distributions.Normal();
+            normal.RandomSource = new Random.MersenneTwister(1);
+            var v = new DenseVector(order);
+            for (int i = 0; i < order; i++)
+            {
+                v[i] = normal.Sample();
+            }
+
+            // Generate a matrix which is positive definite.
+            return v;
+        }
     }
 }

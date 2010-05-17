@@ -742,6 +742,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(double[] a, int order)
         {
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
             for (var j = 0; j < order; j++)
             {
                 var d = 0.0;
@@ -793,15 +798,35 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
         /// </summary>
-        /// <param name="a">The square, positive definite matrix A.</param>
+        /// <param name="a">The square, positive definite matrix A. Has to be different than <paramref name="B"/>.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">The B matrix. Has to be different than <paramref name="A"/>.</param>
         /// <param name="bRows">The number of rows in the B matrix.</param>
         /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         public void CholeskySolveFactored(double[] a, int aOrder, double[] b, int bRows, int bColumns)
         {
-            for (int c = 0; c < bColumns; c++)
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (aOrder != bRows)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (Object.ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+            }
+
+            CommonParallel.For(0, bColumns, c =>
             {
                 int cindex = c * aOrder;
 
@@ -809,7 +834,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 double sum;
                 for (int i = 0; i < aOrder; i++)
                 {
-                    sum = b[c * aOrder + i];
+                    sum = b[cindex + i];
                     for (int k = i - 1; k >= 0; k--)
                     {
                         sum -= a[k * aOrder + i] * b[cindex + k];
@@ -828,7 +853,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     }
                     b[cindex + i] = sum / a[iindex + i];
                 }
-            }
+            });
         }
 
         public void QRFactor(double[] r, double[] q)

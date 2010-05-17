@@ -385,6 +385,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Arguments must be different objects..
+        /// </summary>
+        internal static string ArgumentReferenceDifferent {
+            get {
+                return ResourceManager.GetString("ArgumentReferenceDifferent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Array must have exactly one dimension (and not be null)..
         /// </summary>
         internal static string ArgumentSingleDimensionArray {

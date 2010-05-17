@@ -128,7 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
             }
 
-            var dresult = input as DenseMatrix;
+            var dresult = result as DenseMatrix;
             if (dresult == null)
             {
                 throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
@@ -195,7 +195,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
             }
 
-            var dresult = input as DenseVector;
+            var dresult = result as DenseVector;
             if (dresult == null)
             {
                 throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
