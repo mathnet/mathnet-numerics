@@ -103,20 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanFactorizeRandomMatrix(int order)
         {
-            // Fill a matrix with standard random numbers.
-            var normal = new Distributions.Normal();
-            normal.RandomSource = new Random.MersenneTwister(1);
-            var A = new DenseMatrix(order);
-            for (int i = 0; i < order; i++)
-            {
-                for (int j = 0; j < order; j++)
-                {
-                    A[i, j] = normal.Sample();
-                }
-            }
-
-            // Generate a matrix which is positive definite.
-            var X = A.Transpose() * A;
+            var X = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(order);
             var chol = X.Cholesky();
             var C = chol.Factor;
 
@@ -139,7 +126,178 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (int j = 0; j < XfromC.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(X[i,j], XfromC[i, j], 1.0e-13);
+                    Assert.AreApproximatelyEqual(X[i,j], XfromC[i, j], 1.0e-11);
+                }
+            }
+        }
+
+        [Test]
+        [Row(1)]
+        [Row(2)]
+        [Row(5)]
+        [Row(10)]
+        [Row(50)]
+        [Row(100)]
+        [MultipleAsserts]
+        public void CanSolveForRandomVector(int order)
+        {
+            var A = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(order);
+            var ACopy = A.Clone();
+            var chol = A.Cholesky();
+            var b = MatrixLoader.GenerateRandomVector(order);
+            var x = chol.Solve(b);
+
+            Assert.AreEqual(b.Count, x.Count);
+
+            var bReconstruct = A * x;
+
+            // Check the reconstruction.
+            for (int i = 0; i < order; i++)
+            {
+                Assert.AreApproximatelyEqual(b[i], bReconstruct[i], 1.0e-11);
+            }
+
+            // Make sure A didn't change.
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                for (int j = 0; j < A.ColumnCount; j++)
+                {
+                    Assert.AreEqual(ACopy[i, j], A[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [Row(1,1)]
+        [Row(2,4)]
+        [Row(5,8)]
+        [Row(10,3)]
+        [Row(50,10)]
+        [Row(100,100)]
+        [MultipleAsserts]
+        public void CanSolveForRandomMatrix(int row, int col)
+        {
+            var A = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(row);
+            var ACopy = A.Clone();
+            var chol = A.Cholesky();
+            var B = MatrixLoader.GenerateRandomMatrix(row, col);
+            var X = chol.Solve(B);
+
+            Assert.AreEqual(B.RowCount, X.RowCount);
+            Assert.AreEqual(B.ColumnCount, X.ColumnCount);
+
+            var BReconstruct = A * X;
+
+            // Check the reconstruction.
+            for (int i = 0; i < B.RowCount; i++)
+            {
+                for (int j = 0; j < B.ColumnCount; j++)
+                {
+                    Assert.AreApproximatelyEqual(B[i, j], BReconstruct[i, j], 1.0e-11);
+                }
+            }
+
+            // Make sure A didn't change.
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                for (int j = 0; j < A.ColumnCount; j++)
+                {
+                    Assert.AreEqual(ACopy[i, j], A[i, j]);
+                }
+            }
+        }
+
+        [Test]
+        [Row(1)]
+        [Row(2)]
+        [Row(5)]
+        [Row(10)]
+        [Row(50)]
+        [Row(100)]
+        [MultipleAsserts]
+        public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
+        {
+            var A = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(order);
+            var ACopy = A.Clone();
+            var chol = A.Cholesky();
+            var b = MatrixLoader.GenerateRandomVector(order);
+            var bCopy = b.Clone();
+            var x = new DenseVector(order);
+            chol.Solve(b, x);
+
+            Assert.AreEqual(b.Count, x.Count);
+
+            var bReconstruct = A * x;
+
+            // Check the reconstruction.
+            for (int i = 0; i < order; i++)
+            {
+                Assert.AreApproximatelyEqual(b[i], bReconstruct[i], 1.0e-11);
+            }
+
+            // Make sure A didn't change.
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                for (int j = 0; j < A.ColumnCount; j++)
+                {
+                    Assert.AreEqual(ACopy[i, j], A[i, j]);
+                }
+            }
+
+            // Make sure b didn't change.
+            for (int i = 0; i < order; i++)
+            {
+                Assert.AreEqual(bCopy[i], b[i]);
+            }
+        }
+
+        [Test]
+        [Row(1, 1)]
+        [Row(2, 4)]
+        [Row(5, 8)]
+        [Row(10, 3)]
+        [Row(50, 10)]
+        [Row(100, 100)]
+        [MultipleAsserts]
+        public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int col)
+        {
+            var A = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(row);
+            var ACopy = A.Clone();
+            var chol = A.Cholesky();
+            var B = MatrixLoader.GenerateRandomMatrix(row, col);
+            var BCopy = B.Clone();
+            var X = new DenseMatrix(row, col);
+            chol.Solve(B, X);
+
+            Assert.AreEqual(B.RowCount, X.RowCount);
+            Assert.AreEqual(B.ColumnCount, X.ColumnCount);
+
+            var BReconstruct = A * X;
+
+            // Check the reconstruction.
+            for (int i = 0; i < B.RowCount; i++)
+            {
+                for (int j = 0; j < B.ColumnCount; j++)
+                {
+                    Assert.AreApproximatelyEqual(B[i, j], BReconstruct[i, j], 1.0e-11);
+                }
+            }
+
+            // Make sure A didn't change.
+            for (int i = 0; i < A.RowCount; i++)
+            {
+                for (int j = 0; j < A.ColumnCount; j++)
+                {
+                    Assert.AreEqual(ACopy[i, j], A[i, j]);
+                }
+            }
+
+            // Make sure B didn't change.
+            for (int i = 0; i < B.RowCount; i++)
+            {
+                for (int j = 0; j < B.ColumnCount; j++)
+                {
+                    Assert.AreEqual(BCopy[i, j], B[i, j]);
                 }
             }
         }
