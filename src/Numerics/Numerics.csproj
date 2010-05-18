@@ -145,6 +145,8 @@
     <Compile Include="Interpolation\Interpolate.cs" />
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\Cholesky.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\DenseLU.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\LU.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\DenseCholesky.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.Arithmetic.cs" />

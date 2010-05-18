@@ -210,14 +210,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             int aRows, int aColumns, T[] b, int bRows, int bColumns, T beta, T[] c);
 
         /// <summary>
-        /// Computes the LU factorization of A.
+        /// Computes the LUP factorization of A. P*A = L*U.
         /// </summary>
-        /// <param name="a">An m by n matrix. The matrix is overwritten with the
-        /// the LU factorization On exit.</param>
-        /// <param name="ipiv">On exit, it contains the pivot indices. The size
-        /// of the array must be min(m,n).</param>
+        /// <param name="a">An <paramref name="aOrder"/> by <paramref name="aOrder"/> matrix. The matrix is overwritten with the
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="A"/> (the diagonal is always 1.0
+        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="A"/>.</param>
+        /// <param name="aOrder">The order of the square matrix <paramref name="A"/>.</param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="aOrder"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
-        void LUFactor(T[] a, int[] ipiv);
+        void LUFactor(T[] a, int aOrder, int[] ipiv);
 
         /// <summary>
         /// Computes the inverse of matrix using LU factorization.

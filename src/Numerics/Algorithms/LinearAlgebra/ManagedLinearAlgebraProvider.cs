@@ -688,7 +688,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
         }
 
-        public void LUFactor(double[] a, int[] ipiv)
+        /// <summary>
+        /// Computes the LUP factorization of A. P*A = L*U.
+        /// </summary>
+        /// <param name="a">An <paramref name="aOrder"/> by <paramref name="aOrder"/> matrix. The matrix is overwritten with the
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="A"/> (the diagonal is always 1.0
+        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="A"/>.</param>
+        /// <param name="aOrder">The order of the square matrix <paramref name="A"/>.</param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="aOrder"/>.</param>
+        /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        public void LUFactor(double[] a, int aOrder, int[] ipiv)
         {
             throw new NotImplementedException();
         }

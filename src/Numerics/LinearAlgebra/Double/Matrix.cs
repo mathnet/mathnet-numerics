@@ -33,6 +33,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Text;
     using Properties;
+    using MathNet.Numerics.Threading;
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -454,6 +455,108 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 result[j] = At(i, columnIndex);
             }
+        }
+
+        /// <summary>
+        /// Returns a new matrix containing the lower triangle of this matrix.
+        /// </summary>
+        /// <returns>The lower triangle of this matrix.</returns>        
+        public virtual Matrix GetLowerTriangle()
+        {
+            Matrix ret = CreateMatrix(RowCount, ColumnCount);
+            CommonParallel.For(0, ColumnCount, j =>
+            {
+                for (int i = j; i < RowCount; i++)
+                {
+                    ret.At(i, j, At(i, j));
+                }
+            });
+            return ret;
+        }
+
+        /// <summary>
+        /// Puts the lower triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public virtual void GetLowerTriangle(Matrix result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            CommonParallel.For(0, ColumnCount, j =>
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    if (i >= j)
+                    {
+                        result.At(i, j, At(i, j));
+                    }
+                    else
+                    {
+                        result.At(i, j, 0);
+                    }
+                }
+            });
+        }
+        
+        /// <summary>
+        /// Returns a new matrix containing the upper triangle of this matrix.
+        /// </summary>
+        /// <returns>The upper triangle of this matrix.</returns>   
+        public virtual Matrix GetUpperTriangle()
+        {
+            Matrix ret = CreateMatrix(RowCount, ColumnCount);
+            CommonParallel.For(0, ColumnCount, j =>
+            {
+                for (int i = 0; i <= j; i++)
+                {
+                    ret.At(i, j, At(i, j));
+                }
+            });
+            return ret;
+        }
+
+        /// <summary>
+        /// Puts the upper triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public virtual void GetUpperTriangle(Matrix result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            CommonParallel.For(0, ColumnCount, j =>
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    if (i <= j)
+                    {
+                        result.At(i, j, At(i, j));
+                    }
+                    else
+                    {
+                        result.At(i, j, 0);
+                    }
+                }
+            });
         }
 
         #region Implemented Interfaces
