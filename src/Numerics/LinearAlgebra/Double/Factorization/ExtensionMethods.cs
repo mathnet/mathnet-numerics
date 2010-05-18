@@ -39,13 +39,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     public static class ExtensionMethods
     {
         /// <summary>
-        /// Computes the cholesky decomposition for a matrix.
+        /// Computes the Cholesky decomposition for a matrix.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The Cholesky decomposition object.</returns>
         public static Cholesky Cholesky(this Matrix matrix)
         {
             return Factorization.Cholesky.Create(matrix);
+        }
+
+        /// <summary>
+        /// Computes the LU decomposition for a matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix to factor.</param>
+        /// <returns>The LU decomposition object.</returns>
+        public static LU LU(this Matrix matrix)
+        {
+            return Factorization.LU.Create(matrix);
         }
     }
 }

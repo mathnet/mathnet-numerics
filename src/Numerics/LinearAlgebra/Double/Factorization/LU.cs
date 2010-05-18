@@ -167,5 +167,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
         public abstract void Solve(Vector input, Vector result);
+
+        /// <summary>
+        /// Pivot a matrix according to this LU decomposition.
+        /// </summary>
+        /// <param name="data">The matrix to pivot.</param>
+        public void Pivot(Matrix data)
+        {
+            for (int i = 0; i < mPivots.Length; i++)
+            {
+                if (mPivots[i] != i)
+                {
+                    int p = mPivots[i];
+                    for (int j = 0; j < data.ColumnCount; j++)
+                    {
+                        double temp = data.At(p, j);
+                        data.At(p, j, data.At(i, j));
+                        data.At(i, j, temp);
+                    }
+                }
+            }
+        }
     }
 }
