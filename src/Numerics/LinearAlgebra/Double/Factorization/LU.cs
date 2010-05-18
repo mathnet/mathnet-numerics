@@ -1,4 +1,4 @@
-﻿// <copyright file="Cholesky.cs" company="Math.NET">
+﻿// <copyright file="LU.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -34,79 +34,92 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     using Properties;
 
     /// <summary>
-    /// <para>A class which encapsulates the functionality of a Cholesky factorization.</para>
-    /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
-    /// is an lower triangular matrix L so that A = L*L'.</para>
+    /// <para>A class which encapsulates the functionality of an LU factorization.</para>
+    /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and
+    /// upper triangular matrix U so that A = L*U.</para>
+    /// <para>In the Math.Net implementation we also store a set of pivot elements for increased 
+    /// numerical stability. The pivot elements encode a permutation matrix P such that P*A = L*U.</para>
     /// </summary>
     /// <remarks>
-    /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
-    /// or positive definite, the constructor will throw an exception.
+    /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public abstract class Cholesky
+    public abstract class LU
     {
         /// <summary>
-        /// Stores the Cholesky factor.
+        /// Stores both the L and U factors in the same matrix..
         /// </summary>
-        protected Matrix mFactor;
+        protected Matrix mFactors;
 
         /// <summary>
-        /// Internal method which routes the call to perform the Cholesky factorization to the appropriate class.
+        /// Stores the pivot indices of the LU factorization.
+        /// </summary>
+        protected int[] mPivots;
+
+        /// <summary>
+        /// Internal method which routes the call to perform the LU factorization to the appropriate class.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>A cholesky factorization object.</returns>
-        internal static Cholesky Create(Matrix matrix)
+        /// <returns>An LU factorization object.</returns>
+        internal static LU Create(Matrix matrix)
         {
             var dense = matrix as DenseMatrix;
             if (dense != null)
             {
-                return new DenseCholesky(dense);
+                return new DenseLU(dense);
             }
 
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Returns the lower triangular form of the Cholesky matrix.
+        /// Returns the lower triangular factor.
         /// </summary>
-        public virtual Matrix Factor
+        public virtual Matrix L
         {
-            get { return mFactor; }
+            get
+            {
+                Matrix result = mFactors.GetLowerTriangle();
+                for (int i = 0; i < result.RowCount; i++)
+                {
+                    result.At(i, i, 1);
+                }
+                return result;
+            }
         }
 
         /// <summary>
-        /// The determinant of the matrix for which the Cholesky matrix was computed.
+        /// Returns the upper triangular factor.
+        /// </summary>
+        public virtual Matrix U
+        {
+            get { return mFactors.GetUpperTriangle(); }
+        }
+
+        /// <summary>
+        /// The determinant of the matrix for which the LU factorization was computed.
         /// </summary>
         public virtual double Determinant
         {
             get
             {
                 double det = 1.0;
-                for (int j = 0; j < mFactor.RowCount; j++)
+                for (int j = 0; j < mFactors.RowCount; j++)
                 {
-                    det *= (mFactor[j, j] * mFactor[j, j]);
+                    if (mPivots[j] != j)
+                    {
+                        det = -det * mFactors.At(j, j);
+                    }
+                    else
+                    {
+                        det *= mFactors.At(j, j);
+                    }
                 }
                 return det;
             }
         }
 
         /// <summary>
-        /// The log determinant of the matrix for which the Cholesky matrix was computed.
-        /// </summary>
-        public virtual double DeterminantLn
-        {
-            get
-            {
-                double det = 0.0;
-                for (int j = 0; j < mFactor.RowCount; j++)
-                {
-                    det += (2.0 * Math.Log(mFactor[j, j]));
-                }
-                return det;
-            }
-        }
-
-        /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
+        /// Solves a system of linear equations, <b>AX = B</b>, with A LU factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix"/>, <b>X</b>.</returns>
@@ -124,14 +137,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
+        /// Solves a system of linear equations, <b>AX = B</b>, with A LU factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
         public abstract void Solve(Matrix input, Matrix result);
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A LU factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <returns>The left hand side <see cref="Vector"/>, <b>x</b>.</returns>
@@ -149,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A LU factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
