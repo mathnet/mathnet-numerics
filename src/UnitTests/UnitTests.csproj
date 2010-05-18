@@ -117,6 +117,7 @@
     <Compile Include="InterpolationTests\InterpolationInfrastructureContract.cs" />
     <Compile Include="InterpolationTests\InterpolationFunctionalTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\CholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\LUTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Double\MatrixTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Double\LinearAlgebraProviderTests.cs" />

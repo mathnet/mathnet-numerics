@@ -1,4 +1,4 @@
-﻿// <copyright file="CholeskyTests.cs" company="Math.NET">
+﻿// <copyright file="LUTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -35,7 +35,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
     using LinearAlgebra.Double;
     using LinearAlgebra.Double.Factorization;
 
-    public class CholeskyTests
+    public class LUTests
     {
         [Test]
         [Row(1)]
@@ -44,44 +44,55 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         public void CanFactorizeIdentity(int order)
         {
             var I = DenseMatrix.Identity(order);
-            var C = I.Cholesky();
+            var lu = I.LU();
 
-            Assert.AreEqual(I.RowCount, C.Factor.RowCount);
-            Assert.AreEqual(I.ColumnCount, C.Factor.ColumnCount);
-
-            for (var i = 0; i < C.Factor.RowCount; i++)
+            // Check lower triangular part.
+            var L = lu.L;
+            Assert.AreEqual(I.RowCount, L.RowCount);
+            Assert.AreEqual(I.ColumnCount, L.ColumnCount);
+            for (var i = 0; i < L.RowCount; i++)
             {
-                for (var j = 0; j < C.Factor.ColumnCount; j++)
+                for (var j = 0; j < L.ColumnCount; j++)
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(1.0, C.Factor[i, j]);
+                        Assert.AreEqual(1.0, L[i, j]);
                     }
                     else
                     {
-                        Assert.AreEqual(0.0, C.Factor[i, j]);
+                        Assert.AreEqual(0.0, L[i, j]);
+                    }
+                }
+            }
+
+            // Check upper triangular part.
+            var U = lu.U;
+            Assert.AreEqual(I.RowCount, U.RowCount);
+            Assert.AreEqual(I.ColumnCount, U.ColumnCount);
+            for (var i = 0; i < U.RowCount; i++)
+            {
+                for (var j = 0; j < U.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(1.0, U[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(0.0, U[i, j]);
                     }
                 }
             }
         }
 
         [Test]
-        [ExpectedArgumentException]
-        public void CholeskyFailsWithDiagonalNonPositiveDefiniteMatrix()
-        {
-            var I = DenseMatrix.Identity(10);
-            I[3, 3] = -4.0;
-            var C = I.Cholesky();
-        }
-
-        [Test]
         [Row(3,5)]
         [Row(5,3)]
         [ExpectedArgumentException]
-        public void CholeskyFailsWithNonSquareMatrix(int row, int col)
+        public void LUFailsWithNonSquareMatrix(int row, int col)
         {
             var I = new DenseMatrix(row, col);
-            var C = I.Cholesky();
+            var lu = I.LU();
         }
 
         [Test]
@@ -91,9 +102,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         public void IdentityDeterminantIsOne(int order)
         {
             var I = DenseMatrix.Identity(order);
-            var C = I.Cholesky();
-            Assert.AreEqual(1.0, C.Determinant);
-            Assert.AreEqual(0.0, C.DeterminantLn);
+            var lu = I.LU();
+            Assert.AreEqual(1.0, lu.Determinant);
         }
 
         [Test]
@@ -106,35 +116,49 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var X = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(order);
-            var chol = X.Cholesky();
-            var C = chol.Factor;
+            var X = MatrixLoader.GenerateRandomMatrix(order, order);
+            var lu = X.LU();
+            var L = lu.L;
+            var U = lu.U;
 
-            // Make sure the Cholesky factor has the right dimensions.
-            Assert.AreEqual(order, C.RowCount);
-            Assert.AreEqual(order, C.ColumnCount);
+            // Make sure the factors have the right dimensions.
+            Assert.AreEqual(order, L.RowCount);
+            Assert.AreEqual(order, L.ColumnCount);
+            Assert.AreEqual(order, U.RowCount);
+            Assert.AreEqual(order, U.ColumnCount);
 
-            // Make sure the Cholesky factor is lower triangular.
-            for (int i = 0; i < C.RowCount; i++) 
+            // Make sure the L factor is lower triangular.
+            for (int i = 0; i < L.RowCount; i++) 
             {
-                for (int j = i+1; j < C.ColumnCount; j++)
+                Assert.AreEqual(1.0, L[i, i]);
+                for (int j = i+1; j < L.ColumnCount; j++)
                 {
-                    Assert.AreEqual(0.0, C[i, j]);
+                    Assert.AreEqual(0.0, L[i, j]);
+                }
+            }
+
+            // Make sure the U factor is upper triangular.
+            for (int i = 0; i < L.RowCount; i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    Assert.AreEqual(0.0, U[i, j]);
                 }
             }
 
             // Make sure the cholesky factor times it's transpose is the original matrix.
-            var XfromC = C * C.Transpose();
-            for (int i = 0; i < XfromC.RowCount; i++) 
+            var XfromLU = L * U;
+            lu.Pivot(XfromLU);
+            for (int i = 0; i < XfromLU.RowCount; i++) 
             {
-                for (int j = 0; j < XfromC.ColumnCount; j++)
+                for (int j = 0; j < XfromLU.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(X[i,j], XfromC[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(X[i, j], XfromLU[i, j], 1.0e-11);
                 }
             }
         }
 
-        [Test]
+        /*[Test]
         [Row(1)]
         [Row(2)]
         [Row(5)]
@@ -303,6 +327,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
                     Assert.AreEqual(BCopy[i, j], B[i, j]);
                 }
             }
-        }
+        }*/
     }
 }

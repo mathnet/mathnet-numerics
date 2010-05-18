@@ -691,15 +691,79 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Computes the LUP factorization of A. P*A = L*U.
         /// </summary>
-        /// <param name="a">An <paramref name="aOrder"/> by <paramref name="aOrder"/> matrix. The matrix is overwritten with the
-        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="A"/> (the diagonal is always 1.0
-        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="A"/>.</param>
-        /// <param name="aOrder">The order of the square matrix <paramref name="A"/>.</param>
-        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="aOrder"/>.</param>
+        /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always 1.0
+        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="data"/>.</param>
+        /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
-        public void LUFactor(double[] a, int aOrder, int[] ipiv)
+        public void LUFactor(double[] data, int order, int[] ipiv)
         {
-            throw new NotImplementedException();
+            // Initialize the pivot matrix to the identity permutation.
+            for (int i = 0; i < order; i++)
+            {
+                ipiv[i] = i;
+            }
+
+            double[] LUcolj = new double[order];
+
+            // Outer loop.
+            for (int j = 0; j < order; j++)
+            {
+                int indexj = j * order;
+                int indexjj = indexj + j;
+                // Make a copy of the j-th column to localize references.
+                for (int i = 0; i < order; i++)
+                {
+                    LUcolj[i] = data[indexj + i];
+                }
+
+                // Apply previous transformations.
+                for (int i = 0; i < order; i++)
+                {
+                    // Most of the time is spent in the following dot product.
+                    int kmax = System.Math.Min(i, j);
+                    double s = 0.0;
+                    for (int k = 0; k < kmax; k++)
+                    {
+                        s += data[k * order + i] * LUcolj[k];
+                    }
+
+                    data[indexj + i] = LUcolj[i] -= s;
+                }
+
+                // Find pivot and exchange if necessary.
+                int p = j;
+                for (int i = j + 1; i < order; i++)
+                {
+                    if (System.Math.Abs(LUcolj[i]) > System.Math.Abs(LUcolj[p]))
+                    {
+                        p = i;
+                    }
+                }
+                if (p != j)
+                {
+                    for (int k = 0; k < order; k++)
+                    {
+                        int indexk = k * order;
+                        int indexkp = indexk + p;
+                        int indexkj = indexk + j;
+                        double temp = data[indexkp];
+                        data[indexkp] = data[indexkj];
+                        data[indexkj] = temp;
+                    }
+                    ipiv[j] = p;
+                }
+
+                // Compute multipliers.
+                if (j < order & data[indexjj] != 0.0)
+                {
+                    for (int i = j + 1; i < order; i++)
+                    {
+                        data[indexj + i] /= data[indexjj];
+                    }
+                }
+            }
         }
 
         public void LUInverse(double[] a)
@@ -1562,7 +1626,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
         }
 
-        public void LUFactor(float[] a, int[] ipiv)
+        /// <summary>
+        /// Computes the LUP factorization of A. P*A = L*U.
+        /// </summary>
+        /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always 1.0
+        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="data"/>.</param>
+        /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
+        /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        public void LUFactor(float[] data, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
@@ -2379,7 +2452,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
         }
 
-        public void LUFactor(Complex[] a, int[] ipiv)
+        /// <summary>
+        /// Computes the LUP factorization of A. P*A = L*U.
+        /// </summary>
+        /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always 1.0
+        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="data"/>.</param>
+        /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
+        /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        public void LUFactor(Complex[] data, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
@@ -3161,7 +3243,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
         }
 
-        public void LUFactor(Complex32[] a, int[] ipiv)
+        /// <summary>
+        /// Computes the LUP factorization of A. P*A = L*U.
+        /// </summary>
+        /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always 1.0
+        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="data"/>.</param>
+        /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
+        /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        public void LUFactor(Complex32[] data, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }

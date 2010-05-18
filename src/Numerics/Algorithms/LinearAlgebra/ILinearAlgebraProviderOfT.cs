@@ -208,17 +208,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="c">The c matrix.</param>
         void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, T alpha, T[] a, 
             int aRows, int aColumns, T[] b, int bRows, int bColumns, T beta, T[] c);
-
+        
         /// <summary>
         /// Computes the LUP factorization of A. P*A = L*U.
         /// </summary>
-        /// <param name="a">An <paramref name="aOrder"/> by <paramref name="aOrder"/> matrix. The matrix is overwritten with the
-        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="A"/> (the diagonal is always 1.0
-        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="A"/>.</param>
-        /// <param name="aOrder">The order of the square matrix <paramref name="A"/>.</param>
-        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="aOrder"/>.</param>
+        /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always 1.0
+        /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="data"/>.</param>
+        /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
-        void LUFactor(T[] a, int aOrder, int[] ipiv);
+        void LUFactor(T[] data, int order, int[] ipiv);
 
         /// <summary>
         /// Computes the inverse of matrix using LU factorization.
