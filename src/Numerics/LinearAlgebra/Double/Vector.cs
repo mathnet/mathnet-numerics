@@ -32,11 +32,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
     using System.Collections;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Text;
-    using System.Threading.Tasks;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// Defines the base class for <c>Vector</c> classes.
@@ -133,15 +132,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                (range, loopState) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        this[i] += scalar;
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Count,
+                index => this[index] += scalar);
         }
 
         /// <summary>
@@ -217,15 +211,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                (range, loopState) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        this[i] += other[i];
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Count,
+                index => this[index] += other[index]);
         }
 
         /// <summary>
@@ -287,15 +276,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                (range, loopState) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        this[i] -= scalar;
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Count,
+                index => this[index] -= scalar);
         }
 
         /// <summary>
@@ -371,15 +355,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                (range, loopState) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        this[i] -= other[i];
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Count,
+                index => this[index] -= other[index]);
         }
 
         /// <summary>
@@ -441,15 +420,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                (range, loopState) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        this[i] *= scalar;
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Count,
+                index => this[index] *= scalar);
         }
 
         /// <summary>
@@ -810,29 +784,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException("p");
             }
 
-            var sum = 0.0;
-            var syncLock = new object();
-
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                () => 0.0, 
-                (range, loop, localData) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        localData += Math.Pow(Math.Abs(this[i]), p);
-                    }
-
-                    return localData;
-                }, 
-                localResult =>
-                {
-                    lock (syncLock)
-                    {
-                        sum += localResult;
-                    }
-                });
-
+            var sum = CommonParallel.Aggregate(
+                0,
+                this.Count,
+                index => Math.Pow(Math.Abs(this[index]), p));
+            
             return Math.Pow(sum, 1.0 / p);
         }
 
@@ -844,6 +800,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual double NormInfinity()
         {
+            return CommonParallel.Select(
+                0,
+                this.Count,
+                (index, localData) => localData = Math.Max(localData, Math.Abs(this[index])),
+                Math.Max);
+
+            /*
             var max = 0.0;
             var syncLock = new object();
 
@@ -867,7 +830,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     }
                 });
 
-            return max;
+            return max;*/
         }
 
         /// <summary>
@@ -935,15 +898,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                (range, loopState) =>
-                {
-                    for (var index = range.Item1; index < range.Item2; index++)
-                    {
-                        target[index] = this[index];
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Count,
+                index => target[index] = this[index]);
         }
 
         /// <summary>
@@ -993,27 +951,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 var tmpVector = destination.CreateVector(destination.Count);
                 this.CopyTo(tmpVector);
 
-                Parallel.ForEach(
-                    Partitioner.Create(0, count), 
-                    (range, loopState) =>
-                    {
-                        for (var index = range.Item1; index < range.Item2; index++)
-                        {
-                            destination[destinationOffset + index] = tmpVector[offset + index];
-                        }
-                    });
+                CommonParallel.For(
+                    0,
+                    count,
+                    index => destination[destinationOffset + index] = tmpVector[offset + index]);
             }
             else
             {
-                Parallel.ForEach(
-                    Partitioner.Create(0, count), 
-                    (range, loopState) =>
-                    {
-                        for (var index = range.Item1; index < range.Item2; index++)
-                        {
-                            destination[destinationOffset + index] = this[offset + index];
-                        }
-                    });
+                CommonParallel.For(
+                    0,
+                    count,
+                    index => destination[destinationOffset + index] = this[offset + index]);
             }
         }
 
