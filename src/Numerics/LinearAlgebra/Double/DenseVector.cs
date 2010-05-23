@@ -31,12 +31,11 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Threading.Tasks;
     using NumberTheory;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// A vector using dense storage.
@@ -93,15 +92,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var vector = other as DenseVector;
             if (vector == null)
             {
-                Parallel.ForEach(
-                    Partitioner.Create(0, this.Data.Length), 
-                    (range, loopState) =>
-                    {
-                        for (var index = range.Item1; index < range.Item2; index++)
-                        {
-                            this[index] = other[index];
-                        }
-                    });
+                CommonParallel.For(
+                    0,
+                    this.Data.Length,
+                    index => this[index] = other[index]);
             }
             else
             {
@@ -292,15 +286,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var otherVector = target as DenseVector;
             if (otherVector == null)
             {
-                Parallel.ForEach(
-                    Partitioner.Create(0, this.Data.Length), 
-                    (range, loopState) =>
-                    {
-                        for (var index = range.Item1; index < range.Item2; index++)
-                        {
-                            target[index] = this.Data[index];
-                        }
-                    });
+                CommonParallel.For(
+                    0,
+                    this.Data.Length,
+                    index => this[index] = this.Data[index]);
             }
             else
             {
@@ -319,15 +308,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Data.Length), 
-                (range, loopState) =>
-                {
-                    for (var index = range.Item1; index < range.Item2; index++)
-                    {
-                        this.Data[index] += scalar;
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Data.Length,
+                index => this.Data[index] += scalar);
         }
 
         /// <summary>
@@ -480,15 +464,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Data.Length), 
-                (range, loopState) =>
-                {
-                    for (var index = range.Item1; index < range.Item2; index++)
-                    {
-                        this.Data[index] -= scalar;
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Data.Length,
+                index => this.Data[index] -= scalar);
         }
 
         /// <summary>
@@ -637,15 +616,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override Vector Negate()
         {
             var result = new DenseVector(this.Count);
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Data.Length), 
-                (range, loopState) =>
-                {
-                    for (var index = range.Item1; index < range.Item2; index++)
-                    {
-                        result[index] = -this.Data[index];
-                    }
-                });
+            CommonParallel.For(
+                0,
+                this.Data.Length,
+                index => result[index] = -this.Data[index]); 
 
             return result;
         }
@@ -787,6 +761,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double Norm()
         {
             var sum = 0.0;
+            
             for (var i = 0; i < this.Data.Length; i++)
             {
                 sum = SpecialFunctions.Hypotenuse(sum, this.Data[i]);
@@ -801,30 +776,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>Scalar ret = sum(abs(this[i]))</returns>
         public override double Norm1()
         {
-            var sum = 0.0;
-            var syncLock = new object();
-
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                () => 0.0, 
-                (range, loop, localData) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        localData += Math.Abs(this.Data[i]);
-                    }
-
-                    return localData;
-                }, 
-                localResult =>
-                {
-                    lock (syncLock)
-                    {
-                        sum += localResult;
-                    }
-                });
-
-            return sum;
+            return CommonParallel.Aggregate(
+                0,
+                this.Count,
+                index => Math.Abs(this.Data[index]));
         }
 
         /// <summary>
@@ -849,28 +804,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return this.Norm();
             }
 
-            var sum = 0.0;
-            var syncLock = new object();
-
-            Parallel.ForEach(
-                Partitioner.Create(0, this.Count), 
-                () => 0.0, 
-                (range, loop, localData) =>
-                {
-                    for (var i = range.Item1; i < range.Item2; i++)
-                    {
-                        localData += Math.Pow(Math.Abs(this.Data[i]), p);
-                    }
-
-                    return localData;
-                }, 
-                localResult =>
-                {
-                    lock (syncLock)
-                    {
-                        sum += localResult;
-                    }
-                });
+            var sum = CommonParallel.Aggregate(
+                0,
+                this.Count,
+                index => Math.Pow(Math.Abs(this.Data[index]), p));
 
             return Math.Pow(sum, 1.0 / p);
         }
@@ -881,7 +818,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>Scalar ret = max(abs(this[i]))</returns>
         public override double NormInfinity()
         {
-            double max = 0;
+            return CommonParallel.Select(
+                0,
+                this.Count,
+                (index, localData) => localData = Math.Max(localData, Math.Abs(this.Data[index])),
+                Math.Max);
+            /*double max = 0;
 
             var syncLock = new object();
 
@@ -905,7 +847,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     }
                 });
 
-            return max;
+            return max;*/
         }
 
         #endregion

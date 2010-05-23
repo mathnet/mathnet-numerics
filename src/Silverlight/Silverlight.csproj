@@ -215,6 +215,30 @@
     <Compile Include="..\Numerics\IPrecisionSupport.cs">
       <Link>IPrecisionSupport.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\DenseMatrix.cs">
+      <Link>LinearAlgebra\Double\DenseMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\DenseVector.cs">
+      <Link>LinearAlgebra\Double\DenseVector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Cholesky.cs">
+      <Link>LinearAlgebra\Double\Factorization\Cholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseCholesky.cs">
+      <Link>LinearAlgebra\Double\Factorization\DenseCholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\ExtensionMethods.cs">
+      <Link>LinearAlgebra\Double\Factorization\ExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.Arithmetic.cs">
+      <Link>LinearAlgebra\Double\Matrix.Arithmetic.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.cs">
+      <Link>LinearAlgebra\Double\Matrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Vector.cs">
+      <Link>LinearAlgebra\Double\Vector.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\NumberTheory\IntegerTheory.cs">
       <Link>NumberTheory\IntegerTheory.cs</Link>
     </Compile>

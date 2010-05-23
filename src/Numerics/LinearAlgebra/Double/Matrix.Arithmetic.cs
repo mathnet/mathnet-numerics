@@ -31,9 +31,8 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using System.Collections.Concurrent;
-    using System.Threading.Tasks;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -58,16 +57,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.RowCount), 
-                (range, loopState) =>
+            CommonParallel.For(
+                0,
+                this.RowCount,
+                i =>
                 {
-                    for (var i = range.Item1; i < range.Item2; i++)
+                    for (var j = 0; j < this.ColumnCount; j++)
                     {
-                        for (var j = 0; j < this.ColumnCount; j++)
-                        {
-                            this.At(i, j, this.At(i, j) + other.At(i, j));
-                        }
+                        this.At(i, j, this.At(i, j) + other.At(i, j));
                     }
                 });
         }
@@ -90,16 +87,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.RowCount), 
-                (range, loopState) =>
+            CommonParallel.For(
+                0,
+                this.RowCount,
+                i =>
                 {
-                    for (var i = range.Item1; i < range.Item2; i++)
+                    for (var j = 0; j < this.ColumnCount; j++)
                     {
-                        for (var j = 0; j < this.ColumnCount; j++)
-                        {
-                            this.At(i, j, this.At(i, j) - other.At(i, j));
-                        }
+                        this.At(i, j, this.At(i, j) - other.At(i, j));
                     }
                 });
         }
@@ -115,16 +110,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Parallel.ForEach(
-                Partitioner.Create(0, this.RowCount), 
-                (range, loopState) =>
+            CommonParallel.For(
+                0,
+                this.RowCount,
+                i =>
                 {
-                    for (var i = range.Item1; i < range.Item2; i++)
+                    for (var j = 0; j < this.ColumnCount; j++)
                     {
-                        for (var j = 0; j < this.ColumnCount; j++)
-                        {
-                            this.At(i, j, this.At(i, j) * scalar);
-                        }
+                        this.At(i, j, this.At(i, j) * scalar);
                     }
                 });
         }
@@ -210,21 +203,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Parallel.ForEach(
-                    Partitioner.Create(0, this.RowCount), 
-                    (range, loopState) =>
+                CommonParallel.For(
+                    0,
+                    this.RowCount,
+                    i =>
                     {
-                        for (var i = range.Item1; i < range.Item2; i++)
+                        double s = 0;
+                        for (var j = 0; j != this.ColumnCount; j++)
                         {
-                            double s = 0;
-                            for (var j = 0; j != this.ColumnCount; j++)
-                            {
-                                s += this.At(i, j) * rightSide[j];
-                            }
-
-                            result[i] = s;
+                            s += this.At(i, j) * rightSide[j];
                         }
-                    });
+
+                        result[i] = s;
+                    });               
             }
         }
 
@@ -281,21 +272,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Parallel.ForEach(
-                    Partitioner.Create(0, this.ColumnCount), 
-                    (range, loopState) =>
+                CommonParallel.For(
+                    0,
+                    this.RowCount,
+                    j =>
                     {
-                        for (var j = range.Item1; j < range.Item2; j++)
+                        double s = 0;
+                        for (var i = 0; i != leftSide.Count; i++)
                         {
-                            double s = 0;
-                            for (var i = 0; i != leftSide.Count; i++)
-                            {
-                                s += leftSide[i] * this.At(i, j);
-                            }
-
-                            result[j] = s;
+                            s += leftSide[i] * this.At(i, j);
                         }
-                    });
+
+                        result[j] = s;
+                    });               
             }
         }
 
@@ -338,24 +327,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Parallel.ForEach(
-                    Partitioner.Create(0, this.RowCount), 
-                    (range, loopState) =>
+                CommonParallel.For(
+                    0,
+                    this.RowCount,
+                    j =>
                     {
-                        for (var j = range.Item1; j < range.Item2; j++)
+                        for (var i = 0; i != other.ColumnCount; i++)
                         {
-                            for (var i = 0; i != other.ColumnCount; i++)
+                            double s = 0;
+                            for (var l = 0; l < this.ColumnCount; l++)
                             {
-                                double s = 0;
-                                for (var l = 0; l < this.ColumnCount; l++)
-                                {
-                                    s += this.At(j, l) * other.At(l, i);
-                                }
-
-                                result.At(j, i, s);
+                                s += this.At(j, l) * other.At(l, i);
                             }
+
+                            result.At(j, i, s);
                         }
-                    });
+                    });               
             }
         }
 
