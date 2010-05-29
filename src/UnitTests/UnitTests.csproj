@@ -393,6 +393,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IO\IO.csproj">
+      <Project>{D90B622B-13A4-4E88-BF3A-A82C07D38C93}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Numerics\Numerics.csproj">
       <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
       <Name>Numerics</Name>
