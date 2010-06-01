@@ -289,7 +289,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CommonParallel.For(
                     0,
                     this.Data.Length,
-                    index => this[index] = this.Data[index]);
+                    index => target[index] = this.Data[index]);
             }
             else
             {

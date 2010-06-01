@@ -252,5 +252,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 Assert.AreEqual(_data[i] / 2.0, vector[i]);
             }
         }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanCopyToNonDenseVector()
+        {
+            var vector = new DenseVector(_data);
+            var other = new UserDefinedVector(_data.Length);
+            vector.CopyTo(other, 1,1,2);
+
+            Assert.AreEqual(vector[1], other[1]);
+            Assert.AreEqual(vector[2], other[2]);
+            vector.CopyTo(other);
+
+            for(var i = 0; i < vector.Count; i++)
+            {
+                Assert.AreEqual(vector[i], other[i]);
+            }
+
+        }
     }
 }
