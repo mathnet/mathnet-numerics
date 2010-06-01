@@ -1,4 +1,4 @@
-//Test commiting
+//Hany committing
 // <copyright file="SortingTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
