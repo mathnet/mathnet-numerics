@@ -782,5 +782,41 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        [Test]
+        public void CanFindAbsoluteMinimumIndex()
+        {
+            Vector source = CreateVector(_data);
+            int expected = 0;
+            int actual = source.AbsoluteMinimumIndex();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanFindAbsoluteMinimum()
+        {
+            Vector source = CreateVector(_data);
+            double expected = 1;
+            double actual = source.AbsoluteMinimum();
+            Assert.AreEqual(expected, actual);
+            
+        }
+
+        [Test]
+        [Row(0, 5)]
+        [Row(2, 2)]
+        [Row(1, 4)]
+        [Row(6, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void SubVector(int start, int length)
+        {
+            Vector vector = CreateVector(_data);
+            Vector sub = vector.SubVector(start, length);
+            Assert.AreEqual(length, sub.Count);
+            for (int i = 0; i < length; i++)
+            {
+                Assert.AreEqual(vector[i + start], sub[i]);
+            }
+        }
+
     }
 }
