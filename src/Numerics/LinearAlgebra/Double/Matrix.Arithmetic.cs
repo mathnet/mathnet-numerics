@@ -602,5 +602,242 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             return rightSide.LeftMultiply(leftSide);
         }
+
+        /// <summary>
+        ///  Concatenates this matrix with the given matrix.
+        /// </summary>
+        /// <param name="right">The matrix to concatenate.</param>
+        /// <returns>The combined matrix.</returns>
+        public virtual Matrix Append(Matrix right)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException("right");
+            }
+
+            if (right.RowCount != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+            }
+
+            Matrix result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount);
+            Append(right, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Concatenates this matrix with the given matrix and places the result into the result matrix.
+        /// </summary>
+        /// <param name="right">The matrix to concatenate.</param>
+        /// <param name="result">The combined matrix.</param>
+        public virtual void Append(Matrix right, Matrix result)
+        {
+            if (right == null)
+            {
+                throw new ArgumentNullException("right");
+            }
+
+            if (right.RowCount != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.ColumnCount != (ColumnCount + right.ColumnCount) || result.RowCount != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+            }
+
+            CommonParallel.For(
+               0,
+               this.RowCount,
+               i =>
+               {
+                   for (int j = 0; j < this.ColumnCount; j++)
+                   {
+                       result.At(i, j, At(i, j));
+                   }
+               });
+
+            CommonParallel.For(
+               0,
+               right.RowCount,
+               i =>
+               {
+                   for (int j = 0; j < right.ColumnCount; j++)
+                   {
+                       result.At(i, j + ColumnCount, right.At(i, j));
+                   }
+               });
+        }
+
+        /// <summary>
+        /// Stacks this matrix on top of the given matrix and places the result into the result matrix.
+        /// </summary>
+        /// <param name="lower">The matrix to stack this matrix upon.</param>
+        /// <returns>The combined matrix.</returns>
+        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
+        public virtual Matrix Stack(Matrix lower)
+        {
+            if (lower == null)
+            {
+                throw new ArgumentNullException("lower");
+            }
+
+            if (lower.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException("lower", Resources.ArgumentMatrixSameColumnDimension);
+            }
+
+            Matrix result = CreateMatrix(RowCount + lower.RowCount, ColumnCount);
+            Stack(lower, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Stacks this matrix on top of the given matrix and places the result into the result matrix.
+        /// </summary>
+        /// <param name="lower">The matrix to stack this matrix upon.</param>
+        /// <param name="result">The combined matrix.</param>
+        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
+        public virtual void Stack(Matrix lower, Matrix result)
+        {
+            if (lower == null)
+            {
+                throw new ArgumentNullException("lower");
+            }
+            
+            if (lower.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException("lower", Resources.ArgumentMatrixSameColumnDimension);
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != (RowCount + lower.RowCount) || result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
+            }
+           
+            CommonParallel.For(
+                0,
+                this.RowCount,
+                i =>
+                {
+                    for (int j = 0; j < this.ColumnCount; j++)
+                    {
+                        result.At(i, j, At(i, j));
+                    }
+                });
+            
+            CommonParallel.For(
+                0,
+                lower.RowCount,
+                i =>
+                {
+                    for (int j = 0; j < lower.ColumnCount; j++)
+                    {
+                        result.At(i + RowCount, j, lower.At(i, j));
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Computes the trace of this matrix.
+        /// </summary>
+        /// <returns>The trace of this matrix</returns>
+        /// <exception cref=">ArgumentException">If the matrix is not square</exception>
+        public virtual double Trace()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            double t = 0.0;
+            for (int i = 0; i < RowCount; i++)
+            {
+                t += this[i, i];
+            }
+
+            return t;
+        }
+
+        /// <summary>
+        /// Diagonally stacks his matrix on top of the given matrix. The new matrix is a M-by-N matrix, 
+        /// where M = this.Rows + lower.Rows and N = this.Columns + lower.Columns.
+        /// The values of off the off diagonal matrices/blocks are set to zero.
+        /// </summary>
+        /// <param name="lower">The lower, right matrix.</param>
+        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
+        /// <returns>the combined matrix</returns>
+        public virtual Matrix DiagonalStack(Matrix lower)
+        {
+            if (lower == null)
+            {
+                throw new ArgumentNullException("lower");
+            }
+
+            Matrix result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount);
+            DiagonalStack(lower, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Diagonally stacks his matrix on top of the given matrix and places the combined matrix into the result matrix.
+        /// </summary>
+        /// <param name="lower">The lower, right matrix.</param>
+        /// <param name="result">The combined matrix</param>
+        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows + lower.rows) x (this.Columns + lower.Columns).</exception>
+        public virtual void DiagonalStack(Matrix lower, Matrix result)
+        {
+            if (lower == null)
+            {
+                throw new ArgumentNullException("lower");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount + lower.RowCount || result.ColumnCount != ColumnCount + lower.ColumnCount)
+            {
+                throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
+            }
+
+            CommonParallel.For(
+                0,
+                this.RowCount,
+                i =>
+                {
+                    for (var j = 0; j < this.ColumnCount; j++)
+                    {
+                        result.At(i, j, At(i, j));
+                    }
+                });
+
+            CommonParallel.For(
+                0,
+                lower.RowCount,
+                i =>
+                {
+                    for (var j = 0; j < lower.ColumnCount; j++)
+                    {
+                        result.At(i + RowCount, j + ColumnCount, lower.At(i, j));
+                    }
+                });            
+        }
     }
 }

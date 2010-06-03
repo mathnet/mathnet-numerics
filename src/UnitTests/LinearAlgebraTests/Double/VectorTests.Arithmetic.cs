@@ -726,5 +726,61 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             double d = dataA * dataB;
         }
+
+        [Test]
+        public void PointWiseMultiply()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = CreateVector(vector1.Count);
+            vector1.PointWiseMultiply(vector2, result);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] * _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void PointWiseMultiplyWithOtherNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = null;
+            Vector result = CreateVector(vector1.Count);
+            vector1.PointWiseMultiply(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void PointWiseMultiplyWithResultNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = null;
+            vector1.PointWiseMultiply(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void PointWiseMultiplyWithInvalidResultLengthShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = CreateVector(vector1.Count + 1);
+            vector1.PointWiseMultiply(vector2, result);
+        }
+
+        [Test]
+        public void PointWiseMultiplyWithResult()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = vector1.PointWiseMultiply(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] * _data[i], result[i]);
+            }
+        }
+
     }
 }
