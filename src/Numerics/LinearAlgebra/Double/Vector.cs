@@ -608,6 +608,37 @@ namespace MathNet.Numerics.LinearAlgebra.Double
               this.Count,
               index => result[index] = this[index] * other[index]);
         }
+
+        /// <summary>
+        /// Returns the value of the absolute minimum element.
+        /// </summary>
+        /// <returns>The value of the absolute minimum element.</returns>
+        public virtual double AbsoluteMinimum()
+        {
+            return Math.Abs(this[AbsoluteMinimumIndex()]);
+        }
+
+        /// <summary>
+        /// Returns the index of the absolute minimum element.
+        /// </summary>
+        /// <returns>The index of absolute minimum element.</returns>   
+        public virtual int AbsoluteMinimumIndex()
+        {
+            int index = 0;
+            double min = System.Math.Abs(this[index]);
+            for (int i = 1; i < Count; i++)
+            {
+                double test = System.Math.Abs(this[i]);
+                if (test < min)
+                {
+                    index = i;
+                    min = test;
+                }
+            }
+            return index;
+        }
+
+
         #endregion
 
         #region Arithmetic Operator Overloading
@@ -1074,6 +1105,35 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return matrix;
+        }
+
+        /// <summary>
+        /// Creates a vector containing specified elements.
+        /// </summary>
+        /// <param name="start">The first element to begin copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <returns>A vector containing a copy of the specified elements.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><list><item>If <paramref name="start"/> is not positive or
+        /// greater than or equal to the size of the vector.</item>
+        /// <item>If <paramref name="start"/> + <paramref name="length"/> is greater than or equal to the size of the vector.</item>
+        /// </list></exception>
+        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        public virtual Vector SubVector(int start, int length)
+        {
+            if (start < 0 || start >= Count)
+            {
+                throw new ArgumentOutOfRangeException("start");
+            }
+            if (start + length > Count)
+            {
+                throw new ArgumentOutOfRangeException("start");
+            }
+
+            Vector result = CreateVector(length);
+           
+            CommonParallel.For(start,
+                start + length, index => result[index-start] = this[index]);
+            return result;
         }
 
         #endregion
