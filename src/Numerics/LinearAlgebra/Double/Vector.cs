@@ -548,6 +548,66 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             result.Multiply(1.0 / scalar);
         }
 
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new vector that is the pointwise multiplication of this vector and <paramref name="other"/>.</returns>
+        public virtual Vector PointWiseMultiply(Vector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            Vector result = CreateVector(Count);
+            PointWiseMultiply(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void PointWiseMultiply(Vector other, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            CommonParallel.For(
+              0,
+              this.Count,
+              index => result[index] = this[index] * other[index]);
+        }
         #endregion
 
         #region Arithmetic Operator Overloading

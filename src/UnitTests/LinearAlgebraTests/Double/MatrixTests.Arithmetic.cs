@@ -579,5 +579,238 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Matrix target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
             matrix.Negate(target);
         }
+
+        [Test]
+        public void Append()
+        {
+            Matrix left = testMatrices["Singular3x3"];
+            Matrix right = testMatrices["Tall3x2"];
+            Matrix result = left.Append(right);
+            Assert.AreEqual(left.ColumnCount + right.ColumnCount, result.ColumnCount);
+            Assert.AreEqual(left.RowCount, right.RowCount);
+
+            for (int i = 0; i < result.RowCount; i++)
+            {
+                for (int j = 0; j < result.ColumnCount; j++)
+                {
+                    if (j < left.ColumnCount)
+                    {
+                        Assert.AreEqual(left[i, j], result[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(right[i, j - left.ColumnCount], result[i, j]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void AppendWithRightParameterNullShouldThrowException()
+        {
+            Matrix left = testMatrices["Square3x3"];
+            Matrix right = null;
+            left.Append(right);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void AppendWithResultParameterNullShouldThrowException()
+        {
+            Matrix left = testMatrices["Square3x3"];
+            Matrix right = testMatrices["Tall3x2"];
+            Matrix result = null;
+            left.Append(right, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void AppendingTwoMatricesWithDifferentRowCountShouldThrowException()
+        {
+            Matrix left = testMatrices["Square3x3"];
+            Matrix right = testMatrices["Wide2x3"];
+            Matrix result = left.Append(right);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void AppendingWithInvalidResultMatrixColumnsShouldThrowException()
+        {
+            Matrix left = testMatrices["Square3x3"];
+            Matrix right = testMatrices["Tall3x2"];
+            Matrix result = CreateMatrix(3, 2);
+            left.Append(right, result);
+        }
+
+        [Test]
+        public void Stack()
+        {
+            Matrix top = testMatrices["Square3x3"];
+            Matrix bottom = testMatrices["Wide2x3"];
+            Matrix result = top.Stack(bottom);
+            Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
+            Assert.AreEqual(top.ColumnCount, result.ColumnCount);
+
+            for (int i = 0; i < result.RowCount; i++)
+            {
+                for (int j = 0; j < result.ColumnCount; j++)
+                {
+                    if (i < top.RowCount)
+                    {
+                        Assert.AreEqual(result[i, j], top[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(result[i, j], bottom[i - top.RowCount, j]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void StackWithBottomParameterNullShouldThrowException()
+        {
+            Matrix top = testMatrices["Square3x3"];
+            Matrix bottom = null;
+            Matrix result = CreateMatrix(top.RowCount + top.RowCount, top.ColumnCount);
+            top.Stack(bottom, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void StackWithResultParameterNullShouldThrowException()
+        {
+            Matrix top = testMatrices["Square3x3"];
+            Matrix bottom = testMatrices["Square3x3"];
+            Matrix result = null;
+            top.Stack(bottom, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void StackTwoMatricesWithDifferentColumnsShouldThrowException()
+        {
+            Matrix top = testMatrices["Square3x3"];
+            Matrix lower = testMatrices["Tall3x2"];
+            Matrix result = CreateMatrix(top.RowCount + lower.RowCount, top.ColumnCount);
+            top.Stack(lower, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void StackingWithInvalidResultMatrixRowsShouldThrowException()
+        {
+            Matrix top = testMatrices["Square3x3"];
+            Matrix bottom = testMatrices["Wide2x3"];
+            Matrix result = CreateMatrix(1, 3);
+            top.Stack(bottom, result);
+        }
+
+        [Test]
+        public void Trace()
+        {
+            Matrix matrix = testMatrices["Square3x3"];
+            double trace = matrix.Trace();
+            Assert.AreEqual(6.6, trace);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void TraceOfNonSquareMatrixShouldThrowException()
+        {
+            Matrix matrix = testMatrices["Wide2x3"];
+            double trace = matrix.Trace();
+        }
+
+        [Test]
+        public void DiagonalStack()
+        {
+            Matrix top = testMatrices["Tall3x2"];
+            Matrix bottom = testMatrices["Wide2x3"];
+            Matrix result = top.DiagonalStack(bottom);
+            Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
+            Assert.AreEqual(top.ColumnCount + bottom.ColumnCount, result.ColumnCount);
+
+            for (int i = 0; i < result.RowCount; i++)
+            {
+                for (int j = 0; j < result.ColumnCount; j++)
+                {
+                    if (i < top.RowCount && j < top.ColumnCount)
+                    {
+                        Assert.AreEqual(top[i, j], result[i, j]);
+                    }
+                    else if (i >= top.RowCount && j >= top.ColumnCount)
+                    {
+                        Assert.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(0, result[i, j]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void DiagonalStackWithLowerNullShouldThrowException()
+        {
+            Matrix top = testMatrices["Square3x3"];
+            Matrix lower = null;
+            top.DiagonalStack(lower);
+        }
+
+        [Test]
+        public void DiagonalStackWithPassingResult()
+        {
+            Matrix top = testMatrices["Tall3x2"];
+            Matrix bottom = testMatrices["Wide2x3"];
+            Matrix result = CreateMatrix(top.RowCount + bottom.RowCount, top.ColumnCount + bottom.ColumnCount);
+            top.DiagonalStack(bottom, result);
+            Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
+            Assert.AreEqual(top.ColumnCount + bottom.ColumnCount, result.ColumnCount);
+
+            for (int i = 0; i < result.RowCount; i++)
+            {
+                for (int j = 0; j < result.ColumnCount; j++)
+                {
+                    if (i < top.RowCount && j < top.ColumnCount)
+                    {
+                        Assert.AreEqual(top[i, j], result[i, j]);
+                    }
+                    else if (i >= top.RowCount && j >= top.ColumnCount)
+                    {
+                        Assert.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(0, result[i, j]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void DiagonalStackWithResultNullShouldThrowException()
+        {
+            Matrix top = testMatrices["Square3x3"];
+            Matrix lower = testMatrices["Wide2x3"];
+            Matrix result = null;
+            top.DiagonalStack(lower,result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void DiagonalStackWithInvalidResultMatrixShouldThrowException()
+        {
+            Matrix top = testMatrices["Square3x3"];
+            Matrix lower = testMatrices["Wide2x3"];
+            Matrix result = CreateMatrix(top.RowCount + lower.RowCount + 2, top.ColumnCount + lower.ColumnCount);
+            top.DiagonalStack(lower, result);
+
+        }
     }
 }
