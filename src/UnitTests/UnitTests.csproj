@@ -44,6 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -120,6 +121,8 @@
     <Compile Include="LinearAlgebraTests\Double\MatrixTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Double\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\ManagedLinearAlgebraProviderTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.cs" />
+    <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\MatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseMatrixTests.cs" />

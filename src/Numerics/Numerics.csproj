@@ -151,6 +151,7 @@
     <Compile Include="LinearAlgebra\Double\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.cs" />
+    <Compile Include="LinearAlgebra\Double\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Double\Vector.cs" />
     <Compile Include="NumberTheory\IntegerTheory.Euclid.Big.cs" />
     <Compile Include="NumberTheory\IntegerTheory.cs" />
