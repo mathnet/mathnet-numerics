@@ -783,6 +783,171 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
+        public void PointWiseAdd()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = CreateVector(vector1.Count);
+            vector1.PointWiseAdd(vector2, result);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] + _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void PointWiseAddWithOtherNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = null;
+            Vector result = CreateVector(vector1.Count);
+            vector1.PointWiseAdd(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void PointWiseAddWithResultNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = null;
+            vector1.PointWiseAdd(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void PointWiseAddWithInvalidResultLengthShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = CreateVector(vector1.Count + 1);
+            vector1.PointWiseAdd(vector2, result);
+        }
+
+        [Test]
+        public void PointWiseAddWithResult()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = vector1.PointWiseAdd(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] + _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public void PointWiseSubtract()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = CreateVector(vector1.Count);
+            vector1.PointWiseSubtract(vector2, result);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] - _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void PointWiseSubtractWithOtherNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = null;
+            Vector result = CreateVector(vector1.Count);
+            vector1.PointWiseSubtract(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void PointWiseSubtractWithResultNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = null;
+            vector1.PointWiseSubtract(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void PointWiseSubtractWithInvalidResultLengthShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = CreateVector(vector1.Count + 1);
+            vector1.PointWiseSubtract(vector2, result);
+        }
+
+        [Test]
+        public void PointWiseSubtractWithResult()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = vector1.PointWiseSubtract(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] - _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public void PointWiseDivide()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = CreateVector(vector1.Count);
+            vector1.PointWiseDivide(vector2, result);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] / _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void PointWiseDivideWithOtherNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = null;
+            Vector result = CreateVector(vector1.Count);
+            vector1.PointWiseDivide(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void PointWiseDivideWithResultNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = null;
+            vector1.PointWiseDivide(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void PointWiseDivideWithInvalidResultLengthShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = CreateVector(vector1.Count + 1);
+            vector1.PointWiseDivide(vector2, result);
+        }
+
+        [Test]
+        public void PointWiseDivideWithResult()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Clone();
+            Vector result = vector1.PointWiseDivide(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] / _data[i], result[i]);
+            }
+        }
+
+        [Test]
         public void CanFindAbsoluteMinimumIndex()
         {
             Vector source = CreateVector(_data);
@@ -802,21 +967,152 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
+        public void CanFindMaximumIndex()
+        {
+            Vector vector = CreateVector(_data);
+
+            int expected = 4;
+            int actual = vector.MaximumIndex();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanFindMaximum()
+        {
+            Vector vector = CreateVector(_data);
+
+            double expected = 5;
+            double actual = vector.Maximum();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanFindMinimumIndex()
+        {
+            Vector vector = CreateVector(_data);
+
+            int expected = 0;
+            int actual = vector.MinimumIndex();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanFindMinimum()
+        {
+            Vector vector = CreateVector(_data);
+
+            double expected = 1;
+            double actual = vector.Minimum();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
         [Row(0, 5)]
         [Row(2, 2)]
         [Row(1, 4)]
         [Row(6, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
         [Row(1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void SubVector(int start, int length)
+        [Row(1, -10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void SubVector(int index, int length)
         {
             Vector vector = CreateVector(_data);
-            Vector sub = vector.SubVector(start, length);
+            Vector sub = vector.SubVector(index, length);
             Assert.AreEqual(length, sub.Count);
             for (int i = 0; i < length; i++)
             {
-                Assert.AreEqual(vector[i + start], sub[i]);
+                Assert.AreEqual(vector[i + index], sub[i]);
             }
         }
+
+        [Test]
+        public void Sum()
+        {
+            double[] testData =  { -20, -10, 10, 20, 30, };
+            Vector vector = CreateVector(testData);
+            double actual = vector.Sum();
+            double expected = 30;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SumMagnitudes()
+        {
+            double[] testData = { -20, -10, 10, 20, 30, };
+            Vector vector = CreateVector(testData);
+            double actual = vector.SumMagnitudes();
+            double expected = 90;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanCalculateDyadicProduct()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = CreateVector(_data);
+            Matrix m = Vector.DyadicProduct(vector1,vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                for (int j = 0; j < vector2.Count; j++)
+                {
+                    Assert.AreEqual(m[i, j], vector1[i] * vector2[j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void DyadicProductWithFirstParameterNullShouldThrowException()
+        {
+            Vector vector1 = null;
+            Vector vector2 = CreateVector(_data);
+            Vector.DyadicProduct(vector1, vector2);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void DyadicProductWithSecondParameterNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = null;
+            Vector.DyadicProduct(vector1, vector2);
+        }
+
+        [Test]
+        public void CanCalculateTensorMultiply()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = CreateVector(_data);
+            Matrix m = vector1.TensorMultiply(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                for (int j = 0; j < vector2.Count; j++)
+                {
+                    Assert.AreEqual(m[i, j], vector1[i] * vector2[j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void TensorMultiplyWithNullParameterNullShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = null;
+            vector1.TensorMultiply(vector2);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void RandomWithNumberOfElementsLessThanZeroShouldThrowException()
+        {
+            Vector vector1 = CreateVector(_data);
+            Vector vector2 = vector1.Random(-5);
+        }
+
 
     }
 }
