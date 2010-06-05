@@ -652,26 +652,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            CommonParallel.For(
-               0,
-               this.RowCount,
-               i =>
-               {
-                   for (int j = 0; j < this.ColumnCount; j++)
-                   {
-                       result.At(i, j, At(i, j));
-                   }
-               });
-
-            CommonParallel.For(
-               0,
-               right.RowCount,
-               i =>
-               {
-                   for (int j = 0; j < right.ColumnCount; j++)
-                   {
-                       result.At(i, j + ColumnCount, right.At(i, j));
-                   }
+            CommonParallel.Invoke(
+                () =>
+                {
+                    CommonParallel.For(
+                       0,
+                       this.RowCount,
+                       i =>
+                       {
+                           CommonParallel.For(0, this.ColumnCount, j => result.At(i, j, At(i, j)));
+                       });
+                },
+                () =>
+                {
+                    CommonParallel.For(
+                       0,
+                       right.RowCount,
+                       i =>
+                       {
+                           CommonParallel.For(0, right.ColumnCount, j => result.At(i, j + ColumnCount, right.At(i, j)));
+                       });                    
                });
         }
 
@@ -727,27 +727,27 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
             }
-           
-            CommonParallel.For(
-                0,
-                this.RowCount,
-                i =>
+
+            CommonParallel.Invoke(
+                () =>
                 {
-                    for (int j = 0; j < this.ColumnCount; j++)
-                    {
-                        result.At(i, j, At(i, j));
-                    }
-                });
-            
-            CommonParallel.For(
-                0,
-                lower.RowCount,
-                i =>
+                    CommonParallel.For(
+                        0,
+                        this.RowCount,
+                        i =>
+                        {
+                            CommonParallel.For(0, this.ColumnCount, j => result.At(i, j, At(i, j)));
+                        });
+                },
+                () =>
                 {
-                    for (int j = 0; j < lower.ColumnCount; j++)
-                    {
-                        result.At(i + RowCount, j, lower.At(i, j));
-                    }
+                    CommonParallel.For(
+                        0,
+                        lower.RowCount,
+                        i =>
+                        {
+                            CommonParallel.For(0, lower.ColumnCount, j => result.At(i + RowCount, j, lower.At(i, j)));
+                        });
                 });
         }
 
@@ -817,27 +817,36 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
             }
 
-            CommonParallel.For(
-                0,
-                this.RowCount,
-                i =>
+            CommonParallel.Invoke(
+                () =>
                 {
-                    for (var j = 0; j < this.ColumnCount; j++)
-                    {
-                        result.At(i, j, At(i, j));
-                    }
+                    CommonParallel.For(
+                        0,
+                        this.RowCount,
+                        i =>
+                        {
+                            CommonParallel.For(0, this.ColumnCount, j => result.At(i, j, At(i, j)));
+                        });
+                },               
+                () =>
+                {
+                    CommonParallel.For(
+                        0,
+                        lower.RowCount,
+                        i =>
+                        {
+                            CommonParallel.For(0, lower.ColumnCount, j => result.At(i + RowCount, j + ColumnCount, lower.At(i, j)));
+                        });
                 });
+        }
 
-            CommonParallel.For(
-                0,
-                lower.RowCount,
-                i =>
-                {
-                    for (var j = 0; j < lower.ColumnCount; j++)
-                    {
-                        result.At(i + RowCount, j + ColumnCount, lower.At(i, j));
-                    }
-                });            
+        /// <summary>
+        /// Calculates the rank of the matrix
+        /// </summary>
+        /// <returns>effective numerical rank, obtained from SVD</returns>
+        public virtual int Rank()
+        {
+            throw new NotImplementedException();
         }
     }
 }

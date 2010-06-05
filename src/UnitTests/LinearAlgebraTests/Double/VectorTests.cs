@@ -252,9 +252,35 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 Assert.AreEqual(vector[i], matrix[0, i]);
             }
         }
+        
+        [Test]
+        public void CanSetValues()
+        {
+            Vector vector = CreateVector(_data);
+            vector.SetValues(_data);
+            for (int i = 0; i < _data.Length; i++)
+            {
+                Assert.AreEqual(vector[i], _data[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void SetValuesWithNullParameterShouldThrowException()
+        {
+            Vector vector = CreateVector(_data);
+            vector.SetValues(null);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void SetValuesWithNonEqualDataLengthShouldThrowException()
+        {
+            Vector vector = CreateVector(_data.Length + 2);
+            vector.SetValues(_data);
+        }
 
         protected abstract Vector CreateVector(int size);
-
         protected abstract Vector CreateVector(IList<double> data);
     }
 }

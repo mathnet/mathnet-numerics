@@ -654,6 +654,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     ret.At(j, i, At(i, j));
                 }
             }
+
             return ret;
         }
     }

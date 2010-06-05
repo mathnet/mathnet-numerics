@@ -33,6 +33,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 	using System.Collections.Generic;
 	using MbUnit.Framework;
     using LinearAlgebra.Double;
+    using System;
 
     public class DenseVectorTests : VectorTests
     {
@@ -254,22 +255,400 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        [MultipleAsserts]
-        public void CanCopyToNonDenseVector()
+        public void CanFindAbsoluteMinimumIndexInDenseVector()
         {
-            var vector = new DenseVector(_data);
-            var other = new UserDefinedVector(_data.Length);
-            vector.CopyTo(other, 1,1,2);
+            DenseVector source = new DenseVector(_data);
+            int expected = 0;
+            int actual = source.AbsoluteMinimumIndex();
+            Assert.AreEqual(expected, actual);
+        }
 
-            Assert.AreEqual(vector[1], other[1]);
-            Assert.AreEqual(vector[2], other[2]);
-            vector.CopyTo(other);
+        [Test]
+        public void CanFindAbsoluteMinimumInDenseVector()
+        {
+            DenseVector source = new DenseVector(_data);
+            double expected = 1;
+            double actual = source.AbsoluteMinimum();
+            Assert.AreEqual(expected, actual);
 
-            for(var i = 0; i < vector.Count; i++)
+        }
+
+        [Test]
+        [Row(0, 5)]
+        [Row(2, 2)]
+        [Row(1, 4)]
+        [Row(6, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        [Row(1, -10, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void CanCalculateSubVector(int index, int length)
+        {
+            DenseVector vector = new DenseVector(_data);
+            Vector sub = vector.SubVector(index, length);
+            Assert.AreEqual(length, sub.Count);
+            for (int i = 0; i < length; i++)
             {
-                Assert.AreEqual(vector[i], other[i]);
+                Assert.AreEqual(vector[i + index], sub[i]);
             }
+        }
 
+        [Test]
+        public void CanFindMaximumIndexInDenseVector()
+        {
+            DenseVector vector = new DenseVector(_data);
+
+            int expected = 4;
+            int actual = vector.MaximumIndex();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanFindMaximumInDenseVector()
+        {
+            DenseVector vector = new DenseVector(_data);
+            double expected = 5;
+            double actual = vector.Maximum();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanFindMinimumIndexOfDenseVector()
+        {
+            DenseVector vector = new DenseVector(_data);
+            int expected = 0;
+            int actual = vector.MinimumIndex();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanFindMinimumOfDenseVector()
+        {
+            DenseVector vector = new DenseVector(_data);
+            double expected = 1;
+            double actual = vector.Minimum();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SumOfDenseVector()
+        {
+            double[] testData = { -20, -10, 10, 20, 30, };
+            DenseVector vector = new DenseVector(testData);
+            double actual = vector.Sum();
+            double expected = 30;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void SumMagnitudesOfDenseVector()
+        {
+            double[] testData = { -20, -10, 10, 20, 30, };
+            DenseVector vector = new DenseVector(testData);
+            double actual = vector.SumMagnitudes();
+            double expected = 90;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void SetValuesWithNullParameterShouldThrowException()
+        {
+            DenseVector vector = new DenseVector(_data);
+            vector.SetValues(null);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public new void SetValuesWithNonEqualDataLengthShouldThrowException()
+        {
+            DenseVector vector = new DenseVector(_data.Length + 2);
+            vector.SetValues(_data);
+        }
+
+        [Test]
+        public new void PointWiseMultiply()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = new DenseVector(vector1.Count);
+            vector1.PointWiseMultiply(vector2, result);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] * _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void PointWiseMultiplyWithOtherNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = null;
+            DenseVector result = new DenseVector(vector1.Count);
+            vector1.PointWiseMultiply(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void PointWiseMultiplyWithResultNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = null;
+            vector1.PointWiseMultiply(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public new void PointWiseMultiplyWithInvalidResultLengthShouldThrowException()
+        {
+            Vector vector1 = new DenseVector(_data);
+            Vector vector2 = new DenseVector(_data);
+            Vector result = CreateVector(vector1.Count + 1);
+            vector1.PointWiseMultiply(vector2, result);
+        }
+
+        [Test]
+        public new void PointWiseMultiplyWithResult()
+        {
+            Vector vector1 = new DenseVector(_data);
+            Vector vector2 = new DenseVector(_data);
+            Vector result = vector1.PointWiseMultiply(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] * _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public new void PointWiseAdd()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = new DenseVector(vector1.Count);
+            vector1.PointWiseAdd(vector2, result);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] + _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void PointWiseAddWithOtherNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = null;
+            DenseVector result = new DenseVector(vector1.Count);
+            vector1.PointWiseAdd(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void PointWiseAddWithResultNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = null;
+            vector1.PointWiseAdd(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public new void PointWiseAddWithInvalidResultLengthShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = new DenseVector(vector1.Count + 1);
+            vector1.PointWiseAdd(vector2, result);
+        }
+
+        [Test]
+        public new void PointWiseAddWithResult()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = vector1.PointWiseAdd(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] + _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public new void PointWiseSubtract()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = new DenseVector(vector1.Count);
+            vector1.PointWiseSubtract(vector2, result);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] - _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void PointWiseSubtractWithOtherNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = null;
+            DenseVector result = new DenseVector(vector1.Count);
+            vector1.PointWiseSubtract(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void PointWiseSubtractWithResultNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            Vector result = null;
+            vector1.PointWiseSubtract(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public new void PointWiseSubtractWithInvalidResultLengthShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = new DenseVector(vector1.Count + 1);
+            vector1.PointWiseSubtract(vector2, result);
+        }
+
+        [Test]
+        public new void PointWiseSubtractWithResult()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = vector1.PointWiseSubtract(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] - _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public new void PointWiseDivide()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = new DenseVector(vector1.Count);
+            vector1.PointWiseDivide(vector2, result);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] / _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void PointWiseDivideWithOtherNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = null;
+            DenseVector result = new DenseVector(vector1.Count);
+            vector1.PointWiseDivide(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void PointWiseDivideWithResultNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = null;
+            vector1.PointWiseDivide(vector2, result);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public new void PointWiseDivideWithInvalidResultLengthShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = new DenseVector(vector1.Count + 1);
+            vector1.PointWiseDivide(vector2, result);
+        }
+
+        [Test]
+        public new void PointWiseDivideWithResult()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector result = vector1.PointWiseDivide(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(_data[i] / _data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public new void CanCalculateDyadicProduct()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            Matrix m = DenseVector.DyadicProduct(vector1, vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                for (int j = 0; j < vector2.Count; j++)
+                {
+                    Assert.AreEqual(m[i, j], vector1[i] * vector2[j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void DyadicProductWithFirstParameterNullShouldThrowException()
+        {
+            DenseVector vector1 = null;
+            DenseVector vector2 = new DenseVector(_data);
+            DenseVector.DyadicProduct(vector1, vector2);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void DyadicProductWithSecondParameterNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = null;
+            Vector.DyadicProduct(vector1, vector2);
+        }
+
+        [Test]
+        public new void CanCalculateTensorMultiply()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = new DenseVector(_data);
+            Matrix m = vector1.TensorMultiply(vector2);
+            for (int i = 0; i < vector1.Count; i++)
+            {
+                for (int j = 0; j < vector2.Count; j++)
+                {
+                    Assert.AreEqual(m[i, j], vector1[i] * vector2[j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public new void TensorMultiplyWithNullParameterNullShouldThrowException()
+        {
+            DenseVector vector1 = new DenseVector(_data);
+            DenseVector vector2 = null;
+            vector1.TensorMultiply(vector2);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public new void RandomWithNumberOfElementsLessThanZeroShouldThrowException()
+        {
+
+            DenseVector vector = new DenseVector(4);
+            vector = vector.Random(-3);
         }
     }
 }

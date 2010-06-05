@@ -752,6 +752,510 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return ret;
         }
 
+        /// <summary>
+        /// Returns the value of the absolute minimum element.
+        /// </summary>
+        /// <returns>The value of the absolute minimum element.</returns>
+        public override double AbsoluteMinimum()
+        {
+            return Math.Abs(this.Data[AbsoluteMinimumIndex()]);
+        }
+
+        /// <summary>
+        /// Returns the index of the absolute minimum element.
+        /// </summary>
+        /// <returns>The index of absolute minimum element.</returns>   
+        public override int AbsoluteMinimumIndex()
+        {
+            int index = 0;
+            double min = System.Math.Abs(this.Data[index]);
+            for (int i = 1; i < Count; i++)
+            {
+                double test = System.Math.Abs(this.Data[i]);
+                if (test < min)
+                {
+                    index = i;
+                    min = test;
+                }
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// Creates a vector containing specified elements.
+        /// </summary>
+        /// <param name="index">The first element to begin copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <returns>A vector containing a copy of the specified elements.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><list><item>If <paramref name="index"/> is not positive or
+        /// greater than or equal to the size of the vector.</item>
+        /// <item>If <paramref name="index"/> + <paramref name="length"/> is greater than or equal to the size of the vector.</item>
+        /// </list></exception>
+        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        public override Vector SubVector(int index, int length)
+        {
+            if (index < 0 || index >= Count)
+            {
+                throw new ArgumentOutOfRangeException("start");
+            }
+
+            if (length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            if (index + length > Count)
+            {
+                throw new ArgumentOutOfRangeException("start");
+            }
+
+            DenseVector result = new DenseVector(length);
+
+            CommonParallel.For(
+                index,
+                index + length,
+                i => result.Data[i - index] = this.Data[i]);
+            return result;
+        }
+
+        /// <summary>
+        /// Set the values of this vector to the given values.
+        /// </summary>
+        /// <param name="values">The array containing the values to use.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="values"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="values"/> is not the same size as this vector.</exception>
+        public override void SetValues(double[] values)
+        {
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
+            if (values.Length != Count)
+            {
+                throw new ArgumentException("values", Resources.ArgumentVectorsSameLength);
+            }
+
+            CommonParallel.For(
+                0,
+                values.Length,
+                i => this.Data[i] = values[i]);
+        }
+
+        /// <summary>
+        /// Returns the value of maximum element.
+        /// </summary>
+        /// <returns>The value of maximum element.</returns>        
+        public override double Maximum()
+        {
+            return this.Data[MaximumIndex()];
+        }
+
+        /// <summary>
+        /// Returns the index of the absolute maximum element.
+        /// </summary>
+        /// <returns>The index of absolute maximum element.</returns>          
+        public override int MaximumIndex()
+        {
+            int index = 0;
+            double max = this.Data[0];
+            for (int i = 1; i < Count; i++)
+            {
+                if (max < this.Data[i])
+                {
+                    index = i;
+                    max = this.Data[i];
+                }
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// Returns the value of the minimum element.
+        /// </summary>
+        /// <returns>The value of the minimum element.</returns>
+        public override double Minimum()
+        {
+            return this.Data[MinimumIndex()];
+        }
+
+        /// <summary>
+        /// Returns the index of the minimum element.
+        /// </summary>
+        /// <returns>The index of minimum element.</returns>  
+        public override int MinimumIndex()
+        {
+            int index = 0;
+            double min = this.Data[0];
+            for (int i = 1; i < Count; i++)
+            {
+                if (min > this.Data[i])
+                {
+                    index = i;
+                    min = this.Data[i];
+                }
+            }
+
+            return index;
+        }
+
+        /// <summary>
+        /// Computes the sum of the vector's elements.
+        /// </summary>
+        /// <returns>The sum of the vector's elements.</returns>
+        public override double Sum()
+        {
+            double result = 0;
+            for (int i = 0; i < Count; i++)
+            {
+                result += this.Data[i];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the sum of the absolute value of the vector's elements.
+        /// </summary>
+        /// <returns>The sum of the absolute value of the vector's elements.</returns>
+        public override double SumMagnitudes()
+        {
+            double result = 0;
+            for (int i = 0; i < Count; i++)
+            {
+                result += Math.Abs(this.Data[i]);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new vector that is the pointwise multiplication of this vector and <paramref name="other"/>.</returns>
+        public virtual DenseVector PointWiseMultiply(DenseVector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            DenseVector result = new DenseVector(Count);
+            PointWiseMultiply(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void PointWiseMultiply(DenseVector other, DenseVector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            CommonParallel.For(
+              0,
+              this.Count,
+              index => result.Data[index] = this.Data[index] * other.Data[index]);
+        }
+
+        /// <summary>
+        /// Pointwise add this vector with another vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise add with this one.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new vector that is the pointwise addition of this vector and <paramref name="other"/>.</returns>
+        public virtual DenseVector PointWiseAdd(DenseVector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            DenseVector result = new DenseVector(Count);
+            PointWiseAdd(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise add this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise add with this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise addition.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void PointWiseAdd(DenseVector other, DenseVector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            CommonParallel.For(
+              0,
+              this.Count,
+              index => result.Data[index] = this.Data[index] + other.Data[index]);
+        }
+
+        /// <summary>
+        /// Pointwise subtarct this vector with another vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise subtract from this one.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new vector that is the pointwise subtraction of this vector and <paramref name="other"/>.</returns>
+        public virtual DenseVector PointWiseSubtract(DenseVector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            DenseVector result = new DenseVector(Count);
+            PointWiseSubtract(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise subtract this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise subtract from this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void PointWiseSubtract(DenseVector other, DenseVector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            CommonParallel.For(
+              0,
+              this.Count,
+              index => result.Data[index] = this.Data[index] - other.Data[index]);
+        }
+
+        /// <summary>
+        /// Pointwise divide this vector with another vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new vector that is the pointwise division of this vector and <paramref name="other"/>.</returns>
+        public virtual DenseVector PointWiseDivide(DenseVector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            DenseVector result = new DenseVector(Count);
+            PointWiseDivide(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise divide this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="result">The vector to store the result of the pointwise division.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public virtual void PointWiseDivide(DenseVector other, DenseVector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            CommonParallel.For(
+              0,
+              this.Count,
+              index => result.Data[index] = this.Data[index] / other.Data[index]);
+        }
+
+        /// <summary>
+        /// Dyadic product of two vectors
+        /// </summary>
+        /// <param name="u">First vector</param>
+        /// <param name="v">Second vector</param>
+        /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
+        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
+        public static DenseMatrix DyadicProduct(DenseVector u, DenseVector v)
+        {
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (v == null)
+            {
+                throw new ArgumentNullException("v");
+            }
+
+            DenseMatrix matrix = new DenseMatrix(u.Count, v.Count);
+            CommonParallel.For(
+                0,
+                u.Count,
+                i => CommonParallel.For(0, v.Count, j => matrix.At(i, j, u.Data[i] * v.Data[j])));
+            return matrix;
+        }
+
+        /// <summary>
+        /// Generates vector with random elements
+        /// </summary>
+        /// <param name="n">Dimensionality of vector.</param>
+        /// <returns>
+        /// An n-dimensional vector with uniformly distributed
+        /// random elements in <c>[0, 1)</c> interval.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
+        public new virtual DenseVector Random(int n)
+        {
+            // use any class which inherits the AbstractRandomNumberGenerator
+            return Random(n, new MathNet.Numerics.Random.SystemCryptoRandomNumberGenerator());
+        }
+
+        /// <summary>
+        /// Generates a vector with random elements
+        /// </summary>
+        /// <param name="n">Number of elements in the vector.</param>
+        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// A vector with n-random elements distributed according
+        /// to the specified random distribution.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
+        public new virtual DenseVector Random(int n, MathNet.Numerics.Random.AbstractRandomNumberGenerator randomDistribution)
+        {
+            if (n < 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "n");
+            }
+
+            DenseVector v = new DenseVector(n);
+            CommonParallel.For(
+                0,
+                v.Count,
+                index => v.Data[index] = randomDistribution.NextDouble());
+            return v;
+        }
+
+        /// <summary>
+        /// Tensor Product (Dyadic) of this and another vector.
+        /// </summary>
+        /// <param name="v">The vector to operate on.</param>
+        /// <returns>
+        /// Matrix M[i,j] = this[i] * v[j].
+        /// </returns>
+        /// <seealso cref="DyadicProduct"/>
+        public Matrix TensorMultiply(DenseVector v)
+        {
+            return DyadicProduct(this, v);
+        }
+
         #region Vector Norms
 
         /// <summary>
