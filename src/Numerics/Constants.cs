@@ -165,7 +165,7 @@ namespace MathNet.Numerics
         public const int SizeOfDouble = sizeof(double);
 
         /// <summary>
-        /// The size of a double in bytes.
+        /// The size of an int in bytes.
         /// </summary>
         public const int SizeOfInt = sizeof(int);
 
