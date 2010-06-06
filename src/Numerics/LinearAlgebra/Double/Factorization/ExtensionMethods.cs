@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The Cholesky decomposition object.</returns>
-        public static Cholesky Cholesky(this Matrix matrix)
+        public static Factorization.Cholesky Cholesky(this Matrix matrix)
         {
             return Factorization.Cholesky.Create(matrix);
         }
