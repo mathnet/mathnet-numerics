@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,16 +26,16 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-	using System;
-	using MathNet.Numerics.LinearAlgebra.Double;
-	using MbUnit.Framework;
+    using System;
+    using LinearAlgebra.Double;
+    using MbUnit.Framework;
 
     public abstract partial class VectorTests
     {
         [Test]
         public void CanCallPlus()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             var other = vector.Plus();
             Assert.AreSame(vector, other, "Should be the same vector");
         }
@@ -55,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCallUnaryPlusOperator()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             var other = +vector;
             Assert.AreSame(vector, other, "Should be the same vector");
         }
@@ -64,18 +60,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanAddScalarToVector()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             vector.Add(2.0);
 
-            for( var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i]+2.0, vector[i]);
+                Assert.AreEqual(this._data[i] + 2.0, vector[i]);
             }
 
             vector.Add(0.0);
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] + 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] + 2.0, vector[i]);
             }
         }
 
@@ -83,67 +79,67 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanAddScalarToVectorUsingResultVector()
         {
-            var vector = CreateVector(_data);
-            var result = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data);
+            var result = this.CreateVector(this._data.Length);
             vector.Add(2.0, result);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i] + 2.0, result[i]);
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i] + 2.0, result[i]);
             }
 
             vector.Add(0.0, result);
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], result[i]);
+                Assert.AreEqual(this._data[i], result[i]);
             }
         }
 
         [Test]
         public void ThrowsArgumentNullExceptionWhenAddingScalarWithNullResultVector()
         {
-            var vector = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data.Length);
             Assert.Throws<ArgumentNullException>(() => vector.Add(0.0, null));
         }
 
         [Test]
         public void ThrowsArgumentExceptionWhenAddingScalarWithWrongSizeResultVector()
         {
-            var vector = CreateVector(_data.Length);
-            var result = CreateVector(_data.Length + 1);
+            var vector = this.CreateVector(this._data.Length);
+            var result = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Add(0.0, result));
         }
 
         [Test]
         public void ThrowsArgumentNullExceptionWhenAddingTwoVectorsAndOneIsNull()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             Assert.Throws<ArgumentNullException>(() => vector.Add(null));
         }
 
         [Test]
         public void ThrowsArgumentExceptionWhenAddingTwoVectorsOfDifferingSize()
         {
-            var vector = CreateVector(_data.Length);
-            var other = CreateVector(_data.Length +1);
+            var vector = this.CreateVector(this._data.Length);
+            var other = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Add(other));
         }
 
         [Test]
         public void ThrowsArgumentNullExceptionWhenAddingTwoVectorsAndResultIsNull()
         {
-            var vector = CreateVector(_data.Length);
-            var other = CreateVector(_data.Length+1);
-            Assert.Throws<ArgumentNullException>(() => vector.Add(other,null));
+            var vector = this.CreateVector(this._data.Length);
+            var other = this.CreateVector(this._data.Length + 1);
+            Assert.Throws<ArgumentNullException>(() => vector.Add(other, null));
         }
 
         [Test]
         public void ThrowsArgumentExceptionWhenAddingTwoVectorsAndResultIsDifferentSize()
         {
-            var vector = CreateVector(_data.Length);
-            var other = CreateVector(_data.Length);
-            var result = CreateVector(_data.Length + 1);
+            var vector = this.CreateVector(this._data.Length);
+            var other = this.CreateVector(this._data.Length);
+            var result = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Add(other, result));
         }
 
@@ -151,8 +147,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void AdditionOperatorThrowsArgumentNullExpectionIfAVectorIsNull()
         {
             Vector a = null;
-            var b = CreateVector(_data.Length);
-            Assert.Throws<ArgumentNullException>(()=> a += b);
+            var b = this.CreateVector(this._data.Length);
+            Assert.Throws<ArgumentNullException>(() => a += b);
 
             a = b;
             b = null;
@@ -162,21 +158,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void AdditionOperatorThrowsArgumentExpectionIfVectorsAreDifferentSize()
         {
-            var a = CreateVector(_data.Length);
-            var b = CreateVector(_data.Length + 1);
+            var a = this.CreateVector(this._data.Length);
+            var b = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => a += b);
         }
 
         [Test]
         public void CanAddTwoVectors()
         {
-            var vector = CreateVector(_data);
-            var other = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
+            var other = this.CreateVector(this._data);
             vector.Add(other);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
         }
 
@@ -184,16 +180,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanAddTwoVectorsUsingResultVector()
         {
-            var vector = CreateVector(_data);
-            var other = CreateVector(_data);
-            var result = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data);
+            var other = this.CreateVector(this._data);
+            var result = this.CreateVector(this._data.Length);
             vector.Add(other, result);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i] * 2.0, result[i]);
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i] * 2.0, result[i]);
             }
         }
 
@@ -201,27 +197,27 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanAddTwoVectorsUsingOperator()
         {
-            var vector = CreateVector(_data);
-            var other = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
+            var other = this.CreateVector(this._data);
             var result = vector + other;
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i] * 2.0, result[i]);
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i] * 2.0, result[i]);
             }
         }
 
         [Test]
         public void CanAddVectorToItself()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             vector.Add(vector);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
         }
 
@@ -229,14 +225,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanAddVectorToItselfUsingResultVector()
         {
-            var vector = CreateVector(_data);
-            var result = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data);
+            var result = this.CreateVector(this._data.Length);
             vector.Add(vector, result);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i] * 2.0, result[i]);
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i] * 2.0, result[i]);
             }
         }
 
@@ -244,25 +240,25 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanAddTwoVectorsUsingItselfAsResultVector()
         {
-            var vector = CreateVector(_data);
-            var other = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
+            var other = this.CreateVector(this._data);
             vector.Add(other, vector);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
         }
 
         [Test]
         public void CanCallNegate()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             var other = vector.Negate();
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(-_data[i], other[i]);
+                Assert.AreEqual(-this._data[i], other[i]);
             }
         }
 
@@ -277,11 +273,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCallUnaryNegationOperator()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             var other = -vector;
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(-_data[i], other[i]);
+                Assert.AreEqual(-this._data[i], other[i]);
             }
         }
 
@@ -289,18 +285,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanSubtractScalarFromVector()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             vector.Subtract(2.0);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] - 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] - 2.0, vector[i]);
             }
 
             vector.Subtract(0.0);
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] - 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] - 2.0, vector[i]);
             }
         }
 
@@ -308,67 +304,67 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanSubtractScalarFromVectorUsingResultVector()
         {
-            var vector = CreateVector(_data);
-            var result = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data);
+            var result = this.CreateVector(this._data.Length);
             vector.Subtract(2.0, result);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i] - 2.0, result[i]);
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i] - 2.0, result[i]);
             }
 
             vector.Subtract(0.0, result);
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], result[i]);
+                Assert.AreEqual(this._data[i], result[i]);
             }
         }
 
         [Test]
         public void ThrowsArgumentNullExceptionWhenSubtractingScalarWithNullResultVector()
         {
-            var vector = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data.Length);
             Assert.Throws<ArgumentNullException>(() => vector.Subtract(0.0, null));
         }
 
         [Test]
         public void ThrowsArgumentExceptionWhenSubtractingScalarWithWrongSizeResultVector()
         {
-            var vector = CreateVector(_data.Length);
-            var result = CreateVector(_data.Length + 1);
+            var vector = this.CreateVector(this._data.Length);
+            var result = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Subtract(0.0, result));
         }
 
         [Test]
         public void ThrowsArgumentNullExceptionWhenSubtractingTwoVectorsAndOneIsNull()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             Assert.Throws<ArgumentNullException>(() => vector.Subtract(null));
         }
 
         [Test]
         public void ThrowsArgumentExceptionWhenSubtractingTwoVectorsOfDifferingSize()
         {
-            var vector = CreateVector(_data.Length);
-            var other = CreateVector(_data.Length + 1);
+            var vector = this.CreateVector(this._data.Length);
+            var other = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Subtract(other));
         }
 
         [Test]
         public void ThrowsArgumentNullExceptionWhenSubtractingTwoVectorsAndResultIsNull()
         {
-            var vector = CreateVector(_data.Length);
-            var other = CreateVector(_data.Length + 1);
+            var vector = this.CreateVector(this._data.Length);
+            var other = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentNullException>(() => vector.Subtract(other, null));
         }
 
         [Test]
         public void ThrowsArgumentExceptionWhenSubtractingTwoVectorsAndResultIsDifferentSize()
         {
-            var vector = CreateVector(_data.Length);
-            var other = CreateVector(_data.Length);
-            var result = CreateVector(_data.Length + 1);
+            var vector = this.CreateVector(this._data.Length);
+            var other = this.CreateVector(this._data.Length);
+            var result = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Subtract(other, result));
         }
 
@@ -376,7 +372,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void SubtractionOperatorThrowsArgumentNullExpectionIfAVectorIsNull()
         {
             Vector a = null;
-            var b = CreateVector(_data.Length);
+            var b = this.CreateVector(this._data.Length);
             Assert.Throws<ArgumentNullException>(() => a -= b);
 
             a = b;
@@ -387,19 +383,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void SubtractionOperatorThrowsArgumentExpectionIfVectorsAreDifferentSize()
         {
-            var a = CreateVector(_data.Length);
-            var b = CreateVector(_data.Length + 1);
+            var a = this.CreateVector(this._data.Length);
+            var b = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => a -= b);
         }
 
         [Test]
         public void CanSubtractTwoVectors()
         {
-            var vector = CreateVector(_data);
-            var other = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
+            var other = this.CreateVector(this._data);
             vector.Subtract(other);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
                 Assert.AreEqual(0.0, vector[i]);
             }
@@ -409,15 +405,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanSubtractTwoVectorsUsingResultVector()
         {
-            var vector = CreateVector(_data);
-            var other = CreateVector(_data);
-            var result = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data);
+            var other = this.CreateVector(this._data);
+            var result = this.CreateVector(this._data.Length);
             vector.Subtract(other, result);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i], other[i], "Making sure the original vector wasn't modified.");
                 Assert.AreEqual(0.0, result[i]);
             }
         }
@@ -426,14 +422,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanSubtractTwoVectorsUsingOperator()
         {
-            var vector = CreateVector(_data);
-            var other = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
+            var other = this.CreateVector(this._data);
             var result = vector - other;
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i], other[i], "Making sure the original vector wasn't modified.");
                 Assert.AreEqual(0.0, result[i]);
             }
         }
@@ -441,10 +437,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanSubtractVectorFromItself()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             vector.Subtract(vector);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
                 Assert.AreEqual(0.0, vector[i]);
             }
@@ -454,13 +450,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanSubtractVectorFromItselfUsingResultVector()
         {
-            var vector = CreateVector(_data);
-            var result = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data);
+            var result = this.CreateVector(this._data.Length);
             vector.Subtract(vector, result);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
                 Assert.AreEqual(0.0, result[i]);
             }
         }
@@ -469,13 +465,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanSubtractTwoVectorsUsingItselfAsResultVector()
         {
-            var vector = CreateVector(_data);
-            var other = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
+            var other = this.CreateVector(this._data);
             vector.Subtract(other, vector);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], other[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i], other[i], "Making sure the original vector wasn't modified.");
                 Assert.AreEqual(0.0, vector[i]);
             }
         }
@@ -484,18 +480,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanDivideVectorByScalar()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             vector.Divide(2.0);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] / 2.0, vector[i]);
             }
 
             vector.Divide(1.0);
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] / 2.0, vector[i]);
             }
         }
 
@@ -503,20 +499,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanDivideVectorByScalarUsingResultVector()
         {
-            var vector = CreateVector(_data);
-            var result = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data);
+            var result = this.CreateVector(this._data.Length);
             vector.Divide(2.0, result);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i] / 2.0, result[i]);
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i] / 2.0, result[i]);
             }
 
             vector.Divide(1.0, result);
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], result[i]);
+                Assert.AreEqual(this._data[i], result[i]);
             }
         }
 
@@ -524,18 +520,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanMultiplyVectorByScalar()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             vector.Multiply(2.0);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
 
             vector.Multiply(1.0);
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
         }
 
@@ -543,50 +539,50 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanMultiplyVectorByScalarUsingResultVector()
         {
-            var vector = CreateVector(_data);
-            var result = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data);
+            var result = this.CreateVector(this._data.Length);
             vector.Multiply(2.0, result);
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(_data[i] * 2.0, result[i]);
+                Assert.AreEqual(this._data[i], vector[i], "Making sure the original vector wasn't modified.");
+                Assert.AreEqual(this._data[i] * 2.0, result[i]);
             }
 
             vector.Multiply(1.0, result);
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i], result[i]);
+                Assert.AreEqual(this._data[i], result[i]);
             }
         }
 
         [Test]
         public void ThrowsArgumentNullExceptionWhenMultiplyingScalarWithNullResultVector()
         {
-            var vector = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data.Length);
             Assert.Throws<ArgumentNullException>(() => vector.Multiply(1.0, null));
         }
 
         [Test]
         public void ThrowsArgumentNullExceptionWhenDividingScalarWithNullResultVector()
         {
-            var vector = CreateVector(_data.Length);
+            var vector = this.CreateVector(this._data.Length);
             Assert.Throws<ArgumentNullException>(() => vector.Divide(1.0, null));
         }
 
         [Test]
         public void ThrowsArgumentExceptionWhenMultiplyingScalarWithWrongSizeResultVector()
         {
-            var vector = CreateVector(_data.Length);
-            var result = CreateVector(_data.Length + 1);
+            var vector = this.CreateVector(this._data.Length);
+            var result = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Multiply(0.0, result));
         }
 
         [Test]
         public void ThrowsArgumentExceptionWhenDividingScalarWithWrongSizeResultVector()
         {
-            var vector = CreateVector(_data.Length);
-            var result = CreateVector(_data.Length + 1);
+            var vector = this.CreateVector(this._data.Length);
+            var result = this.CreateVector(this._data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Divide(0.0, result));
         }
 
@@ -594,32 +590,32 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanMultiplyVectorByScalarUsingOperators()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             vector = vector * 2.0;
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
 
             vector = vector * 1.0;
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
 
-            vector = CreateVector(_data);
+            vector = this.CreateVector(this._data);
             vector = 2.0 * vector;
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
 
             vector = 1.0 * vector;
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] * 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] * 2.0, vector[i]);
             }
         }
 
@@ -627,18 +623,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanDivideVectorByScalarUsingOperators()
         {
-            var vector = CreateVector(_data);
+            var vector = this.CreateVector(this._data);
             vector = vector / 2.0;
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] / 2.0, vector[i]);
             }
 
             vector = vector / 1.0;
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < this._data.Length; i++)
             {
-                Assert.AreEqual(_data[i] / 2.0, vector[i]);
+                Assert.AreEqual(this._data[i] / 2.0, vector[i]);
             }
         }
 
@@ -662,8 +658,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanDotProduct()
         {
-            Vector dataA = CreateVector(_data);
-            Vector dataB = CreateVector(_data);
+            var dataA = this.CreateVector(this._data);
+            var dataB = this.CreateVector(this._data);
 
             Assert.AreEqual(55.0, dataA.DotProduct(dataB));
         }
@@ -672,7 +668,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void DotProductThrowsExceptionWhenArgumentIsNull()
         {
-            Vector dataA = CreateVector(_data);
+            var dataA = this.CreateVector(this._data);
             Vector dataB = null;
 
             dataA.DotProduct(dataB);
@@ -682,8 +678,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void DotProductThrowsExceptionWhenArgumentHasDifferentSize()
         {
-            Vector dataA = CreateVector(_data);
-            Vector dataB = CreateVector(new double[] {1, 2, 3, 4, 5, 6});
+            var dataA = this.CreateVector(this._data);
+            var dataB = this.CreateVector(new double[] { 1, 2, 3, 4, 5, 6 });
 
             dataA.DotProduct(dataB);
         }
@@ -691,8 +687,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanDotProductUsingOperator()
         {
-            Vector dataA = CreateVector(_data);
-            Vector dataB = CreateVector(_data);
+            var dataA = this.CreateVector(this._data);
+            var dataB = this.CreateVector(this._data);
 
             Assert.AreEqual(55.0, dataA * dataB);
         }
@@ -701,10 +697,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void OperatorDotProductThrowsExceptionWhenLeftArgumentIsNull()
         {
-            Vector dataA = CreateVector(_data);
+            var dataA = this.CreateVector(this._data);
             Vector dataB = null;
 
-            double d = dataA * dataB;
+            var d = dataA * dataB;
         }
 
         [Test]
@@ -712,31 +708,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void OperatorDotProductThrowsExceptionWhenRightArgumentIsNull()
         {
             Vector dataA = null;
-            Vector dataB = CreateVector(_data);
+            var dataB = this.CreateVector(this._data);
 
-            double d = dataA * dataB;
+            var d = dataA * dataB;
         }
 
         [Test]
         [ExpectedArgumentException]
         public void OperatorDotProductThrowsExceptionWhenArgumentHasDifferentSize()
         {
-            Vector dataA = CreateVector(_data);
-            Vector dataB = CreateVector(new double[] { 1, 2, 3, 4, 5, 6 });
+            var dataA = this.CreateVector(this._data);
+            var dataB = this.CreateVector(new double[] { 1, 2, 3, 4, 5, 6 });
 
-            double d = dataA * dataB;
+            var d = dataA * dataB;
         }
 
         [Test]
         public void PointWiseMultiply()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = CreateVector(vector1.Count);
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = CreateVector(vector1.Count);
             vector1.PointWiseMultiply(vector2, result);
-            for (int i = 0; i < vector1.Count; i++)
+            for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(_data[i] * _data[i], result[i]);
+                Assert.AreEqual(this._data[i] * this._data[i], result[i]);
             }
         }
 
@@ -744,9 +740,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void PointWiseMultiplyWithOtherNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
+            var vector1 = this.CreateVector(this._data);
             Vector vector2 = null;
-            Vector result = CreateVector(vector1.Count);
+            var result = CreateVector(vector1.Count);
             vector1.PointWiseMultiply(vector2, result);
         }
 
@@ -754,8 +750,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void PointWiseMultiplyWithResultNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
             Vector result = null;
             vector1.PointWiseMultiply(vector2, result);
         }
@@ -764,34 +760,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void PointWiseMultiplyWithInvalidResultLengthShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = CreateVector(vector1.Count + 1);
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = this.CreateVector(vector1.Count + 1);
             vector1.PointWiseMultiply(vector2, result);
         }
 
         [Test]
         public void PointWiseMultiplyWithResult()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = vector1.PointWiseMultiply(vector2);
-            for (int i = 0; i < vector1.Count; i++)
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = vector1.PointWiseMultiply(vector2);
+            for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(_data[i] * _data[i], result[i]);
+                Assert.AreEqual(this._data[i] * this._data[i], result[i]);
             }
         }
 
         [Test]
         public void PointWiseAdd()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = CreateVector(vector1.Count);
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = CreateVector(vector1.Count);
             vector1.PointWiseAdd(vector2, result);
-            for (int i = 0; i < vector1.Count; i++)
+            for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(_data[i] + _data[i], result[i]);
+                Assert.AreEqual(this._data[i] + this._data[i], result[i]);
             }
         }
 
@@ -799,9 +795,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void PointWiseAddWithOtherNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
+            var vector1 = this.CreateVector(this._data);
             Vector vector2 = null;
-            Vector result = CreateVector(vector1.Count);
+            var result = CreateVector(vector1.Count);
             vector1.PointWiseAdd(vector2, result);
         }
 
@@ -809,8 +805,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void PointWiseAddWithResultNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
             Vector result = null;
             vector1.PointWiseAdd(vector2, result);
         }
@@ -819,34 +815,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void PointWiseAddWithInvalidResultLengthShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = CreateVector(vector1.Count + 1);
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = this.CreateVector(vector1.Count + 1);
             vector1.PointWiseAdd(vector2, result);
         }
 
         [Test]
         public void PointWiseAddWithResult()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = vector1.PointWiseAdd(vector2);
-            for (int i = 0; i < vector1.Count; i++)
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = vector1.PointWiseAdd(vector2);
+            for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(_data[i] + _data[i], result[i]);
+                Assert.AreEqual(this._data[i] + this._data[i], result[i]);
             }
         }
 
         [Test]
         public void PointWiseSubtract()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = CreateVector(vector1.Count);
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = CreateVector(vector1.Count);
             vector1.PointWiseSubtract(vector2, result);
-            for (int i = 0; i < vector1.Count; i++)
+            for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(_data[i] - _data[i], result[i]);
+                Assert.AreEqual(this._data[i] - this._data[i], result[i]);
             }
         }
 
@@ -854,9 +850,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void PointWiseSubtractWithOtherNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
+            var vector1 = this.CreateVector(this._data);
             Vector vector2 = null;
-            Vector result = CreateVector(vector1.Count);
+            var result = CreateVector(vector1.Count);
             vector1.PointWiseSubtract(vector2, result);
         }
 
@@ -864,8 +860,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void PointWiseSubtractWithResultNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
             Vector result = null;
             vector1.PointWiseSubtract(vector2, result);
         }
@@ -874,34 +870,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void PointWiseSubtractWithInvalidResultLengthShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = CreateVector(vector1.Count + 1);
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = this.CreateVector(vector1.Count + 1);
             vector1.PointWiseSubtract(vector2, result);
         }
 
         [Test]
         public void PointWiseSubtractWithResult()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = vector1.PointWiseSubtract(vector2);
-            for (int i = 0; i < vector1.Count; i++)
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = vector1.PointWiseSubtract(vector2);
+            for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(_data[i] - _data[i], result[i]);
+                Assert.AreEqual(this._data[i] - this._data[i], result[i]);
             }
         }
 
         [Test]
         public void PointWiseDivide()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = CreateVector(vector1.Count);
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = CreateVector(vector1.Count);
             vector1.PointWiseDivide(vector2, result);
-            for (int i = 0; i < vector1.Count; i++)
+            for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(_data[i] / _data[i], result[i]);
+                Assert.AreEqual(this._data[i] / this._data[i], result[i]);
             }
         }
 
@@ -909,9 +905,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void PointWiseDivideWithOtherNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
+            var vector1 = this.CreateVector(this._data);
             Vector vector2 = null;
-            Vector result = CreateVector(vector1.Count);
+            var result = CreateVector(vector1.Count);
             vector1.PointWiseDivide(vector2, result);
         }
 
@@ -919,8 +915,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void PointWiseDivideWithResultNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
             Vector result = null;
             vector1.PointWiseDivide(vector2, result);
         }
@@ -929,134 +925,33 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void PointWiseDivideWithInvalidResultLengthShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = CreateVector(vector1.Count + 1);
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = this.CreateVector(vector1.Count + 1);
             vector1.PointWiseDivide(vector2, result);
         }
 
         [Test]
         public void PointWiseDivideWithResult()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Clone();
-            Vector result = vector1.PointWiseDivide(vector2);
-            for (int i = 0; i < vector1.Count; i++)
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
+            var result = vector1.PointWiseDivide(vector2);
+            for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(_data[i] / _data[i], result[i]);
+                Assert.AreEqual(this._data[i] / this._data[i], result[i]);
             }
-        }
-
-        [Test]
-        public void CanFindAbsoluteMinimumIndex()
-        {
-            Vector source = CreateVector(_data);
-            int expected = 0;
-            int actual = source.AbsoluteMinimumIndex();
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void CanFindAbsoluteMinimum()
-        {
-            Vector source = CreateVector(_data);
-            double expected = 1;
-            double actual = source.AbsoluteMinimum();
-            Assert.AreEqual(expected, actual);
-            
-        }
-
-        [Test]
-        public void CanFindMaximumIndex()
-        {
-            Vector vector = CreateVector(_data);
-
-            int expected = 4;
-            int actual = vector.MaximumIndex();
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void CanFindMaximum()
-        {
-            Vector vector = CreateVector(_data);
-
-            double expected = 5;
-            double actual = vector.Maximum();
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void CanFindMinimumIndex()
-        {
-            Vector vector = CreateVector(_data);
-
-            int expected = 0;
-            int actual = vector.MinimumIndex();
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void CanFindMinimum()
-        {
-            Vector vector = CreateVector(_data);
-
-            double expected = 1;
-            double actual = vector.Minimum();
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        [Row(0, 5)]
-        [Row(2, 2)]
-        [Row(1, 4)]
-        [Row(6, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(1, -10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void SubVector(int index, int length)
-        {
-            Vector vector = CreateVector(_data);
-            Vector sub = vector.SubVector(index, length);
-            Assert.AreEqual(length, sub.Count);
-            for (int i = 0; i < length; i++)
-            {
-                Assert.AreEqual(vector[i + index], sub[i]);
-            }
-        }
-
-        [Test]
-        public void Sum()
-        {
-            double[] testData =  { -20, -10, 10, 20, 30, };
-            Vector vector = CreateVector(testData);
-            double actual = vector.Sum();
-            double expected = 30;
-            Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void SumMagnitudes()
-        {
-            double[] testData = { -20, -10, 10, 20, 30, };
-            Vector vector = CreateVector(testData);
-            double actual = vector.SumMagnitudes();
-            double expected = 90;
-            Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void CanCalculateDyadicProduct()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = CreateVector(_data);
-            Matrix m = Vector.DyadicProduct(vector1,vector2);
-            for (int i = 0; i < vector1.Count; i++)
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = this.CreateVector(this._data);
+            Matrix m = Vector.DyadicProduct(vector1, vector2);
+            for (var i = 0; i < vector1.Count; i++)
             {
-                for (int j = 0; j < vector2.Count; j++)
+                for (var j = 0; j < vector2.Count; j++)
                 {
                     Assert.AreEqual(m[i, j], vector1[i] * vector2[j]);
                 }
@@ -1068,7 +963,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void DyadicProductWithFirstParameterNullShouldThrowException()
         {
             Vector vector1 = null;
-            Vector vector2 = CreateVector(_data);
+            var vector2 = this.CreateVector(this._data);
             Vector.DyadicProduct(vector1, vector2);
         }
 
@@ -1076,7 +971,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void DyadicProductWithSecondParameterNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
+            var vector1 = this.CreateVector(this._data);
             Vector vector2 = null;
             Vector.DyadicProduct(vector1, vector2);
         }
@@ -1084,12 +979,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCalculateTensorMultiply()
         {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = CreateVector(_data);
-            Matrix m = vector1.TensorMultiply(vector2);
-            for (int i = 0; i < vector1.Count; i++)
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = this.CreateVector(this._data);
+            var m = vector1.TensorMultiply(vector2);
+            for (var i = 0; i < vector1.Count; i++)
             {
-                for (int j = 0; j < vector2.Count; j++)
+                for (var j = 0; j < vector2.Count; j++)
                 {
                     Assert.AreEqual(m[i, j], vector1[i] * vector2[j]);
                 }
@@ -1100,19 +995,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void TensorMultiplyWithNullParameterNullShouldThrowException()
         {
-            Vector vector1 = CreateVector(_data);
+            var vector1 = this.CreateVector(this._data);
             Vector vector2 = null;
             vector1.TensorMultiply(vector2);
         }
-
-        [Test]
-        [ExpectedArgumentException]
-        public void RandomWithNumberOfElementsLessThanZeroShouldThrowException()
-        {
-            Vector vector1 = CreateVector(_data);
-            Vector vector2 = vector1.Random(-5);
-        }
-
-
     }
 }
