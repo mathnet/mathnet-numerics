@@ -481,5 +481,55 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 }
             }
         }
+
+        [Test]
+        [Row("Singular3x3")]
+        [Row("Square3x3")]
+        [Row("Tall3x2")]
+        [MultipleAsserts]
+        public void CanPermuteMatrixRows(string name)
+        {
+            var matrix = CreateMatrix(testData2D[name]);
+            var matrixp = CreateMatrix(testData2D[name]);
+
+            var permutation = new Permutation(new int[] { 2, 0, 1 });
+            matrixp.PermuteRows(permutation);
+
+            Assert.AreNotSame(matrix, matrixp);
+            Assert.AreEqual(matrix.RowCount, matrixp.RowCount);
+            Assert.AreEqual(matrix.ColumnCount, matrixp.ColumnCount);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], matrixp[permutation[i], j]);
+                }
+            }
+        }
+
+        [Test]
+        [Row("Singular3x3")]
+        [Row("Square3x3")]
+        [Row("Wide2x3")]
+        [MultipleAsserts]
+        public void CanPermuteMatrixColumns(string name)
+        {
+            var matrix = CreateMatrix(testData2D[name]);
+            var matrixp = CreateMatrix(testData2D[name]);
+
+            var permutation = new Permutation(new int[] { 2, 0, 1 });
+            matrixp.PermuteColumns(permutation);
+
+            Assert.AreNotSame(matrix, matrixp);
+            Assert.AreEqual(matrix.RowCount, matrixp.RowCount);
+            Assert.AreEqual(matrix.ColumnCount, matrixp.ColumnCount);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], matrixp[i, permutation[j]]);
+                }
+            }
+        }
     }
 }

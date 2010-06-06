@@ -300,4 +300,7 @@
   <data name="ArgumentReferenceDifferent" xml:space="preserve">
     <value>Arguments must be different objects.</value>
   </data>
+  <data name="PermutationAsIntArrayInvalid" xml:space="preserve">
+    <value>The integer array does not represent a valid permutation.</value>
+  </data>
 </root>
