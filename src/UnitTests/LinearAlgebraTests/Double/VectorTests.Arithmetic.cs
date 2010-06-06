@@ -771,123 +771,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = this.CreateVector(this._data);
             var vector2 = vector1.Clone();
-            var result = vector1.PointWiseMultiply(vector2);
+            vector1.PointWiseMultiply(vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(this._data[i] * this._data[i], result[i]);
+                Assert.AreEqual(this._data[i] * this._data[i], vector1[i]);
             }
         }
-
-        [Test]
-        public void PointWiseAdd()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            var result = CreateVector(vector1.Count);
-            vector1.PointWiseAdd(vector2, result);
-            for (var i = 0; i < vector1.Count; i++)
-            {
-                Assert.AreEqual(this._data[i] + this._data[i], result[i]);
-            }
-        }
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void PointWiseAddWithOtherNullShouldThrowException()
-        {
-            var vector1 = this.CreateVector(this._data);
-            Vector vector2 = null;
-            var result = CreateVector(vector1.Count);
-            vector1.PointWiseAdd(vector2, result);
-        }
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void PointWiseAddWithResultNullShouldThrowException()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            Vector result = null;
-            vector1.PointWiseAdd(vector2, result);
-        }
-
-        [Test]
-        [ExpectedArgumentException]
-        public void PointWiseAddWithInvalidResultLengthShouldThrowException()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            var result = this.CreateVector(vector1.Count + 1);
-            vector1.PointWiseAdd(vector2, result);
-        }
-
-        [Test]
-        public void PointWiseAddWithResult()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            var result = vector1.PointWiseAdd(vector2);
-            for (var i = 0; i < vector1.Count; i++)
-            {
-                Assert.AreEqual(this._data[i] + this._data[i], result[i]);
-            }
-        }
-
-        [Test]
-        public void PointWiseSubtract()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            var result = CreateVector(vector1.Count);
-            vector1.PointWiseSubtract(vector2, result);
-            for (var i = 0; i < vector1.Count; i++)
-            {
-                Assert.AreEqual(this._data[i] - this._data[i], result[i]);
-            }
-        }
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void PointWiseSubtractWithOtherNullShouldThrowException()
-        {
-            var vector1 = this.CreateVector(this._data);
-            Vector vector2 = null;
-            var result = CreateVector(vector1.Count);
-            vector1.PointWiseSubtract(vector2, result);
-        }
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void PointWiseSubtractWithResultNullShouldThrowException()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            Vector result = null;
-            vector1.PointWiseSubtract(vector2, result);
-        }
-
-        [Test]
-        [ExpectedArgumentException]
-        public void PointWiseSubtractWithInvalidResultLengthShouldThrowException()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            var result = this.CreateVector(vector1.Count + 1);
-            vector1.PointWiseSubtract(vector2, result);
-        }
-
-        [Test]
-        public void PointWiseSubtractWithResult()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            var result = vector1.PointWiseSubtract(vector2);
-            for (var i = 0; i < vector1.Count; i++)
-            {
-                Assert.AreEqual(this._data[i] - this._data[i], result[i]);
-            }
-        }
-
+       
         [Test]
         public void PointWiseDivide()
         {
@@ -936,10 +826,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = this.CreateVector(this._data);
             var vector2 = vector1.Clone();
-            var result = vector1.PointWiseDivide(vector2);
+            vector1.PointWiseDivide(vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(this._data[i] / this._data[i], result[i]);
+                Assert.AreEqual(this._data[i] / this._data[i], vector1[i]);
             }
         }
 

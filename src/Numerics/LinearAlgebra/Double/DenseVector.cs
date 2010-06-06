@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using Distributions;
     using NumberTheory;
     using Properties;
-    using Random;
     using Threading;
 
     /// <summary>
@@ -935,8 +934,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <returns>A new vector that is the pointwise multiplication of this vector and <paramref name="other"/>.</returns>
-        public virtual DenseVector PointWiseMultiply(DenseVector other)
+        public override void PointWiseMultiply(Vector other)
         {
             if (other == null)
             {
@@ -948,9 +946,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var result = new DenseVector(this.Count);
-            this.PointWiseMultiply(other, result);
-            return result;
+            var denseVector = other as DenseVector;
+
+            if (denseVector == null)
+            {
+                base.PointWiseMultiply(other);
+            }
+            else
+            {
+                CommonParallel.For(
+                    0, 
+                    this.Count, 
+                    index => this[index] *= other[index]);
+            }
         }
 
         /// <summary>
@@ -962,7 +970,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointWiseMultiply(DenseVector other, DenseVector result)
+        public override void PointWiseMultiply(Vector other, Vector result)
         {
             if (result == null)
             {
@@ -984,132 +992,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CommonParallel.For(
-                0, 
-                this.Count, 
-                index => result.Data[index] = this.Data[index] * other.Data[index]);
-        }
-
-        /// <summary>
-        /// Pointwise add this vector with another vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise add with this one.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <returns>A new vector that is the pointwise addition of this vector and <paramref name="other"/>.</returns>
-        public virtual DenseVector PointWiseAdd(DenseVector other)
-        {
-            if (other == null)
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                throw new ArgumentNullException("other");
+                var tmp = result.CreateVector(result.Count);
+                this.PointWiseMultiply(other, tmp);
+                tmp.CopyTo(result);
             }
-
-            if (this.Count != other.Count)
+            else
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+                this.CopyTo(result);
+                result.PointWiseMultiply(other);
             }
-
-            var result = new DenseVector(this.Count);
-            this.PointWiseAdd(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Pointwise add this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise add with this one.</param>
-        /// <param name="result">The vector to store the result of the pointwise addition.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointWiseAdd(DenseVector other, DenseVector result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (this.Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (this.Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            CommonParallel.For(
-                0, 
-                this.Count, 
-                index => result.Data[index] = this.Data[index] + other.Data[index]);
-        }
-
-        /// <summary>
-        /// Pointwise subtarct this vector with another vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise subtract from this one.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <returns>A new vector that is the pointwise subtraction of this vector and <paramref name="other"/>.</returns>
-        public virtual DenseVector PointWiseSubtract(DenseVector other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (this.Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var result = new DenseVector(this.Count);
-            this.PointWiseSubtract(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Pointwise subtract this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise subtract from this one.</param>
-        /// <param name="result">The vector to store the result of the pointwise subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointWiseSubtract(DenseVector other, DenseVector result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (this.Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (this.Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            CommonParallel.For(
-                0, 
-                this.Count, 
-                index => result.Data[index] = this.Data[index] - other.Data[index]);
         }
 
         /// <summary>
@@ -1118,8 +1011,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The vector to pointwise divide this one by.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <returns>A new vector that is the pointwise division of this vector and <paramref name="other"/>.</returns>
-        public virtual DenseVector PointWiseDivide(DenseVector other)
+        public override void PointWiseDivide(Vector other)
         {
             if (other == null)
             {
@@ -1131,9 +1023,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var result = new DenseVector(this.Count);
-            this.PointWiseDivide(other, result);
-            return result;
+            var denseVector = other as DenseVector;
+
+            if (denseVector == null)
+            {
+                base.PointWiseMultiply(other);
+            }
+            else
+            {
+                CommonParallel.For(
+                    0, 
+                    this.Count, 
+                    index => this[index] /= other[index]);
+            }
         }
 
         /// <summary>
@@ -1145,7 +1047,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointWiseDivide(DenseVector other, DenseVector result)
+        public override void PointWiseDivide(Vector other, Vector result)
         {
             if (result == null)
             {
@@ -1167,10 +1069,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CommonParallel.For(
-                0, 
-                this.Count, 
-                index => result.Data[index] = this.Data[index] / other.Data[index]);
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = result.CreateVector(result.Count);
+                this.PointWiseDivide(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                this.CopyTo(result);
+                result.PointWiseDivide(other);
+            }
         }
 
         /// <summary>
