@@ -574,6 +574,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The integer array does not represent a valid permutation..
+        /// </summary>
+        internal static string PermutationAsIntArrayInvalid {
+            get {
+                return ResourceManager.GetString("PermutationAsIntArrayInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The sampler&apos;s proposal distribution is not upper bounding the target density..
         /// </summary>
         internal static string ProposalDistributionNoUpperBound {

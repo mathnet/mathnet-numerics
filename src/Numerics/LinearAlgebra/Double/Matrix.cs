@@ -760,5 +760,63 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             return ret;
         }
+
+        /// <summary>
+        /// Permute the rows of a matrix according to a permutation.
+        /// </summary>
+        /// <param name="p">The row permutation to apply to this matrix.</param>
+        public virtual void PermuteRows(Permutation p)
+        {
+            if (p.Dimension != this.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "p");
+            }
+
+            // Get a sequence of inversions from the permutation.
+            int[] inv = p.ToInversions();
+
+            for (int i = 0; i < p.Dimension; i++)
+            {
+                if (inv[i] != i)
+                {
+                    int q = inv[i];
+                    for (int j = 0; j < this.ColumnCount; j++)
+                    {
+                        double temp = At(q, j);
+                        At(q, j, At(i, j));
+                        At(i, j, temp);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Permute the columns of a matrix according to a permutation.
+        /// </summary>
+        /// <param name="p">The column permutation to apply to this matrix.</param>
+        public virtual void PermuteColumns(Permutation p)
+        {
+            if (p.Dimension != this.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "p");
+            }
+
+            // Get a sequence of inversions from the permutation.
+            int[] inv = p.ToInversions();
+
+            for (int i = 0; i < p.Dimension; i++)
+            {
+                if (inv[i] != i)
+                {
+                    int q = inv[i];
+                    for (int j = 0; j < this.RowCount; j++)
+                    {
+                        double temp = At(j, q);
+                        At(j, q, At(j, i));
+                        At(j, i, temp);
+                    }
+                }
+            }
+        }
     }
 }

@@ -148,7 +148,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 
             // Make sure the cholesky factor times it's transpose is the original matrix.
             var XfromLU = L * U;
-            lu.Pivot(XfromLU);
+            var Pinv = lu.P.Inverse();
+            XfromLU.PermuteRows(Pinv);
             for (int i = 0; i < XfromLU.RowCount; i++) 
             {
                 for (int j = 0; j < XfromLU.ColumnCount; j++)
