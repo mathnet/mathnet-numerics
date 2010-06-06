@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -37,7 +33,7 @@ namespace MathNet.Numerics.Random
     /// Abstract class for random number generators. This class introduces a layer between <see cref="System.Random"/>
     /// and the Math.Net Numerics random number generators to provide thread safety.
     /// </summary>
-    public abstract class AbstractRandomNumberGenerator : System.Random
+    public abstract class AbstractRandomNumberGenerator : Random
     {
         /// <summary>
         /// A delegate type that represents a method that generates random numbers.
@@ -55,15 +51,13 @@ namespace MathNet.Numerics.Random
         /// </summary>
         private readonly object _lock = new object();
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractRandomNumberGenerator"/> class using
         /// the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether
         /// the instance is thread safe or not.
         /// </summary>
-        protected AbstractRandomNumberGenerator(): this(Control.ThreadSafeRandomNumberGenerators)
+        protected AbstractRandomNumberGenerator() : this(Control.ThreadSafeRandomNumberGenerators)
         {
-            
         }
 
         /// <summary>
@@ -74,7 +68,7 @@ namespace MathNet.Numerics.Random
         /// safe classes.</remarks>
         protected AbstractRandomNumberGenerator(bool threadSafe)
         {
-            _sampleMethod = threadSafe ? (SampleMethod) ThreadSafeSample : DoSample;
+            this._sampleMethod = threadSafe ? (SampleMethod)this.ThreadSafeSample : this.DoSample;
         }
 
         /// <summary>
@@ -91,11 +85,13 @@ namespace MathNet.Numerics.Random
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive);
             }
+
             var ret = new double[n];
-            for (int i = 0; i < ret.Length; i++)
+            for (var i = 0; i < ret.Length; i++)
             {
-                ret[i] = Sample();
+                ret[i] = this.Sample();
             }
+
             return ret;
         }
 
@@ -107,7 +103,7 @@ namespace MathNet.Numerics.Random
         /// </returns>
         public override int Next()
         {
-            return (int)(Sample() * int.MaxValue);
+            return (int)(this.Sample() * int.MaxValue);
         }
 
         /// <summary>
@@ -123,7 +119,7 @@ namespace MathNet.Numerics.Random
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMustBePositive);
             }
 
-            return (int) (Sample() % maxValue);
+            return (int)(this.Sample() % maxValue);
         }
 
         /// <summary>
@@ -142,7 +138,7 @@ namespace MathNet.Numerics.Random
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMinValueGreaterThanMaxValue);
             }
 
-            return (int) (Sample()*(maxValue - minValue)) + minValue;
+            return (int)(this.Sample() * (maxValue - minValue)) + minValue;
         }
 
         /// <summary>
@@ -157,9 +153,9 @@ namespace MathNet.Numerics.Random
                 throw new ArgumentNullException("buffer");
             }
 
-            for (int i = 0; i < buffer.Length; i++)
+            for (var i = 0; i < buffer.Length; i++)
             {
-                buffer[i] = (byte) (Next()%256);
+                buffer[i] = (byte)(this.Next() % 256);
             }
         }
 
@@ -169,18 +165,18 @@ namespace MathNet.Numerics.Random
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
         protected override double Sample()
         {
-            return _sampleMethod();
+            return this._sampleMethod();
         }
 
         /// <summary>
         /// Thread safe version of <seealso cref="DoSample"/> which returns a random number between 0.0 and 1.0.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0</returns>
         private double ThreadSafeSample()
         {
-            lock(_lock)
+            lock (this._lock)
             {
-                return DoSample();
+                return this.DoSample();
             }
         }
 
