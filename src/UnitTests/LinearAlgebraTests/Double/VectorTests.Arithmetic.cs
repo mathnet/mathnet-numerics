@@ -834,11 +834,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        public void CanCalculateDyadicProduct()
+        public void CanCalculateOuterProduct()
         {
             var vector1 = this.CreateVector(this._data);
             var vector2 = this.CreateVector(this._data);
-            Matrix m = Vector.DyadicProduct(vector1, vector2);
+            Matrix m = Vector.OuterProduct(vector1, vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
                 for (var j = 0; j < vector2.Count; j++)
@@ -850,20 +850,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         [Test]
         [ExpectedArgumentNullException]
-        public void DyadicProductWithFirstParameterNullShouldThrowException()
+        public void OuterProductWithFirstParameterNullShouldThrowException()
         {
             Vector vector1 = null;
             var vector2 = this.CreateVector(this._data);
-            Vector.DyadicProduct(vector1, vector2);
+            Vector.OuterProduct(vector1, vector2);
         }
 
         [Test]
         [ExpectedArgumentNullException]
-        public void DyadicProductWithSecondParameterNullShouldThrowException()
+        public void OutercProductWithSecondParameterNullShouldThrowException()
         {
             var vector1 = this.CreateVector(this._data);
             Vector vector2 = null;
-            Vector.DyadicProduct(vector1, vector2);
+            Vector.OuterProduct(vector1, vector2);
         }
 
         [Test]

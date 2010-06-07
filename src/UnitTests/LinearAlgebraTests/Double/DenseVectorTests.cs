@@ -252,11 +252,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        public void CanCalculateDyadicProductForDenseVector()
+        public void CanCalculateOuterProductForDenseVector()
         {
             var vector1 = this.CreateVector(this._data);
             var vector2 = this.CreateVector(this._data);
-            Matrix m = Vector.DyadicProduct(vector1, vector2);
+            Matrix m = Vector.OuterProduct(vector1, vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
                 for (var j = 0; j < vector2.Count; j++)
@@ -268,20 +268,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         [Test]
         [ExpectedArgumentNullException]
-        public void DyadicProducForDenseVectortWithFirstParameterNullShouldThrowException()
+        public void OuterProducForDenseVectortWithFirstParameterNullShouldThrowException()
         {
             DenseVector vector1 = null;
             var vector2 = this.CreateVector(this._data);
-            Vector.DyadicProduct(vector1, vector2);
+            Vector.OuterProduct(vector1, vector2);
         }
 
         [Test]
         [ExpectedArgumentNullException]
-        public void DyadicProductForDenseVectorWithSecondParameterNullShouldThrowException()
+        public void OuterProductForDenseVectorWithSecondParameterNullShouldThrowException()
         {
             var vector1 = this.CreateVector(this._data);
             DenseVector vector2 = null;
-            Vector.DyadicProduct(vector1, vector2);
+            Vector.OuterProduct(vector1, vector2);
         }
     }
 }

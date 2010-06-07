@@ -1083,14 +1083,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Dyadic product of two vectors
+        /// Outer product of two vectors
         /// </summary>
         /// <param name="u">First vector</param>
         /// <param name="v">Second vector</param>
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
         /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
-        public static DenseMatrix DyadicProduct(DenseVector u, DenseVector v)
+        public static DenseMatrix OuterProduct(DenseVector u, DenseVector v)
         {
             if (u == null)
             {
@@ -1104,9 +1104,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var matrix = new DenseMatrix(u.Count, v.Count);
             CommonParallel.For(
-                0, 
-                u.Count, 
-                i => CommonParallel.For(0, v.Count, j => matrix.At(i, j, u.Data[i] * v.Data[j])));
+                0,
+                u.Count,
+                i =>
+                {
+                    for (int j = 0; j < v.Count; j++)
+                    {
+                        matrix.At(i, j, u.Data[i] * v.Data[j]);
+                    }
+                });
             return matrix;
         }
 
@@ -1169,10 +1175,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
-        /// <seealso cref="DyadicProduct"/>
+        /// <seealso cref="OuterProduct"/>
         public Matrix TensorMultiply(DenseVector v)
         {
-            return DyadicProduct(this, v);
+            return OuterProduct(this, v);
         }
 
         #region Vector Norms
