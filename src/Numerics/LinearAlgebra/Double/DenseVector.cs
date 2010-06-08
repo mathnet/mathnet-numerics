@@ -750,15 +750,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns the value of the absolute minimum element.
-        /// </summary>
-        /// <returns>The value of the absolute minimum element.</returns>
-        public override double AbsoluteMinimum()
-        {
-            return Math.Abs(this.Data[this.AbsoluteMinimumIndex()]);
-        }
-
-        /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>
         /// <returns>The index of absolute minimum element.</returns>   
@@ -841,15 +832,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns the value of maximum element.
-        /// </summary>
-        /// <returns>The value of maximum element.</returns>        
-        public override double Maximum()
-        {
-            return this.Data[this.MaximumIndex()];
-        }
-
-        /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>          
@@ -867,15 +849,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return index;
-        }
-
-        /// <summary>
-        /// Returns the value of the minimum element.
-        /// </summary>
-        /// <returns>The value of the minimum element.</returns>
-        public override double Minimum()
-        {
-            return this.Data[this.MinimumIndex()];
         }
 
         /// <summary>

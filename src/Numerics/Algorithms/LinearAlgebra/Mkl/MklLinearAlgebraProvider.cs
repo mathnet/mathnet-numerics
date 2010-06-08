@@ -2437,5 +2437,61 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         }
 
         #endregion
+
+        /// <summary>
+        /// Computes the LU factorization of A.
+        /// </summary>
+        /// <param name="a">An m by n matrix. The matrix is overwritten with the
+        /// the LU factorization On exit.</param>
+        /// <param name="order">The order of <paramref name="a"/></param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size
+        /// of the array must be min(m,n).</param>
+        /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        public void LUFactor(double[] a, int order, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Computes the LU factorization of A.
+        /// </summary>
+        /// <param name="a">An m by n matrix. The matrix is overwritten with the
+        /// the LU factorization On exit.</param>
+        /// <param name="order">The order of <paramref name="a"/></param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size
+        /// of the array must be min(m,n).</param>
+        /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        public void LUFactor(float[] a, int order, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Computes the LU factorization of A.
+        /// </summary>
+        /// <param name="a">An m by n matrix. The matrix is overwritten with the
+        /// the LU factorization On exit.</param>
+        /// <param name="order">The order of <paramref name="a"/></param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size
+        /// of the array must be min(m,n).</param>
+        /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        public void LUFactor(Complex[] a, int order, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Computes the LU factorization of A.
+        /// </summary>
+        /// <param name="a">An m by n matrix. The matrix is overwritten with the
+        /// the LU factorization On exit.</param>
+        /// <param name="order">The order of <paramref name="a"/></param>
+        /// <param name="ipiv">On exit, it contains the pivot indices. The size
+        /// of the array must be min(m,n).</param>
+        /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        public void LUFactor(Complex32[] a, int order, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
