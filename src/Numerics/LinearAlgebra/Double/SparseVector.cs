@@ -33,6 +33,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using Distributions;
     using NumberTheory;
     using Properties;
     using Threading;
@@ -264,6 +265,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return new SparseVector(size);
         }
 
+        public void Clear()
+        {
+            NonZerosCount = 0;
+        }
+
         /// <summary>
         /// Copies the values of this vector into the target vector.
         /// </summary>
@@ -425,13 +431,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 }
                 else if (alpha == -1.0)
                 {
-                    NonZerosCount = 0; // Vector is subtracted from itself
+                    Clear(); // Vector is subtracted from itself
+                    return;
                 }
                 else
                 {
                     for (int i = 0; i < this.NonZerosCount; i++)
                     {
-                        this[other.NonZeroIndices[i]] += alpha * this.NonZeroValues[i];
+                        this.NonZeroValues[i] += alpha * this.NonZeroValues[i];
                     }
                 }
             }
@@ -727,7 +734,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             if (scalar == 0)
             {
-                NonZerosCount = 0; // Set array empty
+                Clear(); // Set array empty
+                return;
             }
             Control.LinearAlgebraProvider.ScaleArray(scalar, this.NonZeroValues);
         }
@@ -760,7 +768,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             return result;
         }
-
         /// <summary>
         /// Multiplies a vector with a scalar.
         /// </summary>
@@ -844,38 +851,400 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             ret.Multiply(1.0 / rightSide);
             return ret;
         }
+
+        /// <summary>
+        /// Returns the index of the absolute minimum element.
+        /// </summary>
+        /// <returns>The index of absolute minimum element.</returns>   
+        public override int AbsoluteMinimumIndex()
+        {
+            if (this.NonZerosCount == 0) // No non-zero elements. Return 0
+                return 0;
+            
+            var index = 0;
+            var min = Math.Abs(this.NonZeroValues[index]);
+            for (var i = 1; i < this.NonZerosCount; i++)
+            {
+                var test = Math.Abs(this.NonZeroValues[i]);
+                if (test < min)
+                {
+                    index = i;
+                    min = test;
+                }
+            }
+
+            return this.NonZeroIndices[index];
+        }
+
+        /// <summary>
+        /// Creates a vector containing specified elements.
+        /// </summary>
+        /// <param name="index">The first element to begin copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        /// <returns>A vector containing a copy of the specified elements.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><list><item>If <paramref name="index"/> is not positive or
+        /// greater than or equal to the size of the vector.</item>
+        /// <item>If <paramref name="index"/> + <paramref name="length"/> is greater than or equal to the size of the vector.</item>
+        /// </list></exception>
+        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        public override Vector SubVector(int index, int length)
+        {
+            if (index < 0 || index >= this.Count)
+            {
+                throw new ArgumentOutOfRangeException("index");
+            }
+
+            if (length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            if (index + length > this.Count)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            var result = new SparseVector(length);
+            for (int i = index; i < index + length; i++)
+                result[i - index] = this[i];
+
+            return result;
+        }
+
+        /// <summary>
+        /// Set the values of this vector to the given values.
+        /// </summary>
+        /// <param name="values">The array containing the values to use.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="values"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="values"/> is not the same size as this vector.</exception>
+        public override void SetValues(double[] values)
+        {
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
+            if (values.Length != this.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "values");
+            }
+
+            for (int i = 0; i < values.Length; i++ )
+                this[i] = values[i];
+        }
+        /// <summary>
+        /// Returns the index of the absolute maximum element.
+        /// </summary>
+        /// <returns>The index of absolute maximum element.</returns>          
+        public override int MaximumIndex()
+        {
+            if (this.NonZerosCount == 0)
+                return 0;
+
+            var index = 0;
+            var max = this.NonZeroValues[0];
+            for (var i = 1; i < this.NonZerosCount; i++)
+            {
+                if (max < this.NonZeroValues[i])
+                {
+                    index = i;
+                    max = this.NonZeroValues[i];
+                }
+            }
+
+            return this.NonZeroIndices[index];
+        }
+        /// <summary>
+        /// Returns the index of the minimum element.
+        /// </summary>
+        /// <returns>The index of minimum element.</returns>  
+        public override int MinimumIndex()
+        {
+            if (this.NonZerosCount == 0)
+                return 0;
+
+            var index = 0;
+            var min = this.NonZeroValues[0];
+            for (var i = 1; i < this.NonZerosCount; i++)
+            {
+                if (min > this.NonZeroValues[i])
+                {
+                    index = i;
+                    min = this.NonZeroValues[i];
+                }
+            }
+
+            return this.NonZeroIndices[index];
+        }
+
+        /// <summary>
+        /// Computes the sum of the vector's elements.
+        /// </summary>
+        /// <returns>The sum of the vector's elements.</returns>
+        public override double Sum()
+        {
+            double result = 0;
+            for (var i = 0; i < this.NonZerosCount; i++)
+            {
+                result += this.NonZeroValues[i];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the sum of the absolute value of the vector's elements.
+        /// </summary>
+        /// <returns>The sum of the absolute value of the vector's elements.</returns>
+        public override double SumMagnitudes()
+        {
+            double result = 0;
+            for (var i = 0; i < this.NonZerosCount; i++)
+            {
+                result += Math.Abs(this.NonZeroValues[i]);
+            }
+
+            return result;
+        }
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        public override void PointWiseMultiply(Vector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (this.Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            // We cannot iterate using NonZeroCount because the value may be changed (if multiply by 0)
+            for (var i = 0; i < this.Count; i++)
+            {
+                this[i] *= other[i];
+            }
+        }
+
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public override void PointWiseMultiply(Vector other, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (this.Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            if (this.Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = result.CreateVector(result.Count);
+                this.PointWiseMultiply(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                this.CopyTo(result);
+                result.PointWiseMultiply(other);
+            }
+        }
+
+        /// <summary>
+        /// Pointwise divide this vector with another vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        public override void PointWiseDivide(Vector other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (this.Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            // base implementation iterates though all elements, but we need only take non-zeros 
+            for (var i = 0; i < this.NonZerosCount; i++)
+            {
+                this[this.NonZeroIndices[i]] /= other[this.NonZeroIndices[i]];
+            }
+        }
+
+        /// <summary>
+        /// Pointwise divide this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="result">The vector to store the result of the pointwise division.</param>
+        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public override void PointWiseDivide(Vector other, Vector result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (this.Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            if (this.Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = result.CreateVector(result.Count);
+                this.PointWiseDivide(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                this.CopyTo(result);
+                result.PointWiseDivide(other);
+            }
+        }
+
+        /// <summary>
+        /// Outer product of two vectors
+        /// </summary>
+        /// <param name="u">First vector</param>
+        /// <param name="v">Second vector</param>
+        /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
+        /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
+        public static Matrix /*SparseMatrix*/ OuterProduct(SparseVector u, SparseVector v)
+        {
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (v == null)
+            {
+                throw new ArgumentNullException("v");
+            }
+
+            throw new NotImplementedException();
+            //var matrix = new DenseMatrix(u.Count, v.Count);
+            //CommonParallel.For(
+            //    0,
+            //    u.Count,
+            //    i =>
+            //    {
+            //        for (int j = 0; j < v.Count; j++)
+            //        {
+            //            matrix.At(i, j, u.Data[i] * v.Data[j]);
+            //        }
+            //    });
+            //return matrix;
+        }
+
+        /// <summary>
+        /// Generates a vector with random elements
+        /// </summary>
+        /// <param name="length">Number of elements in the vector.</param>
+        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// A vector with n-random elements distributed according
+        /// to the specified random distribution.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">If the length vector is non poisitive<see langword="null" />.</exception> 
+        public override Vector Random(int length, IContinuousDistribution randomDistribution)
+        {
+            if (length < 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
+            }
+
+            var v = (SparseVector)this.CreateVector(length);
+            for (var index = 0; index < v.Count; index++)
+            {
+                v[index] = randomDistribution.Sample();
+            }
+
+            return v;
+        }
+        /// <summary>
+        /// Generates a vector with random elements
+        /// </summary>
+        /// <param name="length">Number of elements in the vector.</param>
+        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// A vector with n-random elements distributed according
+        /// to the specified random distribution.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
+        public override Vector Random(int length, IDiscreteDistribution randomDistribution)
+        {
+            if (length < 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
+            }
+
+            var v = (SparseVector)this.CreateVector(length);
+            for (var index = 0; index < v.Count; index++)
+            {
+                v[index] = randomDistribution.Sample();
+            }
+
+            return v;
+        }
+
+        /// <summary>
+        /// Tensor Product (Outer) of this and another vector.
+        /// </summary>
+        /// <param name="v">The vector to operate on.</param>
+        /// <returns>
+        /// Matrix M[i,j] = this[i] * v[j].
+        /// </returns>
+        /// <seealso cref="OuterProduct"/>
+        public Matrix TensorMultiply(SparseVector v)
+        {
+            return OuterProduct(this, v);
+        }
         #endregion
 
         #region Vector Norms
-
-        /// <summary>
-        /// Euclidean Norm also known as 2-Norm.
-        /// </summary>
-        /// <returns>Scalar ret = sqrt(sum(this[i]^2))</returns>
-        public override double Norm()
-        {
-            var sum = 0.0;
-
-            for (var i = 0; i < this.Count; i++)
-            {
-                sum = SpecialFunctions.Hypotenuse(sum, this[i]);
-            }
-
-            return sum;
-        }
-
-        /// <summary>
-        /// 1-Norm also known as Manhattan Norm or Taxicab Norm.
-        /// </summary>
-        /// <returns>Scalar ret = sum(abs(this[i]))</returns>
-        public override double Norm1()
-        {
-            return CommonParallel.Aggregate(
-                0,
-                this.NonZerosCount,
-                index => Math.Abs(this.NonZeroValues[index]));
-        }
-
         /// <summary>
         /// Computes the p-Norm.
         /// </summary>
@@ -886,16 +1255,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (1 > p)
             {
                 throw new ArgumentOutOfRangeException("p");
-            }
-
-            if (1 == p)
-            {
-                return this.Norm1();
-            }
-
-            if (2 == p)
-            {
-                return this.Norm();
             }
 
             var sum = CommonParallel.Aggregate(
@@ -1122,7 +1481,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 itemIndex = ~itemIndex; //Index where to put new value
 
                 // Check if the storage needs to be increased
-                if (NonZerosCount == NonZeroValues.Length)
+                if ((NonZerosCount == NonZeroValues.Length) && (NonZerosCount < Count))
                 {
                     // Value and Indices arrays are completely full so we increase the size
                     int size = Math.Min(NonZeroValues.Length + GrowthSize(), Count);

@@ -180,7 +180,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        public void CanCallUnaryNegationOperatorOnDenseVector()
+        public void CanCallUnaryNegationOperatorOnSparseVector()
         {
             var vector = new SparseVector(_data);
             var other = -vector;
@@ -256,6 +256,39 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 Assert.AreEqual(_data[i] / 2.0, vector[i]);
             }
+        }
+
+        [Test]
+        public void CanCalculateOuterProductForSparseVector()
+        {
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = this.CreateVector(this._data);
+            Matrix m = Vector.OuterProduct(vector1, vector2);
+            for (var i = 0; i < vector1.Count; i++)
+            {
+                for (var j = 0; j < vector2.Count; j++)
+                {
+                    Assert.AreEqual(m[i, j], vector1[i] * vector2[j]);
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void OuterProducForSparseVectortWithFirstParameterNullShouldThrowException()
+        {
+            SparseVector vector1 = null;
+            var vector2 = this.CreateVector(this._data);
+            Vector.OuterProduct(vector1, vector2);
+        }
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void OuterProductForSparseVectorWithSecondParameterNullShouldThrowException()
+        {
+            var vector1 = this.CreateVector(this._data);
+            SparseVector vector2 = null;
+            Vector.OuterProduct(vector1, vector2);
         }
         #endregion
 
@@ -364,6 +397,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 data[i] = rnd.Next();
 
             var vector = new SparseVector(data);
+        }
+
+        [Test]
+        public void PointWiseMultiplySparseVector()
+        {
+            var zeroArray = new[] { 0.0, 1.0, 0.0, 1.0, 0.0 };
+            var vector1 = new SparseVector(this._data);
+            var vector2 = new SparseVector(zeroArray);
+            var result = new SparseVector(vector1.Count);
+
+            vector1.PointWiseMultiply(vector2, result);
+
+            for (var i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(this._data[i] * zeroArray[i], result[i]);
+            }
+            Assert.AreEqual(2, result.NonZerosCount);
         }
     }
 }

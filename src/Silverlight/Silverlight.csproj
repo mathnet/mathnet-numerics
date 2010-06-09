@@ -242,6 +242,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.cs">
       <Link>LinearAlgebra\Double\Matrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\SparseVector.cs">
+      <Link>LinearAlgebra\Double\SparseVector.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Vector.cs">
       <Link>LinearAlgebra\Double\Vector.cs</Link>
     </Compile>
