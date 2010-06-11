@@ -811,6 +811,36 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Returns the value of the absolute maximum element.
+        /// </summary>
+        /// <returns>The value of the absolute maximum element.</returns>
+        public virtual double AbsoluteMaximum()
+        {
+            return Math.Abs(this[this.AbsoluteMaximumIndex()]);
+        }
+
+        /// <summary>
+        /// Returns the index of the absolute maximum element.
+        /// </summary>
+        /// <returns>The index of absolute maximum element.</returns>   
+        public virtual int AbsoluteMaximumIndex()
+        {
+            var index = 0;
+            var max = Math.Abs(this[index]);
+            for (var i = 1; i < this.Count; i++)
+            {
+                var test = Math.Abs(this[i]);
+                if (test > max)
+                {
+                    index = i;
+                    max = test;
+                }
+            }
+
+            return index;
+        }
+
+        /// <summary>
         /// Returns the value of maximum element.
         /// </summary>
         /// <returns>The value of maximum element.</returns>        
