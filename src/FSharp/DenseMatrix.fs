@@ -91,37 +91,21 @@ module DenseMatrix =
         for i=0 to n-1 do
             A.[i,i] <- v.Item(i)
         A
-    
-    (*
 
     /// Initialize a matrix by calling a construction function for every row.
-    let inline init_row (n: int) (m: int) (f: int -> #Vector) =
+    let inline initRow (n: int) (m: int) (f: int -> #Vector) =
         let A = new DenseMatrix(n,m)
         for i=0 to n-1 do
             let row = f i
             if row.Count <> m then failwith "Row generator does not create rows of the appropriate size."
-            A.SetRow(i, row)
+            for j=0 to m-1 do A.[i, j] <- row.[j]
         A
 
     /// Initialize a matrix by calling a construction function for every column.
-    let inline init_col (n: int) (m: int) (f: int -> #Vector) =
+    let inline initCol (n: int) (m: int) (f: int -> #Vector) =
         let A = new DenseMatrix(n,m)
         for i=0 to m-1 do
             let col = f i
             if col.Count <> n then failwith "Column generator does not create columns of the appropriate size."
-            A.SetColumn(i, col)
+            for j=0 to n-1 do A.[j, i] <- col.[j]
         A
-    
-    /// Create a 1xn dimensional matrix from a row vector.
-    let inline of_rowvector (v: #Vector) =
-        let n = v.Count
-        let A = new DenseMatrix(1, n)
-        A.SetRow(0, v)
-        A
-    
-    /// Create an nx1 dimensional matrix from a column vector.
-    let inline of_vector (v: #Vector) =
-        let n = v.Count
-        let A = new DenseMatrix(n, 1)
-        A.SetColumn(0, v)
-        A*)

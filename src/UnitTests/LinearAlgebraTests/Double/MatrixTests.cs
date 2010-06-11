@@ -459,6 +459,58 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
+        [Row(0, "Singular3x3")]
+        [Row(1, "Singular3x3")]
+        [Row(2, "Singular3x3")]
+        [Row(2, "Square3x3")]
+        public void CanSetRow(int rowIndex, string name)
+        {
+            var matrix = (Matrix) testMatrices[name].Clone();
+            matrix.SetRow(rowIndex, new DenseVector(matrix.ColumnCount, 0.0));
+
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    if (i == rowIndex)
+                    {
+                        Assert.AreEqual(0.0, matrix[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(testMatrices[name][i, j], matrix[i, j]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        [Row(0, "Singular3x3")]
+        [Row(1, "Singular3x3")]
+        [Row(2, "Singular3x3")]
+        [Row(2, "Square3x3")]
+        public void CanSetColumn(int colIndex, string name)
+        {
+            var matrix = (Matrix)testMatrices[name].Clone();
+            matrix.SetColumn(colIndex, new DenseVector(matrix.ColumnCount, 0.0));
+
+            for (int i = 0; i < matrix.RowCount; i++)
+            {
+                for (int j = 0; j < matrix.ColumnCount; j++)
+                {
+                    if (j == colIndex)
+                    {
+                        Assert.AreEqual(0.0, matrix[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(testMatrices[name][i, j], matrix[i, j]);
+                    }
+                }
+            }
+        }
+
+        [Test]
         [Row("Singular3x3")]
         [Row("Square3x3")]
         [Row("Square4x4")]

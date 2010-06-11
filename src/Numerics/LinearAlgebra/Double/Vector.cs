@@ -551,7 +551,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The vector to pointwise multiply with this one.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public virtual void PointWiseMultiply(Vector other)
+        public virtual void PointwiseMultiply(Vector other)
         {
             if (other == null)
             {
@@ -578,7 +578,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointWiseMultiply(Vector other, Vector result)
+        public virtual void PointwiseMultiply(Vector other, Vector result)
         {
             if (result == null)
             {
@@ -603,13 +603,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                this.PointWiseMultiply(other, tmp);
+                this.PointwiseMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
                 this.CopyTo(result);
-                result.PointWiseMultiply(other);
+                result.PointwiseMultiply(other);
             }
         }
 
@@ -619,7 +619,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The vector to pointwise divide this one by.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public virtual void PointWiseDivide(Vector other)
+        public virtual void PointwiseDivide(Vector other)
         {
             if (other == null)
             {
@@ -646,7 +646,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointWiseDivide(Vector other, Vector result)
+        public virtual void PointwiseDivide(Vector other, Vector result)
         {
             if (result == null)
             {
@@ -671,13 +671,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                this.PointWiseDivide(other, tmp);
+                this.PointwiseDivide(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
                 this.CopyTo(result);
-                result.PointWiseDivide(other);
+                result.PointwiseDivide(other);
             }
         }
 
