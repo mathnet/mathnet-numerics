@@ -771,6 +771,45 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Returns the value of the absolute minimum element.
+        /// </summary>
+        /// <returns>The value of the absolute minimum element.</returns>
+        public override double AbsoluteMinimum()
+        {
+            return Math.Abs(this.Data[this.AbsoluteMinimumIndex()]);
+        }
+
+        /// <summary>
+        /// Returns the value of the absolute maximum element.
+        /// </summary>
+        /// <returns>The value of the absolute maximum element.</returns>
+        public override double AbsoluteMaximum()
+        {
+            return Math.Abs(this.Data[this.AbsoluteMaximumIndex()]);
+        }
+
+        /// <summary>
+        /// Returns the index of the absolute maximum element.
+        /// </summary>
+        /// <returns>The index of absolute maximum element.</returns>   
+        public override int AbsoluteMaximumIndex()
+        {
+            var index = 0;
+            var max = Math.Abs(this.Data[index]);
+            for (var i = 1; i < this.Count; i++)
+            {
+                var test = Math.Abs(this.Data[i]);
+                if (test > max)
+                {
+                    index = i;
+                    max = test;
+                }
+            }
+
+            return index;
+        }
+
+        /// <summary>
         /// Creates a vector containing specified elements.
         /// </summary>
         /// <param name="index">The first element to begin copying from.</param>
@@ -1101,7 +1140,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
         public override Vector Random(int length, IContinuousDistribution randomDistribution)
         {
-            if (length < 0)
+            if (length < 1)
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
@@ -1127,7 +1166,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
         public override Vector Random(int length, IDiscreteDistribution randomDistribution)
         {
-            if (length < 0)
+            if (length < 1)
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }

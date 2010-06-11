@@ -297,6 +297,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
+        public void CanFindAbsoluteMaximumIndex()
+        {
+            var source = this.CreateVector(this._data);
+            var expected = 0;
+            var actual = source.AbsoluteMaximumIndex();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CanFindAbsoluteMaximum()
+        {
+            var source = this.CreateVector(this._data);
+            double expected = 1;
+            var actual = source.AbsoluteMaximum();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
         public void CanFindMaximumIndex()
         {
             var vector = this.CreateVector(this._data);
