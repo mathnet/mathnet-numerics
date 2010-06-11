@@ -400,14 +400,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        public void PointWiseMultiplySparseVector()
+        public void PointwiseMultiplySparseVector()
         {
             var zeroArray = new[] { 0.0, 1.0, 0.0, 1.0, 0.0 };
             var vector1 = new SparseVector(this._data);
             var vector2 = new SparseVector(zeroArray);
             var result = new SparseVector(vector1.Count);
 
-            vector1.PointWiseMultiply(vector2, result);
+            vector1.PointwiseMultiply(vector2, result);
 
             for (var i = 0; i < vector1.Count; i++)
             {

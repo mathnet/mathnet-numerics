@@ -458,6 +458,64 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Copies the elements of a vector into a specific row. The length of the vector must match the number of columns
+        /// in the matrix.
+        /// </summary>
+        /// <param name="r">The row in which to copy <paramref name="v"/> into.</param>
+        /// <param name="v">The vector to copy from.</param>
+        public virtual void SetRow(int r, Vector v)
+        {
+            if (r < 0 || r >= RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixIndexOutOfRange, "r");
+            }
+
+            if (v == null)
+            {
+                throw new ArgumentNullException("v");
+            }
+
+            if (v.Count != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameColumnDimension, "v");
+            }
+
+            for (int i = 0; i < v.Count; i++)
+            {
+                this[r, i] = v[i];
+            }
+        }
+
+        /// <summary>
+        /// Copies the elements of a vector into a specific column. The length of the vector must match the number of rows
+        /// in the matrix.
+        /// </summary>
+        /// <param name="c">The column in which to copy <paramref name="v"/> into.</param>
+        /// <param name="v">The vector to copy from.</param>
+        public virtual void SetColumn(int c, Vector v)
+        {
+            if (c < 0 || c >= RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixIndexOutOfRange, "r");
+            }
+
+            if (v == null)
+            {
+                throw new ArgumentNullException("v");
+            }
+
+            if (v.Count != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixSameRowDimension, "v");
+            }
+
+            for (int i = 0; i < v.Count; i++)
+            {
+                this[i, c] = v[i];
+            }
+        }
+
+        /// <summary>
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>        
