@@ -78,7 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             get
             {
-                Matrix result = mFactors.GetLowerTriangle();
+                Matrix result = mFactors.LowerTriangle();
                 for (int i = 0; i < result.RowCount; i++)
                 {
                     result.At(i, i, 1);
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         public virtual Matrix U
         {
-            get { return mFactors.GetUpperTriangle(); }
+            get { return mFactors.UpperTriangle(); }
         }
 
         /// <summary>

@@ -238,7 +238,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanGetRow(int rowIndex, string name)
         {
             var matrix = this.testMatrices[name];
-            var row = matrix.GetRow(rowIndex);
+            var row = matrix.Row(rowIndex);
 
             Assert.AreEqual(matrix.ColumnCount, row.Count);
             for (var j = 0; j < matrix.ColumnCount; j++)
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void GetRowThrowsArgumentOutOfRangeWithNegativeIndex()
         {
             var matrix = this.testMatrices["Singular3x3"];
-            matrix.GetRow(-1);
+            matrix.Row(-1);
         }
 
         [Test]
@@ -260,7 +260,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void GetRowThrowsArgumentOutOfRangeWithOverflowingRowIndex()
         {
             var matrix = this.testMatrices["Singular3x3"];
-            matrix.GetRow(matrix.RowCount);
+            matrix.Row(matrix.RowCount);
         }
 
         [Test]
@@ -272,7 +272,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices[name];
             var row = CreateVector(matrix.ColumnCount);
-            matrix.GetRow(rowIndex, row);
+            matrix.Row(rowIndex, row);
 
             Assert.AreEqual(matrix.ColumnCount, row.Count);
             for (var j = 0; j < matrix.ColumnCount; j++)
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void GetRowWithResultFailsWhenResultIsNull()
         {
             var matrix = this.testMatrices["Singular3x3"];
-            matrix.GetRow(0, null);
+            matrix.Row(0, null);
         }
 
         [Test]
@@ -295,7 +295,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices["Singular3x3"];
             var row = CreateVector(matrix.ColumnCount);
-            matrix.GetRow(-1, row);
+            matrix.Row(-1, row);
         }
 
         [Test]
@@ -304,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices["Singular3x3"];
             var row = CreateVector(matrix.ColumnCount);
-            matrix.GetRow(matrix.RowCount, row);
+            matrix.Row(matrix.RowCount, row);
         }
 
         [Test]
@@ -315,7 +315,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanGetRowWithRange(int rowIndex, int start, int length, string name)
         {
             var matrix = this.testMatrices[name];
-            var row = matrix.GetRow(rowIndex, start, length);
+            var row = matrix.Row(rowIndex, start, length);
 
             Assert.AreEqual(length, row.Count);
             for (var j = start; j < start + length; j++)
@@ -330,7 +330,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices["Singular3x3"];
             var result = CreateVector(matrix.ColumnCount);
-            matrix.GetRow(0, 0, 0, result);
+            matrix.Row(0, 0, 0, result);
         }
 
         [Test]
@@ -339,7 +339,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices["Singular3x3"];
             var result = this.CreateVector(matrix.ColumnCount - 1);
-            matrix.GetRow(0, 0, 0, result);
+            matrix.Row(0, 0, 0, result);
         }
 
         [Test]
@@ -350,7 +350,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanGetColumn(int colIndex, string name)
         {
             var matrix = this.testMatrices[name];
-            var col = matrix.GetColumn(colIndex);
+            var col = matrix.Column(colIndex);
 
             Assert.AreEqual(matrix.RowCount, col.Count);
             for (var j = 0; j < matrix.RowCount; j++)
@@ -364,7 +364,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void GetColumnThrowsArgumentOutOfRangeWithNegativeIndex()
         {
             var matrix = this.testMatrices["Singular3x3"];
-            matrix.GetColumn(-1);
+            matrix.Column(-1);
         }
 
         [Test]
@@ -372,7 +372,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void GetColumnThrowsArgumentOutOfRangeWithOverflowingRowIndex()
         {
             var matrix = this.testMatrices["Singular3x3"];
-            matrix.GetColumn(matrix.ColumnCount);
+            matrix.Column(matrix.ColumnCount);
         }
 
         [Test]
@@ -384,7 +384,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices[name];
             var col = CreateVector(matrix.RowCount);
-            matrix.GetColumn(colIndex, col);
+            matrix.Column(colIndex, col);
 
             Assert.AreEqual(matrix.RowCount, col.Count);
             for (var j = 0; j < matrix.RowCount; j++)
@@ -398,7 +398,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void GetColumnFailsWhenResultIsNull()
         {
             var matrix = this.testMatrices["Singular3x3"];
-            matrix.GetColumn(0, null);
+            matrix.Column(0, null);
         }
 
         [Test]
@@ -407,7 +407,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices["Singular3x3"];
             var column = CreateVector(matrix.ColumnCount);
-            matrix.GetColumn(-1, column);
+            matrix.Column(-1, column);
         }
 
         [Test]
@@ -416,7 +416,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices["Singular3x3"];
             var column = CreateVector(matrix.RowCount);
-            matrix.GetRow(matrix.ColumnCount, column);
+            matrix.Row(matrix.ColumnCount, column);
         }
 
         [Test]
@@ -427,7 +427,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanGetColumnWithRange(int colIndex, int start, int length, string name)
         {
             var matrix = this.testMatrices[name];
-            var col = matrix.GetColumn(colIndex, start, length);
+            var col = matrix.Column(colIndex, start, length);
 
             Assert.AreEqual(length, col.Count);
             for (var j = start; j < start + length; j++)
@@ -442,7 +442,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices["Singular3x3"];
             var col = CreateVector(matrix.RowCount);
-            matrix.GetColumn(0, 0, 0, col);
+            matrix.Column(0, 0, 0, col);
         }
 
         [Test]
@@ -451,7 +451,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = this.testMatrices["Singular3x3"];
             var result = this.CreateVector(matrix.RowCount - 1);
-            matrix.GetColumn(0, 0, matrix.RowCount, result);
+            matrix.Column(0, 0, matrix.RowCount, result);
         }
 
         [Test]
@@ -517,7 +517,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var data = this.testMatrices[name];
             var result = this.CreateMatrix(data.RowCount, data.ColumnCount);
-            var lower = data.GetUpperTriangle();
+            var lower = data.UpperTriangle();
             for (var i = 0; i < data.RowCount; i++)
             {
                 for (var j = 0; j < data.ColumnCount; j++)
@@ -541,7 +541,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var data = this.testMatrices["Square3x3"];
             Matrix result = null;
-            data.GetUpperTriangle(result);
+            data.UpperTriangle(result);
         }
 
         [Test]
@@ -550,7 +550,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var data = this.testMatrices["Square3x3"];
             var result = this.CreateMatrix(data.RowCount + 1, data.ColumnCount);
-            data.GetUpperTriangle(result);
+            data.UpperTriangle(result);
         }
 
         [Test]
@@ -559,7 +559,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var data = this.testMatrices["Square3x3"];
             var result = this.CreateMatrix(data.RowCount, data.ColumnCount + 1);
-            data.GetUpperTriangle(result);
+            data.UpperTriangle(result);
         }
 
         [Test]

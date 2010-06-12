@@ -925,7 +925,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 this.ColumnCount, 
                 i =>
                 {
-                    var coli = this.GetColumn(i);
+                    var coli = this.Column(i);
                     var norm = coli.NormP(p);
                     for (var j = 0; j < this.RowCount; j++)
                     {
@@ -954,7 +954,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 this.ColumnCount, 
                 j =>
                 {
-                    var rowj = this.GetRow(j);
+                    var rowj = this.Row(j);
                     var norm = rowj.NormP(p);
                     for (var i = 0; i < this.RowCount; i++)
                     {

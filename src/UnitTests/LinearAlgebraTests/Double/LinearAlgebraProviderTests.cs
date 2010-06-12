@@ -157,7 +157,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 for (int j = 0; j < c.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(x.GetRow(i) * y.GetColumn(j), c[i, j], 15);
+                    AssertHelpers.AlmostEqual(x.Row(i) * y.Column(j), c[i, j], 15);
                 }
             }
         }
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 for (int j = 0; j < c.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(2 * (x.GetRow(i) * y.GetColumn(j)), c[i, j], 15);
+                    AssertHelpers.AlmostEqual(2 * (x.Row(i) * y.Column(j)), c[i, j], 15);
                 }
             }
 
@@ -190,7 +190,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 for (int j = 0; j < c.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(4 * (x.GetRow(i) * y.GetColumn(j)), c[i, j], 15);
+                    AssertHelpers.AlmostEqual(4 * (x.Row(i) * y.Column(j)), c[i, j], 15);
                 }
             }
         }
