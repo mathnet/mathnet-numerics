@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,9 +26,10 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-	using System;
-	using LinearAlgebra.Double;
-	using MbUnit.Framework;
+    using System;
+    using Distributions;
+    using LinearAlgebra.Double;
+    using MbUnit.Framework;
 
     public abstract partial class MatrixTests
     {
@@ -43,13 +40,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanMultiplyWithScalar(double scalar)
         {
-            var matrix = testMatrices["Singular3x3"];
+            var matrix = this.testMatrices["Singular3x3"];
             var clone = matrix.Clone();
             clone.Multiply(scalar);
 
-            for (int i = 0; i < matrix.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (int j = 0; j < matrix.ColumnCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j] * scalar, clone[i, j]);
                 }
@@ -59,13 +56,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanMultiplyWithVector()
         {
-            var A = testMatrices["Singular3x3"];
-            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            var A = this.testMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
             var y = A * x;
 
             Assert.AreEqual(A.RowCount, y.Count);
 
-            for (int i = 0; i < A.RowCount; i++)
+            for (var i = 0; i < A.RowCount; i++)
             {
                 var ar = A.GetRow(i);
                 var dot = ar * x;
@@ -76,12 +73,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanMultiplyWithVectorIntoResult()
         {
-            var A = testMatrices["Singular3x3"];
-            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            var A = this.testMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
             var y = new DenseVector(3);
             A.Multiply(x, y);
 
-            for (int i = 0; i < A.RowCount; i++)
+            for (var i = 0; i < A.RowCount; i++)
             {
                 var ar = A.GetRow(i);
                 var dot = ar * x;
@@ -92,15 +89,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
         {
-            var A = testMatrices["Singular3x3"];
-            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            var A = this.testMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
             var y = x;
             A.Multiply(x, x);
 
             Assert.AreSame(y, x);
 
-            y = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
-            for (int i = 0; i < A.RowCount; i++)
+            y = new DenseVector(new[] { 1.0, 2.0, 3.0 });
+            for (var i = 0; i < A.RowCount; i++)
             {
                 var ar = A.GetRow(i);
                 var dot = ar * y;
@@ -112,8 +109,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void MultiplyWithVectorIntoResultFailsWhenResultIsNull()
         {
-            var A = testMatrices["Singular3x3"];
-            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            var A = this.testMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
             Vector y = null;
             A.Multiply(x, y);
         }
@@ -122,8 +119,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void MultiplyWithVectorIntoResultFailsWhenResultIsTooLarge()
         {
-            var A = testMatrices["Singular3x3"];
-            var x = new DenseVector(new double[] { 1.0, 2.0, 3.0 });
+            var A = this.testMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
             Vector y = new DenseVector(4);
             A.Multiply(x, y);
         }
@@ -135,12 +132,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanOperatorLeftMultiplyWithScalar(double scalar)
         {
-            var matrix = testMatrices["Singular3x3"];
+            var matrix = this.testMatrices["Singular3x3"];
             var clone = matrix * scalar;
 
-            for (int i = 0; i < matrix.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (int j = 0; j < matrix.ColumnCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j] * scalar, clone[i, j]);
                 }
@@ -154,12 +151,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanOperatorRightMultiplyWithScalar(double scalar)
         {
-            var matrix = testMatrices["Singular3x3"];
+            var matrix = this.testMatrices["Singular3x3"];
             var clone = matrix * scalar;
 
-            for (int i = 0; i < matrix.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (int j = 0; j < matrix.ColumnCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j] * scalar, clone[i, j]);
                 }
@@ -173,13 +170,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanMultiplyWithScalarIntoResult(double scalar)
         {
-            var matrix = testMatrices["Singular3x3"];
+            var matrix = this.testMatrices["Singular3x3"];
             var result = matrix.Clone();
             matrix.Multiply(scalar, result);
 
-            for (int i = 0; i < matrix.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (int j = 0; j < matrix.ColumnCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j] * scalar, result[i, j]);
                 }
@@ -190,7 +187,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentNullException))]
         public void MultiplyWithScalarIntoResultFailsWhenResultIsNull()
         {
-            var matrix = testMatrices["Singular3x3"];
+            var matrix = this.testMatrices["Singular3x3"];
             Matrix result = null;
             matrix.Multiply(2.3, result);
         }
@@ -199,8 +196,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void MultiplyWithScalarFailsWhenResultHasMoreRows()
         {
-            var matrix = testMatrices["Singular3x3"];
-            Matrix result = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            var matrix = this.testMatrices["Singular3x3"];
+            var result = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
             matrix.Multiply(2.3, result);
         }
 
@@ -208,8 +205,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void MultiplyWithScalarFailsWhenResultHasMoreColumns()
         {
-            var matrix = testMatrices["Singular3x3"];
-            Matrix result = CreateMatrix(matrix.RowCount, matrix.ColumnCount + 1);
+            var matrix = this.testMatrices["Singular3x3"];
+            var result = this.CreateMatrix(matrix.RowCount, matrix.ColumnCount + 1);
             matrix.Multiply(2.3, result);
         }
 
@@ -218,7 +215,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void OperatorLeftMultiplyWithScalarFailsWhenMatrixIsNull()
         {
             Matrix matrix = null;
-            Matrix result = 2.3 * matrix;
+            var result = 2.3 * matrix;
         }
 
         [Test]
@@ -226,7 +223,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void OperatorRightMultiplyWithScalarFailsWhenMatrixIsNull()
         {
             Matrix matrix = null;
-            Matrix result = matrix * 2.3;
+            var result = matrix * 2.3;
         }
 
         [Test]
@@ -234,14 +231,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Singular4x4", "Square4x4")]
         public void CanAddMatrix(string mtxA, string mtxB)
         {
-            var A = testMatrices[mtxA];
-            var B = testMatrices[mtxB];
+            var A = this.testMatrices[mtxA];
+            var B = this.testMatrices[mtxB];
 
-            Matrix matrix = A.Clone();
+            var matrix = A.Clone();
             matrix.Add(B);
-            for (int i = 0; i < matrix.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (int j = 0; j < matrix.ColumnCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j], A[i, j] + B[i, j]);
                 }
@@ -252,7 +249,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddMatrixThrowsExceptionWhenArgumentIsNull()
         {
-            Matrix matrix = testMatrices["Singular4x4"];
+            var matrix = this.testMatrices["Singular4x4"];
             Matrix other = null;
             matrix.Add(other);
         }
@@ -261,8 +258,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void AddMatrixThrowsExceptionArgumentHasTooFewColumns()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Tall3x2"];
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Tall3x2"];
             matrix.Add(other);
         }
 
@@ -270,8 +267,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void AddMatrixThrowsExceptionArgumentHasTooFewRows()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Wide2x3"];
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Wide2x3"];
             matrix.Add(other);
         }
 
@@ -280,15 +277,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Singular4x4", "Square4x4")]
         public void AddOperator(string mtxA, string mtxB)
         {
-            var A = testMatrices[mtxA];
-            var B = testMatrices[mtxB];
-            
-            Matrix result = A + B;
-            for (int i = 0; i < A.RowCount; i++)
+            var A = this.testMatrices[mtxA];
+            var B = this.testMatrices[mtxB];
+
+            var result = A + B;
+            for (var i = 0; i < A.RowCount; i++)
             {
-                for (int j = 0; j < A.ColumnCount; j++)
+                for (var j = 0; j < A.ColumnCount; j++)
                 {
-                    Assert.AreEqual(result[i,j], A[i, j] + B[i, j]);
+                    Assert.AreEqual(result[i, j], A[i, j] + B[i, j]);
                 }
             }
         }
@@ -298,35 +295,35 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void AddOperatorThrowsExceptionWhenLeftsideIsNull()
         {
             Matrix matrix = null;
-            Matrix other = testMatrices["Singular3x3"];
-            Matrix result = matrix + other;
+            var other = this.testMatrices["Singular3x3"];
+            var result = matrix + other;
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddOperatorThrowsExceptionWhenRightsideIsNull()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
+            var matrix = this.testMatrices["Singular3x3"];
             Matrix other = null;
-            Matrix result = matrix + other;
+            var result = matrix + other;
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void AddOperatorThrowsExceptionWhenRightsideHasTooFewColumns()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Tall3x2"];
-            Matrix result = matrix + other;
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Tall3x2"];
+            var result = matrix + other;
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void AddOperatorThrowsExceptionWhenRightsideHasTooFewRows()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Wide2x3"];
-            Matrix result = matrix + other;
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Wide2x3"];
+            var result = matrix + other;
         }
 
         [Test]
@@ -334,14 +331,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Singular4x4", "Square4x4")]
         public void CanSubtractMatrix(string mtxA, string mtxB)
         {
-            var A = testMatrices[mtxA];
-            var B = testMatrices[mtxB];
+            var A = this.testMatrices[mtxA];
+            var B = this.testMatrices[mtxB];
 
-            Matrix matrix = A.Clone();
+            var matrix = A.Clone();
             matrix.Subtract(B);
-            for (int i = 0; i < matrix.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (int j = 0; j < matrix.ColumnCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j], A[i, j] - B[i, j]);
                 }
@@ -352,7 +349,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubtractMatrixThrowsExceptionWhenRightSideIsNull()
         {
-            Matrix matrix = testMatrices["Singular4x4"];
+            var matrix = this.testMatrices["Singular4x4"];
             Matrix other = null;
             matrix.Subtract(other);
         }
@@ -361,8 +358,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SubtractMatrixThrowsExceptionWhenRightSideHasTooFewColumns()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Tall3x2"];
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Tall3x2"];
             matrix.Subtract(other);
         }
 
@@ -370,8 +367,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SubtractMatrixThrowsExceptionWhenRightSideHasTooFewRows()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Wide2x3"];
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Wide2x3"];
             matrix.Subtract(other);
         }
 
@@ -380,13 +377,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Singular4x4", "Square4x4")]
         public void SubtractOperator(string mtxA, string mtxB)
         {
-            var A = testMatrices[mtxA];
-            var B = testMatrices[mtxB];
+            var A = this.testMatrices[mtxA];
+            var B = this.testMatrices[mtxB];
 
-            Matrix result = A - B;
-            for (int i = 0; i < A.RowCount; i++)
+            var result = A - B;
+            for (var i = 0; i < A.RowCount; i++)
             {
-                for (int j = 0; j < A.ColumnCount; j++)
+                for (var j = 0; j < A.ColumnCount; j++)
                 {
                     Assert.AreEqual(result[i, j], A[i, j] - B[i, j]);
                 }
@@ -398,35 +395,35 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void SubtractOperatorThrowsExceptionWhenLeftsideIsNull()
         {
             Matrix matrix = null;
-            Matrix other = testMatrices["Singular3x3"];
-            Matrix result = matrix - other;
+            var other = this.testMatrices["Singular3x3"];
+            var result = matrix - other;
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void SubtractOperatorThrowsExceptionWhenRightsideIsNull()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
+            var matrix = this.testMatrices["Singular3x3"];
             Matrix other = null;
-            Matrix result = matrix - other;
+            var result = matrix - other;
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SubtractOperatorThrowsExceptionWhenRightsideHasTooFewColumns()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Tall3x2"];
-            Matrix result = matrix - other;
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Tall3x2"];
+            var result = matrix - other;
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SubtractOperatorThrowsExceptionWhenRightsideHasTooFewRows()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Wide2x3"];
-            Matrix result = matrix - other;
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Wide2x3"];
+            var result = matrix - other;
         }
 
         [Test]
@@ -438,16 +435,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanMultiplyMatrixWithMatrix(string nameA, string nameB)
         {
-            Matrix A = testMatrices[nameA];
-            Matrix B = testMatrices[nameB];
-            Matrix C = A * B;
+            var A = this.testMatrices[nameA];
+            var B = this.testMatrices[nameB];
+            var C = A * B;
 
             Assert.AreEqual(C.RowCount, A.RowCount);
             Assert.AreEqual(C.ColumnCount, B.ColumnCount);
 
-            for (int i = 0; i < C.RowCount; i++)
+            for (var i = 0; i < C.RowCount; i++)
             {
-                for (int j = 0; j < C.ColumnCount; j++)
+                for (var j = 0; j < C.ColumnCount; j++)
                 {
                     AssertHelpers.AlmostEqual(A.GetRow(i) * B.GetColumn(j), C[i, j], 15);
                 }
@@ -458,9 +455,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentException))]
         public void MultiplyMatrixMatrixFailsWhenSizesAreIncompatible()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix other = testMatrices["Wide2x3"];
-            Matrix result = matrix * other;
+            var matrix = this.testMatrices["Singular3x3"];
+            var other = this.testMatrices["Wide2x3"];
+            var result = matrix * other;
         }
 
         [Test]
@@ -468,17 +465,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void MultiplyMatrixMatrixFailsWhenLeftArgumentIsNull()
         {
             Matrix matrix = null;
-            Matrix other = testMatrices["Wide2x3"];
-            Matrix result = matrix * other;
+            var other = this.testMatrices["Wide2x3"];
+            var result = matrix * other;
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void MultiplyMatrixMatrixFailsWhenRightArgumentIsNull()
         {
-            Matrix matrix = testMatrices["Wide2x3"];
+            var matrix = this.testMatrices["Wide2x3"];
             Matrix other = null;
-            Matrix result = matrix * other;
+            var result = matrix * other;
         }
 
         [Test]
@@ -490,17 +487,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanMultiplyMatrixWithMatrixIntoResult(string nameA, string nameB)
         {
-            Matrix A = testMatrices[nameA];
-            Matrix B = testMatrices[nameB];
-            Matrix C = CreateMatrix(A.RowCount, B.ColumnCount);
+            var A = this.testMatrices[nameA];
+            var B = this.testMatrices[nameB];
+            var C = this.CreateMatrix(A.RowCount, B.ColumnCount);
             A.Multiply(B, C);
 
             Assert.AreEqual(C.RowCount, A.RowCount);
             Assert.AreEqual(C.ColumnCount, B.ColumnCount);
 
-            for (int i = 0; i < C.RowCount; i++)
+            for (var i = 0; i < C.RowCount; i++)
             {
-                for (int j = 0; j < C.ColumnCount; j++)
+                for (var j = 0; j < C.ColumnCount; j++)
                 {
                     AssertHelpers.AlmostEqual(A.GetRow(i) * B.GetColumn(j), C[i, j], 15);
                 }
@@ -516,14 +513,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanNegate(string name)
         {
-            var matrix = testMatrices[name];
+            var matrix = this.testMatrices[name];
             var copy = matrix.Clone();
 
             copy.Negate();
 
-            for (int i = 0; i < matrix.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (int j = 0; j < matrix.ColumnCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(-matrix[i, j], copy[i, j]);
                 }
@@ -539,14 +536,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanNegateIntoResult(string name)
         {
-            var matrix = testMatrices[name];
+            var matrix = this.testMatrices[name];
             var copy = matrix.Clone();
 
             matrix.Negate(copy);
 
-            for (int i = 0; i < matrix.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                for (int j = 0; j < matrix.ColumnCount; j++)
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(-matrix[i, j], copy[i, j]);
                 }
@@ -557,7 +554,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void NegateIntoResultFailsWhenResultIsNull()
         {
-            var matrix = testMatrices["Singular3x3"];
+            var matrix = this.testMatrices["Singular3x3"];
             Matrix copy = null;
             matrix.Negate(copy);
         }
@@ -566,8 +563,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void NegateIntoResultFailsWhenResultHasMoreRows()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            var matrix = this.testMatrices["Singular3x3"];
+            var target = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
             matrix.Negate(target);
         }
 
@@ -575,144 +572,239 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void NegateIntoResultFailsWhenResultHasMoreColumns()
         {
-            Matrix matrix = testMatrices["Singular3x3"];
-            Matrix target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            var matrix = this.testMatrices["Singular3x3"];
+            var target = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
             matrix.Negate(target);
         }
 
-        [Test]
-        public void Append()
-        {
-            Matrix left = testMatrices["Singular3x3"];
-            Matrix right = testMatrices["Tall3x2"];
-            Matrix result = left.Append(right);
-            Assert.AreEqual(left.ColumnCount + right.ColumnCount, result.ColumnCount);
-            Assert.AreEqual(left.RowCount, right.RowCount);
 
-            for (int i = 0; i < result.RowCount; i++)
+        [Test]
+        public void KroneckerProduct()
+        {
+            var A = this.testMatrices["Wide2x3"];
+            var B = this.testMatrices["Square3x3"];
+            var result = this.CreateMatrix(A.RowCount * B.RowCount, A.ColumnCount * B.ColumnCount);
+            A.KroneckerProduct(B, result);
+            for (var i = 0; i < A.RowCount; i++)
             {
-                for (int j = 0; j < result.ColumnCount; j++)
+                for (var j = 0; j < A.ColumnCount; j++)
                 {
-                    if (j < left.ColumnCount)
+                    for (var ii = 0; ii < B.RowCount; ii++)
                     {
-                        Assert.AreEqual(left[i, j], result[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(right[i, j - left.ColumnCount], result[i, j]);
+                        for (var jj = 0; jj < B.ColumnCount; jj++)
+                        {
+                            Assert.AreEqual(result[i * B.RowCount + ii, j * B.ColumnCount + jj], A[i, j] * B[ii, jj]);
+                        }
                     }
                 }
             }
         }
 
         [Test]
-        [ExpectedArgumentNullException]
-        public void AppendWithRightParameterNullShouldThrowException()
+        public void KroneckerProductResult()
         {
-            Matrix left = testMatrices["Square3x3"];
-            Matrix right = null;
-            left.Append(right);
-        }
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void AppendWithResultParameterNullShouldThrowException()
-        {
-            Matrix left = testMatrices["Square3x3"];
-            Matrix right = testMatrices["Tall3x2"];
-            Matrix result = null;
-            left.Append(right, result);
-        }
-
-        [Test]
-        [ExpectedArgumentException]
-        public void AppendingTwoMatricesWithDifferentRowCountShouldThrowException()
-        {
-            Matrix left = testMatrices["Square3x3"];
-            Matrix right = testMatrices["Wide2x3"];
-            Matrix result = left.Append(right);
-        }
-
-        [Test]
-        [ExpectedArgumentException]
-        public void AppendingWithInvalidResultMatrixColumnsShouldThrowException()
-        {
-            Matrix left = testMatrices["Square3x3"];
-            Matrix right = testMatrices["Tall3x2"];
-            Matrix result = CreateMatrix(3, 2);
-            left.Append(right, result);
-        }
-
-        [Test]
-        public void Stack()
-        {
-            Matrix top = testMatrices["Square3x3"];
-            Matrix bottom = testMatrices["Wide2x3"];
-            Matrix result = top.Stack(bottom);
-            Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
-            Assert.AreEqual(top.ColumnCount, result.ColumnCount);
-
-            for (int i = 0; i < result.RowCount; i++)
+            var A = this.testMatrices["Wide2x3"];
+            var B = this.testMatrices["Square3x3"];
+            var result = A.KroneckerProduct(B);
+            for (var i = 0; i < A.RowCount; i++)
             {
-                for (int j = 0; j < result.ColumnCount; j++)
+                for (var j = 0; j < A.ColumnCount; j++)
                 {
-                    if (i < top.RowCount)
+                    for (var ii = 0; ii < B.RowCount; ii++)
                     {
-                        Assert.AreEqual(result[i, j], top[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(result[i, j], bottom[i - top.RowCount, j]);
+                        for (var jj = 0; jj < B.ColumnCount; jj++)
+                        {
+                            Assert.AreEqual(result[i * B.RowCount + ii, j * B.ColumnCount + jj], A[i, j] * B[ii, jj]);
+                        }
                     }
                 }
             }
         }
 
         [Test]
-        [ExpectedArgumentNullException]
-        public void StackWithBottomParameterNullShouldThrowException()
+        [Row(1)]
+        [Row(2)]
+        [Row(-4, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void NormalizeColumns(int pValue)
         {
-            Matrix top = testMatrices["Square3x3"];
-            Matrix bottom = null;
-            Matrix result = CreateMatrix(top.RowCount + top.RowCount, top.ColumnCount);
-            top.Stack(bottom, result);
+            var matrix = this.testMatrices["Singular3x3"];
+            var result = matrix.NormalizeColumns(pValue);
+            for (var j = 0; j < result.ColumnCount; j++)
+            {
+                var col = result.GetColumn(j);
+                Assert.AreApproximatelyEqual(1.0, col.NormP(pValue), 10e-12);
+            }
         }
 
         [Test]
-        [ExpectedArgumentNullException]
-        public void StackWithResultParameterNullShouldThrowException()
+        [Row(1)]
+        [Row(2)]
+        [Row(-3, ExpectedException = typeof(ArgumentOutOfRangeException))]
+        public void NormalizeRows(int pValue)
         {
-            Matrix top = testMatrices["Square3x3"];
-            Matrix bottom = testMatrices["Square3x3"];
-            Matrix result = null;
-            top.Stack(bottom, result);
+            var matrix = this.testMatrices["Singular3x3"].NormalizeRows(pValue);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                var row = matrix.GetRow(i);
+                Assert.AreApproximatelyEqual(1.0, row.NormP(pValue), 10e-12);
+            }
         }
 
         [Test]
-        [ExpectedArgumentException]
-        public void StackTwoMatricesWithDifferentColumnsShouldThrowException()
+        public void PointwiseMultiplyResult()
         {
-            Matrix top = testMatrices["Square3x3"];
-            Matrix lower = testMatrices["Tall3x2"];
-            Matrix result = CreateMatrix(top.RowCount + lower.RowCount, top.ColumnCount);
-            top.Stack(lower, result);
+            foreach (var  data in this.testMatrices.Values)
+            {
+                var other = data.Clone();
+                var result = data.Clone();
+                data.PointwiseMultiply(other, result);
+                for (var i = 0; i < data.RowCount; i++)
+                {
+                    for (var j = 0; j < data.ColumnCount; j++)
+                    {
+                        Assert.AreEqual(data[i, j] * other[i, j], result[i, j]);
+                    }
+                }
+
+                result = data.PointwiseMultiply(other);
+                for (var i = 0; i < data.RowCount; i++)
+                {
+                    for (var j = 0; j < data.ColumnCount; j++)
+                    {
+                        Assert.AreEqual(data[i, j] * other[i, j], result[i, j]);
+                    }
+                }
+            }
         }
 
         [Test]
-        [ExpectedArgumentException]
-        public void StackingWithInvalidResultMatrixRowsShouldThrowException()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PointwiseMultiplyWithNullOtherShouldThrowException()
         {
-            Matrix top = testMatrices["Square3x3"];
-            Matrix bottom = testMatrices["Wide2x3"];
-            Matrix result = CreateMatrix(1, 3);
-            top.Stack(bottom, result);
+            var matrix = this.testMatrices["Wide2x3"];
+            Matrix other = null;
+            var result = matrix.Clone();
+            matrix.PointwiseMultiply(other, result);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PointwiseMultiplyWithResultNullShouldThrowException()
+        {
+            var matrix = this.testMatrices["Wide2x3"];
+            var other = matrix.Clone();
+            matrix.PointwiseMultiply(other, null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void PointwiseMultiplyWithInvalidOtherMatrixDimensionsShouldThrowException()
+        {
+            var matrix = this.testMatrices["Wide2x3"];
+            var other = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            var result = matrix.Clone();
+            matrix.PointwiseMultiply(other, result);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void PointwiseMultiplyWithInvalidResultMatrixDimensionsShouldThrowException()
+        {
+            var matrix = this.testMatrices["Wide2x3"];
+            var other = matrix.Clone();
+            var result = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            matrix.PointwiseMultiply(other, result);
+        }
+
+        [Test]
+        public void PointwiseDivideIResult()
+        {
+            foreach (var  data in this.testMatrices.Values)
+            {
+                var other = data.Clone();
+                var result = data.Clone();
+                data.PointwiseDivide(other, result);
+                for (var i = 0; i < data.RowCount; i++)
+                {
+                    for (var j = 0; j < data.ColumnCount; j++)
+                    {
+                        Assert.AreEqual(data[i, j] / other[i, j], result[i, j]);
+                    }
+                }
+
+                result = data.PointwiseDivide(other);
+                for (var i = 0; i < data.RowCount; i++)
+                {
+                    for (var j = 0; j < data.ColumnCount; j++)
+                    {
+                        Assert.AreEqual(data[i, j] / other[i, j], result[i, j]);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PointwiseDivideWithNullOtherShouldThrowException()
+        {
+            var matrix = this.testMatrices["Wide2x3"];
+            Matrix other = null;
+            var result = matrix.Clone();
+            matrix.PointwiseDivide(other, result);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void PointwiseDivideWithResultNullShouldThrowException()
+        {
+            var matrix = this.testMatrices["Wide2x3"];
+            var other = matrix.Clone();
+            matrix.PointwiseDivide(other, null);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void PointwiseDivideWithInvalidOtherMatrixDimensionsShouldThrowException()
+        {
+            var matrix = this.testMatrices["Wide2x3"];
+            var other = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            var result = matrix.Clone();
+            matrix.PointwiseDivide(other, result);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void PointwiseDivideWithInvalidResultMatrixDimensionsShouldThrowException()
+        {
+            var matrix = this.testMatrices["Wide2x3"];
+            var other = matrix.Clone();
+            var result = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
+            matrix.PointwiseDivide(other, result);
+        }
+
+        [Test]
+        [Row(0, ExpectedException = typeof(ArgumentException))]
+        [Row(-2, ExpectedException = typeof(ArgumentException))]
+        public void RandomWithNonPositiveNumberOfRowsShouldThrowException(int numberOfRows)
+        {
+            var matrix = this.CreateMatrix(2, 3);
+            matrix = matrix.Random(numberOfRows, 4, new ContinuousUniform());
+        }
+
+        [Test]
+        [Row(0, ExpectedException = typeof(ArgumentException))]
+        [Row(-2, ExpectedException = typeof(ArgumentException))]
+        public void RandomWithNonPositiveNumberOfRowsShouldThrowException2(int numberOfRows)
+        {
+            var matrix = this.CreateMatrix(2, 3);
+            matrix = matrix.Random(numberOfRows, 4, new DiscreteUniform(0, 2));
         }
 
         [Test]
         public void Trace()
         {
-            Matrix matrix = testMatrices["Square3x3"];
-            double trace = matrix.Trace();
+            var matrix = this.testMatrices["Square3x3"];
+            var trace = matrix.Trace();
             Assert.AreEqual(6.6, trace);
         }
 
@@ -720,97 +812,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void TraceOfNonSquareMatrixShouldThrowException()
         {
-            Matrix matrix = testMatrices["Wide2x3"];
-            double trace = matrix.Trace();
-        }
-
-        [Test]
-        public void DiagonalStack()
-        {
-            Matrix top = testMatrices["Tall3x2"];
-            Matrix bottom = testMatrices["Wide2x3"];
-            Matrix result = top.DiagonalStack(bottom);
-            Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
-            Assert.AreEqual(top.ColumnCount + bottom.ColumnCount, result.ColumnCount);
-
-            for (int i = 0; i < result.RowCount; i++)
-            {
-                for (int j = 0; j < result.ColumnCount; j++)
-                {
-                    if (i < top.RowCount && j < top.ColumnCount)
-                    {
-                        Assert.AreEqual(top[i, j], result[i, j]);
-                    }
-                    else if (i >= top.RowCount && j >= top.ColumnCount)
-                    {
-                        Assert.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(0, result[i, j]);
-                    }
-                }
-            }
-        }
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void DiagonalStackWithLowerNullShouldThrowException()
-        {
-            Matrix top = testMatrices["Square3x3"];
-            Matrix lower = null;
-            top.DiagonalStack(lower);
-        }
-
-        [Test]
-        public void DiagonalStackWithPassingResult()
-        {
-            Matrix top = testMatrices["Tall3x2"];
-            Matrix bottom = testMatrices["Wide2x3"];
-            Matrix result = CreateMatrix(top.RowCount + bottom.RowCount, top.ColumnCount + bottom.ColumnCount);
-            top.DiagonalStack(bottom, result);
-            Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
-            Assert.AreEqual(top.ColumnCount + bottom.ColumnCount, result.ColumnCount);
-
-            for (int i = 0; i < result.RowCount; i++)
-            {
-                for (int j = 0; j < result.ColumnCount; j++)
-                {
-                    if (i < top.RowCount && j < top.ColumnCount)
-                    {
-                        Assert.AreEqual(top[i, j], result[i, j]);
-                    }
-                    else if (i >= top.RowCount && j >= top.ColumnCount)
-                    {
-                        Assert.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(0, result[i, j]);
-                    }
-                }
-            }
-        }
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void DiagonalStackWithResultNullShouldThrowException()
-        {
-            Matrix top = testMatrices["Square3x3"];
-            Matrix lower = testMatrices["Wide2x3"];
-            Matrix result = null;
-            top.DiagonalStack(lower,result);
-        }
-
-        [Test]
-        [ExpectedArgumentException]
-        public void DiagonalStackWithInvalidResultMatrixShouldThrowException()
-        {
-            Matrix top = testMatrices["Square3x3"];
-            Matrix lower = testMatrices["Wide2x3"];
-            Matrix result = CreateMatrix(top.RowCount + lower.RowCount + 2, top.ColumnCount + lower.ColumnCount);
-            top.DiagonalStack(lower, result);
-
+            var matrix = this.testMatrices["Wide2x3"];
+            var trace = matrix.Trace();
         }
     }
 }

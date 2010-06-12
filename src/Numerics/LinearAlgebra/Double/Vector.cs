@@ -727,7 +727,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
         public virtual Vector Random(int length, IContinuousDistribution randomDistribution)
         {
-            if (length < 0)
+            if (length < 1)
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
@@ -753,7 +753,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
         public virtual Vector Random(int length, IDiscreteDistribution randomDistribution)
         {
-            if (length < 0)
+            if (length < 1)
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
