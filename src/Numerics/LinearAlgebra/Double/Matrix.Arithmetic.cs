@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,6 +27,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
+    using Distributions;
     using Properties;
     using Threading;
 
@@ -58,8 +55,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             CommonParallel.For(
-                0,
-                this.RowCount,
+                0, 
+                this.RowCount, 
                 i =>
                 {
                     for (var j = 0; j < this.ColumnCount; j++)
@@ -88,8 +85,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             CommonParallel.For(
-                0,
-                this.RowCount,
+                0, 
+                this.RowCount, 
                 i =>
                 {
                     for (var j = 0; j < this.ColumnCount; j++)
@@ -111,8 +108,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             CommonParallel.For(
-                0,
-                this.RowCount,
+                0, 
+                this.RowCount, 
                 i =>
                 {
                     for (var j = 0; j < this.ColumnCount; j++)
@@ -204,8 +201,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 CommonParallel.For(
-                    0,
-                    this.RowCount,
+                    0, 
+                    this.RowCount, 
                     i =>
                     {
                         double s = 0;
@@ -215,7 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         }
 
                         result[i] = s;
-                    });               
+                    });
             }
         }
 
@@ -273,8 +270,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 CommonParallel.For(
-                    0,
-                    this.RowCount,
+                    0, 
+                    this.RowCount, 
                     j =>
                     {
                         double s = 0;
@@ -284,7 +281,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         }
 
                         result[j] = s;
-                    });               
+                    });
             }
         }
 
@@ -328,8 +325,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 CommonParallel.For(
-                    0,
-                    this.RowCount,
+                    0, 
+                    this.RowCount, 
                     j =>
                     {
                         for (var i = 0; i != other.ColumnCount; i++)
@@ -342,7 +339,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                             result.At(j, i, s);
                         }
-                    });               
+                    });
             }
         }
 
@@ -604,42 +601,43 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        ///  Concatenates this matrix with the given matrix.
+        /// Pointwise multiplies this matrix with another matrix.
         /// </summary>
-        /// <param name="right">The matrix to concatenate.</param>
-        /// <returns>The combined matrix.</returns>
-        public virtual Matrix Append(Matrix right)
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new matrix that is the pointwise multiplication of this matrix and <paramref name="other"/>.</returns>
+        public virtual Matrix PointwiseMultiply(Matrix other)
         {
-            if (right == null)
+            if (other == null)
             {
-                throw new ArgumentNullException("right");
+                throw new ArgumentNullException("other");
             }
 
-            if (right.RowCount != RowCount)
+            if (this.ColumnCount != other.ColumnCount || this.RowCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "other");
             }
 
-            Matrix result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount);
-            Append(right, result);
+            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
+            this.PointwiseMultiply(other, result);
             return result;
         }
 
         /// <summary>
-        /// Concatenates this matrix with the given matrix and places the result into the result matrix.
+        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="right">The matrix to concatenate.</param>
-        /// <param name="result">The combined matrix.</param>
-        public virtual void Append(Matrix right, Matrix result)
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public virtual void PointwiseMultiply(Matrix other, Matrix result)
         {
-            if (right == null)
+            if (other == null)
             {
-                throw new ArgumentNullException("right");
-            }
-
-            if (right.RowCount != RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentNullException("other");
             }
 
             if (result == null)
@@ -647,197 +645,184 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.ColumnCount != (ColumnCount + right.ColumnCount) || result.RowCount != RowCount)
+            if (this.ColumnCount != other.ColumnCount || this.RowCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.Invoke(
-                () =>
+            if (this.ColumnCount != result.ColumnCount || this.RowCount != result.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            CommonParallel.For(
+                0, 
+                this.ColumnCount, 
+                j =>
                 {
-                    CommonParallel.For(
-                       0,
-                       this.RowCount,
-                       i =>
-                       {
-                           CommonParallel.For(0, this.ColumnCount, j => result.At(i, j, At(i, j)));
-                       });
-                },
-                () =>
-                {
-                    CommonParallel.For(
-                       0,
-                       right.RowCount,
-                       i =>
-                       {
-                           CommonParallel.For(0, right.ColumnCount, j => result.At(i, j + ColumnCount, right.At(i, j)));
-                       });                    
-               });
-        }
-
-        /// <summary>
-        /// Stacks this matrix on top of the given matrix and places the result into the result matrix.
-        /// </summary>
-        /// <param name="lower">The matrix to stack this matrix upon.</param>
-        /// <returns>The combined matrix.</returns>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public virtual Matrix Stack(Matrix lower)
-        {
-            if (lower == null)
-            {
-                throw new ArgumentNullException("lower");
-            }
-
-            if (lower.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentException("lower", Resources.ArgumentMatrixSameColumnDimension);
-            }
-
-            Matrix result = CreateMatrix(RowCount + lower.RowCount, ColumnCount);
-            Stack(lower, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Stacks this matrix on top of the given matrix and places the result into the result matrix.
-        /// </summary>
-        /// <param name="lower">The matrix to stack this matrix upon.</param>
-        /// <param name="result">The combined matrix.</param>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public virtual void Stack(Matrix lower, Matrix result)
-        {
-            if (lower == null)
-            {
-                throw new ArgumentNullException("lower");
-            }
-            
-            if (lower.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentException("lower", Resources.ArgumentMatrixSameColumnDimension);
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (result.RowCount != (RowCount + lower.RowCount) || result.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
-            }
-
-            CommonParallel.Invoke(
-                () =>
-                {
-                    CommonParallel.For(
-                        0,
-                        this.RowCount,
-                        i =>
-                        {
-                            CommonParallel.For(0, this.ColumnCount, j => result.At(i, j, At(i, j)));
-                        });
-                },
-                () =>
-                {
-                    CommonParallel.For(
-                        0,
-                        lower.RowCount,
-                        i =>
-                        {
-                            CommonParallel.For(0, lower.ColumnCount, j => result.At(i + RowCount, j, lower.At(i, j)));
-                        });
+                    for (var i = 0; i < this.RowCount; i++)
+                    {
+                        result.At(i, j, this.At(i, j) * other.At(i, j));
+                    }
                 });
+        }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise subtract this one by.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="other"/>.</returns>
+        public virtual Matrix PointwiseDivide(Matrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (this.ColumnCount != other.ColumnCount || this.RowCount != other.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "other");
+            }
+
+            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
+            this.PointwiseDivide(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="result">The matrix to store the result of the pointwise division.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public virtual void PointwiseDivide(Matrix other, Matrix result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (this.ColumnCount != other.ColumnCount || this.RowCount != other.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            if (this.ColumnCount != result.ColumnCount || this.RowCount != result.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            CommonParallel.For(
+                0, 
+                this.ColumnCount, 
+                j =>
+                {
+                    for (var i = 0; i < this.RowCount; i++)
+                    {
+                        result.At(i, j, this.At(i, j) / other.At(i, j));
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Generates matrix with random elements.
+        /// </summary>
+        /// <param name="numberOfRows">Number of rows.</param>
+        /// <param name="numberOfColumns">Number of columns.</param>
+        /// <param name="distribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// An numberOfRows-by-numberOfColumns matrix with elements distributed according to the provided distribution.
+        /// </returns>
+        /// <exception cref="ArgumentException">If the parameter numberOfRows is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter numberOfColumns is not positive.</exception>
+        public virtual Matrix Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = this.CreateMatrix(numberOfRows, numberOfColumns);
+            CommonParallel.For(
+                0, 
+                this.ColumnCount, 
+                j =>
+                {
+                    for (var i = 0; i < matrix.RowCount; i++)
+                    {
+                        matrix[i, j] = distribution.Sample();
+                    }
+                });
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Generates matrix with random elements.
+        /// </summary>
+        /// <param name="numberOfRows">Number of rows.</param>
+        /// <param name="numberOfColumns">Number of columns.</param>
+        /// <param name="distribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// An numberOfRows-by-numberOfColumns matrix with elements distributed according to the provided distribution.
+        /// </returns>
+        /// <exception cref="ArgumentException">If the parameter numberOfRows is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter numberOfColumns is not positive.</exception>
+        public virtual Matrix Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = this.CreateMatrix(numberOfRows, numberOfColumns);
+            CommonParallel.For(
+                0, 
+                this.ColumnCount, 
+                j =>
+                {
+                    for (var i = 0; i < matrix.RowCount; i++)
+                    {
+                        matrix[i, j] = distribution.Sample();
+                    }
+                });
+
+            return matrix;
         }
 
         /// <summary>
         /// Computes the trace of this matrix.
         /// </summary>
         /// <returns>The trace of this matrix</returns>
-        /// <exception cref=">ArgumentException">If the matrix is not square</exception>
+        /// <exception cref="ArgumentException">If the matrix is not square</exception>
         public virtual double Trace()
         {
-            if (RowCount != ColumnCount)
+            if (this.RowCount != this.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            double t = 0.0;
-            for (int i = 0; i < RowCount; i++)
-            {
-                t += this[i, i];
-            }
-
-            return t;
-        }
-
-        /// <summary>
-        /// Diagonally stacks his matrix on top of the given matrix. The new matrix is a M-by-N matrix, 
-        /// where M = this.Rows + lower.Rows and N = this.Columns + lower.Columns.
-        /// The values of off the off diagonal matrices/blocks are set to zero.
-        /// </summary>
-        /// <param name="lower">The lower, right matrix.</param>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <returns>the combined matrix</returns>
-        public virtual Matrix DiagonalStack(Matrix lower)
-        {
-            if (lower == null)
-            {
-                throw new ArgumentNullException("lower");
-            }
-
-            Matrix result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount);
-            DiagonalStack(lower, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Diagonally stacks his matrix on top of the given matrix and places the combined matrix into the result matrix.
-        /// </summary>
-        /// <param name="lower">The lower, right matrix.</param>
-        /// <param name="result">The combined matrix</param>
-        /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows + lower.rows) x (this.Columns + lower.Columns).</exception>
-        public virtual void DiagonalStack(Matrix lower, Matrix result)
-        {
-            if (lower == null)
-            {
-                throw new ArgumentNullException("lower");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (result.RowCount != RowCount + lower.RowCount || result.ColumnCount != ColumnCount + lower.ColumnCount)
-            {
-                throw new ArgumentException("result", Resources.ArgumentMatrixDimensions);
-            }
-
-            CommonParallel.Invoke(
-                () =>
-                {
-                    CommonParallel.For(
-                        0,
-                        this.RowCount,
-                        i =>
-                        {
-                            CommonParallel.For(0, this.ColumnCount, j => result.At(i, j, At(i, j)));
-                        });
-                },               
-                () =>
-                {
-                    CommonParallel.For(
-                        0,
-                        lower.RowCount,
-                        i =>
-                        {
-                            CommonParallel.For(0, lower.ColumnCount, j => result.At(i + RowCount, j + ColumnCount, lower.At(i, j)));
-                        });
-                });
+            return CommonParallel.Aggregate(0, this.RowCount, i => this[i, i]);
         }
 
         /// <summary>
@@ -847,6 +832,137 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public virtual int Rank()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>Calculates the condition number of this matrix.</summary>
+        /// <returns>The condition number of the matrix.</returns>
+        /// <remarks>The condition number is calculated using singular value decomposition.</remarks>
+        public virtual double ConditionNumber()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>Computes the determinant of this matrix.</summary>
+        /// <returns>The determinant of this matrix.</returns>
+        public virtual double Determinant()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Computes the Kronecker product of this matrix with the given matrix. The new matrix is M-by-N
+        /// with M = this.Rows * lower.Rows and N = this.Columns * lower.Columns.
+        /// </summary>
+        /// <param name="other">The other matrix.</param>
+        /// <exception cref="ArgumentNullException">If other is <see langword="null" />.</exception>
+        /// <returns>The kronecker product of the two matrices.</returns>
+        public virtual Matrix KroneckerProduct(Matrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            var result = this.CreateMatrix(this.RowCount * other.RowCount, this.ColumnCount * other.ColumnCount);
+            this.KroneckerProduct(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the Kronecker product of this matrix with the given matrix. The new matrix is M-by-N
+        /// with M = this.Rows * lower.Rows and N = this.Columns * lower.Columns.
+        /// </summary>
+        /// <param name="other">The other matrix.</param>
+        /// <param name="result">The kronecker product of the two matrices.</param>
+        /// <exception cref="ArgumentNullException">If other is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows * lower.rows) x (this.Columns * lower.Columns).</exception>
+        public virtual void KroneckerProduct(Matrix other, Matrix result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != (this.RowCount * other.RowCount) || result.ColumnCount != (this.ColumnCount * other.ColumnCount))
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            CommonParallel.For(
+                0, 
+                this.ColumnCount, 
+                j =>
+                {
+                    for (var i = 0; i < this.RowCount; i++)
+                    {
+                        result.SetSubMatrix(i * other.RowCount, other.RowCount, j * other.ColumnCount, other.ColumnCount, this.At(i, j) * other);
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Normalizes the columns of a matrix.
+        /// </summary>
+        /// <param name="p">The norm under which to normalize the columns under.</param>
+        /// <returns>A normalized version of the matrix.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If the parameter p is not positive.</exception>
+        public virtual Matrix NormalizeColumns(int p)
+        {
+            if (p < 1)
+            {
+                throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
+            }
+
+            var ret = this.Clone();
+            CommonParallel.For(
+                0, 
+                this.ColumnCount, 
+                i =>
+                {
+                    var coli = this.GetColumn(i);
+                    var norm = coli.NormP(p);
+                    for (var j = 0; j < this.RowCount; j++)
+                    {
+                        ret[j, i] = coli[j] / norm;
+                    }
+                });
+            return ret;
+        }
+
+        /// <summary>
+        /// Normalizes the rows of a matrix.
+        /// </summary>
+        /// <param name="p">The norm under which to normalize the rows under.</param>
+        /// <returns>A normalized version of the matrix.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If the parameter p is not positive.</exception>
+        public virtual Matrix NormalizeRows(int p)
+        {
+            if (p < 1)
+            {
+                throw new ArgumentOutOfRangeException("p", Resources.ArgumentMustBePositive);
+            }
+
+            var ret = this.Clone();
+            CommonParallel.For(
+                0, 
+                this.ColumnCount, 
+                j =>
+                {
+                    var rowj = this.GetRow(j);
+                    var norm = rowj.NormP(p);
+                    for (var i = 0; i < this.RowCount; i++)
+                    {
+                        ret[i, j] = rowj[j] / norm;
+                    }
+                });
+
+            return ret;
         }
     }
 }

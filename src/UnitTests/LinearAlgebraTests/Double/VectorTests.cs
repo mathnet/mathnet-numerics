@@ -300,7 +300,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanFindAbsoluteMaximumIndex()
         {
             var source = this.CreateVector(this._data);
-            var expected = 0;
+            var expected = 4;
             var actual = source.AbsoluteMaximumIndex();
             Assert.AreEqual(expected, actual);
         }
@@ -309,7 +309,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanFindAbsoluteMaximum()
         {
             var source = this.CreateVector(this._data);
-            double expected = 1;
+            double expected = 5;
             var actual = source.AbsoluteMaximum();
             Assert.AreEqual(expected, actual);
         }
@@ -418,7 +418,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void RandomWithNumberOfElementsLessThanZeroShouldThrowException()
         {
             var vector = this.CreateVector(4);
-            vector = vector.Random(-3, new ContinuousUniform());
+            vector = vector.Random(-2, new ContinuousUniform());
         }
 
         protected abstract Vector CreateVector(int size);
