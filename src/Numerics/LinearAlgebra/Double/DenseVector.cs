@@ -138,7 +138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns a reference to the internal data structure.
         /// </summary>
-        /// <param name="vector">The DenseVector whose internal data we are
+        /// <param name="vector">The <c>DenseVector</c> whose internal data we are
         /// returning.</param>
         /// <returns>
         /// A reference to the internal date of the given vector.
@@ -156,7 +156,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Returns a vector bound directly to a reference of the provided array.
         /// </summary>
-        /// <param name="array">The array to bind to the DenseVector object.</param>
+        /// <param name="array">The array to bind to the <c>DenseVector</c> object.</param>
         /// <returns>
         /// A DenseVector whose values are bound to the given array.
         /// </returns>
@@ -404,7 +404,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the same values of rightSide. 
+        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>. 
         /// </summary>
         /// <remarks>This method is included for completeness.</remarks>
         /// <param name="rightSide">The vector to get the values from.</param>
@@ -560,7 +560,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of rightSide. 
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
@@ -1137,7 +1137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A vector with n-random elements distributed according
         /// to the specified random distribution.
         /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
         public override Vector Random(int length, IContinuousDistribution randomDistribution)
         {
             if (length < 1)
@@ -1163,7 +1163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A vector with n-random elements distributed according
         /// to the specified random distribution.
         /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
         public override Vector Random(int length, IDiscreteDistribution randomDistribution)
         {
             if (length < 1)
@@ -1198,7 +1198,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Euclidean Norm also known as 2-Norm.
         /// </summary>
-        /// <returns>Scalar ret = sqrt(sum(this[i]^2))</returns>
+        /// <returns>Scalar <c>ret = sqrt(sum(this[i]^2))</c></returns>
         public override double Norm()
         {
             var sum = 0.0;
@@ -1214,7 +1214,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// 1-Norm also known as Manhattan Norm or Taxicab Norm.
         /// </summary>
-        /// <returns>Scalar ret = sum(abs(this[i]))</returns>
+        /// <returns>Scalar <c>ret = sum(abs(this[i]))</c></returns>
         public override double Norm1()
         {
             return CommonParallel.Aggregate(
@@ -1227,7 +1227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Computes the p-Norm.
         /// </summary>
         /// <param name="p">The p value.</param>
-        /// <returns>Scalar ret = (sum(abs(this[i])^p))^(1/p)</returns>
+        /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
         public override double NormP(int p)
         {
             if (1 > p)
@@ -1256,7 +1256,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Infinity Norm.
         /// </summary>
-        /// <returns>Scalar ret = max(abs(this[i]))</returns>
+        /// <returns>Scalar <c>ret = max(abs(this[i]))</c></returns>
         public override double NormInfinity()
         {
             return CommonParallel.Select(

@@ -90,6 +90,7 @@
     <Compile Include="ComplexTests\ComplexTest.cs" />
     <Compile Include="ComplexTests\Complex32Test.TextHandling.cs" />
     <Compile Include="ComplexTests\Complex32Test.cs" />
+    <Compile Include="LinearAlgebraTests\Double\SparseMatrixTests.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
