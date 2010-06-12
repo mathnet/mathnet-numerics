@@ -101,6 +101,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Complex32.cs" />
+    <Compile Include="LinearAlgebra\Double\SparseMatrix.cs" />
     <Compile Include="Permutation.cs" />
     <Compile Include="Distributions\Continuous\Beta.cs" />
     <Compile Include="Distributions\Continuous\ContinuousUniform.cs" />

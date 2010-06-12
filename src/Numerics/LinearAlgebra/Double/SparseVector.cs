@@ -183,14 +183,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>This vector as a column matrix.</returns>
         public override Matrix ToColumnMatrix()
         {
-            throw new NotImplementedException();
+            var matrix = new SparseMatrix(this.Count, 1);
+            for (var i = 0; i < this.NonZerosCount; i++)
+            {
+                matrix[this._nonZeroIndices[i], 0] = this._nonZeroValues[i];
+            }
 
-// var matrix = new SparseMatrix(this.Count, 1);
-            // CommonParallel.For(
-            // 0,
-            // this.Count,
-            // index => matrix[i, 0] = vector[index]); 
-            // return matrix;
+            return matrix;
         }
 
         /// <summary>
@@ -199,14 +198,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>This vector as a row matrix.</returns>
         public override Matrix ToRowMatrix()
         {
-            throw new NotImplementedException();
+            var matrix = new SparseMatrix(1, this.Count);
+            for (var i = 0; i < this.NonZerosCount; i++)
+            {
+                matrix[0, this._nonZeroIndices[i]] = this._nonZeroValues[i];
+            }
 
-// var matrix = new SparseMatrix(1, this.Count);
-            // CommonParallel.For(
-            // 0,
-            // this.Count,
-            // index => matrix[0, i] = vector[index]); 
-            // return matrix;
+            return matrix;
         }
 
         /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
@@ -267,9 +265,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override Matrix CreateMatrix(int rows, int columns)
         {
-            throw new NotImplementedException();
-
-// return new SparseMatrix(rows, columns);
+            return new SparseMatrix(rows, columns);
         }
 
         /// <summary>
@@ -427,7 +423,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Adds the scaled sparce vector.
+        /// Adds the scaled sparse vector.
         /// </summary>
         /// <param name="alpha">The alpha.</param>
         /// <param name="other">The other.</param>
@@ -535,7 +531,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the same values of rightSide. 
+        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>. 
         /// </summary>
         /// <remarks>This method is included for completeness.</remarks>
         /// <param name="rightSide">The vector to get the values from.</param>
@@ -691,7 +687,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of rightSide. 
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
@@ -1221,20 +1217,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("v");
             }
 
-            throw new NotImplementedException();
+            var matrix = new SparseMatrix(u.Count, v.Count);
+            for (var i = 0; i < u.NonZerosCount; i++)
+            {
+                for (var j = 0; j < v.NonZerosCount; j++)
+                {
+                    if (u._nonZeroIndices[i] == v._nonZeroIndices[j])
+                    {
+                        matrix.At(i, j, u._nonZeroValues[i] * v._nonZeroValues[j]);
+                    }
+                }
+            }
 
-// var matrix = new DenseMatrix(u.Count, v.Count);
-            // CommonParallel.For(
-            // 0,
-            // u.Count,
-            // i =>
-            // {
-            // for (int j = 0; j < v.Count; j++)
-            // {
-            // matrix.At(i, j, u.Data[i] * v.Data[j]);
-            // }
-            // });
-            // return matrix;
+            return matrix;
         }
 
         /// <summary>
@@ -1246,7 +1241,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A vector with n-random elements distributed according
         /// to the specified random distribution.
         /// </returns>
-        /// <exception cref="ArgumentNullException">If the length vector is non poisitive<see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the length vector is non positive<see langword="null" />.</exception> 
         public override Vector Random(int length, IContinuousDistribution randomDistribution)
         {
             if (length < 0)
@@ -1272,7 +1267,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A vector with n-random elements distributed according
         /// to the specified random distribution.
         /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
+        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
         public override Vector Random(int length, IDiscreteDistribution randomDistribution)
         {
             if (length < 0)
@@ -1310,7 +1305,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Computes the p-Norm.
         /// </summary>
         /// <param name="p">The p value.</param>
-        /// <returns>Scalar ret = (sum(abs(this[i])^p))^(1/p)</returns>
+        /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
         public override double NormP(int p)
         {
             if (1 > p)
@@ -1329,7 +1324,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Infinity Norm.
         /// </summary>
-        /// <returns>Scalar ret = max(abs(this[i]))</returns>
+        /// <returns>Scalar <c>ret = max(abs(this[i]))</c></returns>
         public override double NormInfinity()
         {
             return CommonParallel.Select(0, this.NonZerosCount, (index, localData) => localData = Math.Max(localData, Math.Abs(this._nonZeroValues[index])), Math.Max);
@@ -1344,7 +1339,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// quotes): 'n', 'n,n,..', '(n,n,..)', '[n,n,...]', where n is a double.
         /// </summary>
         /// <returns>
-        /// A double sparce vector containing the values specified by the given string.
+        /// A double sparse vector containing the values specified by the given string.
         /// </returns>
         /// <param name="value">
         /// The string to parse.
@@ -1359,7 +1354,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// quotes): 'n', 'n,n,..', '(n,n,..)', '[n,n,...]', where n is a double.
         /// </summary>
         /// <returns>
-        /// A double sparce vector containing the values specified by the given string.
+        /// A double sparse vector containing the values specified by the given string.
         /// </returns>
         /// <param name="value">
         /// the string to parse.
@@ -1596,7 +1591,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #region System.Object override
 
         /// <summary>
-        /// Check equality. If this is regular vector, then chek by base implementation. If Sparse - use own equition
+        /// Check equality. If this is regular vector, then check by base implementation. If Sparse - use own method.
         /// </summary>
         /// <param name="obj">Object to compare</param>
         /// <returns>
