@@ -64,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             for (var i = 0; i < A.RowCount; i++)
             {
-                var ar = A.GetRow(i);
+                var ar = A.Row(i);
                 var dot = ar * x;
                 Assert.AreEqual(dot, y[i]);
             }
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             for (var i = 0; i < A.RowCount; i++)
             {
-                var ar = A.GetRow(i);
+                var ar = A.Row(i);
                 var dot = ar * x;
                 Assert.AreEqual(dot, y[i]);
             }
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             y = new DenseVector(new[] { 1.0, 2.0, 3.0 });
             for (var i = 0; i < A.RowCount; i++)
             {
-                var ar = A.GetRow(i);
+                var ar = A.Row(i);
                 var dot = ar * y;
                 Assert.AreEqual(dot, x[i]);
             }
@@ -446,7 +446,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 for (var j = 0; j < C.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(A.GetRow(i) * B.GetColumn(j), C[i, j], 15);
+                    AssertHelpers.AlmostEqual(A.Row(i) * B.Column(j), C[i, j], 15);
                 }
             }
         }
@@ -499,7 +499,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 for (var j = 0; j < C.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(A.GetRow(i) * B.GetColumn(j), C[i, j], 15);
+                    AssertHelpers.AlmostEqual(A.Row(i) * B.Column(j), C[i, j], 15);
                 }
             }
         }
@@ -631,7 +631,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var result = matrix.NormalizeColumns(pValue);
             for (var j = 0; j < result.ColumnCount; j++)
             {
-                var col = result.GetColumn(j);
+                var col = result.Column(j);
                 Assert.AreApproximatelyEqual(1.0, col.NormP(pValue), 10e-12);
             }
         }
@@ -645,7 +645,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var matrix = this.testMatrices["Singular3x3"].NormalizeRows(pValue);
             for (var i = 0; i < matrix.RowCount; i++)
             {
-                var row = matrix.GetRow(i);
+                var row = matrix.Row(i);
                 Assert.AreApproximatelyEqual(1.0, row.NormP(pValue), 10e-12);
             }
         }
