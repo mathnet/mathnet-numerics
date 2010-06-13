@@ -204,8 +204,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "target");
             }
 
-            // TODO this assumes that all entries matter; if "this" is a sparse matrix,
-            // we might be able to optimize the copying a bit.
             for (var i = 0; i < this.RowCount; i++)
             {
                 for (var j = 0; j < this.ColumnCount; j++)
