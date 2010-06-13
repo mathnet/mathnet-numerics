@@ -217,7 +217,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreElementsEqual(vector, array);
         }
 
-        [Test, Ignore]
+        [Test]
         [MultipleAsserts]
         public void CanConvertVectorToColumnMatrix()
         {
@@ -233,7 +233,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        [Test, Ignore]
+        [Test]
         [MultipleAsserts]
         public void CanConvertVectorToRowMatrix()
         {

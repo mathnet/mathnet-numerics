@@ -121,10 +121,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.ForAll(vector, value => value == 5);
         }
 
-        // TODO: Remove [Ignore] when SparseMatrix developed
         [Test]
         [MultipleAsserts]
-        [Ignore]
         public void CanCreateSparseMatrix()
         {
             var vector = new SparseVector(3);
