@@ -152,7 +152,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <returns>The result of the multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If rightSide is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <c>this.ColumnCount != rightSide.Count</c>.</exception>
         public virtual Vector Multiply(Vector rightSide)
         {
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.ColumnCount != rightSide.Count</strong>.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.ColumnCount != <paramref name="rightSide"/>.Count</strong>.</exception>
         public virtual void Multiply(Vector rightSide, Vector result)
         {
             if (rightSide == null)
@@ -222,7 +222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="leftSide">The vector to multiply with.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.RowCount != leftSide.Count</strong>.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
         public virtual Vector LeftMultiply(Vector leftSide)
         {
             var ret = this.CreateVector(this.ColumnCount);
@@ -235,10 +235,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="leftSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If leftSide is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.RowCount != leftSide.Count</strong>.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
         public virtual void LeftMultiply(Vector leftSide, Vector result)
         {
             if (leftSide == null)
@@ -431,7 +431,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Matrix</strong> containing the same values of rightSide. 
+        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>. 
         /// </summary>
         /// <param name="rightSide">The matrix to get the values from.</param>
         /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
@@ -741,10 +741,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="numberOfColumns">Number of columns.</param>
         /// <param name="distribution">Continuous Random Distribution or Source</param>
         /// <returns>
-        /// An numberOfRows-by-numberOfColumns matrix with elements distributed according to the provided distribution.
+        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
         /// </returns>
-        /// <exception cref="ArgumentException">If the parameter numberOfRows is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter numberOfColumns is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
         public virtual Matrix Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
         {
             if (numberOfRows < 1)
@@ -779,10 +779,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="numberOfColumns">Number of columns.</param>
         /// <param name="distribution">Continuous Random Distribution or Source</param>
         /// <returns>
-        /// An numberOfRows-by-numberOfColumns matrix with elements distributed according to the provided distribution.
+        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
         /// </returns>
-        /// <exception cref="ArgumentException">If the parameter numberOfRows is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter numberOfColumns is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
         public virtual Matrix Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
         {
             if (numberOfRows < 1)
