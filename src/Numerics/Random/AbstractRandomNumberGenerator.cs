@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
+// 
 // Copyright (c) 2009-2010 Math.NET
+// 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+// 
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -68,7 +72,7 @@ namespace MathNet.Numerics.Random
         /// safe classes.</remarks>
         protected AbstractRandomNumberGenerator(bool threadSafe)
         {
-            this._sampleMethod = threadSafe ? (SampleMethod)this.ThreadSafeSample : this.DoSample;
+            _sampleMethod = threadSafe ? (SampleMethod)ThreadSafeSample : DoSample;
         }
 
         /// <summary>
@@ -89,7 +93,7 @@ namespace MathNet.Numerics.Random
             var ret = new double[n];
             for (var i = 0; i < ret.Length; i++)
             {
-                ret[i] = this.Sample();
+                ret[i] = Sample();
             }
 
             return ret;
@@ -103,7 +107,7 @@ namespace MathNet.Numerics.Random
         /// </returns>
         public override int Next()
         {
-            return (int)(this.Sample() * int.MaxValue);
+            return (int)(Sample() * int.MaxValue);
         }
 
         /// <summary>
@@ -114,12 +118,12 @@ namespace MathNet.Numerics.Random
         /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="maxValue"/> is negative. </exception>
         public override int Next(int maxValue)
         {
-            if (0 > maxValue)
+            if (maxValue <= 0)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMustBePositive);
             }
 
-            return (int)(this.Sample() % maxValue);
+            return (int)(Sample() * maxValue);
         }
 
         /// <summary>
@@ -138,7 +142,7 @@ namespace MathNet.Numerics.Random
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMinValueGreaterThanMaxValue);
             }
 
-            return (int)(this.Sample() * (maxValue - minValue)) + minValue;
+            return (int)(Sample() * (maxValue - minValue)) + minValue;
         }
 
         /// <summary>
@@ -155,7 +159,7 @@ namespace MathNet.Numerics.Random
 
             for (var i = 0; i < buffer.Length; i++)
             {
-                buffer[i] = (byte)(this.Next() % 256);
+                buffer[i] = (byte)(Next() % 256);
             }
         }
 
@@ -165,7 +169,7 @@ namespace MathNet.Numerics.Random
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
         protected override double Sample()
         {
-            return this._sampleMethod();
+            return _sampleMethod();
         }
 
         /// <summary>
@@ -174,9 +178,9 @@ namespace MathNet.Numerics.Random
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0</returns>
         private double ThreadSafeSample()
         {
-            lock (this._lock)
+            lock (_lock)
             {
-                return this.DoSample();
+                return DoSample();
             }
         }
 
