@@ -37,9 +37,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// Defines the base class for <c>Vector</c> classes.
     /// </summary>
-#if !SILVERLIGHT
     [Serializable]
-#endif
     public abstract class Vector :
 #if SILVERLIGHT
     IFormattable, IEnumerable<double>, IEquatable<Vector>

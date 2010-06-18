@@ -35,9 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-#if !SILVERLIGHT
     [Serializable]
-#endif
     public abstract partial class Matrix :
 #if SILVERLIGHT
    IFormattable, IEquatable<Matrix>

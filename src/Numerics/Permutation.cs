@@ -41,9 +41,7 @@ namespace MathNet.Numerics
     /// <summary>
     /// Class to represent a permutation for a subset of the natural numbers.
     /// </summary>
-#if !SILVERLIGHT
     [Serializable]
-#endif
     public class Permutation
     {
         #region fields
