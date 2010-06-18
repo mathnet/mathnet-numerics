@@ -31,11 +31,6 @@
 namespace MathNet.Numerics
 {
     using System;
-    using System.Collections.Generic;
-    using System.Numerics;
-    using System.Runtime;
-    using System.Runtime.InteropServices;
-    using System.Text;
     using Properties;
 
     /// <summary>
@@ -47,9 +42,9 @@ namespace MathNet.Numerics
         #region fields
 
         /// <summary>
-        /// Entry mIndices[i] represents the location to which i is permuted to.
+        /// Entry _indices[i] represents the location to which i is permuted to.
         /// </summary>
-        private static int[] mIndices;
+        private readonly int[] _indices;
 
         #endregion fields
 
@@ -67,7 +62,7 @@ namespace MathNet.Numerics
                 throw new ArgumentException(Resources.PermutationAsIntArrayInvalid, "indices");
             }
 
-            mIndices = (int[]) indices.Clone();
+            _indices = (int[]) indices.Clone();
         }
 
         #endregion
@@ -77,7 +72,7 @@ namespace MathNet.Numerics
         /// </summary>
         public int Dimension
         {
-            get { return mIndices.Length; }
+            get { return _indices.Length; }
         }
 
         /// <summary>
@@ -89,7 +84,7 @@ namespace MathNet.Numerics
         {
             get
             {
-                return mIndices[idx];
+                return _indices[idx];
             }
         }
 
@@ -100,9 +95,9 @@ namespace MathNet.Numerics
         public Permutation Inverse()
         {
             var invIdx = new int[Dimension];
-            for (int i = 0; i < Dimension; i++)
+            for (int i = 0; i < invIdx.Length; i++)
             {
-                invIdx[this[i]] = i;
+                invIdx[_indices[i]] = i;
             }
 
             return new Permutation(invIdx);
@@ -147,9 +142,9 @@ namespace MathNet.Numerics
         /// <returns>A sequence of inversions.</returns>
         public int[] ToInversions()
         {
-            var idx = (int[])mIndices.Clone();
+            var idx = (int[])_indices.Clone();
 
-            for (int i = 0; i < Dimension; i++)
+            for (int i = 0; i < idx.Length; i++)
             {
                 if (idx[i] != i)
                 {
