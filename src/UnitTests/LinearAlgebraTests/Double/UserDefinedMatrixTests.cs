@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         public UserDefinedMatrix(double[,] data) : base(data.GetLength(0), data.GetLength(1))
         {
-            _data = data;
+            _data = (double[,])data.Clone();
         }
 
         public override double At(int row, int column)

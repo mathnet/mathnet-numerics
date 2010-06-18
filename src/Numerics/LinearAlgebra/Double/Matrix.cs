@@ -1498,7 +1498,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             // Get a sequence of inversions from the permutation.
             var inv = p.ToInversions();
 
-            for (var i = 0; i < p.Dimension; i++)
+            for (var i = 0; i < inv.Length; i++)
             {
                 if (inv[i] != i)
                 {
@@ -1527,7 +1527,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             // Get a sequence of inversions from the permutation.
             var inv = p.ToInversions();
 
-            for (var i = 0; i < p.Dimension; i++)
+            for (var i = 0; i < inv.Length; i++)
             {
                 if (inv[i] != i)
                 {
