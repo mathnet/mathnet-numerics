@@ -71,9 +71,7 @@ namespace MathNet.Numerics
     /// Wikipedia</a>
     /// </para>
     /// </remarks>
-#if !SILVERLIGHT
     [Serializable]
-#endif
     [StructLayout(LayoutKind.Sequential)]
     public struct Complex32 : IFormattable, IEquatable<Complex32>, IPrecisionSupport<Complex32>
     {

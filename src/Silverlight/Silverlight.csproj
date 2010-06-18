@@ -360,6 +360,7 @@
       <DependentUpon>Version.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializableAttribute.cs" />
     <Compile Include="SilverlightUtilities.cs" />
     <Compile Include="Threading\AggregateException.cs" />
     <Compile Include="Threading\Parallel.cs" />

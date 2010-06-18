@@ -39,9 +39,7 @@ namespace MathNet.Numerics.Statistics
     /// A <see cref="Histogram"/> consists of a series of <see cref="Bucket"/>s, 
     /// each representing a region limited by a lower bound (exclusive) and an upper bound (inclusive).
     /// </summary>
-#if !SILVERLIGHT
     [Serializable]
-#endif
     public class Bucket :
 #if SILVERLIGHT
    IComparable<Bucket>
@@ -225,9 +223,7 @@ namespace MathNet.Numerics.Statistics
     /// <summary>
     /// A class which computes histograms of data.
     /// </summary>
-#if !SILVERLIGHT
     [Serializable]
-#endif
     public class Histogram
     {
         /// <summary>
