@@ -46,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public UserDefinedVector(double[] data)
             : base(data.Length)
         {
-            _data = data;
+            _data = (double[])data.Clone();
         }
 
         public override double this[int index]
