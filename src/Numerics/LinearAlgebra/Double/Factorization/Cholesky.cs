@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
-    using Properties;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization.</para>
@@ -42,13 +41,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public abstract class Cholesky
+    public abstract class Cholesky : ISolver
     {
-        /// <summary>
-        /// Stores the Cholesky factor.
-        /// </summary>
-        protected Matrix mFactor;
-
         /// <summary>
         /// Internal method which routes the call to perform the Cholesky factorization to the appropriate class.
         /// </summary>
@@ -66,41 +60,44 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         /// <summary>
-        /// Returns the lower triangular form of the Cholesky matrix.
+        /// Gets or sets the lower triangular form of the Cholesky matrix.
         /// </summary>
         public virtual Matrix Factor
         {
-            get { return mFactor; }
+            get;
+            protected set;
         }
 
         /// <summary>
-        /// The determinant of the matrix for which the Cholesky matrix was computed.
+        /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
         public virtual double Determinant
         {
             get
             {
-                double det = 1.0;
-                for (int j = 0; j < mFactor.RowCount; j++)
+                var det = 1.0;
+                for (var j = 0; j < Factor.RowCount; j++)
                 {
-                    det *= (mFactor[j, j] * mFactor[j, j]);
+                    det *= Factor[j, j] * Factor[j, j];
                 }
+
                 return det;
             }
         }
 
         /// <summary>
-        /// The log determinant of the matrix for which the Cholesky matrix was computed.
+        /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
         public virtual double DeterminantLn
         {
             get
             {
-                double det = 0.0;
-                for (int j = 0; j < mFactor.RowCount; j++)
+                var det = 0.0;
+                for (var j = 0; j < Factor.RowCount; j++)
                 {
-                    det += (2.0 * Math.Log(mFactor[j, j]));
+                    det += 2.0 * Math.Log(Factor[j, j]);
                 }
+
                 return det;
             }
         }
@@ -118,9 +115,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentNullException("input");
             }
 
-            var X = input.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(input, X);
-            return X;
+            var x = input.CreateMatrix(input.RowCount, input.ColumnCount);
+            Solve(input, x);
+            return x;
         }
 
         /// <summary>
