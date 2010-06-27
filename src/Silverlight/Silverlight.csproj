@@ -230,11 +230,20 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseLU.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseLU.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseQR.cs">
+      <Link>LinearAlgebra\Double\Factorization\DenseQR.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\ExtensionMethods.cs">
       <Link>LinearAlgebra\Double\Factorization\ExtensionMethods.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\LU.cs">
       <Link>LinearAlgebra\Double\Factorization\LU.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\QR.cs">
+      <Link>LinearAlgebra\Double\Factorization\QR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\ISolver.cs">
+      <Link>LinearAlgebra\Double\ISolver.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.Arithmetic.cs">
       <Link>LinearAlgebra\Double\Matrix.Arithmetic.cs</Link>

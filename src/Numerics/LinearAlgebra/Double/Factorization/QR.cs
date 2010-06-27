@@ -1,4 +1,4 @@
-﻿// <copyright file="LU.cs" company="Math.NET">
+﻿// <copyright file="QR.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -27,118 +27,123 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
+    using Properties;
 
     /// <summary>
-    /// <para>A class which encapsulates the functionality of an LU factorization.</para>
-    /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and
-    /// upper triangular matrix U so that A = L*U.</para>
-    /// <para>In the Math.Net implementation we also store a set of pivot elements for increased 
-    /// numerical stability. The pivot elements encode a permutation matrix P such that P*A = L*U.</para>
+    /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
+    /// <para>Any real square matrix A (m x n) may be decomposed as A = QR where Q is an orthogonal matrix (m x m)
+    /// (its columns are orthogonal unit vectors meaning QTQ = I) and R (m x n) is an upper triangular matrix 
+    /// (also called right triangular matrix).</para>
     /// </summary>
     /// <remarks>
-    /// The computation of the LU factorization is done at construction time.
+    /// The computation of the QR decomposition is done at construction time by Householder transformation.
     /// </remarks>
-    public abstract class LU : ISolver
+    public abstract class QR : ISolver
     {
         /// <summary>
-        /// Gets or sets both the L and U factors in the same matrix.
+        /// Gets or sets orthogonal Q matrix
         /// </summary>
-        protected Matrix Factors
+        protected virtual Matrix MatrixQ
         {
             get;
             set;
         }
 
         /// <summary>
-        /// Gets or sets the pivot indices of the LU factorization.
+        /// Gets or sets upper triangular factor R
         /// </summary>
-        protected int[] Pivots
+        protected virtual Matrix MatrixR
         {
             get;
             set;
         }
 
         /// <summary>
-        /// Internal method which routes the call to perform the LU factorization to the appropriate class.
+        /// Internal method which routes the call to perform the QR factorization to the appropriate class.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>An LU factorization object.</returns>
-        internal static LU Create(Matrix matrix)
+        /// <returns>A QR factorization object.</returns>
+        internal static QR Create(Matrix matrix)
         {
             var dense = matrix as DenseMatrix;
             if (dense != null)
             {
-                return new DenseLU(dense);
+                return new DenseQR(dense);
             }
 
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Gets the lower triangular factor.
+        /// Gets orthogonal Q matrix
         /// </summary>
-        public virtual Matrix L
+        public virtual Matrix Q
         {
             get
             {
-                var result = Factors.LowerTriangle();
-                for (var i = 0; i < result.RowCount; i++)
-                {
-                    result.At(i, i, 1);
-                }
-
-                return result;
+                return MatrixQ;
             }
         }
 
         /// <summary>
-        /// Gets the upper triangular factor.
+        /// Gets the upper triangular factor R.
         /// </summary>
-        public virtual Matrix U
+        public virtual Matrix R
         {
             get
             {
-                return Factors.UpperTriangle();
+                return MatrixR.UpperTriangle();
             }
         }
 
         /// <summary>
-        /// Gets the permutation applied to LU factorization.
-        /// </summary>
-        public virtual Permutation P
-        {
-            get
-            {
-                return Permutation.FromInversions(Pivots);
-            }
-        }
-
-        /// <summary>
-        /// Gets the determinant of the matrix for which the LU factorization was computed.
+        /// Gets the determinant of the matrix for which the QR matrix was computed.
         /// </summary>
         public virtual double Determinant
         {
             get
             {
-                var det = 1.0;
-                for (var j = 0; j < Factors.RowCount; j++)
+                if (MatrixR.RowCount != MatrixR.ColumnCount)
                 {
-                    if (Pivots[j] != j)
+                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                }
+
+                var det = 1.0;
+                for (var i = 0; i < MatrixR.ColumnCount; i++)
+                {
+                    det *= MatrixR.At(i, i);
+                    if (Math.Abs(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
                     {
-                        det = -det * Factors.At(j, j);
-                    }
-                    else
-                    {
-                        det *= Factors.At(j, j);
+                        return 0;
                     }
                 }
 
-                return det;
+                return Math.Abs(det);
             }
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A LU factorized.
+        /// Gets a value indicating whether the matrix is full rank or not.
+        /// </summary>
+        /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
+        public virtual bool IsFullRank
+        {
+            get
+            {
+                for (var i = 0; i < MatrixR.ColumnCount; i++)
+                {
+                    if (Math.Abs(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix"/>, <b>X</b>.</returns>
@@ -150,20 +155,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentNullException("input");
             }
 
-            var x = input.CreateMatrix(input.RowCount, input.ColumnCount);
-            Solve(input, x);
-            return x;
+            var matrixX = input.CreateMatrix(MatrixR.ColumnCount, input.ColumnCount);
+            Solve(input, matrixX);
+            return matrixX;
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A LU factorized.
+        /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
         public abstract void Solve(Matrix input, Matrix result);
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A LU factorized.
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <returns>The left hand side <see cref="Vector"/>, <b>x</b>.</returns>
@@ -175,13 +180,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentNullException("input");
             }
 
-            var x = input.CreateVector(input.Count);
+            var x = input.CreateVector(MatrixR.ColumnCount);
             Solve(input, x);
             return x;
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A LU factorized.
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>

@@ -1,4 +1,4 @@
-﻿// <copyright file="ExtensionMethods.cs" company="Math.NET">
+// <copyright file="ISolver.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -14,10 +14,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,41 +26,39 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
+namespace MathNet.Numerics.LinearAlgebra.Double
 {
     /// <summary>
-    /// Extension methods which return factorizations for the various matrix classes.
+    /// Classes that solves a system of linear equations, <c>AX = B</c>.
     /// </summary>
-    public static class ExtensionMethods
+    public interface ISolver
     {
         /// <summary>
-        /// Computes the Cholesky decomposition for a matrix.
+        /// Solves a system of linear equations, <c>AX = B</c>.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>The Cholesky decomposition object.</returns>
-        public static Cholesky Cholesky(this Matrix matrix)
-        {
-            return Factorization.Cholesky.Create(matrix);
-        }
+        /// <param name="input">The right hand side <see cref="Matrix"/>, <c>B</c>.</param>
+        /// <returns>The left hand side <see cref="Matrix"/>, <c>X</c>.</returns>
+        Matrix Solve(Matrix input);
 
         /// <summary>
-        /// Computes the LU decomposition for a matrix.
+        /// Solves a system of linear equations, <c>AX = B</c>.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>The LU decomposition object.</returns>
-        public static LU LU(this Matrix matrix)
-        {
-            return Factorization.LU.Create(matrix);
-        }
+        /// <param name="input">The right hand side <see cref="Matrix"/>, <c>B</c>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix"/>, <c>X</c>.</param>
+        void Solve(Matrix input, Matrix result);
 
         /// <summary>
-        /// Computes the QR decomposition for a matrix.
+        /// Solves a system of linear equations, <c>Ax = b</c>
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <returns>The QR decomposition object.</returns>
-        public static QR QR(this Matrix matrix)
-        {
-            return Factorization.QR.Create(matrix);
-        }
+        /// <param name="input">The right hand side vector, <c>b</c>.</param>
+        /// <returns>The left hand side <see cref="Vector"/>, <c>x</c>.</returns>
+        Vector Solve(Vector input);
+
+        /// <summary>
+        /// Solves a system of linear equations, <c>Ax = b</c>.
+        /// </summary>
+        /// <param name="input">The right hand side vector, <c>b</c>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix"/>, <c>x</c>.</param>
+        void Solve(Vector input, Vector result);
     }
 }

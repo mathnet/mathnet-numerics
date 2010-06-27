@@ -48,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// LU factorization when the constructor is called and cache it's factorization.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         public DenseLU(DenseMatrix matrix)
         {
@@ -63,19 +63,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Create an array for the pivot indices.
-            mPivots = new int[matrix.RowCount];
+            Pivots = new int[matrix.RowCount];
 
             // Create a new matrix for the LU factors, then perform factorization (while overwriting).
             var factors = (DenseMatrix)matrix.Clone();
-            Control.LinearAlgebraProvider.LUFactor(factors.Data, factors.RowCount, mPivots);
-            mFactors = factors;
+            Control.LinearAlgebraProvider.LUFactor(factors.Data, factors.RowCount, Pivots);
+            Factors = factors;
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A LU factorized.
+        /// Solves a system of linear equations, <c>AX = B</c>, with A LU factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
+        /// <param name="input">The right hand side <see cref="Matrix"/>, <c>B</c>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix"/>, <c>X</c>.</param>
         public override void Solve(Matrix input, Matrix result)
         {
             // Check for proper arguments.
@@ -100,7 +100,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            if (input.RowCount != mFactors.RowCount)
+            if (input.RowCount != Factors.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
@@ -121,16 +121,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
 
             // LU solve by overwriting result.
-            var dfactors = mFactors as DenseMatrix;
+            var dfactors = (DenseMatrix)Factors;
             throw new NotImplementedException();
             //Control.LinearAlgebraProvider.LUSolveFactored(dfactors.Data, dfactors.RowCount, dresult.Data, dresult.RowCount, dresult.ColumnCount);
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A LU factorized.
+        /// Solves a system of linear equations, <c>Ax = b</c>, with A LU factorized.
         /// </summary>
-        /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
+        /// <param name="input">The right hand side vector, <c>b</c>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix"/>, <c>x</c>.</param>
         public override void Solve(Vector input, Vector result)
         {
             // Check for proper arguments.
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (input.Count != mFactors.RowCount)
+            if (input.Count != Factors.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
 
             // LU solve by overwriting result.
-            var dfactors = mFactors as DenseMatrix;
+            var dfactors = Factors as DenseMatrix;
             throw new NotImplementedException();
             //Control.LinearAlgebraProvider.LUSolveFactored(dfactors.Data, dfactors.RowCount, dresult.Data, dresult.Count, 1);
         }

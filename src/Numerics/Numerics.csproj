@@ -101,6 +101,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Control.cs" />
     <Compile Include="Complex32.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\DenseQR.cs" />
+    <Compile Include="LinearAlgebra\Double\ISolver.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Double\SparseMatrix.cs" />
     <Compile Include="Permutation.cs" />
     <Compile Include="Distributions\Continuous\Beta.cs" />

@@ -1,4 +1,4 @@
-﻿// <copyright file="DenseCholesky.cs" company="Math.NET">
+﻿// <copyright file="DenseQR.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -32,46 +32,44 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Properties;
+    using Threading;
 
     /// <summary>
-    /// <para>A class which encapsulates the functionality of a Cholesky factorization for dense matrices.</para>
-    /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
-    /// is an lower triangular matrix L so that A = L*L'.</para>
+    /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
+    /// <para>Any real square matrix A may be decomposed as A = QR where Q is an orthogonal matrix 
+    /// (its columns are orthogonal unit vectors meaning QTQ = I) and R is an upper triangular matrix 
+    /// (also called right triangular matrix).</para>
     /// </summary>
     /// <remarks>
-    /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
-    /// or positive definite, the constructor will throw an exception.
+    /// The computation of the QR decomposition is done at construction time by Householder transformation.
     /// </remarks>
-    public class DenseCholesky : Cholesky
+    public class DenseQR : QR
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseCholesky"/> class. This object will compute the
-        /// Cholesky factorization when the constructor is called and cache it's factorization.
+        /// Initializes a new instance of the <see cref="DenseQR"/> class. This object will compute the
+        /// QR factorization when the constructor is called and cache it's factorization.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
-        public DenseCholesky(DenseMatrix matrix)
+        public DenseQR(DenseMatrix matrix)
         {
             if (matrix == null)
             {
                 throw new ArgumentNullException("matrix");
             }
 
-            if (matrix.RowCount != matrix.ColumnCount)
+            if (matrix.RowCount < matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            var factor = (DenseMatrix)matrix.Clone();
-            Control.LinearAlgebraProvider.CholeskyFactor(factor.Data, factor.RowCount);
-            Factor = factor;
+            MatrixR = matrix.Clone();
+            MatrixQ = new DenseMatrix(matrix.RowCount);
+            Control.LinearAlgebraProvider.QRFactor(((DenseMatrix)MatrixR).Data, ((DenseMatrix)MatrixQ).Data);
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
+        /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
@@ -88,50 +86,57 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentNullException("result");
             }
 
-            // Check for proper dimensions.
-            if (result.RowCount != input.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            }
-
-            if (result.ColumnCount != input.ColumnCount)
+            // The solution X should have the same number of columns as B
+            if (input.ColumnCount != result.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            if (input.RowCount != Factor.RowCount)
+            // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
+            if (MatrixR.RowCount != input.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+            }
+
+            // The solution X row dimension is equal to the column dimension of A
+            if (MatrixR.ColumnCount != result.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
             var dinput = input as DenseMatrix;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
+                throw new NotImplementedException("Can only do QR factorization for dense matrices at the moment.");
             }
 
             var dresult = result as DenseMatrix;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
+                throw new NotImplementedException("Can only do QR factorization for dense matrices at the moment.");
             }
 
-            // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
-
-            // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix)Factor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.RowCount, dresult.ColumnCount);
+            var solution = new double[dinput.Data.Length];
+            Control.LinearAlgebraProvider.QRSolveFactored(input.ColumnCount, ((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, dinput.Data, solution);
+            CommonParallel.For(
+                0,
+                dresult.RowCount,
+                row =>
+                {
+                    for (var col = 0; col < dresult.ColumnCount; col++)
+                    {
+                        dresult[row, col] = solution[row + (col * dinput.RowCount)];
+                    }
+                });
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
         public override void Solve(Vector input, Vector result)
         {
-            // Check for proper arguments.
             if (input == null)
             {
                 throw new ArgumentNullException("input");
@@ -142,13 +147,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentNullException("result");
             }
 
-            // Check for proper dimensions.
-            if (input.Count != result.Count)
+            // Ax=b where A is an m x n matrix
+            // Check that b is a column vector with m entries
+            if (MatrixR.RowCount != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (input.Count != Factor.RowCount)
+            // Check that x is a column vector with n entries
+            if (MatrixR.ColumnCount != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
@@ -156,21 +163,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var dinput = input as DenseVector;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
+                throw new NotImplementedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
             var dresult = result as DenseVector;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
+                throw new NotImplementedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
-            // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
-
-            // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix)Factor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.Count, 1);
+            var solution = new double[dinput.Data.Length];
+            Control.LinearAlgebraProvider.QRSolveFactored(1, ((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, dinput.Data, solution);
+            CommonParallel.For(
+                            0,
+                            dresult.Count,
+                            index => { dresult[index] = solution[index]; });
         }
     }
 }
