@@ -1,4 +1,4 @@
-﻿// <copyright file="ILinearAlgebraProvider.cs" company="Math.NET">
+﻿// <copyright file="ILinearAlgebraProviderOfT.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -14,10 +14,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,6 +29,8 @@
 // INITIAL DRAFT MISSING EXCEPTION SPECIFICATIONS
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
+    using System.Numerics;
+
     /// <summary>
     /// How to transpose a matrix.
     /// </summary>
@@ -393,12 +393,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
         /// <param name="s">The singular values of A in ascending value. </param>
-        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
         /// singular vectors.</param>
-        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        void SinguarValueDecomposition(bool computeVectors, T[] a, T[] s, T[] u, T[] vt);
+        void SingularValueDecomposition(bool computeVectors, T[] a, T[] s, T[] u, T[] vt);
 
         /// <summary>
         /// Computes the singular value decomposition of A.
@@ -406,9 +406,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
         /// <param name="s">The singular values of A in ascending value. </param>
-        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
         /// singular vectors.</param>
-        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
@@ -447,9 +447,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SinguarValueDecomposition(bool,T[],T[],T[],T[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SinguarValueDecomposition(bool,T[],T[],T[],T[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SinguarValueDecomposition(bool,T[],T[],T[],T[])"/>.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,T[],T[],T[],T[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,T[],T[],T[],T[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,T[],T[],T[],T[])"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         void SvdSolveFactored(int columnsOfB, T[] s, T[] u, T[] vt, T[] b, T[] x);
