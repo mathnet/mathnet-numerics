@@ -51,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseVector(int size)
             : base(size)
         {
-            this.Data = new double[size];
+            Data = new double[size];
         }
 
         /// <summary>
@@ -70,9 +70,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseVector(int size, double value)
             : this(size)
         {
-            for (var index = 0; index < this.Data.Length; index++)
+            for (var index = 0; index < Data.Length; index++)
             {
-                this.Data[index] = value;
+                Data[index] = value;
             }
         }
 
@@ -91,12 +91,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 CommonParallel.For(
                     0, 
-                    this.Data.Length, 
+                    Data.Length, 
                     index => this[index] = other[index]);
             }
             else
             {
-                Buffer.BlockCopy(vector.Data, 0, this.Data, 0, this.Data.Length * Constants.SizeOfDouble);
+                Buffer.BlockCopy(vector.Data, 0, Data, 0, Data.Length * Constants.SizeOfDouble);
             }
         }
 
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public DenseVector(DenseVector other)
             : this(other.Count)
         {
-            Buffer.BlockCopy(other.Data, 0, this.Data, 0, this.Data.Length * Constants.SizeOfDouble);
+            Buffer.BlockCopy(other.Data, 0, Data, 0, Data.Length * Constants.SizeOfDouble);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// changes to the vector will also change the array.</remarks>
         public DenseVector(double[] array) : base(array.Length)
         {
-            this.Data = array;
+            Data = array;
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="array">The array to bind to the <c>DenseVector</c> object.</param>
         /// <returns>
-        /// A DenseVector whose values are bound to the given array.
+        /// A <c>DenseVector</c> whose values are bound to the given array.
         /// </returns>
         public static implicit operator DenseVector(double[] array)
         {
@@ -176,10 +176,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>This vector as a column matrix.</returns>
         public override Matrix ToColumnMatrix()
         {
-            var matrix = new DenseMatrix(this.Count, 1);
-            for (var i = 0; i < this.Data.Length; i++)
+            var matrix = new DenseMatrix(Count, 1);
+            for (var i = 0; i < Data.Length; i++)
             {
-                matrix[i, 0] = this.Data[i];
+                matrix[i, 0] = Data[i];
             }
 
             return matrix;
@@ -191,10 +191,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>This vector as a row matrix.</returns>
         public override Matrix ToRowMatrix()
         {
-            var matrix = new DenseMatrix(1, this.Count);
-            for (var i = 0; i < this.Data.Length; i++)
+            var matrix = new DenseMatrix(1, Count);
+            for (var i = 0; i < Data.Length; i++)
             {
-                matrix[0, i] = this.Data[i];
+                matrix[0, i] = Data[i];
             }
 
             return matrix;
@@ -209,12 +209,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             get
             {
-                return this.Data[index];
+                return Data[index];
             }
 
             set
             {
-                this.Data[index] = value;
+                Data[index] = value;
             }
         }
 
@@ -270,7 +270,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("target");
             }
 
-            if (this.Count != target.Count)
+            if (Count != target.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
@@ -285,12 +285,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 CommonParallel.For(
                     0, 
-                    this.Data.Length, 
-                    index => target[index] = this.Data[index]);
+                    Data.Length, 
+                    index => target[index] = Data[index]);
             }
             else
             {
-                Buffer.BlockCopy(this.Data, 0, otherVector.Data, 0, this.Data.Length * Constants.SizeOfDouble);
+                Buffer.BlockCopy(Data, 0, otherVector.Data, 0, Data.Length * Constants.SizeOfDouble);
             }
         }
 
@@ -307,8 +307,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             CommonParallel.For(
                 0, 
-                this.Data.Length, 
-                index => this.Data[index] += scalar);
+                Data.Length, 
+                index => Data[index] += scalar);
         }
 
         /// <summary>
@@ -325,12 +325,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            this.CopyTo(result);
+            CopyTo(result);
             result.Add(scalar);
         }
 
@@ -347,7 +347,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -360,7 +360,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(this.Data, 1.0, denseVector.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, 1.0, denseVector.Data);
             }
         }
 
@@ -380,12 +380,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -398,7 +398,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.Add(other);
             }
         }
@@ -463,8 +463,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             CommonParallel.For(
                 0, 
-                this.Data.Length, 
-                index => this.Data[index] -= scalar);
+                Data.Length, 
+                index => Data[index] -= scalar);
         }
 
         /// <summary>
@@ -481,12 +481,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            this.CopyTo(result);
+            CopyTo(result);
             result.Subtract(scalar);
         }
 
@@ -503,7 +503,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -516,7 +516,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(this.Data, -1.0, denseVector.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0, denseVector.Data);
             }
         }
 
@@ -536,12 +536,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -554,7 +554,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.Subtract(other);
             }
         }
@@ -612,11 +612,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
         public override Vector Negate()
         {
-            var result = new DenseVector(this.Count);
+            var result = new DenseVector(Count);
             CommonParallel.For(
                 0, 
-                this.Data.Length, 
-                index => result[index] = -this.Data[index]);
+                Data.Length, 
+                index => result[index] = -Data[index]);
 
             return result;
         }
@@ -632,7 +632,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(scalar, this.Data);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
         }
 
         /// <summary>
@@ -649,7 +649,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -661,7 +661,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return base.DotProduct(other);
             }
 
-            return Control.LinearAlgebraProvider.DotProduct(this.Data, denseVector.Data);
+            return Control.LinearAlgebraProvider.DotProduct(Data, denseVector.Data);
         }
 
         /// <summary>
@@ -756,10 +756,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override int AbsoluteMinimumIndex()
         {
             var index = 0;
-            var min = Math.Abs(this.Data[index]);
-            for (var i = 1; i < this.Count; i++)
+            var min = Math.Abs(Data[index]);
+            for (var i = 1; i < Count; i++)
             {
-                var test = Math.Abs(this.Data[i]);
+                var test = Math.Abs(Data[i]);
                 if (test < min)
                 {
                     index = i;
@@ -776,7 +776,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The value of the absolute minimum element.</returns>
         public override double AbsoluteMinimum()
         {
-            return Math.Abs(this.Data[this.AbsoluteMinimumIndex()]);
+            return Math.Abs(Data[AbsoluteMinimumIndex()]);
         }
 
         /// <summary>
@@ -785,7 +785,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The value of the absolute maximum element.</returns>
         public override double AbsoluteMaximum()
         {
-            return Math.Abs(this.Data[this.AbsoluteMaximumIndex()]);
+            return Math.Abs(Data[AbsoluteMaximumIndex()]);
         }
 
         /// <summary>
@@ -795,10 +795,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override int AbsoluteMaximumIndex()
         {
             var index = 0;
-            var max = Math.Abs(this.Data[index]);
-            for (var i = 1; i < this.Count; i++)
+            var max = Math.Abs(Data[index]);
+            for (var i = 1; i < Count; i++)
             {
-                var test = Math.Abs(this.Data[i]);
+                var test = Math.Abs(Data[i]);
                 if (test > max)
                 {
                     index = i;
@@ -822,7 +822,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         public override Vector SubVector(int index, int length)
         {
-            if (index < 0 || index >= this.Count)
+            if (index < 0 || index >= Count)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
@@ -832,7 +832,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException("length");
             }
 
-            if (index + length > this.Count)
+            if (index + length > Count)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
@@ -842,7 +842,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 index, 
                 index + length, 
-                i => result.Data[i - index] = this.Data[i]);
+                i => result.Data[i - index] = Data[i]);
             return result;
         }
 
@@ -859,7 +859,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("values");
             }
 
-            if (values.Length != this.Count)
+            if (values.Length != Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "values");
             }
@@ -867,7 +867,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0, 
                 values.Length, 
-                i => this.Data[i] = values[i]);
+                i => Data[i] = values[i]);
         }
 
         /// <summary>
@@ -877,13 +877,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override int MaximumIndex()
         {
             var index = 0;
-            var max = this.Data[0];
-            for (var i = 1; i < this.Count; i++)
+            var max = Data[0];
+            for (var i = 1; i < Count; i++)
             {
-                if (max < this.Data[i])
+                if (max < Data[i])
                 {
                     index = i;
-                    max = this.Data[i];
+                    max = Data[i];
                 }
             }
 
@@ -897,13 +897,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override int MinimumIndex()
         {
             var index = 0;
-            var min = this.Data[0];
-            for (var i = 1; i < this.Count; i++)
+            var min = Data[0];
+            for (var i = 1; i < Count; i++)
             {
-                if (min > this.Data[i])
+                if (min > Data[i])
                 {
                     index = i;
-                    min = this.Data[i];
+                    min = Data[i];
                 }
             }
 
@@ -917,9 +917,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double Sum()
         {
             double result = 0;
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
-                result += this.Data[i];
+                result += Data[i];
             }
 
             return result;
@@ -932,9 +932,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double SumMagnitudes()
         {
             double result = 0;
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
-                result += Math.Abs(this.Data[i]);
+                result += Math.Abs(Data[i]);
             }
 
             return result;
@@ -953,7 +953,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -968,7 +968,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 CommonParallel.For(
                     0, 
-                    this.Count, 
+                    Count, 
                     index => this[index] *= other[index]);
             }
         }
@@ -994,12 +994,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -1007,12 +1007,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                this.PointwiseMultiply(other, tmp);
+                PointwiseMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.PointwiseMultiply(other);
             }
         }
@@ -1030,7 +1030,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -1045,7 +1045,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 CommonParallel.For(
                     0, 
-                    this.Count, 
+                    Count, 
                     index => this[index] /= other[index]);
             }
         }
@@ -1071,12 +1071,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -1084,12 +1084,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                this.PointwiseDivide(other, tmp);
+                PointwiseDivide(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.PointwiseDivide(other);
             }
         }
@@ -1116,11 +1116,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var matrix = new DenseMatrix(u.Count, v.Count);
             CommonParallel.For(
-                0,
-                u.Count,
+                0, 
+                u.Count, 
                 i =>
                 {
-                    for (int j = 0; j < v.Count; j++)
+                    for (var j = 0; j < v.Count; j++)
                     {
                         matrix.At(i, j, u.Data[i] * v.Data[j]);
                     }
@@ -1145,7 +1145,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
 
-            var v = (DenseVector)this.CreateVector(length);
+            var v = (DenseVector)CreateVector(length);
             for (var index = 0; index < v.Data.Length; index++)
             {
                 v.Data[index] = randomDistribution.Sample();
@@ -1171,7 +1171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
 
-            var v = (DenseVector)this.CreateVector(length);
+            var v = (DenseVector)CreateVector(length);
             for (var index = 0; index < v.Data.Length; index++)
             {
                 v.Data[index] = randomDistribution.Sample();
@@ -1203,9 +1203,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var sum = 0.0;
 
-            for (var i = 0; i < this.Data.Length; i++)
+            for (var i = 0; i < Data.Length; i++)
             {
-                sum = SpecialFunctions.Hypotenuse(sum, this.Data[i]);
+                sum = SpecialFunctions.Hypotenuse(sum, Data[i]);
             }
 
             return sum;
@@ -1219,8 +1219,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             return CommonParallel.Aggregate(
                 0, 
-                this.Count, 
-                index => Math.Abs(this.Data[index]));
+                Count, 
+                index => Math.Abs(Data[index]));
         }
 
         /// <summary>
@@ -1237,18 +1237,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (1 == p)
             {
-                return this.Norm1();
+                return Norm1();
             }
 
             if (2 == p)
             {
-                return this.Norm();
+                return Norm();
             }
 
             var sum = CommonParallel.Aggregate(
                 0, 
-                this.Count, 
-                index => Math.Pow(Math.Abs(this.Data[index]), p));
+                Count, 
+                index => Math.Pow(Math.Abs(Data[index]), p));
 
             return Math.Pow(sum, 1.0 / p);
         }
@@ -1261,8 +1261,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             return CommonParallel.Select(
                 0, 
-                this.Count, 
-                (index, localData) => localData = Math.Max(localData, Math.Abs(this.Data[index])), 
+                Count, 
+                (index, localData) => localData = Math.Max(localData, Math.Abs(Data[index])), 
                 Math.Max);
         }
 
@@ -1426,5 +1426,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
+
+        /// <summary>
+        /// Resets all values to zero.
+        /// </summary>
+        public override void Clear()
+        {
+            Array.Clear(Data, 0, Data.Length);
+        }
     }
 }

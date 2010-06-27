@@ -84,7 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         public SparseMatrix(int rows, int columns) : base(rows, columns)
         {
-            this._rowIndex = new int[rows];
+            _rowIndex = new int[rows];
         }
         
         /// <summary>
@@ -116,10 +116,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             NonZerosCount = rows * columns;
-            this._nonZeroValues = new double[NonZerosCount];
-            this._columnIndices = new int[NonZerosCount];
+            _nonZeroValues = new double[NonZerosCount];
+            _columnIndices = new int[NonZerosCount];
 
-            for (int i = 0, j = 0; i < this._nonZeroValues.Length; i++, j++)
+            for (int i = 0, j = 0; i < _nonZeroValues.Length; i++, j++)
             {
                 // Reset column position to "0"
                 if (j == columns)
@@ -127,14 +127,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     j = 0;
                 }
 
-                this._nonZeroValues[i] = value;
-                this._columnIndices[i] = j;
+                _nonZeroValues[i] = value;
+                _columnIndices[i] = j;
             }
             
             // Set proper row pointers
-            for (var i = 0; i < this._rowIndex.Length; i++)
+            for (var i = 0; i < _rowIndex.Length; i++)
             {
-                this._rowIndex[i] = ((i + 1) * columns) - columns;
+                _rowIndex[i] = ((i + 1) * columns) - columns;
             }
         }
 
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        /// <param name="array">The one dimensional array to create this matrix from. This array should store the matrix in column-major order. <seealso cref="http://en.wikipedia.org/wiki/Row-major_order"/></param>
+        /// <param name="array">The one dimensional array to create this matrix from. This array should store the matrix in column-major order. <seealso cref="http://en.wikipedia.org/wiki/Column-major_order"/></param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="array"/> length is less than <paramref name="rows"/> * <paramref name="columns"/>.
         /// </exception>
         public SparseMatrix(int rows, int columns, double[] array) : this(rows, columns)
@@ -157,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j < columns; j++)
                 {
-                    this.SetValueAt(i, j, array[i + (j * rows)]);
+                    SetValueAt(i, j, array[i + (j * rows)]);
                 }
             }
         }
@@ -175,7 +175,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j < columns; j++)
                 {
-                    this.SetValueAt(i, j, array[i, j]);
+                    SetValueAt(i, j, array[i, j]);
                 }
             }
         }
@@ -215,20 +215,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The lower triangle of this matrix.</returns>        
         public override Matrix LowerTriangle()
         {
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
-            for (var row = 0; row < result.RowCount; row++)
-            {
-                var startIndex = this._rowIndex[row];
-                var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    if (row >= this._columnIndices[j])
-                    {
-                        result.At(row, this._columnIndices[j], this._nonZeroValues[j]);
-                    }
-                }
-            }
-
+            var result = CreateMatrix(RowCount, ColumnCount);
+            LowerTriangleImpl(result);
             return result;
         }
 
@@ -245,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
@@ -253,22 +241,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result))
             {
                 var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
-                this.LowerTriangle(tmp);
+                LowerTriangle(tmp);
                 tmp.CopyTo(result);
             }
             else
             {
                 result.Clear();
-                for (var row = 0; row < result.RowCount; row++)
+                LowerTriangleImpl(result);
+            }
+        }
+
+        /// <summary>
+        /// Puts the lower triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        private void LowerTriangleImpl(Matrix result)
+        {
+            for (var row = 0; row < result.RowCount; row++)
+            {
+                var startIndex = _rowIndex[row];
+                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                for (var j = startIndex; j < endIndex; j++)
                 {
-                    var startIndex = this._rowIndex[row];
-                    var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-                    for (var j = startIndex; j < endIndex; j++)
+                    if (row >= _columnIndices[j])
                     {
-                        if (row >= this._columnIndices[j])
-                        {
-                            result.At(row, this._columnIndices[j], this._nonZeroValues[j]);
-                        }
+                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
                     }
                 }
             }
@@ -280,20 +277,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The upper triangle of this matrix.</returns>   
         public override Matrix UpperTriangle()
         {
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
-            for (var row = 0; row < result.RowCount; row++)
-            {
-                var startIndex = this._rowIndex[row];
-                var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    if (row <= this._columnIndices[j])
-                    {
-                        result.At(row, this._columnIndices[j], this._nonZeroValues[j]);
-                    }
-                }
-            }
-
+            var result = CreateMatrix(RowCount, ColumnCount);
+            UpperTriangleImpl(result);
             return result;
         }
 
@@ -310,7 +295,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
@@ -318,22 +303,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result))
             {
                 var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
-                this.UpperTriangle(tmp);
+                UpperTriangle(tmp);
                 tmp.CopyTo(result);
             }
             else
             {
                 result.Clear();
-                for (var row = 0; row < result.RowCount; row++)
+                UpperTriangleImpl(result);
+            }
+        }
+
+        /// <summary>
+        /// Puts the upper triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        private void UpperTriangleImpl(Matrix result)
+        {
+            for (var row = 0; row < result.RowCount; row++)
+            {
+                var startIndex = _rowIndex[row];
+                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                for (var j = startIndex; j < endIndex; j++)
                 {
-                    var startIndex = this._rowIndex[row];
-                    var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-                    for (var j = startIndex; j < endIndex; j++)
+                    if (row <= _columnIndices[j])
                     {
-                        if (row <= this._columnIndices[j])
-                        {
-                            result.At(row, this._columnIndices[j], this._nonZeroValues[j]);
-                        }
+                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
                     }
                 }
             }
@@ -357,12 +351,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is not positive.</exception>
         public override Matrix SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
         {
-            if (rowIndex >= this.RowCount || rowIndex < 0)
+            if (rowIndex >= RowCount || rowIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
 
-            if (columnIndex >= this.ColumnCount || columnIndex < 0)
+            if (columnIndex >= ColumnCount || columnIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
@@ -380,30 +374,30 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var colMax = columnIndex + columnLength;
             var rowMax = rowIndex + rowLength;
 
-            if (rowMax > this.RowCount)
+            if (rowMax > RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowLength");
             }
 
-            if (colMax > this.ColumnCount)
+            if (colMax > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnLength");
             }
 
-            var result = this.CreateMatrix(rowLength, columnLength);
+            var result = (SparseMatrix)CreateMatrix(rowLength, columnLength);
 
             for (int i = rowIndex, row = 0; i < rowMax; i++, row++)
             {
-                var startIndex = this._rowIndex[i];
-                var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[i + 1] : this.NonZerosCount;
+                var startIndex = _rowIndex[i];
+                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
 
                 for (int j = startIndex; j < endIndex; j++)
                 {
                     // check if the column index is in the range
-                    if ((this._columnIndices[j] >= columnIndex) && (this._columnIndices[j] < columnIndex + columnLength))
+                    if ((_columnIndices[j] >= columnIndex) && (_columnIndices[j] < columnIndex + columnLength))
                     {
-                        var column = this._columnIndices[j] - columnIndex;
-                        result[row, column] = this._nonZeroValues[j];
+                        var column = _columnIndices[j] - columnIndex;
+                        result.SetValueAt(row, column, _nonZeroValues[j]);
                     }
                 }
             }
@@ -418,20 +412,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The lower triangle of this matrix.</returns>
         public override Matrix StrictlyLowerTriangle()
         {
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
-            for (var row = 0; row < result.RowCount; row++)
-            {
-                var startIndex = this._rowIndex[row];
-                var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    if (row > this._columnIndices[j])
-                    {
-                        result.At(row, this._columnIndices[j], this._nonZeroValues[j]);
-                    }
-                }
-            }
-
+            var result = CreateMatrix(RowCount, ColumnCount);
+            StrictlyLowerTriangleImpl(result);
             return result;
         }
 
@@ -448,7 +430,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
@@ -456,22 +438,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result))
             {
                 var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
-                this.StrictlyLowerTriangle(tmp);
+                StrictlyLowerTriangle(tmp);
                 tmp.CopyTo(result);
             }
             else
             {
                 result.Clear();
-                for (var row = 0; row < result.RowCount; row++)
+                StrictlyLowerTriangleImpl(result);
+            }
+        }
+
+        /// <summary>
+        /// Puts the strictly lower triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        private void StrictlyLowerTriangleImpl(Matrix result)
+        {
+            for (var row = 0; row < result.RowCount; row++)
+            {
+                var startIndex = _rowIndex[row];
+                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                for (var j = startIndex; j < endIndex; j++)
                 {
-                    var startIndex = this._rowIndex[row];
-                    var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-                    for (var j = startIndex; j < endIndex; j++)
+                    if (row > _columnIndices[j])
                     {
-                        if (row > this._columnIndices[j])
-                        {
-                            result.At(row, this._columnIndices[j], this._nonZeroValues[j]);
-                        }
+                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
                     }
                 }
             }
@@ -484,20 +475,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The upper triangle of this matrix.</returns>
         public override Matrix StrictlyUpperTriangle()
         {
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
-            for (var row = 0; row < result.RowCount; row++)
-            {
-                var startIndex = this._rowIndex[row];
-                var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    if (row < this._columnIndices[j])
-                    {
-                        result.At(row, this._columnIndices[j], this._nonZeroValues[j]);
-                    }
-                }
-            }
-
+            var result = CreateMatrix(RowCount, ColumnCount);
+            StrictlyUpperTriangleImpl(result);
             return result;
         }
 
@@ -514,7 +493,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
@@ -522,25 +501,58 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result))
             {
                 var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
-                this.StrictlyUpperTriangle(tmp);
+                StrictlyUpperTriangle(tmp);
                 tmp.CopyTo(result);
             }
             else
             {
                 result.Clear();
-                for (var row = 0; row < result.RowCount; row++)
+                StrictlyUpperTriangleImpl(result);
+            }
+        }
+
+        /// <summary>
+        /// Puts the strictly upper triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        private void StrictlyUpperTriangleImpl(Matrix result)
+        {
+            for (var row = 0; row < result.RowCount; row++)
+            {
+                var startIndex = _rowIndex[row];
+                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                for (var j = startIndex; j < endIndex; j++)
                 {
-                    var startIndex = this._rowIndex[row];
-                    var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-                    for (var j = startIndex; j < endIndex; j++)
+                    if (row < _columnIndices[j])
                     {
-                        if (row < this._columnIndices[j])
-                        {
-                            result.At(row, this._columnIndices[j], this._nonZeroValues[j]);
-                        }
+                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns the matrix's elements as an array with the data laid out column-wise.
+        /// </summary>
+        /// <example><pre>
+        /// 1, 2, 3
+        /// 4, 5, 6  will be returned as  1, 4, 7, 2, 5, 8, 3, 6, 9
+        /// 7, 8, 9
+        /// </pre></example>
+        /// <returns>An array containing the matrix's elements.</returns>
+        public override double[] ToColumnWiseArray()
+        {
+            var ret = new double[RowCount * ColumnCount];
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
+                {
+                    var index = FindItem(i, j);
+                    ret[(j * RowCount) + i] = index >= 0 ? _nonZeroValues[index] : 0.0;
+                }
+            }
+
+            return ret;
         }
 
         /// <summary>
@@ -557,10 +569,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override double At(int row, int column)
         {
-            lock (this._lockObject)
+            lock (_lockObject)
             {
-                var index = this.FindItem(row, column);
-                return index >= 0 ? this._nonZeroValues[index] : 0.0;
+                var index = FindItem(row, column);
+                return index >= 0 ? _nonZeroValues[index] : 0.0;
             }
         }
         
@@ -578,9 +590,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         public override void At(int row, int column, double value)
         {
-            lock (this._lockObject)
+            lock (_lockObject)
             {
-                this.SetValueAt(row, column, value);
+                SetValueAt(row, column, value);
             }
         }
 
@@ -594,62 +606,62 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
         private void SetValueAt(int row, int column, double value)
         {
-                var index = this.FindItem(row, column);
-                if (index >= 0) 
+            var index = FindItem(row, column);
+            if (index >= 0)
+            {
+                // Non-zero item found in matrix
+                if (value == 0.0)
                 {
-                    // Non-zero item found in matrix
-                    if (value == 0.0) 
-                    {
-                        // Delete existing item
-                        this.DeleteItemByIndex(index, row);
-                    }
-                    else 
-                    {
-                        // Update item
-                        this._nonZeroValues[index] = value;
-                    }
+                    // Delete existing item
+                    DeleteItemByIndex(index, row);
                 }
-                else 
+                else
                 {
-                    // Item not found. Add new value
-                    if (value == 0.0)
-                    {
-                        return;
-                    }
+                    // Update item
+                    _nonZeroValues[index] = value;
+                }
+            }
+            else
+            {
+                // Item not found. Add new value
+                if (value == 0.0)
+                {
+                    return;
+                }
 
-                    index = ~index;
-                    
-                    // Check if the storage needs to be increased
-                    if ((this.NonZerosCount == this._nonZeroValues.Length) && (this.NonZerosCount < (this.RowCount * this.ColumnCount)))
-                    {
-                        // Value array is completely full so we increase the size
-                        // Determine the increase in size. We will not grow beyond the size of the matrix
-                        var size = Math.Min(this._nonZeroValues.Length + this.GrowthSize(), this.RowCount * this.ColumnCount);
-                        Array.Resize(ref this._nonZeroValues, size);
-                        Array.Resize(ref this._columnIndices, size);
-                    }
+                index = ~index;
 
-                    // Move all values (with an position larger than index) in the value array to the next position
-                    // move all values (with an position larger than index) in the columIndices array to the next position
-                    for (var i = this.NonZerosCount - 1; i > index - 1; i--)
-                    {
-                        this._nonZeroValues[i + 1] = this._nonZeroValues[i];
-                        this._columnIndices[i + 1] = this._columnIndices[i];
-                    }
+                // Check if the storage needs to be increased
+                if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < (RowCount * ColumnCount)))
+                {
+                    // Value array is completely full so we increase the size
+                    // Determine the increase in size. We will not grow beyond the size of the matrix
+                    var size = Math.Min(_nonZeroValues.Length + GrowthSize(), RowCount * ColumnCount);
+                    Array.Resize(ref _nonZeroValues, size);
+                    Array.Resize(ref _columnIndices, size);
+                }
 
-                    // Add the value and the column index
-                    this._nonZeroValues[index] = value;
-                    this._columnIndices[index] = column;
+                // Move all values (with an position larger than index) in the value array to the next position
+                // move all values (with an position larger than index) in the columIndices array to the next position
+                for (var i = NonZerosCount - 1; i > index - 1; i--)
+                {
+                    _nonZeroValues[i + 1] = _nonZeroValues[i];
+                    _columnIndices[i + 1] = _columnIndices[i];
+                }
 
-                    // increase the number of non-zero numbers by one
-                    this.NonZerosCount += 1;
+                // Add the value and the column index
+                _nonZeroValues[index] = value;
+                _columnIndices[index] = column;
 
-                    // add 1 to all the row indices for rows bigger than rowIndex
-                    // so that they point to the correct part of the value array again.
-                    for (var i = row + 1; i < this._rowIndex.Length; i++)
-                    {
-                        this._rowIndex[i] += 1;
-                    }
+                // increase the number of non-zero numbers by one
+                NonZerosCount += 1;
+
+                // add 1 to all the row indices for rows bigger than rowIndex
+                // so that they point to the correct part of the value array again.
+                for (var i = row + 1; i < _rowIndex.Length; i++)
+                {
+                    _rowIndex[i] += 1;
+                }
             }
         }
 
@@ -663,26 +675,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             // Move all values (with an position larger than index) in the value array to the previous position
             // move all values (with an position larger than index) in the columIndices array to the previous position
-            for (var i = itemIndex + 1; i < this.NonZerosCount; i++)
+            for (var i = itemIndex + 1; i < NonZerosCount; i++)
             {
-                this._nonZeroValues[i - 1] = this._nonZeroValues[i];
-                this._columnIndices[i - 1] = this._columnIndices[i];
+                _nonZeroValues[i - 1] = _nonZeroValues[i];
+                _columnIndices[i - 1] = _columnIndices[i];
             }
             
             // Decrease value in Row
-            for (var i = row + 1; i < this._rowIndex.Length; i++)
+            for (var i = row + 1; i < _rowIndex.Length; i++)
             {
-                this._rowIndex[i] -= 1;
+                _rowIndex[i] -= 1;
             }
 
-            this.NonZerosCount -= 1;
+            NonZerosCount -= 1;
 
             // Check if the storage needs to be shrink. This is reasonable to do if 
             // there are a lot of non-zero elements and storage is two times bigger
-            if ((this.NonZerosCount > 1024) && (this.NonZerosCount < this._nonZeroValues.Length / 2))
+            if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroValues.Length / 2))
             {
-                Array.Resize(ref this._nonZeroValues, this.NonZerosCount);
-                Array.Resize(ref this._columnIndices, this.NonZerosCount);
+                Array.Resize(ref _nonZeroValues, NonZerosCount);
+                Array.Resize(ref _columnIndices, NonZerosCount);
             }
         }
         
@@ -696,9 +708,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         private int FindItem(int row, int column)
         {
             // Determin bounds in columnIndices array where this item should be searched (using rowIndex)
-            var startIndex = this._rowIndex[row];
-            var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
-            return Array.BinarySearch(this._columnIndices, startIndex, endIndex - startIndex, column);
+            var startIndex = _rowIndex[row];
+            var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+            return Array.BinarySearch(_columnIndices, startIndex, endIndex - startIndex, column);
         }
         
         /// <summary>
@@ -709,19 +721,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         private int GrowthSize()
         {
             int delta;
-            if (this._nonZeroValues.Length > 1024)
+            if (_nonZeroValues.Length > 1024)
             {
-                delta = this._nonZeroValues.Length / 4;
+                delta = _nonZeroValues.Length / 4;
             }
             else
             {
-                if (this._nonZeroValues.Length > 256)
+                if (_nonZeroValues.Length > 256)
                 {
                     delta = 512;
                 }
                 else
                 {
-                    delta = this._nonZeroValues.Length > 64 ? 128 : 32;
+                    delta = _nonZeroValues.Length > 64 ? 128 : 32;
                 }
             }
 
@@ -734,8 +746,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public override void Clear()
         {
-            this.NonZerosCount = 0;
-            Array.Clear(this._rowIndex, 0, this._rowIndex.Length);
+            NonZerosCount = 0;
+            Array.Clear(_rowIndex, 0, _rowIndex.Length);
         }
 
         /// <summary>
@@ -765,19 +777,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     return;
                 }
 
-                if (this.RowCount != target.RowCount || this.ColumnCount != target.ColumnCount)
+                if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixDimensions, "target");
                 }
 
                 // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-                sparseTarget._nonZeroValues = new double[this.NonZerosCount];
-                sparseTarget._columnIndices = new int[this.NonZerosCount];
-                sparseTarget.NonZerosCount = this.NonZerosCount;
+                sparseTarget._nonZeroValues = new double[NonZerosCount];
+                sparseTarget._columnIndices = new int[NonZerosCount];
+                sparseTarget.NonZerosCount = NonZerosCount;
 
-                Buffer.BlockCopy(this._nonZeroValues, 0, sparseTarget._nonZeroValues, 0, this.NonZerosCount * Constants.SizeOfDouble);
-                Buffer.BlockCopy(this._columnIndices, 0, sparseTarget._columnIndices, 0, this.NonZerosCount * Constants.SizeOfInt);
-                Buffer.BlockCopy(this._rowIndex, 0, sparseTarget._rowIndex, 0, this.RowCount * Constants.SizeOfInt);
+                Buffer.BlockCopy(_nonZeroValues, 0, sparseTarget._nonZeroValues, 0, NonZerosCount * Constants.SizeOfDouble);
+                Buffer.BlockCopy(_columnIndices, 0, sparseTarget._columnIndices, 0, NonZerosCount * Constants.SizeOfInt);
+                Buffer.BlockCopy(_rowIndex, 0, sparseTarget._rowIndex, 0, RowCount * Constants.SizeOfInt);
             }
         }
         
@@ -799,21 +811,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return base.Equals(obj);
             }
 
-            // Accept if the argument is the same object as this.
+            // Accept if the argument is the same object as this
             if (ReferenceEquals(this, sparseMatrix))
             {
                 return true;
             }
 
-            if (this.ColumnCount != sparseMatrix.ColumnCount || this.RowCount != sparseMatrix.RowCount || this.NonZerosCount != sparseMatrix.NonZerosCount)
+            if (ColumnCount != sparseMatrix.ColumnCount || RowCount != sparseMatrix.RowCount || NonZerosCount != sparseMatrix.NonZerosCount)
             {
                 return false;
             }
 
             // If all else fails, perform element wise comparison.
-            for (var index = 0; index < this.NonZerosCount; index++)
+            for (var index = 0; index < NonZerosCount; index++)
             {
-                if (!this._nonZeroValues[index].AlmostEqual(sparseMatrix._nonZeroValues[index]) || this._columnIndices[index] != sparseMatrix._columnIndices[index])
+                if (!_nonZeroValues[index].AlmostEqual(sparseMatrix._nonZeroValues[index]) || _columnIndices[index] != sparseMatrix._columnIndices[index])
                 {
                     return false;
                 }
@@ -830,14 +842,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(this.NonZerosCount, 25);
+            var hashNum = Math.Min(NonZerosCount, 25);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
 #if SILVERLIGHT
-                hash ^= Precision.DoubleToInt64Bits(this._nonZeroValues[i]);
+                hash ^= Precision.DoubleToInt64Bits(_nonZeroValues[i]);
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(this._nonZeroValues[i]);
+                hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i]);
 #endif
             }
 
@@ -850,14 +862,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix Transpose()
         {
-            var ret = new SparseMatrix(this.ColumnCount, this.RowCount);
-            
+            var ret = new SparseMatrix(ColumnCount, RowCount)
+            {
+                _columnIndices = new int[NonZerosCount],
+                _nonZeroValues = new double[NonZerosCount]
+            };
+
             // Do an 'inverse' CopyTo iterate over the rows
-            for (var i = 0; i < this._rowIndex.Length; i++)
+            for (var i = 0; i < _rowIndex.Length; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = this._rowIndex[i];
-                var endIndex = i < this._rowIndex.Length - 1 ? this._rowIndex[i + 1] : this.NonZerosCount;
+                var startIndex = _rowIndex[i];
+                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
 
                 // Get the values for the current row
                 if (startIndex == endIndex)
@@ -868,7 +884,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    ret[this._columnIndices[j], i] = this._nonZeroValues[j];
+                    ret.SetValueAt(_columnIndices[j], i, _nonZeroValues[j]);
                 }
             }
 
@@ -898,17 +914,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (rowIndex >= this.RowCount || rowIndex < 0)
+            if (rowIndex >= RowCount || rowIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
 
-            if (columnIndex >= this.ColumnCount || columnIndex < 0)
+            if (columnIndex >= ColumnCount || columnIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
 
-            if (columnIndex + length > this.ColumnCount)
+            if (columnIndex + length > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
@@ -923,22 +939,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            // Determin bounds in columnIndices array where this item should be searched (using rowIndex)
-            var startIndex = this._rowIndex[rowIndex];
-            var endIndex = rowIndex < this._rowIndex.Length - 1 ? this._rowIndex[rowIndex + 1] : this.NonZerosCount;
+            // Determine bounds in columnIndices array where this item should be searched (using rowIndex)
+            var startIndex = _rowIndex[rowIndex];
+            var endIndex = rowIndex < _rowIndex.Length - 1 ? _rowIndex[rowIndex + 1] : NonZerosCount;
 
             if (startIndex == endIndex)
             {
-                // TODO: Maybe it is reasonable to add "Clear" method in Vector class?
-                // Only zero elements in rowIndex row. Clear the vector
-                result.Multiply(0);
+                result.Clear();
             }
             else
             {
                 // If there are non-zero elements use base class implementation
                 for (int i = columnIndex, j = 0; i < columnIndex + length; i++, j++)
                 {
-                    result[j] = this.At(rowIndex, i);
+                    // Copy code from At(row, column) to avoid unnecessary lock
+                    var index = FindItem(rowIndex, i);
+                    result[j] = index >= 0 ? _nonZeroValues[index] : 0.0;
                 }
             }
         }
@@ -950,7 +966,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The combined matrix</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows + lower.rows) x (this.Columns + lower.Columns).</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not (Rows + lower.rows) x (Columns + lower.Columns).</exception>
         public override void DiagonalStack(Matrix lower, Matrix result)
         {
             var lowerSparseMatrix = lower as SparseMatrix;
@@ -962,30 +978,30 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                if (resultSparseMatrix.RowCount != this.RowCount + lowerSparseMatrix.RowCount || resultSparseMatrix.ColumnCount != this.ColumnCount + lowerSparseMatrix.ColumnCount)
+                if (resultSparseMatrix.RowCount != RowCount + lowerSparseMatrix.RowCount || resultSparseMatrix.ColumnCount != ColumnCount + lowerSparseMatrix.ColumnCount)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
                 }
 
-                resultSparseMatrix.NonZerosCount = this.NonZerosCount + lowerSparseMatrix.NonZerosCount;
+                resultSparseMatrix.NonZerosCount = NonZerosCount + lowerSparseMatrix.NonZerosCount;
                 resultSparseMatrix._nonZeroValues = new double[resultSparseMatrix.NonZerosCount];
                 resultSparseMatrix._columnIndices = new int[resultSparseMatrix.NonZerosCount];
                 
-                Array.Copy(this._nonZeroValues, 0, resultSparseMatrix._nonZeroValues, 0, this.NonZerosCount);
-                Array.Copy(lowerSparseMatrix._nonZeroValues, 0, resultSparseMatrix._nonZeroValues, this.NonZerosCount, lowerSparseMatrix.NonZerosCount);
+                Array.Copy(_nonZeroValues, 0, resultSparseMatrix._nonZeroValues, 0, NonZerosCount);
+                Array.Copy(lowerSparseMatrix._nonZeroValues, 0, resultSparseMatrix._nonZeroValues, NonZerosCount, lowerSparseMatrix.NonZerosCount);
 
-                Array.Copy(this._columnIndices, 0, resultSparseMatrix._columnIndices, 0, this.NonZerosCount);
-                Array.Copy(this._rowIndex, 0, resultSparseMatrix._rowIndex, 0, this.RowCount);
+                Array.Copy(_columnIndices, 0, resultSparseMatrix._columnIndices, 0, NonZerosCount);
+                Array.Copy(_rowIndex, 0, resultSparseMatrix._rowIndex, 0, RowCount);
 
                 // Copy and adjust lower column indices and rowIndex
-                for (int i = this.NonZerosCount, j = 0; i < resultSparseMatrix.NonZerosCount; i++, j++)
+                for (int i = NonZerosCount, j = 0; i < resultSparseMatrix.NonZerosCount; i++, j++)
                 {
-                    resultSparseMatrix._columnIndices[i] = lowerSparseMatrix._columnIndices[j] + this.ColumnCount;
+                    resultSparseMatrix._columnIndices[i] = lowerSparseMatrix._columnIndices[j] + ColumnCount;
                 }
 
-                for (int i = this.RowCount, j = 0; i < resultSparseMatrix.RowCount; i++, j++)
+                for (int i = RowCount, j = 0; i < resultSparseMatrix.RowCount; i++, j++)
                 {
-                    resultSparseMatrix._rowIndex[i] = lowerSparseMatrix._rowIndex[j] + this.NonZerosCount;
+                    resultSparseMatrix._rowIndex[i] = lowerSparseMatrix._rowIndex[j] + NonZerosCount;
                 }
             }
         }
@@ -1002,7 +1018,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (ReferenceEquals(this, other))
             {
-                this.Multiply(2);
+                Multiply(2);
                 return;
             }
 
@@ -1030,7 +1046,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (other.RowCount != this.RowCount || other.ColumnCount != this.ColumnCount)
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
@@ -1043,21 +1059,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var index = this.FindItem(i, other._columnIndices[j]);
+                    var index = FindItem(i, other._columnIndices[j]);
                     if (index >= 0)
                     {
-                        if (this._nonZeroValues[index] + other._nonZeroValues[j] == 0.0)
+                        if (_nonZeroValues[index] + other._nonZeroValues[j] == 0.0)
                         {
-                            this.DeleteItemByIndex(index, i);
+                            DeleteItemByIndex(index, i);
                         }
                         else
                         {
-                            this._nonZeroValues[index] += other._nonZeroValues[j];
+                            _nonZeroValues[index] += other._nonZeroValues[j];
                         }
                     }
                     else
                     {
-                        this.SetValueAt(i, other._columnIndices[j], other._nonZeroValues[j]);
+                        SetValueAt(i, other._columnIndices[j], other._nonZeroValues[j]);
                     }
                 }
             }
@@ -1074,7 +1090,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             // We are substracting Matrix form itself
             if (ReferenceEquals(this, other))
             {
-                this.Clear();
+                Clear();
                 return;
             }
 
@@ -1085,7 +1101,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.Subtract(m);
+                Subtract(m);
             }
         }
 
@@ -1102,7 +1118,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (other.RowCount != this.RowCount || other.ColumnCount != this.ColumnCount)
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
@@ -1115,21 +1131,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var index = this.FindItem(i, other._columnIndices[j]);
+                    var index = FindItem(i, other._columnIndices[j]);
                     if (index >= 0)
                     {
-                        if (this._nonZeroValues[index] - other._nonZeroValues[j] == 0.0)
+                        if (_nonZeroValues[index] - other._nonZeroValues[j] == 0.0)
                         {
-                            this.DeleteItemByIndex(index, i);
+                            DeleteItemByIndex(index, i);
                         }
                         else
                         {
-                            this._nonZeroValues[index] -= other._nonZeroValues[j];
+                            _nonZeroValues[index] -= other._nonZeroValues[j];
                         }
                     }
                     else
                     {
-                        this.SetValueAt(i, other._columnIndices[j], -other._nonZeroValues[j]);
+                        SetValueAt(i, other._columnIndices[j], -other._nonZeroValues[j]);
                     }
                 }
             }
@@ -1148,11 +1164,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (0.0.AlmostEqualInDecimalPlaces(scalar, 15))
             {
-                this.Clear();
+                Clear();
                 return;
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(scalar, this._nonZeroValues);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, _nonZeroValues);
         }
 
         /// <summary>
@@ -1162,8 +1178,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
+        /// <exception cref="ArgumentException">If <strong>Columns != other.Rows</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the Rows x other.Columns.</exception>
         public override void Multiply(Matrix other, Matrix result)
         {
             var otherSparseMatrix = other as SparseMatrix;
@@ -1175,40 +1191,37 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                if (this.ColumnCount != otherSparseMatrix.RowCount)
+                if (ColumnCount != otherSparseMatrix.RowCount)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixDimensions);
                 }
 
-                if (resultSparseMatrix.RowCount != this.RowCount || resultSparseMatrix.ColumnCount != otherSparseMatrix.ColumnCount)
+                if (resultSparseMatrix.RowCount != RowCount || resultSparseMatrix.ColumnCount != otherSparseMatrix.ColumnCount)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixDimensions);
                 }
 
                 resultSparseMatrix.Clear();
 
-                var columnVector = new SparseVector(otherSparseMatrix.RowCount);
-                for (var row = 0; row < this.RowCount; row++)
+                var columnVector = new DenseVector(otherSparseMatrix.RowCount);
+                for (var row = 0; row < RowCount; row++)
                 {
                     // Get the begin / end index for the current row
-                    var startIndex = this._rowIndex[row];
-                    var endIndex = row < this._rowIndex.Length - 1 ? this._rowIndex[row + 1] : this.NonZerosCount;
+                    var startIndex = _rowIndex[row];
+                    var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                    if (startIndex == endIndex)
+                    {
+                        continue;
+                    }
+
                     for (var column = 0; column < otherSparseMatrix.ColumnCount; column++)
                     {
-                        columnVector.Clear();
-                        otherSparseMatrix.Column(column, columnVector);
-                        
                         // Multiply row of matrix A on column of matrix B
-                        var sum = 0.0;
-                        if (startIndex != endIndex)
-                        {
-                            // If there are elements in that row, then calculate rowA x columnB
-                            sum = CommonParallel.Aggregate(
-                                startIndex,
-                                endIndex,
-                                index => this._nonZeroValues[index] * columnVector[this._columnIndices[index]]);
-                        }
-
+                        otherSparseMatrix.Column(column, columnVector);
+                        var sum = CommonParallel.Aggregate(
+                            startIndex,
+                            endIndex,
+                            index => _nonZeroValues[index] * columnVector[_columnIndices[index]]);
                         resultSparseMatrix.SetValueAt(row, column, sum);
                     }
                 }
@@ -1219,7 +1232,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Multiplies this matrix with another matrix and returns the result.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentException">If <strong>Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
         public override Matrix Multiply(Matrix other)
@@ -1230,16 +1243,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return base.Multiply(other);
             }
 
-            if (this.ColumnCount != matrix.RowCount)
+            if (ColumnCount != matrix.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            var result = (SparseMatrix)this.CreateMatrix(this.RowCount, matrix.ColumnCount);
-            this.Multiply(matrix, result);
+            var result = (SparseMatrix)CreateMatrix(RowCount, matrix.ColumnCount);
+            Multiply(matrix, result);
             return result;
         }
-        
+
         /// <summary>
         /// Multiplies two sparse matrices.
         /// </summary>
@@ -1289,12 +1302,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.ColumnCount != other.ColumnCount || this.RowCount != other.RowCount)
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            if (this.ColumnCount != result.ColumnCount || this.RowCount != result.RowCount)
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
@@ -1303,15 +1316,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             for (var i = 0; i < other.RowCount; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = this._rowIndex[i];
-                var endIndex = i < this._rowIndex.Length - 1 ? this._rowIndex[i + 1] : this.NonZerosCount;
+                var startIndex = _rowIndex[i];
+                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var resVal = this._nonZeroValues[j] * other[i, this._columnIndices[j]];
+                    var resVal = _nonZeroValues[j] * other[i, _columnIndices[j]];
                     if (resVal != 0.0)
                     {
-                        result[i, this._columnIndices[j]] = resVal;
+                        result[i, _columnIndices[j]] = resVal;
                     }
                 }
             }
@@ -1340,12 +1353,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
             }
 
-            var matrix = this.CreateMatrix(numberOfRows, numberOfColumns);
-            for (var i = 0; i < RowCount; i++)
+            var matrix = (SparseMatrix)CreateMatrix(numberOfRows, numberOfColumns);
+            for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    matrix[i, j] = distribution.Sample();
+                    var value = distribution.Sample();
+                    if (value != 0.0)
+                    {
+                        matrix.SetValueAt(i, j, value);
+                    }
                 }
             }
 
@@ -1375,12 +1392,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
             }
 
-            var matrix = this.CreateMatrix(numberOfRows, numberOfColumns);
-            for (var i = 0; i < RowCount; i++)
+            var matrix = (SparseMatrix)CreateMatrix(numberOfRows, numberOfColumns);
+            for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    matrix[i, j] = distribution.Sample();
+                    var value = distribution.Sample();
+                    if (value != 0.0)
+                    {
+                        matrix.SetValueAt(i, j, value);
+                    }
                 }
             }
 
