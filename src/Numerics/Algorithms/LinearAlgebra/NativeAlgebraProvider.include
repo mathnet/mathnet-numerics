@@ -253,7 +253,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public double MatrixNorm(Norm norm, double[] matrix)
+        public double MatrixNorm(Norm norm, int rows, int columns, double[] matrix)
         {
             throw new NotImplementedException();
         }
@@ -268,7 +268,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public double MatrixNorm(Norm norm, double[] matrix, double[] work)
+        public double MatrixNorm(Norm norm, int rows, int columns, double[] matrix, double[] work)
         {
             throw new NotImplementedException();
         }
@@ -866,7 +866,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public float MatrixNorm(Norm norm, float[] matrix)
+        public float MatrixNorm(Norm norm, int rows, int columns, float[] matrix)
         {
             throw new NotImplementedException();
         }
@@ -881,7 +881,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public float MatrixNorm(Norm norm, float[] matrix, float[] work)
+        public float MatrixNorm(Norm norm, int rows, int columns, float[] matrix, float[] work)
         {
             throw new NotImplementedException();
         }
@@ -1479,7 +1479,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public Complex MatrixNorm(Norm norm, Complex[] matrix)
+        public Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix)
         {
             throw new NotImplementedException();
         }
@@ -1494,7 +1494,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public Complex MatrixNorm(Norm norm, Complex[] matrix, Complex[] work)
+        public Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix, Complex[] work)
         {
             throw new NotImplementedException();
         }
@@ -2088,11 +2088,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public Complex32 MatrixNorm(Norm norm, Complex32[] matrix)
+        public Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix)
         {
             throw new NotImplementedException();
         }
@@ -2101,13 +2103,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
         /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public Complex32 MatrixNorm(Norm norm, Complex32[] matrix, Complex32[] work)
+        public Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, Complex32[] work)
         {
             throw new NotImplementedException();
         }
