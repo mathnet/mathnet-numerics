@@ -160,23 +160,27 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        T MatrixNorm(Norm norm, T[] matrix);
+        T MatrixNorm(Norm norm, int rows, int columns, T[] matrix);
 
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
         /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        T MatrixNorm(Norm norm, T[] matrix, T[] work);
+        T MatrixNorm(Norm norm, int rows, int columns, T[] matrix, T[] work);
 
         /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>

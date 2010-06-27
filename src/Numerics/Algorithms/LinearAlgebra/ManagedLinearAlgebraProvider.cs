@@ -230,14 +230,47 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             CommonParallel.For(0, y.Length, index => { result[index] = x[index] * y[index]; });
         }
 
-        public double MatrixNorm(Norm norm, double[] matrix)
+        /// <summary>
+        /// Computes the requested <see cref="Norm"/> of the matrix.
+        /// </summary>
+        /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="matrix">The matrix to compute the norm from.</param>
+        /// <returns>
+        /// The requested <see cref="Norm"/> of the matrix.
+        /// </returns>
+        public double MatrixNorm(Norm norm, int rows, int columns, double[] matrix)
         {
-            throw new NotImplementedException();
+            var ret = 0.0;
+            switch (norm)
+            {
+                case Norm.OneNorm:
+                    break;
+                case Norm.LargestAbsoluteValue:
+                    break;
+                case Norm.InfinityNorm:
+                    break;
+                case Norm.FrobeniusNorm:
+                    break;
+            }
+            return ret;
         }
 
-        public double MatrixNorm(Norm norm, double[] matrix, double[] work)
+        /// <summary>
+        /// Computes the requested <see cref="Norm"/> of the matrix.
+        /// </summary>
+        /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="matrix">The matrix to compute the norm from.</param>
+        /// <param name="work">The work array. Not used in the managed provider.</param>
+        /// <returns>
+        /// The requested <see cref="Norm"/> of the matrix.
+        /// </returns>
+        public double MatrixNorm(Norm norm, int rows, int columns, double[] matrix, double[] work)
         {
-            throw new NotImplementedException();
+            return MatrixNorm(norm, rows, columns, matrix);
         }
 
         /// <summary>
@@ -1370,12 +1403,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             CommonParallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
         }
 
-        public float MatrixNorm(Norm norm, float[] matrix)
+        public float MatrixNorm(Norm norm, int rows, int columns, float[] matrix)
         {
             throw new NotImplementedException();
         }
 
-        public float MatrixNorm(Norm norm, float[] matrix, float[] work)
+        public float MatrixNorm(Norm norm, int rows, int columns, float[] matrix, float[] work)
         {
             throw new NotImplementedException();
         }
@@ -2196,12 +2229,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             CommonParallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
         }
 
-        public Complex MatrixNorm(Norm norm, Complex[] matrix)
+        public Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix)
         {
             throw new NotImplementedException();
         }
 
-        public Complex MatrixNorm(Norm norm, Complex[] matrix, Complex[] work)
+        public Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix, Complex[] work)
         {
             throw new NotImplementedException();
         }
@@ -2987,12 +3020,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             CommonParallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
         }
 
-        public Complex32 MatrixNorm(Norm norm, Complex32[] matrix)
+        public Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix)
         {
             throw new NotImplementedException();
         }
 
-        public Complex32 MatrixNorm(Norm norm, Complex32[] matrix, Complex32[] work)
+        public Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, Complex32[] work)
         {
             throw new NotImplementedException();
         }
