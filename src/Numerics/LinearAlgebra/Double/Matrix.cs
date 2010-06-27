@@ -64,8 +64,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.MatrixColumnsMustBePositive);
             }
 
-            this.RowCount = rows;
-            this.ColumnCount = columns;
+            RowCount = rows;
+            ColumnCount = columns;
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException(Resources.MatrixRowsOrColumnsMustBePositive);
             }
 
-            this.RowCount = order;
-            this.ColumnCount = order;
+            RowCount = order;
+            ColumnCount = order;
         }
 
         /// <summary>
@@ -121,14 +121,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             get
             {
-                this.RangeCheck(row, column);
-                return this.At(row, column);
+                RangeCheck(row, column);
+                return At(row, column);
             }
 
             set
             {
-                this.RangeCheck(row, column);
-                this.At(row, column, value);
+                RangeCheck(row, column);
+                At(row, column, value);
             }
         }
 
@@ -168,8 +168,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual Matrix Clone()
         {
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
-            this.CopyTo(result);
+            var result = CreateMatrix(RowCount, ColumnCount);
+            CopyTo(result);
             return result;
         }
 
@@ -197,16 +197,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            if (this.RowCount != target.RowCount || this.ColumnCount != target.ColumnCount)
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "target");
             }
 
-            for (var i = 0; i < this.RowCount; i++)
+            for (var i = 0; i < RowCount; i++)
             {
-                for (var j = 0; j < this.ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    target.At(i, j, this.At(i, j));
+                    target.At(i, j, At(i, j));
                 }
             }
         }
@@ -248,7 +248,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override string ToString()
         {
-            return this.ToString(null, null);
+            return ToString(null, null);
         }
 
         /// <summary>
@@ -260,8 +260,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of rows.</exception>
         public virtual Vector Row(int index)
         {
-            var ret = this.CreateVector(this.ColumnCount);
-            this.Row(index, 0, this.ColumnCount, ret);
+            var ret = CreateVector(ColumnCount);
+            Row(index, 0, ColumnCount, ret);
             return ret;
         }
 
@@ -276,7 +276,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If <b>this.Columns != result.Count</b>.</exception>
         public virtual void Row(int index, Vector result)
         {
-            this.Row(index, 0, this.ColumnCount, result);
+            Row(index, 0, ColumnCount, result);
         }
 
         /// <summary>
@@ -295,8 +295,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         public virtual Vector Row(int rowIndex, int columnIndex, int length)
         {
-            var ret = this.CreateVector(length);
-            this.Row(rowIndex, columnIndex, length, ret);
+            var ret = CreateVector(length);
+            Row(rowIndex, columnIndex, length, ret);
             return ret;
         }
 
@@ -323,17 +323,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (rowIndex >= this.RowCount || rowIndex < 0)
+            if (rowIndex >= RowCount || rowIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
 
-            if (columnIndex >= this.ColumnCount || columnIndex < 0)
+            if (columnIndex >= ColumnCount || columnIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
 
-            if (columnIndex + length > this.ColumnCount)
+            if (columnIndex + length > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
@@ -350,7 +350,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             for (int i = columnIndex, j = 0; i < columnIndex + length; i++, j++)
             {
-                result[j] = this.At(rowIndex, i);
+                result[j] = At(rowIndex, i);
             }
         }
 
@@ -363,8 +363,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of columns.</exception>
         public virtual Vector Column(int index)
         {
-            var result = this.CreateVector(this.RowCount);
-            this.Column(index, 0, this.RowCount, result);
+            var result = CreateVector(RowCount);
+            Column(index, 0, RowCount, result);
             return result;
         }
 
@@ -379,7 +379,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If <b>this.Rows != result.Count</b>.</exception>
         public virtual void Column(int index, Vector result)
         {
-            this.Column(index, 0, this.RowCount, result);
+            Column(index, 0, RowCount, result);
         }
 
         /// <summary>
@@ -399,8 +399,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         public virtual Vector Column(int columnIndex, int rowIndex, int length)
         {
-            var result = this.CreateVector(length);
-            this.Column(columnIndex, rowIndex, length, result);
+            var result = CreateVector(length);
+            Column(columnIndex, rowIndex, length, result);
             return result;
         }
 
@@ -427,17 +427,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (columnIndex >= this.ColumnCount || columnIndex < 0)
+            if (columnIndex >= ColumnCount || columnIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
 
-            if (rowIndex >= this.RowCount || rowIndex < 0)
+            if (rowIndex >= RowCount || rowIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
 
-            if (rowIndex + length > this.RowCount)
+            if (rowIndex + length > RowCount)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
@@ -454,7 +454,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             for (int i = rowIndex, j = 0; i < rowIndex + length; i++, j++)
             {
-                result[j] = this.At(i, columnIndex);
+                result[j] = At(i, columnIndex);
             }
         }
 
@@ -464,15 +464,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The lower triangle of this matrix.</returns>        
         public virtual Matrix LowerTriangle()
         {
-            var ret = this.CreateMatrix(this.RowCount, this.ColumnCount);
+            var ret = CreateMatrix(RowCount, ColumnCount);
             CommonParallel.For(
                 0, 
-                this.ColumnCount, 
+                ColumnCount, 
                 j =>
                 {
-                    for (var i = j; i < this.RowCount; i++)
+                    for (var i = j; i < RowCount; i++)
                     {
-                        ret.At(i, j, this.At(i, j));
+                        ret.At(i, j, At(i, j));
                     }
                 });
             return ret;
@@ -491,19 +491,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
             CommonParallel.For(
                 0, 
-                this.ColumnCount, 
+                ColumnCount, 
                 j =>
                 {
-                    for (var i = 0; i < this.RowCount; i++)
+                    for (var i = 0; i < RowCount; i++)
                     {
-                        result.At(i, j, i >= j ? this.At(i, j) : 0);
+                        result.At(i, j, i >= j ? At(i, j) : 0);
                     }
                 });
         }
@@ -514,17 +514,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The upper triangle of this matrix.</returns>   
         public virtual Matrix UpperTriangle()
         {
-            var ret = this.CreateMatrix(this.RowCount, this.ColumnCount);
+            var ret = CreateMatrix(RowCount, ColumnCount);
             CommonParallel.For(
                 0, 
-                this.ColumnCount, 
+                ColumnCount, 
                 j =>
                 {
-                    for (var i = 0; i < this.RowCount; i++)
+                    for (var i = 0; i < RowCount; i++)
                     {
                         if (i <= j)
                         {
-                            ret.At(i, j, this.At(i, j));
+                            ret.At(i, j, At(i, j));
                         }
                     }
                 });
@@ -544,19 +544,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
             CommonParallel.For(
                 0, 
-                this.ColumnCount, 
+                ColumnCount, 
                 j =>
                 {
-                    for (var i = 0; i < this.RowCount; i++)
+                    for (var i = 0; i < RowCount; i++)
                     {
-                        result.At(i, j, i <= j ? this.At(i, j) : 0);
+                        result.At(i, j, i <= j ? At(i, j) : 0);
                     }
                 });
         }
@@ -579,12 +579,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is not positive.</exception>
         public virtual Matrix SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
         {
-            if (rowIndex >= this.RowCount || rowIndex < 0)
+            if (rowIndex >= RowCount || rowIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
 
-            if (columnIndex >= this.ColumnCount || columnIndex < 0)
+            if (columnIndex >= ColumnCount || columnIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
@@ -602,17 +602,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var colMax = columnIndex + columnLength;
             var rowMax = rowIndex + rowLength;
 
-            if (rowMax > this.RowCount)
+            if (rowMax > RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowLength");
             }
 
-            if (colMax > this.ColumnCount)
+            if (colMax > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnLength");
             }
 
-            var result = this.CreateMatrix(rowLength, columnLength);
+            var result = CreateMatrix(rowLength, columnLength);
 
             CommonParallel.For(
                 columnIndex, 
@@ -621,7 +621,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
                     {
-                        result.At(ii, j - columnIndex, this.At(i, j));
+                        result.At(ii, j - columnIndex, At(i, j));
                     }
                 });
             return result;
@@ -634,9 +634,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <seealso cref="IEnumerator{T}"/>
         public virtual IEnumerable<KeyValuePair<int, Vector>> ColumnEnumerator()
         {
-            for (var i = 0; i < this.ColumnCount; i++)
+            for (var i = 0; i < ColumnCount; i++)
             {
-                yield return new KeyValuePair<int, Vector>(i, this.Column(i));
+                yield return new KeyValuePair<int, Vector>(i, Column(i));
             }
         }
 
@@ -655,12 +655,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>     
         public virtual IEnumerable<KeyValuePair<int, Vector>> ColumnEnumerator(int index, int length)
         {
-            if (index >= this.ColumnCount || index < 0)
+            if (index >= ColumnCount || index < 0)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            if (index + length > this.ColumnCount)
+            if (index + length > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
@@ -673,7 +673,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var maxIndex = index + length;
             for (var i = index; i < maxIndex; i++)
             {
-                yield return new KeyValuePair<int, Vector>(i, this.Column(i));
+                yield return new KeyValuePair<int, Vector>(i, Column(i));
             }
         }
 
@@ -691,12 +691,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>     
         public virtual IEnumerable<KeyValuePair<int, Vector>> RowEnumerator(int index, int length)
         {
-            if (index >= this.RowCount || index < 0)
+            if (index >= RowCount || index < 0)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            if (index + length > this.RowCount)
+            if (index + length > RowCount)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
@@ -709,7 +709,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var maxi = index + length;
             for (var i = index; i < maxi; i++)
             {
-                yield return new KeyValuePair<int, Vector>(i, this.Row(i));
+                yield return new KeyValuePair<int, Vector>(i, Row(i));
             }
         }
 
@@ -720,9 +720,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <seealso cref="IEnumerator{T}"/>        
         public virtual IEnumerable<KeyValuePair<int, Vector>> RowEnumerator()
         {
-            for (var i = 0; i < this.RowCount; i++)
+            for (var i = 0; i < RowCount; i++)
             {
-                yield return new KeyValuePair<int, Vector>(i, this.Row(i));
+                yield return new KeyValuePair<int, Vector>(i, Row(i));
             }
         }
 
@@ -734,12 +734,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// i == j (i is the row index, and j is the column index).</remarks>
         public virtual Vector Diagonal()
         {
-            var min = Math.Min(this.RowCount, this.ColumnCount);
-            var diagonal = this.CreateVector(min);
+            var min = Math.Min(RowCount, ColumnCount);
+            var diagonal = CreateVector(min);
             CommonParallel.For(
                 0, 
                 min, 
-                i => { diagonal[i] = this.At(i, i); });
+                i => { diagonal[i] = At(i, i); });
             return diagonal;
         }
 
@@ -750,17 +750,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The lower triangle of this matrix.</returns>
         public virtual Matrix StrictlyLowerTriangle()
         {
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
+            var result = CreateMatrix(RowCount, ColumnCount);
             CommonParallel.For(
                 0, 
-                this.RowCount, 
+                RowCount, 
                 i =>
                 {
-                    for (var j = 0; j < this.ColumnCount; j++)
+                    for (var j = 0; j < ColumnCount; j++)
                     {
                         if (i > j)
                         {
-                            result.At(i, j, this.At(i, j));
+                            result.At(i, j, At(i, j));
                         }
                     }
                 });
@@ -780,19 +780,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
             CommonParallel.For(
                 0, 
-                this.RowCount, 
+                RowCount, 
                 i =>
                 {
-                    for (var j = 0; j < this.ColumnCount; j++)
+                    for (var j = 0; j < ColumnCount; j++)
                     {
-                        result.At(i, j, i > j ? this.At(i, j) : 0);
+                        result.At(i, j, i > j ? At(i, j) : 0);
                     }
                 });
         }
@@ -804,17 +804,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The upper triangle of this matrix.</returns>
         public virtual Matrix StrictlyUpperTriangle()
         {
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount);
+            var result = CreateMatrix(RowCount, ColumnCount);
             CommonParallel.For(
                 0, 
-                this.RowCount, 
+                RowCount, 
                 i =>
                 {
-                    for (var j = 0; j < this.ColumnCount; j++)
+                    for (var j = 0; j < ColumnCount; j++)
                     {
                         if (i < j)
                         {
-                            result.At(i, j, this.At(i, j));
+                            result.At(i, j, At(i, j));
                         }
                     }
                 });
@@ -837,28 +837,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("column");
             }
 
-            if (columnIndex < 0 || columnIndex > this.ColumnCount)
+            if (columnIndex < 0 || columnIndex > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
 
-            if (column.Count != this.RowCount)
+            if (column.Count != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
             }
 
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount + 1);
+            var result = CreateMatrix(RowCount, ColumnCount + 1);
 
             for (var i = 0; i < columnIndex; i++)
             {
-                result.SetColumn(i, this.Column(i));
+                result.SetColumn(i, Column(i));
             }
 
             result.SetColumn(columnIndex, column);
 
-            for (var i = columnIndex + 1; i < this.ColumnCount + 1; i++)
+            for (var i = columnIndex + 1; i < ColumnCount + 1; i++)
             {
-                result.SetColumn(i, this.Column(i - 1));
+                result.SetColumn(i, Column(i - 1));
             }
 
             return result;
@@ -878,7 +878,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
         public virtual void SetColumn(int columnIndex, double[] column)
         {
-            if (columnIndex < 0 || columnIndex >= this.ColumnCount)
+            if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
@@ -888,15 +888,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("column");
             }
 
-            if (column.Length != this.RowCount)
+            if (column.Length != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
             }
 
             CommonParallel.For(
                 0, 
-                this.RowCount, 
-                i => this.At(i, columnIndex, column[i]));
+                RowCount, 
+                i => At(i, columnIndex, column[i]));
         }
 
         /// <summary>
@@ -911,7 +911,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
         public virtual void SetColumn(int columnIndex, Vector column)
         {
-            if (columnIndex < 0 || columnIndex >= this.ColumnCount)
+            if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
@@ -921,15 +921,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("column");
             }
 
-            if (column.Count != this.RowCount)
+            if (column.Count != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
             }
 
             CommonParallel.For(
                 0, 
-                this.RowCount, 
-                i => this.At(i, columnIndex, column[i]));
+                RowCount, 
+                i => At(i, columnIndex, column[i]));
         }
 
         /// <summary>
@@ -948,28 +948,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("row");
             }
 
-            if (rowIndex < 0 || rowIndex > this.RowCount)
+            if (rowIndex < 0 || rowIndex > RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
 
-            if (row.Count != this.ColumnCount)
+            if (row.Count != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
             }
 
-            var result = this.CreateMatrix(this.RowCount + 1, this.ColumnCount);
+            var result = CreateMatrix(RowCount + 1, ColumnCount);
 
             for (var i = 0; i < rowIndex; i++)
             {
-                result.SetRow(i, this.Row(i));
+                result.SetRow(i, Row(i));
             }
 
             result.SetRow(rowIndex, row);
 
-            for (var i = rowIndex + 1; i < this.RowCount; i++)
+            for (var i = rowIndex + 1; i < RowCount; i++)
             {
-                result.SetRow(i, this.Row(i - 1));
+                result.SetRow(i, Row(i - 1));
             }
 
             return result;
@@ -987,7 +987,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
         public virtual void SetRow(int rowIndex, Vector row)
         {
-            if (rowIndex < 0 || rowIndex >= this.RowCount)
+            if (rowIndex < 0 || rowIndex >= RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
@@ -997,15 +997,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("row");
             }
 
-            if (row.Count != this.ColumnCount)
+            if (row.Count != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
             }
 
             CommonParallel.For(
                 0, 
-                this.ColumnCount, 
-                i => this.At(rowIndex, i, row[i]));
+                ColumnCount, 
+                i => At(rowIndex, i, row[i]));
         }
 
         /// <summary>
@@ -1020,7 +1020,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
         public virtual void SetRow(int rowIndex, double[] row)
         {
-            if (rowIndex < 0 || rowIndex >= this.RowCount)
+            if (rowIndex < 0 || rowIndex >= RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
@@ -1030,15 +1030,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("row");
             }
 
-            if (row.Length != this.ColumnCount)
+            if (row.Length != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
             }
 
             CommonParallel.For(
                 0, 
-                this.ColumnCount, 
-                i => this.At(rowIndex, i, row[i]));
+                ColumnCount, 
+                i => At(rowIndex, i, row[i]));
         }
 
         /// <summary>
@@ -1061,12 +1061,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is not positive.</exception>
         public virtual void SetSubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength, Matrix subMatrix)
         {
-            if (rowIndex >= this.RowCount || rowIndex < 0)
+            if (rowIndex >= RowCount || rowIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
 
-            if (columnIndex >= this.ColumnCount || columnIndex < 0)
+            if (columnIndex >= ColumnCount || columnIndex < 0)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
@@ -1099,12 +1099,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var colMax = columnIndex + columnLength;
             var rowMax = rowIndex + rowLength;
 
-            if (rowMax > this.RowCount)
+            if (rowMax > RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowLength");
             }
 
-            if (colMax > this.ColumnCount)
+            if (colMax > ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnLength");
             }
@@ -1116,7 +1116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
                     {
-                        this.At(i, j, subMatrix[ii, j - columnIndex]);
+                        At(i, j, subMatrix[ii, j - columnIndex]);
                     }
                 });
         }
@@ -1138,7 +1138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("source");
             }
 
-            var min = Math.Min(this.RowCount, this.ColumnCount);
+            var min = Math.Min(RowCount, ColumnCount);
 
             if (source.Count != min)
             {
@@ -1148,7 +1148,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0, 
                 min, 
-                i => this.At(i, i, source[i]));
+                i => At(i, i, source[i]));
         }
 
         /// <summary>
@@ -1168,7 +1168,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("source");
             }
 
-            var min = Math.Min(this.RowCount, this.ColumnCount);
+            var min = Math.Min(RowCount, ColumnCount);
 
             if (source.Length != min)
             {
@@ -1178,7 +1178,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0, 
                 min, 
-                i => this.At(i, i, source[i]));
+                i => At(i, i, source[i]));
         }
 
         /// <summary>
@@ -1194,19 +1194,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
             CommonParallel.For(
                 0, 
-                this.RowCount, 
+                RowCount, 
                 i =>
                 {
-                    for (var j = 0; j < this.ColumnCount; j++)
+                    for (var j = 0; j < ColumnCount; j++)
                     {
-                        result.At(i, j, i < j ? this.At(i, j) : 0);
+                        result.At(i, j, i < j ? At(i, j) : 0);
                     }
                 });
         }
@@ -1217,15 +1217,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>A multidimensional containing the values of this matrix.</returns>        
         public virtual double[,] ToArray()
         {
-            var ret = new double[this.RowCount, this.ColumnCount];
+            var ret = new double[RowCount, ColumnCount];
             CommonParallel.For(
                 0, 
-                this.ColumnCount, 
+                ColumnCount, 
                 j =>
                 {
-                    for (var i = 0; i < this.RowCount; i++)
+                    for (var i = 0; i < RowCount; i++)
                     {
-                        ret[i, j] = this.At(i, j);
+                        ret[i, j] = At(i, j);
                     }
                 });
             return ret;
@@ -1242,10 +1242,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>An array containing the matrix's elements.</returns>
         public virtual double[] ToColumnWiseArray()
         {
-            var ret = new double[this.RowCount * this.ColumnCount];
-            foreach (var column in this.ColumnEnumerator())
+            var ret = new double[RowCount * ColumnCount];
+            foreach (var column in ColumnEnumerator())
             {
-                var columnIndex = column.Key * this.RowCount;
+                var columnIndex = column.Key * RowCount;
                 foreach (var element in column.Value.GetIndexedEnumerator())
                 {
                     ret[columnIndex + element.Key] = element.Value;
@@ -1266,11 +1266,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>An array containing the matrix's elements.</returns>
         public virtual double[] ToRowWiseArray()
         {
-            var ret = new double[this.RowCount * this.ColumnCount];
+            var ret = new double[RowCount * ColumnCount];
 
-            foreach (var row in this.RowEnumerator())
+            foreach (var row in RowEnumerator())
             {
-                var rowIndex = row.Key * this.ColumnCount;
+                var rowIndex = row.Key * ColumnCount;
                 foreach (var element in row.Value.GetIndexedEnumerator())
                 {
                     ret[rowIndex + element.Key] = element.Value;
@@ -1294,7 +1294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         object ICloneable.Clone()
         {
-            return this.Clone();
+            return Clone();
         }
 
         #endregion
@@ -1320,7 +1320,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return false;
             }
 
-            if (this.ColumnCount != other.ColumnCount || this.RowCount != other.RowCount)
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
                 return false;
             }
@@ -1332,11 +1332,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             // If all else fails, perform element wise comparison.
-            for (var row = 0; row < this.RowCount; row++)
+            for (var row = 0; row < RowCount; row++)
             {
-                for (var column = 0; column < this.ColumnCount; column++)
+                for (var column = 0; column < ColumnCount; column++)
                 {
-                    if (this.At(row, column) != other.At(row, column))
+                    if (At(row, column) != other.At(row, column))
                     {
                         return false;
                     }
@@ -1365,18 +1365,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public string ToString(string format, IFormatProvider formatProvider)
         {
             var stringBuilder = new StringBuilder();
-            for (var row = 0; row < this.RowCount; row++)
+            for (var row = 0; row < RowCount; row++)
             {
-                for (var column = 0; column < this.ColumnCount; column++)
+                for (var column = 0; column < ColumnCount; column++)
                 {
-                    stringBuilder.Append(this.At(row, column).ToString(format, formatProvider));
-                    if (column != this.ColumnCount - 1)
+                    stringBuilder.Append(At(row, column).ToString(format, formatProvider));
+                    if (column != ColumnCount - 1)
                     {
                         stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
                     }
                 }
 
-                if (row != this.RowCount - 1)
+                if (row != RowCount - 1)
                 {
                     stringBuilder.Append(Environment.NewLine);
                 }
@@ -1400,12 +1400,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         private void RangeCheck(int row, int column)
         {
-            if (row < 0 || row >= this.RowCount)
+            if (row < 0 || row >= RowCount)
             {
                 throw new ArgumentOutOfRangeException("row");
             }
 
-            if (column < 0 || column >= this.ColumnCount)
+            if (column < 0 || column >= ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("column");
             }
@@ -1422,7 +1422,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as Matrix);
+            return Equals(obj as Matrix);
         }
 
         /// <summary>
@@ -1433,12 +1433,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(this.RowCount * this.ColumnCount, 25);
+            var hashNum = Math.Min(RowCount * ColumnCount, 25);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
-                var col = i % this.ColumnCount;
-                var row = (i - col) / this.RowCount;
+                var col = i % ColumnCount;
+                var row = (i - col) / RowCount;
 
 #if SILVERLIGHT
                 hash ^= Precision.DoubleToInt64Bits(this[row, col]);
@@ -1457,11 +1457,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public virtual void Clear()
         {
-            for (var i = 0; i < this.RowCount; i++)
+            for (var i = 0; i < RowCount; i++)
             {
-                for (var j = 0; j < this.ColumnCount; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    this.At(i, j, 0);
+                    At(i, j, 0);
                 }
             }
         }
@@ -1472,12 +1472,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The transpose of this matrix.</returns>
         public virtual Matrix Transpose()
         {
-            var ret = this.CreateMatrix(this.ColumnCount, this.RowCount);
-            for (var j = 0; j < this.ColumnCount; j++)
+            var ret = CreateMatrix(ColumnCount, RowCount);
+            for (var j = 0; j < ColumnCount; j++)
             {
-                for (var i = 0; i < this.RowCount; i++)
+                for (var i = 0; i < RowCount; i++)
                 {
-                    ret.At(j, i, this.At(i, j));
+                    ret.At(j, i, At(i, j));
                 }
             }
 
@@ -1490,7 +1490,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="p">The row permutation to apply to this matrix.</param>
         public virtual void PermuteRows(Permutation p)
         {
-            if (p.Dimension != this.RowCount)
+            if (p.Dimension != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "p");
             }
@@ -1503,11 +1503,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 if (inv[i] != i)
                 {
                     var q = inv[i];
-                    for (var j = 0; j < this.ColumnCount; j++)
+                    for (var j = 0; j < ColumnCount; j++)
                     {
-                        var temp = this.At(q, j);
-                        this.At(q, j, this.At(i, j));
-                        this.At(i, j, temp);
+                        var temp = At(q, j);
+                        At(q, j, At(i, j));
+                        At(i, j, temp);
                     }
                 }
             }
@@ -1519,7 +1519,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="p">The column permutation to apply to this matrix.</param>
         public virtual void PermuteColumns(Permutation p)
         {
-            if (p.Dimension != this.ColumnCount)
+            if (p.Dimension != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "p");
             }
@@ -1532,11 +1532,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 if (inv[i] != i)
                 {
                     var q = inv[i];
-                    for (var j = 0; j < this.RowCount; j++)
+                    for (var j = 0; j < RowCount; j++)
                     {
-                        var temp = this.At(j, q);
-                        this.At(j, q, this.At(j, i));
-                        this.At(j, i, temp);
+                        var temp = At(j, q);
+                        At(j, q, At(j, i));
+                        At(j, i, temp);
                     }
                 }
             }
@@ -1554,13 +1554,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("right");
             }
 
-            if (right.RowCount != this.RowCount)
+            if (right.RowCount != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
-            var result = this.CreateMatrix(this.RowCount, this.ColumnCount + right.ColumnCount);
-            this.Append(right, result);
+            var result = CreateMatrix(RowCount, ColumnCount + right.ColumnCount);
+            Append(right, result);
             return result;
         }
 
@@ -1576,7 +1576,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("right");
             }
 
-            if (right.RowCount != this.RowCount)
+            if (right.RowCount != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
@@ -1586,7 +1586,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.ColumnCount != (this.ColumnCount + right.ColumnCount) || result.RowCount != this.RowCount)
+            if (result.ColumnCount != (ColumnCount + right.ColumnCount) || result.RowCount != RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
@@ -1594,21 +1594,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.Invoke(
                 () =>
                 {
-                    for (var i = 0; i < this.RowCount; i++)
+                    for (var i = 0; i < RowCount; i++)
                     {
-                        for (var j = 0; j < this.ColumnCount; j++)
+                        for (var j = 0; j < ColumnCount; j++)
                         {
-                            result.At(i, j, this.At(i, j));
+                            result.At(i, j, At(i, j));
                         }
                     }
                 }, 
                 () =>
                 {
-                    for (var i = 0; i < this.RowCount; i++)
+                    for (var i = 0; i < RowCount; i++)
                     {
                         for (var j = 0; j < right.ColumnCount; j++)
                         {
-                            result.At(i, j + this.ColumnCount, right.At(i, j));
+                            result.At(i, j + ColumnCount, right.At(i, j));
                         }
                     }
                 });
@@ -1628,13 +1628,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("lower");
             }
 
-            if (lower.ColumnCount != this.ColumnCount)
+            if (lower.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
             }
 
-            var result = this.CreateMatrix(this.RowCount + lower.RowCount, this.ColumnCount);
-            this.Stack(lower, result);
+            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount);
+            Stack(lower, result);
             return result;
         }
 
@@ -1652,7 +1652,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("lower");
             }
 
-            if (lower.ColumnCount != this.ColumnCount)
+            if (lower.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
             }
@@ -1662,7 +1662,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != (this.RowCount + lower.RowCount) || result.ColumnCount != this.ColumnCount)
+            if (result.RowCount != (RowCount + lower.RowCount) || result.ColumnCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
@@ -1670,11 +1670,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.Invoke(
                 () =>
                 {
-                    for (var i = 0; i < this.RowCount; i++)
+                    for (var i = 0; i < RowCount; i++)
                     {
-                        for (var j = 0; j < this.ColumnCount; j++)
+                        for (var j = 0; j < ColumnCount; j++)
                         {
-                            result.At(i, j, this.At(i, j));
+                            result.At(i, j, At(i, j));
                         }
                     }
                 }, 
@@ -1682,9 +1682,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     for (var i = 0; i < lower.RowCount; i++)
                     {
-                        for (var j = 0; j < this.ColumnCount; j++)
+                        for (var j = 0; j < ColumnCount; j++)
                         {
-                            result.At(i + this.RowCount, j, lower.At(i, j));
+                            result.At(i + RowCount, j, lower.At(i, j));
                         }
                     }
                 });
@@ -1705,8 +1705,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("lower");
             }
 
-            var result = this.CreateMatrix(this.RowCount + lower.RowCount, this.ColumnCount + lower.ColumnCount);
-            this.DiagonalStack(lower, result);
+            var result = CreateMatrix(RowCount + lower.RowCount, ColumnCount + lower.ColumnCount);
+            DiagonalStack(lower, result);
             return result;
         }
 
@@ -1730,7 +1730,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (result.RowCount != this.RowCount + lower.RowCount || result.ColumnCount != this.ColumnCount + lower.ColumnCount)
+            if (result.RowCount != RowCount + lower.RowCount || result.ColumnCount != ColumnCount + lower.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
@@ -1738,11 +1738,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.Invoke(
                 () =>
                 {
-                    for (var i = 0; i < this.RowCount; i++)
+                    for (var i = 0; i < RowCount; i++)
                     {
-                        for (var j = 0; j < this.ColumnCount; j++)
+                        for (var j = 0; j < ColumnCount; j++)
                         {
-                            result.At(i, j, this.At(i, j));
+                            result.At(i, j, At(i, j));
                         }
                     }
                 }, 
@@ -1752,7 +1752,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     {
                         for (var j = 0; j < lower.ColumnCount; j++)
                         {
-                            result.At(i + this.RowCount, j + this.ColumnCount, lower.At(i, j));
+                            result.At(i + RowCount, j + ColumnCount, lower.At(i, j));
                         }
                     }
                 });

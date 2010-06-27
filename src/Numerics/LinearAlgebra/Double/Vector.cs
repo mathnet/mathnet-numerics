@@ -62,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "size");
             }
 
-            this.Count = size;
+            Count = size;
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index => this[index] += scalar);
         }
 
@@ -155,14 +155,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (!ReferenceEquals(this, result))
             {
-                this.CopyTo(result);
+                CopyTo(result);
             }
 
             result.Add(scalar);
@@ -201,14 +201,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index => this[index] += other[index]);
         }
 
@@ -240,7 +240,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.Add(other);
             }
         }
@@ -273,7 +273,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index => this[index] -= scalar);
         }
 
@@ -299,14 +299,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (!ReferenceEquals(this, result))
             {
-                this.CopyTo(result);
+                CopyTo(result);
             }
 
             result.Subtract(scalar);
@@ -345,14 +345,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index => this[index] -= other[index]);
         }
 
@@ -384,7 +384,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -397,7 +397,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.Subtract(other);
             }
         }
@@ -417,7 +417,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index => this[index] *= scalar);
         }
 
@@ -443,14 +443,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (!ReferenceEquals(this, result))
             {
-                this.CopyTo(result);
+                CopyTo(result);
             }
 
             result.Multiply(scalar);
@@ -478,13 +478,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             var dot = 0.0;
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 dot += this[i] * other[i];
             }
@@ -505,7 +505,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            this.Multiply(1.0 / scalar);
+            Multiply(1.0 / scalar);
         }
 
         /// <summary>
@@ -530,14 +530,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
             if (!ReferenceEquals(this, result))
             {
-                this.CopyTo(result);
+                CopyTo(result);
             }
 
             result.Multiply(1.0 / scalar);
@@ -556,14 +556,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index => this[index] *= other[index]);
         }
 
@@ -588,12 +588,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -601,12 +601,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                this.PointwiseMultiply(other, tmp);
+                PointwiseMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.PointwiseMultiply(other);
             }
         }
@@ -624,14 +624,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index => this[index] /= other[index]);
         }
 
@@ -656,12 +656,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -669,12 +669,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                this.PointwiseDivide(other, tmp);
+                PointwiseDivide(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.PointwiseDivide(other);
             }
         }
@@ -701,11 +701,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var matrix = new DenseMatrix(u.Count, v.Count);
             CommonParallel.For(
-                0,
-                u.Count,
+                0, 
+                u.Count, 
                 i =>
                 {
-                    for (int j = 0; j < v.Count; j++)
+                    for (var j = 0; j < v.Count; j++)
                     {
                         matrix.At(i, j, u[i] * v[j]);
                     }
@@ -722,7 +722,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A vector with n-random elements distributed according
         /// to the specified random distribution.
         /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If the n vector is non-positive.</exception> 
         public virtual Vector Random(int length, IContinuousDistribution randomDistribution)
         {
             if (length < 1)
@@ -730,7 +730,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
 
-            var v = this.CreateVector(length);
+            var v = CreateVector(length);
             for (var index = 0; index < v.Count; index++)
             {
                 v[index] = randomDistribution.Sample();
@@ -748,7 +748,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// A vector with n-random elements distributed according
         /// to the specified random distribution.
         /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non poisitive<see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If the n vector is not positive.</exception> 
         public virtual Vector Random(int length, IDiscreteDistribution randomDistribution)
         {
             if (length < 1)
@@ -756,7 +756,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
 
-            var v = this.CreateVector(length);
+            var v = CreateVector(length);
             for (var index = 0; index < v.Count; index++)
             {
                 v[index] = randomDistribution.Sample();
@@ -784,7 +784,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The value of the absolute minimum element.</returns>
         public virtual double AbsoluteMinimum()
         {
-            return Math.Abs(this[this.AbsoluteMinimumIndex()]);
+            return Math.Abs(this[AbsoluteMinimumIndex()]);
         }
 
         /// <summary>
@@ -795,7 +795,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var index = 0;
             var min = Math.Abs(this[index]);
-            for (var i = 1; i < this.Count; i++)
+            for (var i = 1; i < Count; i++)
             {
                 var test = Math.Abs(this[i]);
                 if (test < min)
@@ -814,7 +814,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The value of the absolute maximum element.</returns>
         public virtual double AbsoluteMaximum()
         {
-            return Math.Abs(this[this.AbsoluteMaximumIndex()]);
+            return Math.Abs(this[AbsoluteMaximumIndex()]);
         }
 
         /// <summary>
@@ -825,7 +825,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var index = 0;
             var max = Math.Abs(this[index]);
-            for (var i = 1; i < this.Count; i++)
+            for (var i = 1; i < Count; i++)
             {
                 var test = Math.Abs(this[i]);
                 if (test > max)
@@ -844,7 +844,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The value of maximum element.</returns>        
         public virtual double Maximum()
         {
-            return this[this.MaximumIndex()];
+            return this[MaximumIndex()];
         }
 
         /// <summary>
@@ -855,7 +855,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var index = 0;
             var max = this[0];
-            for (var i = 1; i < this.Count; i++)
+            for (var i = 1; i < Count; i++)
             {
                 if (max < this[i])
                 {
@@ -873,7 +873,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The value of the minimum element.</returns>
         public virtual double Minimum()
         {
-            return this[this.MinimumIndex()];
+            return this[MinimumIndex()];
         }
 
         /// <summary>
@@ -884,7 +884,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var index = 0;
             var min = this[0];
-            for (var i = 1; i < this.Count; i++)
+            for (var i = 1; i < Count; i++)
             {
                 if (min > this[i])
                 {
@@ -903,7 +903,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public virtual double Sum()
         {
             double result = 0;
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 result += this[i];
             }
@@ -918,7 +918,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public virtual double SumMagnitudes()
         {
             double result = 0;
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 result += Math.Abs(this[i]);
             }
@@ -931,7 +931,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #region Arithmetic Operator Overloading
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the same values of rightSide. 
+        /// Returns a <strong>Vector</strong> containing the same values of <paramref name="rightSide"/>. 
         /// </summary>
         /// <remarks>This method is included for completeness.</remarks>
         /// <param name="rightSide">The vector to get the values from.</param>
@@ -978,7 +978,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <strong>Vector</strong> containing the negated values of rightSide. 
+        /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
         /// </summary>
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
@@ -1116,22 +1116,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Euclidean Norm also known as 2-Norm.
         /// </summary>
         /// <returns>
-        /// Scalar ret = sqrt(sum(this[i]^2))
+        /// <c>Scalar ret = sqrt(sum(this[i]^2))</c>
         /// </returns>
         public virtual double Norm()
         {
-            return this.NormP(2);
+            return NormP(2);
         }
 
         /// <summary>
         /// Squared Euclidean 2-Norm.
         /// </summary>
         /// <returns>
-        /// Scalar ret = sum(this[i]^2)
+        /// <c>Scalar ret = sum(this[i]^2)</c>
         /// </returns>
         public virtual double SquaredNorm()
         {
-            var norm = this.Norm();
+            var norm = Norm();
             return norm * norm;
         }
 
@@ -1139,11 +1139,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// 1-Norm also known as Manhattan Norm or Taxicab Norm.
         /// </summary>
         /// <returns>
-        /// Scalar ret = sum(abs(this[i]))
+        /// <c>Scalar ret = sum(abs(this[i]))</c>
         /// </returns>
         public virtual double Norm1()
         {
-            return this.NormP(1);
+            return NormP(1);
         }
 
         /// <summary>
@@ -1153,7 +1153,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The p value.
         /// </param>
         /// <returns>
-        /// Scalar ret = (sum(abs(this[i])^p))^(1/p)
+        /// <c>Scalar ret = (sum(abs(this[i])^p))^(1/p)</c>
         /// </returns>
         public virtual double NormP(int p)
         {
@@ -1164,7 +1164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var sum = CommonParallel.Aggregate(
                 0, 
-                this.Count, 
+                Count, 
                 index => Math.Pow(Math.Abs(this[index]), p));
 
             return Math.Pow(sum, 1.0 / p);
@@ -1174,27 +1174,27 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Infinity Norm.
         /// </summary>
         /// <returns>
-        /// Scalar ret = max(abs(this[i]))
+        /// <c>Scalar ret = max(abs(this[i]))</c>
         /// </returns>
         public virtual double NormInfinity()
         {
             return CommonParallel.Select(
                 0, 
-                this.Count, 
+                Count, 
                 (index, localData) => localData = Math.Max(localData, Math.Abs(this[index])), 
                 Math.Max);
         }
 
         /// <summary>
-        /// Normalizes this vector to a unit vector with respect to the Eucliden 2-Norm.
+        /// Normalizes this vector to a unit vector with respect to the Euclidean 2-Norm.
         /// </summary>
         /// <returns>
-        /// This vector normalized to a unit vector with respect to the Eucliden 2-Norm.
+        /// This vector normalized to a unit vector with respect to the Euclidean 2-Norm.
         /// </returns>
         public virtual Vector Normalize()
         {
-            var norm = this.Norm();
-            var clone = this.Clone();
+            var norm = Norm();
+            var clone = Clone();
             if (norm == 0.0)
             {
                 return clone;
@@ -1216,8 +1216,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public Vector Clone()
         {
-            var retrunVector = this.CreateVector(this.Count);
-            this.CopyTo(retrunVector);
+            var retrunVector = CreateVector(Count);
+            CopyTo(retrunVector);
             return retrunVector;
         }
 
@@ -1240,7 +1240,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("target");
             }
 
-            if (this.Count != target.Count)
+            if (Count != target.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
@@ -1252,7 +1252,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index => target[index] = this[index]);
         }
 
@@ -1278,12 +1278,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("destination");
             }
 
-            if (offset >= this.Count)
+            if (offset >= Count)
             {
                 throw new ArgumentOutOfRangeException("offset");
             }
 
-            if (offset + count > this.Count)
+            if (offset + count > Count)
             {
                 throw new ArgumentOutOfRangeException("count");
             }
@@ -1301,7 +1301,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, destination))
             {
                 var tmpVector = destination.CreateVector(destination.Count);
-                this.CopyTo(tmpVector);
+                CopyTo(tmpVector);
 
                 CommonParallel.For(
                     0, 
@@ -1325,7 +1325,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual double[] ToArray()
         {
-            var ret = new double[this.Count];
+            var ret = new double[Count];
             for (var i = 0; i < ret.Length; i++)
             {
                 ret[i] = this[i];
@@ -1342,8 +1342,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual Matrix ToColumnMatrix()
         {
-            var matrix = this.CreateMatrix(this.Count, 1);
-            for (var i = 0; i < this.Count; i++)
+            var matrix = CreateMatrix(Count, 1);
+            for (var i = 0; i < Count; i++)
             {
                 matrix[i, 0] = this[i];
             }
@@ -1359,8 +1359,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual Matrix ToRowMatrix()
         {
-            var matrix = this.CreateMatrix(1, this.Count);
-            for (var i = 0; i < this.Count; i++)
+            var matrix = CreateMatrix(1, Count);
+            for (var i = 0; i < Count; i++)
             {
                 matrix[0, i] = this[i];
             }
@@ -1381,7 +1381,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         public virtual Vector SubVector(int index, int length)
         {
-            if (index < 0 || index >= this.Count)
+            if (index < 0 || index >= Count)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
@@ -1391,12 +1391,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException("length");
             }
 
-            if (index + length > this.Count)
+            if (index + length > Count)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            var result = this.CreateVector(length);
+            var result = CreateVector(length);
 
             CommonParallel.For(
                 index, 
@@ -1418,7 +1418,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("values");
             }
 
-            if (values.Length != this.Count)
+            if (values.Length != Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "values");
             }
@@ -1445,7 +1445,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         object ICloneable.Clone()
         {
-            return this.Clone();
+            return Clone();
         }
 
         #endregion
@@ -1462,7 +1462,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         #endregion
@@ -1477,7 +1477,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public virtual IEnumerator<double> GetEnumerator()
         {
-            for (var index = 0; index < this.Count; index++)
+            for (var index = 0; index < Count; index++)
             {
                 yield return this[index];
             }
@@ -1501,7 +1501,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </remarks>
         public virtual IEnumerable<KeyValuePair<int, double>> GetIndexedEnumerator()
         {
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 yield return new KeyValuePair<int, double>(i, this[i]);
             }
@@ -1516,7 +1516,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// An object to compare with this object.
         /// </param>
         /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
         public bool Equals(Vector other)
         {
@@ -1526,7 +1526,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return false;
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 return false;
             }
@@ -1538,7 +1538,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             // If all else fails, perform element wise comparison.
-            for (var index = 0; index < this.Count; index++)
+            for (var index = 0; index < Count; index++)
             {
                 if (!this[index].AlmostEqual(other[index]))
                 {
@@ -1564,7 +1564,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public string ToString(IFormatProvider formatProvider)
         {
-            return this.ToString(null, formatProvider);
+            return ToString(null, formatProvider);
         }
 
         /// <summary>
@@ -1582,10 +1582,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public string ToString(string format, IFormatProvider formatProvider)
         {
             var stringBuilder = new StringBuilder();
-            for (var index = 0; index < this.Count; index++)
+            for (var index = 0; index < Count; index++)
             {
                 stringBuilder.Append(this[index].ToString(format, formatProvider));
-                if (index != this.Count - 1)
+                if (index != Count - 1)
                 {
                     stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
                 }
@@ -1611,7 +1611,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as Vector);
+            return Equals(obj as Vector);
         }
 
         /// <summary>
@@ -1622,7 +1622,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(this.Count, 20);
+            var hashNum = Math.Min(Count, 20);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
@@ -1644,9 +1644,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override string ToString()
         {
-            return this.ToString(null, null);
+            return ToString(null, null);
         }
 
         #endregion
+
+        /// <summary>
+        /// Resets all values to zero.
+        /// </summary>
+        public virtual void Clear()
+        {
+            CommonParallel.For(0, Count, index => this[index] = 0);
+        }
     }
 }

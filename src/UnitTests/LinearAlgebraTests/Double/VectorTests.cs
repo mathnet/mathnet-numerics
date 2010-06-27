@@ -421,6 +421,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             vector = vector.Random(-2, new ContinuousUniform());
         }
 
+        [Test]
+        public  void CanClearVector()
+        {
+            double[] testData = { -20, -10, 10, 20, 30, };
+            var vector = CreateVector(testData);
+            vector.Clear();
+            foreach (var element in vector)
+            {
+                Assert.AreEqual(0.0, element);
+            }
+        }
+
         protected abstract Vector CreateVector(int size);
         protected abstract Vector CreateVector(IList<double> data);
     }

@@ -61,15 +61,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             System.Array.Copy(_data, data, _data.Length);
             var vector = new SparseVector(data);
 
-            //Assert.AreSame(data, vector.ToArray()); There is no way to cast SparseVector to double[], so "vector.ToArray()" and "array" have different references
             for (var i = 0; i < data.Length; i++)
             {
                 Assert.AreEqual(data[i], vector[i]);
             }
-
-            // vector and data are different instances actually
-            //vector[0] = 100.0;
-            //Assert.AreEqual(100.0, data[0]);
         }
 
         [Test]
@@ -139,7 +134,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var vector = new SparseVector(_data);
             var array = vector.ToArray();
             Assert.IsInstanceOfType(typeof(double[]), array);
-            //Assert.AreSame(vector.ToArray(), array); There is no way to cast SparseVector to double[], so "vector.ToArray()" and "array" have different references
             Assert.AreElementsEqual(vector, array);
         }
 

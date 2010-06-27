@@ -40,9 +40,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     public class SparseVector : Vector
     {
         /// <summary>
-        /// Lock ojbect for the indexer.
+        /// Lock object for the indexer.
         /// </summary>
-        private readonly object lockObject = new object();
+        private readonly object _lockObject = new object();
 
         /// <summary>
         ///  Gets the vector's internal data. The array containing the actual values; only the non-zero values are stored.
@@ -96,22 +96,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (value == 0.0)
             {
-// Skip adding values 
+                // Skip adding values 
                 return;
             }
 
             // We already know that this vector is "full", let's allocate all needed memory
-            this._nonZeroValues = new double[size];
-            this._nonZeroIndices = new int[size];
-            this.NonZerosCount = size;
+            _nonZeroValues = new double[size];
+            _nonZeroIndices = new int[size];
+            NonZerosCount = size;
 
             CommonParallel.For(
                 0, 
-                this.Count, 
+                Count, 
                 index =>
                 {
-                    this._nonZeroValues[index] = value;
-                    this._nonZeroIndices[index] = index;
+                    _nonZeroValues[index] = value;
+                    _nonZeroIndices[index] = index;
                 });
         }
 
@@ -134,13 +134,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this._nonZeroValues = new double[vector.NonZerosCount];
-                this._nonZeroIndices = new int[vector.NonZerosCount];
-                this.NonZerosCount = vector.NonZerosCount;
+                _nonZeroValues = new double[vector.NonZerosCount];
+                _nonZeroIndices = new int[vector.NonZerosCount];
+                NonZerosCount = vector.NonZerosCount;
 
                 // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-                Buffer.BlockCopy(vector._nonZeroValues, 0, this._nonZeroValues, 0, vector.NonZerosCount * Constants.SizeOfDouble);
-                Buffer.BlockCopy(vector._nonZeroIndices, 0, this._nonZeroIndices, 0, vector.NonZerosCount * Constants.SizeOfInt);
+                Buffer.BlockCopy(vector._nonZeroValues, 0, _nonZeroValues, 0, vector.NonZerosCount * Constants.SizeOfDouble);
+                Buffer.BlockCopy(vector._nonZeroIndices, 0, _nonZeroIndices, 0, vector.NonZerosCount * Constants.SizeOfInt);
             }
         }
 
@@ -154,12 +154,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public SparseVector(SparseVector other) : this(other.Count)
         {
             // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-            this._nonZeroValues = new double[other.NonZerosCount];
-            this._nonZeroIndices = new int[other.NonZerosCount];
-            this.NonZerosCount = other.NonZerosCount;
+            _nonZeroValues = new double[other.NonZerosCount];
+            _nonZeroIndices = new int[other.NonZerosCount];
+            NonZerosCount = other.NonZerosCount;
 
-            Buffer.BlockCopy(other._nonZeroValues, 0, this._nonZeroValues, 0, other.NonZerosCount * Constants.SizeOfDouble);
-            Buffer.BlockCopy(other._nonZeroIndices, 0, this._nonZeroIndices, 0, other.NonZerosCount * Constants.SizeOfInt);
+            Buffer.BlockCopy(other._nonZeroValues, 0, _nonZeroValues, 0, other.NonZerosCount * Constants.SizeOfDouble);
+            Buffer.BlockCopy(other._nonZeroIndices, 0, _nonZeroIndices, 0, other.NonZerosCount * Constants.SizeOfInt);
         }
 
         /// <summary>
@@ -183,10 +183,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>This vector as a column matrix.</returns>
         public override Matrix ToColumnMatrix()
         {
-            var matrix = new SparseMatrix(this.Count, 1);
-            for (var i = 0; i < this.NonZerosCount; i++)
+            var matrix = new SparseMatrix(Count, 1);
+            for (var i = 0; i < NonZerosCount; i++)
             {
-                matrix[this._nonZeroIndices[i], 0] = this._nonZeroValues[i];
+                matrix[_nonZeroIndices[i], 0] = _nonZeroValues[i];
             }
 
             return matrix;
@@ -198,10 +198,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>This vector as a row matrix.</returns>
         public override Matrix ToRowMatrix()
         {
-            var matrix = new SparseMatrix(1, this.Count);
-            for (var i = 0; i < this.NonZerosCount; i++)
+            var matrix = new SparseMatrix(1, Count);
+            for (var i = 0; i < NonZerosCount; i++)
             {
-                matrix[0, this._nonZeroIndices[i]] = this._nonZeroValues[i];
+                matrix[0, _nonZeroIndices[i]] = _nonZeroValues[i];
             }
 
             return matrix;
@@ -217,18 +217,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             get
             {
                 // If index is out of bounds
-                if ((index < 0) || (index >= this.Count))
+                if ((index < 0) || (index >= Count))
                 {
                     throw new IndexOutOfRangeException();
                 }
 
-                lock (this.lockObject)
+                lock (_lockObject)
                 {
                     // Search if item idex exists in NonZeroIndices array in range "0 - real nonzero values count"
-                    var itemIndex = Array.BinarySearch(this._nonZeroIndices, 0, this.NonZerosCount, index);
+                    var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
                     if (itemIndex >= 0)
                     {
-                        return this._nonZeroValues[itemIndex];
+                        return _nonZeroValues[itemIndex];
                     }
                 }
 
@@ -238,14 +238,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             set
             {
                 // If index is out of bounds
-                if ((index < 0) || (index >= this.Count))
+                if ((index < 0) || (index >= Count))
                 {
                     throw new IndexOutOfRangeException();
                 }
 
-                lock (this.lockObject)
+                lock (_lockObject)
                 {
-                    this.SetValue(index, value);
+                    SetValue(index, value);
                 }
             }
         }
@@ -284,11 +284,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Clears this instance.
+        /// Resets all values to zero.
         /// </summary>
-        public void Clear()
+        public override void Clear()
         {
-            this.NonZerosCount = 0;
+            NonZerosCount = 0;
         }
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("target");
             }
 
-            if (this.Count != target.Count)
+            if (Count != target.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
@@ -325,32 +325,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 CommonParallel.For(
                     0, 
-                    this.Count, 
+                    Count, 
                     index => target[index] = this[index]);
             }
             else
             {
                 // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-                otherVector._nonZeroValues = new double[this.NonZerosCount];
-                otherVector._nonZeroIndices = new int[this.NonZerosCount];
-                otherVector.NonZerosCount = this.NonZerosCount;
+                otherVector._nonZeroValues = new double[NonZerosCount];
+                otherVector._nonZeroIndices = new int[NonZerosCount];
+                otherVector.NonZerosCount = NonZerosCount;
 
-                Buffer.BlockCopy(this._nonZeroValues, 0, otherVector._nonZeroValues, 0, this.NonZerosCount * Constants.SizeOfDouble);
-                Buffer.BlockCopy(this._nonZeroIndices, 0, otherVector._nonZeroIndices, 0, this.NonZerosCount * Constants.SizeOfInt);
+                Buffer.BlockCopy(_nonZeroValues, 0, otherVector._nonZeroValues, 0, NonZerosCount * Constants.SizeOfDouble);
+                Buffer.BlockCopy(_nonZeroIndices, 0, otherVector._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
             }
         }
 
         #region Operators and supplementary functions
-
-        // NOTE: There are no operators as:
-        // public static implicit operator SparseVector(double[] array)
-        // and
-        // public static implicit operator double[](SparseVector vector)
-        // as it is in DenseVector. Because when creating vector from double[] values are copied to internal storage and if user wants
-        // to get double[] he should call SparseVector.ToArray(), then double[] will be generated and returned to a user.\
-
-        // In DenseVector implementation reference to double[] is assigned to interanl storage when casting from double[] and returned 
-        // when casting to double[] 
 
         /// <summary>
         /// Adds a scalar to each element of the vector.
@@ -363,7 +353,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 this[i] += scalar;
             }
@@ -383,12 +373,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            this.CopyTo(result);
+            CopyTo(result);
             result.Add(scalar);
         }
 
@@ -405,7 +395,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -418,7 +408,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.AddScaledSparceVector(1.0, sparseVector);
+                AddScaledSparceVector(1.0, sparseVector);
             }
         }
 
@@ -434,7 +424,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -453,21 +443,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 // To avoid such problem lets change values in internal storage of "this"
                 if (alpha == 1.0)
                 {
-                    for (var i = 0; i < this.NonZerosCount; i++)
+                    for (var i = 0; i < NonZerosCount; i++)
                     {
-                        this._nonZeroValues[i] += this._nonZeroValues[i];
+                        _nonZeroValues[i] += _nonZeroValues[i];
                     }
                 }
                 else if (alpha == -1.0)
                 {
-                    this.Clear(); // Vector is subtracted from itself
+                    Clear(); // Vector is subtracted from itself
                     return;
                 }
                 else
                 {
-                    for (var i = 0; i < this.NonZerosCount; i++)
+                    for (var i = 0; i < NonZerosCount; i++)
                     {
-                        this._nonZeroValues[i] += alpha * this._nonZeroValues[i];
+                        _nonZeroValues[i] += alpha * _nonZeroValues[i];
                     }
                 }
             }
@@ -507,12 +497,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -525,7 +515,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.Add(other);
             }
         }
@@ -588,7 +578,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 this[i] -= scalar;
             }
@@ -608,12 +598,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            this.CopyTo(result);
+            CopyTo(result);
             result.Subtract(scalar);
         }
 
@@ -630,7 +620,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -643,7 +633,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.AddScaledSparceVector(-1.0, sparseVector);
+                AddScaledSparceVector(-1.0, sparseVector);
             }
         }
 
@@ -663,12 +653,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("result");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -681,7 +671,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.Subtract(other);
             }
         }
@@ -739,19 +729,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
         public override Vector Negate()
         {
-            var result = new SparseVector(this.Count)
+            var result = new SparseVector(Count)
                          {
-                             _nonZeroValues = new double[this.NonZerosCount], 
-                             _nonZeroIndices = new int[this.NonZerosCount], 
-                             NonZerosCount = this.NonZerosCount
+                             _nonZeroValues = new double[NonZerosCount], 
+                             _nonZeroIndices = new int[NonZerosCount], 
+                             NonZerosCount = NonZerosCount
                          };
 
-            Buffer.BlockCopy(this._nonZeroIndices, 0, result._nonZeroIndices, 0, this.NonZerosCount * Constants.SizeOfInt);
+            Buffer.BlockCopy(_nonZeroIndices, 0, result._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
 
             CommonParallel.For(
                 0, 
-                this.NonZerosCount, 
-                index => result._nonZeroValues[index] = -this._nonZeroValues[index]);
+                NonZerosCount, 
+                index => result._nonZeroValues[index] = -_nonZeroValues[index]);
 
             return result;
         }
@@ -769,11 +759,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (scalar == 0)
             {
-                this.Clear(); // Set array empty
+                Clear(); // Set array empty
                 return;
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(scalar, this._nonZeroValues);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, _nonZeroValues);
         }
 
         /// <summary>
@@ -790,7 +780,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
@@ -798,9 +788,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             double result = 0;
 
             // base implementation iterates though all elements, but we need only take non-zeros 
-            for (var i = 0; i < this.NonZerosCount; i++)
+            for (var i = 0; i < NonZerosCount; i++)
             {
-                result += this._nonZeroValues[i] * other[this._nonZeroIndices[i]];
+                result += _nonZeroValues[i] * other[_nonZeroIndices[i]];
             }
 
             return result;
@@ -897,17 +887,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The index of absolute minimum element.</returns>   
         public override int AbsoluteMinimumIndex()
         {
-            if (this.NonZerosCount == 0)
+            if (NonZerosCount == 0)
             {
 // No non-zero elements. Return 0
                 return 0;
             }
 
             var index = 0;
-            var min = Math.Abs(this._nonZeroValues[index]);
-            for (var i = 1; i < this.NonZerosCount; i++)
+            var min = Math.Abs(_nonZeroValues[index]);
+            for (var i = 1; i < NonZerosCount; i++)
             {
-                var test = Math.Abs(this._nonZeroValues[i]);
+                var test = Math.Abs(_nonZeroValues[i]);
                 if (test < min)
                 {
                     index = i;
@@ -915,7 +905,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 }
             }
 
-            return this._nonZeroIndices[index];
+            return _nonZeroIndices[index];
         }
 
         /// <summary>
@@ -931,7 +921,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         public override Vector SubVector(int index, int length)
         {
-            if (index < 0 || index >= this.Count)
+            if (index < 0 || index >= Count)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
@@ -941,7 +931,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentOutOfRangeException("length");
             }
 
-            if (index + length > this.Count)
+            if (index + length > Count)
             {
                 throw new ArgumentOutOfRangeException("length");
             }
@@ -968,7 +958,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("values");
             }
 
-            if (values.Length != this.Count)
+            if (values.Length != Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "values");
             }
@@ -985,23 +975,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The index of absolute maximum element.</returns>          
         public override int MaximumIndex()
         {
-            if (this.NonZerosCount == 0)
+            if (NonZerosCount == 0)
             {
                 return 0;
             }
 
             var index = 0;
-            var max = this._nonZeroValues[0];
-            for (var i = 1; i < this.NonZerosCount; i++)
+            var max = _nonZeroValues[0];
+            for (var i = 1; i < NonZerosCount; i++)
             {
-                if (max < this._nonZeroValues[i])
+                if (max < _nonZeroValues[i])
                 {
                     index = i;
-                    max = this._nonZeroValues[i];
+                    max = _nonZeroValues[i];
                 }
             }
 
-            return this._nonZeroIndices[index];
+            return _nonZeroIndices[index];
         }
 
         /// <summary>
@@ -1010,23 +1000,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The index of minimum element.</returns>  
         public override int MinimumIndex()
         {
-            if (this.NonZerosCount == 0)
+            if (NonZerosCount == 0)
             {
                 return 0;
             }
 
             var index = 0;
-            var min = this._nonZeroValues[0];
-            for (var i = 1; i < this.NonZerosCount; i++)
+            var min = _nonZeroValues[0];
+            for (var i = 1; i < NonZerosCount; i++)
             {
-                if (min > this._nonZeroValues[i])
+                if (min > _nonZeroValues[i])
                 {
                     index = i;
-                    min = this._nonZeroValues[i];
+                    min = _nonZeroValues[i];
                 }
             }
 
-            return this._nonZeroIndices[index];
+            return _nonZeroIndices[index];
         }
 
         /// <summary>
@@ -1036,9 +1026,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double Sum()
         {
             double result = 0;
-            for (var i = 0; i < this.NonZerosCount; i++)
+            for (var i = 0; i < NonZerosCount; i++)
             {
-                result += this._nonZeroValues[i];
+                result += _nonZeroValues[i];
             }
 
             return result;
@@ -1051,9 +1041,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double SumMagnitudes()
         {
             double result = 0;
-            for (var i = 0; i < this.NonZerosCount; i++)
+            for (var i = 0; i < NonZerosCount; i++)
             {
-                result += Math.Abs(this._nonZeroValues[i]);
+                result += Math.Abs(_nonZeroValues[i]);
             }
 
             return result;
@@ -1072,13 +1062,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             // We cannot iterate using NonZeroCount because the value may be changed (if multiply by 0)
-            for (var i = 0; i < this.Count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 this[i] *= other[i];
             }
@@ -1105,12 +1095,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -1118,12 +1108,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                this.PointwiseMultiply(other, tmp);
+                PointwiseMultiply(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.PointwiseMultiply(other);
             }
         }
@@ -1141,15 +1131,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
             // base implementation iterates though all elements, but we need only take non-zeros 
-            for (var i = 0; i < this.NonZerosCount; i++)
+            for (var i = 0; i < NonZerosCount; i++)
             {
-                this[this._nonZeroIndices[i]] /= other[this._nonZeroIndices[i]];
+                this[_nonZeroIndices[i]] /= other[_nonZeroIndices[i]];
             }
         }
 
@@ -1174,12 +1164,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("other");
             }
 
-            if (this.Count != other.Count)
+            if (Count != other.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            if (this.Count != result.Count)
+            if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
@@ -1187,12 +1177,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
                 var tmp = result.CreateVector(result.Count);
-                this.PointwiseDivide(other, tmp);
+                PointwiseDivide(other, tmp);
                 tmp.CopyTo(result);
             }
             else
             {
-                this.CopyTo(result);
+                CopyTo(result);
                 result.PointwiseDivide(other);
             }
         }
@@ -1249,7 +1239,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
 
-            var v = (SparseVector)this.CreateVector(length);
+            var v = (SparseVector)CreateVector(length);
             for (var index = 0; index < v.Count; index++)
             {
                 v[index] = randomDistribution.Sample();
@@ -1275,7 +1265,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
             }
 
-            var v = (SparseVector)this.CreateVector(length);
+            var v = (SparseVector)CreateVector(length);
             for (var index = 0; index < v.Count; index++)
             {
                 v[index] = randomDistribution.Sample();
@@ -1315,8 +1305,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var sum = CommonParallel.Aggregate(
                 0, 
-                this.NonZerosCount, 
-                index => Math.Pow(Math.Abs(this._nonZeroValues[index]), p));
+                NonZerosCount, 
+                index => Math.Pow(Math.Abs(_nonZeroValues[index]), p));
 
             return Math.Pow(sum, 1.0 / p);
         }
@@ -1327,7 +1317,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>Scalar <c>ret = max(abs(this[i]))</c></returns>
         public override double NormInfinity()
         {
-            return CommonParallel.Select(0, this.NonZerosCount, (index, localData) => localData = Math.Max(localData, Math.Abs(this._nonZeroValues[index])), Math.Max);
+            return CommonParallel.Select(0, NonZerosCount, (index, localData) => localData = Math.Max(localData, Math.Abs(_nonZeroValues[index])), Math.Max);
         }
 
         #endregion
@@ -1500,7 +1490,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         private void SetValue(int index, double value)
         {
             // Search if "index" already exists in range "0 - real nonzero values count"
-            var itemIndex = Array.BinarySearch(this._nonZeroIndices, 0, this.NonZerosCount, index);
+            var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
 
             if (itemIndex >= 0)
             {
@@ -1508,56 +1498,61 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 if (value == 0.0)
                 {
                     // Value is zero. Let's delete it from Values and Indices array
-                    for (var i = itemIndex + 1; i < this.NonZerosCount; i++)
+                    for (var i = itemIndex + 1; i < NonZerosCount; i++)
                     {
-                        this._nonZeroValues[i - 1] = this._nonZeroValues[i];
-                        this._nonZeroIndices[i - 1] = this._nonZeroIndices[i];
+                        _nonZeroValues[i - 1] = _nonZeroValues[i];
+                        _nonZeroIndices[i - 1] = _nonZeroIndices[i];
                     }
 
-                    this.NonZerosCount -= 1;
+                    NonZerosCount -= 1;
 
                     // Check if the storage needs to be shrink. This is reasonable to do if 
                     // there are a lot of non-zero elements and storage is two times bigger
-                    if ((this.NonZerosCount > 1024) && (this.NonZerosCount < this._nonZeroIndices.Length / 2))
+                    if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroIndices.Length / 2))
                     {
-                        Array.Resize(ref this._nonZeroValues, this.NonZerosCount);
-                        Array.Resize(ref this._nonZeroIndices, this.NonZerosCount);
+                        Array.Resize(ref _nonZeroValues, NonZerosCount);
+                        Array.Resize(ref _nonZeroIndices, NonZerosCount);
                     }
                 }
                 else
                 {
-                    this._nonZeroValues[itemIndex] = value;
+                    _nonZeroValues[itemIndex] = value;
                 }
             }
             else
             {
+                if (value == 0.0)
+                {
+                    return;
+                }
+
                 itemIndex = ~itemIndex; // Index where to put new value
 
                 // Check if the storage needs to be increased
-                if ((this.NonZerosCount == this._nonZeroValues.Length) && (this.NonZerosCount < this.Count))
+                if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < Count))
                 {
                     // Value and Indices arrays are completely full so we increase the size
-                    var size = Math.Min(this._nonZeroValues.Length + this.GrowthSize(), this.Count);
-                    Array.Resize(ref this._nonZeroValues, size);
-                    Array.Resize(ref this._nonZeroIndices, size);
+                    var size = Math.Min(_nonZeroValues.Length + GrowthSize(), Count);
+                    Array.Resize(ref _nonZeroValues, size);
+                    Array.Resize(ref _nonZeroIndices, size);
                 }
 
                 // Move all values (with an position larger than index) in the value array 
                 // to the next position
                 // move all values (with an position larger than index) in the columIndices 
                 // array to the next position
-                for (var i = this.NonZerosCount - 1; i > itemIndex - 1; i--)
+                for (var i = NonZerosCount - 1; i > itemIndex - 1; i--)
                 {
-                    this._nonZeroValues[i + 1] = this._nonZeroValues[i];
-                    this._nonZeroIndices[i + 1] = this._nonZeroIndices[i];
+                    _nonZeroValues[i + 1] = _nonZeroValues[i];
+                    _nonZeroIndices[i + 1] = _nonZeroIndices[i];
                 }
 
                 // Add the value and the column index
-                this._nonZeroValues[itemIndex] = value;
-                this._nonZeroIndices[itemIndex] = index;
+                _nonZeroValues[itemIndex] = value;
+                _nonZeroIndices[itemIndex] = index;
 
                 // increase the number of non-zero numbers by one
-                this.NonZerosCount += 1;
+                NonZerosCount += 1;
             }
         }
 
@@ -1569,19 +1564,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         private int GrowthSize()
         {
             int delta;
-            if (this._nonZeroValues.Length > 1024)
+            if (_nonZeroValues.Length > 1024)
             {
-                delta = this._nonZeroValues.Length / 4;
+                delta = _nonZeroValues.Length / 4;
             }
             else
             {
-                if (this._nonZeroValues.Length > 256)
+                if (_nonZeroValues.Length > 256)
                 {
                     delta = 512;
                 }
                 else
                 {
-                    delta = this._nonZeroValues.Length > 64 ? 128 : 32;
+                    delta = _nonZeroValues.Length > 64 ? 128 : 32;
                 }
             }
 
@@ -1612,15 +1607,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return true;
             }
 
-            if ((this.Count != sparseVector.Count) || (this.NonZerosCount != sparseVector.NonZerosCount))
+            if ((Count != sparseVector.Count) || (NonZerosCount != sparseVector.NonZerosCount))
             {
                 return false;
             }
 
             // If all else fails, perform element wise comparison.
-            for (var index = 0; index < this.NonZerosCount; index++)
+            for (var index = 0; index < NonZerosCount; index++)
             {
-                if (!this._nonZeroValues[index].AlmostEqual(sparseVector._nonZeroValues[index]) || (this._nonZeroIndices[index] != sparseVector._nonZeroIndices[index]))
+                if (!_nonZeroValues[index].AlmostEqual(sparseVector._nonZeroValues[index]) || (_nonZeroIndices[index] != sparseVector._nonZeroIndices[index]))
                 {
                     return false;
                 }
@@ -1637,14 +1632,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(this.NonZerosCount, 20);
+            var hashNum = Math.Min(NonZerosCount, 20);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
 #if SILVERLIGHT
                 hash ^= Precision.DoubleToInt64Bits(this._nonZeroValues[i]);
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(this._nonZeroValues[i]);
+                hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i]);
 #endif
             }
 
