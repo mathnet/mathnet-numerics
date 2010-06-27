@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets or sets orthogonal Q matrix
         /// </summary>
-        protected virtual Matrix MatrixQ
+        protected Matrix MatrixQ
         {
             get;
             set;
@@ -52,7 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets or sets upper triangular factor R
         /// </summary>
-        protected virtual Matrix MatrixR
+        protected Matrix MatrixR
         {
             get;
             set;
