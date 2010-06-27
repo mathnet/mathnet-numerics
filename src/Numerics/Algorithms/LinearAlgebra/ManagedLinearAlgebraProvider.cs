@@ -1149,7 +1149,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
         }
 
-        public void SinguarValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt)
+        public void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt)
         {
             throw new NotImplementedException();
         }
@@ -1968,7 +1968,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void SinguarValueDecomposition(bool computeVectors, float[] a, float[] s, float[] u, float[] vt)
+        public void SingularValueDecomposition(bool computeVectors, float[] a, float[] s, float[] u, float[] vt)
         {
             throw new NotImplementedException();
         }
@@ -2759,7 +2759,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void SinguarValueDecomposition(bool computeVectors, Complex[] a, Complex[] s, Complex[] u, Complex[] vt)
+        public void SingularValueDecomposition(bool computeVectors, Complex[] a, Complex[] s, Complex[] u, Complex[] vt)
         {
             throw new NotImplementedException();
         }
@@ -3550,7 +3550,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void SinguarValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt)
+        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt)
         {
             throw new NotImplementedException();
         }

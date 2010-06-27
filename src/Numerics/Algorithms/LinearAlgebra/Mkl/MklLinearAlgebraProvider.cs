@@ -573,7 +573,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SinguarValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt)
+        public void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt)
         {
             throw new NotImplementedException();
         }
@@ -632,9 +632,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SinguarValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SinguarValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SinguarValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         public void SvdSolveFactored(int columnsOfB, double[] s, double[] u, double[] vt, double[] b, double[] x)
@@ -1174,7 +1174,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SinguarValueDecomposition(bool computeVectors, float[] a, float[] s, float[] u, float[] vt)
+        public void SingularValueDecomposition(bool computeVectors, float[] a, float[] s, float[] u, float[] vt)
         {
             throw new NotImplementedException();
         }
@@ -1233,9 +1233,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SinguarValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SinguarValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SinguarValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         public void SvdSolveFactored(int columnsOfB, float[] s, float[] u, float[] vt, float[] b, float[] x)
@@ -1775,7 +1775,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SinguarValueDecomposition(bool computeVectors, Complex[] a, Complex[] s, Complex[] u, Complex[] vt)
+        public void SingularValueDecomposition(bool computeVectors, Complex[] a, Complex[] s, Complex[] u, Complex[] vt)
         {
             throw new NotImplementedException();
         }
@@ -1834,9 +1834,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SinguarValueDecomposition(bool,Complex[],Complex[],Complex[],Complex[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SinguarValueDecomposition(bool,Complex[],Complex[],Complex[],Complex[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SinguarValueDecomposition(bool,Complex[],Complex[],Complex[],Complex[])"/>.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,System.Numerics.Complex[],System.Numerics.Complex[],System.Numerics.Complex[],System.Numerics.Complex[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,System.Numerics.Complex[],System.Numerics.Complex[],System.Numerics.Complex[],System.Numerics.Complex[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,System.Numerics.Complex[],System.Numerics.Complex[],System.Numerics.Complex[],System.Numerics.Complex[])"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         public void SvdSolveFactored(int columnsOfB, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, Complex[] x)
@@ -2376,7 +2376,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SinguarValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt)
+        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt)
         {
             throw new NotImplementedException();
         }
@@ -2435,9 +2435,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Mkl
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SinguarValueDecomposition(bool,Complex32[],Complex32[],Complex32[],Complex32[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SinguarValueDecomposition(bool,Complex32[],Complex32[],Complex32[],Complex32[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SinguarValueDecomposition(bool,Complex32[],Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[],MathNet.Numerics.Complex32[])"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         public void SvdSolveFactored(int columnsOfB, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x)
