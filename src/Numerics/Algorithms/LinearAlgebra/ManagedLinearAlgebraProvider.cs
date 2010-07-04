@@ -1053,6 +1053,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 ComputeQR(work, i, q, rRows, i, rRows - 1, i, rRows - 1);
             }
+
+            work[0] = rRows * rRows;
         }
 
         #region QR Factor Helper functions
@@ -1265,11 +1267,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (work.Length < rRows * rRows)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "work");
+                work[0] = rRows * rRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
             QRFactor(r, rRows, rColumns, q, work);
             QRSolveFactored(q, r, rRows, rColumns, b, bColumns, x);
+
+            work[0] = rRows * rRows;
         }
 
         /// <summary>

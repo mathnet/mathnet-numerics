@@ -635,5 +635,14 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("UserDefinedProviderNotSpecified", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The given work array is too small. Check work[0] for the corret size..
+        /// </summary>
+        internal static string WorkArrayTooSmall {
+            get {
+                return ResourceManager.GetString("WorkArrayTooSmall", resourceCulture);
+            }
+        }
     }
 }
