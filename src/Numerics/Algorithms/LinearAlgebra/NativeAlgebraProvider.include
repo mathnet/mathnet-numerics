@@ -249,6 +249,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
@@ -262,6 +264,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
         /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
@@ -466,24 +470,25 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             {
                 throw new ArgumentNullException("a");
             }
-            
-			if ( order < 1)
+
+            if (order < 1)
             {
-                throw new ArgumentException(Properties.Resources.ArgumentMustBePositive, "order");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
             }
-			
-			SafeNativeMethods.d_cholesky_factor(order, a);
+
+            SafeNativeMethods.d_cholesky_factor(order, a);
         }
-        
+
         /// <summary>
         /// Solves A*X=B for X using Cholesky factorization.
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-		/// <param name="bRows">The number of rows in the B matrix.</param>
-		/// <param name="bColumns">The number of columns in the B matrix.</param>
-        /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
+        /// </remarks>
         public void CholeskySolve(double[] a, int aOrder, double[] b, int bRows, int bColumns)
         {
             throw new NotImplementedException();
@@ -495,8 +500,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-		/// <param name="bRows">The number of rows in the B matrix.</param>
-		/// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         public void CholeskySolveFactored(double[] a, int aOrder, double[] b, int bRows, int bColumns)
         {
@@ -507,11 +512,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public void QRFactor(double[] r, double[] q)
+        public void QRFactor(double[] r, int rRows, int rColumns, double[] q)
         {
             throw new NotImplementedException();
         }
@@ -520,13 +527,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        public void QRFactor(double[] r, double[] q, double[] work)
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(double[] r, int rRows, int rColumns, double[] q, double[] work)
         {
             throw new NotImplementedException();
         }
@@ -534,14 +544,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolve(int columnsOfB, double[] r, double[] q, double[] b, double[] x)
+        public void QRSolve(double[] r, int rRows, int rColumns, double[] q, double[] b, int bColumns, double[] x)
         {
             throw new NotImplementedException();
         }
@@ -549,17 +561,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        public void QRSolve(int columnsOfB, double[] r, double[] q, double[] b, double[] x, double[] work)
+        public void QRSolve(double[] r, int rRows, int rColumns, double[] q, double[] b, int bColumns, double[] x, double[] work)
         {
             throw new NotImplementedException();
         }
@@ -567,12 +581,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(double[],double[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],double[])"/>.</param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(double[],int,int,double[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[])"/>. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolveFactored(int columnsOfB, double[] q, double[] r, double[] b, double[] x)
+        public void QRSolveFactored(double[] q, double[] r, int rRows, int rColumns, double[] b, int bColumns, double[] x)
         {
             throw new NotImplementedException();
         }
@@ -582,13 +598,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt)
+        public void SingularValueDecomposition(bool computeVectors, double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt)
         {
             throw new NotImplementedException();
         }
@@ -598,6 +616,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
         /// singular vectors.</param>
@@ -607,7 +627,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work)
+        public void SingularValueDecomposition(bool computeVectors, double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] work)
         {
             throw new NotImplementedException();
         }
@@ -616,12 +636,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x)
+        public void SvdSolve(double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] b, int bColumns, double[] x)
         {
             throw new NotImplementedException();
         }
@@ -630,15 +653,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
-        public void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x, double[] work)
+        public void SvdSolve(double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] b, int bColumns, double[] x, double[] work)
         {
             throw new NotImplementedException();
         }
@@ -646,13 +672,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,double[],double[],double[],double[])"/>.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolveFactored(int columnsOfB, double[] s, double[] u, double[] vt, double[] b, double[] x)
+        public void SvdSolveFactored(int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] b, int bColumns, double[] x)
         {
             throw new NotImplementedException();
         }
@@ -862,6 +890,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
@@ -875,6 +905,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
         /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
@@ -952,6 +984,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             SafeNativeMethods.s_matrix_multiply(transposeA, transposeB, m, n, k, alpha, a, b, beta, c);
         }
 		
+        /// <summary>
         /// <summary>
         /// Computes the LUP factorization of A. P*A = L*U.
         /// </summary>
@@ -1079,23 +1112,23 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             {
                 throw new ArgumentNullException("a");
             }
-            
-			if ( order < 1)
+
+            if (order < 1)
             {
-                throw new ArgumentException(Properties.Resources.ArgumentMustBePositive, "order");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
             }
-			
-			SafeNativeMethods.s_cholesky_factor(order, a);
+
+            SafeNativeMethods.s_cholesky_factor(order, a);
         }
-        
+
         /// <summary>
         /// Solves A*X=B for X using Cholesky factorization.
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-		/// <param name="bRows">The number of rows in the B matrix.</param>
-		/// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
         public void CholeskySolve(float[] a, int aOrder, float[] b, int bRows, int bColumns)
         {
@@ -1108,8 +1141,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-		/// <param name="bRows">The number of rows in the B matrix.</param>
-		/// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         public void CholeskySolveFactored(float[] a, int aOrder, float[] b, int bRows, int bColumns)
         {
@@ -1120,11 +1153,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public void QRFactor(float[] r, float[] q)
+        public void QRFactor(float[] r, int rRows, int rColumns, float[] q)
         {
             throw new NotImplementedException();
         }
@@ -1133,13 +1168,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        public void QRFactor(float[] r, float[] q, float[] work)
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(float[] r, int rRows, int rColumns, float[] q, float[] work)
         {
             throw new NotImplementedException();
         }
@@ -1147,14 +1185,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolve(int columnsOfB, float[] r, float[] q, float[] b, float[] x)
+        public void QRSolve(float[] r, int rRows, int rColumns, float[] q, float[] b, int bColumns, float[] x)
         {
             throw new NotImplementedException();
         }
@@ -1162,17 +1202,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        public void QRSolve(int columnsOfB, float[] r, float[] q, float[] b, float[] x, float[] work)
+        public void QRSolve(float[] r, int rRows, int rColumns, float[] q, float[] b, int bColumns, float[] x, float[] work)
         {
             throw new NotImplementedException();
         }
@@ -1180,12 +1222,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],float[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],float[])"/>.</param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[])"/>. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolveFactored(int columnsOfB, float[] q, float[] r, float[] b, float[] x)
+        public void QRSolveFactored(float[] q, float[] r, int rRows, int rColumns, float[] b, int bColumns, float[] x)
         {
             throw new NotImplementedException();
         }
@@ -1195,13 +1239,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, float[] a, float[] s, float[] u, float[] vt)
+        public void SingularValueDecomposition(bool computeVectors, float[] a, int aRows, int aColumns, float[] s, float[] u, float[] vt)
         {
             throw new NotImplementedException();
         }
@@ -1211,6 +1257,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
         /// singular vectors.</param>
@@ -1220,7 +1268,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, float[] a, float[] s, float[] u, float[] vt, float[] work)
+        public void SingularValueDecomposition(bool computeVectors, float[] a, int aRows, int aColumns, float[] s, float[] u, float[] vt, float[] work)
         {
             throw new NotImplementedException();
         }
@@ -1229,12 +1277,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolve(float[] a, float[] s, float[] u, float[] vt, float[] b, float[] x)
+        public void SvdSolve(float[] a, int aRows, int aColumns, float[] s, float[] u, float[] vt, float[] b, int bColumns, float[] x)
         {
             throw new NotImplementedException();
         }
@@ -1243,15 +1294,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
-        public void SvdSolve(float[] a, float[] s, float[] u, float[] vt, float[] b, float[] x, float[] work)
+        public void SvdSolve(float[] a, int aRows, int aColumns, float[] s, float[] u, float[] vt, float[] b, int bColumns, float[] x, float[] work)
         {
             throw new NotImplementedException();
         }
@@ -1259,13 +1313,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,float[],float[],float[],float[])"/>.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolveFactored(int columnsOfB, float[] s, float[] u, float[] vt, float[] b, float[] x)
+        public void SvdSolveFactored(int aRows, int aColumns, float[] s, float[] u, float[] vt, float[] b, int bColumns, float[] x)
         {
             throw new NotImplementedException();
         }
@@ -1475,6 +1531,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
@@ -1488,6 +1546,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows in the matrix.</param>
+        /// <param name="columns">The number of columns in the matrix.</param>
         /// <param name="matrix">The matrix to compute the norm from.</param>
         /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
         /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
@@ -1692,23 +1752,23 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             {
                 throw new ArgumentNullException("a");
             }
-            
-			if ( order < 1)
+
+            if (order < 1)
             {
-                throw new ArgumentException(Properties.Resources.ArgumentMustBePositive, "order");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
             }
-			
-			SafeNativeMethods.z_cholesky_factor(order, a);
+
+            SafeNativeMethods.z_cholesky_factor(order, a);
         }
-        
+
         /// <summary>
         /// Solves A*X=B for X using Cholesky factorization.
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-		/// <param name="bRows">The number of rows in the B matrix.</param>
-		/// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
         public void CholeskySolve(Complex[] a, int aOrder, Complex[] b, int bRows, int bColumns)
         {
@@ -1721,8 +1781,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-		/// <param name="bRows">The number of rows in the B matrix.</param>
-		/// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         public void CholeskySolveFactored(Complex[] a, int aOrder, Complex[] b, int bRows, int bColumns)
         {
@@ -1733,11 +1793,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public void QRFactor(Complex[] r, Complex[] q)
+        public void QRFactor(Complex[] r, int rRows, int rColumns, Complex[] q)
         {
             throw new NotImplementedException();
         }
@@ -1746,13 +1808,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        public void QRFactor(Complex[] r, Complex[] q, Complex[] work)
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] work)
         {
             throw new NotImplementedException();
         }
@@ -1760,14 +1825,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolve(int columnsOfB, Complex[] r, Complex[] q, Complex[] b, Complex[] x)
+        public void QRSolve(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] b, int bColumns, Complex[] x)
         {
             throw new NotImplementedException();
         }
@@ -1775,17 +1842,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        public void QRSolve(int columnsOfB, Complex[] r, Complex[] q, Complex[] b, Complex[] x, Complex[] work)
+        public void QRSolve(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] b, int bColumns, Complex[] x, Complex[] work)
         {
             throw new NotImplementedException();
         }
@@ -1793,12 +1862,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex[],Complex[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex[],Complex[])"/>.</param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[])"/>. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolveFactored(int columnsOfB, Complex[] q, Complex[] r, Complex[] b, Complex[] x)
+        public void QRSolveFactored(Complex[] q, Complex[] r, int rRows, int rColumns, Complex[] b, int bColumns, Complex[] x)
         {
             throw new NotImplementedException();
         }
@@ -1808,13 +1879,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, Complex[] a, Complex[] s, Complex[] u, Complex[] vt)
+        public void SingularValueDecomposition(bool computeVectors, Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt)
         {
             throw new NotImplementedException();
         }
@@ -1824,6 +1897,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
         /// singular vectors.</param>
@@ -1833,7 +1908,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, Complex[] a, Complex[] s, Complex[] u, Complex[] vt, Complex[] work)
+        public void SingularValueDecomposition(bool computeVectors, Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] work)
         {
             throw new NotImplementedException();
         }
@@ -1842,12 +1917,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolve(Complex[] a, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, Complex[] x)
+        public void SvdSolve(Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x)
         {
             throw new NotImplementedException();
         }
@@ -1856,15 +1934,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
-        public void SvdSolve(Complex[] a, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, Complex[] x, Complex[] work)
+        public void SvdSolve(Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x, Complex[] work)
         {
             throw new NotImplementedException();
         }
@@ -1872,13 +1953,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,Complex[],Complex[],Complex[],Complex[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SingluarValueDecomposition(bool,Complex[],Complex[],Complex[],Complex[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,Complex[],Complex[],Complex[],Complex[])"/>.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,Complex[],int,int,Complex[],Complex[],Complex[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,Complex[],int,int,Complex[],Complex[],Complex[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,Complex[],int,int,Complex[],Complex[],Complex[])"/>.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolveFactored(int columnsOfB, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, Complex[] x)
+        public void SvdSolveFactored(int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x)
         {
             throw new NotImplementedException();
         }
@@ -2309,23 +2392,23 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
             {
                 throw new ArgumentNullException("a");
             }
-            
-			if ( order < 1)
+
+            if (order < 1)
             {
-                throw new ArgumentException(Properties.Resources.ArgumentMustBePositive, "order");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
             }
-			
-			SafeNativeMethods.c_cholesky_factor(order, a);
+
+            SafeNativeMethods.c_cholesky_factor(order, a);
         }
-        
+
         /// <summary>
         /// Solves A*X=B for X using Cholesky factorization.
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-		/// <param name="bRows">The number of rows in the B matrix.</param>
-		/// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
         public void CholeskySolve(Complex32[] a, int aOrder, Complex32[] b, int bRows, int bColumns)
         {
@@ -2338,8 +2421,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-		/// <param name="bRows">The number of rows in the B matrix.</param>
-		/// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="bRows">The number of rows in the B matrix.</param>
+        /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         public void CholeskySolveFactored(Complex32[] a, int aOrder, Complex32[] b, int bRows, int bColumns)
         {
@@ -2350,11 +2433,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public void QRFactor(Complex32[] r, Complex32[] q)
+        public void QRFactor(Complex32[] r, int rRows, int rColumns, Complex32[] q)
         {
             throw new NotImplementedException();
         }
@@ -2363,13 +2448,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        public void QRFactor(Complex32[] r, Complex32[] q, Complex32[] work)
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(Complex32[] r, int rRows, int rColumns, Complex32[] q, Complex32[] work)
         {
             throw new NotImplementedException();
         }
@@ -2377,14 +2465,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolve(int columnsOfB, Complex32[] r, Complex32[] q, Complex32[] b, Complex32[] x)
+        public void QRSolve(Complex32[] r, int rRows, int rColumns, Complex32[] q, Complex32[] b, int bColumns, Complex32[] x)
         {
             throw new NotImplementedException();
         }
@@ -2392,17 +2482,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        public void QRSolve(int columnsOfB, Complex32[] r, Complex32[] q, Complex32[] b, Complex32[] x, Complex32[] work)
+        public void QRSolve(Complex32[] r, int rRows, int rColumns, Complex32[] q, Complex32[] b, int bColumns, Complex32[] x, Complex32[] work)
         {
             throw new NotImplementedException();
         }
@@ -2410,12 +2502,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex32[],Complex32[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex32[],Complex32[])"/>.</param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex32[],int,int,Complex32[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex32[],int,int,Complex32[])"/>. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolveFactored(int columnsOfB, Complex32[] q, Complex32[] r, Complex32[] b, Complex32[] x)
+        public void QRSolveFactored(Complex32[] q, Complex32[] r, int rRows, int rColumns, Complex32[] b, int bColumns, Complex32[] x)
         {
             throw new NotImplementedException();
         }
@@ -2425,13 +2519,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt)
+        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt)
         {
             throw new NotImplementedException();
         }
@@ -2441,6 +2537,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
         /// singular vectors.</param>
@@ -2450,7 +2548,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] work)
+        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] work)
         {
             throw new NotImplementedException();
         }
@@ -2459,12 +2557,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolve(Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x)
+        public void SvdSolve(Complex32[] a, int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int bColumns, Complex32[] x)
         {
             throw new NotImplementedException();
         }
@@ -2473,15 +2574,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
-        public void SvdSolve(Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x, Complex32[] work)
+        public void SvdSolve(Complex32[] a, int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int bColumns, Complex32[] x, Complex32[] work)
         {
             throw new NotImplementedException();
         }
@@ -2489,13 +2593,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
         /// <summary>
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,Complex32[],Complex32[],Complex32[],Complex32[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,Complex32[],Complex32[],Complex32[],Complex32[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,Complex32[],Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void SvdSolveFactored(int columnsOfB, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x)
+        public void SvdSolveFactored(int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int bColumns, Complex32[] x)
         {
             throw new NotImplementedException();
         }

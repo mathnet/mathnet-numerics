@@ -77,11 +77,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets orthogonal Q matrix
         /// </summary>
-        public virtual Matrix Q
+        public virtual Matrix Q 
         {
             get
             {
-                return MatrixQ;
+                return MatrixQ.Clone();
             }
         }
 

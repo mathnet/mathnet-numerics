@@ -466,6 +466,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An algorithm failed to converge..
+        /// </summary>
+        internal static string ConvergenceFailed {
+            get {
+                return ResourceManager.GetString("ConvergenceFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This feature is not implemented yet (but is planned)..
         /// </summary>
         internal static string FeaturePlannedButNotImplementedYet {
@@ -588,6 +597,15 @@ namespace MathNet.Numerics.Properties {
         internal static string ProposalDistributionNoUpperBound {
             get {
                 return ResourceManager.GetString("ProposalDistributionNoUpperBound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The singular vectors were not computed..
+        /// </summary>
+        internal static string SingularVectorsNotComputed {
+            get {
+                return ResourceManager.GetString("SingularVectorsNotComputed", resourceCulture);
             }
         }
         

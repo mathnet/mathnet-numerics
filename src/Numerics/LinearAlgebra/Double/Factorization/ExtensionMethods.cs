@@ -64,5 +64,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             return Factorization.QR.Create(matrix);
         }
+
+        /// <summary>
+        /// Computes the SVD decomposition for a matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix to factor.</param>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <returns>The QR decomposition object.</returns>
+        public static Svd Svd(this Matrix matrix, bool computeVectors)
+        {
+            return Factorization.Svd.Create(matrix, computeVectors);
+        }
     }
 }

@@ -254,6 +254,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 case Norm.FrobeniusNorm:
                     break;
             }
+
             return ret;
         }
 
@@ -367,12 +368,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="bColumns">The number of columns in the <paramref name="b"/> matrix.</param>
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
-        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, 
-                                             int aRows, int aColumns, double[] b, int bRows, int bColumns, double beta, double[] c)
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, int aRows, int aColumns, double[] b, int bRows, int bColumns, double beta, double[] c)
         {
             // Choose nonsensical values for the number of rows in c; fill them in depending
             // on the operations on a and b.
-            var cRows = -1;
+            int cRows;
 
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (a == null)
@@ -730,7 +730,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 ipiv[i] = i;
             }
 
-            var LUcolj = new double[order];
+            var vLUcolj = new double[order];
 
             // Outer loop.
             for (var j = 0; j < order; j++)
@@ -738,10 +738,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 var indexj = j * order;
                 var indexjj = indexj + j;
 
-// Make a copy of the j-th column to localize references.
+                // Make a copy of the j-th column to localize references.
                 for (var i = 0; i < order; i++)
                 {
-                    LUcolj[i] = data[indexj + i];
+                    vLUcolj[i] = data[indexj + i];
                 }
 
                 // Apply previous transformations.
@@ -752,17 +752,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     var s = 0.0;
                     for (var k = 0; k < kmax; k++)
                     {
-                        s += data[k * order + i] * LUcolj[k];
+                        s += data[k * order + i] * vLUcolj[k];
                     }
 
-                    data[indexj + i] = LUcolj[i] -= s;
+                    data[indexj + i] = vLUcolj[i] -= s;
                 }
 
                 // Find pivot and exchange if necessary.
                 var p = j;
                 for (var i = j + 1; i < order; i++)
                 {
-                    if (Math.Abs(LUcolj[i]) > Math.Abs(LUcolj[p]))
+                    if (Math.Abs(vLUcolj[i]) > Math.Abs(vLUcolj[p]))
                     {
                         p = i;
                     }
@@ -899,9 +899,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
         /// </summary>
-        /// <param name="a">The square, positive definite matrix A. Has to be different than <paramref name="B"/>.</param>
+        /// <param name="a">The square, positive definite matrix A. Has to be different than <paramref name="b"/>.</param>
         /// <param name="aOrder">The number of rows and columns in A.</param>
-        /// <param name="b">The B matrix. Has to be different than <paramref name="A"/>.</param>
+        /// <param name="b">The B matrix. Has to be different than <paramref name="a"/>.</param>
         /// <param name="bRows">The number of rows in the B matrix.</param>
         /// <param name="bColumns">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
@@ -964,10 +964,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
         /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public void QRFactor(double[] r, double[] q)
+        public void QRFactor(double[] r, int rRows, int rColumns, double[] q)
         {
             if (r == null)
             {
@@ -979,38 +981,94 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("q");
             }
 
-            // Matrix Q is square (m x m), where "m" is number of rows of initial matrix;
-            var rowCount = (int)Math.Sqrt(q.Length);
-            var columnCount = r.Length / rowCount;
-
-            for (var i = 0; i < rowCount; i++)
+            if (r.Length != rRows * rColumns)
             {
-                q[i * rowCount + i] = 1.0;
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
             }
 
-            var minmn = Math.Min(rowCount, columnCount);
-            var u = new double[minmn][];
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
 
+            var work = new double[rRows * rRows];
+            QRFactor(r, rRows, rColumns, q, work);
+        }
+
+        /// <summary>
+        /// Computes the QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(double[] r, int rRows, int rColumns, double[] q, double[] work)
+        {
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rRows * rColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (work.Length < rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "work");
+            }
+
+            CommonParallel.For(0, rRows, i => q[(i * rRows) + i] = 1.0);
+
+            var minmn = Math.Min(rRows, rColumns);
             for (var i = 0; i < minmn; i++)
             {
-                u[i] = GenerateColumn(r, rowCount, i, rowCount - 1, i);
-                UA(u[i], r, rowCount, i, rowCount - 1, i + 1, columnCount - 1);
+                GenerateColumn(work, r, rRows, i, rRows - 1, i);
+                ComputeQR(work, i, r, rRows, i, rRows - 1, i + 1, rColumns - 1);
             }
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                UA(u[i], q, rowCount, i, rowCount - 1, i, rowCount - 1);
+                ComputeQR(work, i, q, rRows, i, rRows - 1, i, rRows - 1);
             }
-        }
-
-        public void QRFactor(double[] r, double[] q, double[] work)
-        {
-            throw new NotImplementedException();
         }
 
         #region QR Factor Helper functions
 
-        private static void UA(double[] u, double[] A, int rowCount, int rowStart, int rowEnd, int columnStart, int columnEnd)
+        /// <summary>
+        /// Perform calculation of Q or R
+        /// </summary>
+        /// <param name="work">Work arrat</param>
+        /// <param name="workIndex">Index of colunn in work array</param>
+        /// <param name="a">Q or R matrices</param>
+        /// <param name="rowCount">The number of rows</param>
+        /// <param name="rowStart">The first row in </param>
+        /// <param name="rowEnd">The last row</param>
+        /// <param name="columnStart">The first column</param>
+        /// <param name="columnEnd">The last column</param>
+        private static void ComputeQR(double[] work, int workIndex, double[] a, int rowCount, int rowStart, int rowEnd, int columnStart, int columnEnd)
         {
             if (rowStart > rowEnd || columnStart > columnEnd)
             {
@@ -1018,16 +1076,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             var vector = new double[columnEnd - columnStart + 1];
-            for (var j = columnStart; j <= columnEnd; j++)
-            {
-                vector[j - columnStart] = 0.0;
-            }
-
             for (var i = rowStart; i <= rowEnd; i++)
             {
                 for (var j = columnStart; j <= columnEnd; j++)
                 {
-                    vector[j - columnStart] = vector[j - columnStart] + u[i - rowStart] * A[j * rowCount + i];
+                    vector[j - columnStart] += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
                 }
             }
 
@@ -1035,77 +1088,79 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             {
                 for (var j = columnStart; j <= columnEnd; j++)
                 {
-                    A[j * rowCount + i] = A[j * rowCount + i] - u[i - rowStart] * vector[j - columnStart];
+                    a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart] * vector[j - columnStart];
                 }
             }
         }
 
-        private static double[] GenerateColumn(double[] A, int rowCount, int rowStart, int rowEnd, int column)
+        /// <summary>
+        /// Generate column from initial matrix to work array
+        /// </summary>
+        /// <param name="work">Work array</param>
+        /// <param name="a">Initial matrix</param>
+        /// <param name="rowCount">The number of rows in matrix</param>
+        /// <param name="rowStart">The firts row</param>
+        /// <param name="rowEnd">The last row</param>
+        /// <param name="column">Column index</param>
+        private static void GenerateColumn(double[] work, double[] a, int rowCount, int rowStart, int rowEnd, int column)
         {
-            var u = new double[rowEnd - rowStart + 1];
-
             var tmp = column * rowCount;
             var index = tmp + rowStart;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            CommonParallel.For(
+                rowStart,
+                rowEnd + 1,
+                i =>
+                {
+                    var iIndex = tmp + i;
+                    work[iIndex - rowStart] = a[iIndex];
+                    a[iIndex] = 0.0;
+                });
+
+            var norm = 0.0;
+            for (var i = 0; i < rowEnd - rowStart + 1; ++i)
             {
-                u[i - rowStart] = A[tmp + i];
-                A[tmp + i] = 0.0;
+                var iIndex = tmp + i;
+                norm += work[iIndex] * work[iIndex];
             }
 
-            var norm = u.Sum(t => t * t);
             norm = Math.Sqrt(norm);
-
             if (rowStart == rowEnd || norm == 0)
             {
-                A[index] = -u[0];
-                u[0] = Math.Sqrt(2.0);
-                return u;
+                a[index] = -work[tmp];
+                work[tmp] = Math.Sqrt(2.0);
+                return;
             }
 
             var scale = 1.0 / norm;
-            if (u[0] < 0.0)
+            if (work[tmp] < 0.0)
             {
                 scale *= -1.0;
             }
 
-            A[index] = -1.0 / scale;
-            for (var i = 0; i < u.Length; i++)
-            {
-                u[i] *= scale;
-            }
+            a[index] = -1.0 / scale;
+            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] *= scale);
+            work[tmp] += 1.0;
 
-            u[0] += 1.0;
-            var s = Math.Sqrt(1.0 / u[0]);
-            for (var i = 0; i < u.Length; i++)
-            {
-                u[i] *= s;
-            }
-
-            return u;
+            var s = Math.Sqrt(1.0 / work[tmp]);
+            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] *= s);
         }
 
         #endregion
 
-        public void QRSolve(int columnsOfB, double[] r, double[] q, double[] b, double[] x)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void QRSolve(int columnsOfB, double[] r, double[] q, double[] b, double[] x, double[] work)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
-        /// Solves A*X=B for X using a previously QR factored matrix.
+        /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(T[],T[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],T[])"/>. </param>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public void QRSolveFactored(int columnsOfB, double[] q, double[] r, double[] b, double[] x)
+        public void QRSolve(double[] r, int rRows, int rColumns, double[] q, double[] b, int bColumns, double[] x)
         {
             if (r == null)
             {
@@ -1127,84 +1182,1888 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("q");
             }
 
-            if (b.Length != x.Length)
+            if (r.Length != rRows * rColumns)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
             }
 
-            // Matrix Q is square (m x m), where "m" is number of rows of initial matrix;
-            var rowCount = (int)Math.Sqrt(q.Length);
-            var columnCount = r.Length / rowCount;
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
 
-            // Copy B matrix to result, so B data will not be changed
-            Buffer.BlockCopy(b, 0, x, 0, b.Length * Constants.SizeOfDouble);
+            if (b.Length != rRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != rColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            var work = new double[rRows * rRows];
+            QRSolve(r, rRows, rColumns, q, b, bColumns, x, work);
+        }
+
+        /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        public void QRSolve(double[] r, int rRows, int rColumns, double[] q, double[] b, int bColumns, double[] x, double[] work)
+        {
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rRows * rColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (b.Length != rRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != rColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            if (work.Length < rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "work");
+            }
+
+            QRFactor(r, rRows, rColumns, q, work);
+            QRSolveFactored(q, r, rRows, rColumns, b, bColumns, x);
+        }
+
+        /// <summary>
+        /// Solves A*X=B for X using a previously QR factored matrix.
+        /// </summary>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(double[],int,int,double[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[])"/>. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void QRSolveFactored(double[] q, double[] r, int rRows, int rColumns, double[] b, int bColumns, double[] x)
+        {
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rRows * rColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (b.Length != rRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != rColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            var sol = new double[b.Length];
+
+            // Copy B matrix to "sol", so B data will not be changed
+            Buffer.BlockCopy(b, 0, sol, 0, b.Length * Constants.SizeOfDouble);
 
             // Compute Y = transpose(Q)*B
-            var column = new double[rowCount];
-            for (var j = 0; j < columnsOfB; j++)
+            var column = new double[rRows];
+            for (var j = 0; j < bColumns; j++)
             {
-                var jm = j * rowCount;
-                for (var k = 0; k < rowCount; k++)
-                {
-                    column[k] = x[jm + k];
-                }
-
-                for (var i = 0; i < rowCount; i++)
-                {
-                    double s = 0;
-                    var im = i * rowCount;
-                    for (var k = 0; k < rowCount; k++)
+                var jm = j * rRows;
+                CommonParallel.For(0, rRows, k => column[k] = sol[jm + k]);
+                CommonParallel.For(
+                    0, 
+                    rRows, 
+                    i =>
                     {
-                        s += q[im + k] * column[k];
-                    }
-
-                    x[jm + i] = s;
-                }
+                        var im = i * rRows;
+                        sol[jm + i] = CommonParallel.Aggregate(0, rRows, k => q[im + k] * column[k]);
+                    });
             }
 
             // Solve R*X = Y;
-            for (var k = columnCount - 1; k >= 0; k--)
+            for (var k = rColumns - 1; k >= 0; k--)
             {
-                var km = k * rowCount;
-                for (var j = 0; j < columnsOfB; j++)
+                var km = k * rRows;
+                for (var j = 0; j < bColumns; j++)
                 {
-                    x[j * rowCount + k] /= r[km + k];
+                    sol[(j * rRows) + k] /= r[km + k];
                 }
 
                 for (var i = 0; i < k; i++)
                 {
-                    for (var j = 0; j < columnsOfB; j++)
+                    for (var j = 0; j < bColumns; j++)
                     {
-                        var jm = j * rowCount;
-                        x[jm + i] -= x[jm + k] * r[km + i];
+                        var jm = j * rRows;
+                        sol[jm + i] -= sol[jm + k] * r[km + i];
                     }
                 }
             }
+
+            // Fill result matrix
+            CommonParallel.For(
+                0, 
+                rColumns, 
+                row =>
+                {
+                    for (var col = 0; col < bColumns; col++)
+                    {
+                        x[(col * rColumns) + row] = sol[row + (col * rRows)];
+                    }
+                });
         }
 
-        public void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt)
+        /// <summary>
+        /// Computes the singular value decomposition of A.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        public void SingularValueDecomposition(bool computeVectors, double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
+            var work = new double[Math.Max((3 * Math.Min(aRows, aColumns)) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns))];
+            SingularValueDecomposition(computeVectors, a, aRows, aColumns, s, u, vt, work);
         }
 
-        public void SingularValueDecomposition(bool computeVectors, double[] a, double[] s, double[] u, double[] vt, double[] work)
+        /// <summary>
+        /// Computes the singular value decomposition of A.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        public void SingularValueDecomposition(bool computeVectors, double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] work)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("work");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (work.Length == 0)
+            {
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
+            }
+
+            if (work.Length < aRows)
+            {
+                // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
+                work[0] = Math.Max((3 * Math.Min(aRows, aColumns)) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
+                return;
+            }
+
+            const int Maxiter = 1000;
+
+            var e = new double[aColumns];
+            var v = new double[vt.Length];
+            var stemp = new double[Math.Min(aRows + 1, aColumns)];
+
+            int i, j, l, lp1;
+
+            var cs = 0.0;
+            var sn = 0.0;
+            double t;
+
+            var ncu = aRows;
+
+            // Reduce matrix to bidiagonal form, storing the diagonal elements
+            // in "s" and the super-diagonal elements in "e".
+            var nct = Math.Min(aRows - 1, aColumns);
+            var nrt = Math.Max(0, Math.Min(aColumns - 2, aRows));
+            var lu = Math.Max(nct, nrt);
+
+            for (l = 0; l < lu; l++)
+            {
+                lp1 = l + 1;
+                if (l < nct)
+                {
+                    // Compute the transformation for the l-th column and
+                    // place the l-th diagonal in vector s[l].
+                    var l1 = l;
+                    stemp[l] = Math.Sqrt(CommonParallel.Aggregate(l, aRows, i1 => (a[(l1 * aRows) + i1] * a[(l1 * aRows) + i1])));
+
+                    if (stemp[l] != 0.0)
+                    {
+                        if (a[(l * aRows) + l] != 0.0)
+                        {
+                            stemp[l] = Math.Abs(stemp[l]) * (a[(l * aRows) + l] / Math.Abs(a[(l * aRows) + l]));
+                        }
+
+                        // A part of column "l" of Matrix A from row "l" to end multiply by 1.0 / s[l]
+                        for (i = l; i < aRows; i++)
+                        {
+                            a[(l * aRows) + i] = a[(l * aRows) + i] * (1.0 / stemp[l]);
+                        }
+
+                        a[(l * aRows) + l] = 1.0 + a[(l * aRows) + l];
+                    }
+
+                    stemp[l] = -stemp[l];
+                }
+
+                for (j = lp1; j < aColumns; j++)
+                {
+                    if (l < nct)
+                    {
+                        if (stemp[l] != 0.0)
+                        {
+                            // Apply the transformation.
+                            t = 0.0;
+                            for (i = l; i < aRows; i++)
+                            {
+                                t += a[(j * aRows) + i] * a[(l * aRows) + i];
+                            }
+
+                            t = -t / a[(l * aRows) + l];
+
+                            for (var ii = l; ii < aRows; ii++)
+                            {
+                                a[(j * aRows) + ii] += t * a[(l * aRows) + ii];
+                            }
+                        }
+                    }
+
+                    // Place the l-th row of matrix into "e" for the
+                    // subsequent calculation of the row transformation.
+                    e[j] = a[(j * aRows) + l];
+                }
+
+                if (computeVectors && l < nct)
+                {
+                    // Place the transformation in "u" for subsequent back multiplication.
+                    for (i = l; i < aRows; i++)
+                    {
+                        u[(l * aRows) + i] = a[(l * aRows) + i];
+                    }
+                }
+
+                if (l >= nrt)
+                {
+                    continue;
+                }
+
+                // Compute the l-th row transformation and place the l-th super-diagonal in e(l).
+                var enorm = 0.0;
+                for (i = lp1; i < e.Length; i++)
+                {
+                    enorm += e[i] * e[i];
+                }
+
+                e[l] = Math.Sqrt(enorm);
+                if (e[l] != 0.0)
+                {
+                    if (e[lp1] != 0.0)
+                    {
+                        e[l] = Math.Abs(e[l]) * (e[lp1] / Math.Abs(e[lp1]));
+                    }
+
+                    // Scale vector "e" from "lp1" by 1.0 / e[l]
+                    for (i = lp1; i < e.Length; i++)
+                    {
+                        e[i] = e[i] * (1.0 / e[l]);
+                    }
+
+                    e[lp1] = 1.0 + e[lp1];
+                }
+
+                e[l] = -e[l];
+
+                if (lp1 < aRows && e[l] != 0.0)
+                {
+                    // Apply the transformation.
+                    for (i = lp1; i < aRows; i++)
+                    {
+                        work[i] = 0.0;
+                    }
+
+                    for (j = lp1; j < aColumns; j++)
+                    {
+                        for (var ii = lp1; ii < aRows; ii++)
+                        {
+                            work[ii] += e[j] * a[(j * aRows) + ii];
+                        }
+                    }
+
+                    for (j = lp1; j < aColumns; j++)
+                    {
+                        var ww = -e[j] / e[lp1];
+                        for (var ii = lp1; ii < aRows; ii++)
+                        {
+                            a[(j * aRows) + ii] += ww * work[ii];
+                        }
+                    }
+                }
+
+                if (!computeVectors)
+                {
+                    continue;
+                }
+
+                // Place the transformation in v for subsequent back multiplication.
+                for (i = lp1; i < aColumns; i++)
+                {
+                    v[(l * aColumns) + i] = e[i];
+                }
+            }
+
+            // Set up the final bidiagonal matrix or order m.
+            var m = Math.Min(aColumns, aRows + 1);
+            var nctp1 = nct + 1;
+            var nrtp1 = nrt + 1;
+            if (nct < aColumns)
+            {
+                stemp[nctp1 - 1] = a[((nctp1 - 1) * aRows) + (nctp1 - 1)];
+            }
+
+            if (aRows < m)
+            {
+                stemp[m - 1] = 0.0;
+            }
+
+            if (nrtp1 < m)
+            {
+                e[nrtp1 - 1] = a[((m - 1) * aRows) + (nrtp1 - 1)];
+            }
+
+            e[m - 1] = 0.0;
+
+            // If required, generate "u".
+            if (computeVectors)
+            {
+                for (j = nctp1 - 1; j < ncu; j++)
+                {
+                    for (i = 0; i < aRows; i++)
+                    {
+                        u[(j * aRows) + i] = 0.0;
+                    }
+
+                    u[(j * aRows) + j] = 1.0;
+                }
+
+                for (l = nct - 1; l >= 0; l--)
+                {
+                    if (stemp[l] != 0.0)
+                    {
+                        for (j = l + 1; j < ncu; j++)
+                        {
+                            t = 0.0;
+                            for (i = l; i < aRows; i++)
+                            {
+                                t += u[(j * aRows) + i] * u[(l * aRows) + i];
+                            }
+
+                            t = -t / u[(l * aRows) + l];
+
+                            for (var ii = l; ii < aRows; ii++)
+                            {
+                                u[(j * aRows) + ii] += t * u[(l * aRows) + ii];
+                            }
+                        }
+
+                        // A part of column "l" of matrix A from row "l" to end multiply by -1.0
+                        for (i = l; i < aRows; i++)
+                        {
+                            u[(l * aRows) + i] = u[(l * aRows) + i] * -1.0;
+                        }
+
+                        u[(l * aRows) + l] = 1.0 + u[(l * aRows) + l];
+                        for (i = 0; i < l; i++)
+                        {
+                            u[(l * aRows) + i] = 0.0;
+                        }
+                    }
+                    else
+                    {
+                        for (i = 0; i < aRows; i++)
+                        {
+                            u[(l * aRows) + i] = 0.0;
+                        }
+
+                        u[(l * aRows) + l] = 1.0;
+                    }
+                }
+            }
+
+            // If it is required, generate v.
+            if (computeVectors)
+            {
+                for (l = aColumns - 1; l >= 0; l--)
+                {
+                    lp1 = l + 1;
+                    if (l < nrt)
+                    {
+                        if (e[l] != 0.0)
+                        {
+                            for (j = lp1; j < aColumns; j++)
+                            {
+                                t = 0.0;
+                                for (i = lp1; i < aColumns; i++)
+                                {
+                                    t += v[(j * aColumns) + i] * v[(l * aColumns) + i];
+                                }
+
+                                t = -t / v[(l * aColumns) + lp1];
+                                for (var ii = l; ii < aColumns; ii++)
+                                {
+                                    v[(j * aColumns) + ii] += t * v[(l * aColumns) + ii];
+                                }
+                            }
+                        }
+                    }
+
+                    for (i = 0; i < aColumns; i++)
+                    {
+                        v[(l * aColumns) + i] = 0.0;
+                    }
+
+                    v[(l * aColumns) + l] = 1.0;
+                }
+            }
+
+            // Transform "s" and "e" so that they are double
+            for (i = 0; i < m; i++)
+            {
+                double r;
+                if (stemp[i] != 0.0)
+                {
+                    t = stemp[i];
+                    r = stemp[i] / t;
+                    stemp[i] = t;
+                    if (i < m - 1)
+                    {
+                        e[i] = e[i] / r;
+                    }
+
+                    if (computeVectors)
+                    {
+                        // A part of column "i" of matrix U from row 0 to end multiply by r
+                        for (j = 0; j < aRows; j++)
+                        {
+                            u[(i * aRows) + j] = u[(i * aRows) + j] * r;
+                        }
+                    }
+                }
+
+                // Exit
+                if (i == m - 1)
+                {
+                    break;
+                }
+
+                if (e[i] == 0.0)
+                {
+                    continue;
+                }
+
+                t = e[i];
+                r = t / e[i];
+                e[i] = t;
+                stemp[i + 1] = stemp[i + 1] * r;
+                if (!computeVectors)
+                {
+                    continue;
+                }
+
+                // A part of column "i+1" of matrix VT from row 0 to end multiply by r
+                for (j = 0; j < aColumns; j++)
+                {
+                    v[((i + 1) * aColumns) + j] = v[((i + 1) * aColumns) + j] * r;
+                }
+            }
+
+            // Main iteration loop for the singular values.
+            var mn = m;
+            var iter = 0;
+
+            while (m > 0)
+            {
+                // Quit if all the singular values have been found.
+                // If too many iterations have been performed throw exception.
+                if (iter >= Maxiter)
+                {
+                    throw new ArgumentException(Resources.ConvergenceFailed);
+                }
+
+                // This section of the program inspects for negligible elements in the s and e arrays,  
+                // on completion the variables kase and l are set as follows:
+                // kase = 1: if mS[m] and e[l-1] are negligible and l < m
+                // kase = 2: if mS[l] is negligible and l < m
+                // kase = 3: if e[l-1] is negligible, l < m, and mS[l, ..., mS[m] are not negligible (qr step).
+                // kase = 4: if e[m-1] is negligible (convergence).
+                double ztest;
+                double test;
+                for (l = m - 2; l >= 0; l--)
+                {
+                    test = Math.Abs(stemp[l]) + Math.Abs(stemp[l + 1]);
+                    ztest = test + Math.Abs(e[l]);
+                    if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                    {
+                        e[l] = 0.0;
+                        break;
+                    }
+                }
+
+                int kase;
+                if (l == m - 2)
+                {
+                    kase = 4;
+                }
+                else
+                {
+                    int ls;
+                    for (ls = m - 1; ls > l; ls--)
+                    {
+                        test = 0.0;
+                        if (ls != m - 1)
+                        {
+                            test = test + Math.Abs(e[ls]);
+                        }
+
+                        if (ls != l + 1)
+                        {
+                            test = test + Math.Abs(e[ls - 1]);
+                        }
+
+                        ztest = test + Math.Abs(stemp[ls]);
+                        if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                        {
+                            stemp[ls] = 0.0;
+                            break;
+                        }
+                    }
+
+                    if (ls == l)
+                    {
+                        kase = 3;
+                    }
+                    else if (ls == m - 1)
+                    {
+                        kase = 1;
+                    }
+                    else
+                    {
+                        kase = 2;
+                        l = ls;
+                    }
+                }
+
+                l = l + 1;
+
+                // Perform the task indicated by kase.
+                int k;
+                double f;
+                switch (kase)
+                {
+                        // Deflate negligible s[m].
+                    case 1:
+                        f = e[m - 2];
+                        e[m - 2] = 0.0;
+                        double t1;
+                        for (var kk = l; kk < m - 1; kk++)
+                        {
+                            k = m - 2 - kk + l;
+                            t1 = stemp[k];
+
+                            Drotg(ref t1, ref f, ref cs, ref sn);
+                            stemp[k] = t1;
+                            if (k != l)
+                            {
+                                f = -sn * e[k - 1];
+                                e[k - 1] = cs * e[k - 1];
+                            }
+
+                            if (computeVectors)
+                            {
+                                // Rotate
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = (cs * v[(k * aColumns) + i]) + (sn * v[((m - 1) * aColumns) + i]);
+                                    v[((m - 1) * aColumns) + i] = (cs * v[((m - 1) * aColumns) + i]) - (sn * v[(k * aColumns) + i]);
+                                    v[(k * aColumns) + i] = z;
+                                }
+                            }
+                        }
+
+                        break;
+
+                        // Split at negligible s[l].
+                    case 2:
+                        f = e[l - 1];
+                        e[l - 1] = 0.0;
+                        for (k = l; k < m; k++)
+                        {
+                            t1 = stemp[k];
+                            Drotg(ref t1, ref f, ref cs, ref sn);
+                            stemp[k] = t1;
+                            f = -sn * e[k];
+                            e[k] = cs * e[k];
+                            if (computeVectors)
+                            {
+                                // Rotate
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = (cs * u[(k * aRows) + i]) + (sn * u[((l - 1) * aRows) + i]);
+                                    u[((l - 1) * aRows) + i] = (cs * u[((l - 1) * aRows) + i]) - (sn * u[(k * aRows) + i]);
+                                    u[(k * aRows) + i] = z;
+                                }
+                            }
+                        }
+
+                        break;
+
+                        // Perform one qr step.
+                    case 3:
+
+// calculate the shift.
+                        var scale = 0.0;
+                        scale = Math.Max(scale, Math.Abs(stemp[m - 1]));
+                        scale = Math.Max(scale, Math.Abs(stemp[m - 2]));
+                        scale = Math.Max(scale, Math.Abs(e[m - 2]));
+                        scale = Math.Max(scale, Math.Abs(stemp[l]));
+                        scale = Math.Max(scale, Math.Abs(e[l]));
+                        var sm = stemp[m - 1] / scale;
+                        var smm1 = stemp[m - 2] / scale;
+                        var emm1 = e[m - 2] / scale;
+                        var sl = stemp[l] / scale;
+                        var el = e[l] / scale;
+                        var b = (((smm1 + sm) * (smm1 - sm)) + (emm1 * emm1)) / 2.0;
+                        var c = (sm * emm1) * (sm * emm1);
+                        var shift = 0.0;
+                        if (b != 0.0 || c != 0.0)
+                        {
+                            shift = Math.Sqrt((b * b) + c);
+                            if (b < 0.0)
+                            {
+                                shift = -shift;
+                            }
+
+                            shift = c / (b + shift);
+                        }
+
+                        f = ((sl + sm) * (sl - sm)) + shift;
+                        var g = sl * el;
+
+                        // Chase zeros
+                        for (k = l; k < m - 1; k++)
+                        {
+                            Drotg(ref f, ref g, ref cs, ref sn);
+                            if (k != l)
+                            {
+                                e[k - 1] = f;
+                            }
+
+                            f = (cs * stemp[k]) + (sn * e[k]);
+                            e[k] = (cs * e[k]) - (sn * stemp[k]);
+                            g = sn * stemp[k + 1];
+                            stemp[k + 1] = cs * stemp[k + 1];
+                            if (computeVectors)
+                            {
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = (cs * v[(k * aColumns) + i]) + (sn * v[((k + 1) * aColumns) + i]);
+                                    v[((k + 1) * aColumns) + i] = (cs * v[((k + 1) * aColumns) + i]) - (sn * v[(k * aColumns) + i]);
+                                    v[(k * aColumns) + i] = z;
+                                }
+                            }
+
+                            Drotg(ref f, ref g, ref cs, ref sn);
+                            stemp[k] = f;
+                            f = (cs * e[k]) + (sn * stemp[k + 1]);
+                            stemp[k + 1] = -(sn * e[k]) + (cs * stemp[k + 1]);
+                            g = sn * e[k + 1];
+                            e[k + 1] = cs * e[k + 1];
+                            if (computeVectors && k < aRows)
+                            {
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = (cs * u[(k * aRows) + i]) + (sn * u[((k + 1) * aRows) + i]);
+                                    u[((k + 1) * aRows) + i] = (cs * u[((k + 1) * aRows) + i]) - (sn * u[(k * aRows) + i]);
+                                    u[(k * aRows) + i] = z;
+                                }
+                            }
+                        }
+
+                        e[m - 2] = f;
+                        iter = iter + 1;
+                        break;
+
+                        // Convergence
+                    case 4:
+
+// Make the singular value  positive
+                        if (stemp[l] < 0.0)
+                        {
+                            stemp[l] = -stemp[l];
+                            if (computeVectors)
+                            {
+                                // A part of column "l" of matrix VT from row 0 to end multiply by -1
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    v[(l * aColumns) + i] = v[(l * aColumns) + i] * -1.0;
+                                }
+                            }
+                        }
+
+                        // Order the singular value.
+                        while (l != mn - 1)
+                        {
+                            if (stemp[l] >= stemp[l + 1])
+                            {
+                                break;
+                            }
+
+                            t = stemp[l];
+                            stemp[l] = stemp[l + 1];
+                            stemp[l + 1] = t;
+                            if (computeVectors && l < aColumns)
+                            {
+                                // Swap columns l, l + 1
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = v[(l * aColumns) + i];
+                                    v[(l * aColumns) + i] = v[((l + 1) * aColumns) + i];
+                                    v[((l + 1) * aColumns) + i] = z;
+                                }
+                            }
+
+                            if (computeVectors && l < aRows)
+                            {
+                                // Swap columns l, l + 1
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = u[(l * aRows) + i];
+                                    u[(l * aRows) + i] = u[((l + 1) * aRows) + i];
+                                    u[((l + 1) * aRows) + i] = z;
+                                }
+                            }
+
+                            l = l + 1;
+                        }
+
+                        iter = 0;
+                        m = m - 1;
+                        break;
+                }
+            }
+
+            if (computeVectors)
+            {
+                // Finally transpose "v" to get "vt" matrix 
+                for (i = 0; i < aColumns; i++)
+                {
+                    for (j = 0; j < aColumns; j++)
+                    {
+                        vt[(j * aColumns) + i] = v[(i * aColumns) + j];
+                    }
+                }
+            }
+
+            // Copy stemp to s with size adjustment. We are using ported copy of linpack's svd code and it uses
+            // a singular vector of length rows+1 when rows < columns. The last element is not used and needs to be removed.
+            // We should port lapack's svd routine to remove this problem.
+            Buffer.BlockCopy(stemp, 0, s, 0, Math.Min(aRows, aColumns) * Constants.SizeOfDouble);
+
+            // On return the first element of the work array stores the min size of the work array could have been
+            // work[0] = Math.Max(3 * Math.Min(aRows, aColumns) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
+            work[0] = aRows;
         }
 
-        public void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x)
+        public void SingularValueDecompositionWithCommonParallel(bool computeVectors, double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] work)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("work");
+            }
+
+            if (work.Length == 0)
+            {
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray);
+            }
+
+            if (work.Length < aRows)
+            {
+                work[0] = Math.Max(3 * Math.Min(aRows, aColumns) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
+                return;
+            }
+
+            const int Maxiter = 1000;
+
+            var e = new double[aColumns];
+            var v = new double[vt.Length];
+            var stemp = new double[Math.Min(aRows + 1, aColumns)];
+
+            int i, j, l, lp1;
+
+            var cs = 0.0;
+            var sn = 0.0;
+            double t;
+
+            var ncu = aRows;
+
+            // Reduce matrix to bidiagonal form, storing the diagonal elements
+            // in "s" and the super-diagonal elements in "e".
+            var nct = Math.Min(aRows - 1, aColumns);
+            var nrt = Math.Max(0, Math.Min(aColumns - 2, aRows));
+            var lu = Math.Max(nct, nrt);
+
+            for (l = 0; l < lu; l++)
+            {
+                lp1 = l + 1;
+                var lCopy = l;
+                if (l < nct)
+                {
+                    // Compute the transformation for the l-th column and
+                    // place the l-th diagonal in vector s[l].
+                    stemp[l] = Math.Sqrt(CommonParallel.Aggregate(lCopy, aRows, row => (a[(lCopy * aRows) + row] * a[(lCopy * aRows) + row])));
+
+                    if (stemp[l] != 0.0)
+                    {
+                        if (a[(l * aRows) + l] != 0.0)
+                        {
+                            stemp[l] = Math.Abs(stemp[l]) * (a[(l * aRows) + l] / Math.Abs(a[(l * aRows) + l]));
+                        }
+
+                        // A part of column "l" of Matrix A from row "l" to end multiply by 1.0 / s[l]
+                        for (i = l; i < aRows; i++)
+                        {
+                            a[(l * aRows) + i] = a[(l * aRows) + i] * (1.0 / stemp[l]);
+                        }
+
+                        a[(l * aRows) + l] = 1.0 + a[(l * aRows) + l];
+                    }
+
+                    stemp[l] = -stemp[l];
+                }
+
+                for (j = lp1; j < aColumns; j++)
+                {
+                    var jcopy = j;
+
+                    if (l < nct)
+                    {
+                        if (stemp[l] != 0.0)
+                        {
+                            // Apply the transformation.
+                            t = CommonParallel.Aggregate(lCopy, aRows, row => a[(jcopy * aRows) + row] * a[(lCopy * aRows) + row]);
+                            t = -t / a[(l * aRows) + l];
+                            for (var ii = l; ii < aRows; ii++)
+                            {
+                                a[(j * aRows) + ii] += t * a[(l * aRows) + ii];
+                            }
+                        }
+                    }
+
+                    // Place the l-th row of matrix into "e" for the
+                    // subsequent calculation of the row transformation.
+                    e[j] = a[(j * aRows) + l];
+                }
+
+                if (computeVectors && l < nct)
+                {
+                    // Place the transformation in "u" for subsequent back multiplication.
+                    CommonParallel.For(lCopy, aRows, row => u[(lCopy * aRows) + row] = a[(lCopy * aRows) + row]);
+                }
+
+                if (l >= nrt)
+                {
+                    continue;
+                }
+
+                // Compute the l-th row transformation and place the l-th super-diagonal in e(l).
+                e[l] = Math.Sqrt(CommonParallel.Aggregate(lp1, e.Length, index => e[index] * e[index]));
+                if (e[l] != 0.0)
+                {
+                    if (e[lp1] != 0.0)
+                    {
+                        e[l] = Math.Abs(e[l]) * (e[lp1] / Math.Abs(e[lp1]));
+                    }
+
+                    // Scale vector "e" from "lp1" by 1.0 / e[l]
+                    // lp1 > l, so we may use CommonParallel here
+                    CommonParallel.For(lp1, e.Length, index => e[index] = e[index] * (1.0 / e[lCopy]));
+                    e[lp1] = 1.0 + e[lp1];
+                }
+
+                e[l] = -e[l];
+
+                if (lp1 < aRows && e[l] != 0.0)
+                {
+                    // Apply the transformation.
+                    for (i = lp1; i < aRows; i++)
+                    {
+                        work[i] = 0.0;
+                    }
+
+                    for (j = lp1; j < aColumns; j++)
+                    {
+                        for (var ii = lp1; ii < aRows; ii++)
+                        {
+                            work[ii] += e[j] * a[(j * aRows) + ii];
+                        }
+                    }
+
+                    for (j = lp1; j < aColumns; j++)
+                    {
+                        var ww = -e[j] / e[lp1];
+                        for (var ii = lp1; ii < aRows; ii++)
+                        {
+                            a[(j * aRows) + ii] += ww * work[ii];
+                        }
+                    }
+                }
+
+                if (!computeVectors)
+                {
+                    continue;
+                }
+
+                // Place the transformation in v for subsequent back multiplication.
+                CommonParallel.For(lp1, aColumns, index => v[(lCopy * aColumns) + index] = e[index]);
+            }
+
+            // Set up the final bidiagonal matrix or order m.
+            var m = Math.Min(aColumns, aRows + 1);
+            var nctp1 = nct + 1;
+            var nrtp1 = nrt + 1;
+            if (nct < aColumns)
+            {
+                stemp[nctp1 - 1] = a[(nctp1 - 1) * aRows + (nctp1 - 1)];
+            }
+
+            if (aRows < m)
+            {
+                stemp[m - 1] = 0.0;
+            }
+
+            if (nrtp1 < m)
+            {
+                e[nrtp1 - 1] = a[(m - 1) * aRows + (nrtp1 - 1)];
+            }
+
+            e[m - 1] = 0.0;
+
+            // If required, generate "u".
+            if (computeVectors)
+            {
+                CommonParallel.For(nctp1 - 1, ncu, indexCol =>
+                                                   {
+                                                       CommonParallel.For(0, aRows, indexRow => u[(indexCol * aRows) + indexRow] = 0.0);
+                                                       u[(indexCol * aRows) + indexCol] = 1.0;
+                                                   });
+
+                for (l = nct - 1; l >= 0; l--)
+                {
+                    var lCopy = l;
+
+                    if (stemp[l] != 0.0)
+                    {
+                        for (j = l + 1; j < ncu; j++)
+                        {
+                            var jCopy = j;
+                            t = CommonParallel.Aggregate(lCopy, aRows, index => u[(jCopy * aRows) + index] * u[(lCopy * aRows) + index]);
+                            t = -t / u[(l * aRows) + l];
+
+                            for (var ii = l; ii < aRows; ii++)
+                            {
+                                u[(j * aRows) + ii] += t * u[(l * aRows) + ii];
+                            }
+                        }
+
+                        // A part of column "l" of matrix A from row "l" to end multiply by -1.0
+                        CommonParallel.For(lCopy, aRows, index => u[(lCopy * aRows) + index] *= -1.0);
+                        u[(l * aRows) + l] = 1.0 + u[(l * aRows) + l];
+                        if (lCopy != 0)
+                        {
+                            CommonParallel.For(0, lCopy, index => u[(lCopy * aRows) + index] = 0.0);
+                        }
+                    }
+                    else
+                    {
+                        CommonParallel.For(0, aRows, index => u[(lCopy * aRows) + index] = 0.0);
+                        u[(l * aRows) + l] = 1.0;
+                    }
+                }
+            }
+
+            // If it is required, generate v.
+            if (computeVectors)
+            {
+                for (l = aColumns - 1; l >= 0; l--)
+                {
+                    lp1 = l + 1;
+                    var lCopy = l;
+
+                    if (l < nrt)
+                    {
+                        if (e[l] != 0.0)
+                        {
+                            for (j = lp1; j < aColumns; j++)
+                            {
+                                var jCopy = j;
+                                t = CommonParallel.Aggregate(lp1, aColumns, index => v[(jCopy * aColumns) + index] * v[(lCopy * aColumns) + index]);
+                                t = -t / v[(l * aColumns) + lp1];
+                                for (var ii = l; ii < aColumns; ii++)
+                                {
+                                    v[(j * aColumns) + ii] += t * v[(l * aColumns) + ii];
+                                }
+                            }
+                        }
+                    }
+
+                    CommonParallel.For(0, aColumns, index => v[(lCopy * aColumns) + index] = 0.0);
+                    v[(l * aColumns) + l] = 1.0;
+                }
+            }
+
+            // Transform "s" and "e" so that they are double
+            for (i = 0; i < m; i++)
+            {
+                double r;
+                if (stemp[i] != 0.0)
+                {
+                    t = stemp[i];
+                    r = stemp[i] / t;
+                    stemp[i] = t;
+                    if (i < m - 1)
+                    {
+                        e[i] = e[i] / r;
+                    }
+
+                    if (computeVectors)
+                    {
+                        // A part of column "i" of matrix U from row 0 to end multiply by r
+                        for (j = 0; j < aRows; j++)
+                        {
+                            u[(i * aRows) + j] = u[(i * aRows) + j] * r;
+                        }
+                    }
+                }
+
+                // Exit
+                if (i == m - 1)
+                {
+                    break;
+                }
+
+                if (e[i] == 0.0)
+                {
+                    continue;
+                }
+
+                t = e[i];
+                r = t / e[i];
+                e[i] = t;
+                stemp[i + 1] = stemp[i + 1] * r;
+                if (!computeVectors)
+                {
+                    continue;
+                }
+
+                // A part of column "i+1" of matrix VT from row 0 to end multiply by r
+                for (j = 0; j < aColumns; j++)
+                {
+                    v[((i + 1) * aColumns) + j] = v[((i + 1) * aColumns) + j] * r;
+                }
+            }
+
+            // Main iteration loop for the singular values.
+            var mn = m;
+            var iter = 0;
+
+            while (m > 0)
+            {
+                // Quit if all the singular values have been found.
+                // If too many iterations have been performed throw exception.
+                if (iter >= Maxiter)
+                {
+                    throw new ArgumentException(Resources.ConvergenceFailed);
+                }
+
+                // This section of the program inspects for negligible elements in the s and e arrays.  
+                // On completion the variables kase and l are set as follows.
+
+                // kase = 1: if mS[m] and e[l-1] are negligible and l < m
+                // kase = 2: if mS[l] is negligible and l < m
+                // kase = 3: if e[l-1] is negligible, l < m, and mS[l, ..., mS[m] are not negligible (qr step).
+                // kase = 4: if e[m-1] is negligible (convergence).
+                double ztest;
+                double test;
+                for (l = m - 2; l >= 0; l--)
+                {
+                    test = Math.Abs(stemp[l]) + Math.Abs(stemp[l + 1]);
+                    ztest = test + Math.Abs(e[l]);
+                    if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                    {
+                        e[l] = 0.0;
+                        break;
+                    }
+                }
+
+                int kase;
+                if (l == m - 2)
+                {
+                    kase = 4;
+                }
+                else
+                {
+                    int ls;
+                    for (ls = m - 1; ls > l; ls--)
+                    {
+                        test = 0.0;
+                        if (ls != m - 1)
+                        {
+                            test = test + Math.Abs(e[ls]);
+                        }
+
+                        if (ls != l + 1)
+                        {
+                            test = test + Math.Abs(e[ls - 1]);
+                        }
+
+                        ztest = test + Math.Abs(stemp[ls]);
+                        if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                        {
+                            stemp[ls] = 0.0;
+                            break;
+                        }
+                    }
+
+                    if (ls == l)
+                    {
+                        kase = 3;
+                    }
+                    else if (ls == m - 1)
+                    {
+                        kase = 1;
+                    }
+                    else
+                    {
+                        kase = 2;
+                        l = ls;
+                    }
+                }
+
+                l = l + 1;
+
+                // Perform the task indicated by kase.
+                int k;
+                double f;
+                switch (kase)
+                {
+                        // Deflate negligible s[m].
+                    case 1:
+                        f = e[m - 2];
+                        e[m - 2] = 0.0;
+                        double t1;
+                        for (var kk = l; kk < m - 1; kk++)
+                        {
+                            k = m - 2 - kk + l;
+                            t1 = stemp[k];
+
+                            Drotg(ref t1, ref f, ref cs, ref sn);
+                            stemp[k] = t1;
+                            if (k != l)
+                            {
+                                f = -sn * e[k - 1];
+                                e[k - 1] = cs * e[k - 1];
+                            }
+
+                            if (computeVectors)
+                            {
+                                // Rotate
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = cs * v[(k * aColumns) + i] + sn * v[((m - 1) * aColumns) + i];
+                                    v[((m - 1) * aColumns) + i] = cs * v[((m - 1) * aColumns) + i] - sn * v[(k * aColumns) + i];
+                                    v[(k * aColumns) + i] = z;
+                                }
+                            }
+                        }
+
+                        break;
+
+                        // Split at negligible s[l].
+                    case 2:
+                        f = e[l - 1];
+                        e[l - 1] = 0.0;
+                        for (k = l; k < m; k++)
+                        {
+                            t1 = stemp[k];
+                            Drotg(ref t1, ref f, ref cs, ref sn);
+                            stemp[k] = t1;
+                            f = -sn * e[k];
+                            e[k] = cs * e[k];
+                            if (computeVectors)
+                            {
+                                // Rotate
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = cs * u[(k * aRows) + i] + sn * u[((l - 1) * aRows) + i];
+                                    u[((l - 1) * aRows) + i] = cs * u[((l - 1) * aRows) + i] - sn * u[(k * aRows) + i];
+                                    u[(k * aRows) + i] = z;
+                                }
+                            }
+                        }
+
+                        break;
+
+                        // Perform one qr step.
+                    case 3:
+
+// calculate the shift.
+                        var scale = 0.0;
+                        scale = Math.Max(scale, Math.Abs(stemp[m - 1]));
+                        scale = Math.Max(scale, Math.Abs(stemp[m - 2]));
+                        scale = Math.Max(scale, Math.Abs(e[m - 2]));
+                        scale = Math.Max(scale, Math.Abs(stemp[l]));
+                        scale = Math.Max(scale, Math.Abs(e[l]));
+                        var sm = stemp[m - 1] / scale;
+                        var smm1 = stemp[m - 2] / scale;
+                        var emm1 = e[m - 2] / scale;
+                        var sl = stemp[l] / scale;
+                        var el = e[l] / scale;
+                        var b = ((smm1 + sm) * (smm1 - sm) + (emm1 * emm1)) / 2.0;
+                        var c = (sm * emm1) * (sm * emm1);
+                        var shift = 0.0;
+                        if (b != 0.0 || c != 0.0)
+                        {
+                            shift = Math.Sqrt((b * b) + c);
+                            if (b < 0.0)
+                            {
+                                shift = -shift;
+                            }
+
+                            shift = c / (b + shift);
+                        }
+
+                        f = (sl + sm) * (sl - sm) + shift;
+                        var g = sl * el;
+
+                        // Chase zeros
+                        for (k = l; k < m - 1; k++)
+                        {
+                            Drotg(ref f, ref g, ref cs, ref sn);
+                            if (k != l)
+                            {
+                                e[k - 1] = f;
+                            }
+
+                            f = cs * stemp[k] + sn * e[k];
+                            e[k] = cs * e[k] - sn * stemp[k];
+                            g = sn * stemp[k + 1];
+                            stemp[k + 1] = cs * stemp[k + 1];
+                            if (computeVectors)
+                            {
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = cs * v[k * aColumns + i] + sn * v[(k + 1) * aColumns + i];
+                                    v[(k + 1) * aColumns + i] = cs * v[(k + 1) * aColumns + i] - sn * v[k * aColumns + i];
+                                    v[k * aColumns + i] = z;
+                                }
+                            }
+
+                            Drotg(ref f, ref g, ref cs, ref sn);
+                            stemp[k] = f;
+                            f = cs * e[k] + sn * stemp[k + 1];
+                            stemp[k + 1] = -sn * e[k] + cs * stemp[k + 1];
+                            g = sn * e[k + 1];
+                            e[k + 1] = cs * e[k + 1];
+                            if (computeVectors && k < aRows)
+                            {
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = cs * u[k * aRows + i] + sn * u[(k + 1) * aRows + i];
+                                    u[(k + 1) * aRows + i] = cs * u[(k + 1) * aRows + i] - sn * u[k * aRows + i];
+                                    u[k * aRows + i] = z;
+                                }
+                            }
+                        }
+
+                        e[m - 2] = f;
+                        iter = iter + 1;
+                        break;
+
+                        // Convergence
+                    case 4:
+
+// Make the singular value  positive
+                        if (stemp[l] < 0.0)
+                        {
+                            stemp[l] = -stemp[l];
+                            if (computeVectors)
+                            {
+                                // A part of column "l" of matrix VT from row 0 to end multiply by -1
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    v[(l * aColumns) + i] = v[(l * aColumns) + i] * -1.0;
+                                }
+                            }
+                        }
+
+                        // Order the singular value.
+                        while (l != mn - 1)
+                        {
+                            if (stemp[l] >= stemp[l + 1])
+                            {
+                                break;
+                            }
+
+                            t = stemp[l];
+                            stemp[l] = stemp[l + 1];
+                            stemp[l + 1] = t;
+                            if (computeVectors && l < aColumns)
+                            {
+                                // Swap columns l, l + 1
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = v[l * aColumns + i];
+                                    v[l * aColumns + i] = v[(l + 1) * aColumns + i];
+                                    v[(l + 1) * aColumns + i] = z;
+                                }
+                            }
+
+                            if (computeVectors && l < aRows)
+                            {
+                                // Swap columns l, l + 1
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = u[l * aRows + i];
+                                    u[l * aRows + i] = u[(l + 1) * aRows + i];
+                                    u[(l + 1) * aRows + i] = z;
+                                }
+                            }
+
+                            l = l + 1;
+                        }
+
+                        iter = 0;
+                        m = m - 1;
+                        break;
+                }
+            }
+
+            if (computeVectors)
+            {
+                // Finally transpose "v" to get "vt" matrix 
+                for (i = 0; i < aColumns; i++)
+                {
+                    for (j = 0; j < aColumns; j++)
+                    {
+                        vt[j * aColumns + i] = v[i * aColumns + j];
+                    }
+                }
+            }
+
+            // Copy stemp to s with size adjustment. We are using ported copy of linpack's svd code and it uses
+            // a singular vector of length rows+1 when rows < columns. The last element is not used and needs to be removed.
+            // We should port lapack's svd routine to remove this problem.
+            Buffer.BlockCopy(stemp, 0, s, 0, Math.Min(aRows, aColumns) * Constants.SizeOfDouble);
+
+            // On return the first element of the work array stores the min size of the work array could have been
+            // work[0] = Math.Max(3 * Math.Min(aRows, aColumns) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
+            work[0] = aRows;
         }
 
-        public void SvdSolve(double[] a, double[] s, double[] u, double[] vt, double[] b, double[] x, double[] work)
+        /// <summary>
+        /// Сonstruct givens plane rotation
+        /// </summary>
+        /// <param name="da"></param>
+        /// <param name="db"></param>
+        /// <param name="c"></param>
+        /// <param name="s"></param>
+        private static void Drotg(ref double da, ref double db, ref double c, ref double s)
         {
-            throw new NotImplementedException();
+            // Сonstruct givens plane rotation.
+            // jack dongarra, linpack, 3/11/78.
+            double r, z;
+
+            var roe = db;
+            var absda = Math.Abs(da);
+            var absdb = Math.Abs(db);
+            if (absda > absdb)
+            {
+                roe = da;
+            }
+
+            var scale = absda + absdb;
+            if (scale == 0.0)
+            {
+                c = 1.0;
+                s = 0.0;
+                r = 0.0;
+                z = 0.0;
+            }
+            else
+            {
+                var sda = da / scale;
+                var sdb = db / scale;
+                r = scale * Math.Sqrt((sda * sda) + (sdb * sdb));
+                if (roe < 0.0)
+                {
+                    r = -r;
+                }
+
+                c = da / r;
+                s = db / r;
+                z = 1.0;
+                if (absda > absdb)
+                {
+                    z = s;
+                }
+
+                if (absdb >= absda && c != 0.0)
+                {
+                    z = 1.0 / c;
+                }
+            }
+
+            da = r;
+            db = z;
+            return;
         }
 
-        public void SvdSolveFactored(int columnsOfB, double[] s, double[] u, double[] vt, double[] b, double[] x)
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolve(double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] b, int bColumns, double[] x)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (b.Length != aRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != aColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
+            var work = new double[Math.Max((3 * Math.Min(aRows, aColumns)) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns))];
+            SvdSolve(a, aRows, aColumns, s, u, vt, b, bColumns, x, work);
+        }
+
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        public void SvdSolve(double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] b, int bColumns, double[] x, double[] work)
+        {
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (b.Length != aRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != aColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (work.Length == 0)
+            {
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
+            }
+
+            if (work.Length < aRows)
+            {
+                // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
+                work[0] = Math.Max((3 * Math.Min(aRows, aColumns)) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
+                return;
+            }
+
+            SingularValueDecomposition(true, a, aRows, aColumns, s, u, vt, work);
+            SvdSolveFactored(aRows, aColumns, s, u, vt, b, bColumns, x);
+        }
+
+        /// <summary>
+        /// Solves A*X=B for X using a previously SVD decomposed matrix.
+        /// </summary>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolveFactored(int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] b, int bColumns, double[] x)
+        {
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (b.Length != aRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != aColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            var mn = Math.Min(aRows, aColumns);
+            var tmp = new double[aColumns];
+
+            for (var k = 0; k < bColumns; k++)
+            {
+                for (var j = 0; j < aColumns; j++)
+                {
+                    double value = 0;
+                    if (j < mn)
+                    {
+                        for (var i = 0; i < aRows; i++)
+                        {
+                            value += u[(j * aRows) + i] * b[(k * aRows) + i];
+                        }
+
+                        value /= s[j];
+                    }
+
+                    tmp[j] = value;
+                }
+
+                for (var j = 0; j < aColumns; j++)
+                {
+                    double value = 0;
+                    for (var i = 0; i < aColumns; i++)
+                    {
+                        value += vt[(j * aColumns) + i] * tmp[i];
+                    }
+
+                    x[(k * aColumns) + j] = value;
+                }
+            }
         }
 
         #endregion
@@ -1976,52 +3835,179 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void QRFactor(float[] r, float[] q)
+        /// <summary>
+        /// Computes the QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// QR factorization.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(float[] r, int rRows, int rColumns, float[] q)
         {
             throw new NotImplementedException();
         }
 
-        public void QRFactor(float[] r, float[] q, float[] work)
+        /// <summary>
+        /// Computes the QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(float[] r, int rRows, int rColumns, float[] q, float[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolve(int columnsOfB, float[] r, float[] q, float[] b, float[] x)
+        /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void QRSolve(float[] r, int rRows, int rColumns, float[] q, float[] b, int bColumns, float[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolve(int columnsOfB, float[] r, float[] q, float[] b, float[] x, float[] work)
+        /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        public void QRSolve(float[] r, int rRows, int rColumns, float[] q, float[] b, int bColumns, float[] x, float[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolveFactored(int columnsOfB, float[] q, float[] r, float[] b, float[] x)
+        /// <summary>
+        /// Solves A*X=B for X using a previously QR factored matrix.
+        /// </summary>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[])"/>. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void QRSolveFactored(float[] q, float[] r, int rRows, int rColumns, float[] b, int bColumns, float[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void SingularValueDecomposition(bool computeVectors, float[] a, float[] s, float[] u, float[] vt)
+        /// <summary>
+        /// Computes the singular value decomposition of A.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        public void SingularValueDecomposition(bool computeVectors, float[] a, int aRows, int aColumns, float[] s, float[] u, float[] vt)
         {
             throw new NotImplementedException();
         }
 
-        public void SingularValueDecomposition(bool computeVectors, float[] a, float[] s, float[] u, float[] vt, float[] work)
+        /// <summary>
+        /// Computes the singular value decomposition of A.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        public void SingularValueDecomposition(bool computeVectors, float[] a, int aRows, int aColumns, float[] s, float[] u, float[] vt, float[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolve(float[] a, float[] s, float[] u, float[] vt, float[] b, float[] x)
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolve(float[] a, int aRows, int aColumns, float[] s, float[] u, float[] vt, float[] b, int bColumns, float[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolve(float[] a, float[] s, float[] u, float[] vt, float[] b, float[] x, float[] work)
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        public void SvdSolve(float[] a, int aRows, int aColumns, float[] s, float[] u, float[] vt, float[] b, int bColumns, float[] x, float[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolveFactored(int columnsOfB, float[] s, float[] u, float[] vt, float[] b, float[] x)
+        /// <summary>
+        /// Solves A*X=B for X using a previously SVD decomposed matrix.
+        /// </summary>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolveFactored(int aRows, int aColumns, float[] s, float[] u, float[] vt, float[] b, int bColumns, float[] x)
         {
             throw new NotImplementedException();
         }
@@ -2767,52 +4753,179 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void QRFactor(Complex[] r, Complex[] q)
+        /// <summary>
+        /// Computes the QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// QR factorization.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(Complex[] r, int rRows, int rColumns, Complex[] q)
         {
             throw new NotImplementedException();
         }
 
-        public void QRFactor(Complex[] r, Complex[] q, Complex[] work)
+        /// <summary>
+        /// Computes the QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolve(int columnsOfB, Complex[] r, Complex[] q, Complex[] b, Complex[] x)
+        /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void QRSolve(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] b, int bColumns, Complex[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolve(int columnsOfB, Complex[] r, Complex[] q, Complex[] b, Complex[] x, Complex[] work)
+        /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        public void QRSolve(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] b, int bColumns, Complex[] x, Complex[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolveFactored(int columnsOfB, Complex[] q, Complex[] r, Complex[] b, Complex[] x)
+        /// <summary>
+        /// Solves A*X=B for X using a previously QR factored matrix.
+        /// </summary>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex[],int,int,Complex[])"/>. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void QRSolveFactored(Complex[] q, Complex[] r, int rRows, int rColumns, Complex[] b, int bColumns, Complex[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void SingularValueDecomposition(bool computeVectors, Complex[] a, Complex[] s, Complex[] u, Complex[] vt)
+        /// <summary>
+        /// Computes the singular value decomposition of A.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        public void SingularValueDecomposition(bool computeVectors, Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt)
         {
             throw new NotImplementedException();
         }
 
-        public void SingularValueDecomposition(bool computeVectors, Complex[] a, Complex[] s, Complex[] u, Complex[] vt, Complex[] work)
+        /// <summary>
+        /// Computes the singular value decomposition of A.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        public void SingularValueDecomposition(bool computeVectors, Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolve(Complex[] a, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, Complex[] x)
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolve(Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolve(Complex[] a, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, Complex[] x, Complex[] work)
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        public void SvdSolve(Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x, Complex[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolveFactored(int columnsOfB, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, Complex[] x)
+        /// <summary>
+        /// Solves A*X=B for X using a previously SVD decomposed matrix.
+        /// </summary>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,Complex[],int,int,Complex[],Complex[],Complex[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,Complex[],int,int,Complex[],Complex[],Complex[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,Complex[],int,int,Complex[],Complex[],Complex[])"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolveFactored(int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x)
         {
             throw new NotImplementedException();
         }
@@ -3558,52 +5671,179 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void QRFactor(Complex32[] r, Complex32[] q)
+        /// <summary>
+        /// Computes the QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
+        /// QR factorization.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(Complex32[] r, int rRows, int rColumns, Complex32[] q)
         {
             throw new NotImplementedException();
         }
 
-        public void QRFactor(Complex32[] r, Complex32[] q, Complex32[] work)
+        /// <summary>
+        /// Computes the QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        public void QRFactor(Complex32[] r, int rRows, int rColumns, Complex32[] q, Complex32[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolve(int columnsOfB, Complex32[] r, Complex32[] q, Complex32[] b, Complex32[] x)
+        /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void QRSolve(Complex32[] r, int rRows, int rColumns, Complex32[] q, Complex32[] b, int bColumns, Complex32[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolve(int columnsOfB, Complex32[] r, Complex32[] q, Complex32[] b, Complex32[] x, Complex32[] work)
+        /// <summary>
+        /// Solves A*X=B for X using QR factorization of A.
+        /// </summary>
+        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
+        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// QR factorization.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        public void QRSolve(Complex32[] r, int rRows, int rColumns, Complex32[] q, Complex32[] b, int bColumns, Complex32[] x, Complex32[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void QRSolveFactored(int columnsOfB, Complex32[] q, Complex32[] r, Complex32[] b, Complex32[] x)
+        /// <summary>
+        /// Solves A*X=B for X using a previously QR factored matrix.
+        /// </summary>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(Complex32[],int,int,Complex32[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(Complex32[],int,int,Complex32[])"/>. </param>
+        /// <param name="rRows">The number of rows in the A matrix.</param>
+        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void QRSolveFactored(Complex32[] q, Complex32[] r, int rRows, int rColumns, Complex32[] b, int bColumns, Complex32[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt)
+        /// <summary>
+        /// Computes the singular value decomposition of A.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt)
         {
             throw new NotImplementedException();
         }
 
-        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] work)
+        /// <summary>
+        /// Computes the singular value decomposition of A.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolve(Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x)
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolve(Complex32[] a, int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int bColumns, Complex32[] x)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolve(Complex32[] a, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x, Complex32[] work)
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">On exit U contains the left singular vectors.</param>
+        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        public void SvdSolve(Complex32[] a, int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int bColumns, Complex32[] x, Complex32[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void SvdSolveFactored(int columnsOfB, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, Complex32[] x)
+        /// <summary>
+        /// Solves A*X=B for X using a previously SVD decomposed matrix.
+        /// </summary>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolveFactored(int aRows, int aColumns, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int bColumns, Complex32[] x)
         {
             throw new NotImplementedException();
         }
