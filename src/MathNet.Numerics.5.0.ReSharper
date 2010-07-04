@@ -11,7 +11,12 @@
               <Name>en-US</Name>
               <CaseSensitive>false</CaseSensitive>
               <UserWords>pointwise
-Frobenius</UserWords>
+Frobenius
+indices
+ipiv
+blocksize
+Dont
+Cholesky</UserWords>
             </CustomDictionary>
           </Dictionaries>
         </CustomDictionaries>

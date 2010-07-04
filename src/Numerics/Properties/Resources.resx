@@ -309,4 +309,7 @@
   <data name="SingularVectorsNotComputed" xml:space="preserve">
     <value>The singular vectors were not computed.</value>
   </data>
+  <data name="WorkArrayTooSmall" xml:space="preserve">
+    <value>The given work array is too small. Check work[0] for the corret size.</value>
+  </data>
 </root>

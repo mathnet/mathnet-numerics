@@ -1037,7 +1037,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (work.Length < rRows * rRows)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "work");
+                work[0] = rRows * rRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
             CommonParallel.For(0, rRows, i => q[(i * rRows) + i] = 1.0);
@@ -1502,9 +1503,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (work.Length < aRows)
             {
-                // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
-                work[0] = Math.Max((3 * Math.Min(aRows, aColumns)) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
-                return;
+                work[0] = aRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
             const int Maxiter = 1000;
@@ -2172,8 +2172,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (work.Length < aRows)
             {
-                work[0] = Math.Max(3 * Math.Min(aRows, aColumns) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
-                return;
+                work[0] = aRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
             const int Maxiter = 1000;
@@ -2965,9 +2965,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (work.Length < aRows)
             {
-                // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
-                work[0] = Math.Max((3 * Math.Min(aRows, aColumns)) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
-                return;
+                work[0] = aRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
             SingularValueDecomposition(true, a, aRows, aColumns, s, u, vt, work);
