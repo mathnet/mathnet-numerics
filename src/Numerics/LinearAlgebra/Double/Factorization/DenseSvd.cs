@@ -1,4 +1,4 @@
-﻿// <copyright file="DenseQR.cs" company="Math.NET">
+﻿// <copyright file="DenseSvd.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -27,48 +27,52 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Properties;
 
     /// <summary>
-    /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
-    /// <para>Any real square matrix A may be decomposed as A = QR where Q is an orthogonal matrix 
-    /// (its columns are orthogonal unit vectors meaning QTQ = I) and R is an upper triangular matrix 
-    /// (also called right triangular matrix).</para>
+    /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD) for <see cref="DenseMatrix"/>.</para>
+    /// <para>Suppose M is an m-by-n matrix whose entries are real numbers. 
+    /// Then there exists a factorization of the form M = UΣVT where:
+    /// - U is an m-by-m unitary matrix;
+    /// - Σ is m-by-n diagonal matrix with nonnegative real numbers on the diagonal;
+    /// - VT denotes transpose of V, an n-by-n unitary matrix; 
+    /// Such a factorization is called a singular-value decomposition of M. A common convention is to order the diagonal 
+    /// entries Σ(i,i) in descending order. In this case, the diagonal matrix Σ is uniquely determined 
+    /// by M (though the matrices U and V are not). The diagonal entries of Σ are known as the singular values of M.</para>
     /// </summary>
     /// <remarks>
-    /// The computation of the QR decomposition is done at construction time by Householder transformation.
+    /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public class DenseQR : QR
+    public class DenseSvd : Svd
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseQR"/> class. This object will compute the
-        /// QR factorization when the constructor is called and cache it's factorization.
+        /// Initializes a new instance of the <see cref="DenseSvd"/> class. This object will compute the
+        /// the singular value decomposition when the constructor is called and cache it's decomposition.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
-        public DenseQR(DenseMatrix matrix)
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
+        /// <exception cref="ArgumentException">If SVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
+        public DenseSvd(DenseMatrix matrix, bool computeVectors)
         {
             if (matrix == null)
             {
                 throw new ArgumentNullException("matrix");
             }
 
-            if (matrix.RowCount < matrix.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            MatrixR = matrix.Clone();
-            MatrixQ = new DenseMatrix(matrix.RowCount);
-            Control.LinearAlgebraProvider.QRFactor(((DenseMatrix)MatrixR).Data, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix)MatrixQ).Data);
+            ComputeVectors = computeVectors;
+            var nm = Math.Min(matrix.RowCount, matrix.ColumnCount);
+            VectorS = new DenseVector(nm);
+            MatrixU = new DenseMatrix(matrix.RowCount);
+            MatrixVT = new DenseMatrix(matrix.ColumnCount);
+            Control.LinearAlgebraProvider.SingularValueDecomposition(computeVectors, ((DenseMatrix)matrix.Clone()).Data, matrix.RowCount, matrix.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data);
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
+        /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
@@ -85,6 +89,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentNullException("result");
             }
 
+            if (!ComputeVectors)
+            {
+                throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
+            }
+
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
             {
@@ -92,13 +101,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            if (MatrixR.RowCount != input.RowCount)
+            if (MatrixU.RowCount != input.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
             }
 
             // The solution X row dimension is equal to the column dimension of A
-            if (MatrixR.ColumnCount != result.RowCount)
+            if (MatrixVT.ColumnCount != result.RowCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
@@ -106,20 +115,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var dinput = input as DenseMatrix;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do QR factorization for dense matrices at the moment.");
+                throw new NotImplementedException("Can only do SVD factorization for dense matrices at the moment.");
             }
 
             var dresult = result as DenseMatrix;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do QR factorization for dense matrices at the moment.");
+                throw new NotImplementedException("Can only do SVD factorization for dense matrices at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, dinput.Data, input.ColumnCount, dresult.Data);
+            Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Data, input.ColumnCount, dresult.Data);
         }
 
         /// <summary>
-        /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A SVD factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
@@ -135,15 +144,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentNullException("result");
             }
 
+            if (!ComputeVectors)
+            {
+                throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
+            }
+
             // Ax=b where A is an m x n matrix
             // Check that b is a column vector with m entries
-            if (MatrixR.RowCount != input.Count)
+            if (MatrixU.RowCount != input.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             // Check that x is a column vector with n entries
-            if (MatrixR.ColumnCount != result.Count)
+            if (MatrixVT.ColumnCount != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
@@ -160,7 +174,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new NotImplementedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, dinput.Data, 1, dresult.Data);
+            Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Data, 1, dresult.Data);
         }
     }
 }

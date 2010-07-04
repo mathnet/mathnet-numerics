@@ -303,4 +303,10 @@
   <data name="PermutationAsIntArrayInvalid" xml:space="preserve">
     <value>The integer array does not represent a valid permutation.</value>
   </data>
+  <data name="ConvergenceFailed" xml:space="preserve">
+    <value>An algorithm failed to converge.</value>
+  </data>
+  <data name="SingularVectorsNotComputed" xml:space="preserve">
+    <value>The singular vectors were not computed.</value>
+  </data>
 </root>
