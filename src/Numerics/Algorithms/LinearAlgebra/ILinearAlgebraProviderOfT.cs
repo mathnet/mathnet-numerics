@@ -226,56 +226,62 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        void LUInverse(T[] a);
+        void LUInverse(T[] a, int order);
 
         /// <summary>
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        void LUInverseFactored(T[] a, int[] ipiv);
+        void LUInverseFactored(T[] a, int order, int[] ipiv);
 
         /// <summary>
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        void LUInverse(T[] a, T[] work);
+        void LUInverse(T[] a, int order, T[] work);
 
         /// <summary>
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent.  On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        void LUInverseFactored(T[] a, int[] ipiv, T[] work);
+        void LUInverseFactored(T[] a, int order, int[] ipiv, T[] work);
 
         /// <summary>
         /// Solves A*X=B for X using LU factorization.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        void LUSolve(int columnsOfB, T[] a, T[] b);
+        void LUSolve(int columnsOfB, T[] a, int order, T[] b);
 
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        void LUSolveFactored(int columnsOfB, T[] a, int ipiv, T[] b);
+        void LUSolveFactored(int columnsOfB, T[] a, int order, int[] ipiv, T[] b);
 
         /// <summary>
         /// Solves A*X=B for X using LU factorization.
@@ -283,9 +289,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        void LUSolve(Transpose transposeA, int columnsOfB, T[] a, T[] b);
+        void LUSolve(Transpose transposeA, int columnsOfB, T[] a, int order, T[] b);
 
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
@@ -293,10 +300,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        void LUSolveFactored(Transpose transposeA, int columnsOfB, T[] a, int ipiv, T[] b);
+        void LUSolveFactored(Transpose transposeA, int columnsOfB, T[] a, int order, int[] ipiv, T[] b);
 
         /// <summary>
         /// Computes the Cholesky factorization of A.

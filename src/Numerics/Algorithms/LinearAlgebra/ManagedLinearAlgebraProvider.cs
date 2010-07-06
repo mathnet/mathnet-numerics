@@ -724,6 +724,26 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
         public void LUFactor(double[] data, int order, int[] ipiv)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (data.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "data");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
             // Initialize the pivot matrix to the identity permutation.
             for (var i = 0; i < order; i++)
             {
@@ -794,44 +814,322 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
         }
 
-        public void LUInverse(double[] a)
+        /// <summary>
+        /// Computes the inverse of matrix using LU factorization.
+        /// </summary>
+        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        public void LUInverse(double[] a, int order)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            var ipiv = new int[order];
+            LUFactor(a, order, ipiv);
+            LUInverseFactored(a, order, ipiv);
         }
 
-        public void LUInverseFactored(double[] a, int[] ipiv)
+        /// <summary>
+        /// Computes the inverse of a previously factored matrix.
+        /// </summary>
+        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        public void LUInverseFactored(double[] a, int order, int[] ipiv)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            var inverse = new double[a.Length];
+            for (var i = 0; i < order; i++)
+            {
+                inverse[i + order * i] = 1.0;
+            }
+
+            LUSolveFactored(order, a, order, ipiv, inverse);
+            Buffer.BlockCopy(inverse, 0, a, 0, a.Length * Constants.SizeOfDouble);
         }
 
-        public void LUInverse(double[] a, double[] work)
+        /// <summary>
+        /// Computes the inverse of matrix using LU factorization.
+        /// </summary>
+        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        public void LUInverse(double[] a, int order, double[] work)
         {
-            throw new NotImplementedException();
+            LUInverse(a, order);
         }
 
-        public void LUInverseFactored(double[] a, int[] ipiv, double[] work)
+        /// <summary>
+        /// Computes the inverse of a previously factored matrix.
+        /// </summary>
+        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent.  On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        public void LUInverseFactored(double[] a, int order, int[] ipiv, double[] work)
         {
-            throw new NotImplementedException();
+           LUInverseFactored(a, order, ipiv);
         }
 
-        public void LUSolve(int columnsOfB, double[] a, double[] b)
+        /// <summary>
+        /// Solves A*X=B for X using LU factorization.
+        /// </summary>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
+        public void LUSolve(int columnsOfB, double[] a, int order, double[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (b.Length != order * columnsOfB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            var ipiv = new int[order];
+            LUFactor(a, order, ipiv);
+            LUSolveFactored(columnsOfB, a, order, ipiv, b);
         }
 
-        public void LUSolveFactored(int columnsOfB, double[] a, int ipiv, double[] b)
+        /// <summary>
+        /// Solves A*X=B for X using a previously factored A matrix.
+        /// </summary>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
+        public void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            if (b.Length != order * columnsOfB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            // Compute the column vector  P*B
+            for (var i = 0; i < ipiv.Length; i++)
+            {
+                if (ipiv[i] == i)
+                {
+                    continue;
+                }
+
+                var p = ipiv[i];
+                for (var j = 0; j < columnsOfB; j++)
+                {
+                    var indexk = j*order;
+                    var indexkp = indexk + p;
+                    var indexkj = indexk + i;
+                    var temp = b[indexkp];
+                    b[indexkp] = b[indexkj];
+                    b[indexkj] = temp;
+                }
+            }
+
+            // Solve L*Y = P*B
+            for (var k = 0; k < order; k++)
+            {
+                var korder = k * order;
+                for (var i = k + 1; i < order; i++)
+                {
+                    for (var j = 0; j < columnsOfB; j++)
+                    {
+                        var index = j * order;
+                        b[i + index] -= b[k + index] * a[i + korder];
+                    }
+                }
+            }
+
+            // Solve U*X = Y;
+            for (var k = order - 1; k >= 0; k--)
+            {
+                var korder = k + k * order;
+                for (var j = 0; j < columnsOfB; j++)
+                {
+                    b[k + j * order] /= a[korder];
+                }
+
+                korder = k * order;
+                for (var i = 0; i < k; i++)
+                {
+                    for (var j = 0; j < columnsOfB; j++)
+                    {
+                        var index = j * order;
+                        b[i + index] -= b[k + index] * a[i + korder];
+                    }
+                }
+            }
         }
 
-        public void LUSolve(Transpose transposeA, int columnsOfB, double[] a, double[] b)
+        /// <summary>
+        /// Solves A*X=B for X using LU factorization.
+        /// </summary>
+        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
+        public void LUSolve(Transpose transposeA, int columnsOfB, double[] a, int order, double[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (b.Length != order * columnsOfB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            var ipiv = new int[order];
+            LUFactor(a, order, ipiv);
+            LUSolveFactored(transposeA, columnsOfB, a, order, ipiv, b);
         }
 
-        public void LUSolveFactored(Transpose transposeA, int columnsOfB, double[] a, int ipiv, double[] b)
+        /// <summary>
+        /// Solves A*X=B for X using a previously factored A matrix.
+        /// </summary>
+        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            if (b.Length != order * columnsOfB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if ((transposeA == Transpose.Transpose) || (transposeA == Transpose.ConjugateTranspose))
+            {
+                var aT = new double[a.Length];
+                for (var i = 0; i < order; i++)
+                {
+                    for (var j = 0; j < order; j++)
+                    {
+                        aT[(j * order) + i] = a[(i * order) + j];
+                    }
+                }
+                LUSolveFactored(columnsOfB, aT, order, ipiv, b);
+            }
+            else
+            {
+                LUSolveFactored(columnsOfB, a, order, ipiv, b);
+            }
         }
 
         /// <summary>
@@ -3724,42 +4022,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void LUInverse(float[] a)
+        /// <summary>
+        /// Computes the inverse of matrix using LU factorization.
+        /// </summary>
+        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        public void LUInverse(float[] a, int order)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverseFactored(float[] a, int[] ipiv)
+        /// <summary>
+        /// Computes the inverse of a previously factored matrix.
+        /// </summary>
+        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        public void LUInverseFactored(float[] a, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverse(float[] a, float[] work)
+        /// <summary>
+        /// Computes the inverse of matrix using LU factorization.
+        /// </summary>
+        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        public void LUInverse(float[] a, int order, float[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverseFactored(float[] a, int[] ipiv, float[] work)
+        /// <summary>
+        /// Computes the inverse of a previously factored matrix.
+        /// </summary>
+        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        public void LUInverseFactored(float[] a, int order, int[] ipiv, float[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolve(int columnsOfB, float[] a, float[] b)
+        public void LUSolve(int columnsOfB, float[] a, int order, float[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolveFactored(int columnsOfB, float[] a, int ipiv, float[] b)
+        public void LUSolveFactored(int columnsOfB, float[] a, int order, int[] ipiv, float[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolve(Transpose transposeA, int columnsOfB, float[] a, float[] b)
+        public void LUSolve(Transpose transposeA, int columnsOfB, float[] a, int order, float[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolveFactored(Transpose transposeA, int columnsOfB, float[] a, int ipiv, float[] b)
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, float[] a, int order, int[] ipiv, float[] b)
         {
             throw new NotImplementedException();
         }
@@ -4677,42 +5007,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void LUInverse(Complex[] a)
+        /// <summary>
+        /// Computes the inverse of matrix using LU factorization.
+        /// </summary>
+        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        public void LUInverse(Complex[] a, int order)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverseFactored(Complex[] a, int[] ipiv)
+        /// <summary>
+        /// Computes the inverse of a previously factored matrix.
+        /// </summary>
+        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        public void LUInverseFactored(Complex[] a, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverse(Complex[] a, Complex[] work)
+        /// <summary>
+        /// Computes the inverse of matrix using LU factorization.
+        /// </summary>
+        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        public void LUInverse(Complex[] a, int order, Complex[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverseFactored(Complex[] a, int[] ipiv, Complex[] work)
+        /// <summary>
+        /// Computes the inverse of a previously factored matrix.
+        /// </summary>
+        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        public void LUInverseFactored(Complex[] a, int order, int[] ipiv, Complex[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolve(int columnsOfB, Complex[] a, Complex[] b)
+        public void LUSolve(int columnsOfB, Complex[] a, int order, Complex[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolveFactored(int columnsOfB, Complex[] a, int ipiv, Complex[] b)
+        public void LUSolveFactored(int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolve(Transpose transposeA, int columnsOfB, Complex[] a, Complex[] b)
+        public void LUSolve(Transpose transposeA, int columnsOfB, Complex[] a, int order, Complex[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex[] a, int ipiv, Complex[] b)
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
         {
             throw new NotImplementedException();
         }
@@ -5595,42 +5957,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             throw new NotImplementedException();
         }
 
-        public void LUInverse(Complex32[] a)
+        /// <summary>
+        /// Computes the inverse of matrix using LU factorization.
+        /// </summary>
+        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        public void LUInverse(Complex32[] a, int order)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverseFactored(Complex32[] a, int[] ipiv)
+        /// <summary>
+        /// Computes the inverse of a previously factored matrix.
+        /// </summary>
+        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        public void LUInverseFactored(Complex32[] a, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverse(Complex32[] a, Complex32[] work)
+        /// <summary>
+        /// Computes the inverse of matrix using LU factorization.
+        /// </summary>
+        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        public void LUInverse(Complex32[] a, int order, Complex32[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void LUInverseFactored(Complex32[] a, int[] ipiv, Complex32[] work)
+        /// <summary>
+        /// Computes the inverse of a previously factored matrix.
+        /// </summary>
+        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <param name="work">The work array. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        public void LUInverseFactored(Complex32[] a, int order, int[] ipiv, Complex32[] work)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolve(int columnsOfB, Complex32[] a, Complex32[] b)
+        public void LUSolve(int columnsOfB, Complex32[] a, int order, Complex32[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolveFactored(int columnsOfB, Complex32[] a, int ipiv, Complex32[] b)
+        public void LUSolveFactored(int columnsOfB, Complex32[] a, int order, int[] ipiv, Complex32[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolve(Transpose transposeA, int columnsOfB, Complex32[] a, Complex32[] b)
+        public void LUSolve(Transpose transposeA, int columnsOfB, Complex32[] a, int order, Complex32[] b)
         {
             throw new NotImplementedException();
         }
 
-        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex32[] a, int ipiv, Complex32[] b)
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex32[] a, int order, int[] ipiv, Complex32[] b)
         {
             throw new NotImplementedException();
         }

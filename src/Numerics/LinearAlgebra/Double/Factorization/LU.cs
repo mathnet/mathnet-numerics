@@ -186,5 +186,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
         public abstract void Solve(Vector input, Vector result);
+
+        /// <summary>
+        /// Returns the inverse of this matrix. The inverse is calculated using LU decomposition.
+        /// </summary>
+        /// <returns>The inverse of this matrix.</returns>
+        public abstract Matrix Inverse();
     }
 }

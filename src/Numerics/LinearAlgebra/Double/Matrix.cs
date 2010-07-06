@@ -1088,12 +1088,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (columnLength > subMatrix.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("columnLength", "columnLength can be at most the number of columns in subMatrix.");
+                throw new ArgumentOutOfRangeException("columnLength", @"columnLength can be at most the number of columns in subMatrix.");
             }
 
             if (rowLength > subMatrix.RowCount)
             {
-                throw new ArgumentOutOfRangeException("rowLength", "rowLength can be at most the number of rows in subMatrix.");
+                throw new ArgumentOutOfRangeException("rowLength", @"rowLength can be at most the number of rows in subMatrix.");
             }
 
             var colMax = columnIndex + columnLength;
