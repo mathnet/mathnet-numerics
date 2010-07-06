@@ -347,8 +347,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(double[] a)
+        public void LUInverse(double[] a, int order)
         {
             throw new NotImplementedException();
         }
@@ -357,9 +358,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(double[] a, int[] ipiv)
+        public void LUInverseFactored(double[] a, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
@@ -368,11 +370,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(double[] a, double[] work)
+        public void LUInverse(double[] a, int order, double[] work)
         {
             throw new NotImplementedException();
         }
@@ -381,12 +384,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(double[] a, int[] ipiv, double[] work)
+        public void LUInverseFactored(double[] a, int order, int[] ipiv, double[] work)
         {
             throw new NotImplementedException();
         }
@@ -396,9 +400,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(int columnsOfB, double[] a, double[] b)
+        public void LUSolve(int columnsOfB, double[] a, int order, double[] b)
         {
             throw new NotImplementedException();
         }
@@ -408,10 +413,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(int columnsOfB, double[] a, int ipiv, double[] b)
+        public void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
         {
             throw new NotImplementedException();
         }
@@ -422,9 +428,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(Transpose transposeA, int columnsOfB, double[] a, double[] b)
+        public void LUSolve(Transpose transposeA, int columnsOfB, double[] a, int order, double[] b)
         {
             throw new NotImplementedException();
         }
@@ -435,10 +442,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(Transpose transposeA, int columnsOfB, double[] a, int ipiv, double[] b)
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
         {
             throw new NotImplementedException();
         }
@@ -959,7 +967,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         }
 		
         /// <summary>
-        /// <summary>
         /// Computes the LUP factorization of A. P*A = L*U.
         /// </summary>
         /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
@@ -977,8 +984,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(float[] a)
+        public void LUInverse(float[] a, int order)
         {
             throw new NotImplementedException();
         }
@@ -987,9 +995,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(float[] a, int[] ipiv)
+        public void LUInverseFactored(float[] a, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
@@ -998,11 +1007,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(float[] a, float[] work)
+        public void LUInverse(float[] a, int order, float[] work)
         {
             throw new NotImplementedException();
         }
@@ -1011,12 +1021,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(float[] a, int[] ipiv, float[] work)
+        public void LUInverseFactored(float[] a, int order, int[] ipiv, float[] work)
         {
             throw new NotImplementedException();
         }
@@ -1026,9 +1037,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(int columnsOfB, float[] a, float[] b)
+        public void LUSolve(int columnsOfB, float[] a, int order, float[] b)
         {
             throw new NotImplementedException();
         }
@@ -1038,10 +1050,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(int columnsOfB, float[] a, int ipiv, float[] b)
+        public void LUSolveFactored(int columnsOfB, float[] a, int order, int[] ipiv, float[] b)
         {
             throw new NotImplementedException();
         }
@@ -1052,9 +1065,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(Transpose transposeA, int columnsOfB, float[] a, float[] b)
+        public void LUSolve(Transpose transposeA, int columnsOfB, float[] a, int order, float[] b)
         {
             throw new NotImplementedException();
         }
@@ -1065,10 +1079,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(Transpose transposeA, int columnsOfB, float[] a, int ipiv, float[] b)
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, float[] a, int order, int[] ipiv, float[] b)
         {
             throw new NotImplementedException();
         }
@@ -1605,8 +1620,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(Complex[] a)
+        public void LUInverse(Complex[] a, int order)
         {
             throw new NotImplementedException();
         }
@@ -1615,9 +1631,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(Complex[] a, int[] ipiv)
+        public void LUInverseFactored(Complex[] a, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
@@ -1626,11 +1643,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(Complex[] a, Complex[] work)
+        public void LUInverse(Complex[] a, int order, Complex[] work)
         {
             throw new NotImplementedException();
         }
@@ -1639,12 +1657,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(Complex[] a, int[] ipiv, Complex[] work)
+        public void LUInverseFactored(Complex[] a, int order, int[] ipiv, Complex[] work)
         {
             throw new NotImplementedException();
         }
@@ -1654,9 +1673,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(int columnsOfB, Complex[] a, Complex[] b)
+        public void LUSolve(int columnsOfB, Complex[] a, int order, Complex[] b)
         {
             throw new NotImplementedException();
         }
@@ -1666,10 +1686,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(int columnsOfB, Complex[] a, int ipiv, Complex[] b)
+        public void LUSolveFactored(int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
         {
             throw new NotImplementedException();
         }
@@ -1680,9 +1701,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(Transpose transposeA, int columnsOfB, Complex[] a, Complex[] b)
+        public void LUSolve(Transpose transposeA, int columnsOfB, Complex[] a, int order, Complex[] b)
         {
             throw new NotImplementedException();
         }
@@ -1693,10 +1715,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex[] a, int ipiv, Complex[] b)
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
         {
             throw new NotImplementedException();
         }
@@ -2233,8 +2256,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(Complex32[] a)
+        public void LUInverse(Complex32[] a, int order)
         {
             throw new NotImplementedException();
         }
@@ -2243,9 +2267,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(Complex32[] a, int[] ipiv)
+        public void LUInverseFactored(Complex32[] a, int order, int[] ipiv)
         {
             throw new NotImplementedException();
         }
@@ -2254,11 +2279,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of matrix using LU factorization.
         /// </summary>
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public void LUInverse(Complex32[] a, Complex32[] work)
+        public void LUInverse(Complex32[] a, int order, Complex32[] work)
         {
             throw new NotImplementedException();
         }
@@ -2267,12 +2293,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// Computes the inverse of a previously factored matrix.
         /// </summary>
         /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public void LUInverseFactored(Complex32[] a, int[] ipiv, Complex32[] work)
+        public void LUInverseFactored(Complex32[] a, int order, int[] ipiv, Complex32[] work)
         {
             throw new NotImplementedException();
         }
@@ -2282,9 +2309,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(int columnsOfB, Complex32[] a, Complex32[] b)
+        public void LUSolve(int columnsOfB, Complex32[] a, int order, Complex32[] b)
         {
             throw new NotImplementedException();
         }
@@ -2294,10 +2322,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(int columnsOfB, Complex32[] a, int ipiv, Complex32[] b)
+        public void LUSolveFactored(int columnsOfB, Complex32[] a, int order, int[] ipiv, Complex32[] b)
         {
             throw new NotImplementedException();
         }
@@ -2308,9 +2337,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public void LUSolve(Transpose transposeA, int columnsOfB, Complex32[] a, Complex32[] b)
+        public void LUSolve(Transpose transposeA, int columnsOfB, Complex32[] a, int order, Complex32[] b)
         {
             throw new NotImplementedException();
         }
@@ -2321,10 +2351,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.Atlas
         /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex32[] a, int ipiv, Complex32[] b)
+        public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex32[] a, int order, int[] ipiv, Complex32[] b)
         {
             throw new NotImplementedException();
         }

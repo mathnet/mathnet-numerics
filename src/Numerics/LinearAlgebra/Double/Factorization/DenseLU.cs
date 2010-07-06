@@ -122,8 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;
-            throw new NotImplementedException();
-            //Control.LinearAlgebraProvider.LUSolveFactored(dfactors.Data, dfactors.RowCount, dresult.Data, dresult.RowCount, dresult.ColumnCount);
+            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Data, dfactors.RowCount, Pivots,  dresult.Data);
         }
 
         /// <summary>
@@ -171,9 +170,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
 
             // LU solve by overwriting result.
-            var dfactors = Factors as DenseMatrix;
-            throw new NotImplementedException();
-            //Control.LinearAlgebraProvider.LUSolveFactored(dfactors.Data, dfactors.RowCount, dresult.Data, dresult.Count, 1);
+            var dfactors = (DenseMatrix)Factors;
+            Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Data, dfactors.RowCount, Pivots, dresult.Data);
+        }
+
+        /// <summary>
+        /// Returns the inverse of this matrix. The inverse is calculated using LU decomposition.
+        /// </summary>
+        /// <returns>The inverse of this matrix.</returns>
+        public override Matrix Inverse()
+        {
+            var result = (DenseMatrix)Factors.Clone();
+            Control.LinearAlgebraProvider.LUInverseFactored(result.Data, result.RowCount, Pivots);
+            return result;
         }
     }
 }

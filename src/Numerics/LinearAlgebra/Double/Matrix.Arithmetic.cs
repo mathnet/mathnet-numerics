@@ -28,6 +28,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
     using Distributions;
+    using Factorization;
     using Properties;
     using Threading;
 
@@ -831,7 +832,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>effective numerical rank, obtained from SVD</returns>
         public virtual int Rank()
         {
-            throw new NotImplementedException();
+            var svd = this.Svd(false);
+            return svd.Rank;
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>
@@ -839,14 +841,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>The condition number is calculated using singular value decomposition.</remarks>
         public virtual double ConditionNumber()
         {
-            throw new NotImplementedException();
+            var svd = this.Svd(false);
+            return svd.ConditionNumber;
         }
 
         /// <summary>Computes the determinant of this matrix.</summary>
         /// <returns>The determinant of this matrix.</returns>
         public virtual double Determinant()
         {
-            throw new NotImplementedException();
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            var lu = this.LU();
+            return lu.Determinant;
+        }
+
+        /// <summary>Computes the inverse of this matrix.</summary>
+        /// <returns>The inverse of this matrix.</returns>
+        public virtual Matrix Inverse()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            var lu = this.LU();
+            return lu.Inverse();
         }
 
         /// <summary>
