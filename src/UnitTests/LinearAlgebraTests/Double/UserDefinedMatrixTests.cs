@@ -36,6 +36,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     {
         private readonly double[,] _data;
 
+        public UserDefinedMatrix(int order): base(order, order)
+        {
+            _data = new double[order, order];
+        }
+
         public UserDefinedMatrix(int rows, int columns) : base(rows, columns)
         {
             _data = new double[rows, columns];
@@ -64,6 +69,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override Vector CreateVector(int size)
         {
             return new UserDefinedVector(size);
+        }
+
+        public static UserDefinedMatrix Identity(int order)
+        {
+            var m = new UserDefinedMatrix(order, order);
+            for (var i = 0; i < order; i++)
+            {
+                m[i, i] = 1.0;
+            }
+
+            return m;
         }
     }
 

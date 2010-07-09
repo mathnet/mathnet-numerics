@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 return new DenseLU(dense);
             }
 
-            throw new NotImplementedException();
+            return new UserLU(matrix);
         }
 
         /// <summary>

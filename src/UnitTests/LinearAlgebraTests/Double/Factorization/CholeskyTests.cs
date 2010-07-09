@@ -30,7 +30,6 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
-    using System.Collections.Generic;
     using MbUnit.Framework;
     using LinearAlgebra.Double;
     using LinearAlgebra.Double.Factorization;
@@ -44,23 +43,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         public void CanFactorizeIdentity(int order)
         {
             var I = DenseMatrix.Identity(order);
-            var C = I.Cholesky();
+            var factorC = I.Cholesky();
 
-            Assert.AreEqual(I.RowCount, C.Factor.RowCount);
-            Assert.AreEqual(I.ColumnCount, C.Factor.ColumnCount);
+            Assert.AreEqual(I.RowCount, factorC.Factor.RowCount);
+            Assert.AreEqual(I.ColumnCount, factorC.Factor.ColumnCount);
 
-            for (var i = 0; i < C.Factor.RowCount; i++)
+            for (var i = 0; i < factorC.Factor.RowCount; i++)
             {
-                for (var j = 0; j < C.Factor.ColumnCount; j++)
+                for (var j = 0; j < factorC.Factor.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(1.0, C.Factor[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(0.0, C.Factor[i, j]);
-                    }
+                    Assert.AreEqual(i == j ? 1.0 : 0.0, factorC.Factor[i, j]);
                 }
             }
         }
@@ -71,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var I = DenseMatrix.Identity(10);
             I[3, 3] = -4.0;
-            var C = I.Cholesky();
+            I.Cholesky();
         }
 
         [Test]
@@ -81,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         public void CholeskyFailsWithNonSquareMatrix(int row, int col)
         {
             var I = new DenseMatrix(row, col);
-            var C = I.Cholesky();
+            I.Cholesky();
         }
 
         [Test]
@@ -91,9 +83,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         public void IdentityDeterminantIsOne(int order)
         {
             var I = DenseMatrix.Identity(order);
-            var C = I.Cholesky();
-            Assert.AreEqual(1.0, C.Determinant);
-            Assert.AreEqual(0.0, C.DeterminantLn);
+            var factorC = I.Cholesky();
+            Assert.AreEqual(1.0, factorC.Determinant);
+            Assert.AreEqual(0.0, factorC.DeterminantLn);
         }
 
         [Test]
@@ -106,30 +98,30 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanFactorizeRandomMatrix(int order)
         {
-            var X = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(order);
-            var chol = X.Cholesky();
-            var C = chol.Factor;
+            var matrixX = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var chol = matrixX.Cholesky();
+            var factorC = chol.Factor;
 
             // Make sure the Cholesky factor has the right dimensions.
-            Assert.AreEqual(order, C.RowCount);
-            Assert.AreEqual(order, C.ColumnCount);
+            Assert.AreEqual(order, factorC.RowCount);
+            Assert.AreEqual(order, factorC.ColumnCount);
 
             // Make sure the Cholesky factor is lower triangular.
-            for (int i = 0; i < C.RowCount; i++) 
+            for (var i = 0; i < factorC.RowCount; i++) 
             {
-                for (int j = i+1; j < C.ColumnCount; j++)
+                for (var j = i+1; j < factorC.ColumnCount; j++)
                 {
-                    Assert.AreEqual(0.0, C[i, j]);
+                    Assert.AreEqual(0.0, factorC[i, j]);
                 }
             }
 
             // Make sure the cholesky factor times it's transpose is the original matrix.
-            var XfromC = C * C.Transpose();
-            for (int i = 0; i < XfromC.RowCount; i++) 
+            var matrixXfromC = factorC * factorC.Transpose();
+            for (var i = 0; i < matrixXfromC.RowCount; i++) 
             {
-                for (int j = 0; j < XfromC.ColumnCount; j++)
+                for (var j = 0; j < matrixXfromC.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(X[i,j], XfromC[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrixX[i,j], matrixXfromC[i, j], 1.0e-11);
                 }
             }
         }
@@ -144,28 +136,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVector(int order)
         {
-            var A = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(order);
-            var ACopy = A.Clone();
-            var chol = A.Cholesky();
-            var b = MatrixLoader.GenerateRandomVector(order);
+            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixACopy = matrixA.Clone();
+            var chol = matrixA.Cholesky();
+            var b = MatrixLoader.GenerateRandomDenseVector(order);
             var x = chol.Solve(b);
 
             Assert.AreEqual(b.Count, x.Count);
 
-            var bReconstruct = A * x;
+            var bReconstruct = matrixA * x;
 
             // Check the reconstruction.
-            for (int i = 0; i < order; i++)
+            for (var i = 0; i < order; i++)
             {
                 Assert.AreApproximatelyEqual(b[i], bReconstruct[i], 1.0e-11);
             }
 
             // Make sure A didn't change.
-            for (int i = 0; i < A.RowCount; i++)
+            for (var i = 0; i < matrixA.RowCount; i++)
             {
-                for (int j = 0; j < A.ColumnCount; j++)
+                for (var j = 0; j < matrixA.ColumnCount; j++)
                 {
-                    Assert.AreEqual(ACopy[i, j], A[i, j]);
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
                 }
             }
         }
@@ -180,32 +172,32 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomMatrix(int row, int col)
         {
-            var A = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(row);
-            var ACopy = A.Clone();
-            var chol = A.Cholesky();
-            var B = MatrixLoader.GenerateRandomMatrix(row, col);
-            var X = chol.Solve(B);
+            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(row);
+            var matrixACopy = matrixA.Clone();
+            var chol = matrixA.Cholesky();
+            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, col);
+            var matrixX = chol.Solve(matrixB);
 
-            Assert.AreEqual(B.RowCount, X.RowCount);
-            Assert.AreEqual(B.ColumnCount, X.ColumnCount);
+            Assert.AreEqual(matrixB.RowCount, matrixX.RowCount);
+            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
-            var BReconstruct = A * X;
+            var matrixBReconstruct = matrixA * matrixX;
 
             // Check the reconstruction.
-            for (int i = 0; i < B.RowCount; i++)
+            for (var i = 0; i < matrixB.RowCount; i++)
             {
-                for (int j = 0; j < B.ColumnCount; j++)
+                for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(B[i, j], BReconstruct[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-11);
                 }
             }
 
             // Make sure A didn't change.
-            for (int i = 0; i < A.RowCount; i++)
+            for (var i = 0; i < matrixA.RowCount; i++)
             {
-                for (int j = 0; j < A.ColumnCount; j++)
+                for (var j = 0; j < matrixA.ColumnCount; j++)
                 {
-                    Assert.AreEqual(ACopy[i, j], A[i, j]);
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
                 }
             }
         }
@@ -220,35 +212,35 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var A = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(order);
-            var ACopy = A.Clone();
-            var chol = A.Cholesky();
-            var b = MatrixLoader.GenerateRandomVector(order);
+            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
+            var matrixACopy = matrixA.Clone();
+            var chol = matrixA.Cholesky();
+            var b = MatrixLoader.GenerateRandomDenseVector(order);
             var bCopy = b.Clone();
             var x = new DenseVector(order);
             chol.Solve(b, x);
 
             Assert.AreEqual(b.Count, x.Count);
 
-            var bReconstruct = A * x;
+            var bReconstruct = matrixA * x;
 
             // Check the reconstruction.
-            for (int i = 0; i < order; i++)
+            for (var i = 0; i < order; i++)
             {
                 Assert.AreApproximatelyEqual(b[i], bReconstruct[i], 1.0e-11);
             }
 
             // Make sure A didn't change.
-            for (int i = 0; i < A.RowCount; i++)
+            for (var i = 0; i < matrixA.RowCount; i++)
             {
-                for (int j = 0; j < A.ColumnCount; j++)
+                for (var j = 0; j < matrixA.ColumnCount; j++)
                 {
-                    Assert.AreEqual(ACopy[i, j], A[i, j]);
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
                 }
             }
 
             // Make sure b didn't change.
-            for (int i = 0; i < order; i++)
+            for (var i = 0; i < order; i++)
             {
                 Assert.AreEqual(bCopy[i], b[i]);
             }
@@ -264,43 +256,43 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int col)
         {
-            var A = MatrixLoader.GenerateRandomPositiveDefiniteMatrix(row);
-            var ACopy = A.Clone();
-            var chol = A.Cholesky();
-            var B = MatrixLoader.GenerateRandomMatrix(row, col);
-            var BCopy = B.Clone();
-            var X = new DenseMatrix(row, col);
-            chol.Solve(B, X);
+            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(row);
+            var matrixACopy = matrixA.Clone();
+            var chol = matrixA.Cholesky();
+            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, col);
+            var matrixBCopy = matrixB.Clone();
+            var matrixX = new DenseMatrix(row, col);
+            chol.Solve(matrixB, matrixX);
 
-            Assert.AreEqual(B.RowCount, X.RowCount);
-            Assert.AreEqual(B.ColumnCount, X.ColumnCount);
+            Assert.AreEqual(matrixB.RowCount, matrixX.RowCount);
+            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
-            var BReconstruct = A * X;
+            var matrixBReconstruct = matrixA * matrixX;
 
             // Check the reconstruction.
-            for (int i = 0; i < B.RowCount; i++)
+            for (var i = 0; i < matrixB.RowCount; i++)
             {
-                for (int j = 0; j < B.ColumnCount; j++)
+                for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(B[i, j], BReconstruct[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-11);
                 }
             }
 
             // Make sure A didn't change.
-            for (int i = 0; i < A.RowCount; i++)
+            for (var i = 0; i < matrixA.RowCount; i++)
             {
-                for (int j = 0; j < A.ColumnCount; j++)
+                for (var j = 0; j < matrixA.ColumnCount; j++)
                 {
-                    Assert.AreEqual(ACopy[i, j], A[i, j]);
+                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
                 }
             }
 
             // Make sure B didn't change.
-            for (int i = 0; i < B.RowCount; i++)
+            for (var i = 0; i < matrixB.RowCount; i++)
             {
-                for (int j = 0; j < B.ColumnCount; j++)
+                for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(BCopy[i, j], B[i, j]);
+                    Assert.AreEqual(matrixBCopy[i, j], matrixB[i, j]);
                 }
             }
         }

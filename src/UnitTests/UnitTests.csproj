@@ -90,6 +90,10 @@
     <Compile Include="ComplexTests\ComplexTest.cs" />
     <Compile Include="ComplexTests\Complex32Test.TextHandling.cs" />
     <Compile Include="ComplexTests\Complex32Test.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserCholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserLUTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserQRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserSvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\SvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\QRTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseMatrixTests.cs" />

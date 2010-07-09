@@ -1,4 +1,4 @@
-﻿// <copyright file="LUTests.cs" company="Math.NET">
+﻿// <copyright file="UserQRTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -31,115 +31,105 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     using MbUnit.Framework;
-    using LinearAlgebra.Double;
     using LinearAlgebra.Double.Factorization;
 
-    public class LUTests
+    public class UserQRTests
     {
+
+        [Test]
+        [ExpectedArgumentNullException]
+        public void ConstructorNull()
+        {
+            new UserQR(null);
+        }
+
+        [Test]
+        [ExpectedArgumentException]
+        public void WideMatrixThrowsInvalidMatrixOperationException()
+        {
+            new UserQR(new UserDefinedMatrix(3, 4));
+        }
+        
         [Test]
         [Row(1)]
         [Row(10)]
         [Row(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var matrixI = DenseMatrix.Identity(order);
-            var factorLU = matrixI.LU();
+            var I = UserDefinedMatrix.Identity(order);
+            var factorQR = I.QR();
 
-            // Check lower triangular part.
-            var matrixL = factorLU.L;
-            Assert.AreEqual(matrixI.RowCount, matrixL.RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, matrixL.ColumnCount);
-            for (var i = 0; i < matrixL.RowCount; i++)
-            {
-                for (var j = 0; j < matrixL.ColumnCount; j++)
-                {
-                    Assert.AreEqual(i == j ? 1.0 : 0.0, matrixL[i, j]);
-                }
-            }
+            Assert.AreEqual(I.RowCount, factorQR.R.RowCount);
+            Assert.AreEqual(I.ColumnCount, factorQR.R.ColumnCount);
 
-            // Check upper triangular part.
-            var matrixU = factorLU.U;
-            Assert.AreEqual(matrixI.RowCount, matrixU.RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, matrixU.ColumnCount);
-            for (var i = 0; i < matrixU.RowCount; i++)
+            for (var i = 0; i < factorQR.R.RowCount; i++)
             {
-                for (var j = 0; j < matrixU.ColumnCount; j++)
+                for (var j = 0; j < factorQR.R.ColumnCount; j++)
                 {
-                    Assert.AreEqual(i == j ? 1.0 : 0.0, matrixU[i, j]);
+                    if (i == j)
+                    {
+                        Assert.AreEqual(-1.0, factorQR.R[i, j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(0.0, factorQR.R[i, j]);
+                    }
                 }
             }
         }
 
-        [Test]
-        [Row(3,5)]
-        [Row(5,3)]
-        [ExpectedArgumentException]
-        public void LUFailsWithNonSquareMatrix(int row, int col)
-        {
-            var I = new DenseMatrix(row, col);
-            I.LU();
-        }
-
+      
         [Test]
         [Row(1)]
         [Row(10)]
         [Row(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var I = DenseMatrix.Identity(order);
-            var lu = I.LU();
-            Assert.AreEqual(1.0, lu.Determinant);
+            var I = UserDefinedMatrix.Identity(order);
+            var factorQR = I.QR();
+            Assert.AreEqual(1.0, factorQR.Determinant);
         }
 
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
+        [Row(1,1)]
+        [Row(2,2)]
+        [Row(5,5)]
+        [Row(10,6)]
+        [Row(50,48)]
+        [Row(100,98)]
         [MultipleAsserts]
-        public void CanFactorizeRandomMatrix(int order)
+        public void CanFactorizeRandomMatrix(int row, int column)
         {
-            var matrixX = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var factorLU = matrixX.LU();
-            var matrixL = factorLU.L;
-            var matrixU = factorLU.U;
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
+            var factorQR = matrixA.QR();
 
-            // Make sure the factors have the right dimensions.
-            Assert.AreEqual(order, matrixL.RowCount);
-            Assert.AreEqual(order, matrixL.ColumnCount);
-            Assert.AreEqual(order, matrixU.RowCount);
-            Assert.AreEqual(order, matrixU.ColumnCount);
+            // Make sure the R has the right dimensions.
+            Assert.AreEqual(row, factorQR.R.RowCount);
+            Assert.AreEqual(column, factorQR.R.ColumnCount);
 
-            // Make sure the L factor is lower triangular.
-            for (var i = 0; i < matrixL.RowCount; i++) 
+            // Make sure the Q has the right dimensions.
+            Assert.AreEqual(row, factorQR.Q.RowCount);
+            Assert.AreEqual(row, factorQR.Q.ColumnCount);
+
+            // Make sure the R factor is upper triangular.
+            for (var i = 0; i < factorQR.R.RowCount; i++) 
             {
-                Assert.AreEqual(1.0, matrixL[i, i]);
-                for (var j = i+1; j < matrixL.ColumnCount; j++)
+                for (var j = 0; j < factorQR.R.ColumnCount; j++)
                 {
-                    Assert.AreEqual(0.0, matrixL[i, j]);
+                    if (i > j)
+                    {
+                        Assert.AreEqual(0.0, factorQR.R[i, j]);
+                    }
                 }
             }
 
-            // Make sure the U factor is upper triangular.
-            for (var i = 0; i < matrixL.RowCount; i++)
+            // Make sure the Q*R is the original matrix.
+            var matrixQfromR = factorQR.Q * factorQR.R;
+            for (int i = 0; i < matrixQfromR.RowCount; i++) 
             {
-                for (var j = 0; j < i; j++)
+                for (int j = 0; j < matrixQfromR.ColumnCount; j++)
                 {
-                    Assert.AreEqual(0.0, matrixU[i, j]);
-                }
-            }
-
-            // Make sure the LU factor times it's transpose is the original matrix.
-            var matrixXfromLU = matrixL * matrixU;
-            var permutationInverse = factorLU.P.Inverse();
-            matrixXfromLU.PermuteRows(permutationInverse);
-            for (var i = 0; i < matrixXfromLU.RowCount; i++) 
-            {
-                for (var j = 0; j < matrixXfromLU.ColumnCount; j++)
-                {
-                    Assert.AreApproximatelyEqual(matrixX[i, j], matrixXfromLU[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrixA[i, j], matrixQfromR[i, j], 1.0e-11);
                 }
             }
         }
@@ -154,12 +144,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
-            var factorLU = matrixA.LU();
+            var factorQR = matrixA.QR();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
-            var resultx = factorLU.Solve(vectorb);
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var resultx = factorQR.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
@@ -191,12 +181,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
-            var factorLU = matrixA.LU();
+            var factorQR = matrixA.QR();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var matrixX = factorLU.Solve(matrixB);
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
+            var matrixX = factorQR.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
@@ -234,13 +224,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
-            var factorLU = matrixA.LU();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var factorQR = matrixA.QR();
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
             var vectorbCopy = vectorb.Clone();
-            var resultx = new DenseVector(order);
-            factorLU.Solve(vectorb, resultx);
+            var resultx = new UserDefinedVector(order);
+            factorQR.Solve(vectorb,resultx);
 
             Assert.AreEqual(vectorb.Count, resultx.Count);
 
@@ -278,15 +268,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
-            var factorLU = matrixA.LU();
+            var factorQR = matrixA.QR();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixBCopy = matrixB.Clone();
 
-            var matrixX = new DenseMatrix(order, order);
-            factorLU.Solve(matrixB, matrixX);
+            var matrixX = new UserDefinedMatrix(order, order);
+            factorQR.Solve(matrixB,matrixX);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
@@ -320,44 +310,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
                 {
                     Assert.AreEqual(matrixBCopy[i, j], matrixB[i, j]);
                 }
-            }
-        }
-
-        [Test]
-        [Row(1)]
-        [Row(4)]
-        [Row(8)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanInverse(int order)
-        {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var matrixACopy = matrixA.Clone();
-            var factorLU = matrixA.LU();
-
-            var matrixAInverse = factorLU.Inverse();
-
-            // The inverse dimension is equal A
-            Assert.AreEqual(matrixAInverse.RowCount, matrixAInverse.RowCount);
-            Assert.AreEqual(matrixAInverse.ColumnCount, matrixAInverse.ColumnCount);
-
-            var matrixIdentity = matrixA * matrixAInverse;
-
-            // Make sure A didn't change.
-            for (var i = 0; i < matrixA.RowCount; i++)
-            {
-                for (var j = 0; j < matrixA.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrixACopy[i, j], matrixA[i, j]);
-                }
-            }
-
-            // Check if multiplication of A and AI produced identity matrix.
-            for (var i = 0; i < matrixIdentity.RowCount; i++)
-            {
-                Assert.AreApproximatelyEqual(matrixIdentity[i, i], 1.0, 1.0e-11);
             }
         }
     }

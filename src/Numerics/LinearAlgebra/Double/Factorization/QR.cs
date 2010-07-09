@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 return new DenseQR(dense);
             }
 
-            throw new NotImplementedException();
+            return new UserQR(matrix);
         }
 
         /// <summary>

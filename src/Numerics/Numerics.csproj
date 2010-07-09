@@ -103,6 +103,10 @@
     <Compile Include="Complex32.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\DenseQR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\DenseSvd.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\UserCholesky.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\UserLU.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\UserQR.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\UserSvd.cs" />
     <Compile Include="LinearAlgebra\Double\ISolver.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\Svd.cs" />

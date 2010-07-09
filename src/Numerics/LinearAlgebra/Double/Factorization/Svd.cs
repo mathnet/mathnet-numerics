@@ -123,7 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 return new DenseSvd(dense, computeVectors);
             }
 
-            throw new NotImplementedException();
+            return new UserSvd(matrix, computeVectors);
         }
 
         /// <summary>
