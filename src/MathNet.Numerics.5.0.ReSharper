@@ -863,6 +863,7 @@ Cholesky</UserWords>
       <Abbreviation Text="FFT" />
       <Abbreviation Text="LU" />
       <Abbreviation Text="DC" />
+      <Abbreviation Text="VT" />
     </Naming2>
   </CodeStyleSettings>
   <SharedSolutionTemplateManager>

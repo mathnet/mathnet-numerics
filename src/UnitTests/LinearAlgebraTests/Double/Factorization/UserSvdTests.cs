@@ -1,4 +1,4 @@
-﻿// <copyright file="SvdTests.cs" company="Math.NET">
+﻿// <copyright file="UserSvdTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -32,17 +32,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     using System;
     using MbUnit.Framework;
-    using LinearAlgebra.Double;
     using LinearAlgebra.Double.Factorization;
 
-    public class SvdTests
+    public class UserSvdTests
     {
 
         [Test]
         [ExpectedArgumentNullException]
         public void ConstructorNull()
         {
-            new DenseSvd(null, true);
+            new UserSvd(null, true);
         }
 
         [Test]
@@ -51,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Row(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var I = DenseMatrix.Identity(order);
+            var I = UserDefinedMatrix.Identity(order);
             var factorSvd = I.Svd(true);
 
             Assert.AreEqual(I.RowCount, factorSvd.U().RowCount);
@@ -82,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanFactorizeRandomMatrix(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var factorSvd = matrixA.Svd(true);
 
             // Make sure the U has the right dimensions.
@@ -115,7 +114,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CheckRankOfNonSquare(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var factorSvd = matrixA.Svd(true);
 
             var mn = Math.Min(row, column);
@@ -132,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CheckRankSquare(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var factorSvd = matrixA.Svd(true);
 
             if (factorSvd.Determinant != 0)
@@ -152,7 +151,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CheckRankOfSquareSingular(int order)
         {
-            var matrixA = new DenseMatrix(order, order);
+            var matrixA = new UserDefinedMatrix(order, order);
             matrixA[0, 0] = 1;
             matrixA[order - 1, order - 1] = 1;
             for (var i = 1; i < order - 1; i++)
@@ -172,10 +171,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [ExpectedException(typeof(InvalidOperationException))]
         public void CannotSolveMatrixIfVectorsNotComputed()
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(10, 10);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(10, 10);
             var factorSvd = matrixA.Svd(false);
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(10, 10);
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(10, 10);
             factorSvd.Solve(matrixB);
         }
 
@@ -183,10 +182,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [ExpectedException(typeof(InvalidOperationException))]
         public void CannotSolveVectorIfVectorsNotComputed()
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(10, 10);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(10, 10);
             var factorSvd = matrixA.Svd(false);
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(10);
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(10);
             factorSvd.Solve(vectorb);
         }
 
@@ -200,11 +199,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVector(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var matrixACopy = matrixA.Clone();
             var factorSvd = matrixA.Svd(true);
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(row);
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(row);
             var resultx = factorSvd.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -237,11 +236,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomMatrix(int row, int count)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, count);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, count);
             var matrixACopy = matrixA.Clone();
             var factorSvd = matrixA.Svd(true);
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, count);
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(row, count);
             var matrixX = factorSvd.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -280,12 +279,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var matrixACopy = matrixA.Clone();
             var factorSvd = matrixA.Svd(true);
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(row);
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(row);
             var vectorbCopy = vectorb.Clone();
-            var resultx = new DenseVector(column);
+            var resultx = new UserDefinedVector(column);
             factorSvd.Solve(vectorb,resultx);
 
             var bReconstruct = matrixA * resultx;
@@ -322,14 +321,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var matrixACopy = matrixA.Clone();
             var factorSvd = matrixA.Svd(true);
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var matrixBCopy = matrixB.Clone();
 
-            var matrixX = new DenseMatrix(column, column);
+            var matrixX = new UserDefinedMatrix(column, column);
             factorSvd.Solve(matrixB,matrixX);
 
             // The solution X row dimension is equal to the column dimension of A

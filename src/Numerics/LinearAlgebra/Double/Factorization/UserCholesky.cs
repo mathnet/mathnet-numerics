@@ -1,4 +1,4 @@
-﻿// <copyright file="DenseCholesky.cs" company="Math.NET">
+﻿// <copyright file="UserCholesky.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -34,7 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     using Properties;
 
     /// <summary>
-    /// <para>A class which encapsulates the functionality of a Cholesky factorization for dense matrices.</para>
+    /// <para>A class which encapsulates the functionality of a Cholesky factorization for user matrices.</para>
     /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
     /// is an lower triangular matrix L so that A = L*L'.</para>
     /// </summary>
@@ -42,17 +42,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public class DenseCholesky : Cholesky
+    public class UserCholesky : Cholesky
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseCholesky"/> class. This object will compute the
+        /// Initializes a new instance of the <see cref="UserCholesky"/> class. This object will compute the
         /// Cholesky factorization when the constructor is called and cache it's factorization.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
-        public DenseCholesky(DenseMatrix matrix)
+        public UserCholesky(Matrix matrix)
         {
             if (matrix == null)
             {
@@ -65,9 +65,35 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            var factor = (DenseMatrix)matrix.Clone();
-            Control.LinearAlgebraProvider.CholeskyFactor(factor.Data, factor.RowCount);
-            CholeskyFactor = factor;
+            CholeskyFactor = matrix.Clone();
+            for (var j = 0; j < CholeskyFactor.RowCount; j++)
+            {
+                var d = 0.0;
+                for (var k = 0; k < j; k++)
+                {
+                    var s = 0.0;
+                    for (var i = 0; i < k; i++)
+                    {
+                        s += CholeskyFactor.At(k, i) * CholeskyFactor.At(j, i);
+                    }
+
+                    s = (matrix.At(j, k) - s) / CholeskyFactor.At(k, k);
+                    CholeskyFactor.At(j, k, s);
+                    d += s * s;
+                }
+
+                d = matrix.At(j, j) - d;
+                if (d <= 0.0)
+                {
+                    throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+                }
+
+                CholeskyFactor.At(j, j, Math.Sqrt(d));
+                for (var k = j + 1; k < CholeskyFactor.RowCount; k++)
+                {
+                    CholeskyFactor.At(j, k, 0.0);
+                }
+            }
         }
 
         /// <summary>
@@ -77,7 +103,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
         public override void Solve(Matrix input, Matrix result)
         {
-            // Check for proper arguments.
             if (input == null)
             {
                 throw new ArgumentNullException("input");
@@ -104,24 +129,36 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            var dinput = input as DenseMatrix;
-            if (dinput == null)
+            input.CopyTo(result);
+            var order = CholeskyFactor.RowCount;
+
+            for (var c = 0; c < result.ColumnCount; c++)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
+                // Solve L*Y = B;
+                double sum;
+                for (var i = 0; i < order; i++)
+                {
+                    sum = result.At(i, c);
+                    for (var k = i - 1; k >= 0; k--)
+                    {
+                        sum -= CholeskyFactor.At(i, k) * result.At(k, c);
+                    }
+
+                    result.At(i, c, sum / CholeskyFactor.At(i, i));
+                }
+
+                // Solve L'*X = Y;
+                for (var i = order - 1; i >= 0; i--)
+                {
+                    sum = result.At(i, c);
+                    for (var k = i + 1; k < order; k++)
+                    {
+                        sum -= CholeskyFactor.At(k, i) * result.At(k, c);
+                    }
+
+                    result.At(i, c, sum / CholeskyFactor.At(i, i));
+                }
             }
-
-            var dresult = result as DenseMatrix;
-            if (dresult == null)
-            {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
-            }
-
-            // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
-
-            // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix)CholeskyFactor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.RowCount, dresult.ColumnCount);
         }
 
         /// <summary>
@@ -153,24 +190,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            var dinput = input as DenseVector;
-            if (dinput == null)
+            input.CopyTo(result);
+            var order = CholeskyFactor.RowCount;
+
+            // Solve L*Y = B;
+            double sum;
+            for (var i = 0; i < order; i++)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
+                sum = result[i];
+                for (var k = i - 1; k >= 0; k--)
+                {
+                    sum -= CholeskyFactor.At(i, k) * result[k];
+                }
+
+                result[i] = sum / CholeskyFactor.At(i, i);
             }
 
-            var dresult = result as DenseVector;
-            if (dresult == null)
+            // Solve L'*X = Y;
+            for (var i = order - 1; i >= 0; i--)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
+                sum = result[i];
+                for (var k = i + 1; k < order; k++)
+                {
+                    sum -= CholeskyFactor.At(k, i) * result[k];
+                }
+
+                result[i] = sum / CholeskyFactor.At(i, i);
             }
-
-            // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Data, 0, dresult.Data, 0, dinput.Data.Length * Constants.SizeOfDouble);
-
-            // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix)CholeskyFactor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.Count, 1);
         }
     }
 }

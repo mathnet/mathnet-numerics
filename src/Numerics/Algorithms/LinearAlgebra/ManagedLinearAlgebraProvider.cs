@@ -1361,7 +1361,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Perform calculation of Q or R
         /// </summary>
-        /// <param name="work">Work arrat</param>
+        /// <param name="work">Work array</param>
         /// <param name="workIndex">Index of colunn in work array</param>
         /// <param name="a">Q or R matrices</param>
         /// <param name="rowCount">The number of rows</param>
@@ -3053,16 +3053,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Сonstruct givens plane rotation
+        /// Given the Cartesian coordinates (da, db) of a point p, these fucntion return the parameters da, db, c, and s 
+        /// associated with the Givens rotation that zeros the y-coordinate of the point.
         /// </summary>
-        /// <param name="da"></param>
-        /// <param name="db"></param>
-        /// <param name="c"></param>
-        /// <param name="s"></param>
+        /// <param name="da">Provides the x-coordinate of the point p. On exit contains the parameter r associated with the Givens rotation</param>
+        /// <param name="db">Provides the y-coordinate of the point p. On exit contains the parameter z associated with the Givens rotation</param>
+        /// <param name="c">Contains the parameter c associated with the Givens rotation</param>
+        /// <param name="s">Contains the parameter s associated with the Givens rotation</param>
+        /// <remarks>This is equivalent to the DROTG LAPACK routine.</remarks>
         private static void Drotg(ref double da, ref double db, ref double c, ref double s)
         {
-            // Сonstruct givens plane rotation.
-            // jack dongarra, linpack, 3/11/78.
             double r, z;
 
             var roe = db;
@@ -3107,7 +3107,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             da = r;
             db = z;
-            return;
         }
 
         /// <summary>

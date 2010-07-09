@@ -56,16 +56,27 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 return new DenseCholesky(dense);
             }
 
-            throw new NotImplementedException();
+            return new UserCholesky(matrix);
         }
 
         /// <summary>
-        /// Gets or sets the lower triangular form of the Cholesky matrix.
+        /// Gets or sets the lower triangular form of the Cholesky matrix
+        /// </summary>
+        protected Matrix CholeskyFactor
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets the lower triangular form of the Cholesky matrix.
         /// </summary>
         public virtual Matrix Factor
         {
-            get;
-            protected set;
+            get
+            {
+                return CholeskyFactor.Clone();
+            }
         }
 
         /// <summary>
@@ -76,9 +87,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             get
             {
                 var det = 1.0;
-                for (var j = 0; j < Factor.RowCount; j++)
+                for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det *= Factor[j, j] * Factor[j, j];
+                    det *= CholeskyFactor[j, j] * CholeskyFactor[j, j];
                 }
 
                 return det;
@@ -93,9 +104,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             get
             {
                 var det = 0.0;
-                for (var j = 0; j < Factor.RowCount; j++)
+                for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det += 2.0 * Math.Log(Factor[j, j]);
+                    det += 2.0 * Math.Log(CholeskyFactor[j, j]);
                 }
 
                 return det;

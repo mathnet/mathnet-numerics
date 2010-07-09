@@ -1,4 +1,4 @@
-﻿// <copyright file="QRTests.cs" company="Math.NET">
+﻿// <copyright file="UserCholeskyTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -31,106 +31,96 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     using MbUnit.Framework;
-    using LinearAlgebra.Double;
     using LinearAlgebra.Double.Factorization;
 
-    public class QRTests
+    public class UserCholeskyTests
     {
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void ConstructorNull()
-        {
-            new DenseQR(null);
-        }
-
-        [Test]
-        [ExpectedArgumentException]
-        public void WideMatrixThrowsInvalidMatrixOperationException()
-        {
-            new DenseQR(new DenseMatrix(3, 4));
-        }
-        
         [Test]
         [Row(1)]
         [Row(10)]
         [Row(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var I = DenseMatrix.Identity(order);
-            var factorQR = I.QR();
+            var I = UserDefinedMatrix.Identity(order);
+            var factorC = I.Cholesky();
 
-            Assert.AreEqual(I.RowCount, factorQR.R.RowCount);
-            Assert.AreEqual(I.ColumnCount, factorQR.R.ColumnCount);
+            Assert.AreEqual(I.RowCount, factorC.Factor.RowCount);
+            Assert.AreEqual(I.ColumnCount, factorC.Factor.ColumnCount);
 
-            for (var i = 0; i < factorQR.R.RowCount; i++)
+            for (var i = 0; i < factorC.Factor.RowCount; i++)
             {
-                for (var j = 0; j < factorQR.R.ColumnCount; j++)
+                for (var j = 0; j < factorC.Factor.ColumnCount; j++)
                 {
-                    if (i == j)
-                    {
-                        Assert.AreEqual(-1.0, factorQR.R[i, j]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(0.0, factorQR.R[i, j]);
-                    }
+                    Assert.AreEqual(i == j ? 1.0 : 0.0, factorC.Factor[i, j]);
                 }
             }
         }
 
-      
+        [Test]
+        [ExpectedArgumentException]
+        public void CholeskyFailsWithDiagonalNonPositiveDefiniteMatrix()
+        {
+            var I = UserDefinedMatrix.Identity(10);
+            I[3, 3] = -4.0;
+            I.Cholesky();
+        }
+
+        [Test]
+        [Row(3,5)]
+        [Row(5,3)]
+        [ExpectedArgumentException]
+        public void CholeskyFailsWithNonSquareMatrix(int row, int col)
+        {
+            var I = new UserDefinedMatrix(row, col);
+            I.Cholesky();
+        }
+
         [Test]
         [Row(1)]
         [Row(10)]
         [Row(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var I = DenseMatrix.Identity(order);
-            var factorQR = I.QR();
-            Assert.AreEqual(1.0, factorQR.Determinant);
+            var I = UserDefinedMatrix.Identity(order);
+            var factorC = I.Cholesky();
+            Assert.AreEqual(1.0, factorC.Determinant);
+            Assert.AreEqual(0.0, factorC.DeterminantLn);
         }
 
         [Test]
-        [Row(1,1)]
-        [Row(2,2)]
-        [Row(5,5)]
-        [Row(10,6)]
-        [Row(50,48)]
-        [Row(100,98)]
+        [Row(1)]
+        [Row(2)]
+        [Row(5)]
+        [Row(10)]
+        [Row(50)]
+        [Row(100)]
         [MultipleAsserts]
-        public void CanFactorizeRandomMatrix(int row, int column)
+        public void CanFactorizeRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
-            var factorQR = matrixA.QR();
+            var matrixX = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
+            var chol = matrixX.Cholesky();
+            var factorC = chol.Factor;
 
-            // Make sure the R has the right dimensions.
-            Assert.AreEqual(row, factorQR.R.RowCount);
-            Assert.AreEqual(column, factorQR.R.ColumnCount);
+            // Make sure the Cholesky factor has the right dimensions.
+            Assert.AreEqual(order, factorC.RowCount);
+            Assert.AreEqual(order, factorC.ColumnCount);
 
-            // Make sure the Q has the right dimensions.
-            Assert.AreEqual(row, factorQR.Q.RowCount);
-            Assert.AreEqual(row, factorQR.Q.ColumnCount);
-
-            // Make sure the R factor is upper triangular.
-            for (var i = 0; i < factorQR.R.RowCount; i++) 
+            // Make sure the Cholesky factor is lower triangular.
+            for (var i = 0; i < factorC.RowCount; i++) 
             {
-                for (var j = 0; j < factorQR.R.ColumnCount; j++)
+                for (var j = i+1; j < factorC.ColumnCount; j++)
                 {
-                    if (i > j)
-                    {
-                        Assert.AreEqual(0.0, factorQR.R[i, j]);
-                    }
+                    Assert.AreEqual(0.0, factorC[i, j]);
                 }
             }
 
-            // Make sure the Q*R is the original matrix.
-            var matrixQfromR = factorQR.Q * factorQR.R;
-            for (int i = 0; i < matrixQfromR.RowCount; i++) 
+            // Make sure the cholesky factor times it's transpose is the original matrix.
+            var matrixXfromC = factorC * factorC.Transpose();
+            for (var i = 0; i < matrixXfromC.RowCount; i++) 
             {
-                for (int j = 0; j < matrixQfromR.ColumnCount; j++)
+                for (var j = 0; j < matrixXfromC.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixA[i, j], matrixQfromR[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrixX[i,j], matrixXfromC[i, j], 1.0e-11);
                 }
             }
         }
@@ -145,21 +135,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorQR = matrixA.QR();
+            var chol = matrixA.Cholesky();
+            var b = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var x = chol.Solve(b);
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
-            var resultx = factorQR.Solve(vectorb);
+            Assert.AreEqual(b.Count, x.Count);
 
-            Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
-
-            var bReconstruct = matrixA * resultx;
+            var bReconstruct = matrixA * x;
 
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1.0e-11);
+                Assert.AreApproximatelyEqual(b[i], bReconstruct[i], 1.0e-11);
             }
 
             // Make sure A didn't change.
@@ -173,25 +162,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         }
 
         [Test]
-        [Row(1)]
-        [Row(4)]
-        [Row(8)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
+        [Row(1,1)]
+        [Row(2,4)]
+        [Row(5,8)]
+        [Row(10,3)]
+        [Row(50,10)]
+        [Row(100,100)]
         [MultipleAsserts]
-        public void CanSolveForRandomMatrix(int order)
+        public void CanSolveForRandomMatrix(int row, int col)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(row);
             var matrixACopy = matrixA.Clone();
-            var factorQR = matrixA.QR();
+            var chol = matrixA.Cholesky();
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(row, col);
+            var matrixX = chol.Solve(matrixB);
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var matrixX = factorQR.Solve(matrixB);
-
-            // The solution X row dimension is equal to the column dimension of A
-            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
-            // The solution X has the same number of columns as B
+            Assert.AreEqual(matrixB.RowCount, matrixX.RowCount);
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
             var matrixBReconstruct = matrixA * matrixX;
@@ -225,22 +211,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorQR = matrixA.QR();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
-            var vectorbCopy = vectorb.Clone();
-            var resultx = new DenseVector(order);
-            factorQR.Solve(vectorb,resultx);
+            var chol = matrixA.Cholesky();
+            var b = MatrixLoader.GenerateRandomUserDefinedVector(order);
+            var bCopy = b.Clone();
+            var x = new UserDefinedVector(order);
+            chol.Solve(b, x);
 
-            Assert.AreEqual(vectorb.Count, resultx.Count);
+            Assert.AreEqual(b.Count, x.Count);
 
-            var bReconstruct = matrixA * resultx;
+            var bReconstruct = matrixA * x;
 
             // Check the reconstruction.
-            for (var i = 0; i < vectorb.Count; i++)
+            for (var i = 0; i < order; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1.0e-11);
+                Assert.AreApproximatelyEqual(b[i], bReconstruct[i], 1.0e-11);
             }
 
             // Make sure A didn't change.
@@ -253,35 +239,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             }
 
             // Make sure b didn't change.
-            for (var i = 0; i < vectorb.Count; i++)
+            for (var i = 0; i < order; i++)
             {
-                Assert.AreEqual(vectorbCopy[i], vectorb[i]);
+                Assert.AreEqual(bCopy[i], b[i]);
             }
         }
 
         [Test]
-        [Row(1)]
-        [Row(4)]
-        [Row(8)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
+        [Row(1, 1)]
+        [Row(2, 4)]
+        [Row(5, 8)]
+        [Row(10, 3)]
+        [Row(50, 10)]
+        [Row(100, 100)]
         [MultipleAsserts]
-        public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
+        public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int col)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(row);
             var matrixACopy = matrixA.Clone();
-            var factorQR = matrixA.QR();
-
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var chol = matrixA.Cholesky();
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(row, col);
             var matrixBCopy = matrixB.Clone();
+            var matrixX = new UserDefinedMatrix(row, col);
+            chol.Solve(matrixB, matrixX);
 
-            var matrixX = new DenseMatrix(order, order);
-            factorQR.Solve(matrixB,matrixX);
-
-            // The solution X row dimension is equal to the column dimension of A
-            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
-            // The solution X has the same number of columns as B
+            Assert.AreEqual(matrixB.RowCount, matrixX.RowCount);
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
             var matrixBReconstruct = matrixA * matrixX;
