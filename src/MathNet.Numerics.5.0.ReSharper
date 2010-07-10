@@ -16,7 +16,9 @@ indices
 ipiv
 blocksize
 Dont
-Cholesky</UserWords>
+Cholesky
+Matlab
+Endian</UserWords>
             </CustomDictionary>
           </Dictionaries>
         </CustomDictionaries>
