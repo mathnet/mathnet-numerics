@@ -408,6 +408,9 @@
       <LastGenOutput>Version.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LinearAlgebra\Double\IO\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
