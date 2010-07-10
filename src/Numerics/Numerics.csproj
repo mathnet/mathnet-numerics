@@ -108,7 +108,9 @@
     <Compile Include="LinearAlgebra\Double\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserSvd.cs" />
     <Compile Include="LinearAlgebra\Double\IO\DelimitedReader.cs" />
+    <Compile Include="LinearAlgebra\Double\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Double\IO\MatrixReader.cs" />
+    <Compile Include="LinearAlgebra\Double\IO\MatrixWriter.cs" />
     <Compile Include="LinearAlgebra\Double\ISolver.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\Svd.cs" />
