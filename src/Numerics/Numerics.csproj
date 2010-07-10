@@ -107,6 +107,8 @@
     <Compile Include="LinearAlgebra\Double\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserSvd.cs" />
+    <Compile Include="LinearAlgebra\Double\IO\DelimitedReader.cs" />
+    <Compile Include="LinearAlgebra\Double\IO\MatrixReader.cs" />
     <Compile Include="LinearAlgebra\Double\ISolver.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\Svd.cs" />
@@ -264,9 +266,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LinearAlgebra\Double\IO\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
