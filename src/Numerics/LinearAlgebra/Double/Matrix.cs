@@ -1794,8 +1794,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var transpose = Transpose();
             var aat = this * transpose;
 
-            //TODO: Replace with multiple Transpose
-            // aat.Gemm(1.0, 0.0, false, true, this, this);
+            // TODO: Replace with multiple Transpose
+            //// aat.Gemm(1.0, 0.0, false, true, this, this);
             
             var norm = 0.0;
             for (var i = 0; i < RowCount; i++)
