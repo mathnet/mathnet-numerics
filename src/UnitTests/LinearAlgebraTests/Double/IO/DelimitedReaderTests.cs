@@ -49,7 +49,7 @@
                        + Environment.NewLine
                        + "'4'\t5\t6";
 
-            var reader = new DelimitedReader<DenseMatrix>('\t');
+            var reader = new DelimitedReader<SparseMatrix>('\t');
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
@@ -73,7 +73,7 @@
 ""2.2"" 0.3e1
 '4'   5      6
 ";
-            var reader = new DelimitedReader<DenseMatrix>();
+            var reader = new DelimitedReader<UserDefinedMatrix>();
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
