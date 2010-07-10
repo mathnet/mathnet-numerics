@@ -98,6 +98,7 @@
     <Compile Include="LinearAlgebraTests\Double\Factorization\QRTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\IO\DelimitedWriterTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\IO\DelimitedReaderTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\IO\MatlabReaderTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseMatrixTests.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
@@ -174,6 +175,30 @@
     <Compile Include="TrigonometryTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\data\Matlab\A.mat">
+      <Link>data\Matlab\A.mat</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\collection-nocompress.mat">
+      <Link>data\Matlab\collection-nocompress.mat</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\collection.mat">
+      <Link>data\Matlab\collection.mat</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\sparse-large.mat">
+      <Link>data\Matlab\sparse-large.mat</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\sparse-small.mat">
+      <Link>data\Matlab\sparse-small.mat</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\v.mat">
+      <Link>data\Matlab\v.mat</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\data\NIST\AtmWtAgt.dat">
       <Link>data\NIST\AtmWtAgt.dat</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -429,6 +454,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

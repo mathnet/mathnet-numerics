@@ -29,6 +29,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Factorization;
     using Properties;
     using Threading;
 
@@ -1756,6 +1757,74 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         }
                     }
                 });
+        }
+
+        /// <summary>Calculates the L1 norm.</summary>
+        /// <returns>The L1 norm of the matrix.</returns>
+        public virtual double L1Norm()
+        {
+            double norm = 0.0;
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var s = 0.0;
+                for (var i = 0; i < RowCount; i++)
+                {
+                    s += Math.Abs(At(i, j));
+                }
+
+                norm = Math.Max(norm, s);
+            }
+
+            return norm;
+        }
+
+        /// <summary>Calculates the L2 norm.</summary>
+        /// <returns>The L2 norm of the matrix.</returns>   
+        /// <remarks>For sparse matrices, the L2 norm is computed using a dense implementation of singular value decomposition. 
+        /// In a later release, it will be replaced with a sparse implementation.</remarks>
+        public virtual double L2Norm()
+        {
+            return Svd.Create(this, false).Norm2;
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public virtual double FrobeniusNorm()
+        {
+            var transpose = Transpose();
+            var aat = this * transpose;
+
+            //TODO: Replace with multiple Transpose
+            // aat.Gemm(1.0, 0.0, false, true, this, this);
+            
+            var norm = 0.0;
+            for (var i = 0; i < RowCount; i++)
+            {
+                norm += Math.Abs(aat.At(i, i));
+            }
+
+            norm = Math.Sqrt(norm);
+
+            return norm;
+        }
+
+        /// <summary>Calculates the infinity norm of this matrix.</summary>
+        /// <returns>The infinity norm of this matrix.</returns>   
+        public virtual double InfinityNorm()
+        {
+            var norm = 0.0;
+            for (var i = 0; i < RowCount; i++)
+            {
+                var s = 0.0;
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    s += Math.Abs(At(i, j));
+                }
+                
+                norm = Math.Max(norm, s);
+            }
+
+            return norm;
         }
     }
 }
