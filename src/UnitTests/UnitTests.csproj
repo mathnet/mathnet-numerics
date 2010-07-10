@@ -96,6 +96,7 @@
     <Compile Include="LinearAlgebraTests\Double\Factorization\UserSvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\SvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\QRTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\IO\DelimitedReaderTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseMatrixTests.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />

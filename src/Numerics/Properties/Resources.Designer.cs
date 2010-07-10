@@ -619,6 +619,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to String parameter cannot be empty or null..
+        /// </summary>
+        internal static string StringNullOrEmpty {
+            get {
+                return ResourceManager.GetString("StringNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The moment of the distribution is undefined..
         /// </summary>
         internal static string UndefinedMoment {

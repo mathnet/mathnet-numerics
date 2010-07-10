@@ -260,6 +260,12 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserSvd.cs">
       <Link>LinearAlgebra\Double\Factorization\UserSvd.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\IO\DelimitedReader.cs">
+      <Link>LinearAlgebra\Double\IO\DelimitedReader.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\IO\MatrixReader.cs">
+      <Link>LinearAlgebra\Double\IO\MatrixReader.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\ISolver.cs">
       <Link>LinearAlgebra\Double\ISolver.cs</Link>
     </Compile>
@@ -408,9 +414,7 @@
       <LastGenOutput>Version.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LinearAlgebra\Double\IO\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
