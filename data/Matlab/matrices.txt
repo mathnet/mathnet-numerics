@@ -1,0 +1,15 @@
+sparse.mat contains:
+* a sparse matrix S
+* a sparse vector v
+
+v.mat contains:
+* a vector v
+
+collection.mat contains:
+* a matrix A
+* a scalar t
+* a vector v
+* a vector w
+
+A.mat contains:
+* a matrix A

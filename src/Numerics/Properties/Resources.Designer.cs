@@ -151,6 +151,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The requested matrix does not exist..
+        /// </summary>
+        internal static string ArgumentMatrixDoesNotExist {
+            get {
+                return ResourceManager.GetString("ArgumentMatrixDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The matrix indices must not be out of range of the given matrix..
         /// </summary>
         internal static string ArgumentMatrixIndexOutOfRange {
@@ -457,11 +466,29 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Big endian files are not supported..
+        /// </summary>
+        internal static string BigEndianNotSupported {
+            get {
+                return ResourceManager.GetString("BigEndianNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The supplied collection is empty..
         /// </summary>
         internal static string CollectionEmpty {
             get {
                 return ResourceManager.GetString("CollectionEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complex matrices are not supported..
+        /// </summary>
+        internal static string ComplexMatricesNotSupported {
+            get {
+                return ResourceManager.GetString("ComplexMatricesNotSupported", resourceCulture);
             }
         }
         
@@ -480,6 +507,15 @@ namespace MathNet.Numerics.Properties {
         internal static string FeaturePlannedButNotImplementedYet {
             get {
                 return ResourceManager.GetString("FeaturePlannedButNotImplementedYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The given file doesn&apos;t exist..
+        /// </summary>
+        internal static string FileDoesNotExist {
+            get {
+                return ResourceManager.GetString("FileDoesNotExist", resourceCulture);
             }
         }
         
@@ -570,6 +606,24 @@ namespace MathNet.Numerics.Properties {
         internal static string MatrixRowsOrColumnsMustBePositive {
             get {
                 return ResourceManager.GetString("MatrixRowsOrColumnsMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only 1 and 2 dimensional arrays are supported..
+        /// </summary>
+        internal static string MoreThan2D {
+            get {
+                return ResourceManager.GetString("MoreThan2D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is not a supported type..
+        /// </summary>
+        internal static string NotSupportedType {
+            get {
+                return ResourceManager.GetString("NotSupportedType", resourceCulture);
             }
         }
         

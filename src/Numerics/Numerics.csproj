@@ -65,6 +65,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
+    <Reference Include="zlib.net">
+      <HintPath>..\..\lib\zlib\zlib.net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\LinearAlgebra\Atlas\AtlasLinearAlgebraProvider.cs">
@@ -109,6 +112,12 @@
     <Compile Include="LinearAlgebra\Double\Factorization\UserSvd.cs" />
     <Compile Include="LinearAlgebra\Double\IO\DelimitedReader.cs" />
     <Compile Include="LinearAlgebra\Double\IO\DelimitedWriter.cs" />
+    <Compile Include="LinearAlgebra\Common\IO\Matlab\ArrayClass.cs" />
+    <Compile Include="LinearAlgebra\Common\IO\Matlab\ArrayFlags.cs" />
+    <Compile Include="LinearAlgebra\Common\IO\Matlab\DataType.cs" />
+    <Compile Include="LinearAlgebra\Double\IO\MatlabReader.cs" />
+    <Compile Include="LinearAlgebra\Double\IO\Matlab\MatlabFile.cs" />
+    <Compile Include="LinearAlgebra\Double\IO\Matlab\MatlabParser.cs" />
     <Compile Include="LinearAlgebra\Double\IO\MatrixReader.cs" />
     <Compile Include="LinearAlgebra\Double\IO\MatrixWriter.cs" />
     <Compile Include="LinearAlgebra\Double\ISolver.cs" />

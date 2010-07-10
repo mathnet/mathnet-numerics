@@ -315,4 +315,22 @@
   <data name="StringNullOrEmpty" xml:space="preserve">
     <value>String parameter cannot be empty or null.</value>
   </data>
+  <data name="ArgumentMatrixDoesNotExist" xml:space="preserve">
+    <value>The requested matrix does not exist.</value>
+  </data>
+  <data name="BigEndianNotSupported" xml:space="preserve">
+    <value>Big endian files are not supported.</value>
+  </data>
+  <data name="ComplexMatricesNotSupported" xml:space="preserve">
+    <value>Complex matrices are not supported.</value>
+  </data>
+  <data name="FileDoesNotExist" xml:space="preserve">
+    <value>The given file doesn't exist.</value>
+  </data>
+  <data name="MoreThan2D" xml:space="preserve">
+    <value>Only 1 and 2 dimensional arrays are supported.</value>
+  </data>
+  <data name="NotSupportedType" xml:space="preserve">
+    <value>{0} is not a supported type.</value>
+  </data>
 </root>

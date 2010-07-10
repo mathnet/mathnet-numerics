@@ -1426,5 +1426,57 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var result = this.CreateMatrix(top.RowCount + lower.RowCount + 2, top.ColumnCount + lower.ColumnCount);
             top.DiagonalStack(lower, result);
         }
+
+        [Test]
+        public void FrobeniusNorm()
+        {
+            var matrix = testMatrices["Square3x3"];
+            AssertHelpers.AlmostEqual(10.77775486824598, matrix.FrobeniusNorm(), 14);
+
+            matrix = testMatrices["Wide2x3"];
+            AssertHelpers.AlmostEqual(4.79478883789474, matrix.FrobeniusNorm(), 14);
+
+            matrix = testMatrices["Tall3x2"];
+            AssertHelpers.AlmostEqual(7.54122006044115, matrix.FrobeniusNorm(), 14);
+        }
+
+        [Test]
+        public void InfinityNorm()
+        {
+            Matrix matrix = testMatrices["Square3x3"];
+            Assert.AreEqual(16.5, matrix.InfinityNorm());
+
+            matrix = testMatrices["Wide2x3"];
+            Assert.AreEqual(6.6, matrix.InfinityNorm());
+
+            matrix = testMatrices["Tall3x2"];
+            Assert.AreEqual(9.9, matrix.InfinityNorm());
+        }
+
+        [Test]
+        public void L1Norm()
+        {
+            Matrix matrix = testMatrices["Square3x3"];
+            Assert.AreEqual(12.1, matrix.L1Norm());
+
+            matrix = testMatrices["Wide2x3"];
+            Assert.AreEqual(5.5, matrix.L1Norm());
+
+            matrix = testMatrices["Tall3x2"];
+            Assert.AreEqual(8.8, matrix.L1Norm());
+        }
+
+        [Test]
+        public void L2Norm()
+        {
+            var matrix = testMatrices["Square3x3"];
+            AssertHelpers.AlmostEqual(10.391347375312632, matrix.L2Norm(), 14);
+
+            matrix = testMatrices["Wide2x3"];
+            AssertHelpers.AlmostEqual(4.7540849434107635, matrix.L2Norm(), 14);
+
+            matrix = testMatrices["Tall3x2"];
+            AssertHelpers.AlmostEqual(7.182727033856683, matrix.L2Norm(), 14);
+        }
     }
 }
