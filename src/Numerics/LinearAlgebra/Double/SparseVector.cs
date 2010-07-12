@@ -1296,28 +1296,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
-        public override double NormP(int p)
+        public override double Norm(double p)
         {
             if (1 > p)
             {
                 throw new ArgumentOutOfRangeException("p");
             }
+            else if (Double.IsPositiveInfinity(p))
+            {
+                return CommonParallel.Select(0, NonZerosCount, (index, localData) => localData = Math.Max(localData, Math.Abs(_nonZeroValues[index])), Math.Max);
+            }
+            else
+            {
+                var sum = CommonParallel.Aggregate(
+                    0,
+                    NonZerosCount,
+                    index => Math.Pow(Math.Abs(_nonZeroValues[index]), p));
 
-            var sum = CommonParallel.Aggregate(
-                0, 
-                NonZerosCount, 
-                index => Math.Pow(Math.Abs(_nonZeroValues[index]), p));
-
-            return Math.Pow(sum, 1.0 / p);
-        }
-
-        /// <summary>
-        /// Infinity Norm.
-        /// </summary>
-        /// <returns>Scalar <c>ret = max(abs(this[i]))</c></returns>
-        public override double NormInfinity()
-        {
-            return CommonParallel.Select(0, NonZerosCount, (index, localData) => localData = Math.Max(localData, Math.Abs(_nonZeroValues[index])), Math.Max);
+                return Math.Pow(sum, 1.0 / p);
+            }
         }
 
         #endregion

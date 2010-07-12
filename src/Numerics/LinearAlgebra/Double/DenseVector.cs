@@ -1196,74 +1196,51 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #region Vector Norms
 
         /// <summary>
-        /// Euclidean Norm also known as 2-Norm.
-        /// </summary>
-        /// <returns>Scalar <c>ret = sqrt(sum(this[i]^2))</c></returns>
-        public override double Norm()
-        {
-            var sum = 0.0;
-
-            for (var i = 0; i < Data.Length; i++)
-            {
-                sum = SpecialFunctions.Hypotenuse(sum, Data[i]);
-            }
-
-            return sum;
-        }
-
-        /// <summary>
-        /// 1-Norm also known as Manhattan Norm or Taxicab Norm.
-        /// </summary>
-        /// <returns>Scalar <c>ret = sum(abs(this[i]))</c></returns>
-        public override double Norm1()
-        {
-            return CommonParallel.Aggregate(
-                0, 
-                Count, 
-                index => Math.Abs(Data[index]));
-        }
-
-        /// <summary>
         /// Computes the p-Norm.
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
-        public override double NormP(int p)
+        public override double Norm(double p)
         {
-            if (1 > p)
+            if (p < 0.0)
             {
                 throw new ArgumentOutOfRangeException("p");
             }
-
-            if (1 == p)
+            else if (1.0 == p)
             {
-                return Norm1();
+                return CommonParallel.Aggregate(
+                    0,
+                    Count,
+                    index => Math.Abs(Data[index]));
             }
-
-            if (2 == p)
+            else if (2.0 == p)
             {
-                return Norm();
+                var sum = 0.0;
+
+                for (var i = 0; i < Data.Length; i++)
+                {
+                    sum = SpecialFunctions.Hypotenuse(sum, Data[i]);
+                }
+
+                return sum;
             }
+            else if (Double.IsPositiveInfinity(p))
+            {
+                return CommonParallel.Select(
+                    0,
+                    Count,
+                    (index, localData) => localData = Math.Max(localData, Math.Abs(Data[index])),
+                    Math.Max);
+            }
+            else
+            {
+                var sum = CommonParallel.Aggregate(
+                   0,
+                   Count,
+                   index => Math.Pow(Math.Abs(Data[index]), p));
 
-            var sum = CommonParallel.Aggregate(
-                0, 
-                Count, 
-                index => Math.Pow(Math.Abs(Data[index]), p));
-
-            return Math.Pow(sum, 1.0 / p);
-        }
-
-        /// <summary>
-        /// Infinity Norm.
-        /// </summary>
-        /// <returns>Scalar <c>ret = max(abs(this[i]))</c></returns>
-        public override double NormInfinity()
-        {
-            return CommonParallel.Select(
-                0, 
-                Count, 
-                (index, localData) => localData = Math.Max(localData, Math.Abs(Data[index])), 
-                Math.Max);
+                return Math.Pow(sum, 1.0 / p);
+            }
         }
 
         #endregion

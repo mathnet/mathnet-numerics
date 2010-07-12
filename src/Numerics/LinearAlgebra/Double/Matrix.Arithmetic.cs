@@ -948,7 +948,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 i =>
                 {
                     var coli = Column(i);
-                    var norm = coli.NormP(p);
+                    var norm = coli.Norm(p);
                     for (var j = 0; j < RowCount; j++)
                     {
                         ret[j, i] = coli[j] / norm;
@@ -977,7 +977,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 j =>
                 {
                     var rowj = Row(j);
-                    var norm = rowj.NormP(p);
+                    var norm = rowj.Norm(p);
                     for (var i = 0; i < RowCount; i++)
                     {
                         ret[i, j] = rowj[j] / norm;

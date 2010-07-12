@@ -632,7 +632,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             for (var j = 0; j < result.ColumnCount; j++)
             {
                 var col = result.Column(j);
-                Assert.AreApproximatelyEqual(1.0, col.NormP(pValue), 10e-12);
+                Assert.AreApproximatelyEqual(1.0, col.Norm(pValue), 10e-12);
             }
         }
 
@@ -646,7 +646,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var row = matrix.Row(i);
-                Assert.AreApproximatelyEqual(1.0, row.NormP(pValue), 10e-12);
+                Assert.AreApproximatelyEqual(1.0, row.Norm(pValue), 10e-12);
             }
         }
 
