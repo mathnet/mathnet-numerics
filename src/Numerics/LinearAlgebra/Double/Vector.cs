@@ -1113,40 +1113,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #region Vector Norms
 
         /// <summary>
-        /// Euclidean Norm also known as 2-Norm.
-        /// </summary>
-        /// <returns>
-        /// <c>Scalar ret = sqrt(sum(this[i]^2))</c>
-        /// </returns>
-        public virtual double Norm()
-        {
-            return NormP(2);
-        }
-
-        /// <summary>
-        /// Squared Euclidean 2-Norm.
-        /// </summary>
-        /// <returns>
-        /// <c>Scalar ret = sum(this[i]^2)</c>
-        /// </returns>
-        public virtual double SquaredNorm()
-        {
-            var norm = Norm();
-            return norm * norm;
-        }
-
-        /// <summary>
-        /// 1-Norm also known as Manhattan Norm or Taxicab Norm.
-        /// </summary>
-        /// <returns>
-        /// <c>Scalar ret = sum(abs(this[i]))</c>
-        /// </returns>
-        public virtual double Norm1()
-        {
-            return NormP(1);
-        }
-
-        /// <summary>
         /// Computes the p-Norm.
         /// </summary>
         /// <param name="p">
@@ -1155,45 +1121,48 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// <c>Scalar ret = (sum(abs(this[i])^p))^(1/p)</c>
         /// </returns>
-        public virtual double NormP(int p)
+        public virtual double Norm(double p)
         {
-            if (1 > p)
+            if (p < 0.0)
+            {
+                throw new ArgumentOutOfRangeException("p");
+            }
+            else if (Double.IsPositiveInfinity(p))
+            {
+                return CommonParallel.Select(
+                    0,
+                    Count,
+                    (index, localData) => localData = Math.Max(localData, Math.Abs(this[index])),
+                    Math.Max);
+            }
+            else
+            {
+                var sum = CommonParallel.Aggregate(
+                    0,
+                    Count,
+                    index => Math.Pow(Math.Abs(this[index]), p));
+
+                return Math.Pow(sum, 1.0 / p);
+            }
+        }
+
+        /// <summary>
+        /// Normalizes this vector to a unit vector with respect to the p-norm.
+        /// </summary>
+        /// <param name="p">
+        /// The p value.
+        /// </param>
+        /// <returns>
+        /// This vector normalized to a unit vector with respect to the p-norm.
+        /// </returns>
+        public virtual Vector Normalize(double p)
+        {
+            if (p < 0.0)
             {
                 throw new ArgumentOutOfRangeException("p");
             }
 
-            var sum = CommonParallel.Aggregate(
-                0, 
-                Count, 
-                index => Math.Pow(Math.Abs(this[index]), p));
-
-            return Math.Pow(sum, 1.0 / p);
-        }
-
-        /// <summary>
-        /// Infinity Norm.
-        /// </summary>
-        /// <returns>
-        /// <c>Scalar ret = max(abs(this[i]))</c>
-        /// </returns>
-        public virtual double NormInfinity()
-        {
-            return CommonParallel.Select(
-                0, 
-                Count, 
-                (index, localData) => localData = Math.Max(localData, Math.Abs(this[index])), 
-                Math.Max);
-        }
-
-        /// <summary>
-        /// Normalizes this vector to a unit vector with respect to the Euclidean 2-Norm.
-        /// </summary>
-        /// <returns>
-        /// This vector normalized to a unit vector with respect to the Euclidean 2-Norm.
-        /// </returns>
-        public virtual Vector Normalize()
-        {
-            var norm = Norm();
+            var norm = Norm(p);
             var clone = Clone();
             if (norm == 0.0)
             {

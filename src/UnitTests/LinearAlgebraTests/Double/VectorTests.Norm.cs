@@ -30,6 +30,7 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
+    using System;
 	using MbUnit.Framework;
 
     public abstract partial class VectorTests
@@ -38,21 +39,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeNorm()
         {
             var vector = CreateVector(_data);
-            AssertHelpers.AlmostEqual(7.416198487095663, vector.Norm(), 15);
+            AssertHelpers.AlmostEqual(7.416198487095663, vector.Norm(2), 15);
         }
 
         [Test]
         public void CanComputeNorm1()
         {
             var vector = CreateVector(_data);
-            AssertHelpers.AlmostEqual(15.0, vector.Norm1(), 15);
+            AssertHelpers.AlmostEqual(15.0, vector.Norm(1), 15);
         }
 
         [Test]
         public void CanComputeSquareNorm()
         {
             var vector = CreateVector(_data);
-            AssertHelpers.AlmostEqual(55.0, vector.SquaredNorm(), 15);
+            AssertHelpers.AlmostEqual(55.0, vector.Norm(2) * vector.Norm(2), 15);
         }
 
         [Test]
@@ -63,14 +64,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeNormP(int p, double expected)
         {
             var vector = CreateVector(_data);
-            AssertHelpers.AlmostEqual(expected, vector.NormP(p), 15);
+            AssertHelpers.AlmostEqual(expected, vector.Norm(p), 15);
         }
         
         [Test]
         public void CanComputeNormInfinity()
         {
             var vector = CreateVector(_data);
-            AssertHelpers.AlmostEqual(5.0, vector.NormInfinity(), 15);
+            AssertHelpers.AlmostEqual(5.0, vector.Norm(Double.PositiveInfinity), 15);
         }
 
         [Test]
@@ -78,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanNormalizeVector()
         {
             var vector = CreateVector(_data);
-            var result = vector.Normalize();
+            var result = vector.Normalize(2);
             AssertHelpers.AlmostEqual(0.134839972492648, result[0], 14);
             AssertHelpers.AlmostEqual(0.269679944985297, result[1], 14);
             AssertHelpers.AlmostEqual(0.404519917477945, result[2], 14);
