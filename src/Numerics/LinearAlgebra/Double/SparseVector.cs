@@ -346,17 +346,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Adds a scalar to each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
-        public override void Add(double scalar)
+        /// <returns>A copy of the vector with the scalar added.</returns>
+        public override Vector Add(double scalar)
         {
             if (scalar == 0.0)
             {
-                return;
+                return this.Clone();
             }
 
+            var copy = (SparseVector)this.Clone();
             for (var i = 0; i < Count; i++)
             {
-                this[i] += scalar;
+                copy[i] += scalar;
             }
+            return copy;
         }
 
         /// <summary>
@@ -388,7 +391,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The vector to add to this one.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override void Add(Vector other)
+        public override Vector Add(Vector other)
         {
             if (other == null)
             {
@@ -571,7 +574,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Subtracts a scalar from each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
-        public override void Subtract(double scalar)
+        public override Vector Subtract(double scalar)
         {
             if (scalar == 0.0)
             {
@@ -613,7 +616,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The vector to subtract from this one.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override void Subtract(Vector other)
+        public override Vector Subtract(Vector other)
         {
             if (other == null)
             {
@@ -750,7 +753,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Multiplies a scalar to each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
-        public override void Multiply(double scalar)
+        public override Vector Multiply(double scalar)
         {
             if (scalar == 1.0)
             {
@@ -1053,9 +1056,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Pointwise multiplies this vector with another vector.
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Vector other)
+        public override Vector PointwiseMultiply(Vector other)
         {
             if (other == null)
             {
@@ -1068,10 +1072,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             // We cannot iterate using NonZeroCount because the value may be changed (if multiply by 0)
+            var copy = (SparseVector)this.Clone();
             for (var i = 0; i < Count; i++)
             {
-                this[i] *= other[i];
+                copy[i] *= other[i];
             }
+            return copy;
         }
 
         /// <summary>
@@ -1124,7 +1130,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The vector to pointwise divide this one by.</param>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override void PointwiseDivide(Vector other)
+        public override Vector PointwiseDivide(Vector other)
         {
             if (other == null)
             {
