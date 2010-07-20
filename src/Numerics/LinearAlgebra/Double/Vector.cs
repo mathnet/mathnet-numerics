@@ -120,17 +120,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">
         /// The scalar to add.
         /// </param>
-        public virtual void Add(double scalar)
+        /// <returns>A copy of the vector with the scalar added.</returns>
+        public virtual Vector Add(double scalar)
         {
             if (scalar == 0.0)
             {
-                return;
+                return this.Clone();
             }
 
+            var copy = this.Clone();
             CommonParallel.For(
                 0, 
-                Count, 
-                index => this[index] += scalar);
+                Count,
+                index => copy[index] += scalar);
+            return copy;
         }
 
         /// <summary>
@@ -169,7 +172,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns this vector.
+        /// Returns a copy of this vector.
         /// </summary>
         /// <returns>
         /// This vector.
@@ -179,7 +182,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </remarks>
         public virtual Vector Plus()
         {
-            return this;
+            return this * 1.0;
         }
 
         /// <summary>
@@ -188,13 +191,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">
         /// The vector to add to this one.
         /// </param>
+        /// <returns>A new vector containing the sum of both vectors.</returns>
         /// <exception cref="ArgumentNullException">
         /// If the other vector is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="other"/> are not the same size.
         /// </exception>
-        public virtual void Add(Vector other)
+        public virtual Vector Add(Vector other)
         {
             if (other == null)
             {
@@ -206,10 +210,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
+            var copy = this.Clone();
             CommonParallel.For(
                 0, 
-                Count, 
-                index => this[index] += other[index]);
+                Count,
+                index => copy[index] += other[index]);
+            return copy;
         }
 
         /// <summary>
@@ -264,17 +270,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">
         /// The scalar to subtract.
         /// </param>
-        public virtual void Subtract(double scalar)
+        /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
+        public virtual Vector Subtract(double scalar)
         {
             if (scalar == 0.0)
             {
-                return;
+                return this.Clone();
             }
 
+            var copy = this.Clone();
             CommonParallel.For(
                 0, 
                 Count, 
-                index => this[index] -= scalar);
+                index => copy[index] -= scalar);
+            return copy;
         }
 
         /// <summary>
@@ -332,13 +341,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">
         /// The vector to subtract from this one.
         /// </param>
+        /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
         /// <exception cref="ArgumentNullException">
         /// If the other vector is <see langword="null"/>.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="other"/> are not the same size.
         /// </exception>
-        public virtual void Subtract(Vector other)
+        public virtual Vector Subtract(Vector other)
         {
             if (other == null)
             {
@@ -350,10 +360,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
+            var copy = this.Clone();
             CommonParallel.For(
                 0, 
                 Count, 
-                index => this[index] -= other[index]);
+                index => copy[index] -= other[index]);
+            return copy;
         }
 
         /// <summary>
@@ -408,17 +420,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">
         /// The scalar to multiply.
         /// </param>
-        public virtual void Multiply(double scalar)
+        /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
+        public virtual Vector Multiply(double scalar)
         {
             if (scalar == 1.0)
             {
-                return;
+                return this.Clone();
             }
 
+            var copy = this.Clone();
             CommonParallel.For(
                 0, 
-                Count, 
-                index => this[index] *= scalar);
+                Count,
+                index => copy[index] *= scalar);
+            return copy;
         }
 
         /// <summary>
@@ -498,14 +513,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="scalar">
         /// The scalar to divide with.
         /// </param>
-        public virtual void Divide(double scalar)
+        /// <returns>A new vector that is the division of the vector and the scalar.</returns>
+        public virtual Vector Divide(double scalar)
         {
             if (scalar == 1.0)
             {
-                return;
+                return this.Clone();
             }
 
-            Multiply(1.0 / scalar);
+            return Multiply(1.0 / scalar);
         }
 
         /// <summary>
@@ -547,9 +563,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Pointwise multiplies this vector with another vector.
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public virtual void PointwiseMultiply(Vector other)
+        public virtual Vector PointwiseMultiply(Vector other)
         {
             if (other == null)
             {
@@ -561,10 +578,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
+            var copy = this.Clone();
             CommonParallel.For(
                 0, 
-                Count, 
-                index => this[index] *= other[index]);
+                Count,
+                index => copy[index] *= other[index]);
+            return copy;
         }
 
         /// <summary>
@@ -615,9 +634,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Pointwise divide this vector with another vector.
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public virtual void PointwiseDivide(Vector other)
+        public virtual Vector PointwiseDivide(Vector other)
         {
             if (other == null)
             {
@@ -629,10 +649,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
+            var copy = this.Clone();
             CommonParallel.For(
                 0, 
                 Count, 
-                index => this[index] /= other[index]);
+                index => copy[index] /= other[index]);
+            return copy;
         }
 
         /// <summary>
