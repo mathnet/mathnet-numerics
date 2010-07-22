@@ -60,8 +60,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanAddScalarToVector()
         {
-            var vector = this.CreateVector(this._data);
-            vector.Add(2.0);
+            var copy = this.CreateVector(this._data);
+            var vector = copy.Add(2.0);
 
             for (var i = 0; i < this._data.Length; i++)
             {
@@ -166,9 +166,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanAddTwoVectors()
         {
-            var vector = this.CreateVector(this._data);
+            var copy = this.CreateVector(this._data);
             var other = this.CreateVector(this._data);
-            vector.Add(other);
+            var vector = copy.Add(other);
 
             for (var i = 0; i < this._data.Length; i++)
             {
@@ -212,8 +212,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanAddVectorToItself()
         {
-            var vector = this.CreateVector(this._data);
-            vector.Add(vector);
+            var copy = this.CreateVector(this._data);
+            var vector = copy.Add(copy);
 
             for (var i = 0; i < this._data.Length; i++)
             {
@@ -285,8 +285,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanSubtractScalarFromVector()
         {
-            var vector = this.CreateVector(this._data);
-            vector.Subtract(2.0);
+            var copy = this.CreateVector(this._data);
+            var vector = copy.Subtract(2.0);
 
             for (var i = 0; i < this._data.Length; i++)
             {
@@ -391,9 +391,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanSubtractTwoVectors()
         {
-            var vector = this.CreateVector(this._data);
+            var copy = this.CreateVector(this._data);
             var other = this.CreateVector(this._data);
-            vector.Subtract(other);
+            var vector = copy.Subtract(other);
 
             for (var i = 0; i < this._data.Length; i++)
             {
@@ -437,8 +437,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanSubtractVectorFromItself()
         {
-            var vector = this.CreateVector(this._data);
-            vector.Subtract(vector);
+            var copy = this.CreateVector(this._data);
+            var vector = copy.Subtract(copy);
 
             for (var i = 0; i < this._data.Length; i++)
             {
@@ -480,8 +480,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanDivideVectorByScalar()
         {
-            var vector = this.CreateVector(this._data);
-            vector.Divide(2.0);
+            var copy = this.CreateVector(this._data);
+            var vector = copy.Divide(2.0);
 
             for (var i = 0; i < this._data.Length; i++)
             {
@@ -520,8 +520,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanMultiplyVectorByScalar()
         {
-            var vector = this.CreateVector(this._data);
-            vector.Multiply(2.0);
+            var copy = this.CreateVector(this._data);
+            var vector = copy.Multiply(2.0);
 
             for (var i = 0; i < this._data.Length; i++)
             {
@@ -728,6 +728,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = this.CreateVector(this._data);
             var vector2 = vector1.Clone();
+            var result = vector1.PointwiseMultiply(vector2);
+            for (var i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(this._data[i] * this._data[i], result[i]);
+            }
+        }
+
+        [Test]
+        public void PointwiseMultiplyUsingResultVector()
+        {
+            var vector1 = this.CreateVector(this._data);
+            var vector2 = vector1.Clone();
             var result = CreateVector(vector1.Count);
             vector1.PointwiseMultiply(vector2, result);
             for (var i = 0; i < vector1.Count; i++)
@@ -767,19 +779,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         [Test]
-        public void PointWiseMultiplyWithResult()
+        public void PointWiseDivide()
         {
             var vector1 = this.CreateVector(this._data);
             var vector2 = vector1.Clone();
-            vector1.PointwiseMultiply(vector2);
+            var result = vector1.PointwiseDivide(vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
-                Assert.AreEqual(this._data[i] * this._data[i], vector1[i]);
+                Assert.AreEqual(this._data[i] / this._data[i], result[i]);
             }
         }
        
         [Test]
-        public void PointWiseDivide()
+        public void PointWiseDivideUsingResultVector()
         {
             var vector1 = this.CreateVector(this._data);
             var vector2 = vector1.Clone();
@@ -819,18 +831,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var vector2 = vector1.Clone();
             var result = this.CreateVector(vector1.Count + 1);
             vector1.PointwiseDivide(vector2, result);
-        }
-
-        [Test]
-        public void PointwiseDivideWithResult()
-        {
-            var vector1 = this.CreateVector(this._data);
-            var vector2 = vector1.Clone();
-            vector1.PointwiseDivide(vector2);
-            for (var i = 0; i < vector1.Count; i++)
-            {
-                Assert.AreEqual(this._data[i] / this._data[i], vector1[i]);
-            }
         }
 
         [Test]

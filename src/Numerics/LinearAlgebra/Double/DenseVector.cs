@@ -341,6 +341,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Adds another vector to this vector.
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
+        /// <returns>A new vector containing the sum of both vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public override Vector Add(Vector other)
@@ -359,11 +360,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (denseVector == null)
             {
-                base.Add(other);
+                return base.Add(other);
             }
             else
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, 1.0, denseVector.Data);
+                var copy = (DenseVector)this.Clone();
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, 1.0, denseVector.Data);
+                return copy;
             }
         }
 
@@ -457,17 +460,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Subtracts a scalar from each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
+        /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
         public override Vector Subtract(double scalar)
         {
             if (scalar == 0.0)
             {
-                return;
+                return this.Clone();
             }
 
+            var copy = (DenseVector)this.Clone();
             CommonParallel.For(
                 0, 
                 Data.Length, 
-                index => Data[index] -= scalar);
+                index => copy.Data[index] -= scalar);
+            return copy;
         }
 
         /// <summary>
@@ -497,6 +503,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Subtracts another vector from this vector.
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
+        /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public override Vector Subtract(Vector other)
@@ -515,11 +522,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (denseVector == null)
             {
-                base.Subtract(other);
+                return base.Subtract(other);
             }
             else
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0, denseVector.Data);
+                var copy = (DenseVector)this.Clone();
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, -1.0, denseVector.Data);
+                return copy;
             }
         }
 
@@ -628,14 +637,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Multiplies a scalar to each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
+        /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
         public override Vector Multiply(double scalar)
         {
             if (scalar == 1.0)
             {
-                return;
+                return this.Clone();
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
+            var copy = (DenseVector)this.Clone();
+            Control.LinearAlgebraProvider.ScaleArray(scalar, copy.Data);
+            return copy;
         }
 
         /// <summary>
@@ -966,7 +978,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (denseVector == null)
             {
-                base.PointwiseMultiply(other);
+                return base.PointwiseMultiply(other);
             }
             else
             {
@@ -1027,6 +1039,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Pointwise divide this vector with another vector.
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public override Vector PointwiseDivide(Vector other)
@@ -1045,14 +1058,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (denseVector == null)
             {
-                base.PointwiseMultiply(other);
+                return base.PointwiseMultiply(other);
             }
             else
             {
+                var copy = (DenseVector)this.Clone();
                 CommonParallel.For(
                     0, 
-                    Count, 
-                    index => this[index] /= other[index]);
+                    Count,
+                    index => copy[index] /= other[index]);
+                return copy;
             }
         }
 
