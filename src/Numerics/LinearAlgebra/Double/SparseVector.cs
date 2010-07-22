@@ -389,6 +389,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Adds another vector to this vector.
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
+        /// <returns>A new vector containing the sum of both vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public override Vector Add(Vector other)
@@ -407,11 +408,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (sparseVector == null)
             {
-                base.Add(other);
+                return base.Add(other);
             }
             else
             {
-                AddScaledSparceVector(1.0, sparseVector);
+                var copy = (SparseVector)this.Clone();
+                copy.AddScaledSparceVector(1.0, sparseVector);
+                return copy;
             }
         }
 
@@ -574,17 +577,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Subtracts a scalar from each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
+        /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
         public override Vector Subtract(double scalar)
         {
             if (scalar == 0.0)
             {
-                return;
+                return this.Clone();
             }
 
+            var copy = (SparseVector)this.Clone();
             for (var i = 0; i < Count; i++)
             {
-                this[i] -= scalar;
+                copy[i] -= scalar;
             }
+            return copy;
         }
 
         /// <summary>
@@ -614,6 +620,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Subtracts another vector from this vector.
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
+        /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public override Vector Subtract(Vector other)
@@ -632,11 +639,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (sparseVector == null)
             {
-                base.Subtract(other);
+                return base.Subtract(other);
             }
             else
             {
-                AddScaledSparceVector(-1.0, sparseVector);
+                var copy = (SparseVector)this.Clone();
+                copy.AddScaledSparceVector(-1.0, sparseVector);
+                return copy;
             }
         }
 
@@ -753,20 +762,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Multiplies a scalar to each element of the vector.
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
+        /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
         public override Vector Multiply(double scalar)
         {
             if (scalar == 1.0)
             {
-                return;
+                return this.Clone();
             }
-
-            if (scalar == 0)
+            else if (scalar == 0)
             {
-                Clear(); // Set array empty
-                return;
+                var copy = this.Clone();
+                copy.Clear(); // Set array empty
+                return copy;
             }
+            else
+            {
 
-            Control.LinearAlgebraProvider.ScaleArray(scalar, _nonZeroValues);
+                var copy = (SparseVector)this.Clone();
+                Control.LinearAlgebraProvider.ScaleArray(scalar, copy._nonZeroValues);
+                return copy;
+            }
         }
 
         /// <summary>
@@ -1128,6 +1143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Pointwise divide this vector with another vector.
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public override Vector PointwiseDivide(Vector other)
@@ -1142,11 +1158,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            // base implementation iterates though all elements, but we need only take non-zeros 
+            // base implementation iterates though all elements, but we need only take non-zeros
+            var copy = (SparseVector)this.Clone();
             for (var i = 0; i < NonZerosCount; i++)
             {
-                this[_nonZeroIndices[i]] /= other[_nonZeroIndices[i]];
+                copy[_nonZeroIndices[i]] /= other[_nonZeroIndices[i]];
             }
+            return copy;
         }
 
         /// <summary>
