@@ -37,7 +37,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = this.CreateVector(this._data);
             var other = vector.Plus();
-            Assert.AreSame(vector, other, "Should be the same vector");
+
+            for (var i = 0; i < this._data.Length; i++)
+            {
+                Assert.AreEqual(vector[i], other[i]);
+            }
         }
 
         [Test]
@@ -53,7 +57,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = this.CreateVector(this._data);
             var other = +vector;
-            Assert.AreSame(vector, other, "Should be the same vector");
+
+            for (var i = 0; i < this._data.Length; i++)
+            {
+                Assert.AreEqual(vector[i], other[i]);
+            }
         }
 
         [Test]

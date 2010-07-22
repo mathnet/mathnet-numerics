@@ -168,7 +168,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CopyTo(result);
             }
 
-            result.Add(scalar);
+            CommonParallel.For(
+                0,
+                Count,
+                index => result[index] += scalar);
         }
 
         /// <summary>
@@ -182,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </remarks>
         public virtual Vector Plus()
         {
-            return this * 1.0;
+            return this.Clone();
         }
 
         /// <summary>
@@ -253,8 +256,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                Add(other, tmp);
+                var tmp = this.Add(other);
                 tmp.CopyTo(result);
             }
             else
@@ -318,7 +320,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CopyTo(result);
             }
 
-            result.Subtract(scalar);
+            CommonParallel.For(
+                0,
+                Count,
+                index => result[index] -= scalar);
         }
 
         /// <summary>
@@ -468,7 +473,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CopyTo(result);
             }
 
-            result.Multiply(scalar);
+            CommonParallel.For(
+                0,
+                Count,
+                index => result[index] *= scalar);
         }
 
         /// <summary>
@@ -556,7 +564,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CopyTo(result);
             }
 
-            result.Multiply(1.0 / scalar);
+            CommonParallel.For(
+                0,
+                Count,
+                index => result[index] /= scalar);
         }
 
         /// <summary>
@@ -619,14 +630,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                PointwiseMultiply(other, tmp);
+                var tmp = this.PointwiseMultiply(other);
                 tmp.CopyTo(result);
             }
             else
             {
                 CopyTo(result);
-                result.PointwiseMultiply(other);
+                CommonParallel.For(
+                    0,
+                    Count,
+                    index => result[index] *= other[index]);
             }
         }
 
@@ -690,14 +703,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                PointwiseDivide(other, tmp);
+                var tmp = this.PointwiseDivide(other);
                 tmp.CopyTo(result);
             }
             else
             {
                 CopyTo(result);
-                result.PointwiseDivide(other);
+                CommonParallel.For(
+                    0,
+                    Count,
+                    index => result[index] /= other[index]);
             }
         }
 
@@ -994,9 +1009,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Add(rightSide);
-            return ret;
+            return leftSide.Add(rightSide);
         }
 
         /// <summary>
@@ -1040,9 +1053,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Subtract(rightSide);
-            return ret;
+            return leftSide.Subtract(rightSide);
         }
 
         /// <summary>
@@ -1059,9 +1070,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Multiply(rightSide);
-            return ret;
+            return leftSide.Multiply(rightSide);
         }
 
         /// <summary>
@@ -1078,9 +1087,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("rightSide");
             }
 
-            var ret = rightSide.Clone();
-            ret.Multiply(leftSide);
-            return ret;
+            return rightSide.Multiply(leftSide);
         }
 
         /// <summary>
@@ -1125,9 +1132,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Multiply(1.0 / rightSide);
-            return ret;
+            return leftSide.Multiply(1.0 / rightSide);
         }
 
         #endregion
