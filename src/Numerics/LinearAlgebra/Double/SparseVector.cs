@@ -413,7 +413,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 var copy = (SparseVector)this.Clone();
-                copy.AddScaledSparceVector(1.0, sparseVector);
+                copy.AddScaledSparseVector(1.0, sparseVector);
                 return copy;
             }
         }
@@ -423,7 +423,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="alpha">The alpha.</param>
         /// <param name="other">The other.</param>
-        private void AddScaledSparceVector(double alpha, SparseVector other)
+        private void AddScaledSparseVector(double alpha, SparseVector other)
         {
             if (other == null)
             {
@@ -515,14 +515,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                Add(other, tmp);
+                var tmp = this.Add(other);
                 tmp.CopyTo(result);
             }
             else
             {
-                CopyTo(result);
-                result.Add(other);
+                var sparse = result as SparseVector;
+                if (sparse == null)
+                {
+                    base.Add(other, result);
+                }
+                else
+                {
+                    var sparseother = other as SparseVector;
+                    if (sparseother == null)
+                    {
+                        sparse.AddScaledSparseVector(1.0, sparseother);
+                    }
+                    else
+                    {
+                        base.Add(other, result);
+                    }
+                }
             }
         }
 
@@ -644,7 +658,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 var copy = (SparseVector)this.Clone();
-                copy.AddScaledSparceVector(-1.0, sparseVector);
+                copy.AddScaledSparseVector(-1.0, sparseVector);
                 return copy;
             }
         }
@@ -677,14 +691,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                Subtract(other, tmp);
+                var tmp = this.Subtract(other);
                 tmp.CopyTo(result);
             }
             else
             {
-                CopyTo(result);
-                result.Subtract(other);
+                var sparse = result as SparseVector;
+                if (sparse == null)
+                {
+                    base.Subtract(other, result);
+                }
+                else
+                {
+                    var sparseother = other as SparseVector;
+                    if (sparseother == null)
+                    {
+                        sparse.AddScaledSparseVector(-1.0, sparseother);
+                    }
+                    else
+                    {
+                        base.Subtract(other, result);
+                    }
+                }
             }
         }
 

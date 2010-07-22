@@ -333,8 +333,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CopyTo(result);
-            result.Add(scalar);
+            var dense = result as DenseVector;
+            if (dense == null)
+            {
+                base.Add(scalar, result);
+            }
+            else
+            {
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => dense.Data[index] = this.Data[index] + scalar);
+            }
         }
 
         /// <summary>
@@ -398,14 +408,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                Add(other, tmp);
+                var tmp = this.Add(other);
                 tmp.CopyTo(result);
             }
             else
             {
-                CopyTo(result);
-                result.Add(other);
+                var rdense = result as DenseVector;
+                var odense = other as DenseVector;
+                if (rdense != null && odense != null)
+                {
+                    CopyTo(result);
+                    Control.LinearAlgebraProvider.AddVectorToScaledVector(rdense.Data, 1.0, odense.Data);
+                }
+                else
+                {
+                    CommonParallel.For(
+                        0,
+                        Data.Length,
+                        index => result[index] = this.Data[index] + other[index]);
+                }
             }
         }
 
@@ -451,9 +472,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Add(rightSide);
-            return ret;
+            return leftSide.Add(rightSide);
         }
 
         /// <summary>
@@ -495,8 +514,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CopyTo(result);
-            result.Subtract(scalar);
+            var dense = result as DenseVector;
+            if (dense == null)
+            {
+                base.Add(scalar, result);
+            }
+            else
+            {
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => dense.Data[index] = this.Data[index] - scalar);
+            }
         }
 
         /// <summary>
@@ -712,9 +741,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("rightSide");
             }
 
-            var ret = (DenseVector)rightSide.Clone();
-            ret.Multiply(leftSide);
-            return ret;
+            return (DenseVector) rightSide.Multiply(leftSide);
         }
 
         /// <summary>
@@ -759,9 +786,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            var ret = (DenseVector)leftSide.Clone();
-            ret.Multiply(1.0 / rightSide);
-            return ret;
+            return (DenseVector) leftSide.Multiply(1.0 / rightSide);
         }
 
         /// <summary>
@@ -1030,8 +1055,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
-                result.PointwiseMultiply(other);
+                var dense = result as DenseVector;
+                if (dense == null)
+                {
+                    base.PointwiseMultiply(other, result);
+                }
+                else
+                {
+                    CommonParallel.For(
+                        0,
+                        Data.Length,
+                        index => dense.Data[index] = this.Data[index] * other[index]);
+                }
             }
         }
 
@@ -1104,14 +1139,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                PointwiseDivide(other, tmp);
+                var tmp = this.PointwiseDivide(other);
                 tmp.CopyTo(result);
             }
             else
             {
-                CopyTo(result);
-                result.PointwiseDivide(other);
+                var dense = result as DenseVector;
+                if (dense == null)
+                {
+                    base.PointwiseDivide(other, result);
+                }
+                else
+                {
+                    CommonParallel.For(
+                        0,
+                        Data.Length,
+                        index => dense.Data[index] = this.Data[index] / other[index]);
+                }
             }
         }
 
