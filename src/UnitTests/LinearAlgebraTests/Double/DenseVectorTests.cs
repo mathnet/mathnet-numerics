@@ -153,7 +153,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector = new DenseVector(this._data);
             var other = +vector;
-            Assert.AreSame(vector, other, "Should be the same vector");
+            for (var i = 0; i < this._data.Length; i++)
+            {
+                Assert.AreEqual(vector[i], other[i]);
+            }
         }
 
         [Test]

@@ -261,8 +261,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
-                result.Add(other);
+                CommonParallel.For(
+                    0,
+                    Count,
+                    index => result[index] = this[index] + other[index]);
             }
         }
 
@@ -408,14 +410,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                Subtract(other, tmp);
+                var tmp = Subtract(other);
                 tmp.CopyTo(result);
             }
             else
             {
                 CopyTo(result);
-                result.Subtract(other);
+                CommonParallel.For(
+                    0,
+                    Count,
+                    index => result[index] = this[index] - other[index]);
             }
         }
 
@@ -635,11 +639,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
                 CommonParallel.For(
                     0,
                     Count,
-                    index => result[index] *= other[index]);
+                    index => result[index] = this[index] * other[index]);
             }
         }
 
@@ -708,11 +711,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
                 CommonParallel.For(
                     0,
                     Count,
-                    index => result[index] /= other[index]);
+                    index => result[index] = this[index] / other[index]);
             }
         }
 
@@ -1190,13 +1192,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var norm = Norm(p);
-            var clone = Clone();
+            var clone = this.Clone();
             if (norm == 0.0)
             {
                 return clone;
             }
 
-            clone.Multiply(1.0 / norm);
+            clone.Multiply(1.0 / norm, clone);
+
             return clone;
         }
 
