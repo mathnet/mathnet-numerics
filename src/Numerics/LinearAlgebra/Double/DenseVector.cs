@@ -595,8 +595,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
-                result.Subtract(other);
+                var rdense = result as DenseVector;
+                var odense = other as DenseVector;
+                if (rdense != null && odense != null)
+                {
+                    CopyTo(result);
+                    Control.LinearAlgebraProvider.AddVectorToScaledVector(rdense.Data, -1.0, odense.Data);
+                }
+                else
+                {
+                    CommonParallel.For(
+                        0,
+                        Data.Length,
+                        index => result[index] = this.Data[index] - other[index]);
+                }
             }
         }
 
@@ -641,9 +653,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Subtract(rightSide);
-            return ret;
+            return leftSide.Subtract(rightSide);
         }
 
         /// <summary>
@@ -722,9 +732,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            var ret = (DenseVector)leftSide.Clone();
-            ret.Multiply(rightSide);
-            return ret;
+            return (DenseVector) leftSide.Multiply(rightSide);
         }
 
         /// <summary>
