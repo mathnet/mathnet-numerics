@@ -25,6 +25,20 @@ let DenseVectorTests =
     ]
 
 
+/// Unit tests for the sparse vector type.
+let SparseVectorTests =
+
+    /// A small uniform vector.
+    let smallv = new DenseVector( [|0.0;0.3;0.0;0.0;0.0|] ) :> Vector
+    
+    specs "SparseVector" [
+        spec "SparseVector.ofList"
+            ((SparseVector.ofList 5 [ (1,0.3) ] :> Vector) |> should equal smallv)
+        spec "SparseVector.ofSeq"
+            ((SparseVector.ofSeq 5 (List.toSeq [ (1,0.3) ]) :> Vector) |> should equal smallv)
+    ]
+
+
 /// Unit tests for the vector type.
 let VectorTests =
 
@@ -106,7 +120,7 @@ let MatrixTests =
             (Matrix.foralli (fun i j x -> x = float i * 100.0 + float j) largeM |> should equal true)
         spec "Matrix.existsi"
             (Matrix.existsi (fun i j x -> x = float i * 100.0 + float j) largeM |> should equal true)
-        (*spec "Matrix.map"
+        spec "Matrix.map"
             (Matrix.map (fun x -> 2.0 * x) smallM |> should equal (2.0 * smallM))
         spec "Matrix.mapi"
             (Matrix.mapi (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM))
@@ -117,7 +131,7 @@ let MatrixTests =
         spec "Matrix.inplaceMapi"
             ( let N = largeM.Clone()
               Matrix.inplaceMapi (fun i j x -> 2.0 * (float i * 100.0 + float j) + x) N
-              N |> should equal (3.0 * largeM))*)
+              N |> should equal (3.0 * largeM))
         spec "Matrix.nonZeroEntries"
             (Seq.length (Matrix.nonZeroEntries smallM) |> should equal 4)
         spec "Matrix.sum"
@@ -145,8 +159,6 @@ let DenseMatrixTests =
     specs "DenseMatrix" [
         spec "DenseMatrix.init"
             (DenseMatrix.init 100 100 (fun i j -> float i * 100.0 + float j) |> should equal largeM)
-        spec "DenseMatrix.identity"
-            (DenseMatrix.identity 10 |> should equal (DenseMatrix.init 10 10 (fun i j -> if i = j then 1.0 else 0.0)))
         spec "DenseMatrix.ofList"
             (DenseMatrix.ofList [[0.3;0.3];[0.3;0.3]] |> should equal smallM)
         spec "DenseMatrix.ofSeq"
@@ -156,18 +168,32 @@ let DenseMatrixTests =
         spec "DenseMatrix.initDense"
             (DenseMatrix.initDense 100 100 (seq { for i in 0 .. 99 do
                                                    for j in 0 .. 99 -> (i,j, float i * 100.0 + float j)}) |> should equal largeM)
-        (*spec "DenseMatrix.constDiag"
-            (DenseMatrix.constDiag 100 2.0 |> should equal (2.0 * (DenseMatrix.identity 100)))
+        spec "DenseMatrix.constDiag"
+            (DenseMatrix.constDiag 100 2.0 |> should equal (2.0 * (DenseMatrix.Identity 100)))
         spec "DenseMatrix.diag"
-            (DenseMatrix.diag (new DenseVector(100, 2.0)) |> should equal (2.0 * (DenseMatrix.identity 100)))
+            (DenseMatrix.diag (new DenseVector(100, 2.0)) |> should equal (2.0 * (DenseMatrix.Identity 100)))
         spec "DenseMatrix.init_row"
-            (DenseMatrix.init_row 100 100 (fun i -> (DenseVector.init 100 (fun j -> float i * 100.0 + float j))) |> should equal largeM)
+            (DenseMatrix.initRow 100 100 (fun i -> (DenseVector.init 100 (fun j -> float i * 100.0 + float j))) |> should equal largeM)
         spec "DenseMatrix.init_col"
-            (DenseMatrix.init_col 100 100 (fun j -> (DenseVector.init 100 (fun i -> float i * 100.0 + float j))) |> should equal largeM)
-        spec "DenseMatrix.of_rowvector"
-            (DenseMatrix.of_rowvector (new DenseVector(10,3.0)) |> should equal ((new DenseMatrix(1,10,3.0))))
-        spec "DenseMatrix.of_vector"
-            (DenseMatrix.of_vector (new DenseVector(10,3.0)) |> should equal ((new DenseMatrix(10,1,3.0))))*)
+            (DenseMatrix.initCol 100 100 (fun j -> (DenseVector.init 100 (fun i -> float i * 100.0 + float j))) |> should equal largeM)
+    ]
+    
+
+/// Unit tests for the sparse matrix type.
+let SparseMatrixTests =
+
+    /// A small uniform vector.
+    let smallM = DenseMatrix.init 4 4 (fun i j -> if i = 1 && j = 2 then 1.0 else 0.0) :> Matrix
+    
+    specs "SparseMatrix" [
+        spec "SparseMatrix.ofList"
+            ((SparseMatrix.ofList 4 4 [(1,2,1.0)] :> Matrix) |> should equal smallM)
+        spec "SparseMatrix.ofSeq"
+            ((SparseMatrix.ofSeq 4 4 (Seq.ofList [(1,2,1.0)]) :> Matrix) |> should equal smallM)
+        spec "SparseMatrix.constDiag"
+            (SparseMatrix.constDiag 100 2.0 |> should equal (2.0 * (SparseMatrix.Identity 100)))
+        spec "SparseMatrix.diag"
+            (SparseMatrix.diag (new DenseVector(100, 2.0)) |> should equal (2.0 * (SparseMatrix.Identity 100)))
     ]
 
     

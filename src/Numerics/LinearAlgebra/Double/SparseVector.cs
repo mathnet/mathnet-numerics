@@ -381,8 +381,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CopyTo(result);
-            result.Add(scalar);
+            base.Add(scalar, result);
         }
 
         /// <summary>
@@ -582,9 +581,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Add(rightSide);
-            return ret;
+            return leftSide.Add(rightSide);
         }
 
         /// <summary>
@@ -626,8 +623,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            CopyTo(result);
-            result.Subtract(scalar);
+            base.Subtract(scalar, result);
         }
 
         /// <summary>
@@ -757,9 +753,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Subtract(rightSide);
-            return ret;
+            return leftSide.Subtract(rightSide);
         }
 
         /// <summary>
@@ -856,9 +850,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            var ret = (SparseVector)leftSide.Clone();
-            ret.Multiply(rightSide);
-            return ret;
+            return (SparseVector)leftSide.Multiply(rightSide);
         }
 
         /// <summary>
@@ -875,9 +867,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("rightSide");
             }
 
-            var ret = (SparseVector)rightSide.Clone();
-            ret.Multiply(leftSide);
-            return ret;
+            return (SparseVector)rightSide.Multiply(leftSide);
         }
 
         /// <summary>
@@ -922,9 +912,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            var ret = (SparseVector)leftSide.Clone();
-            ret.Multiply(1.0 / rightSide);
-            return ret;
+            return (SparseVector) leftSide.Multiply(1.0 / rightSide);
         }
 
         /// <summary>
@@ -1114,129 +1102,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            // We cannot iterate using NonZeroCount because the value may be changed (if multiply by 0)
-            var copy = (SparseVector)this.Clone();
-            for (var i = 0; i < Count; i++)
+            var copy = new SparseVector(Count);
+            for (int i = 0; i < this._nonZeroIndices.Length; i++)
             {
-                copy[i] *= other[i];
+                var d = this._nonZeroValues[i] * other[this._nonZeroIndices[i]];
+                if (d != 0.0)
+                {
+                    copy[this._nonZeroIndices[i]] = d;
+                }
             }
+
             return copy;
-        }
-
-        /// <summary>
-        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise multiply with this one.</param>
-        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Vector other, Vector result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = result.CreateVector(result.Count);
-                PointwiseMultiply(other, tmp);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                CopyTo(result);
-                result.PointwiseMultiply(other);
-            }
-        }
-
-        /// <summary>
-        /// Pointwise divide this vector with another vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
-        /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector PointwiseDivide(Vector other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            // base implementation iterates though all elements, but we need only take non-zeros
-            var copy = (SparseVector)this.Clone();
-            for (var i = 0; i < NonZerosCount; i++)
-            {
-                copy[_nonZeroIndices[i]] /= other[_nonZeroIndices[i]];
-            }
-            return copy;
-        }
-
-        /// <summary>
-        /// Pointwise divide this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
-        /// <param name="result">The vector to store the result of the pointwise division.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseDivide(Vector other, Vector result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = result.CreateVector(result.Count);
-                PointwiseDivide(other, tmp);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                CopyTo(result);
-                result.PointwiseDivide(other);
-            }
         }
 
         /// <summary>
