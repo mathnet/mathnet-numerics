@@ -42,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCloneMatrix(string name)
         {
-            var matrix = this.CreateMatrix(this.testData2D[name]);
+            var matrix = this.CreateMatrix(this.TestData2D[name]);
             var clone = matrix.Clone();
 
             Assert.AreNotSame(matrix, clone);
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCloneMatrixUsingICloneable(string name)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var clone = (Matrix)((ICloneable)matrix).Clone();
 
             Assert.AreNotSame(matrix, clone);
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCopyTo(string name)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var copy = this.CreateMatrix(matrix.RowCount, matrix.ColumnCount);
             matrix.CopyTo(copy);
 
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void CopyToFailsWhenTargetIsNull()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             Matrix target = null;
             matrix.CopyTo(target);
         }
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void CopyToFailsWhenTargetHasMoreRows()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var target = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
             matrix.CopyTo(target);
         }
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void CopyToFailsWhenTargetHasMoreColumns()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var target = this.CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
             matrix.CopyTo(target);
         }
@@ -154,9 +154,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanEquateMatrices(string name)
         {
-            var matrix1 = this.CreateMatrix(this.testData2D[name]);
-            var matrix2 = this.CreateMatrix(this.testData2D[name]);
-            var matrix3 = this.CreateMatrix(this.testData2D[name].GetLength(0), this.testData2D[name].GetLength(1));
+            var matrix1 = this.CreateMatrix(this.TestData2D[name]);
+            var matrix2 = this.CreateMatrix(this.TestData2D[name]);
+            var matrix3 = this.CreateMatrix(this.TestData2D[name].GetLength(0), this.TestData2D[name].GetLength(1));
             Assert.IsTrue(matrix1.Equals(matrix1));
             Assert.IsTrue(matrix1.Equals(matrix2));
             Assert.IsFalse(matrix1.Equals(matrix3));
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3")]
         public void TestingForEqualityWithNonMatrixReturnsFalse(string name)
         {
-            var matrix = this.CreateMatrix(this.testData2D[name]);
+            var matrix = this.CreateMatrix(this.TestData2D[name]);
             Assert.IsFalse(matrix.Equals(2));
         }
 
@@ -195,8 +195,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3")]
         public void CanTestForEqualityUsingObjectEquals(string name)
         {
-            var matrix1 = this.CreateMatrix(this.testData2D[name]);
-            var matrix2 = this.CreateMatrix(this.testData2D[name]);
+            var matrix1 = this.CreateMatrix(this.TestData2D[name]);
+            var matrix2 = this.CreateMatrix(this.TestData2D[name]);
             Assert.IsTrue(matrix1.Equals((object)matrix2));
         }
 
@@ -207,7 +207,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void RangeCheckFails(int i, int j, string name)
         {
-            var d = this.testMatrices[name][i, j];
+            var d = this.TestMatrices[name][i, j];
         }
 
         [Test]
@@ -219,7 +219,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanClearMatrix()
         {
-            var matrix = this.testMatrices["Singular3x3"].Clone();
+            var matrix = this.TestMatrices["Singular3x3"].Clone();
             matrix.Clear();
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -237,7 +237,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(2, "Square3x3")]
         public void CanGetRow(int rowIndex, string name)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var row = matrix.Row(rowIndex);
 
             Assert.AreEqual(matrix.ColumnCount, row.Count);
@@ -251,7 +251,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetRowThrowsArgumentOutOfRangeWithNegativeIndex()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             matrix.Row(-1);
         }
 
@@ -259,7 +259,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetRowThrowsArgumentOutOfRangeWithOverflowingRowIndex()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             matrix.Row(matrix.RowCount);
         }
 
@@ -270,7 +270,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(2, "Square3x3")]
         public void CanGetRowWithResult(int rowIndex, string name)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var row = CreateVector(matrix.ColumnCount);
             matrix.Row(rowIndex, row);
 
@@ -285,7 +285,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentNullException))]
         public void GetRowWithResultFailsWhenResultIsNull()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             matrix.Row(0, null);
         }
 
@@ -293,7 +293,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetRowWithResultThrowsArgumentOutOfRangeWithNegativeIndex()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var row = CreateVector(matrix.ColumnCount);
             matrix.Row(-1, row);
         }
@@ -302,7 +302,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetRowWithResultThrowsArgumentOutOfRangeWithOverflowingRowIndex()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var row = CreateVector(matrix.ColumnCount);
             matrix.Row(matrix.RowCount, row);
         }
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(2, 0, 3, "Square3x3")]
         public void CanGetRowWithRange(int rowIndex, int start, int length, string name)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var row = matrix.Row(rowIndex, start, length);
 
             Assert.AreEqual(length, row.Count);
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentException))]
         public void GetRowWithRangeResultArgumentExeptionWhenLengthIsZero()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var result = CreateVector(matrix.ColumnCount);
             matrix.Row(0, 0, 0, result);
         }
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentException))]
         public void GetRowWithRangeFailsWithTooSmallResultVector()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var result = this.CreateVector(matrix.ColumnCount - 1);
             matrix.Row(0, 0, 0, result);
         }
@@ -349,7 +349,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(2, "Square3x3")]
         public void CanGetColumn(int colIndex, string name)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var col = matrix.Column(colIndex);
 
             Assert.AreEqual(matrix.RowCount, col.Count);
@@ -363,7 +363,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetColumnThrowsArgumentOutOfRangeWithNegativeIndex()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             matrix.Column(-1);
         }
 
@@ -371,7 +371,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetColumnThrowsArgumentOutOfRangeWithOverflowingRowIndex()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             matrix.Column(matrix.ColumnCount);
         }
 
@@ -382,7 +382,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(2, "Square3x3")]
         public void CanGetColumnWithResult(int colIndex, string name)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var col = CreateVector(matrix.RowCount);
             matrix.Column(colIndex, col);
 
@@ -397,7 +397,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentNullException))]
         public void GetColumnFailsWhenResultIsNull()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             matrix.Column(0, null);
         }
 
@@ -405,7 +405,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetColumnWithResultThrowsArgumentOutOfRangeWithNegativeIndex()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var column = CreateVector(matrix.ColumnCount);
             matrix.Column(-1, column);
         }
@@ -414,7 +414,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void GetColumnWithResultThrowsArgumentOutOfRangeWithOverflowingRowIndex()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var column = CreateVector(matrix.RowCount);
             matrix.Row(matrix.ColumnCount, column);
         }
@@ -426,7 +426,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(2, 0, 3, "Square3x3")]
         public void CanGetColumnWithRange(int colIndex, int start, int length, string name)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var col = matrix.Column(colIndex, start, length);
 
             Assert.AreEqual(length, col.Count);
@@ -440,7 +440,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentException))]
         public void GetColumnWithRangeResultArgumentExeptionWhenLengthIsZero()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var col = CreateVector(matrix.RowCount);
             matrix.Column(0, 0, 0, col);
         }
@@ -449,7 +449,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentException))]
         public void GetColumnWithRangeFailsWithTooSmallResultVector()
         {
-            var matrix = this.testMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Singular3x3"];
             var result = this.CreateVector(matrix.RowCount - 1);
             matrix.Column(0, 0, matrix.RowCount, result);
         }
@@ -461,7 +461,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(2, "Square3x3")]
         public void CanSetRow(int rowIndex, string name)
         {
-            var matrix = this.testMatrices[name].Clone();
+            var matrix = this.TestMatrices[name].Clone();
             matrix.SetRow(rowIndex, CreateVector(matrix.ColumnCount));
 
             for (var i = 0; i < matrix.RowCount; i++)
@@ -474,7 +474,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                     }
                     else
                     {
-                        Assert.AreEqual(this.testMatrices[name][i, j], matrix[i, j]);
+                        Assert.AreEqual(this.TestMatrices[name][i, j], matrix[i, j]);
                     }
                 }
             }
@@ -487,7 +487,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(2, "Square3x3")]
         public void CanSetColumn(int colIndex, string name)
         {
-            var matrix = this.testMatrices[name].Clone();
+            var matrix = this.TestMatrices[name].Clone();
             matrix.SetColumn(colIndex, CreateVector(matrix.ColumnCount));
 
             for (var i = 0; i < matrix.RowCount; i++)
@@ -500,7 +500,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                     }
                     else
                     {
-                        Assert.AreEqual(this.testMatrices[name][i, j], matrix[i, j]);
+                        Assert.AreEqual(this.TestMatrices[name][i, j], matrix[i, j]);
                     }
                 }
             }
@@ -515,7 +515,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void UpperTriangleResult(string name)
         {
-            var data = this.testMatrices[name];
+            var data = this.TestMatrices[name];
             var result = this.CreateMatrix(data.RowCount, data.ColumnCount);
             var lower = data.UpperTriangle();
             for (var i = 0; i < data.RowCount; i++)
@@ -539,7 +539,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void UpperTriangleWithResultNullShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             Matrix result = null;
             data.UpperTriangle(result);
         }
@@ -548,7 +548,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void UpperTriangleWithUnEqualRowsShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             var result = this.CreateMatrix(data.RowCount + 1, data.ColumnCount);
             data.UpperTriangle(result);
         }
@@ -557,7 +557,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void UpperTriangleWithUnEqualColumnsShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             var result = this.CreateMatrix(data.RowCount, data.ColumnCount + 1);
             data.UpperTriangle(result);
         }
@@ -565,7 +565,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void StrictlyLowerTriangle()
         {
-            foreach (var data in this.testMatrices.Values)
+            foreach (var data in this.TestMatrices.Values)
             {
                 var lower = data.StrictlyLowerTriangle();
                 for (var i = 0; i < data.RowCount; i++)
@@ -588,7 +588,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void StrictlyLowerTriangleResult()
         {
-            foreach (var data in this.testMatrices.Values)
+            foreach (var data in this.TestMatrices.Values)
             {
                 var lower = this.CreateMatrix(data.RowCount, data.ColumnCount);
                 data.StrictlyLowerTriangle(lower);
@@ -613,7 +613,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void StrictlyLowerTriangleWithNullParameterShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             Matrix lower = null;
             data.StrictlyLowerTriangle(lower);
         }
@@ -622,7 +622,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void StrictlyLowerTriangleWithInvalidColumnNumberShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             var lower = this.CreateMatrix(data.RowCount, data.ColumnCount + 1);
             data.StrictlyLowerTriangle(lower);
         }
@@ -631,7 +631,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void StrictlyLowerTriangleWithInvalidRowNumberShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             var lower = this.CreateMatrix(data.RowCount + 1, data.ColumnCount);
             data.StrictlyLowerTriangle(lower);
         }
@@ -640,7 +640,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void StrictlyUpperTriangle()
         {
-            foreach (var data in this.testMatrices.Values)
+            foreach (var data in this.TestMatrices.Values)
             {
                 var lower = data.StrictlyUpperTriangle();
                 for (var i = 0; i < data.RowCount; i++)
@@ -663,7 +663,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void StrictlyUpperTriangleResult()
         {
-            foreach (var data in this.testMatrices.Values)
+            foreach (var data in this.TestMatrices.Values)
             {
                 var lower = this.CreateMatrix(data.RowCount, data.ColumnCount);
                 data.StrictlyUpperTriangle(lower);
@@ -688,7 +688,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void StrictlyUpperTriangleWithNullParameterShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             Matrix lower = null;
             data.StrictlyUpperTriangle(lower);
         }
@@ -697,7 +697,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void StrictlyUpperTriangleWithInvalidColumnNumberShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             var lower = this.CreateMatrix(data.RowCount, data.ColumnCount + 1);
             data.StrictlyUpperTriangle(lower);
         }
@@ -706,7 +706,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void StrictlyUpperTriangleWithInvalidRowNumberShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             var lower = this.CreateMatrix(data.RowCount + 1, data.ColumnCount);
             data.StrictlyUpperTriangle(lower);
         }
@@ -720,7 +720,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanTransposeMatrix(string name)
         {
-            var matrix = this.CreateMatrix(this.testData2D[name]);
+            var matrix = this.CreateMatrix(this.TestData2D[name]);
             var transpose = matrix.Transpose();
 
             Assert.AreNotSame(matrix, transpose);
@@ -742,9 +742,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3", new double[] { 1, 2 })]
         [Row("Singular3x3", null, ExpectedException = typeof(ArgumentNullException))]
         [Row("Singular3x3", new double[] { 1, 2, 3, 4, 5 }, ExpectedException = typeof(ArgumentException))]
-        public void SetColumnWithArray(string name, double[] column)
+        public virtual void SetColumnWithArray(string name, double[] column)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             for (var i = 0; i < matrix.ColumnCount; i++)
             {
                 matrix.SetColumn(i, column);
@@ -759,7 +759,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentOutOfRangeException]
         public void SetColumnArrayWithInvalidColumnIndexShouldThrowException()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             double[] column = { 1, 2, 3 };
             matrix.SetColumn(-1, column);
         }
@@ -768,7 +768,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentOutOfRangeException]
         public void SetColumnArrayWithInvalidColumnIndexShouldThrowException2()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             double[] column = { 1, 2, 3 };
             matrix.SetColumn(matrix.ColumnCount + 1, column);
         }
@@ -779,9 +779,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Tall3x2", new double[] { 1, 2, 3 })]
         [Row("Wide2x3", new double[] { 1, 2 })]
         [Row("Singular3x3", new double[] { 1, 2, 3, 4, 5 }, ExpectedException = typeof(ArgumentException))]
-        public void SetColumnWithVector(string name, double[] column)
+        public virtual void SetColumnWithVector(string name, double[] column)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var columnVector = CreateVector(column);
             for (var i = 0; i < matrix.ColumnCount; i++)
             {
@@ -797,7 +797,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void SetColumnWithNullVectorShouldThrowException()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             Vector columnVector = null;
             matrix.SetColumn(1, columnVector);
         }
@@ -806,7 +806,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentOutOfRangeException]
         public void SetColumnVectorWithInvalidColumnIndexShouldThrowException()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             var column = this.CreateVector(new double[] { 1, 2, 3 });
             matrix.SetColumn(-1, column);
         }
@@ -815,7 +815,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentOutOfRangeException]
         public void SetColumnVectorWithInvalidColumnIndexShouldThrowException2()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             var column = this.CreateVector(new double[] { 1, 2, 3 });
             matrix.SetColumn(matrix.ColumnCount + 1, column);
         }
@@ -855,7 +855,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentNullException))]
         public void InsertNullColumnShouldThrowExecption()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             matrix.InsertColumn(0, null);
         }
 
@@ -883,9 +883,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3", new double[] { 1, 2, 3 })]
         [Row("Singular3x3", null, ExpectedException = typeof(ArgumentNullException))]
         [Row("Singular3x3", new double[] { 1, 2, 3, 4, 5 }, ExpectedException = typeof(ArgumentException))]
-        public void SetRowWithArray(string name, double[] row)
+        public virtual void SetRowWithArray(string name, double[] row)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 matrix.SetRow(i, row);
@@ -900,7 +900,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentOutOfRangeException]
         public void SetRowArrayWithInvalidRowIndexShouldThrowException()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             double[] row = { 1, 2, 3 };
             matrix.SetRow(-1, row);
         }
@@ -909,7 +909,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentOutOfRangeException]
         public void SetRowArrayWithInvalidRowIndexShouldThrowException2()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             double[] row = { 1, 2, 3 };
             matrix.SetRow(matrix.RowCount + 1, row);
         }
@@ -920,9 +920,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Tall3x2", new double[] { 1, 2 })]
         [Row("Wide2x3", new double[] { 1, 2, 3 })]
         [Row("Singular3x3", new double[] { 1, 2, 3, 4, 5 }, ExpectedException = typeof(ArgumentException))]
-        public void SetRowWithVector(string name, double[] row)
+        public virtual void SetRowWithVector(string name, double[] row)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var rowVector = CreateVector(row);
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -938,7 +938,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void SetRowWithNullVectorShouldThrowException()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             Vector rowVector = null;
             matrix.SetRow(1, rowVector);
         }
@@ -947,7 +947,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentOutOfRangeException]
         public void SetRowVectorWithInvalidRowIndexShouldThrowException()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             var row = this.CreateVector(new double[] { 1, 2, 3 });
             matrix.SetRow(-1, row);
         }
@@ -956,7 +956,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentOutOfRangeException]
         public void SetRowVectorWithInvalidRowIndexShouldThrowException2()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             var row = this.CreateVector(new double[] { 1, 2, 3 });
             matrix.SetRow(matrix.RowCount + 1, row);
         }
@@ -972,9 +972,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(0, 2, -1, 2, ExpectedException = typeof(ArgumentOutOfRangeException))]
         [Row(0, -1, 0, 2, ExpectedException = typeof(ArgumentException))]
         [Row(0, 2, 0, -1, ExpectedException = typeof(ArgumentException))]
-        public void SetSubMatrix(int rowStart, int rowLength, int colStart, int colLength)
+        public virtual void SetSubMatrix(int rowStart, int rowLength, int colStart, int colLength)
         {
-            foreach (var matrix in this.testMatrices.Values)
+            foreach (var matrix in this.TestMatrices.Values)
             {
                 var subMatrix = matrix.SubMatrix(0, 2, 0, 2);
                 subMatrix[0, 0] = 10.0;
@@ -997,7 +997,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void SetSubMatrixWithNullSubMatrixShouldThrowException()
         {
-            var data = this.testMatrices["Square3x3"];
+            var data = this.TestMatrices["Square3x3"];
             Matrix subMatrix = null;
             data.SetSubMatrix(0, 2, 0, 2, subMatrix);
         }
@@ -1009,7 +1009,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Tall3x2", new double[] { 1, 2 })]
         public void SetDiagonalVector(string name, double[] diagonal)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             var vector = CreateVector(diagonal);
             matrix.SetDiagonal(vector);
 
@@ -1026,7 +1026,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void SetDiagonalWithNullVectorParameterShouldThrowException()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             Vector vector = null;
             matrix.SetDiagonal(vector);
         }
@@ -1039,7 +1039,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Square3x3", null, ExpectedException = typeof(ArgumentNullException))]
         public void SetDiagonalArray(string name, double[] diagonal)
         {
-            var matrix = this.testMatrices[name];
+            var matrix = this.TestMatrices[name];
             matrix.SetDiagonal(diagonal);
             var min = Math.Min(matrix.ColumnCount, matrix.RowCount);
             Assert.AreEqual(diagonal.Length, min);
@@ -1084,7 +1084,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedException(typeof(ArgumentNullException))]
         public void InsertNullRowShouldThrowExecption()
         {
-            var matrix = this.testMatrices["Square3x3"];
+            var matrix = this.TestMatrices["Square3x3"];
             matrix.InsertRow(0, null);
         }
 
@@ -1108,7 +1108,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void ToArray()
         {
-            foreach (var data in this.testMatrices.Values)
+            foreach (var data in this.TestMatrices.Values)
             {
                 var array = data.ToArray();
                 Assert.AreEqual(data.RowCount, array.GetLength(0));
@@ -1127,7 +1127,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void ToColumnWiseArray()
         {
-            foreach (var data in this.testMatrices.Values)
+            foreach (var data in this.TestMatrices.Values)
             {
                 var array = data.ToColumnWiseArray();
                 Assert.AreEqual(data.RowCount * data.ColumnCount, array.Length);
@@ -1145,7 +1145,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void ToRowWiseArray()
         {
-            foreach (var data in this.testMatrices.Values)
+            foreach (var data in this.TestMatrices.Values)
             {
                 var array = data.ToRowWiseArray();
                 Assert.AreEqual(data.RowCount * data.ColumnCount, array.Length);
@@ -1166,10 +1166,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Square3x3")]
         [Row("Tall3x2")]
         [MultipleAsserts]
-        public void CanPermuteMatrixRows(string name)
+        public virtual void CanPermuteMatrixRows(string name)
         {
-            var matrix = this.CreateMatrix(this.testData2D[name]);
-            var matrixp = this.CreateMatrix(this.testData2D[name]);
+            var matrix = this.CreateMatrix(this.TestData2D[name]);
+            var matrixp = this.CreateMatrix(this.TestData2D[name]);
 
             var permutation = new Permutation(new[] { 2, 0, 1 });
             matrixp.PermuteRows(permutation);
@@ -1191,10 +1191,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Square3x3")]
         [Row("Wide2x3")]
         [MultipleAsserts]
-        public void CanPermuteMatrixColumns(string name)
+        public virtual void CanPermuteMatrixColumns(string name)
         {
-            var matrix = this.CreateMatrix(this.testData2D[name]);
-            var matrixp = this.CreateMatrix(this.testData2D[name]);
+            var matrix = this.CreateMatrix(this.TestData2D[name]);
+            var matrixp = this.CreateMatrix(this.TestData2D[name]);
 
             var permutation = new Permutation(new[] { 2, 0, 1 });
             matrixp.PermuteColumns(permutation);
@@ -1214,8 +1214,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanAppendMatrices()
         {
-            var left = this.CreateMatrix(this.testData2D["Singular3x3"]);
-            var right = this.CreateMatrix(this.testData2D["Tall3x2"]);
+            var left = this.CreateMatrix(this.TestData2D["Singular3x3"]);
+            var right = this.CreateMatrix(this.TestData2D["Tall3x2"]);
             var result = left.Append(right);
             Assert.AreEqual(left.ColumnCount + right.ColumnCount, result.ColumnCount);
             Assert.AreEqual(left.RowCount, right.RowCount);
@@ -1240,7 +1240,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void CanAppendWithRightParameterNullShouldThrowException()
         {
-            var left = this.testMatrices["Square3x3"];
+            var left = this.TestMatrices["Square3x3"];
             Matrix right = null;
             left.Append(right);
         }
@@ -1249,8 +1249,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void CanAppendWithResultParameterNullShouldThrowException()
         {
-            var left = this.testMatrices["Square3x3"];
-            var right = this.testMatrices["Tall3x2"];
+            var left = this.TestMatrices["Square3x3"];
+            var right = this.TestMatrices["Tall3x2"];
             Matrix result = null;
             left.Append(right, result);
         }
@@ -1259,8 +1259,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void AppendingTwoMatricesWithDifferentRowCountShouldThrowException()
         {
-            var left = this.testMatrices["Square3x3"];
-            var right = this.testMatrices["Wide2x3"];
+            var left = this.TestMatrices["Square3x3"];
+            var right = this.TestMatrices["Wide2x3"];
             var result = left.Append(right);
         }
 
@@ -1268,8 +1268,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void AppendingWithInvalidResultMatrixColumnsShouldThrowException()
         {
-            var left = this.testMatrices["Square3x3"];
-            var right = this.testMatrices["Tall3x2"];
+            var left = this.TestMatrices["Square3x3"];
+            var right = this.TestMatrices["Tall3x2"];
             var result = this.CreateMatrix(3, 2);
             left.Append(right, result);
         }
@@ -1277,8 +1277,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanStackMatrices()
         {
-            var top = this.testMatrices["Square3x3"];
-            var bottom = this.testMatrices["Wide2x3"];
+            var top = this.TestMatrices["Square3x3"];
+            var bottom = this.TestMatrices["Wide2x3"];
             var result = top.Stack(bottom);
             Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
             Assert.AreEqual(top.ColumnCount, result.ColumnCount);
@@ -1303,7 +1303,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void StackingWithBottomParameterNullShouldThrowException()
         {
-            var top = this.testMatrices["Square3x3"];
+            var top = this.TestMatrices["Square3x3"];
             Matrix bottom = null;
             var result = this.CreateMatrix(top.RowCount + top.RowCount, top.ColumnCount);
             top.Stack(bottom, result);
@@ -1313,8 +1313,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void StackingWithResultParameterNullShouldThrowException()
         {
-            var top = this.testMatrices["Square3x3"];
-            var bottom = this.testMatrices["Square3x3"];
+            var top = this.TestMatrices["Square3x3"];
+            var bottom = this.TestMatrices["Square3x3"];
             Matrix result = null;
             top.Stack(bottom, result);
         }
@@ -1323,8 +1323,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void StackingTwoMatricesWithDifferentColumnsShouldThrowException()
         {
-            var top = this.testMatrices["Square3x3"];
-            var lower = this.testMatrices["Tall3x2"];
+            var top = this.TestMatrices["Square3x3"];
+            var lower = this.TestMatrices["Tall3x2"];
             var result = this.CreateMatrix(top.RowCount + lower.RowCount, top.ColumnCount);
             top.Stack(lower, result);
         }
@@ -1333,8 +1333,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void StackingWithInvalidResultMatrixRowsShouldThrowException()
         {
-            var top = this.testMatrices["Square3x3"];
-            var bottom = this.testMatrices["Wide2x3"];
+            var top = this.TestMatrices["Square3x3"];
+            var bottom = this.TestMatrices["Wide2x3"];
             var result = this.CreateMatrix(1, 3);
             top.Stack(bottom, result);
         }
@@ -1342,8 +1342,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanDiagonallyStackMatrics()
         {
-            var top = this.testMatrices["Tall3x2"];
-            var bottom = this.testMatrices["Wide2x3"];
+            var top = this.TestMatrices["Tall3x2"];
+            var bottom = this.TestMatrices["Wide2x3"];
             var result = top.DiagonalStack(bottom);
             Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
             Assert.AreEqual(top.ColumnCount + bottom.ColumnCount, result.ColumnCount);
@@ -1372,16 +1372,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void DiagonalStackWithLowerNullShouldThrowException()
         {
-            var top = this.testMatrices["Square3x3"];
+            var top = this.TestMatrices["Square3x3"];
             Matrix lower = null;
             top.DiagonalStack(lower);
         }
 
         [Test]
-        public void CanDiagonallyStackMatricesWithPassingResult()
+        public virtual void CanDiagonallyStackMatricesWithPassingResult()
         {
-            var top = this.testMatrices["Tall3x2"];
-            var bottom = this.testMatrices["Wide2x3"];
+            var top = this.TestMatrices["Tall3x2"];
+            var bottom = this.TestMatrices["Wide2x3"];
             var result = this.CreateMatrix(top.RowCount + bottom.RowCount, top.ColumnCount + bottom.ColumnCount);
             top.DiagonalStack(bottom, result);
             Assert.AreEqual(top.RowCount + bottom.RowCount, result.RowCount);
@@ -1411,8 +1411,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void DiagonalStackWithResultNullShouldThrowException()
         {
-            var top = this.testMatrices["Square3x3"];
-            var lower = this.testMatrices["Wide2x3"];
+            var top = this.TestMatrices["Square3x3"];
+            var lower = this.TestMatrices["Wide2x3"];
             Matrix result = null;
             top.DiagonalStack(lower, result);
         }
@@ -1421,61 +1421,61 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void DiagonalStackWithInvalidResultMatrixShouldThrowException()
         {
-            var top = this.testMatrices["Square3x3"];
-            var lower = this.testMatrices["Wide2x3"];
+            var top = this.TestMatrices["Square3x3"];
+            var lower = this.TestMatrices["Wide2x3"];
             var result = this.CreateMatrix(top.RowCount + lower.RowCount + 2, top.ColumnCount + lower.ColumnCount);
             top.DiagonalStack(lower, result);
         }
 
         [Test]
-        public void FrobeniusNorm()
+        public virtual void FrobeniusNorm()
         {
-            var matrix = testMatrices["Square3x3"];
+            var matrix = TestMatrices["Square3x3"];
             AssertHelpers.AlmostEqual(10.77775486824598, matrix.FrobeniusNorm(), 14);
 
-            matrix = testMatrices["Wide2x3"];
+            matrix = TestMatrices["Wide2x3"];
             AssertHelpers.AlmostEqual(4.79478883789474, matrix.FrobeniusNorm(), 14);
 
-            matrix = testMatrices["Tall3x2"];
+            matrix = TestMatrices["Tall3x2"];
             AssertHelpers.AlmostEqual(7.54122006044115, matrix.FrobeniusNorm(), 14);
         }
 
         [Test]
-        public void InfinityNorm()
+        public virtual void InfinityNorm()
         {
-            Matrix matrix = testMatrices["Square3x3"];
+            Matrix matrix = TestMatrices["Square3x3"];
             Assert.AreEqual(16.5, matrix.InfinityNorm());
 
-            matrix = testMatrices["Wide2x3"];
+            matrix = TestMatrices["Wide2x3"];
             Assert.AreEqual(6.6, matrix.InfinityNorm());
 
-            matrix = testMatrices["Tall3x2"];
+            matrix = TestMatrices["Tall3x2"];
             Assert.AreEqual(9.9, matrix.InfinityNorm());
         }
 
         [Test]
-        public void L1Norm()
+        public virtual void L1Norm()
         {
-            Matrix matrix = testMatrices["Square3x3"];
+            Matrix matrix = TestMatrices["Square3x3"];
             Assert.AreEqual(12.1, matrix.L1Norm());
 
-            matrix = testMatrices["Wide2x3"];
+            matrix = TestMatrices["Wide2x3"];
             Assert.AreEqual(5.5, matrix.L1Norm());
 
-            matrix = testMatrices["Tall3x2"];
+            matrix = TestMatrices["Tall3x2"];
             Assert.AreEqual(8.8, matrix.L1Norm());
         }
 
         [Test]
-        public void L2Norm()
+        public virtual void L2Norm()
         {
-            var matrix = testMatrices["Square3x3"];
+            var matrix = TestMatrices["Square3x3"];
             AssertHelpers.AlmostEqual(10.391347375312632, matrix.L2Norm(), 14);
 
-            matrix = testMatrices["Wide2x3"];
+            matrix = TestMatrices["Wide2x3"];
             AssertHelpers.AlmostEqual(4.7540849434107635, matrix.L2Norm(), 14);
 
-            matrix = testMatrices["Tall3x2"];
+            matrix = TestMatrices["Tall3x2"];
             AssertHelpers.AlmostEqual(7.182727033856683, matrix.L2Norm(), 14);
         }
     }

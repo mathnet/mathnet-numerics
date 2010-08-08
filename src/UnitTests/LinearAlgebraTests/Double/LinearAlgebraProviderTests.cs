@@ -147,8 +147,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Tall3x2", "Wide2x3")]
         public void CanMatrixMultiply(string nameX, string nameY)
         {
-            var x = (DenseMatrix)testMatrices[nameX];
-            var y = (DenseMatrix)testMatrices[nameY];
+            var x = (DenseMatrix)TestMatrices[nameX];
+            var y = (DenseMatrix)TestMatrices[nameY];
             var c = (DenseMatrix)CreateMatrix(x.RowCount, y.ColumnCount);
 
             Provider.MatrixMultiply(x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, c.Data);
@@ -170,8 +170,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Tall3x2", "Wide2x3")]
         public void CanMatrixMultiplyWithUpdate(string nameX, string nameY)
         {
-            var x = (DenseMatrix)testMatrices[nameX];
-            var y = (DenseMatrix)testMatrices[nameY];
+            var x = (DenseMatrix)TestMatrices[nameX];
+            var y = (DenseMatrix)TestMatrices[nameY];
             var c = (DenseMatrix)CreateMatrix(x.RowCount, y.ColumnCount);
 
             Provider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.0, x.Data, x.RowCount, x.ColumnCount, y.Data, y.RowCount, y.ColumnCount, 1.0, c.Data);

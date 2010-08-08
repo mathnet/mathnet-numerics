@@ -1230,19 +1230,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentOutOfRangeException("p");
             }
-            else if (Double.IsPositiveInfinity(p))
+
+            if (NonZerosCount == 0)
+            {
+                return 0.0;
+            }
+
+            if (Double.IsPositiveInfinity(p))
             {
                 return CommonParallel.Select(0, NonZerosCount, (index, localData) => localData = Math.Max(localData, Math.Abs(_nonZeroValues[index])), Math.Max);
             }
-            else
-            {
-                var sum = CommonParallel.Aggregate(
-                    0,
-                    NonZerosCount,
-                    index => Math.Pow(Math.Abs(_nonZeroValues[index]), p));
 
-                return Math.Pow(sum, 1.0 / p);
-            }
+            var sum = CommonParallel.Aggregate(
+                0,
+                NonZerosCount,
+                index => Math.Pow(Math.Abs(_nonZeroValues[index]), p));
+
+            return Math.Pow(sum, 1.0 / p);
         }
 
         #endregion

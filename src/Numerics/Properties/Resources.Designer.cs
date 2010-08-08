@@ -673,6 +673,24 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given stop criterium already exist in the collection..
+        /// </summary>
+        internal static string StopCriteriumDuplicate {
+            get {
+                return ResourceManager.GetString("StopCriteriumDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no stop criterium in the collection..
+        /// </summary>
+        internal static string StopCriteriumMissing {
+            get {
+                return ResourceManager.GetString("StopCriteriumMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to String parameter cannot be empty or null..
         /// </summary>
         internal static string StringNullOrEmpty {

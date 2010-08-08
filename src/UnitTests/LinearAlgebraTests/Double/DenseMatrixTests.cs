@@ -59,16 +59,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateMatrixFrom1DArray()
         {
-            Dictionary<string, Matrix> testData = new Dictionary<string, Matrix>();
-            testData.Add("Singular3x3", new DenseMatrix(3, 3, new double[] { 1, 1, 1, 1, 1, 1, 2, 2, 2 }));
-            testData.Add("Square3x3", new DenseMatrix(3, 3, new double[] { -1.1, 0.0, -4.4, -2.2, 1.1, 5.5, -3.3, 2.2, 6.6 }));
-            testData.Add("Square4x4", new DenseMatrix(4, 4, new double[] { -1.1, 0.0, 1.0, -4.4, -2.2, 1.1, 2.1, 5.5, -3.3, 2.2, 6.2, 6.6, -4.4, 3.3, 4.3, -7.7 }));
-            testData.Add("Tall3x2", new DenseMatrix(3, 2, new double[] { -1.1, 0.0, -4.4, -2.2, 1.1, 5.5 }));
-            testData.Add("Wide2x3", new DenseMatrix(2, 3, new double[] { -1.1, 0.0, -2.2, 1.1, -3.3, 2.2 }));
+            Dictionary<string, Matrix> testData = new Dictionary<string, Matrix>
+                                                  {
+                                                      { "Singular3x3", new DenseMatrix(3, 3, new[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0 }) },
+                                                      { "Square3x3", new DenseMatrix(3, 3, new[] { -1.1, 0.0, -4.4, -2.2, 1.1, 5.5, -3.3, 2.2, 6.6 }) },
+                                                      { "Square4x4", new DenseMatrix(4, 4, new[] { -1.1, 0.0, 1.0, -4.4, -2.2, 1.1, 2.1, 5.5, -3.3, 2.2, 6.2, 6.6, -4.4, 3.3, 4.3, -7.7 }) },
+                                                      { "Tall3x2", new DenseMatrix(3, 2, new[] { -1.1, 0.0, -4.4, -2.2, 1.1, 5.5 }) },
+                                                      { "Wide2x3", new DenseMatrix(2, 3, new[] { -1.1, 0.0, -2.2, 1.1, -3.3, 2.2 }) }
+                                                  };
 
             foreach (var name in testData.Keys)
             {
-                Assert.AreEqual(testMatrices[name], testData[name]);
+                Assert.AreEqual(TestMatrices[name], testData[name]);
             }
         }
 
@@ -84,9 +86,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void MatrixFrom2DArrayIsCopy()
         {
-            var matrix = new DenseMatrix(testData2D["Singular3x3"]);
+            var matrix = new DenseMatrix(TestData2D["Singular3x3"]);
             matrix[0, 0] = 10.0;
-            Assert.AreEqual(1.0, testData2D["Singular3x3"][0, 0]);
+            Assert.AreEqual(1.0, TestData2D["Singular3x3"][0, 0]);
         }
 
         [Test]
@@ -98,12 +100,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3")]
         public void CanCreateMatrixFrom2DArray(string name)
         {
-            var matrix = new DenseMatrix(testData2D[name]);
-            for (var i = 0; i < testData2D[name].GetLength(0); i++)
+            var matrix = new DenseMatrix(TestData2D[name]);
+            for (var i = 0; i < TestData2D[name].GetLength(0); i++)
             {
-                for (var j = 0; j < testData2D[name].GetLength(1); j++)
+                for (var j = 0; j < TestData2D[name].GetLength(1); j++)
                 {
-                    Assert.AreEqual(testData2D[name][i, j], matrix[i, j]);
+                    Assert.AreEqual(TestData2D[name][i, j], matrix[i, j]);
                 }
             }
         }
@@ -147,7 +149,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void IdentityFailsWithZeroOrNegativeOrder(int order)
         {
-            var matrix = DenseMatrix.Identity(order);
+            DenseMatrix.Identity(order);
         }
     }
 }

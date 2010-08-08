@@ -333,4 +333,10 @@
   <data name="NotSupportedType" xml:space="preserve">
     <value>{0} is not a supported type.</value>
   </data>
+  <data name="StopCriteriumDuplicate" xml:space="preserve">
+    <value>The given stop criterium already exist in the collection.</value>
+  </data>
+  <data name="StopCriteriumMissing" xml:space="preserve">
+    <value>There is no stop criterium in the collection.</value>
+  </data>
 </root>

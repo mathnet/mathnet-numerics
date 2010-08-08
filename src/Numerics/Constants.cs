@@ -30,6 +30,9 @@
 
 namespace MathNet.Numerics
 {
+    using System.Numerics;
+    using System.Runtime.InteropServices;
+
     /// <summary>
     /// A collection of frequently used mathematical constants.
     /// </summary>
