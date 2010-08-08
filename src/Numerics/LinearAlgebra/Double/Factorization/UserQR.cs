@@ -216,9 +216,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var inputCopy = input.Clone();
 
             // Compute Y = transpose(Q)*B
-            var bn = inputCopy.ColumnCount;
             var column = new double[MatrixR.RowCount];
-            for (var j = 0; j < bn; j++)
+            for (var j = 0; j < input.ColumnCount; j++)
             {
                 for (var k = 0; k < MatrixR.RowCount; k++)
                 {
@@ -240,14 +239,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             // Solve R*X = Y;
             for (var k = MatrixR.ColumnCount - 1; k >= 0; k--)
             {
-                for (var j = 0; j < bn; j++)
+                for (var j = 0; j < input.ColumnCount; j++)
                 {
                     inputCopy.At(k, j, inputCopy.At(k, j) / MatrixR.At(k, k));
                 }
 
                 for (var i = 0; i < k; i++)
                 {
-                    for (var j = 0; j < bn; j++)
+                    for (var j = 0; j < input.ColumnCount; j++)
                     {
                         inputCopy.At(i, j, inputCopy.At(i, j) - (inputCopy.At(k, j) * MatrixR.At(i, k)));
                     }

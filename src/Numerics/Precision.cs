@@ -757,6 +757,28 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Checks whether two Compex numbers are almost equal.
+        /// </summary>
+        /// <param name="a">The first number</param>
+        /// <param name="b">The second number</param>
+        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
+        public static bool AlmostEqual(this Complex a, Complex b)
+        {
+            // TODO - I think that it should be changed to "if (a.IsNaN() && b.IsNaN()) { return true; }"
+            if (a.IsNaN() || b.IsNaN())
+            {
+                return false;
+            }
+
+            if (a.IsInfinity() && b.IsInfinity())
+            {
+                return true;
+            }
+
+            return a.Real.AlmostEqual(b.Real) && a.Imaginary.AlmostEqual(b.Imaginary);
+        }
+
+        /// <summary>
         /// Checks whether two structures with precision support are almost equal. 
         /// </summary>
         /// <typeparam name="T">The type of the structures. Must implement <see cref="IPrecisionSupport{T}"/>.</typeparam>

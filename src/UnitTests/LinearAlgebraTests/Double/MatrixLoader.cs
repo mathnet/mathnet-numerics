@@ -37,8 +37,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
     public abstract class MatrixLoader
     {
-        protected Dictionary<string, double[,]> testData2D;
-        protected Dictionary<string, Matrix> testMatrices;
+        protected Dictionary<string, double[,]> TestData2D;
+        protected Dictionary<string, Matrix> TestMatrices;
 
         protected abstract Matrix CreateMatrix(int rows, int columns);
         protected abstract Matrix CreateMatrix(double[,] data);
@@ -46,20 +46,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         protected abstract Vector CreateVector(double[] data);
 
         [SetUp]
-        public void SetupMatrices()
+        public virtual void SetupMatrices()
         {
-            testData2D = new Dictionary<string, double[,]>();
-            testData2D.Add("Singular3x3", new double[,] { { 1, 1, 2 }, { 1, 1, 2 }, { 1, 1, 2 } });
-            testData2D.Add("Square3x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } });
-            testData2D.Add("Square4x4", new double[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } });
-            testData2D.Add("Singular4x4", new double[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } });
-            testData2D.Add("Tall3x2", new double[,] { { -1.1, -2.2 }, { 0, 1.1 }, { -4.4, 5.5 } });
-            testData2D.Add("Wide2x3", new double[,] { { -1.1, -2.2, -3.3 }, { 0, 1.1, 2.2 } });
+            TestData2D = new Dictionary<string, double[,]>
+                         {
+                             { "Singular3x3", new [,] { { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 } } },
+                             { "Square3x3", new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } } },
+                             { "Square4x4", new[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } } },
+                             { "Singular4x4", new[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } } },
+                             { "Tall3x2", new[,] { { -1.1, -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } } },
+                             { "Wide2x3", new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } } },
+                         };
 
-            testMatrices = new Dictionary<string, Matrix>();
-            foreach (var name in testData2D.Keys)
+            TestMatrices = new Dictionary<string, Matrix>();
+            foreach (var name in TestData2D.Keys)
             {
-                testMatrices.Add(name, CreateMatrix(testData2D[name]));
+                TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
         }
 
@@ -68,17 +70,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
             normal.RandomSource = new Random.MersenneTwister(1);
-            var A = new DenseMatrix(row, col);
+            var matrixA = new DenseMatrix(row, col);
             for (int i = 0; i < row; i++)
             {
                 for (int j = 0; j < col; j++)
                 {
-                    A[i, j] = normal.Sample();
+                    matrixA[i, j] = normal.Sample();
                 }
             }
 
             // Generate a matrix which is positive definite.
-            return A;
+            return matrixA;
         }
 
         public static Matrix GenerateRandomPositiveDefiniteDenseMatrix(int order)
@@ -86,17 +88,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
             normal.RandomSource = new Random.MersenneTwister(1);
-            var A = new DenseMatrix(order);
+            var matrixA = new DenseMatrix(order);
             for (int i = 0; i < order; i++)
             {
                 for (int j = 0; j < order; j++)
                 {
-                    A[i, j] = normal.Sample();
+                    matrixA[i, j] = normal.Sample();
                 }
             }
 
             // Generate a matrix which is positive definite.
-            return A.Transpose() * A;
+            return matrixA.Transpose() * matrixA;
         }
 
         public static Vector GenerateRandomDenseVector(int order)
@@ -119,17 +121,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
             normal.RandomSource = new Random.MersenneTwister(1);
-            var A = new UserDefinedMatrix(row, col);
+            var matrixA = new UserDefinedMatrix(row, col);
             for (int i = 0; i < row; i++)
             {
                 for (int j = 0; j < col; j++)
                 {
-                    A[i, j] = normal.Sample();
+                    matrixA[i, j] = normal.Sample();
                 }
             }
 
             // Generate a matrix which is positive definite.
-            return A;
+            return matrixA;
         }
 
         public static Matrix GenerateRandomPositiveDefiniteUserDefinedMatrix(int order)
@@ -137,17 +139,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
             normal.RandomSource = new Random.MersenneTwister(1);
-            var A = new UserDefinedMatrix(order);
+            var matrixA = new UserDefinedMatrix(order);
             for (int i = 0; i < order; i++)
             {
                 for (int j = 0; j < order; j++)
                 {
-                    A[i, j] = normal.Sample();
+                    matrixA[i, j] = normal.Sample();
                 }
             }
 
             // Generate a matrix which is positive definite.
-            return A.Transpose() * A;
+            return matrixA.Transpose() * matrixA;
         }
 
         public static Vector GenerateRandomUserDefinedVector(int order)

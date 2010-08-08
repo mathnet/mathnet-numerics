@@ -215,6 +215,61 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return ret;
         }
 
+        /// <summary>Calculates the L1 norm.</summary>
+        /// <returns>The L1 norm of the matrix.</returns>
+        public override double L1Norm()
+        {
+            var norm = 0.0;
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var s = 0.0;
+                for (var i = 0; i < RowCount; i++)
+                {
+                    s += Math.Abs(Data[(j * RowCount) + i]);
+                }
+
+                norm = Math.Max(norm, s);
+            }
+
+            return norm;
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override double FrobeniusNorm()
+        {
+            var transpose = (DenseMatrix)Transpose();
+            var aat = this * transpose;
+
+            var norm = 0.0;
+            for (var i = 0; i < RowCount; i++)
+            {
+                norm += Math.Abs(aat.Data[(i * RowCount) + i]);
+            }
+
+            norm = Math.Sqrt(norm);
+            return norm;
+        }
+
+        /// <summary>Calculates the infinity norm of this matrix.</summary>
+        /// <returns>The infinity norm of this matrix.</returns>  
+        public override double InfinityNorm()
+        {
+            var norm = 0.0;
+            for (var i = 0; i < RowCount; i++)
+            {
+                var s = 0.0;
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    s += Math.Abs(Data[(j * RowCount) + i]);
+                }
+
+                norm = Math.Max(norm, s);
+            }
+
+            return norm;
+        }
+
         #region Elementary operations
 
         /// <summary>
@@ -384,6 +439,75 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var result = (DenseMatrix)CreateMatrix(RowCount, other.ColumnCount);
             Multiply(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Multiplies this dense matrix with transpose of another dense matrix and places the results into the result dense matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
+        public override void TransposeAndMultiply(Matrix other, Matrix result)
+        {
+            var otherDense = other as DenseMatrix;
+            var resultDense = result as DenseMatrix;
+
+            if (otherDense == null || resultDense == null)
+            {
+                base.TransposeAndMultiply(other, result);
+                return;
+            }
+
+            if (ColumnCount != otherDense.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if ((resultDense.RowCount != RowCount) || (resultDense.ColumnCount != otherDense.RowCount))
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                Algorithms.LinearAlgebra.Transpose.Transpose,
+                1.0,
+                Data,
+                RowCount,
+                ColumnCount,
+                otherDense.Data,
+                otherDense.RowCount,
+                otherDense.ColumnCount,
+                1.0,
+                resultDense.Data);
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with transpose of another matrix and returns the result.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of multiplication.</returns>
+        public override Matrix TransposeAndMultiply(Matrix other)
+        {
+            var otherDense = other as DenseMatrix;
+            if (otherDense == null)
+            {
+                return base.TransposeAndMultiply(other);
+            }
+
+            if (ColumnCount != otherDense.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            var result = (DenseMatrix)CreateMatrix(RowCount, other.RowCount);
+            TransposeAndMultiply(other, result);
             return result;
         }
 

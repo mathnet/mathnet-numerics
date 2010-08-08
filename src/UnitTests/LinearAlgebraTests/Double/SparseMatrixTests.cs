@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             foreach (var name in testData.Keys)
             {
-                Assert.AreEqual(testMatrices[name], testData[name]);
+                Assert.AreEqual(TestMatrices[name], testData[name]);
             }
         }
 
@@ -87,9 +87,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void MatrixFrom2DArrayIsCopy()
         {
-            var matrix = new SparseMatrix(testData2D["Singular3x3"]);
+            var matrix = new SparseMatrix(TestData2D["Singular3x3"]);
             matrix[0, 0] = 10.0;
-            Assert.AreEqual(1.0, testData2D["Singular3x3"][0, 0]);
+            Assert.AreEqual(1.0, TestData2D["Singular3x3"][0, 0]);
         }
 
         [Test]
@@ -101,12 +101,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row("Wide2x3")]
         public void CanCreateMatrixFrom2DArray(string name)
         {
-            var matrix = new SparseMatrix(testData2D[name]);
-            for (var i = 0; i < testData2D[name].GetLength(0); i++)
+            var matrix = new SparseMatrix(TestData2D[name]);
+            for (var i = 0; i < TestData2D[name].GetLength(0); i++)
             {
-                for (var j = 0; j < testData2D[name].GetLength(1); j++)
+                for (var j = 0; j < TestData2D[name].GetLength(1); j++)
                 {
-                    Assert.AreEqual(testData2D[name][i, j], matrix[i, j]);
+                    Assert.AreEqual(TestData2D[name][i, j], matrix[i, j]);
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentException]
         public void IdentityFailsWithZeroOrNegativeOrder(int order)
         {
-            var matrix = SparseMatrix.Identity(order);
+            SparseMatrix.Identity(order);
         }
 
         [Test]

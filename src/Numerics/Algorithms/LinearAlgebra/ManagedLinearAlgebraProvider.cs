@@ -3650,7 +3650,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, x, xRows, xColumns, y, yRows, yColumns, 0.0f, result);
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, xdata, xRows, xColumns, ydata, yRows, yColumns, 0.0f, result);
         }
 
         /// <summary>
@@ -4635,7 +4635,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex.One, x, xRows, xColumns, y, yRows, yColumns, Complex.Zero, result);
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex.One, xdata, xRows, xColumns, ydata, yRows, yColumns, Complex.Zero, result);
         }
 
         /// <summary>
@@ -5585,7 +5585,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             // TODO - For small matrices we should get rid of the parallelism because of startup costs.
             // Perhaps the following implementations would be a good one
             // http://blog.feradz.com/2009/01/cache-efficient-matrix-multiplication/
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, x, xRows, xColumns, y, yRows, yColumns, Complex32.Zero, result);
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, xdata, xRows, xColumns, ydata, yRows, yColumns, Complex32.Zero, result);
         }
 
         /// <summary>

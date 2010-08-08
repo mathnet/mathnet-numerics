@@ -891,6 +891,71 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return ret;
         }
 
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override double FrobeniusNorm()
+        {
+            var transpose = (SparseMatrix)Transpose();
+            var aat = this * transpose;
+
+            var norm = 0.0;
+
+            for (var i = 0; i < aat._rowIndex.Length; i++)
+            {
+                // Get the begin / end index for the current row
+                var startIndex = aat._rowIndex[i];
+                var endIndex = i < aat._rowIndex.Length - 1 ? aat._rowIndex[i + 1] : aat.NonZerosCount;
+
+                // Get the values for the current row
+                if (startIndex == endIndex)
+                {
+                    // Begin and end are equal. There are no values in the row, Move to the next row
+                    continue;
+                }
+
+                for (var j = startIndex; j < endIndex; j++)
+                {
+                    if (i == aat._columnIndices[j])
+                    {
+                        norm += Math.Abs(aat._nonZeroValues[j]);
+                    }
+                }
+            }
+
+            norm = Math.Sqrt(norm);
+            return norm;
+        }
+
+        /// <summary>Calculates the infinity norm of this matrix.</summary>
+        /// <returns>The infinity norm of this matrix.</returns>   
+        public override double InfinityNorm()
+        {
+            var norm = 0.0;
+            for (var i = 0; i < _rowIndex.Length; i++)
+            {
+                // Get the begin / end index for the current row
+                var startIndex = _rowIndex[i];
+                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                // Get the values for the current row
+                if (startIndex == endIndex)
+                {
+                    // Begin and end are equal. There are no values in the row, Move to the next row
+                    continue;
+                }
+
+                var s = 0.0;
+                for (var j = startIndex; j < endIndex; j++)
+                {
+                    s += Math.Abs(_nonZeroValues[j]);
+                }
+
+                norm = Math.Max(norm, s);
+            }
+
+            return norm;
+        }
+
         /// <summary>
         /// Copies the requested row elements into a new <see cref="Vector"/>.
         /// </summary>
@@ -1184,46 +1249,43 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var otherSparseMatrix = other as SparseMatrix;
             var resultSparseMatrix = result as SparseMatrix;
-
             if (otherSparseMatrix == null || resultSparseMatrix == null)
             {
                 base.Multiply(other, result);
+                return;
             }
-            else
+
+            if (ColumnCount != otherSparseMatrix.RowCount)
             {
-                if (ColumnCount != otherSparseMatrix.RowCount)
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (resultSparseMatrix.RowCount != RowCount || resultSparseMatrix.ColumnCount != otherSparseMatrix.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            resultSparseMatrix.Clear();
+            var columnVector = new DenseVector(otherSparseMatrix.RowCount);
+            for (var row = 0; row < RowCount; row++)
+            {
+                // Get the begin / end index for the current row
+                var startIndex = _rowIndex[row];
+                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                if (startIndex == endIndex)
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                    continue;
                 }
 
-                if (resultSparseMatrix.RowCount != RowCount || resultSparseMatrix.ColumnCount != otherSparseMatrix.ColumnCount)
+                for (var column = 0; column < otherSparseMatrix.ColumnCount; column++)
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-                }
-
-                resultSparseMatrix.Clear();
-
-                var columnVector = new DenseVector(otherSparseMatrix.RowCount);
-                for (var row = 0; row < RowCount; row++)
-                {
-                    // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[row];
-                    var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
-                    if (startIndex == endIndex)
-                    {
-                        continue;
-                    }
-
-                    for (var column = 0; column < otherSparseMatrix.ColumnCount; column++)
-                    {
-                        // Multiply row of matrix A on column of matrix B
-                        otherSparseMatrix.Column(column, columnVector);
-                        var sum = CommonParallel.Aggregate(
-                            startIndex,
-                            endIndex,
-                            index => _nonZeroValues[index] * columnVector[_columnIndices[index]]);
-                        resultSparseMatrix.SetValueAt(row, column, sum);
-                    }
+                    // Multiply row of matrix A on column of matrix B
+                    otherSparseMatrix.Column(column, columnVector);
+                    var sum = CommonParallel.Aggregate(
+                        startIndex,
+                        endIndex,
+                        index => _nonZeroValues[index] * columnVector[_columnIndices[index]]);
+                    resultSparseMatrix.SetValueAt(row, column, sum);
                 }
             }
         }
@@ -1250,6 +1312,98 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var result = (SparseMatrix)CreateMatrix(RowCount, matrix.ColumnCount);
             Multiply(matrix, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Multiplies this dense matrix with transpose of another dense matrix and places the results into the result dense matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
+        public override void TransposeAndMultiply(Matrix other, Matrix result)
+        {
+            var otherSparse = other as SparseMatrix;
+            var resultSparse = result as SparseMatrix;
+
+            if (otherSparse == null || resultSparse == null)
+            {
+                base.TransposeAndMultiply(other, result);
+                return;
+            }
+
+            if (ColumnCount != otherSparse.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if ((resultSparse.RowCount != RowCount) || (resultSparse.ColumnCount != otherSparse.RowCount))
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            resultSparse.Clear();
+            for (var j = 0; j < RowCount; j++)
+            {
+                // Get the begin / end index for the row
+                var startIndexOther = otherSparse._rowIndex[j];
+                var endIndexOther = j < otherSparse._rowIndex.Length - 1 ? otherSparse._rowIndex[j + 1] : otherSparse.NonZerosCount;
+                if (startIndexOther == endIndexOther)
+                {
+                    continue;
+                }
+
+                for (var i = 0; i < RowCount; i++)
+                {
+                    // Multiply row of matrix A on row of matrix B
+                    // Get the begin / end index for the row
+                    var startIndexThis = _rowIndex[i];
+                    var endIndexThis = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                    if (startIndexThis == endIndexThis)
+                    {
+                        continue;
+                    }
+
+                    var i1 = i;
+                    var sum = CommonParallel.Aggregate(
+                        startIndexOther,
+                        endIndexOther,
+                        index =>
+                        {
+                            var ind = FindItem(i1, otherSparse._columnIndices[index]);
+                            return ind >= 0 ? otherSparse._nonZeroValues[index] * _nonZeroValues[ind] : 0.0;
+                        });
+
+                    resultSparse.SetValueAt(i, j, sum + result.At(i, j));
+                }
+            }
+        }
+    
+        /// <summary>
+        /// Multiplies this matrix with transpose of another matrix and returns the result.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of multiplication.</returns>
+        public override Matrix TransposeAndMultiply(Matrix other)
+        {
+            var otherSparse = other as SparseMatrix;
+            if (otherSparse == null)
+            {
+                return base.TransposeAndMultiply(other);
+            }
+
+            if (ColumnCount != otherSparse.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            var result = (SparseMatrix)CreateMatrix(RowCount, other.RowCount);
+            TransposeAndMultiply(other, result);
             return result;
         }
 

@@ -50,6 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
         public DenseQR(DenseMatrix matrix)
         {
             if (matrix == null)

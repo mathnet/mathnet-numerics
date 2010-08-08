@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
 namespace MathNet.Numerics.UnitTests
 {
     using System.Collections.Generic;
@@ -38,8 +37,38 @@ namespace MathNet.Numerics.UnitTests
     /// <summary>
     /// A class which includes some assertion helper methods particularly for numerical code.
     /// </summary>
-    class AssertHelpers
+    internal class AssertHelpers
     {
+        /// <summary>
+        /// Asserts that the expected value and the actual value are equal.
+        /// </summary>
+        /// <param name="expected">The expected value.</param>
+        /// <param name="actual">The actual value.</param>
+        public static void AreEqual(Complex expected, Complex actual)
+        {
+            if (expected.IsNaN() && actual.IsNaN())
+            {
+                return;
+            }
+
+            if (expected.IsInfinity() && expected.IsInfinity())
+            {
+                return;
+            }
+
+            bool pass = expected.Real.AlmostEqual(actual.Real);
+            if (!pass)
+            {
+                Assert.Fail("Real components are not equal. Expected:{0}; Actual:{1}", expected.Real, actual.Real);
+            }
+
+            pass = expected.Imaginary.AlmostEqual(actual.Imaginary);
+            if (!pass)
+            {
+                Assert.Fail("Imaginary components are not equal. Expected:{0}; Actual:{1}", expected.Imaginary, actual.Imaginary);
+            }
+        }
+
         /// <summary>
         /// Asserts that the expected value and the actual value are equal up to a certain number of decimal places. If both
         /// <paramref name="expected"/> and <paramref name="actual"/> are NaN then no assert is thrown.
@@ -49,7 +78,7 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="decimalPlaces">The number of decimal places to agree on.</param>
         public static void AlmostEqual(double expected, double actual, int decimalPlaces)
         {
-            if(double.IsNaN(expected) && double.IsNaN(actual))
+            if (double.IsNaN(expected) && double.IsNaN(actual))
             {
                 return;
             }
@@ -57,7 +86,7 @@ namespace MathNet.Numerics.UnitTests
             bool pass = Precision.AlmostEqualInDecimalPlaces(expected, actual, decimalPlaces);
             if (!pass)
             {
-                //signals Gallio that the test failed.
+                // signals Gallio that the test failed.
                 Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected, actual);
             }
         }
@@ -82,7 +111,6 @@ namespace MathNet.Numerics.UnitTests
                 Assert.Fail("Imaginary components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Imaginary, actual.Imaginary);
             }
         }
-
 
         /// <summary>
         /// Asserts that the expected value and the actual value are equal up to a certain number of decimal places.

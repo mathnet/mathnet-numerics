@@ -163,7 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Multiplies this matrix with a vector and places the results into the result matrix.
+        /// Multiplies this matrix with a vector and places the results into the result vactor.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
@@ -365,6 +365,88 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var result = CreateMatrix(RowCount, other.ColumnCount);
             Multiply(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.RowCount x other.RowCount.</exception>
+        public virtual void TransposeAndMultiply(Matrix other, Matrix result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != other.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if ((result.RowCount != RowCount) || (result.ColumnCount != other.RowCount))
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                TransposeAndMultiply(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                CommonParallel.For(
+                    0,
+                    RowCount,
+                    j =>
+                    {
+                        for (var i = 0; i < RowCount; i++)
+                        {
+                            double s = 0;
+                            for (var l = 0; l < ColumnCount; l++)
+                            {
+                                s += At(i, l) * other.At(j, l);
+                            }
+
+                            result.At(i, j, s + result.At(i, j));
+                        }
+                    });
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with transpose of another matrix and returns the result.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>        
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of the multiplication.</returns>
+        public virtual Matrix TransposeAndMultiply(Matrix other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (ColumnCount != other.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            var result = CreateMatrix(RowCount, other.RowCount);
+            TransposeAndMultiply(other, result);
             return result;
         }
 
@@ -971,18 +1053,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var ret = Clone();
+
+            // BUG: Seems that commented-out implementation is wrong.
+            // CommonParallel.For(
+            //    0, 
+            //    ColumnCount, 
+            //    j =>
+            //    {
+            //        var rowj = Row(j);
+            //        var norm = rowj.Norm(p);
+            //        for (var i = 0; i < RowCount; i++)
+            //        {
+            //            ret[i, j] = rowj[j] / norm;
+            //        }
+            //    });
             CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
+                0,
+                RowCount,
+                i =>
                 {
-                    var rowj = Row(j);
-                    var norm = rowj.Norm(p);
-                    for (var i = 0; i < RowCount; i++)
+                    var rowi = Row(i);
+                    var norm = rowi.Norm(p);
+                    for (var j = 0; j < ColumnCount; j++)
                     {
-                        ret[i, j] = rowj[j] / norm;
+                        ret[i, j] = rowi[j] / norm;
                     }
                 });
+
             return ret;
         }
     }

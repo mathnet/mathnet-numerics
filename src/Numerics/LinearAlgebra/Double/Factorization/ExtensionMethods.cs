@@ -66,6 +66,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         /// <summary>
+        /// Computes the QR decomposition for a matrix using Modified Gram-Schmidt Orthogonalization.
+        /// </summary>
+        /// <param name="matrix">The matrix to factor.</param>
+        /// <returns>The QR decomposition object.</returns>
+        public static GramSchmidt GramSchmidt(this Matrix matrix)
+        {
+            // NOTE: There is no factory for GramSchmidt. Use constructor of GramSchmidt class.
+            return new GramSchmidt(matrix);
+        }
+
+        /// <summary>
         /// Computes the SVD decomposition for a matrix.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
