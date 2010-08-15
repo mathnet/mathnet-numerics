@@ -395,8 +395,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             Vector zg = new DenseVector(residuals.Count);
             Vector zw = new DenseVector(residuals.Count);
 
-            Vector mult = new DenseVector(residuals.Count);
-
             var d = CreateVectorArray(_startingVectors.Count, residuals.Count);
             
             // g_0 = r_0
@@ -426,8 +424,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 var alpha = _startingVectors[0].DotProduct(residuals) / c[k - 1];
 
                 // u_(jk+1) = r_((j-1)k+k) - alpha_(jk+1) w_((j-1)k+k)
-                w[k - 1].Multiply(-alpha, mult);
-                residuals.Add(mult, u);
+                residuals.Add(w[k - 1].Multiply(-alpha), u);
 
                 // SOLVE M u~_(jk+1) = u_(jk+1)
                 _preconditioner.Approximate(u, temp1);
@@ -448,18 +445,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 rho = -u.DotProduct(temp) / rho;
 
                 // x_(jk+1) = x_((j-1)k_k) - rho_(j+1) u~_(jk+1) + alpha_(jk+1) g~_((j-1)k+k)
-                utemp.Multiply(-rho, mult);
-                xtemp.Add(mult);
+                xtemp.Add(utemp.Multiply(-rho), xtemp);
 
-                gtemp.Multiply(alpha);
-                xtemp.Add(gtemp);
+                gtemp.Multiply(alpha, gtemp);
+                xtemp.Add(gtemp, xtemp);
 
                 // r_(jk+1) = rho_(j+1) A u~_(jk+1) + u_(jk+1)
                 u.CopyTo(residuals);
 
                 // Reuse temp
-                temp.Multiply(rho);
-                residuals.Add(temp);
+                temp.Multiply(rho, temp);
+                residuals.Add(temp, residuals);
 
                 // Check convergence and stop if we are converged.
                 if (!ShouldContinue(iterationNumber, xtemp, input, residuals))
@@ -498,16 +494,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                             beta = -_startingVectors[s + 1].DotProduct(zd) / c[s];
 
                             // z_d = z_d + beta^(jk+i)_((j-1)k+s) d_((j-1)k+s)
-                            d[s].Multiply(beta, mult);
-                            zd.Add(mult);
+                            zd.Add(d[s].Multiply(beta), zd);
 
                             // z_g = z_g + beta^(jk+i)_((j-1)k+s) g_((j-1)k+s)
-                            g[s].Multiply(beta, mult);
-                            zg.Add(mult);
+                            zg.Add(g[s].Multiply(beta), zg);
 
                             // z_w = z_w + beta^(jk+i)_((j-1)k+s) w_((j-1)k+s)
-                            w[s].Multiply(beta, mult);
-                            zw.Add(mult);
+                            zw.Add(w[s].Multiply(beta), zw);
                         }
                     }
 
@@ -518,18 +511,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                     }
 
                     // beta^(jk+i)_((j-1)k+k) = -(q^T_1 (r_(jk+1) + rho_(j+1) z_w)) / (rho_(j+1) c_((j-1)k+k))
-                    zw.Multiply(rho, mult);
-                    residuals.Add(mult, temp);
+                    residuals.Add(zw.Multiply(rho), temp);
                     beta = -_startingVectors[0].DotProduct(temp) / beta;
 
                     // z_g = z_g + beta^(jk+i)_((j-1)k+k) g_((j-1)k+k)
-                    g[k - 1].Multiply(beta, mult);
-                    zg.Add(mult);
+                    zg.Add(g[k - 1].Multiply(beta), zg);
 
                     // z_w = rho_(j+1) (z_w + beta^(jk+i)_((j-1)k+k) w_((j-1)k+k))
-                    w[k - 1].Multiply(beta, mult);
-                    zw.Add(mult);
-                    zw.Multiply(rho);
+                    zw.Add(w[k - 1].Multiply(beta), zw);
+                    zw.Multiply(rho, zw);
 
                     // z_d = r_(jk+i) + z_w
                     residuals.Add(zw, zd);
@@ -541,12 +531,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                         beta = -_startingVectors[s + 1].DotProduct(zd) / c[s];
 
                         // z_d = z_d + beta^(jk+i)_(jk+s) * d_(jk+s)
-                        d[s].Multiply(beta, mult);
-                        zd.Add(mult);
+                        zd.Add(d[s].Multiply(beta), zd);
 
                         // z_g = z_g + beta^(jk+i)_(jk+s) * g_(jk+s)
-                        g[s].Multiply(beta, mult);
-                        zg.Add(mult);
+                        zg.Add(g[s].Multiply(beta), zg);
                     }
 
                     // d_(jk+i) = z_d - u_(jk+i)
@@ -569,22 +557,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                         alpha = _startingVectors[i + 1].DotProduct(u) / c[i];
 
                         // u_(jk+i+1) = u_(jk+i) - alpha_(jk+i+1) d_(jk+i)
-                        d[i].Multiply(-alpha, mult);
-                        u.Add(mult);
+                        u.Add(d[i].Multiply(-alpha), u);
 
                         // SOLVE M g~_(jk+i) = g_(jk+i)
                         _preconditioner.Approximate(g[i], gtemp);
 
                         // x_(jk+i+1) = x_(jk+i) + rho_(j+1) alpha_(jk+i+1) g~_(jk+i)
-                        gtemp.Multiply(rho * alpha, mult);
-                        xtemp.Add(mult);
+                        xtemp.Add(gtemp.Multiply(rho * alpha), xtemp);
 
                         // w_(jk+i) = A g~_(jk+i)
                         matrix.Multiply(gtemp, w[i]);
 
                         // r_(jk+i+1) = r_(jk+i) - rho_(j+1) alpha_(jk+i+1) w_(jk+i)
-                        w[i].Multiply(-rho * alpha, mult);
-                        residuals.Add(mult);
+                        residuals.Add(w[i].Multiply(-rho * alpha), residuals);
 
                         // We can check the residuals here if they're close
                         if (!ShouldContinue(iterationNumber, xtemp, input, residuals))
@@ -657,7 +642,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 result.Add(orthogonalMatrix.Column(i));
                 
                 // Normalize the result vector
-                result[i].Multiply(1 / result[i].Norm(2));
+                result[i].Multiply(1 / result[i].Norm(2), result[i]);
             }
 
             return result;
@@ -691,10 +676,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
-            residual.Multiply(-1);
+            residual.Multiply(-1, residual);
 
             // residual + b
-            residual.Add(b);
+            residual.Add(b, residual);
         }
 
         /// <summary>

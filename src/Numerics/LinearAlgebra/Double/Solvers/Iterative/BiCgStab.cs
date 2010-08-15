@@ -290,8 +290,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             Vector vecSdash = new DenseVector(residuals.Count);
             Vector t = new DenseVector(residuals.Count);
 
-            Vector mult = new DenseVector(residuals.Count);
-
             // create some temporary double variables that are needed
             // to hold values in between iterations
             double currentRho = 0;
@@ -319,11 +317,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                     var beta = (currentRho / oldRho) * (alpha / omega);
 
                     // p_i = r_(i-1) + beta_(i-1)(p_(i-1) - omega_(i-1) * nu_(i-1))
-                    nu.Multiply(-omega, mult);
-                    vecP.Add(mult);
-                   
-                    vecP.Multiply(beta);
-                    vecP.Add(residuals);
+                    vecP.Add(nu.Multiply(-omega), vecP);
+
+                    vecP.Multiply(beta, vecP);
+                    vecP.Add(residuals, vecP);
                 }
                 else
                 {
@@ -341,8 +338,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 alpha = currentRho * 1 / tempResiduals.DotProduct(nu);
 
                 // s = r_(i-1) - alpha_i nu_i
-                nu.Multiply(-alpha, mult);
-                residuals.Add(mult, vecS);
+                residuals.Add(nu.Multiply(-alpha), vecS);
 
                 // Check if we're converged. If so then stop. Otherwise continue;
                 // Calculate the temporary result. 
@@ -350,8 +346,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 // temp. Others will be used in the calculation later on.
                 // x_i = x_(i-1) + alpha_i * p^_i + s^_i
                 vecPdash.Multiply(alpha, temp);
-                temp.Add(vecSdash);
-                temp.Add(result);
+                temp.Add(vecSdash, temp);
+                temp.Add(result, temp);
 
                 // Check convergence and stop if we are converged.
                 if (!ShouldContinue(iterationNumber, temp, input, vecS))
@@ -383,14 +379,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 omega = t.DotProduct(vecS) / t.DotProduct(t);
 
                 // x_i = x_(i-1) + alpha_i p^ + omega_i s^
-                vecSdash.Multiply(omega, mult);
-                result.Add(mult);
+                result.Add(vecSdash.Multiply(omega), result);
 
-                vecPdash.Multiply(alpha, mult);
-                result.Add(mult);
+                //vecPdash.Multiply(alpha, vecPdash);
+                result.Add(vecPdash.Multiply(alpha), result);
 
                 t.Multiply(-omega, residuals);
-                residuals.Add(vecS);
+                residuals.Add(vecS, residuals);
 
                 // for continuation it is necessary that omega_i != 0.0
                 // If omega is only 1 ULP from zero then we fail.
@@ -427,10 +422,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             matrix.Multiply(x, residual);
             
             // Do not use residual = residual.Negate() because it creates another object
-            residual.Multiply(-1);
+            residual.Multiply(-1, residual);
 
             // residual + b
-            residual.Add(b);
+            residual.Add(b, residual);
         }
 
         /// <summary>

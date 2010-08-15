@@ -29,6 +29,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using Distributions;
     using NumberTheory;
     using Properties;
@@ -303,10 +304,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 0.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
-            var copy = (DenseVector) this.Clone();
+            var copy = (DenseVector)Clone();
             CommonParallel.For(
                 0, 
                 Data.Length,
@@ -343,7 +344,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CommonParallel.For(
                     0,
                     Data.Length,
-                    index => dense.Data[index] = this.Data[index] + scalar);
+                    index => dense.Data[index] = Data[index] + scalar);
             }
         }
 
@@ -372,12 +373,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return base.Add(other);
             }
-            else
-            {
-                var copy = (DenseVector)this.Clone();
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, 1.0, denseVector.Data);
-                return copy;
-            }
+
+            var copy = (DenseVector)Clone();
+            Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, 1.0, denseVector.Data);
+            return copy;
         }
 
         /// <summary>
@@ -408,7 +407,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = this.Add(other);
+                var tmp = Add(other);
                 tmp.CopyTo(result);
             }
             else
@@ -425,7 +424,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     CommonParallel.For(
                         0,
                         Data.Length,
-                        index => result[index] = this.Data[index] + other[index]);
+                        index => result[index] = Data[index] + other[index]);
                 }
             }
         }
@@ -484,10 +483,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 0.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
-            var copy = (DenseVector)this.Clone();
+            var copy = (DenseVector)Clone();
             CommonParallel.For(
                 0, 
                 Data.Length, 
@@ -517,14 +516,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var dense = result as DenseVector;
             if (dense == null)
             {
-                base.Add(scalar, result);
+                base.Subtract(scalar, result);
             }
             else
             {
                 CommonParallel.For(
                     0,
                     Data.Length,
-                    index => dense.Data[index] = this.Data[index] - scalar);
+                    index => dense.Data[index] = Data[index] - scalar);
             }
         }
 
@@ -553,12 +552,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return base.Subtract(other);
             }
-            else
-            {
-                var copy = (DenseVector)this.Clone();
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, -1.0, denseVector.Data);
-                return copy;
-            }
+
+            var copy = (DenseVector)Clone();
+            Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, -1.0, denseVector.Data);
+            return copy;
         }
 
         /// <summary>
@@ -589,8 +586,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                Subtract(other, tmp);
+                var tmp = Subtract(other);
                 tmp.CopyTo(result);
             }
             else
@@ -607,7 +603,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     CommonParallel.For(
                         0,
                         Data.Length,
-                        index => result[index] = this.Data[index] - other[index]);
+                        index => result[index] = Data[index] - other[index]);
                 }
             }
         }
@@ -681,10 +677,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 1.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
-            var copy = (DenseVector)this.Clone();
+            var copy = (DenseVector)Clone();
             Control.LinearAlgebraProvider.ScaleArray(scalar, copy.Data);
             return copy;
         }
@@ -732,7 +728,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (DenseVector) leftSide.Multiply(rightSide);
+            return (DenseVector)leftSide.Multiply(rightSide);
         }
 
         /// <summary>
@@ -749,7 +745,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("rightSide");
             }
 
-            return (DenseVector) rightSide.Multiply(leftSide);
+            return (DenseVector)rightSide.Multiply(leftSide);
         }
 
         /// <summary>
@@ -794,7 +790,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (DenseVector) leftSide.Multiply(1.0 / rightSide);
+            return (DenseVector)leftSide.Multiply(1.0 / rightSide);
         }
 
         /// <summary>
@@ -1013,15 +1009,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return base.PointwiseMultiply(other);
             }
-            else
-            {
-                var copy = (DenseVector)this.Clone();
-                CommonParallel.For(
-                    0, 
-                    Count,
-                    index => copy[index] *= other[index]);
-                return copy;
-            }
+
+            var copy = (DenseVector)Clone();
+            CommonParallel.For(
+                0, 
+                Count,
+                index => copy[index] *= other[index]);
+            return copy;
         }
 
         /// <summary>
@@ -1057,8 +1051,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = result.CreateVector(result.Count);
-                PointwiseMultiply(other, tmp);
+                var tmp = PointwiseMultiply(other);
                 tmp.CopyTo(result);
             }
             else
@@ -1073,7 +1066,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     CommonParallel.For(
                         0,
                         Data.Length,
-                        index => dense.Data[index] = this.Data[index] * other[index]);
+                        index => dense.Data[index] = Data[index] * other[index]);
                 }
             }
         }
@@ -1103,15 +1096,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return base.PointwiseMultiply(other);
             }
-            else
-            {
-                var copy = (DenseVector)this.Clone();
-                CommonParallel.For(
-                    0, 
-                    Count,
-                    index => copy[index] /= other[index]);
-                return copy;
-            }
+
+            var copy = (DenseVector)Clone();
+            CommonParallel.For(
+                0, 
+                Count,
+                index => copy[index] /= other[index]);
+            return copy;
         }
 
         /// <summary>
@@ -1147,7 +1138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = this.PointwiseDivide(other);
+                var tmp = PointwiseDivide(other);
                 tmp.CopyTo(result);
             }
             else
@@ -1162,7 +1153,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     CommonParallel.For(
                         0,
                         Data.Length,
-                        index => dense.Data[index] = this.Data[index] / other[index]);
+                        index => dense.Data[index] = Data[index] / other[index]);
                 }
             }
         }
@@ -1279,41 +1270,35 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentOutOfRangeException("p");
             }
-            else if (1.0 == p)
+
+            if (1.0 == p)
             {
                 return CommonParallel.Aggregate(
                     0,
                     Count,
                     index => Math.Abs(Data[index]));
             }
-            else if (2.0 == p)
+
+            if (2.0 == p)
             {
-                var sum = 0.0;
-
-                for (var i = 0; i < Data.Length; i++)
-                {
-                    sum = SpecialFunctions.Hypotenuse(sum, Data[i]);
-                }
-
-                return sum;
+                return Data.Aggregate(0.0, SpecialFunctions.Hypotenuse);
             }
-            else if (Double.IsPositiveInfinity(p))
+
+            if (Double.IsPositiveInfinity(p))
             {
                 return CommonParallel.Select(
                     0,
                     Count,
-                    (index, localData) => localData = Math.Max(localData, Math.Abs(Data[index])),
+                    (index, localData) => Math.Max(localData, Math.Abs(Data[index])),
                     Math.Max);
             }
-            else
-            {
-                var sum = CommonParallel.Aggregate(
-                   0,
-                   Count,
-                   index => Math.Pow(Math.Abs(Data[index]), p));
 
-                return Math.Pow(sum, 1.0 / p);
-            }
+            var sum = CommonParallel.Aggregate(
+                0,
+                Count,
+                index => Math.Pow(Math.Abs(Data[index]), p));
+
+            return Math.Pow(sum, 1.0 / p);
         }
 
         #endregion

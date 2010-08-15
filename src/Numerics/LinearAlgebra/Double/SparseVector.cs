@@ -351,14 +351,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 0.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
-            var copy = (SparseVector)this.Clone();
+            var copy = (SparseVector)Clone();
             for (var i = 0; i < Count; i++)
             {
                 copy[i] += scalar;
             }
+
             return copy;
         }
 
@@ -409,12 +410,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return base.Add(other);
             }
-            else
-            {
-                var copy = (SparseVector)this.Clone();
-                copy.AddScaledSparseVector(1.0, sparseVector);
-                return copy;
-            }
+
+            var copy = (SparseVector)Clone();
+            copy.AddScaledSparseVector(1.0, sparseVector);
+            return copy;
         }
 
         /// <summary>
@@ -514,7 +513,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = this.Add(other);
+                var tmp = Add(other);
                 tmp.CopyTo(result);
             }
             else
@@ -593,14 +592,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 0.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
-            var copy = (SparseVector)this.Clone();
+            var copy = (SparseVector)Clone();
             for (var i = 0; i < Count; i++)
             {
                 copy[i] -= scalar;
             }
+
             return copy;
         }
 
@@ -651,12 +651,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 return base.Subtract(other);
             }
-            else
-            {
-                var copy = (SparseVector)this.Clone();
-                copy.AddScaledSparseVector(-1.0, sparseVector);
-                return copy;
-            }
+
+            var copy = (SparseVector)Clone();
+            copy.AddScaledSparseVector(-1.0, sparseVector);
+            return copy;
         }
 
         /// <summary>
@@ -687,7 +685,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = this.Subtract(other);
+                var tmp = Subtract(other);
                 tmp.CopyTo(result);
             }
             else
@@ -789,18 +787,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 1.0)
             {
-                return this.Clone();
+                return Clone();
             }
-            else if (scalar == 0)
+
+            if (scalar == 0)
             {
-                var copy = this.Clone();
+                var copy = Clone();
                 copy.Clear(); // Set array empty
                 return copy;
             }
             else
             {
-
-                var copy = (SparseVector)this.Clone();
+                var copy = (SparseVector)Clone();
                 Control.LinearAlgebraProvider.ScaleArray(scalar, copy._nonZeroValues);
                 return copy;
             }
@@ -912,7 +910,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("leftSide");
             }
 
-            return (SparseVector) leftSide.Multiply(1.0 / rightSide);
+            return (SparseVector)leftSide.Multiply(1.0 / rightSide);
         }
 
         /// <summary>
@@ -1103,12 +1101,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var copy = new SparseVector(Count);
-            for (int i = 0; i < this._nonZeroIndices.Length; i++)
+            for (int i = 0; i < _nonZeroIndices.Length; i++)
             {
-                var d = this._nonZeroValues[i] * other[this._nonZeroIndices[i]];
+                var d = _nonZeroValues[i] * other[_nonZeroIndices[i]];
                 if (d != 0.0)
                 {
-                    copy[this._nonZeroIndices[i]] = d;
+                    copy[_nonZeroIndices[i]] = d;
                 }
             }
 
@@ -1238,7 +1236,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Double.IsPositiveInfinity(p))
             {
-                return CommonParallel.Select(0, NonZerosCount, (index, localData) => localData = Math.Max(localData, Math.Abs(_nonZeroValues[index])), Math.Max);
+                return CommonParallel.Select(0, NonZerosCount, (index, localData) => Math.Max(localData, Math.Abs(_nonZeroValues[index])), Math.Max);
             }
 
             var sum = CommonParallel.Aggregate(
