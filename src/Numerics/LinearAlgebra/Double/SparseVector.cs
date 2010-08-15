@@ -768,12 +768,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                              NonZerosCount = NonZerosCount
                          };
 
-            Buffer.BlockCopy(_nonZeroIndices, 0, result._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
-
-            CommonParallel.For(
-                0, 
-                NonZerosCount, 
-                index => result._nonZeroValues[index] = -_nonZeroValues[index]);
+            if (NonZerosCount != 0)
+            {
+                CommonParallel.For(
+                    0,
+                    NonZerosCount,
+                    index => result._nonZeroValues[index] = -_nonZeroValues[index]);
+                Buffer.BlockCopy(_nonZeroIndices, 0, result._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
+            }
 
             return result;
         }
@@ -921,7 +923,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (NonZerosCount == 0)
             {
-// No non-zero elements. Return 0
+                // No non-zero elements. Return 0
                 return 0;
             }
 
@@ -1101,7 +1103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var copy = new SparseVector(Count);
-            for (int i = 0; i < _nonZeroIndices.Length; i++)
+            for (var i = 0; i < _nonZeroIndices.Length; i++)
             {
                 var d = _nonZeroValues[i] * other[_nonZeroIndices[i]];
                 if (d != 0.0)

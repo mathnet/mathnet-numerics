@@ -1191,7 +1191,28 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
         public void CholeskySolve(double[] a, int aOrder, double[] b, int bRows, int bColumns)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (aOrder != bRows)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+            }
+
+            CholeskyFactor(a, aOrder);
+            CholeskySolveFactored(a, aOrder, b, bRows, bColumns);
         }
 
         /// <summary>
@@ -2239,7 +2260,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
                         break;
 
-                        // Split at negligible s[l].
+                    // Split at negligible s[l].
                     case 2:
                         f = e[l - 1];
                         e[l - 1] = 0.0;
@@ -2267,7 +2288,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         // Perform one qr step.
                     case 3:
 
-// calculate the shift.
+                        // calculate the shift.
                         var scale = 0.0;
                         scale = Math.Max(scale, Math.Abs(stemp[m - 1]));
                         scale = Math.Max(scale, Math.Abs(stemp[m - 2]));
@@ -2343,7 +2364,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         // Convergence
                     case 4:
 
-// Make the singular value  positive
+                        // Make the singular value  positive
                         if (stemp[l] < 0.0)
                         {
                             stemp[l] = -stemp[l];
@@ -2421,6 +2442,22 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             work[0] = aRows;
         }
 
+        /// <summary>
+        /// Computes the singular value decomposition of A using CommonParallel where possible.
+        /// </summary>
+        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="aRows">The number of rows in the A matrix.</param>
+        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="s">The singular values of A in ascending value.</param>
+        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// singular vectors.</param>
+        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// right singular vectors.</param>
+        /// <param name="work">The work array. For real matrices, the work array should be at least
+        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
+        /// On exit, work[0] contains the optimal work size value.</param>
+        /// <remarks>THIS METHOD IS NOT USED. ONLY FOR BENCHMARK PURPOSES.</remarks>
         public void SingularValueDecompositionWithCommonParallel(bool computeVectors, double[] a, int aRows, int aColumns, double[] s, double[] u, double[] vt, double[] work)
         {
             if (a == null)
@@ -5003,7 +5040,94 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
         public void LUFactor(Complex[] data, int order, int[] ipiv)
         {
-            throw new NotImplementedException();
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (data.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "data");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            // Initialize the pivot matrix to the identity permutation.
+            for (var i = 0; i < order; i++)
+            {
+                ipiv[i] = i;
+            }
+
+            var vLUcolj = new Complex[order];
+
+            // Outer loop.
+            for (var j = 0; j < order; j++)
+            {
+                var indexj = j * order;
+                var indexjj = indexj + j;
+
+                // Make a copy of the j-th column to localize references.
+                for (var i = 0; i < order; i++)
+                {
+                    vLUcolj[i] = data[indexj + i];
+                }
+
+                // Apply previous transformations.
+                for (var i = 0; i < order; i++)
+                {
+                    // Most of the time is spent in the following dot product.
+                    var kmax = Math.Min(i, j);
+                    var s = Complex.Zero;
+                    for (var k = 0; k < kmax; k++)
+                    {
+                        s += data[k * order + i] * vLUcolj[k];
+                    }
+
+                    data[indexj + i] = vLUcolj[i] -= s;
+                }
+
+                // Find pivot and exchange if necessary.
+                var p = j;
+                for (var i = j + 1; i < order; i++)
+                {
+                    if (vLUcolj[i].Magnitude > vLUcolj[p].Magnitude)
+                    {
+                        p = i;
+                    }
+                }
+
+                if (p != j)
+                {
+                    for (var k = 0; k < order; k++)
+                    {
+                        var indexk = k * order;
+                        var indexkp = indexk + p;
+                        var indexkj = indexk + j;
+                        var temp = data[indexkp];
+                        data[indexkp] = data[indexkj];
+                        data[indexkj] = temp;
+                    }
+
+                    ipiv[j] = p;
+                }
+
+                // Compute multipliers.
+                if (j < order & data[indexjj] != 0.0)
+                {
+                    for (var i = j + 1; i < order; i++)
+                    {
+                        data[indexj + i] /= data[indexjj];
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -5014,7 +5138,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         public void LUInverse(Complex[] a, int order)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            var ipiv = new int[order];
+            LUFactor(a, order, ipiv);
+            LUInverseFactored(a, order, ipiv);
         }
 
         /// <summary>
@@ -5026,7 +5162,34 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         public void LUInverseFactored(Complex[] a, int order, int[] ipiv)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            var inverse = new Complex[a.Length];
+            for (var i = 0; i < order; i++)
+            {
+                inverse[i + order * i] = Complex.One;
+            }
+
+            LUSolveFactored(order, a, order, ipiv, inverse);
+            CommonParallel.For(0, a.Length, index => a[index] = inverse[index]);
         }
 
         /// <summary>
@@ -5040,7 +5203,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         public void LUInverse(Complex[] a, int order, Complex[] work)
         {
-            throw new NotImplementedException();
+            LUInverse(a, order);
         }
 
         /// <summary>
@@ -5055,27 +5218,249 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         public void LUInverseFactored(Complex[] a, int order, int[] ipiv, Complex[] work)
         {
-            throw new NotImplementedException();
+            LUInverseFactored(a, order, ipiv);
         }
 
+        /// <summary>
+        /// Solves A*X=B for X using LU factorization.
+        /// </summary>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         public void LUSolve(int columnsOfB, Complex[] a, int order, Complex[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (b.Length != order * columnsOfB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            var ipiv = new int[order];
+            LUFactor(a, order, ipiv);
+            LUSolveFactored(columnsOfB, a, order, ipiv, b);
         }
 
+        /// <summary>
+        /// Solves A*X=B for X using a previously factored A matrix.
+        /// </summary>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         public void LUSolveFactored(int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            if (b.Length != order * columnsOfB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            // Compute the column vector  P*B
+            for (var i = 0; i < ipiv.Length; i++)
+            {
+                if (ipiv[i] == i)
+                {
+                    continue;
+                }
+
+                var p = ipiv[i];
+                for (var j = 0; j < columnsOfB; j++)
+                {
+                    var indexk = j * order;
+                    var indexkp = indexk + p;
+                    var indexkj = indexk + i;
+                    var temp = b[indexkp];
+                    b[indexkp] = b[indexkj];
+                    b[indexkj] = temp;
+                }
+            }
+
+            // Solve L*Y = P*B
+            for (var k = 0; k < order; k++)
+            {
+                var korder = k * order;
+                for (var i = k + 1; i < order; i++)
+                {
+                    for (var j = 0; j < columnsOfB; j++)
+                    {
+                        var index = j * order;
+                        b[i + index] -= b[k + index] * a[i + korder];
+                    }
+                }
+            }
+
+            // Solve U*X = Y;
+            for (var k = order - 1; k >= 0; k--)
+            {
+                var korder = k + k * order;
+                for (var j = 0; j < columnsOfB; j++)
+                {
+                    b[k + j * order] /= a[korder];
+                }
+
+                korder = k * order;
+                for (var i = 0; i < k; i++)
+                {
+                    for (var j = 0; j < columnsOfB; j++)
+                    {
+                        var index = j * order;
+                        b[i + index] -= b[k + index] * a[i + korder];
+                    }
+                }
+            }
+
         }
 
+        /// <summary>
+        /// Solves A*X=B for X using LU factorization.
+        /// </summary>
+        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="a">The square matrix A.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         public void LUSolve(Transpose transposeA, int columnsOfB, Complex[] a, int order, Complex[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (b.Length != order * columnsOfB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            var ipiv = new int[order];
+            LUFactor(a, order, ipiv);
+            LUSolveFactored(transposeA, columnsOfB, a, order, ipiv, b);
         }
 
+        /// <summary>
+        /// Solves A*X=B for X using a previously factored A matrix.
+        /// </summary>
+        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
+        /// <param name="columnsOfB">The number of columns of B.</param>
+        /// <param name="a">The factored A matrix.</param>
+        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
+        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         public void LUSolveFactored(Transpose transposeA, int columnsOfB, Complex[] a, int order, int[] ipiv, Complex[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            if (b.Length != order * columnsOfB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (transposeA == Transpose.Transpose)
+            {
+                var aT = new Complex[a.Length];
+                for (var i = 0; i < order; i++)
+                {
+                    for (var j = 0; j < order; j++)
+                    {
+                        aT[(j * order) + i] = a[(i * order) + j];
+                    }
+                }
+
+                LUSolveFactored(columnsOfB, aT, order, ipiv, b);
+            }
+            else if (transposeA == Transpose.ConjugateTranspose)
+            {
+                var acT = new Complex[a.Length];
+                for (var i = 0; i < order; i++)
+                {
+                    for (var j = 0; j < order; j++)
+                    {
+                        acT[(j * order) + i] = a[(i * order) + j].Conjugate();
+                    }
+                }
+
+                LUSolveFactored(columnsOfB, acT, order, ipiv, b);
+            }
+            else
+            {
+                LUSolveFactored(columnsOfB, a, order, ipiv, b);
+            }
         }
 
         /// <summary>
@@ -5087,7 +5472,42 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(Complex[] a, int order)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            for (var i = 0; i < order; i++)
+            {
+                var d = Complex.Zero;
+                int index;
+                for (var j = 0; j < i; j++)
+                {
+                    var s = Complex.Zero;
+                    for (var k = 0; k < j; k++)
+                    {
+                        s += a[k * order + i] * a[k * order + j].Conjugate();
+                    }
+
+                    var tmp = j * order;
+                    index = tmp + i;
+                    a[index] = s = (a[index] - s) / a[tmp + j];
+                    d += s * s.Conjugate();
+                }
+
+                index = i * order + i;
+                d = a[index] - d;
+                if (d.Real <= 0.0)
+                {
+                    throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+                }
+
+                a[index] = d.SquareRoot();
+                for (var k = i + 1; k < order; k++)
+                {
+                    a[k * order + i] = 0.0;
+                }
+            }
         }
 
         /// <summary>
@@ -5101,7 +5521,28 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
         public void CholeskySolve(Complex[] a, int aOrder, Complex[] b, int bRows, int bColumns)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (aOrder != bRows)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+            }
+
+            CholeskyFactor(a, aOrder);
+            CholeskySolveFactored(a, aOrder, b, bRows, bColumns);
         }
 
         /// <summary>
@@ -5115,7 +5556,56 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         public void CholeskySolveFactored(Complex[] a, int aOrder, Complex[] b, int bRows, int bColumns)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (aOrder != bRows)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+            }
+
+            CommonParallel.For(0, bColumns, c =>
+            {
+                var cindex = c * aOrder;
+
+                // Solve L*Y = B;
+                Complex sum;
+                for (var i = 0; i < aOrder; i++)
+                {
+                    sum = b[cindex + i];
+                    for (var k = i - 1; k >= 0; k--)
+                    {
+                        sum -= a[k * aOrder + i] * b[cindex + k];
+                    }
+
+                    b[cindex + i] = sum / a[i * aOrder + i];
+                }
+
+                // Solve L'*X = Y;
+                for (var i = aOrder - 1; i >= 0; i--)
+                {
+                    sum = b[cindex + i];
+                    var iindex = i * aOrder;
+                    for (var k = i + 1; k < aOrder; k++)
+                    {
+                        sum -= a[iindex + k].Conjugate() * b[cindex + k];
+                    }
+
+                    b[cindex + i] = sum / a[iindex + i];
+                }
+            });
         }
 
         /// <summary>
@@ -5130,7 +5620,28 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         public void QRFactor(Complex[] r, int rRows, int rColumns, Complex[] q)
         {
-            throw new NotImplementedException();
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rRows * rColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            var work = new Complex[rRows * rRows];
+            QRFactor(r, rRows, rColumns, q, work);
         }
 
         /// <summary>
@@ -5148,8 +5659,145 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         public void QRFactor(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] work)
         {
-            throw new NotImplementedException();
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rRows * rColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (work.Length < rRows * rRows)
+            {
+                work[0] = rRows * rRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            CommonParallel.For(0, rRows, i => q[(i * rRows) + i] = Complex.One);
+
+            var minmn = Math.Min(rRows, rColumns);
+            for (var i = 0; i < minmn; i++)
+            {
+                GenerateColumn(work, r, rRows, i, rRows - 1, i);
+                ComputeQR(work, i, r, rRows, i, rRows - 1, i + 1, rColumns - 1);
+            }
+
+            for (var i = minmn - 1; i >= 0; i--)
+            {
+                ComputeQR(work, i, q, rRows, i, rRows - 1, i, rRows - 1);
+            }
+
+            work[0] = rRows * rRows;
         }
+
+        #region QR Factor Helper functions
+
+        /// <summary>
+        /// Perform calculation of Q or R
+        /// </summary>
+        /// <param name="work">Work array</param>
+        /// <param name="workIndex">Index of colunn in work array</param>
+        /// <param name="a">Q or R matrices</param>
+        /// <param name="rowCount">The number of rows</param>
+        /// <param name="rowStart">The first row in </param>
+        /// <param name="rowEnd">The last row</param>
+        /// <param name="columnStart">The first column</param>
+        /// <param name="columnEnd">The last column</param>
+        private static void ComputeQR(Complex[] work, int workIndex, Complex[] a, int rowCount, int rowStart, int rowEnd, int columnStart, int columnEnd)
+        {
+            if (rowStart > rowEnd || columnStart > columnEnd)
+            {
+                return;
+            }
+
+            var vector = new Complex[columnEnd - columnStart + 1];
+            for (var i = rowStart; i <= rowEnd; i++)
+            {
+                for (var j = columnStart; j <= columnEnd; j++)
+                {
+                    vector[j - columnStart] += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
+                }
+            }
+
+            for (var i = rowStart; i <= rowEnd; i++)
+            {
+                for (var j = columnStart; j <= columnEnd; j++)
+                {
+                    a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart].Conjugate() * vector[j - columnStart];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generate column from initial matrix to work array
+        /// </summary>
+        /// <param name="work">Work array</param>
+        /// <param name="a">Initial matrix</param>
+        /// <param name="rowCount">The number of rows in matrix</param>
+        /// <param name="rowStart">The firts row</param>
+        /// <param name="rowEnd">The last row</param>
+        /// <param name="column">Column index</param>
+        private static void GenerateColumn(Complex[] work, Complex[] a, int rowCount, int rowStart, int rowEnd, int column)
+        {
+            var tmp = column * rowCount;
+            var index = tmp + rowStart;
+
+            CommonParallel.For(
+                rowStart,
+                rowEnd + 1,
+                i =>
+                {
+                    var iIndex = tmp + i;
+                    work[iIndex - rowStart] = a[iIndex];
+                    a[iIndex] = Complex.Zero;
+                });
+
+            var norm = Complex.Zero;
+            for (var i = 0; i < rowEnd - rowStart + 1; ++i)
+            {
+                var iIndex = tmp + i;
+                norm += work[iIndex].Magnitude * work[iIndex].Magnitude;
+            }
+
+            norm = norm.SquareRoot();
+            if (rowStart == rowEnd || norm.Magnitude == 0)
+            {
+                a[index] = -work[tmp];
+                work[tmp] = new Complex(2.0, 0).SquareRoot();
+                return;
+            }
+
+            if (work[tmp].Magnitude != 0.0)
+            {
+                norm = norm.Magnitude * (work[tmp] / work[tmp].Magnitude);
+            }
+
+            a[index] = -norm;
+            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] /= norm);
+            work[tmp] += 1.0;
+
+            var s = (1.0 / work[tmp]).SquareRoot();
+            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] = work[tmp + i].Conjugate() * s);
+        }
+
+        #endregion
 
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
@@ -5165,7 +5813,48 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         public void QRSolve(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] b, int bColumns, Complex[] x)
         {
-            throw new NotImplementedException();
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rRows * rColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (b.Length != rRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != rColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            var work = new Complex[rRows * rRows];
+            QRSolve(r, rRows, rColumns, q, b, bColumns, x, work);
         }
 
         /// <summary>
@@ -5185,7 +5874,56 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// work size value.</param>
         public void QRSolve(Complex[] r, int rRows, int rColumns, Complex[] q, Complex[] b, int bColumns, Complex[] x, Complex[] work)
         {
-            throw new NotImplementedException();
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rRows * rColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (b.Length != rRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != rColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            if (work.Length < rRows * rRows)
+            {
+                work[0] = rRows * rRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            QRFactor(r, rRows, rColumns, q, work);
+            QRSolveFactored(q, r, rRows, rColumns, b, bColumns, x);
+
+            work[0] = rRows * rRows;
         }
 
         /// <summary>
@@ -5200,7 +5938,97 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         public void QRSolveFactored(Complex[] q, Complex[] r, int rRows, int rColumns, Complex[] b, int bColumns, Complex[] x)
         {
-            throw new NotImplementedException();
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rRows * rColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rRows * rRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (b.Length != rRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != rColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            var sol = new Complex[b.Length];
+
+            // Copy B matrix to "sol", so B data will not be changed
+            CommonParallel.For(0, b.Length, index => sol[index] = b[index]);
+
+            // Compute Y = transpose(Q)*B
+            var column = new Complex[rRows];
+            for (var j = 0; j < bColumns; j++)
+            {
+                var jm = j * rRows;
+                CommonParallel.For(0, rRows, k => column[k] = sol[jm + k]);
+                CommonParallel.For(
+                    0,
+                    rRows,
+                    i =>
+                    {
+                        var im = i * rRows;
+                        sol[jm + i] = CommonParallel.Aggregate(0, rRows, k => q[im + k].Conjugate() * column[k]);
+                    });
+            }
+
+            // Solve R*X = Y;
+            for (var k = rColumns - 1; k >= 0; k--)
+            {
+                var km = k * rRows;
+                for (var j = 0; j < bColumns; j++)
+                {
+                    sol[(j * rRows) + k] /= r[km + k];
+                }
+
+                for (var i = 0; i < k; i++)
+                {
+                    for (var j = 0; j < bColumns; j++)
+                    {
+                        var jm = j * rRows;
+                        sol[jm + i] -= sol[jm + k] * r[km + i];
+                    }
+                }
+            }
+
+            // Fill result matrix
+            CommonParallel.For(
+                0,
+                rColumns,
+                row =>
+                {
+                    for (var col = 0; col < bColumns; col++)
+                    {
+                        x[(col * rColumns) + row] = sol[row + (col * rRows)];
+                    }
+                });
         }
 
         /// <summary>
@@ -5218,7 +6046,45 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         public void SingularValueDecomposition(bool computeVectors, Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
+            var work = new Complex[Math.Max((3 * Math.Min(aRows, aColumns)) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns))];
+            SingularValueDecomposition(computeVectors, a, aRows, aColumns, s, u, vt, work);
+
         }
 
         /// <summary>
@@ -5239,7 +6105,672 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         public void SingularValueDecomposition(bool computeVectors, Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] work)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("work");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (work.Length == 0)
+            {
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
+            }
+
+            if (work.Length < aRows)
+            {
+                work[0] = aRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            const int Maxiter = 1000;
+
+            var e = new Complex[aColumns];
+            var v = new Complex[vt.Length];
+            var stemp = new Complex[Math.Min(aRows + 1, aColumns)];
+
+            int i, j, l, lp1;
+
+            var cs = 0.0;
+            var sn = 0.0;
+            Complex t;
+
+            var ncu = aRows;
+
+            // Reduce matrix to bidiagonal form, storing the diagonal elements
+            // in "s" and the super-diagonal elements in "e".
+            var nct = Math.Min(aRows - 1, aColumns);
+            var nrt = Math.Max(0, Math.Min(aColumns - 2, aRows));
+            var lu = Math.Max(nct, nrt);
+
+            for (l = 0; l < lu; l++)
+            {
+                lp1 = l + 1;
+                if (l < nct)
+                {
+                    // Compute the transformation for the l-th column and
+                    // place the l-th diagonal in vector s[l].
+                    var sum = 0.0;
+                    for (i = l; i < aRows; i++)
+                    {
+                        sum += a[(l * aRows) + i].Magnitude * a[(l * aRows) + i].Magnitude;
+                    }
+
+                    stemp[l] = Math.Sqrt(sum);
+                    if (stemp[l] != 0.0)
+                    {
+                        if (a[(l * aRows) + l] != 0.0)
+                        {
+                            stemp[l] = stemp[l].Magnitude * (a[(l * aRows) + l] / a[(l * aRows) + l].Magnitude);
+                        }
+
+                        // A part of column "l" of Matrix A from row "l" to end multiply by 1.0 / s[l]
+                        for (i = l; i < aRows; i++)
+                        {
+                            a[(l * aRows) + i] = a[(l * aRows) + i] * (1.0 / stemp[l]);
+                        }
+
+                        a[(l * aRows) + l] = 1.0 + a[(l * aRows) + l];
+                    }
+
+                    stemp[l] = -stemp[l];
+                }
+
+                for (j = lp1; j < aColumns; j++)
+                {
+                    if (l < nct)
+                    {
+                        if (stemp[l] != 0.0)
+                        {
+                            // Apply the transformation.
+                            t = 0.0;
+                            for (i = l; i < aRows; i++)
+                            {
+                                t += a[(l * aRows) + i].Conjugate() * a[(j * aRows) + i];
+                            }
+
+                            t = -t / a[(l * aRows) + l];
+
+                            for (var ii = l; ii < aRows; ii++)
+                            {
+                                a[(j * aRows) + ii] += t * a[(l * aRows) + ii];
+                            }
+                        }
+                    }
+
+                    // Place the l-th row of matrix into "e" for the
+                    // subsequent calculation of the row transformation.
+                    e[j] = a[(j * aRows) + l].Conjugate();
+                }
+
+                if (computeVectors && l < nct)
+                {
+                    // Place the transformation in "u" for subsequent back multiplication.
+                    for (i = l; i < aRows; i++)
+                    {
+                        u[(l * aRows) + i] = a[(l * aRows) + i];
+                    }
+                }
+
+                if (l >= nrt)
+                {
+                    continue;
+                }
+
+                // Compute the l-th row transformation and place the l-th super-diagonal in e(l).
+                var enorm = 0.0;
+                for (i = lp1; i < e.Length; i++)
+                {
+                    enorm += e[i].Magnitude * e[i].Magnitude;
+                }
+
+                e[l] = Math.Sqrt(enorm);
+                if (e[l] != 0.0)
+                {
+                    if (e[lp1] != 0.0)
+                    {
+                        e[l] = e[l].Magnitude * (e[lp1] / e[lp1].Magnitude);
+                    }
+
+                    // Scale vector "e" from "lp1" by 1.0 / e[l]
+                    for (i = lp1; i < e.Length; i++)
+                    {
+                        e[i] = e[i] * (1.0 / e[l]);
+                    }
+
+                    e[lp1] = 1.0 + e[lp1];
+                }
+
+                e[l] = -e[l].Conjugate();
+
+                if (lp1 < aRows && e[l] != 0.0)
+                {
+                    // Apply the transformation.
+                    for (i = lp1; i < aRows; i++)
+                    {
+                        work[i] = 0.0;
+                    }
+
+                    for (j = lp1; j < aColumns; j++)
+                    {
+                        for (var ii = lp1; ii < aRows; ii++)
+                        {
+                            work[ii] += e[j] * a[(j * aRows) + ii];
+                        }
+                    }
+
+                    for (j = lp1; j < aColumns; j++)
+                    {
+                        var ww = (-e[j] / e[lp1]).Conjugate();
+                        for (var ii = lp1; ii < aRows; ii++)
+                        {
+                            a[(j * aRows) + ii] += ww * work[ii];
+                        }
+                    }
+                }
+
+                if (!computeVectors)
+                {
+                    continue;
+                }
+
+                // Place the transformation in v for subsequent back multiplication.
+                for (i = lp1; i < aColumns; i++)
+                {
+                    v[(l * aColumns) + i] = e[i];
+                }
+            }
+
+            // Set up the final bidiagonal matrix or order m.
+            var m = Math.Min(aColumns, aRows + 1);
+            var nctp1 = nct + 1;
+            var nrtp1 = nrt + 1;
+            if (nct < aColumns)
+            {
+                stemp[nctp1 - 1] = a[((nctp1 - 1) * aRows) + (nctp1 - 1)];
+            }
+
+            if (aRows < m)
+            {
+                stemp[m - 1] = 0.0;
+            }
+
+            if (nrtp1 < m)
+            {
+                e[nrtp1 - 1] = a[((m - 1) * aRows) + (nrtp1 - 1)];
+            }
+
+            e[m - 1] = 0.0;
+
+            // If required, generate "u".
+            if (computeVectors)
+            {
+                for (j = nctp1 - 1; j < ncu; j++)
+                {
+                    for (i = 0; i < aRows; i++)
+                    {
+                        u[(j * aRows) + i] = 0.0;
+                    }
+
+                    u[(j * aRows) + j] = 1.0;
+                }
+
+                for (l = nct - 1; l >= 0; l--)
+                {
+                    if (stemp[l] != 0.0)
+                    {
+                        for (j = l + 1; j < ncu; j++)
+                        {
+                            t = 0.0;
+                            for (i = l; i < aRows; i++)
+                            {
+                                t += u[(l * aRows) + i].Conjugate() * u[(j * aRows) + i];
+                            }
+
+                            t = -t / u[(l * aRows) + l];
+                            for (var ii = l; ii < aRows; ii++)
+                            {
+                                u[(j * aRows) + ii] += t * u[(l * aRows) + ii];
+                            }
+                        }
+
+                        // A part of column "l" of matrix A from row "l" to end multiply by -1.0
+                        for (i = l; i < aRows; i++)
+                        {
+                            u[(l * aRows) + i] = u[(l * aRows) + i] * -1.0;
+                        }
+
+                        u[(l * aRows) + l] = 1.0 + u[(l * aRows) + l];
+                        for (i = 0; i < l; i++)
+                        {
+                            u[(l * aRows) + i] = 0.0;
+                        }
+                    }
+                    else
+                    {
+                        for (i = 0; i < aRows; i++)
+                        {
+                            u[(l * aRows) + i] = 0.0;
+                        }
+
+                        u[(l * aRows) + l] = 1.0;
+                    }
+                }
+            }
+
+            // If it is required, generate v.
+            if (computeVectors)
+            {
+                for (l = aColumns - 1; l >= 0; l--)
+                {
+                    lp1 = l + 1;
+                    if (l < nrt)
+                    {
+                        if (e[l] != 0.0)
+                        {
+                            for (j = lp1; j < aColumns; j++)
+                            {
+                                t = 0.0;
+                                for (i = lp1; i < aColumns; i++)
+                                {
+                                    t += v[(l * aColumns) + i].Conjugate() *  v[(j * aColumns) + i];
+                                }
+
+                                t = -t / v[(l * aColumns) + lp1];
+                                for (var ii = l; ii < aColumns; ii++)
+                                {
+                                    v[(j * aColumns) + ii] += t * v[(l * aColumns) + ii];
+                                }
+                            }
+                        }
+                    }
+
+                    for (i = 0; i < aColumns; i++)
+                    {
+                        v[(l * aColumns) + i] = 0.0;
+                    }
+
+                    v[(l * aColumns) + l] = 1.0;
+                }
+            }
+
+            // Transform "s" and "e" so that they are double
+            for (i = 0; i < m; i++)
+            {
+                Complex r;
+                if (stemp[i] != 0.0)
+                {
+                    t = stemp[i].Magnitude;
+                    r = stemp[i] / t;
+                    stemp[i] = t;
+                    if (i < m - 1)
+                    {
+                        e[i] = e[i] / r;
+                    }
+
+                    if (computeVectors)
+                    {
+                        // A part of column "i" of matrix U from row 0 to end multiply by r
+                        for (j = 0; j < aRows; j++)
+                        {
+                            u[(i * aRows) + j] = u[(i * aRows) + j] * r;
+                        }
+                    }
+                }
+
+                // Exit
+                if (i == m - 1)
+                {
+                    break;
+                }
+
+                if (e[i] == 0.0)
+                {
+                    continue;
+                }
+
+                t = e[i].Magnitude;
+                r = t / e[i];
+                e[i] = t;
+                stemp[i + 1] = stemp[i + 1] * r;
+                if (!computeVectors)
+                {
+                    continue;
+                }
+
+                // A part of column "i+1" of matrix VT from row 0 to end multiply by r
+                for (j = 0; j < aColumns; j++)
+                {
+                    v[((i + 1) * aColumns) + j] = v[((i + 1) * aColumns) + j] * r;
+                }
+            }
+
+            // Main iteration loop for the singular values.
+            var mn = m;
+            var iter = 0;
+
+            while (m > 0)
+            {
+                // Quit if all the singular values have been found.
+                // If too many iterations have been performed throw exception.
+                if (iter >= Maxiter)
+                {
+                    throw new ArgumentException(Resources.ConvergenceFailed);
+                }
+
+                // This section of the program inspects for negligible elements in the s and e arrays,  
+                // on completion the variables kase and l are set as follows:
+                // kase = 1: if mS[m] and e[l-1] are negligible and l < m
+                // kase = 2: if mS[l] is negligible and l < m
+                // kase = 3: if e[l-1] is negligible, l < m, and mS[l, ..., mS[m] are not negligible (qr step).
+                // kase = 4: if e[m-1] is negligible (convergence).
+                double ztest;
+                double test;
+                for (l = m - 2; l >= 0; l--)
+                {
+                    test = stemp[l].Magnitude + stemp[l + 1].Magnitude;
+                    ztest = test + e[l].Magnitude;
+                    if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                    {
+                        e[l] = 0.0;
+                        break;
+                    }
+                }
+
+                int kase;
+                if (l == m - 2)
+                {
+                    kase = 4;
+                }
+                else
+                {
+                    int ls;
+                    for (ls = m - 1; ls > l; ls--)
+                    {
+                        test = 0.0;
+                        if (ls != m - 1)
+                        {
+                            test = test + e[ls].Magnitude;
+                        }
+
+                        if (ls != l + 1)
+                        {
+                            test = test + e[ls - 1].Magnitude;
+                        }
+
+                        ztest = test + stemp[ls].Magnitude;
+                        if (ztest.AlmostEqualInDecimalPlaces(test, 15))
+                        {
+                            stemp[ls] = 0.0;
+                            break;
+                        }
+                    }
+
+                    if (ls == l)
+                    {
+                        kase = 3;
+                    }
+                    else if (ls == m - 1)
+                    {
+                        kase = 1;
+                    }
+                    else
+                    {
+                        kase = 2;
+                        l = ls;
+                    }
+                }
+
+                l = l + 1;
+
+                // Perform the task indicated by kase.
+                int k;
+                double f;
+                switch (kase)
+                {
+                    // Deflate negligible s[m].
+                    case 1:
+                        f = e[m - 2].Real;
+                        e[m - 2] = 0.0;
+                        double t1;
+                        for (var kk = l; kk < m - 1; kk++)
+                        {
+                            k = m - 2 - kk + l;
+                            t1 = stemp[k].Real;
+                            Drotg(ref t1, ref f, ref cs, ref sn);
+                            stemp[k] = t1;
+                            if (k != l)
+                            {
+                                f = -sn * e[k - 1].Real;
+                                e[k - 1] = cs * e[k - 1];
+                            }
+
+                            if (computeVectors)
+                            {
+                                // Rotate
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = (cs * v[(k * aColumns) + i]) + (sn * v[((m - 1) * aColumns) + i]);
+                                    v[((m - 1) * aColumns) + i] = (cs * v[((m - 1) * aColumns) + i]) - (sn * v[(k * aColumns) + i]);
+                                    v[(k * aColumns) + i] = z;
+                                }
+                            }
+                        }
+
+                        break;
+
+                    // Split at negligible s[l].
+                    case 2:
+                        f = e[l - 1].Real;
+                        e[l - 1] = 0.0;
+                        for (k = l; k < m; k++)
+                        {
+                            t1 = stemp[k].Real;
+                            Drotg(ref t1, ref f, ref cs, ref sn);
+                            stemp[k] = t1;
+                            f = -sn * e[k].Real;
+                            e[k] = cs * e[k];
+                            if (computeVectors)
+                            {
+                                // Rotate
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = (cs * u[(k * aRows) + i]) + (sn * u[((l - 1) * aRows) + i]);
+                                    u[((l - 1) * aRows) + i] = (cs * u[((l - 1) * aRows) + i]) - (sn * u[(k * aRows) + i]);
+                                    u[(k * aRows) + i] = z;
+                                }
+                            }
+                        }
+
+                        break;
+
+                    // Perform one qr step.
+                    case 3:
+                        // calculate the shift.
+                        var scale = 0.0;
+                        scale = Math.Max(scale, stemp[m - 1].Magnitude);
+                        scale = Math.Max(scale, stemp[m - 2].Magnitude);
+                        scale = Math.Max(scale, e[m - 2].Magnitude);
+                        scale = Math.Max(scale, stemp[l].Magnitude);
+                        scale = Math.Max(scale, e[l].Magnitude);
+                        var sm = stemp[m - 1].Real / scale;
+                        var smm1 = stemp[m - 2].Real / scale;
+                        var emm1 = e[m - 2].Real / scale;
+                        var sl = stemp[l].Real / scale;
+                        var el = e[l].Real / scale;
+                        var b = (((smm1 + sm) * (smm1 - sm)) + (emm1 * emm1)) / 2.0;
+                        var c = (sm * emm1) * (sm * emm1);
+                        var shift = 0.0;
+                        if (b != 0.0 || c != 0.0)
+                        {
+                            shift = Math.Sqrt((b * b) + c);
+                            if (b < 0.0)
+                            {
+                                shift = -shift;
+                            }
+
+                            shift = c / (b + shift);
+                        }
+
+                        f = ((sl + sm) * (sl - sm)) + shift;
+                        var g = sl * el;
+
+                        // Chase zeros
+                        for (k = l; k < m - 1; k++)
+                        {
+                            Drotg(ref f, ref g, ref cs, ref sn);
+                            if (k != l)
+                            {
+                                e[k - 1] = f;
+                            }
+
+                            f = (cs * stemp[k].Real) + (sn * e[k].Real);
+                            e[k] = (cs * e[k]) - (sn * stemp[k]);
+                            g = sn * stemp[k + 1].Real;
+                            stemp[k + 1] = cs * stemp[k + 1];
+                            if (computeVectors)
+                            {
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = (cs * v[(k * aColumns) + i]) + (sn * v[((k + 1) * aColumns) + i]);
+                                    v[((k + 1) * aColumns) + i] = (cs * v[((k + 1) * aColumns) + i]) - (sn * v[(k * aColumns) + i]);
+                                    v[(k * aColumns) + i] = z;
+                                }
+                            }
+
+                            Drotg(ref f, ref g, ref cs, ref sn);
+                            stemp[k] = f;
+                            f = (cs * e[k].Real) + (sn * stemp[k + 1].Real);
+                            stemp[k + 1] = -(sn * e[k]) + (cs * stemp[k + 1]);
+                            g = sn * e[k + 1].Real;
+                            e[k + 1] = cs * e[k + 1];
+                            if (computeVectors && k < aRows)
+                            {
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = (cs * u[(k * aRows) + i]) + (sn * u[((k + 1) * aRows) + i]);
+                                    u[((k + 1) * aRows) + i] = (cs * u[((k + 1) * aRows) + i]) - (sn * u[(k * aRows) + i]);
+                                    u[(k * aRows) + i] = z;
+                                }
+                            }
+                        }
+
+                        e[m - 2] = f;
+                        iter = iter + 1;
+                        break;
+
+                    // Convergence
+                    case 4:
+
+                        // Make the singular value  positive
+                        if (stemp[l].Real < 0.0)
+                        {
+                            stemp[l] = -stemp[l];
+                            if (computeVectors)
+                            {
+                                // A part of column "l" of matrix VT from row 0 to end multiply by -1
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    v[(l * aColumns) + i] = v[(l * aColumns) + i] * -1.0;
+                                }
+                            }
+                        }
+
+                        // Order the singular value.
+                        while (l != mn - 1)
+                        {
+                            if (stemp[l].Real >= stemp[l + 1].Real)
+                            {
+                                break;
+                            }
+
+                            t = stemp[l];
+                            stemp[l] = stemp[l + 1];
+                            stemp[l + 1] = t;
+                            if (computeVectors && l < aColumns)
+                            {
+                                // Swap columns l, l + 1
+                                for (i = 0; i < aColumns; i++)
+                                {
+                                    var z = v[(l * aColumns) + i];
+                                    v[(l * aColumns) + i] = v[((l + 1) * aColumns) + i];
+                                    v[((l + 1) * aColumns) + i] = z;
+                                }
+                            }
+
+                            if (computeVectors && l < aRows)
+                            {
+                                // Swap columns l, l + 1
+                                for (i = 0; i < aRows; i++)
+                                {
+                                    var z = u[(l * aRows) + i];
+                                    u[(l * aRows) + i] = u[((l + 1) * aRows) + i];
+                                    u[((l + 1) * aRows) + i] = z;
+                                }
+                            }
+
+                            l = l + 1;
+                        }
+
+                        iter = 0;
+                        m = m - 1;
+                        break;
+                }
+            }
+
+            if (computeVectors)
+            {
+                // Finally transpose "v" to get "vt" matrix 
+                for (i = 0; i < aColumns; i++)
+                {
+                    for (j = 0; j < aColumns; j++)
+                    {
+                        vt[(j * aColumns) + i] = v[(i * aColumns) + j].Conjugate();
+                    }
+                }
+            }
+
+            // Copy stemp to s with size adjustment. We are using ported copy of linpack's svd code and it uses
+            // a singular vector of length rows+1 when rows < columns. The last element is not used and needs to be removed.
+            // We should port lapack's svd routine to remove this problem.
+            CommonParallel.For(0, Math.Min(aRows, aColumns), index => s[index] = stemp[index]);
+
+            // On return the first element of the work array stores the min size of the work array could have been
+            // work[0] = Math.Max(3 * Math.Min(aRows, aColumns) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns));
+            work[0] = aRows;            
         }
 
         /// <summary>
@@ -5256,7 +6787,64 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         public void SvdSolve(Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (b.Length != aRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != aColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
+            var work = new Complex[Math.Max((3 * Math.Min(aRows, aColumns)) + Math.Max(aRows, aColumns), 5 * Math.Min(aRows, aColumns))];
+            SvdSolve(a, aRows, aColumns, s, u, vt, b, bColumns, x, work);            
         }
 
         /// <summary>
@@ -5276,7 +6864,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// On exit, work[0] contains the optimal work size value.</param>
         public void SvdSolve(Complex[] a, int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x, Complex[] work)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (b.Length != aRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != aColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (work.Length == 0)
+            {
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
+            }
+
+            if (work.Length < aRows)
+            {
+                work[0] = aRows;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            SingularValueDecomposition(true, a, aRows, aColumns, s, u, vt, work);
+            SvdSolveFactored(aRows, aColumns, s, u, vt, b, bColumns, x);
         }
 
         /// <summary>
@@ -5292,7 +6947,88 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         public void SvdSolveFactored(int aRows, int aColumns, Complex[] s, Complex[] u, Complex[] vt, Complex[] b, int bColumns, Complex[] x)
         {
-            throw new NotImplementedException();
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (u.Length != aRows * aRows)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != aColumns * aColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(aRows, aColumns))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (b.Length != aRows * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != aColumns * bColumns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            var mn = Math.Min(aRows, aColumns);
+            var tmp = new Complex[aColumns];
+
+            for (var k = 0; k < bColumns; k++)
+            {
+                for (var j = 0; j < aColumns; j++)
+                {
+                    var value = Complex.Zero;
+                    if (j < mn)
+                    {
+                        for (var i = 0; i < aRows; i++)
+                        {
+                            value += u[(j * aRows) + i].Conjugate() * b[(k * aRows) + i];
+                        }
+
+                        value /= s[j];
+                    }
+
+                    tmp[j] = value;
+                }
+
+                for (var j = 0; j < aColumns; j++)
+                {
+                    var value = Complex.Zero;
+                    for (var i = 0; i < aColumns; i++)
+                    {
+                        value += vt[(j * aColumns) + i].Conjugate() * tmp[i];
+                    }
+
+                    x[(k * aColumns) + j] = value;
+                }
+            }
         }
 
         #endregion
