@@ -426,8 +426,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
                                 rowVector[k] = 0.0;
                             }
 
-                            rowVector.Multiply(workVector[j]);
-                            workVector.Subtract(rowVector);
+                            rowVector.Multiply(workVector[j], rowVector);
+                            workVector.Subtract(rowVector, workVector);
                         }
                     }
                 }

@@ -165,13 +165,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var dinput = input as DenseVector;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do QR factorization for dense vectors at the moment.");
+                throw new NotImplementedException("Can only do SVD factorization for dense vectors at the moment.");
             }
 
             var dresult = result as DenseVector;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do QR factorization for dense vectors at the moment.");
+                throw new NotImplementedException("Can only do SVD factorization for dense vectors at the moment.");
             }
 
             Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Data, 1, dresult.Data);

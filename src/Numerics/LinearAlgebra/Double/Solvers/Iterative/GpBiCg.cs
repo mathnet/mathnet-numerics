@@ -359,7 +359,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             Vector z = new DenseVector(residuals.Count);
 
             Vector temp = new DenseVector(residuals.Count);
-            Vector mult = new DenseVector(residuals.Count);
          
             // for (k = 0, 1, .... )
             var iterationNumber = 0;
@@ -368,8 +367,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 // p_k = r_k + beta_(k-1) * (p_(k-1) - u_(k-1))
                 p.Subtract(u, temp);
                 
-                temp.Multiply(beta, mult);
-                residuals.Add(mult, p);
+                residuals.Add(temp.Multiply(beta), p);
 
                 // Solve M b_k = p_k
                 _preconditioner.Approximate(p, temp);
@@ -384,15 +382,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 s.Subtract(w, temp);
                 t.Subtract(residuals, y);
                 
-                temp.Multiply(alpha, mult);
-                y.Add(mult);
+                y.Add(temp.Multiply(alpha), y);
 
                 // Store the old value of t in t0
                 t.CopyTo(t0);
 
                 // t_k = r_k - alpha_k s_k
-                s.Multiply(-alpha, mult);
-                residuals.Add(mult, t);
+                residuals.Add(s.Multiply(-alpha), t);
 
                 // Solve M d_k = t_k
                 _preconditioner.Approximate(t, temp);
@@ -450,48 +446,39 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 }
 
                 // u_k = sigma_k s_k + eta_k (t_(k-1) - r_k + beta_(k-1) u_(k-1))
-                u.Multiply(beta, mult);
-                t0.Add(mult, temp);
-                
-                temp.Subtract(residuals);
-                temp.Multiply(eta);
+                t0.Add(u.Multiply(beta), temp);
 
-                s.Multiply(sigma, mult);
-                temp.Add(mult, u);
+                temp.Subtract(residuals, temp);
+                temp.Multiply(eta, temp);
+
+                temp.Add(s.Multiply(sigma), u);
 
                 // z_k = sigma_k r_k +_ eta_k z_(k-1) - alpha_k u_k
-                z.Multiply(eta);
+                z.Multiply(eta, z);
+                z.Add(u.Multiply(-alpha), z);
 
-                u.Multiply(-alpha, mult);
-                z.Add(mult);
-
-                residuals.Multiply(sigma, mult);
-                z.Add(mult);
+                z.Add(residuals.Multiply(sigma), z);
 
                 // x_(k+1) = x_k + alpha_k p_k + z_k
-                p.Multiply(alpha, mult);
-                xtemp.Add(mult);
-            
-                xtemp.Add(z);
+                xtemp.Add(p.Multiply(alpha), xtemp);
+
+                xtemp.Add(z, xtemp);
 
                 // r_(k+1) = t_k - eta_k y_k - sigma_k c_k
                 // Copy the old residuals to a temp vector because we'll
                 // need those in the next step
                 residuals.CopyTo(t0);
 
-                y.Multiply(-eta, mult);
-                t.Add(mult, residuals);
+                t.Add(y.Multiply(-eta), residuals);
 
-                c.Multiply(-sigma, mult);
-                residuals.Add(mult);
+                residuals.Add(c.Multiply(-sigma), residuals);
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
                 beta = (!sigma.AlmostEqual(0, 1)) ? alpha / sigma * rdash.DotProduct(residuals) / rdash.DotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
-                s.Multiply(beta, mult);
-                c.Add(mult, w);
+                c.Add(s.Multiply(beta), w);
 
                 // Get the real value
                 _preconditioner.Approximate(xtemp, result);
@@ -520,10 +507,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
-            residual.Multiply(-1);
+            residual.Multiply(-1, residual);
 
             // residual + b
-            residual.Add(b);
+            residual.Add(b, residual);
         }
 
         /// <summary>

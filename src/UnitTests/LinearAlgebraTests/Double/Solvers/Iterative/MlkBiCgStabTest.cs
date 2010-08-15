@@ -40,11 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolveUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            Matrix matrix = new SparseMatrix(100);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                matrix[i, i] = 1.0;
-            }
+            Matrix matrix = SparseMatrix.Identity(100);
 
             // Create the y vector
             Vector y = new DenseVector(matrix.RowCount, 1);
@@ -85,11 +81,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolveScaledUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            Matrix matrix = new SparseMatrix(100);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                matrix[i, i] = 1.0;
-            }
+            Matrix matrix = SparseMatrix.Identity(100);
 
             // Scale it with a funny number
             matrix.Multiply(System.Math.PI);
@@ -199,6 +191,70 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             for (var i = 0; i < y.Count; i++)
             {
                 Assert.IsTrue(System.Math.Abs(y[i] - z[i]).IsSmaller(ConvergenceBoundary, 1), "#05-" + i);
+            }
+        }
+
+        [Test]
+        [Row(4)]
+        [Row(8)]
+        [Row(10)]
+        [MultipleAsserts]
+        public void CanSolveForRandomVector(int order)
+        {
+            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+
+            var monitor = new Iterator(new IIterationStopCriterium[]
+                                       {
+                                           new IterationCountStopCriterium(1000),
+                                           new ResidualStopCriterium(1e-10),
+                                       });
+            var solver = new MlkBiCgStab(monitor);
+
+            var resultx = solver.Solve(matrixA, vectorb);
+            Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
+
+            var bReconstruct = matrixA * resultx;
+
+            // Check the reconstruction.
+            for (var i = 0; i < order; i++)
+            {
+                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1e-7);
+            }
+        }
+
+        [Test]
+        [Row(4)]
+        [Row(8)]
+        [Row(10)]
+        [MultipleAsserts]
+        public void CanSolveForRandomMatrix(int order)
+        {
+            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+
+            var monitor = new Iterator(new IIterationStopCriterium[]
+                                       {
+                                           new IterationCountStopCriterium(1000),
+                                           new ResidualStopCriterium(1e-10)
+                                       });
+            var solver = new MlkBiCgStab(monitor);
+            var matrixX = solver.Solve(matrixA, matrixB);
+
+            // The solution X row dimension is equal to the column dimension of A
+            Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+            // The solution X has the same number of columns as B
+            Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
+
+            var matrixBReconstruct = matrixA * matrixX;
+
+            // Check the reconstruction.
+            for (var i = 0; i < matrixB.RowCount; i++)
+            {
+                for (var j = 0; j < matrixB.ColumnCount; j++)
+                {
+                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-7);
+                }
             }
         }
     }

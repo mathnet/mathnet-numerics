@@ -273,8 +273,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
             // Temp vectors
             var temp = new DenseVector(input.Count);
-            var mult = new DenseVector(input.Count);
-
+           
             // Initialize
             var startNorm = input.Norm(2);
 
@@ -316,8 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                     alpha = rho / sigma;
 
                     // yOdd = yEven - alpha * v
-                    v.Multiply(-alpha, mult);
-                    yeven.Add(mult, yodd);
+                    yeven.Add(v.Multiply(-alpha), yodd);
 
                     // Solve M temp = yOdd
                     _preconditioner.Approximate(yodd, temp);
@@ -333,8 +331,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 var yinternal = IsEven(iterationNumber) ? yeven : yodd;
 
                 // pseudoResiduals = pseudoResiduals - alpha * uOdd
-                uinternal.Multiply(-alpha, mult);
-                pseudoResiduals.Add(mult);
+                pseudoResiduals.Add(uinternal.Multiply(-alpha), pseudoResiduals);
 
                 // d = yOdd + theta * theta * eta / alpha * d
                 d.Multiply(theta * theta * eta / alpha, temp);
@@ -351,8 +348,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 eta = c * c * alpha;
 
                 // x = x + eta * d
-                d.Multiply(eta, mult);
-                x.Add(mult);
+                x.Add(d.Multiply(eta), x);
 
                 // Check convergence and see if we can bail
                 if (!ShouldContinue(iterationNumber, result, input, pseudoResiduals))
@@ -390,8 +386,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                     rho = rhoNew;
 
                     // yOdd = pseudoResiduals + beta * yOdd
-                    yodd.Multiply(beta, mult);
-                    pseudoResiduals.Add(mult, yeven);
+                    pseudoResiduals.Add(yodd.Multiply(beta), yeven);
 
                     // Solve M temp = yOdd
                     _preconditioner.Approximate(yeven, temp);
@@ -400,11 +395,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                     matrix.Multiply(temp, ueven);
 
                     // v = uEven + beta * (uOdd + beta * v)
-                    v.Multiply(beta, mult);
-                    uodd.Add(mult, temp);
+                    uodd.Add(v.Multiply(beta), temp);
 
-                    temp.Multiply(beta, mult);
-                    ueven.Add(mult, v);
+                    ueven.Add(temp.Multiply(beta), v);
                 }
 
                 // Calculate the real values
@@ -425,10 +418,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
-            residual.Multiply(-1);
+            residual.Multiply(-1, residual);
 
             // residual + b
-            residual.Add(b);
+            residual.Add(b, residual);
         }
 
         /// <summary>

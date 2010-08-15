@@ -695,7 +695,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(-4, ExpectedException = typeof(ArgumentOutOfRangeException))]
         public void NormalizeColumns(int pValue)
         {
-            var matrix = this.TestMatrices["Singular3x3"];
+            var matrix = this.TestMatrices["Square4x4"];
             var result = matrix.NormalizeColumns(pValue);
             for (var j = 0; j < result.ColumnCount; j++)
             {
@@ -710,7 +710,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Row(-3, ExpectedException = typeof(ArgumentOutOfRangeException))]
         public void NormalizeRows(int pValue)
         {
-            var matrix = this.TestMatrices["Singular3x3"].NormalizeRows(pValue);
+            var matrix = this.TestMatrices["Square4x4"].NormalizeRows(pValue);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var row = matrix.Row(i);

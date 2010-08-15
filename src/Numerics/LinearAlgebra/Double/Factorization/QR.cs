@@ -97,7 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         /// <summary>
-        /// Gets the determinant of the matrix for which the QR matrix was computed.
+        /// Gets the absolute determinant value of the matrix for which the QR matrix was computed.
         /// </summary>
         public virtual double Determinant
         {

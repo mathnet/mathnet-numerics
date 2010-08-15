@@ -125,10 +125,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 0.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
-            var copy = this.Clone();
+            var copy = Clone();
             CommonParallel.For(
                 0, 
                 Count,
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </remarks>
         public virtual Vector Plus()
         {
-            return this.Clone();
+            return Clone();
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var copy = this.Clone();
+            var copy = Clone();
             CommonParallel.For(
                 0, 
                 Count,
@@ -256,7 +256,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = this.Add(other);
+                var tmp = Add(other);
                 tmp.CopyTo(result);
             }
             else
@@ -279,10 +279,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 0.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
-            var copy = this.Clone();
+            var copy = Clone();
             CommonParallel.For(
                 0, 
                 Count, 
@@ -367,7 +367,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var copy = this.Clone();
+            var copy = Clone();
             CommonParallel.For(
                 0, 
                 Count, 
@@ -434,10 +434,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 1.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
-            var copy = this.Clone();
+            var copy = Clone();
             CommonParallel.For(
                 0, 
                 Count,
@@ -530,7 +530,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (scalar == 1.0)
             {
-                return this.Clone();
+                return Clone();
             }
 
             return Multiply(1.0 / scalar);
@@ -593,7 +593,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var copy = this.Clone();
+            var copy = Clone();
             CommonParallel.For(
                 0, 
                 Count,
@@ -634,7 +634,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = this.PointwiseMultiply(other);
+                var tmp = PointwiseMultiply(other);
                 tmp.CopyTo(result);
             }
             else
@@ -665,7 +665,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var copy = this.Clone();
+            var copy = Clone();
             CommonParallel.For(
                 0, 
                 Count, 
@@ -706,7 +706,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
             {
-                var tmp = this.PointwiseDivide(other);
+                var tmp = PointwiseDivide(other);
                 tmp.CopyTo(result);
             }
             else
@@ -1156,23 +1156,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 throw new ArgumentOutOfRangeException("p");
             }
-            else if (Double.IsPositiveInfinity(p))
+
+            if (Double.IsPositiveInfinity(p))
             {
                 return CommonParallel.Select(
                     0,
                     Count,
-                    (index, localData) => localData = Math.Max(localData, Math.Abs(this[index])),
+                    (index, localData) => Math.Max(localData, Math.Abs(this[index])),
                     Math.Max);
             }
-            else
-            {
-                var sum = CommonParallel.Aggregate(
-                    0,
-                    Count,
-                    index => Math.Pow(Math.Abs(this[index]), p));
 
-                return Math.Pow(sum, 1.0 / p);
-            }
+            var sum = CommonParallel.Aggregate(
+                0,
+                Count,
+                index => Math.Pow(Math.Abs(this[index]), p));
+
+            return Math.Pow(sum, 1.0 / p);
         }
 
         /// <summary>
@@ -1192,7 +1191,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var norm = Norm(p);
-            var clone = this.Clone();
+            var clone = Clone();
             if (norm == 0.0)
             {
                 return clone;
