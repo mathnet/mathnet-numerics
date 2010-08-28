@@ -31,14 +31,16 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
+    using System.Text;
     using Distributions;
+    using Generic;
     using Properties;
     using Threading;
     
     /// <summary>
     /// A Matrix class with sparse storage. The underlying storage scheme is 3-array CSR Format.
     /// </summary>
-    public class SparseMatrix : Matrix 
+    public class SparseMatrix : Matrix<double> 
     {
         /// <summary>
         /// Object for use in "lock"
@@ -192,7 +194,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <c>SparseMatrix</c> with the given dimensions.
         /// </returns>
-        public override Matrix CreateMatrix(int numberOfRows, int numberOfColumns)
+        public override Matrix<double> CreateMatrix(int numberOfRows, int numberOfColumns)
         {
             return new SparseMatrix(numberOfRows, numberOfColumns);
         }
@@ -204,7 +206,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <see cref="SparseVector"/> with the given dimension.
         /// </returns>
-        public override Vector CreateVector(int size)
+        public override Vector<double> CreateVector(int size)
         {
             return new SparseVector(size);
         }
@@ -213,7 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>        
-        public override Matrix LowerTriangle()
+        public override Matrix<double> LowerTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
             LowerTriangleImpl(result);
@@ -226,7 +228,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void LowerTriangle(Matrix result)
+        public override void LowerTriangle(Matrix<double> result)
         {
             if (result == null)
             {
@@ -255,7 +257,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Puts the lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void LowerTriangleImpl(Matrix result)
+        private void LowerTriangleImpl(Matrix<double> result)
         {
             for (var row = 0; row < result.RowCount; row++)
             {
@@ -275,7 +277,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns a new matrix containing the upper triangle of this matrix.
         /// </summary>
         /// <returns>The upper triangle of this matrix.</returns>   
-        public override Matrix UpperTriangle()
+        public override Matrix<double> UpperTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
             UpperTriangleImpl(result);
@@ -288,7 +290,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void UpperTriangle(Matrix result)
+        public override void UpperTriangle(Matrix<double> result)
         {
             if (result == null)
             {
@@ -317,7 +319,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Puts the upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void UpperTriangleImpl(Matrix result)
+        private void UpperTriangleImpl(Matrix<double> result)
         {
             for (var row = 0; row < result.RowCount; row++)
             {
@@ -349,7 +351,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
         /// <exception cref="ArgumentException">If <paramref name="rowLength"/> or <paramref name="columnLength"/>
         /// is not positive.</exception>
-        public override Matrix SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
+        public override Matrix<double> SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
         {
             if (rowIndex >= RowCount || rowIndex < 0)
             {
@@ -410,7 +412,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// does not contain the diagonal elements of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>
-        public override Matrix StrictlyLowerTriangle()
+        public override Matrix<double> StrictlyLowerTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
             StrictlyLowerTriangleImpl(result);
@@ -423,7 +425,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void StrictlyLowerTriangle(Matrix result)
+        public override void StrictlyLowerTriangle(Matrix<double> result)
         {
             if (result == null)
             {
@@ -452,7 +454,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Puts the strictly lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void StrictlyLowerTriangleImpl(Matrix result)
+        private void StrictlyLowerTriangleImpl(Matrix<double> result)
         {
             for (var row = 0; row < result.RowCount; row++)
             {
@@ -473,7 +475,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// does not contain the diagonal elements of this matrix.
         /// </summary>
         /// <returns>The upper triangle of this matrix.</returns>
-        public override Matrix StrictlyUpperTriangle()
+        public override Matrix<double> StrictlyUpperTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
             StrictlyUpperTriangleImpl(result);
@@ -486,7 +488,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void StrictlyUpperTriangle(Matrix result)
+        public override void StrictlyUpperTriangle(Matrix<double> result)
         {
             if (result == null)
             {
@@ -515,7 +517,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Puts the strictly upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void StrictlyUpperTriangleImpl(Matrix result)
+        private void StrictlyUpperTriangleImpl(Matrix<double> result)
         {
             for (var row = 0; row < result.RowCount; row++)
             {
@@ -762,7 +764,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this and the target matrix do not have the same dimensions..
         /// </exception>
-        public override void CopyTo(Matrix target)
+        public override void CopyTo(Matrix<double> target)
         {
             var sparseTarget = target as SparseMatrix;
 
@@ -794,47 +796,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
         
         /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="obj">
-        /// An object to compare with this object.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="obj"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            var sparseMatrix = obj as SparseMatrix;
-
-            if (sparseMatrix == null)
-            {
-                return base.Equals(obj);
-            }
-
-            // Accept if the argument is the same object as this
-            if (ReferenceEquals(this, sparseMatrix))
-            {
-                return true;
-            }
-
-            if (ColumnCount != sparseMatrix.ColumnCount || RowCount != sparseMatrix.RowCount || NonZerosCount != sparseMatrix.NonZerosCount)
-            {
-                return false;
-            }
-
-            // If all else fails, perform element wise comparison.
-            for (var index = 0; index < NonZerosCount; index++)
-            {
-                if (!_nonZeroValues[index].AlmostEqual(sparseMatrix._nonZeroValues[index]) || _columnIndices[index] != sparseMatrix._columnIndices[index])
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-        
-        /// <summary>
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
@@ -860,7 +821,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>
-        public override Matrix Transpose()
+        public override Matrix<double> Transpose()
         {
             var ret = new SparseMatrix(ColumnCount, RowCount)
             {
@@ -957,13 +918,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies the requested row elements into a new <see cref="Vector"/>.
+        /// Copies the requested row elements into a new <see cref="Vector{T}"/>.
         /// </summary>
         /// <param name="rowIndex">The row to copy elements from.</param>
         /// <param name="columnIndex">The column to start copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
-        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <param name="result">The <see cref="Vector{T}"/> to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result <see cref="Vector{T}"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is negative,
         /// or greater than or equal to the number of columns.</exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is negative,
@@ -972,7 +933,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
-        public override void Row(int rowIndex, int columnIndex, int length, Vector result)
+        public override void Row(int rowIndex, int columnIndex, int length, Vector<double> result)
         {
             if (result == null)
             {
@@ -1032,7 +993,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (Rows + lower.rows) x (Columns + lower.Columns).</exception>
-        public override void DiagonalStack(Matrix lower, Matrix result)
+        public override void DiagonalStack(Matrix<double> lower, Matrix<double> result)
         {
             var lowerSparseMatrix = lower as SparseMatrix;
             var resultSparseMatrix = result as SparseMatrix;
@@ -1079,7 +1040,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Add(Matrix other)
+        public override void Add(Matrix<double> other)
         {
             if (ReferenceEquals(this, other))
             {
@@ -1150,7 +1111,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The matrix to subtract.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Subtract(Matrix other)
+        public override void Subtract(Matrix<double> other)
         {
             // We are substracting Matrix form itself
             if (ReferenceEquals(this, other))
@@ -1245,7 +1206,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the Rows x other.Columns.</exception>
-        public override void Multiply(Matrix other, Matrix result)
+        public override void Multiply(Matrix<double> other, Matrix<double> result)
         {
             var otherSparseMatrix = other as SparseMatrix;
             var resultSparseMatrix = result as SparseMatrix;
@@ -1297,7 +1258,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
-        public override Matrix Multiply(Matrix other)
+        public override Matrix<double> Multiply(Matrix<double> other)
         {
             var matrix = other as SparseMatrix;
             if (matrix == null)
@@ -1324,7 +1285,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix other, Matrix result)
+        public override void TransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
             var otherSparse = other as SparseMatrix;
             var resultSparse = result as SparseMatrix;
@@ -1389,7 +1350,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
-        public override Matrix TransposeAndMultiply(Matrix other)
+        public override Matrix<double> TransposeAndMultiply(Matrix<double> other)
         {
             var otherSparse = other as SparseMatrix;
             if (otherSparse == null)
@@ -1444,7 +1405,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Matrix other, Matrix result)
+        public override void PointwiseMultiply(Matrix<double> other, Matrix<double> result)
         {
             if (other == null)
             {
@@ -1495,7 +1456,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
+        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
         {
             if (numberOfRows < 1)
             {
@@ -1534,7 +1495,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
+        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
         {
             if (numberOfRows < 1)
             {
@@ -1592,5 +1553,165 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return m;
         }
         #endregion
+
+        /// <summary>
+        /// Negates each element of this matrix.
+        /// </summary>        
+        public override void Negate()
+        {
+            Multiply(-1);
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(Matrix<double> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                return false;
+            }
+
+            // Accept if the argument is the same object as this.
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            var sparseMatrix = other as SparseMatrix;
+
+            if (sparseMatrix == null)
+            {
+                return base.Equals(other);
+            }
+
+            if (NonZerosCount != sparseMatrix.NonZerosCount)
+            {
+                return false;
+            }
+
+            // If all else fails, perform element wise comparison.
+            for (var index = 0; index < NonZerosCount; index++)
+            {
+                if (!_nonZeroValues[index].AlmostEqual(sparseMatrix._nonZeroValues[index]) || _columnIndices[index] != sparseMatrix._columnIndices[index])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <param name="format">
+        /// The format to use.
+        /// </param>
+        /// <param name="formatProvider">
+        /// The format provider to use.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            var stringBuilder = new StringBuilder();
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    stringBuilder.Append(At(row, column).ToString(format, formatProvider));
+                    if (column != ColumnCount - 1)
+                    {
+                        stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
+                    }
+                }
+
+                if (row != RowCount - 1)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        #region Simple arithmetic of type T
+        /// <summary>
+        /// Add two values T+T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of addition</returns>
+        protected sealed override double AddT(double val1, double val2)
+        {
+            return val1 + val2;
+        }
+
+        /// <summary>
+        /// Subtract two values T-T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of subtract</returns>
+        protected sealed override double SubtractT(double val1, double val2)
+        {
+            return val1 - val2;
+        }
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected sealed override double MultiplyT(double val1, double val2)
+        {
+            return val1 * val2;
+        }
+
+        /// <summary>
+        /// Divide two values T/T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of divide</returns>
+        protected sealed override double DivideT(double val1, double val2)
+        {
+            return val1 / val2;
+        }
+
+        /// <summary>
+        /// Is equal to one?
+        /// </summary>
+        /// <param name="val1">Value to check</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected sealed override bool IsOneT(double val1)
+        {
+            return 1.0.AlmostEqualInDecimalPlaces(val1, 15);
+        }
+
+        /// <summary>
+        /// Take absolute value
+        /// </summary>
+        /// <param name="val1">Source alue</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected sealed override double AbsoluteT(double val1)
+        {
+            return Math.Abs(val1);
+        }
+        #endregion  
     }
 }

@@ -24,10 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double
+namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
     using System.Collections.Generic;
+    using System.Numerics;
     using System.Text;
     using Factorization;
     using Properties;
@@ -36,16 +37,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
-    public abstract partial class Matrix :
+    public abstract partial class Matrix<T> :
 #if SILVERLIGHT
-   IFormattable, IEquatable<Matrix>
+    IFormattable, IEquatable<Matrix<T>>
 #else
-        IFormattable, IEquatable<Matrix>, ICloneable
+    IFormattable, IEquatable<Matrix<T>>, ICloneable
 #endif
+    where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Matrix"/> class.
+        /// Initializes a new instance of the Matrix class.
         /// </summary>
         /// <param name="rows">
         /// The number of rows.
@@ -70,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Matrix"/> class.
+        /// Initializes a new instance of the Matrix class.
         /// </summary>
         /// <param name="order">
         /// The order of the matrix.
@@ -116,9 +119,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The column of the element.
         /// </param>
         /// <value>The double value to get or set.</value>
-        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,double)"/>
+        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,T)"/>
         /// to get and set values without range checking.</remarks>
-        public virtual double this[int row, int column]
+        public virtual T this[int row, int column]
         {
             get
             {
@@ -145,7 +148,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// The requested element.
         /// </returns>
-        public abstract double At(int row, int column);
+        public abstract T At(int row, int column);
 
         /// <summary>
         /// Sets the value of the given element.
@@ -159,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="value">
         /// The value to set the element to.
         /// </param>
-        public abstract void At(int row, int column, double value);
+        public abstract void At(int row, int column, T value);
 
         /// <summary>
         /// Creates a clone of this instance.
@@ -167,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A clone of the instance.
         /// </returns>
-        public virtual Matrix Clone()
+        public virtual Matrix<T> Clone()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
             CopyTo(result);
@@ -186,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this and the target matrix do not have the same dimensions..
         /// </exception>
-        public virtual void CopyTo(Matrix target)
+        public virtual void CopyTo(Matrix<T> target)
         {
             if (target == null)
             {
@@ -227,19 +230,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>
         /// Creates a matrix of the same matrix type as the current matrix.
         /// </remarks>
-        public abstract Matrix CreateMatrix(int numberOfRows, int numberOfColumns);
+        public abstract Matrix<T> CreateMatrix(int numberOfRows, int numberOfColumns);
 
         /// <summary>
-        /// Creates a <see cref="Vector"/> with a the given dimension.
+        /// Creates a Vector with a the given dimension.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
         /// <returns>
-        /// A <see cref="Vector"/> with the given dimension.
+        /// A Vector with the given dimension.
         /// </returns>
         /// <remarks>
         /// Creates a vector of the same type as the current matrix.
         /// </remarks>
-        public abstract Vector CreateVector(int size);
+        public abstract Vector<T> CreateVector(int size);
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
@@ -253,13 +256,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies a row into an <see cref="Vector"/>.
+        /// Copies a row into an Vector.
         /// </summary>
         /// <param name="index">The row to copy.</param>
-        /// <returns>A <see cref="Vector"/> containing the copied elements.</returns>
+        /// <returns>A Vector containing the copied elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of rows.</exception>
-        public virtual Vector Row(int index)
+        public virtual Vector<T> Row(int index)
         {
             var ret = CreateVector(ColumnCount);
             Row(index, 0, ColumnCount, ret);
@@ -267,26 +270,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies a row into to the given <see cref="Vector"/>.
+        /// Copies a row into to the given Vector.
         /// </summary>
         /// <param name="index">The row to copy.</param>
-        /// <param name="result">The <see cref="Vector"/> to copy the row into.</param>
+        /// <param name="result">The Vector to copy the row into.</param>
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <b>this.Columns != result.Count</b>.</exception>
-        public virtual void Row(int index, Vector result)
+        public virtual void Row(int index, Vector<T> result)
         {
             Row(index, 0, ColumnCount, result);
         }
 
         /// <summary>
-        /// Copies the requested row elements into a new <see cref="Vector"/>.
+        /// Copies the requested row elements into a new Vector.
         /// </summary>
         /// <param name="rowIndex">The row to copy elements from.</param>
         /// <param name="columnIndex">The column to start copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        /// <returns>A <see cref="Vector"/> containing the requested elements.</returns>
+        /// <returns>A Vector containing the requested elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If:
         /// <list><item><paramref name="rowIndex"/> is negative,
         /// or greater than or equal to the number of rows.</item>
@@ -294,7 +297,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of columns.</item>
         /// <item><c>(columnIndex + length) &gt;= Columns.</c></item></list></exception>        
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        public virtual Vector Row(int rowIndex, int columnIndex, int length)
+        public virtual Vector<T> Row(int rowIndex, int columnIndex, int length)
         {
             var ret = CreateVector(length);
             Row(rowIndex, columnIndex, length, ret);
@@ -302,13 +305,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies the requested row elements into a new <see cref="Vector"/>.
+        /// Copies the requested row elements into a new Vector.
         /// </summary>
         /// <param name="rowIndex">The row to copy elements from.</param>
         /// <param name="columnIndex">The column to start copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
-        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <param name="result">The Vector to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result Vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is negative,
         /// or greater than or equal to the number of columns.</exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is negative,
@@ -317,7 +320,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
-        public virtual void Row(int rowIndex, int columnIndex, int length, Vector result)
+        public virtual void Row(int rowIndex, int columnIndex, int length, Vector<T> result)
         {
             if (result == null)
             {
@@ -356,13 +359,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies a column into a new <see cref="Vector"/>.
+        /// Copies a column into a new Vector>.
         /// </summary>
         /// <param name="index">The column to copy.</param>
-        /// <returns>A <see cref="Vector"/> containing the copied elements.</returns>
+        /// <returns>A Vector containing the copied elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of columns.</exception>
-        public virtual Vector Column(int index)
+        public virtual Vector<T> Column(int index)
         {
             var result = CreateVector(RowCount);
             Column(index, 0, RowCount, result);
@@ -370,26 +373,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies a column into to the given <see cref="Vector"/>.
+        /// Copies a column into to the given Vector.
         /// </summary>
         /// <param name="index">The column to copy.</param>
-        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
-        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <param name="result">The Vector to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result Vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative,
         /// or greater than or equal to the number of columns.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <b>this.Rows != result.Count</b>.</exception>
-        public virtual void Column(int index, Vector result)
+        public virtual void Column(int index, Vector<T> result)
         {
             Column(index, 0, RowCount, result);
         }
 
         /// <summary>
-        /// Copies the requested column elements into a new <see cref="Vector"/>.
+        /// Copies the requested column elements into a new Vector.
         /// </summary>
         /// <param name="columnIndex">The column to copy elements from.</param>
         /// <param name="rowIndex">The row to start copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        /// <returns>A <see cref="Vector"/> containing the requested elements.</returns>
+        /// <returns>A Vector containing the requested elements.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If:
         /// <list><item><paramref name="columnIndex"/> is negative,
         /// or greater than or equal to the number of columns.</item>
@@ -398,7 +401,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <item><c>(rowIndex + length) &gt;= Rows.</c></item></list>
         /// </exception>        
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        public virtual Vector Column(int columnIndex, int rowIndex, int length)
+        public virtual Vector<T> Column(int columnIndex, int rowIndex, int length)
         {
             var result = CreateVector(length);
             Column(columnIndex, rowIndex, length, result);
@@ -411,8 +414,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="columnIndex">The column to copy elements from.</param>
         /// <param name="rowIndex">The row to start copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
-        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <param name="result">The Vector to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result Vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is negative,
         /// or greater than or equal to the number of columns.</exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is negative,
@@ -421,7 +424,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
-        public virtual void Column(int columnIndex, int rowIndex, int length, Vector result)
+        public virtual void Column(int columnIndex, int rowIndex, int length, Vector<T> result)
         {
             if (result == null)
             {
@@ -463,7 +466,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>        
-        public virtual Matrix LowerTriangle()
+        public virtual Matrix<T> LowerTriangle()
         {
             var ret = CreateMatrix(RowCount, ColumnCount);
             CommonParallel.For(
@@ -485,7 +488,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public virtual void LowerTriangle(Matrix result)
+        public virtual void LowerTriangle(Matrix<T> result)
         {
             if (result == null)
             {
@@ -504,7 +507,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     for (var i = 0; i < RowCount; i++)
                     {
-                        result.At(i, j, i >= j ? At(i, j) : 0);
+                        result.At(i, j, i >= j ? At(i, j) : default(T));
                     }
                 });
         }
@@ -513,7 +516,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns a new matrix containing the upper triangle of this matrix.
         /// </summary>
         /// <returns>The upper triangle of this matrix.</returns>   
-        public virtual Matrix UpperTriangle()
+        public virtual Matrix<T> UpperTriangle()
         {
             var ret = CreateMatrix(RowCount, ColumnCount);
             CommonParallel.For(
@@ -538,7 +541,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public virtual void UpperTriangle(Matrix result)
+        public virtual void UpperTriangle(Matrix<T> result)
         {
             if (result == null)
             {
@@ -557,7 +560,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     for (var i = 0; i < RowCount; i++)
                     {
-                        result.At(i, j, i <= j ? At(i, j) : 0);
+                        result.At(i, j, i <= j ? At(i, j) : default(T));
                     }
                 });
         }
@@ -578,7 +581,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
         /// <exception cref="ArgumentException">If <paramref name="rowLength"/> or <paramref name="columnLength"/>
         /// is not positive.</exception>
-        public virtual Matrix SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
+        public virtual Matrix<T> SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
         {
             if (rowIndex >= RowCount || rowIndex < 0)
             {
@@ -633,11 +636,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <returns>An <see cref="IEnumerator{T}"/> that enumerates over the matrix columns</returns>
         /// <seealso cref="IEnumerator{T}"/>
-        public virtual IEnumerable<KeyValuePair<int, Vector>> ColumnEnumerator()
+        public virtual IEnumerable<KeyValuePair<int, Vector<T>>> ColumnEnumerator()
         {
             for (var i = 0; i < ColumnCount; i++)
             {
-                yield return new KeyValuePair<int, Vector>(i, Column(i));
+                yield return new KeyValuePair<int, Vector<T>>(i, Column(i));
             }
         }
 
@@ -654,7 +657,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <item><c>(index + length) &gt;= Columns.</c></item></list>
         /// </exception>   
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>     
-        public virtual IEnumerable<KeyValuePair<int, Vector>> ColumnEnumerator(int index, int length)
+        public virtual IEnumerable<KeyValuePair<int, Vector<T>>> ColumnEnumerator(int index, int length)
         {
             if (index >= ColumnCount || index < 0)
             {
@@ -674,7 +677,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var maxIndex = index + length;
             for (var i = index; i < maxIndex; i++)
             {
-                yield return new KeyValuePair<int, Vector>(i, Column(i));
+                yield return new KeyValuePair<int, Vector<T>>(i, Column(i));
             }
         }
 
@@ -690,7 +693,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of rows.</item>        
         /// <item><c>(index + length) &gt;= Rows.</c></item></list></exception>        
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>     
-        public virtual IEnumerable<KeyValuePair<int, Vector>> RowEnumerator(int index, int length)
+        public virtual IEnumerable<KeyValuePair<int, Vector<T>>> RowEnumerator(int index, int length)
         {
             if (index >= RowCount || index < 0)
             {
@@ -710,7 +713,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var maxi = index + length;
             for (var i = index; i < maxi; i++)
             {
-                yield return new KeyValuePair<int, Vector>(i, Row(i));
+                yield return new KeyValuePair<int, Vector<T>>(i, Row(i));
             }
         }
 
@@ -719,21 +722,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <returns>An <see cref="IEnumerator{T}"/> that enumerates over the matrix rows</returns>
         /// <seealso cref="IEnumerator{T}"/>        
-        public virtual IEnumerable<KeyValuePair<int, Vector>> RowEnumerator()
+        public virtual IEnumerable<KeyValuePair<int, Vector<T>>> RowEnumerator()
         {
             for (var i = 0; i < RowCount; i++)
             {
-                yield return new KeyValuePair<int, Vector>(i, Row(i));
+                yield return new KeyValuePair<int, Vector<T>>(i, Row(i));
             }
         }
 
         /// <summary>
-        /// Returns the elements of the diagonal in a <see cref="Vector"/>.
+        /// Returns the elements of the diagonal in a Vector.
         /// </summary>
         /// <returns>The elements of the diagonal.</returns>
         /// <remarks>For non-square matrices, the method returns Min(Rows, Columns) elements where
         /// i == j (i is the row index, and j is the column index).</remarks>
-        public virtual Vector Diagonal()
+        public virtual Vector<T> Diagonal()
         {
             var min = Math.Min(RowCount, ColumnCount);
             var diagonal = CreateVector(min);
@@ -749,7 +752,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// does not contain the diagonal elements of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>
-        public virtual Matrix StrictlyLowerTriangle()
+        public virtual Matrix<T> StrictlyLowerTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
             CommonParallel.For(
@@ -774,7 +777,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public virtual void StrictlyLowerTriangle(Matrix result)
+        public virtual void StrictlyLowerTriangle(Matrix<T> result)
         {
             if (result == null)
             {
@@ -793,7 +796,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     for (var j = 0; j < ColumnCount; j++)
                     {
-                        result.At(i, j, i > j ? At(i, j) : 0);
+                        result.At(i, j, i > j ? At(i, j) : default(T));
                     }
                 });
         }
@@ -803,7 +806,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// does not contain the diagonal elements of this matrix.
         /// </summary>
         /// <returns>The upper triangle of this matrix.</returns>
-        public virtual Matrix StrictlyUpperTriangle()
+        public virtual Matrix<T> StrictlyUpperTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
             CommonParallel.For(
@@ -823,6 +826,36 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Puts the strictly upper triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public virtual void StrictlyUpperTriangle(Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            CommonParallel.For(
+                0,
+                RowCount,
+                i =>
+                {
+                    for (var j = 0; j < ColumnCount; j++)
+                    {
+                        result.At(i, j, i < j ? At(i, j) : default(T));
+                    }
+                });
+        }
+
+        /// <summary>
         /// Creates a new matrix and inserts the given column at the given index.
         /// </summary>
         /// <param name="columnIndex">The index of where to insert the column.</param>
@@ -831,7 +864,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="column "/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> != the number of rows.</exception>
-        public virtual Matrix InsertColumn(int columnIndex, Vector column)
+        public virtual Matrix<T> InsertColumn(int columnIndex, Vector<T> column)
         {
             if (column == null)
             {
@@ -877,7 +910,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
-        public virtual void SetColumn(int columnIndex, double[] column)
+        public virtual void SetColumn(int columnIndex, T[] column)
         {
             if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
@@ -901,7 +934,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies the values of the given <see cref="Vector"/> to the specified column.
+        /// Copies the values of the given Vector to the specified column.
         /// </summary>
         /// <param name="columnIndex">The column to copy the values to.</param>
         /// <param name="column">The vector to copy the values from.</param>
@@ -910,7 +943,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> does not
         /// equal the number of rows of this <strong>Matrix</strong>.</exception>
-        public virtual void SetColumn(int columnIndex, Vector column)
+        public virtual void SetColumn(int columnIndex, Vector<T> column)
         {
             if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
@@ -942,7 +975,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> != the number of columns.</exception>
-        public virtual Matrix InsertRow(int rowIndex, Vector row)
+        public virtual Matrix<T> InsertRow(int rowIndex, Vector<T> row)
         {
             if (row == null)
             {
@@ -977,7 +1010,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies the values of the given <see cref="Vector"/> to the specified row.
+        /// Copies the values of the given Vector to the specified row.
         /// </summary>
         /// <param name="rowIndex">The row to copy the values to.</param>
         /// <param name="row">The vector to copy the values from.</param>
@@ -986,7 +1019,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
-        public virtual void SetRow(int rowIndex, Vector row)
+        public virtual void SetRow(int rowIndex, Vector<T> row)
         {
             if (rowIndex < 0 || rowIndex >= RowCount)
             {
@@ -1019,7 +1052,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> does not
         /// equal the number of columns of this <strong>Matrix</strong>.</exception>
-        public virtual void SetRow(int rowIndex, double[] row)
+        public virtual void SetRow(int rowIndex, T[] row)
         {
             if (rowIndex < 0 || rowIndex >= RowCount)
             {
@@ -1060,7 +1093,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <item>the size of <paramref name="subMatrix"/> is not at least <paramref name="rowLength"/> x <paramref name="columnLength"/>.</item>
         /// <exception cref="ArgumentException">If <paramref name="rowLength"/> or <paramref name="columnLength"/>
         /// is not positive.</exception>
-        public virtual void SetSubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength, Matrix subMatrix)
+        public virtual void SetSubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength, Matrix<T> subMatrix)
         {
             if (rowIndex >= RowCount || rowIndex < 0)
             {
@@ -1123,7 +1156,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies the values of the given <see cref="Vector"/> to the diagonal.
+        /// Copies the values of the given Vector to the diagonal.
         /// </summary>
         /// <param name="source">The vector to copy the values from. The length of the vector should be
         /// Min(Rows, Columns).</param>
@@ -1132,7 +1165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
         /// this[i,i].</remarks>
-        public virtual void SetDiagonal(Vector source)
+        public virtual void SetDiagonal(Vector<T> source)
         {
             if (source == null)
             {
@@ -1162,7 +1195,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
         /// this[i,i].</remarks>
-        public virtual void SetDiagonal(double[] source)
+        public virtual void SetDiagonal(T[] source)
         {
             if (source == null)
             {
@@ -1183,42 +1216,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Puts the strictly upper triangle of this matrix into the result matrix.
-        /// </summary>
-        /// <param name="result">Where to store the lower triangle.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public virtual void StrictlyUpperTriangle(Matrix result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
-            CommonParallel.For(
-                0, 
-                RowCount, 
-                i =>
-                {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        result.At(i, j, i < j ? At(i, j) : 0);
-                    }
-                });
-        }
-
-        /// <summary>
         /// Returns this matrix as a multidimensional array.
         /// </summary>
         /// <returns>A multidimensional containing the values of this matrix.</returns>        
-        public virtual double[,] ToArray()
+        public virtual T[,] ToArray()
         {
-            var ret = new double[RowCount, ColumnCount];
+            var ret = new T[RowCount, ColumnCount];
             CommonParallel.For(
                 0, 
                 ColumnCount, 
@@ -1241,9 +1244,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// 7, 8, 9
         /// </pre></example>
         /// <returns>An array containing the matrix's elements.</returns>
-        public virtual double[] ToColumnWiseArray()
+        public virtual T[] ToColumnWiseArray()
         {
-            var ret = new double[RowCount * ColumnCount];
+            var ret = new T[RowCount * ColumnCount];
             foreach (var column in ColumnEnumerator())
             {
                 var columnIndex = column.Key * RowCount;
@@ -1265,9 +1268,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// 7, 8, 9
         /// </pre></example>
         /// <returns>An array containing the matrix's elements.</returns>
-        public virtual double[] ToRowWiseArray()
+        public virtual T[] ToRowWiseArray()
         {
-            var ret = new double[RowCount * ColumnCount];
+            var ret = new T[RowCount * ColumnCount];
 
             foreach (var row in RowEnumerator())
             {
@@ -1302,7 +1305,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
 #endif
 
-        #region IEquatable<Matrix>
+        #region IEquatable<Matrix<T>>
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -1313,7 +1316,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(Matrix other)
+        public virtual bool Equals(Matrix<T> other)
         {
             // Reject equality when the argument is null or has a different shape.
             if (other == null)
@@ -1337,7 +1340,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var column = 0; column < ColumnCount; column++)
                 {
-                    if (At(row, column) != other.At(row, column))
+                    if (!At(row, column).Equals(other.At(row, column)))
                     {
                         return false;
                     }
@@ -1363,7 +1366,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
-        public string ToString(string format, IFormatProvider formatProvider)
+        public virtual string ToString(string format, IFormatProvider formatProvider)
         {
             var stringBuilder = new StringBuilder();
             for (var row = 0; row < RowCount; row++)
@@ -1423,7 +1426,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as Matrix);
+            return Equals(obj as Matrix<T>);
         }
 
         /// <summary>
@@ -1442,15 +1445,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 var row = (i - col) / RowCount;
 
 #if SILVERLIGHT
-                hash ^= Precision.DoubleToInt64Bits(this[row, col]);
+                hash ^= Precision.DoubleToInt64Bits(this[row, col].GetHashCode());
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(this[row, col]);
+                hash ^= BitConverter.DoubleToInt64Bits(this[row, col].GetHashCode());
 #endif
             }
 
             return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
         }
-
         #endregion
 
         /// <summary>
@@ -1462,7 +1464,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    At(i, j, 0);
+                    At(i, j, default(T));
                 }
             }
         }
@@ -1471,7 +1473,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>
-        public virtual Matrix Transpose()
+        public virtual Matrix<T> Transpose()
         {
             var ret = CreateMatrix(ColumnCount, RowCount);
             for (var j = 0; j < ColumnCount; j++)
@@ -1548,7 +1550,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="right">The matrix to concatenate.</param>
         /// <returns>The combined matrix.</returns>
-        public virtual Matrix Append(Matrix right)
+        public virtual Matrix<T> Append(Matrix<T> right)
         {
             if (right == null)
             {
@@ -1570,7 +1572,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="right">The matrix to concatenate.</param>
         /// <param name="result">The combined matrix.</param>
-        public virtual void Append(Matrix right, Matrix result)
+        public virtual void Append(Matrix<T> right, Matrix<T> result)
         {
             if (right == null)
             {
@@ -1622,7 +1624,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The combined matrix.</returns>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public virtual Matrix Stack(Matrix lower)
+        public virtual Matrix<T> Stack(Matrix<T> lower)
         {
             if (lower == null)
             {
@@ -1646,7 +1648,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The combined matrix.</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public virtual void Stack(Matrix lower, Matrix result)
+        public virtual void Stack(Matrix<T> lower, Matrix<T> result)
         {
             if (lower == null)
             {
@@ -1699,7 +1701,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="lower">The lower, right matrix.</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <returns>the combined matrix</returns>
-        public virtual Matrix DiagonalStack(Matrix lower)
+        public virtual Matrix<T> DiagonalStack(Matrix<T> lower)
         {
             if (lower == null)
             {
@@ -1719,7 +1721,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows + lower.rows) x (this.Columns + lower.Columns).</exception>
-        public virtual void DiagonalStack(Matrix lower, Matrix result)
+        public virtual void DiagonalStack(Matrix<T> lower, Matrix<T> result)
         {
             if (lower == null)
             {
@@ -1769,7 +1771,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 var s = 0.0;
                 for (var i = 0; i < RowCount; i++)
                 {
-                    s += Math.Abs(At(i, j));
+                    s += AbsoluteT(At(i, j));
                 }
 
                 norm = Math.Max(norm, s);
@@ -1784,7 +1786,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// In a later release, it will be replaced with a sparse implementation.</remarks>
         public virtual double L2Norm()
         {
-            return Svd.Create(this, false).Norm2;
+            return Svd<T>.Create(this, false).Norm2;
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
@@ -1796,11 +1798,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             // TODO: Replace with multiple Transpose
             //// aat.Gemm(1.0, 0.0, false, true, this, this);
-            
+
             var norm = 0.0;
             for (var i = 0; i < RowCount; i++)
             {
-                norm += Math.Abs(aat.At(i, i));
+                norm += AbsoluteT(aat.At(i, i));
             }
 
             norm = Math.Sqrt(norm);
@@ -1818,13 +1820,62 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 var s = 0.0;
                 for (var j = 0; j < ColumnCount; j++)
                 {
-                    s += Math.Abs(At(i, j));
+                    s += AbsoluteT(At(i, j));
                 }
-                
+
                 norm = Math.Max(norm, s);
             }
 
             return norm;
         }
+
+        #region Simple arithmetic of type T
+
+        /// <summary>
+        /// Add two values T+T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of addition</returns>
+        protected abstract T AddT(T val1, T val2);
+
+        /// <summary>
+        /// Subtract two values T-T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of subtract</returns>
+        protected abstract T SubtractT(T val1, T val2);
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected abstract T MultiplyT(T val1, T val2);
+
+        /// <summary>
+        /// Divide two values T/T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of divide</returns>
+        protected abstract T DivideT(T val1, T val2);
+
+        /// <summary>
+        /// Is equal to one?
+        /// </summary>
+        /// <param name="val1">Value to check</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected abstract bool IsOneT(T val1);
+
+        /// <summary>
+        /// Take absolute value
+        /// </summary>
+        /// <param name="val1">Source alue</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected abstract double AbsoluteT(T val1);
+        #endregion
     }
 }

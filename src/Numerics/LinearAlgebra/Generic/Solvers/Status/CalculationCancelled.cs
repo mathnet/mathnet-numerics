@@ -1,4 +1,4 @@
-// <copyright file="CalculationDiverged.cs" company="Math.NET">
+// <copyright file="CalculationCancelled.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
 {
     /// <summary>
-    /// Indicates that the calculation diverged.
+    /// Indicates that a calculation was cancelled by the user.
     /// </summary>
-    public struct CalculationDiverged : ICalculationStatus
+    public struct CalculationCancelled : ICalculationStatus
     {
         /// <summary>
         /// Gets a value indicating whether current status warrants stopping the calculation.
@@ -45,7 +45,5 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
                 return true;
             }
         }
-
-        // TODO: CalculationDiverged - Should we put the residuals on here?
     }
 }

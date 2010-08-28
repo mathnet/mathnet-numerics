@@ -27,12 +27,18 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
+    using System.Text;
+    using Distributions;
+    using Factorization;
+    using Generic;
+    using Generic.Factorization;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
     /// </summary>
-    public class DenseMatrix : Matrix
+    public class DenseMatrix : Matrix<double>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseMatrix"/> class. This matrix is square with a given size.
@@ -137,19 +143,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <c>DenseMatrix</c> with the given dimensions.
         /// </returns>
-        public override Matrix CreateMatrix(int numberOfRows, int numberOfColumns)
+        public override Matrix<double> CreateMatrix(int numberOfRows, int numberOfColumns)
         {
             return new DenseMatrix(numberOfRows, numberOfColumns);
         }
 
         /// <summary>
-        /// Creates a <see cref="Vector"/> with a the given dimension.
+        /// Creates a <see cref="Vector{T}"/> with a the given dimension.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
         /// <returns>
-        /// A <see cref="Vector"/> with the given dimension.
+        /// A <see cref="Vector{T}"/> with the given dimension.
         /// </returns>
-        public override Vector CreateVector(int size)
+        public override Vector<double> CreateVector(int size)
         {
             return new DenseVector(size);
         }
@@ -200,7 +206,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>
-        public override Matrix Transpose()
+        public override Matrix<double> Transpose()
         {
             var ret = new DenseMatrix(ColumnCount, RowCount);
             for (var j = 0; j < ColumnCount; j++)
@@ -278,7 +284,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Add(Matrix other)
+        public override void Add(Matrix<double> other)
         {
             var m = other as DenseMatrix;
             if (m == null)
@@ -318,7 +324,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The matrix to subtract.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Subtract(Matrix other)
+        public override void Subtract(Matrix<double> other)
         {
             var m = other as DenseMatrix;
             if (m == null)
@@ -370,7 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void Multiply(Matrix other, Matrix result)
+        public override void Multiply(Matrix<double> other, Matrix<double> result)
         {
             if (other == null)
             {
@@ -419,7 +425,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
-        public override Matrix Multiply(Matrix other)
+        public override Matrix<double> Multiply(Matrix<double> other)
         {
             if (other == null)
             {
@@ -451,7 +457,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix other, Matrix result)
+        public override void TransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
             var otherDense = other as DenseMatrix;
             var resultDense = result as DenseMatrix;
@@ -493,7 +499,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
-        public override Matrix TransposeAndMultiply(Matrix other)
+        public override Matrix<double> TransposeAndMultiply(Matrix<double> other)
         {
             var otherDense = other as DenseMatrix;
             if (otherDense == null)
@@ -563,5 +569,155 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
+
+        /// <summary>
+        /// Negates each element of this matrix.
+        /// </summary>        
+        public override void Negate()
+        {
+            Multiply(-1);
+        }
+
+        /// <summary>
+        /// Generates matrix with random elements.
+        /// </summary>
+        /// <param name="numberOfRows">Number of rows.</param>
+        /// <param name="numberOfColumns">Number of columns.</param>
+        /// <param name="distribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
+        /// </returns>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
+        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
+            CommonParallel.For(
+                0,
+                ColumnCount,
+                j =>
+                {
+                    for (var i = 0; i < matrix.RowCount; i++)
+                    {
+                        matrix[i, j] = distribution.Sample();
+                    }
+                });
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Generates matrix with random elements.
+        /// </summary>
+        /// <param name="numberOfRows">Number of rows.</param>
+        /// <param name="numberOfColumns">Number of columns.</param>
+        /// <param name="distribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
+        /// </returns>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
+        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
+            CommonParallel.For(
+                0,
+                ColumnCount,
+                j =>
+                {
+                    for (var i = 0; i < matrix.RowCount; i++)
+                    {
+                        matrix[i, j] = distribution.Sample();
+                    }
+                });
+
+            return matrix;
+        }
+
+        #region Simple arithmetic of type T
+        /// <summary>
+        /// Add two values T+T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of addition</returns>
+        protected sealed override double AddT(double val1, double val2)
+        {
+            return val1 + val2;
+        }
+
+        /// <summary>
+        /// Subtract two values T-T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of subtract</returns>
+        protected sealed override double SubtractT(double val1, double val2)
+        {
+            return val1 - val2;
+        }
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected sealed override double MultiplyT(double val1, double val2)
+        {
+            return val1 * val2;
+        }
+
+        /// <summary>
+        /// Divide two values T/T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of divide</returns>
+        protected sealed override double DivideT(double val1, double val2)
+        {
+            return val1 / val2;
+        }
+
+        /// <summary>
+        /// Is equal to one?
+        /// </summary>
+        /// <param name="val1">Value to check</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected sealed override bool IsOneT(double val1)
+        {
+            return 1.0.AlmostEqualInDecimalPlaces(val1, 15);
+        }
+
+        /// <summary>
+        /// Take absolute value
+        /// </summary>
+        /// <param name="val1">Source alue</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected sealed override double AbsoluteT(double val1)
+        {
+            return Math.Abs(val1);
+        }
+        #endregion  
     }
 }

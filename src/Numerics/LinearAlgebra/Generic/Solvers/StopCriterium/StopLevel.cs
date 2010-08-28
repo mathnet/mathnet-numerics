@@ -1,11 +1,9 @@
-// <copyright file="CalculationIndetermined.cs" company="Math.NET">
+// <copyright file="StopLevel.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,22 +24,34 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.StopCriterium
 {
     /// <summary>
-    /// Indicates that the state of the calculation is indetermined, not started or stopped.
+    /// Indicates what an <see cref="IIterationStopCriterium{T}"/> monitors for stop criteria. 
     /// </summary>
-    public struct CalculationIndetermined : ICalculationStatus
+    public enum StopLevel
     {
         /// <summary>
-        /// Gets a value indicating whether current status warrants stopping the calculation.
+        /// The <see cref="IIterationStopCriterium"/> monitors calculation failures in the
+        /// iterative calculation.
         /// </summary>
-        public bool TerminatesCalculation
-        {
-            get
-            {
-                return false;
-            }
-        }
+        CalculationFailure,
+
+        /// <summary>
+        /// The <see cref="IIterationStopCriterium"/> monitors the calculation for signs of divergence.
+        /// </summary>
+        Divergence,
+
+        /// <summary>
+        /// The <see cref="IIterationStopCriterium"/> guards the calculation against unlimited continuation
+        /// by monitoring user specified limits, e.g. the maximum number of iterations.
+        /// </summary>
+        StoppedWithoutConvergence,
+
+        /// <summary>
+        /// The <see cref="IIterationStopCriterium"/> monitors the calculation for convergence, usually
+        /// based on the residuals of the calculation.
+        /// </summary>
+        Convergence
     }
 }

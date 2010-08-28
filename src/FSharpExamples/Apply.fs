@@ -30,7 +30,7 @@ module MathNet.Numerics.FSharp.Examples.Apply
 open System.Numerics
 open MathNet.Numerics
 open MathNet.Numerics.LinearAlgebra.Double
-
+open MathNet.Numerics.LinearAlgebra.Generic
 /// Flag to specify wether we want pretty printing or tab separated output.
 let prettyPrint = false
 
@@ -61,7 +61,7 @@ let FunctionList : (string * (float -> float) * (float -> float)) [] =
 /// A vector with random entries.
 let w =
     let rnd = new Random.MersenneTwister()
-    (new DenseVector(Array.init N (fun _ -> rnd.NextDouble() * 10.0))) :> Vector
+    (new DenseVector(Array.init N (fun _ -> rnd.NextDouble() * 10.0))) :> Vector<float>
 
 /// A stopwatch to time the execution.
 let sw = new System.Diagnostics.Stopwatch()

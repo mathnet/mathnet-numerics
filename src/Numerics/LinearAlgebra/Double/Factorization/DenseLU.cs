@@ -31,6 +31,8 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
+    using Generic;
+    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -41,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public class DenseLU : LU
+    public class DenseLU : LU<double>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseLU"/> class. This object will compute the
@@ -74,9 +76,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <c>AX = B</c>, with A LU factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <c>B</c>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <c>X</c>.</param>
-        public override void Solve(Matrix input, Matrix result)
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <c>B</c>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <c>X</c>.</param>
+        public override void Solve(Matrix<double> input, Matrix<double> result)
         {
             // Check for proper arguments.
             if (input == null)
@@ -129,8 +131,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Solves a system of linear equations, <c>Ax = b</c>, with A LU factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <c>b</c>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <c>x</c>.</param>
-        public override void Solve(Vector input, Vector result)
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <c>x</c>.</param>
+        public override void Solve(Vector<double> input, Vector<double> result)
         {
             // Check for proper arguments.
             if (input == null)
@@ -178,11 +180,43 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Returns the inverse of this matrix. The inverse is calculated using LU decomposition.
         /// </summary>
         /// <returns>The inverse of this matrix.</returns>
-        public override Matrix Inverse()
+        public override Matrix<double> Inverse()
         {
             var result = (DenseMatrix)Factors.Clone();
             Control.LinearAlgebraProvider.LUInverseFactored(result.Data, result.RowCount, Pivots);
             return result;
         }
+
+        #region Simple arithmetic of type T
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected sealed override double MultiplyT(double val1, double val2)
+        {
+            return val1 * val2;
+        }
+
+        /// <summary>
+        /// Get value of type T equal to one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected sealed override double OneValueT
+        {
+            get { return 1.0; }
+        }
+
+        /// <summary>
+        /// Get value of type T equal to minus one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected sealed override double MinusOneValueT
+        {
+            get { return -1.0; }
+        }
+        #endregion
     }
 }

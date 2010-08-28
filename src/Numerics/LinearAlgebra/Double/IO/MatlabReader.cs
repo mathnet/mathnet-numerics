@@ -31,6 +31,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using Generic;
     using Matlab;
     using Properties;
 
@@ -89,7 +90,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         /// If the matrix is stored as a sparse matrix, then a <see cref="SparseMatrix"/> is returned. Otherwise, a <see cref="DenseMatrix"/>
         /// is returned.
         /// </returns>
-        public Matrix ReadMatrix()
+        public Matrix<double> ReadMatrix()
         {
             return ReadMatrix(null);
         }
@@ -102,7 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         /// If the matrix is stored as a sparse matrix, then a <see cref="SparseMatrix"/> is returned. Otherwise, a <see cref="DenseMatrix"/>
         /// is returned. <see langword="null"/> is returned if a matrix with the requests name doesn't exist.
         /// </returns>
-        public Matrix ReadMatrix(string matrixName)
+        public Matrix<double> ReadMatrix(string matrixName)
         {
             Stream stream;
             if (_filename == null)
@@ -119,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
             var parser = new MatlabParser(stream, names);
             var file = parser.Parse();
 
-            Matrix matrix = null;
+            Matrix<double> matrix = null;
             if (string.IsNullOrEmpty(matrixName))
             {
                 matrix = file.FirstMatrix;
@@ -142,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         /// Reads all matrices from the file or stream.
         /// </summary>
         /// <returns>All matrices from the file or stream.</returns>
-        public Matrix[] ReadMatrices()
+        public Matrix<double>[] ReadMatrices()
         {
             return ReadMatrices(new string[] { });
         }
@@ -154,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         /// <returns>
         /// The named matrices from the file or stream.
         /// </returns>
-        public Matrix[] ReadMatrices(IEnumerable<string> names)
+        public Matrix<double>[] ReadMatrices(IEnumerable<string> names)
         {
             Stream stream;
             if (_filename == null)
@@ -170,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
             var parser = new MatlabParser(stream, names);
             var file = parser.Parse();
 
-            var matrices = new Matrix[file.Matrices.Count];
+            var matrices = new Matrix<double>[file.Matrices.Count];
             var i = 0;
             foreach (var matrix in file.Matrices.Values)
             {

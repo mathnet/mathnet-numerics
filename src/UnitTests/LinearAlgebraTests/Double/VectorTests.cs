@@ -31,7 +31,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System.Collections.Generic;
     using System.Globalization;
     using Distributions;
-    using LinearAlgebra.Double;
+    using LinearAlgebra.Generic;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanCloneVectorUsingICloneable()
         {
             var vector = CreateVector(Data);
-            var clone = (Vector)((ICloneable)vector).Clone();
+            var clone = (Vector<double>)((ICloneable)vector).Clone();
 
             Assert.AreNotSame(vector, clone);
             Assert.AreEqual(vector.Count, clone.Count);
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void VectorGetHashCode()
         {
             var vector = CreateVector(new double[] { 1, 2, 3, 4 });
-            Assert.AreEqual(2145910784, vector.GetHashCode());
+            Assert.AreEqual(2096640, vector.GetHashCode());
         }
 
         [Test]
@@ -433,7 +433,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        protected abstract Vector CreateVector(int size);
-        protected abstract Vector CreateVector(IList<double> data);
+        protected abstract Vector<double> CreateVector(int size);
+        protected abstract Vector<double> CreateVector(IList<double> data);
     }
 }

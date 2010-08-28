@@ -32,13 +32,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
 {
     using System;
     using System.Diagnostics;
+    using Generic;
+    using Generic.Solvers.Status;
+    using Generic.Solvers.StopCriterium;
     using Properties;
-    using Status;
 
     /// <summary>
-    /// Defines an <see cref="IIterationStopCriterium"/> that monitors residuals for NaN's.
+    /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals for NaN's.
     /// </summary>
-    public sealed class FailureStopCriterium : IIterationStopCriterium
+    public sealed class FailureStopCriterium : IIterationStopCriterium<double>
     {
         /// <summary>
         /// Defines the default last iteration number. Set to -1 because iterations normally
@@ -63,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <see cref="IIterationStopCriterium"/>. Result is set into <c>Status</c> field.
+        /// by the current <see cref="IIterationStopCriterium{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
@@ -74,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector)
+        public void DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -154,7 +156,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         }
 
         /// <summary>
-        /// Resets the <see cref="IIterationStopCriterium"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterationStopCriterium{T}"/> to the pre-calculation state.
         /// </summary>
         public void ResetToPrecalculationState()
         {
@@ -164,7 +166,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
 
         /// <summary>
         /// Gets the <see cref="StopLevel"/>which indicates what sort of stop criterium this
-        /// <see cref="IIterationStopCriterium"/> monitors.
+        /// <see cref="IIterationStopCriterium{T}"/> monitors.
         /// </summary>
         /// <value>Returns <see cref="CalculationFailure"/>.</value>
         public StopLevel StopLevel
@@ -180,7 +182,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// Clones the current <see cref="FailureStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="FailureStopCriterium"/> class.</returns>
-        public IIterationStopCriterium Clone()
+        public IIterationStopCriterium<double> Clone()
         {
             return new FailureStopCriterium();
         }

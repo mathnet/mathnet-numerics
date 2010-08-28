@@ -32,14 +32,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
     using System.IO;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using Generic;
 
     /// <summary>
-    /// Creates a <see cref="Matrix"/> from a delimited text file. If the user does not
+    /// Creates a <see cref="Matrix{T}"/> from a delimited text file. If the user does not
     /// specify a delimiter, then any whitespace is used.
     /// </summary>
     /// <typeparam name="TMatrix">The type of the matrix to return.</typeparam>
     public class DelimitedReader<TMatrix> : MatrixReader<TMatrix>
-        where TMatrix : Matrix
+        where TMatrix : Matrix<double>
     {
         /// <summary>
         /// Constructor to create matrix instance.

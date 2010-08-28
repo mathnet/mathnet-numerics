@@ -24,9 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
+namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
     using System;
+    using System.Numerics;
+    using Generic;
     using Properties;
 
     /// <summary>
@@ -38,12 +40,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
     /// </remarks>
-    public abstract class QR : ISolver
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    public abstract class QR<T> : ISolver<T>
+    where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Gets or sets orthogonal Q matrix
         /// </summary>
-        protected Matrix MatrixQ
+        protected Matrix<T> MatrixQ
         {
             get;
             set;
@@ -52,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets or sets upper triangular factor R
         /// </summary>
-        protected Matrix MatrixR
+        protected Matrix<T> MatrixR
         {
             get;
             set;
@@ -63,21 +67,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>A QR factorization object.</returns>
-        internal static QR Create(Matrix matrix)
+        internal static QR<T> Create(Matrix<T> matrix)
         {
-            var dense = matrix as DenseMatrix;
-            if (dense != null)
+            if (typeof(T) == typeof(double))
             {
-                return new DenseQR(dense);
+                var dense = matrix as LinearAlgebra.Double.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Double.Factorization.DenseQR(dense) as QR<T>;
+                }
+
+                return new LinearAlgebra.Double.Factorization.UserQR(matrix as Matrix<double>) as QR<T>;
             }
 
-            return new UserQR(matrix);
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Gets orthogonal Q matrix
         /// </summary>
-        public virtual Matrix Q 
+        public virtual Matrix<T> Q 
         {
             get
             {
@@ -88,7 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets the upper triangular factor R.
         /// </summary>
-        public virtual Matrix R
+        public virtual Matrix<T> R
         {
             get
             {
@@ -108,17 +117,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     throw new ArgumentException(Resources.ArgumentMatrixSquare);
                 }
 
-                var det = 1.0;
+                var det = OneValueT;
                 for (var i = 0; i < MatrixR.ColumnCount; i++)
                 {
-                    det *= MatrixR.At(i, i);
-                    if (Math.Abs(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
+                    det = MultiplyT(det, MatrixR.At(i, i));
+                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
                     {
                         return 0;
                     }
                 }
 
-                return Math.Abs(det);
+                return AbsoluteT(det);
             }
         }
 
@@ -132,7 +141,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             {
                 for (var i = 0; i < MatrixR.ColumnCount; i++)
                 {
-                    if (Math.Abs(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
+                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
                     {
                         return false;
                     }
@@ -145,9 +154,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <returns>The left hand side <see cref="Matrix"/>, <b>X</b>.</returns>
-        public virtual Matrix Solve(Matrix input)
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
+        public virtual Matrix<T> Solve(Matrix<T> input)
         {
             // Check for proper arguments.
             if (input == null)
@@ -163,16 +172,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
-        public abstract void Solve(Matrix input, Matrix result);
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
+        public abstract void Solve(Matrix<T> input, Matrix<T> result);
 
         /// <summary>
         /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <returns>The left hand side <see cref="Vector"/>, <b>x</b>.</returns>
-        public virtual Vector Solve(Vector input)
+        /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
+        public virtual Vector<T> Solve(Vector<T> input)
         {
             // Check for proper arguments.
             if (input == null)
@@ -189,7 +198,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
-        public abstract void Solve(Vector input, Vector result);
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
+        public abstract void Solve(Vector<T> input, Vector<T> result);
+
+        #region Simple arithmetic of type T
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected abstract T MultiplyT(T val1, T val2);
+
+        /// <summary>
+        /// Take absolute value
+        /// </summary>
+        /// <param name="val">Source alue</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected abstract double AbsoluteT(T val);
+
+        /// <summary>
+        /// Gets value of type T equal to one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected abstract T OneValueT
+        {
+            get;
+        }
+
+        #endregion
     }
 }

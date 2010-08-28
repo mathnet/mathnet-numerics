@@ -1,4 +1,4 @@
-// <copyright file="IIterativeSolverSetup.cs" company="Math.NET">
+// <copyright file="CalculationRunning.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,44 +28,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
 {
-    using System;
-
     /// <summary>
-    /// Defines the interface for objects that can create an iterative solver with
-    /// specific settings. This interface is used to pass iterative solver creation 
-    /// setup information around.
+    /// Indicates that the calculation is running and no results are yet known.
     /// </summary>
-    public interface IIterativeSolverSetup
+    public struct CalculationRunning : ICalculationStatus
     {
         /// <summary>
-        /// Gets the type of the solver that will be created by this setup object.
+        /// Gets a value indicating whether current status warrants stopping the calculation.
         /// </summary>
-        Type SolverType { get; }
+        public bool TerminatesCalculation
+        {
+            get 
+            { 
+                return false; 
+            }
+        }
 
-        /// <summary>
-        /// Gets type of preconditioner, if any, that will be created by this setup object.
-        /// </summary>
-        Type PreconditionerType { get; }
-
-        /// <summary>
-        /// Creates a fully functional iterative solver with the default settings
-        /// given by this setup.
-        /// </summary>
-        /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
-        IIterativeSolver CreateNew();
-
-        /// <summary>
-        /// Gets the relative speed of the solver. 
-        /// </summary>
-        /// <value>Returns a value between 0 and 1, inclusive.</value>
-        double SolutionSpeed { get; }
-
-        /// <summary>
-        /// Gets the relative reliability of the solver.
-        /// </summary>
-        /// <value>Returns a value between 0 and 1 inclusive.</value>
-        double Reliability { get; }
+        // TODO: CalculationRunning - Get current residuals?
     }
 }

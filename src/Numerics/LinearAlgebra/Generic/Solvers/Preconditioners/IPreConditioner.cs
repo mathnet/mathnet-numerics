@@ -28,8 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Preconditioners
 {
+    using System;
+    using System.Numerics;
+
     /// <summary>
     /// The base interface for preconditioner classes.
     /// </summary>
@@ -48,26 +51,27 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Preconditioners
     /// if the changes occur after creating the preconditioner.
     /// </para>
     /// </remarks>
-    public interface IPreConditioner
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    public interface IPreConditioner<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Initializes the preconditioner and loads the internal data structures.
         /// </summary>
         /// <param name="matrix">The matrix on which the preconditioner is based.</param>
-        void Initialize(Matrix matrix);
+        void Initialize(Matrix<T> matrix);
 
         /// <summary>
         /// Approximates the solution to the matrix equation <b>Mx = b</b>.
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <returns>The left hand side vector.</returns>
-        Vector Approximate(Vector rhs);
+        Vector<double> Approximate(Vector<T> rhs);
 
         /// <summary>
         /// Approximates the solution to the matrix equation <b>Mx = b</b>.
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        void Approximate(Vector rhs, Vector lhs);
+        void Approximate(Vector<T> rhs, Vector<T> lhs);
     }
 }

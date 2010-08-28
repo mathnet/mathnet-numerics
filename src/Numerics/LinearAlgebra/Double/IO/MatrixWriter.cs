@@ -31,19 +31,21 @@ using System.IO;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.IO
 {
+    using Generic;
+
     /// <summary>
-    /// Base class to write a single <see cref="Matrix"/> to a file or stream.
+    /// Base class to write a single <see cref="Matrix{T}"/> to a file or stream.
     /// </summary>
     public abstract class MatrixWriter 
     {
         /// <summary>
-        /// Writes the given <see cref="Matrix"/> to the given file. If the file already exists, 
+        /// Writes the given <see cref="Matrix{T}"/> to the given file. If the file already exists, 
         /// the file will be overwritten.
         /// </summary>
         /// <param name="matrix">The matrix to write.</param>
         /// <param name="file">The file to write the matrix to.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="file"/> is <c>null</c>.</exception>
-        public void WriteMatrix(Matrix matrix, string file)
+        public void WriteMatrix(Matrix<double> matrix, string file)
         {
             if (matrix == null)
             {
@@ -62,14 +64,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         }
 
         /// <summary>
-        /// Writes the given <see cref="Matrix"/> to the given file. If the file already exists, 
+        /// Writes the given <see cref="Matrix{T}"/> to the given file. If the file already exists, 
         /// the file will be overwritten.
         /// </summary>
         /// <param name="matrix">the matrix to write.</param>
         /// <param name="file">The file to write the matrix to.</param>
         /// <param name="format">The format to use on each element.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="file"/> is <c>null</c>.</exception>
-        public void WriteMatrix(Matrix matrix, string file, string format)
+        public void WriteMatrix(Matrix<double> matrix, string file, string format)
         {
             if (matrix == null)
             {
@@ -93,12 +95,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         }
 
         /// <summary>
-        /// Writes the given <see cref="Matrix"/> to the given stream.
+        /// Writes the given <see cref="Matrix{T}"/> to the given stream.
         /// </summary>
         /// <param name="matrix">The matrix to write.</param>
         /// <param name="stream">The <see cref="Stream"/> to write the matrix to.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="stream"/> is <c>null</c>.</exception>
-        public void WriteMatrix(Matrix matrix, Stream stream)
+        public void WriteMatrix(Matrix<double> matrix, Stream stream)
         {
             if (matrix == null)
             {
@@ -117,13 +119,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         }
 
         /// <summary>
-        /// Writes the given <see cref="Matrix"/> to the given stream.
+        /// Writes the given <see cref="Matrix{T}"/> to the given stream.
         /// </summary>
         /// <param name="matrix">The <see cref="TextWriter"/> to write.</param>
         /// <param name="stream">The <see cref="Stream"/> to write the matrix to.</param>
         /// <param name="format">The format to use on each element.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="stream"/> is <c>null</c>.</exception>
-        public void WriteMatrix(Matrix matrix, Stream stream, string format)
+        public void WriteMatrix(Matrix<double> matrix, Stream stream, string format)
         {
             if (matrix == null)
             {
@@ -142,12 +144,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         }
 
         /// <summary>
-        /// Writes the given <see cref="Matrix"/> to the given <see cref="TextWriter"/>.
+        /// Writes the given <see cref="Matrix{T}"/> to the given <see cref="TextWriter"/>.
         /// </summary>
         /// <param name="matrix">The matrix to write.</param>
         /// <param name="writer">The <see cref="TextWriter"/> to write the matrix to.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="writer"/> is <c>null</c>.</exception>
-        public void WriteMatrix(Matrix matrix, TextWriter writer)
+        public void WriteMatrix(Matrix<double> matrix, TextWriter writer)
         {
             if (matrix == null)
             {
@@ -163,13 +165,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         }
 
         /// <summary>
-        /// Writes the given <see cref="Matrix"/> to the given <see cref="TextWriter"/>.
+        /// Writes the given <see cref="Matrix{T}"/> to the given <see cref="TextWriter"/>.
         /// </summary>
         /// <param name="matrix">The matrix to write.</param>
         /// <param name="writer">The <see cref="TextWriter"/> to write the matrix to.</param>
         /// <param name="format">The format to use on each element.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="writer"/> is <c>null</c>.</exception>
-        public void WriteMatrix(Matrix matrix, TextWriter writer, string format)
+        public void WriteMatrix(Matrix<double> matrix, TextWriter writer, string format)
         {
             if (matrix == null)
             {
@@ -190,6 +192,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         /// <param name="matrix">The matrix to serialize.</param>
         /// <param name="writer">The <see cref="TextWriter"/> to write the matrix to.</param>
         /// <param name="format">The format for the new matrix.</param>
-        protected abstract void DoWriteMatrix(Matrix matrix, TextWriter writer, string format);
+        protected abstract void DoWriteMatrix(Matrix<double> matrix, TextWriter writer, string format);
     }
 }

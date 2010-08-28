@@ -24,9 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
+namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
     using System;
+    using System.Numerics;
+    using Generic;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>
@@ -38,12 +40,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public abstract class LU : ISolver
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    public abstract class LU<T> : ISolver<T>
+    where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Gets or sets both the L and U factors in the same matrix.
         /// </summary>
-        protected Matrix Factors
+        protected Matrix<T> Factors
         {
             get;
             set;
@@ -63,28 +67,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>An LU factorization object.</returns>
-        internal static LU Create(Matrix matrix)
+        internal static LU<T> Create(Matrix<T> matrix)
         {
-            var dense = matrix as DenseMatrix;
-            if (dense != null)
+            if (typeof(T) == typeof(double))
             {
-                return new DenseLU(dense);
+                var dense = matrix as LinearAlgebra.Double.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Double.Factorization.DenseLU(dense) as LU<T>;
+                }
+
+                return new LinearAlgebra.Double.Factorization.UserLU(matrix as Matrix<double>) as LU<T>;
             }
 
-            return new UserLU(matrix);
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Gets the lower triangular factor.
         /// </summary>
-        public virtual Matrix L
+        public virtual Matrix<T> L
         {
             get
             {
                 var result = Factors.LowerTriangle();
                 for (var i = 0; i < result.RowCount; i++)
                 {
-                    result.At(i, i, 1);
+                    result.At(i, i, OneValueT);
                 }
 
                 return result;
@@ -94,7 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets the upper triangular factor.
         /// </summary>
-        public virtual Matrix U
+        public virtual Matrix<T> U
         {
             get
             {
@@ -116,20 +125,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets the determinant of the matrix for which the LU factorization was computed.
         /// </summary>
-        public virtual double Determinant
+        public virtual T Determinant
         {
             get
             {
-                var det = 1.0;
+                var det = OneValueT;
                 for (var j = 0; j < Factors.RowCount; j++)
                 {
                     if (Pivots[j] != j)
                     {
-                        det = -det * Factors.At(j, j);
+                        det = MultiplyT(MinusOneValueT, MultiplyT(det, Factors.At(j, j)));
                     }
                     else
                     {
-                        det *= Factors.At(j, j);
+                        det = MultiplyT(det, Factors.At(j, j));
                     }
                 }
 
@@ -140,9 +149,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A LU factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <returns>The left hand side <see cref="Matrix"/>, <b>X</b>.</returns>
-        public virtual Matrix Solve(Matrix input)
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
+        public virtual Matrix<T> Solve(Matrix<T> input)
         {
             // Check for proper arguments.
             if (input == null)
@@ -158,16 +167,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A LU factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
-        public abstract void Solve(Matrix input, Matrix result);
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
+        public abstract void Solve(Matrix<T> input, Matrix<T> result);
 
         /// <summary>
         /// Solves a system of linear equations, <b>Ax = b</b>, with A LU factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <returns>The left hand side <see cref="Vector"/>, <b>x</b>.</returns>
-        public virtual Vector Solve(Vector input)
+        /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
+        public virtual Vector<T> Solve(Vector<T> input)
         {
             // Check for proper arguments.
             if (input == null)
@@ -184,13 +193,43 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Solves a system of linear equations, <b>Ax = b</b>, with A LU factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
-        public abstract void Solve(Vector input, Vector result);
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
+        public abstract void Solve(Vector<T> input, Vector<T> result);
 
         /// <summary>
         /// Returns the inverse of this matrix. The inverse is calculated using LU decomposition.
         /// </summary>
         /// <returns>The inverse of this matrix.</returns>
-        public abstract Matrix Inverse();
+        public abstract Matrix<T> Inverse();
+
+        #region Simple arithmetic of type T
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected abstract T MultiplyT(T val1, T val2);
+
+        /// <summary>
+        /// Gets value of type T equal to one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected abstract T OneValueT
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets value of type T equal to one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected abstract T MinusOneValueT
+        {
+            get;
+        }
+
+        #endregion
     }
 }

@@ -30,7 +30,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Text;
     using Distributions;
+    using Generic;
     using NumberTheory;
     using Properties;
     using Threading;
@@ -38,7 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
-    public class DenseVector : Vector
+    public class DenseVector : Vector<double>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseVector"/> class with a given size.
@@ -84,7 +86,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">
         /// The vector to create the new vector from.
         /// </param>
-        public DenseVector(Vector other)
+        public DenseVector(Vector<double> other)
             : this(other.Count)
         {
             var vector = other as DenseVector;
@@ -175,7 +177,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Create a matrix based on this vector in column form (one single column).
         /// </summary>
         /// <returns>This vector as a column matrix.</returns>
-        public override Matrix ToColumnMatrix()
+        public override Matrix<double> ToColumnMatrix()
         {
             var matrix = new DenseMatrix(Count, 1);
             for (var i = 0; i < Data.Length; i++)
@@ -190,7 +192,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Create a matrix based on this vector in row form (one single row).
         /// </summary>
         /// <returns>This vector as a row matrix.</returns>
-        public override Matrix ToRowMatrix()
+        public override Matrix<double> ToRowMatrix()
         {
             var matrix = new DenseMatrix(1, Count);
             for (var i = 0; i < Data.Length; i++)
@@ -232,7 +234,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A matrix with the given dimensions.
         /// </returns>
-        public override Matrix CreateMatrix(int rows, int columns)
+        public override Matrix<double> CreateMatrix(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);
         }
@@ -247,7 +249,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// The new <c>Vector</c>.
         /// </returns>
-        public override Vector CreateVector(int size)
+        public override Vector<double> CreateVector(int size)
         {
             return new DenseVector(size);
         }
@@ -264,7 +266,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If <paramref name="target"/> is not the same size as this vector.
         /// </exception>
-        public override void CopyTo(Vector target)
+        public override void CopyTo(Vector<double> target)
         {
             if (target == null)
             {
@@ -300,7 +302,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
         /// <returns>A copy of the vector with the scalar added.</returns>
-        public override Vector Add(double scalar)
+        public override Vector<double> Add(double scalar)
         {
             if (scalar == 0.0)
             {
@@ -322,7 +324,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the addition.</param>
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(double scalar, Vector result)
+        public override void Add(double scalar, Vector<double> result)
         {
             if (result == null)
             {
@@ -355,7 +357,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>A new vector containing the sum of both vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector Add(Vector other)
+        public override Vector<double> Add(Vector<double> other)
         {
             if (other == null)
             {
@@ -388,7 +390,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(Vector other, Vector result)
+        public override void Add(Vector<double> other, Vector<double> result)
         {
             if (result == null)
             {
@@ -436,7 +438,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing a the same values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator +(DenseVector rightSide)
+        public static Vector<double> operator +(DenseVector rightSide)
         {
             if (rightSide == null)
             {
@@ -454,7 +456,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator +(DenseVector leftSide, DenseVector rightSide)
+        public static Vector<double> operator +(DenseVector leftSide, DenseVector rightSide)
         {
             if (rightSide == null)
             {
@@ -479,7 +481,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
         /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
-        public override Vector Subtract(double scalar)
+        public override Vector<double> Subtract(double scalar)
         {
             if (scalar == 0.0)
             {
@@ -501,7 +503,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the subtraction.</param>
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(double scalar, Vector result)
+        public override void Subtract(double scalar, Vector<double> result)
         {
             if (result == null)
             {
@@ -534,7 +536,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector Subtract(Vector other)
+        public override Vector<double> Subtract(Vector<double> other)
         {
             if (other == null)
             {
@@ -567,7 +569,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(Vector other, Vector result)
+        public override void Subtract(Vector<double> other, Vector<double> result)
         {
             if (result == null)
             {
@@ -614,7 +616,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator -(DenseVector rightSide)
+        public static Vector<double> operator -(DenseVector rightSide)
         {
             if (rightSide == null)
             {
@@ -632,7 +634,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator -(DenseVector leftSide, DenseVector rightSide)
+        public static Vector<double> operator -(DenseVector leftSide, DenseVector rightSide)
         {
             if (rightSide == null)
             {
@@ -657,7 +659,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <returns>The negated vector.</returns>
         /// <remarks>Added as an alternative to the unary negation operator.</remarks>
-        public override Vector Negate()
+        public override Vector<double> Negate()
         {
             var result = new DenseVector(Count);
             CommonParallel.For(
@@ -673,7 +675,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
         /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
-        public override Vector Multiply(double scalar)
+        public override Vector<double> Multiply(double scalar)
         {
             if (scalar == 1.0)
             {
@@ -692,7 +694,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null" />.</exception>
-        public override double DotProduct(Vector other)
+        public override double DotProduct(Vector<double> other)
         {
             if (other == null)
             {
@@ -864,7 +866,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <item>If <paramref name="index"/> + <paramref name="length"/> is greater than or equal to the size of the vector.</item>
         /// </list></exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        public override Vector SubVector(int index, int length)
+        public override Vector<double> SubVector(int index, int length)
         {
             if (index < 0 || index >= Count)
             {
@@ -991,7 +993,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector PointwiseMultiply(Vector other)
+        public override Vector<double> PointwiseMultiply(Vector<double> other)
         {
             if (other == null)
             {
@@ -1027,7 +1029,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Vector other, Vector result)
+        public override void PointwiseMultiply(Vector<double> other, Vector<double> result)
         {
             if (result == null)
             {
@@ -1078,7 +1080,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector PointwiseDivide(Vector other)
+        public override Vector<double> PointwiseDivide(Vector<double> other)
         {
             if (other == null)
             {
@@ -1114,7 +1116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseDivide(Vector other, Vector result)
+        public override void PointwiseDivide(Vector<double> other, Vector<double> result)
         {
             if (result == null)
             {
@@ -1202,7 +1204,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// to the specified random distribution.
         /// </returns>
         /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector Random(int length, IContinuousDistribution randomDistribution)
+        public override Vector<double> Random(int length, IContinuousDistribution randomDistribution)
         {
             if (length < 1)
             {
@@ -1228,7 +1230,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// to the specified random distribution.
         /// </returns>
         /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector Random(int length, IDiscreteDistribution randomDistribution)
+        public override Vector<double> Random(int length, IDiscreteDistribution randomDistribution)
         {
             if (length < 1)
             {
@@ -1252,7 +1254,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
         /// <seealso cref="OuterProduct"/>
-        public Matrix TensorMultiply(DenseVector v)
+        public Matrix<double> TensorMultiply(DenseVector v)
         {
             return OuterProduct(this, v);
         }
@@ -1301,6 +1303,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return Math.Pow(sum, 1.0 / p);
         }
 
+        /// <summary>
+        /// Normalizes this vector to a unit vector with respect to the p-norm.
+        /// </summary>
+        /// <param name="p">
+        /// The p value.
+        /// </param>
+        /// <returns>
+        /// This vector normalized to a unit vector with respect to the p-norm.
+        /// </returns>
+        public override Vector<double> Normalize(double p)
+        {
+            if (p < 0.0)
+            {
+                throw new ArgumentOutOfRangeException("p");
+            }
+
+            var norm = Norm(p);
+            var clone = Clone();
+            if (norm == 0.0)
+            {
+                return clone;
+            }
+
+            clone.Multiply(1.0 / norm, clone);
+
+            return clone;
+        }
         #endregion
 
         #region Parse Functions
@@ -1469,5 +1498,71 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             Array.Clear(Data, 0, Data.Length);
         }
+
+        #region Simple arithmetic of type T
+        /// <summary>
+        /// Add two values T+T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of addition</returns>
+        protected sealed override double AddT(double val1, double val2)
+        {
+            return val1 + val2;
+        }
+
+        /// <summary>
+        /// Subtract two values T-T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of subtract</returns>
+        protected sealed override double SubtractT(double val1, double val2)
+        {
+            return val1 - val2;
+        }
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected sealed override double MultiplyT(double val1, double val2)
+        {
+            return val1 * val2;
+        }
+
+        /// <summary>
+        /// Divide two values T/T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of divide</returns>
+        protected sealed override double DivideT(double val1, double val2)
+        {
+            return val1 / val2;
+        }
+
+        /// <summary>
+        /// Is equal to one?
+        /// </summary>
+        /// <param name="val1">Value to check</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected sealed override bool IsOneT(double val1)
+        {
+            return val1 == 1.0;
+        }
+
+        /// <summary>
+        /// Take absolute value
+        /// </summary>
+        /// <param name="val1">Source alue</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected sealed override double AbsoluteT(double val1)
+        {
+            return Math.Abs(val1);
+        }
+        #endregion
     }
 }

@@ -1,4 +1,4 @@
-// <copyright file="CalculationFailure.cs" company="Math.NET">
+// <copyright file="ICalculationStatus.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,24 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
 {
     /// <summary>
-    /// Indicates that a calculation has failed for some reason.
+    /// Defines the base interface for calculation status objects.
     /// </summary>
-    public struct CalculationFailure : ICalculationStatus
+    public interface ICalculationStatus
     {
         /// <summary>
         /// Gets a value indicating whether current status warrants stopping the calculation.
         /// </summary>
-        public bool TerminatesCalculation
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        // TODO: CalcuationFailure - Indicate why the calculation has failed?
+        bool TerminatesCalculation { get; }
     }
 }

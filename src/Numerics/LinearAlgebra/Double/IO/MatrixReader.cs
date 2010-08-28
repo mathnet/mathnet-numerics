@@ -28,24 +28,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
 {
     using System;
     using System.IO;
+    using Generic;
     using Properties;
 
     /// <summary>
-    /// Base class to read a single <see cref="Matrix"/> from a file or stream.
+    /// Base class to read a single <see cref="Matrix{T}"/> from a file or stream.
     /// </summary>
     /// <typeparam name="TMatrix">The type of Matrix to return.</typeparam>
-    public abstract class MatrixReader<TMatrix> where TMatrix : Matrix
+    public abstract class MatrixReader<TMatrix> where TMatrix : Matrix<double>
     {
         /// <summary>
-        /// Reads a <see cref="Matrix"/> from a file.
+        /// Reads a <see cref="Matrix{T}"/> from a file.
         /// </summary>
         /// <param name="file">The file to read the matrix from.</param>
-        /// <returns>A <see cref="Matrix"/> containing the data from the file. <see langword="null" /> is returned if the file is empty.</returns>
+        /// <returns>A <see cref="Matrix{T}"/> containing the data from the file. <see langword="null" /> is returned if the file is empty.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="file"/> is <see langword="null" />.</exception>
         /// <exception cref="IOException">If the file doesn't exist.</exception>
         /// <exception cref="FormatException">If a value is not a number or not in a valid format.</exception>
         /// <exception cref="OverflowException">If a value represents a number less than <see cref="Double.MinValue"/> or greater than <see cref="Double.MaxValue"/>.</exception>
-        public Matrix ReadMatrix(string file)
+        public Matrix<double> ReadMatrix(string file)
         {
             if (file == null)
             {
@@ -56,7 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         }
 
         /// <summary>
-        /// Reads a <see cref="Matrix"/> from a <see cref="Stream"/>.
+        /// Reads a <see cref="Matrix{T}"/> from a <see cref="Stream"/>.
         /// </summary>
         /// <param name="stream">The <see cref="Stream"/> to read the matrix from.</param>
         /// <returns>A matrix containing the data from the <see cref="Stream"/>. <see langword="null" /> is returned if the <see cref="Stream"/> is empty.</returns>

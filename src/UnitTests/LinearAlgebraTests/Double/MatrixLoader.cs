@@ -33,17 +33,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
 	using System.Collections.Generic;
 	using LinearAlgebra.Double;
-    using MbUnit.Framework;
+	using LinearAlgebra.Generic;
+	using MbUnit.Framework;
 
     public abstract class MatrixLoader
     {
         protected Dictionary<string, double[,]> TestData2D;
-        protected Dictionary<string, Matrix> TestMatrices;
+        protected Dictionary<string, Matrix<double>> TestMatrices;
 
-        protected abstract Matrix CreateMatrix(int rows, int columns);
-        protected abstract Matrix CreateMatrix(double[,] data);
-        protected abstract Vector CreateVector(int size);
-        protected abstract Vector CreateVector(double[] data);
+        protected abstract Matrix<double> CreateMatrix(int rows, int columns);
+        protected abstract Matrix<double> CreateMatrix(double[,] data);
+        protected abstract Vector<double> CreateVector(int size);
+        protected abstract Vector<double> CreateVector(double[] data);
 
         [SetUp]
         public virtual void SetupMatrices()
@@ -58,14 +59,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                              { "Wide2x3", new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } } },
                          };
 
-            TestMatrices = new Dictionary<string, Matrix>();
+            TestMatrices = new Dictionary<string, Matrix<double>>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
         }
 
-        public static Matrix GenerateRandomDenseMatrix(int row, int col)
+        public static Matrix<double> GenerateRandomDenseMatrix(int row, int col)
         {
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
@@ -83,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return matrixA;
         }
 
-        public static Matrix GenerateRandomPositiveDefiniteDenseMatrix(int order)
+        public static Matrix<double> GenerateRandomPositiveDefiniteDenseMatrix(int order)
         {
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
@@ -101,7 +102,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return matrixA.Transpose() * matrixA;
         }
 
-        public static Vector GenerateRandomDenseVector(int order)
+        public static Vector<double> GenerateRandomDenseVector(int order)
         {
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
@@ -116,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return v;
         }
 
-        public static Matrix GenerateRandomUserDefinedMatrix(int row, int col)
+        public static Matrix<double> GenerateRandomUserDefinedMatrix(int row, int col)
         {
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
@@ -134,7 +135,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return matrixA;
         }
 
-        public static Matrix GenerateRandomPositiveDefiniteUserDefinedMatrix(int order)
+        public static Matrix<double> GenerateRandomPositiveDefiniteUserDefinedMatrix(int order)
         {
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
@@ -152,7 +153,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return matrixA.Transpose() * matrixA;
         }
 
-        public static Vector GenerateRandomUserDefinedVector(int order)
+        public static Vector<double> GenerateRandomUserDefinedVector(int order)
         {
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();

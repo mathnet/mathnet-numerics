@@ -2,17 +2,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
 {
     using LinearAlgebra.Double;
     using LinearAlgebra.Double.Solvers.Preconditioners;
+    using LinearAlgebra.Generic;
+    using LinearAlgebra.Generic.Solvers.Preconditioners;
     using MbUnit.Framework;
 
     [TestFixture]
     public sealed class UnitPreconditionerTest : PreconditionerTest
     {
-        internal override IPreConditioner CreatePreconditioner()
+        internal override IPreConditioner<double> CreatePreconditioner()
         {
             return new UnitPreconditioner();
         }
 
-        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
+        protected override void CheckResult(IPreConditioner<double> preconditioner, SparseMatrix matrix, Vector<double> vector, Vector<double> result)
         {
             Assert.AreEqual(typeof(UnitPreconditioner), preconditioner.GetType(), "#01");
 

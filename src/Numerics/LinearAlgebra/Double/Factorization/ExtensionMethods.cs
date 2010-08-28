@@ -30,6 +30,9 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
+    using Generic;
+    using Generic.Factorization;
+
     /// <summary>
     /// Extension methods which return factorizations for the various matrix classes.
     /// </summary>
@@ -40,9 +43,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The Cholesky decomposition object.</returns>
-        public static Cholesky Cholesky(this Matrix matrix)
+        public static Cholesky<double> Cholesky(this Matrix<double> matrix)
         {
-            return Factorization.Cholesky.Create(matrix);
+            return Cholesky<double>.Create(matrix);
         }
 
         /// <summary>
@@ -50,9 +53,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The LU decomposition object.</returns>
-        public static LU LU(this Matrix matrix)
+        public static LU<double> LU(this Matrix<double> matrix)
         {
-            return Factorization.LU.Create(matrix);
+            return LU<double>.Create(matrix);
         }
 
         /// <summary>
@@ -60,9 +63,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static QR QR(this Matrix matrix)
+        public static QR<double> QR(this Matrix<double> matrix)
         {
-            return Factorization.QR.Create(matrix);
+            return QR<double>.Create(matrix);
         }
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static GramSchmidt GramSchmidt(this Matrix matrix)
+        public static GramSchmidt GramSchmidt(this Matrix<double> matrix)
         {
             // NOTE: There is no factory for GramSchmidt. Use constructor of GramSchmidt class.
             return new GramSchmidt(matrix);
@@ -82,9 +85,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static Svd Svd(this Matrix matrix, bool computeVectors)
+        public static Svd<double> Svd(this Matrix<double> matrix, bool computeVectors)
         {
-            return Factorization.Svd.Create(matrix, computeVectors);
+            return Svd<double>.Create(matrix, computeVectors);
         }
     }
 }

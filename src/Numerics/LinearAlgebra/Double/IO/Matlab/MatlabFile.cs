@@ -29,6 +29,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
 {
     using System.Collections.Generic;
+    using Generic;
 
     /// <summary>
     /// Represents a Matlab file
@@ -38,7 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
         /// <summary>
         /// Matrices in a matlab file stored as 1-D arrays
         /// </summary>
-        private readonly IDictionary<string, Matrix> _matrices = new SortedList<string, Matrix>();
+        private readonly IDictionary<string, Matrix<double>> _matrices = new SortedList<string, Matrix<double>>();
        
         /// <summary>
         /// Gets or sets the header text.
@@ -56,7 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
         /// Gets the first matrix.
         /// </summary>
         /// <value>The first matrix.</value>
-        public Matrix FirstMatrix
+        public Matrix<double> FirstMatrix
         {
             get
             {
@@ -73,7 +74,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
         /// Gets the matrices.
         /// </summary>
         /// <value>The matrices.</value>
-        public IDictionary<string, Matrix> Matrices
+        public IDictionary<string, Matrix<double>> Matrices
         {
             get { return _matrices; }
         }

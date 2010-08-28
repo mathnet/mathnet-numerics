@@ -33,6 +33,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using LinearAlgebra.Generic;
     using MbUnit.Framework;
     using LinearAlgebra.Double;
 
@@ -51,29 +52,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                              { "Wide2x3", new [,] { { -1.1, 0.0, 0.0 }, { 0.0, 1.1, 0.0 } } }
                          };
 
-            TestMatrices = new Dictionary<string, Matrix>();
+            TestMatrices = new Dictionary<string, Matrix<double>>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
         }
 
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<double> CreateMatrix(int rows, int columns)
         {
             return new DiagonalMatrix(rows, columns);
         }
 
-        protected override Matrix CreateMatrix(double[,] data)
+        protected override Matrix<double> CreateMatrix(double[,] data)
         {
             return new DiagonalMatrix(data);
         }
 
-        protected override Vector CreateVector(int size)
+        protected override Vector<double> CreateVector(int size)
         {
             return new DenseVector(size);
         }
 
-        protected override Vector CreateVector(double[] data)
+        protected override Vector<double> CreateVector(double[] data)
         {
             return new DenseVector(data);
         }
@@ -81,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateMatrixFromDiagonalArray()
         {
-            var testData = new Dictionary<string, Matrix>
+            var testData = new Dictionary<string, Matrix<double>>
                            {
                                { "Singular3x3", new DiagonalMatrix(3, 3, new[] { 1.0, 0.0, 3.0}) },
                                { "Square3x3", new DiagonalMatrix(4, 4, new[] { -1.1, 1.1, 6.6 }) },
