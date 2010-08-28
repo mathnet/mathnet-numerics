@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.StopCriterium
         StopLevel StopLevel { get; }
 
 #if SILVERLIGHT
-        IIterationStopCriterium<double> Clone();
+        IIterationStopCriterium<T> Clone();
 #endif
     }
 }

@@ -30,7 +30,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Text;
     using Distributions;
     using Generic;
     using NumberTheory;
@@ -1497,6 +1496,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
+        }
+
+        /// <summary>
+        /// Conjugates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        public override void Conjugate(Vector<double> target)
+        {
+            throw new NotSupportedException("Conjugate is not supported for real vectors");
         }
 
         #region Simple arithmetic of type T

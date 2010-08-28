@@ -1648,6 +1648,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return stringBuilder.ToString();
         }
 
+        /// <summary>
+        /// Returns the conjugate transpose of this matrix.
+        /// </summary>        
+        /// <returns>The conjugate transpose of this matrix.</returns>
+        public override Matrix<double> ConjugateTranspose()
+        {
+            throw new NotSupportedException("ConjugateTranspose is not supported for real matricies");
+        }
+
         #region Simple arithmetic of type T
         /// <summary>
         /// Add two values T+T

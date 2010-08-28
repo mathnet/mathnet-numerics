@@ -132,6 +132,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Double.Factorization.UserSvd(matrix as Matrix<double>, computeVectors) as Svd<T>;
             }
 
+            if (typeof(T) == typeof(Complex))
+            {
+                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
+                }
+
+                return new LinearAlgebra.Complex.Factorization.UserSvd(matrix as Matrix<Complex>, computeVectors) as Svd<T>;
+            }
+
             throw new NotImplementedException();
         }
 

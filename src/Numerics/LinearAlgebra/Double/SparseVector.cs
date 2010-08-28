@@ -1574,7 +1574,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
+       /// </returns>
         public override bool Equals(Vector<double> other)
         {
             // Reject equality when the argument is null or has a different length.
@@ -1616,6 +1616,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Conjugates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        public override void Conjugate(Vector<double> target)
+        {
+            throw new NotSupportedException("Conjugate is not supported for real vectors");
         }
 
         #region Simple arithmetic of type T

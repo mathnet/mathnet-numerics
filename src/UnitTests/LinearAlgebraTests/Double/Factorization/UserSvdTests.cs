@@ -31,6 +31,7 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     using System;
+    using LinearAlgebra.Generic.Factorization;
     using MbUnit.Framework;
     using LinearAlgebra.Double.Factorization;
 

@@ -28,10 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
+namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
+    using System;
+    using System.Numerics;
     using Generic;
-    using Generic.Factorization;
 
     /// <summary>
     /// Extension methods which return factorizations for the various matrix classes.
@@ -43,9 +44,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The Cholesky decomposition object.</returns>
-        public static Cholesky<double> Cholesky(this Matrix<double> matrix)
+        /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+        public static Cholesky<T> Cholesky<T>(this Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
         {
-            return Cholesky<double>.Create(matrix);
+            return Factorization.Cholesky<T>.Create(matrix);
         }
 
         /// <summary>
@@ -53,9 +55,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The LU decomposition object.</returns>
-        public static LU<double> LU(this Matrix<double> matrix)
+        /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+        public static LU<T> LU<T>(this Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
         {
-            return LU<double>.Create(matrix);
+            return Factorization.LU<T>.Create(matrix);
         }
 
         /// <summary>
@@ -63,9 +66,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static QR<double> QR(this Matrix<double> matrix)
+        /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+        public static QR<T> QR<T>(this Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
         {
-            return QR<double>.Create(matrix);
+            return Factorization.QR<T>.Create(matrix);
         }
 
         /// <summary>
@@ -73,10 +77,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static GramSchmidt GramSchmidt(this Matrix<double> matrix)
+        /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+        public static QR<T> GramSchmidt<T>(this Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
         {
-            // NOTE: There is no factory for GramSchmidt. Use constructor of GramSchmidt class.
-            return new GramSchmidt(matrix);
+            if (typeof(T) == typeof(double))
+            {
+                return new LinearAlgebra.Double.Factorization.GramSchmidt(matrix as Matrix<double>) as QR<T>;
+            }
+
+            if (typeof(T) == typeof(Complex))
+            {
+                return new LinearAlgebra.Complex.Factorization.GramSchmidt(matrix as Matrix<Complex>) as QR<T>;
+            }
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -85,9 +99,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <returns>The QR decomposition object.</returns>
-        public static Svd<double> Svd(this Matrix<double> matrix, bool computeVectors)
+        /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+        public static Svd<T> Svd<T>(this Matrix<T> matrix, bool computeVectors) where T : struct, IEquatable<T>, IFormattable
         {
-            return Svd<double>.Create(matrix, computeVectors);
+            return Factorization.Svd<T>.Create(matrix, computeVectors);
         }
     }
 }

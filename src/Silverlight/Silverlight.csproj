@@ -215,6 +215,93 @@
     <Compile Include="..\Numerics\IPrecisionSupport.cs">
       <Link>IPrecisionSupport.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\DenseMatrix.cs">
+      <Link>LinearAlgebra\Complex\DenseMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\DenseVector.cs">
+      <Link>LinearAlgebra\Complex\DenseVector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\DiagonalMatrix.cs">
+      <Link>LinearAlgebra\Complex\DiagonalMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseCholesky.cs">
+      <Link>LinearAlgebra\Complex\Factorization\DenseCholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseLU.cs">
+      <Link>LinearAlgebra\Complex\Factorization\DenseLU.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseQR.cs">
+      <Link>LinearAlgebra\Complex\Factorization\DenseQR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseSvd.cs">
+      <Link>LinearAlgebra\Complex\Factorization\DenseSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\GramSchmidt.cs">
+      <Link>LinearAlgebra\Complex\Factorization\GramSchmidt.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserCholesky.cs">
+      <Link>LinearAlgebra\Complex\Factorization\UserCholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserLU.cs">
+      <Link>LinearAlgebra\Complex\Factorization\UserLU.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserQR.cs">
+      <Link>LinearAlgebra\Complex\Factorization\UserQR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserSvd.cs">
+      <Link>LinearAlgebra\Complex\Factorization\UserSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\CompositeSolver.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Iterative\CompositeSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\GpBiCg.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Iterative\GpBiCg.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\MlkBiCgStab.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Iterative\MlkBiCgStab.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\TFQMR.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Iterative\TFQMR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterator.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Iterator.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\Diagonal.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Preconditioners\Diagonal.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\Ilutp.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Preconditioners\Ilutp.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\IlutpElementSorter.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Preconditioners\IlutpElementSorter.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\IncompleteLU.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Preconditioners\IncompleteLU.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\UnitPreconditioner.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\DivergenceStopCriterium.cs">
+      <Link>LinearAlgebra\Complex\Solvers\StopCriterium\DivergenceStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\FailureStopCriterium.cs">
+      <Link>LinearAlgebra\Complex\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\IterationCountStopCriterium.cs">
+      <Link>LinearAlgebra\Complex\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\ResidualStopCriterium.cs">
+      <Link>LinearAlgebra\Complex\Solvers\StopCriterium\ResidualStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\SparseMatrix.cs">
+      <Link>LinearAlgebra\Complex\SparseMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\SparseVector.cs">
+      <Link>LinearAlgebra\Complex\SparseVector.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\DenseMatrix.cs">
       <Link>LinearAlgebra\Double\DenseMatrix.cs</Link>
     </Compile>
@@ -235,9 +322,6 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseSvd.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseSvd.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\ExtensionMethods.cs">
-      <Link>LinearAlgebra\Double\Factorization\ExtensionMethods.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\GramSchmidt.cs">
       <Link>LinearAlgebra\Double\Factorization\GramSchmidt.cs</Link>
@@ -331,6 +415,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Cholesky.cs">
       <Link>LinearAlgebra\Generic\Factorization\Cholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\ExtensionMethods.cs">
+      <Link>LinearAlgebra\Generic\Factorization\ExtensionMethods.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\LU.cs">
       <Link>LinearAlgebra\Generic\Factorization\LU.cs</Link>

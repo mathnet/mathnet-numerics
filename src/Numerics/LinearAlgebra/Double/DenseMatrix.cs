@@ -27,11 +27,8 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using System.Text;
     using Distributions;
-    using Factorization;
     using Generic;
-    using Generic.Factorization;
     using Properties;
     using Threading;
 
@@ -654,6 +651,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return matrix;
         }
 
+        /// <summary>
+        /// Returns the conjugate transpose of this matrix.
+        /// </summary>        
+        /// <returns>The conjugate transpose of this matrix.</returns>
+        public override Matrix<double> ConjugateTranspose()
+        {
+            throw new NotSupportedException("ConjugateTranspose is not supported for real matricies");
+        }
+
         #region Simple arithmetic of type T
         /// <summary>
         /// Add two values T+T
@@ -719,5 +725,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return Math.Abs(val1);
         }
         #endregion  
+    
     }
 }

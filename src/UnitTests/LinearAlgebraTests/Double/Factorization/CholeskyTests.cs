@@ -30,9 +30,9 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
+    using LinearAlgebra.Generic.Factorization;
     using MbUnit.Framework;
     using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Factorization;
 
     public class CholeskyTests
     {

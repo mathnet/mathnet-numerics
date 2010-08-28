@@ -80,6 +80,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Double.Factorization.UserLU(matrix as Matrix<double>) as LU<T>;
             }
 
+            if (typeof(T) == typeof(Complex))
+            {
+                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex.Factorization.DenseLU(dense) as LU<T>;
+                }
+
+                return new LinearAlgebra.Complex.Factorization.UserLU(matrix as Matrix<Complex>) as LU<T>;
+            }
+
             throw new NotImplementedException();
         }
 

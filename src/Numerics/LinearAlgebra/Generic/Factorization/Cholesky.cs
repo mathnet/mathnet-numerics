@@ -65,6 +65,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Double.Factorization.UserCholesky(matrix as Matrix<double>) as Cholesky<T>;
             }
 
+            if (typeof(T) == typeof(Complex))
+            {
+                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex.Factorization.DenseCholesky(dense) as Cholesky<T>;
+                }
+
+                return new LinearAlgebra.Complex.Factorization.UserCholesky(matrix as Matrix<Complex>) as Cholesky<T>;
+            }
+
             throw new NotImplementedException();
         }
 
@@ -108,14 +119,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <summary>
         /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public virtual double DeterminantLn
+        public virtual T DeterminantLn
         {
             get
             {
-                var det = 0.0;
+                var det = default(T);
                 for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det += 2.0 * LogT(CholeskyFactor[j, j]);
+                    // det += 2.0 * CholeskyFactor[j, j].NaturalLogarithm();
+                    det = AddT(det, MultiplyT(AddT(OneValueT, OneValueT), LogT(CholeskyFactor[j, j])));
                 }
 
                 return det;
@@ -175,6 +187,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         #region Simple arithmetic of type T
 
         /// <summary>
+        /// Add two values T+T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of addition</returns>
+        protected abstract T AddT(T val1, T val2);
+
+        /// <summary>
         /// Multiply two values T*T
         /// </summary>
         /// <param name="val1">Left operand value</param>
@@ -187,7 +207,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// </summary>
         /// <param name="val1"> A number whose logarithm is to be found</param>
         /// <returns>Natural (base e) logarithm </returns>
-        protected abstract double LogT(T val1);
+        protected abstract T LogT(T val1);
 
         /// <summary>
         /// Gets value of type T equal to one

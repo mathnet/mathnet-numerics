@@ -764,18 +764,8 @@ namespace MathNet.Numerics
         /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
         public static bool AlmostEqual(this Complex a, Complex b)
         {
-            // TODO - I think that it should be changed to "if (a.IsNaN() && b.IsNaN()) { return true; }"
-            if (a.IsNaN() || b.IsNaN())
-            {
-                return false;
-            }
-
-            if (a.IsInfinity() && b.IsInfinity())
-            {
-                return true;
-            }
-
-            return a.Real.AlmostEqual(b.Real) && a.Imaginary.AlmostEqual(b.Imaginary);
+            double diff = a.NormOfDifference(b);
+            return AlmostEqualWithError(a.Norm(), b.Norm(), diff, _defaultDoubleRelativeAccuracy);
         }
 
         /// <summary>
