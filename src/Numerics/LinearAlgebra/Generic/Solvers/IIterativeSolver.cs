@@ -28,15 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers
 {
+    using System;
+    using System.Numerics;
     using Status;
 
     /// <summary>
-    /// Defines the interface for <see cref="IIterativeSolver" /> classes that solve the matrix equation Ax = b in
+    /// Defines the interface for <see cref="IIterativeSolver{T}"/> classes that solve the matrix equation Ax = b in
     /// an iterative manner.
     /// </summary>
-    public interface IIterativeSolver
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    public interface IIterativeSolver<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Stops the solve process. 
@@ -47,10 +50,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         void StopSolve();
 
         /// <summary>
-        /// Sets the <see cref="IIterator" /> that will be used to track the iterative process.
+        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        void SetIterator(IIterator iterator);
+        void SetIterator(IIterator<T> iterator);
 
         /// <summary>
         /// Gets the status of the iteration once the calculation is finished.
@@ -64,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        Vector Solve(Matrix matrix, Vector vector);
+        Vector<T> Solve(Matrix<T> matrix, Vector<T> vector);
 
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
@@ -73,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        void Solve(Matrix matrix, Vector input, Vector result);
+        void Solve(Matrix<T> matrix, Vector<T> input, Vector<T> result);
 
         /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
@@ -82,7 +85,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        Matrix Solve(Matrix matrix, Matrix input);
+        Matrix<T> Solve(Matrix<T> matrix, Matrix<T> input);
 
         /// <summary>
         /// Solves the matrix equation AX = B, where A is the coefficient matrix, B is the
@@ -91,6 +94,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        void Solve(Matrix matrix, Matrix input, Matrix result);
+        void Solve(Matrix<T> matrix, Matrix<T> input, Matrix<T> result);
     }
 }

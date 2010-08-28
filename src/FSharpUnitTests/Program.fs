@@ -1,6 +1,7 @@
 ﻿open FsUnit
 open MathNet.Numerics.FSharp
 open MathNet.Numerics.LinearAlgebra.Double
+open MathNet.Numerics.LinearAlgebra.Generic
 
 /// Unit tests for the dense vector type.
 let DenseVectorTests =
@@ -29,13 +30,13 @@ let DenseVectorTests =
 let SparseVectorTests =
 
     /// A small uniform vector.
-    let smallv = new DenseVector( [|0.0;0.3;0.0;0.0;0.0|] ) :> Vector
+    let smallv = new DenseVector( [|0.0;0.3;0.0;0.0;0.0|] ) :> Vector<float>
     
     specs "SparseVector" [
         spec "SparseVector.ofList"
-            ((SparseVector.ofList 5 [ (1,0.3) ] :> Vector) |> should equal smallv)
+            ((SparseVector.ofList 5 [ (1,0.3) ] :> Vector<float>) |> should equal smallv)
         spec "SparseVector.ofSeq"
-            ((SparseVector.ofSeq 5 (List.toSeq [ (1,0.3) ]) :> Vector) |> should equal smallv)
+            ((SparseVector.ofSeq 5 (List.toSeq [ (1,0.3) ]) :> Vector<float>) |> should equal smallv)
     ]
 
 
@@ -43,10 +44,10 @@ let SparseVectorTests =
 let VectorTests =
 
     /// A small uniform vector.
-    let smallv = new DenseVector( [|0.3;0.3;0.3;0.3;0.3|] ) :> Vector
+    let smallv = new DenseVector( [|0.3;0.3;0.3;0.3;0.3|] ) :> Vector<float>
 
     /// A large vector with increasingly large entries
-    let largev = new DenseVector( Array.init 100 (fun i -> float i / 100.0) ) :> Vector
+    let largev = new DenseVector( Array.init 100 (fun i -> float i / 100.0) ) :> Vector<float>
     
     specs "Vector" [
         spec "Vector.toArray"
@@ -86,9 +87,9 @@ let VectorTests =
         spec "Vector.existsi"
             (Vector.existsi (fun i x -> x = 0.3 && i = 2) smallv |> should equal true)
         spec "Vector.scan"
-            (Vector.scan (fun acc x -> acc + x) smallv |> should approximately_vector_equal 14 (new DenseVector( [|0.3;0.6;0.9;1.2;1.5|] ) :> Vector) )
+            (Vector.scan (fun acc x -> acc + x) smallv |> should approximately_vector_equal 14 (new DenseVector( [|0.3;0.6;0.9;1.2;1.5|] ) :> Vector<float>) )
         spec "Vector.scanBack"
-            (Vector.scanBack (fun x acc -> acc + x) smallv |> should approximately_vector_equal 14 (new DenseVector( [|1.5;1.2;0.9;0.6;0.3|] ) :> Vector) )
+            (Vector.scanBack (fun x acc -> acc + x) smallv |> should approximately_vector_equal 14 (new DenseVector( [|1.5;1.2;0.9;0.6;0.3|] ) :> Vector<float>) )
         spec "Vector.reduce_left"
             (Vector.reduce (fun acc x -> acc ** x) smallv |> should approximately_equal 14 0.990295218585507)
         spec "Vector.reduce_right"
@@ -141,9 +142,9 @@ let MatrixTests =
         spec "Matrix.foldRow"
             (Matrix.foldRow (+) 0.0 largeM 0 |> should equal 4950.0)
         spec "Matrix.foldByCol"
-            (Matrix.foldByCol (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector))
+            (Matrix.foldByCol (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector<float>))
         spec "Matrix.foldByRow"
-            (Matrix.foldByRow (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector))
+            (Matrix.foldByRow (+) 0.0 smallM |> should equal (DenseVector.ofList [0.6;0.6] :> Vector<float>))
     ]
 
 
@@ -183,13 +184,13 @@ let DenseMatrixTests =
 let SparseMatrixTests =
 
     /// A small uniform vector.
-    let smallM = DenseMatrix.init 4 4 (fun i j -> if i = 1 && j = 2 then 1.0 else 0.0) :> Matrix
+    let smallM = DenseMatrix.init 4 4 (fun i j -> if i = 1 && j = 2 then 1.0 else 0.0) :> Matrix<float>
     
     specs "SparseMatrix" [
         spec "SparseMatrix.ofList"
-            ((SparseMatrix.ofList 4 4 [(1,2,1.0)] :> Matrix) |> should equal smallM)
+            ((SparseMatrix.ofList 4 4 [(1,2,1.0)] :> Matrix<float>) |> should equal smallM)
         spec "SparseMatrix.ofSeq"
-            ((SparseMatrix.ofSeq 4 4 (Seq.ofList [(1,2,1.0)]) :> Matrix) |> should equal smallM)
+            ((SparseMatrix.ofSeq 4 4 (Seq.ofList [(1,2,1.0)]) :> Matrix<float>) |> should equal smallM)
         spec "SparseMatrix.constDiag"
             (SparseMatrix.constDiag 100 2.0 |> should equal (2.0 * (SparseMatrix.Identity 100)))
         spec "SparseMatrix.diag"

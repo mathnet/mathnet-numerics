@@ -31,9 +31,12 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 {
     using System;
+    using Generic;
+    using Generic.Solvers;
+    using Generic.Solvers.Preconditioners;
+    using Generic.Solvers.Status;
     using Preconditioners;
     using Properties;
-    using Status;
 
     /// <summary>
     /// A Generalized Product Bi-Conjugate Gradient iterative matrix solver.
@@ -62,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
     /// solver.
     /// </para>
     /// </remarks>
-    public sealed class GpBiCg : IIterativeSolver
+    public sealed class GpBiCg : IIterativeSolver<double>
     {
         /// <summary>
         /// The status used if there is no status, i.e. the solver hasn't run yet and there is no
@@ -74,12 +77,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// The preconditioner that will be used. Can be set to <c>null</c>, in which case the default
         /// pre-conditioner will be used.
         /// </summary>
-        private IPreConditioner _preconditioner;
+        private IPreConditioner<double> _preconditioner;
 
         /// <summary>
         /// The iterative process controller.
         /// </summary>
-        private IIterator _iterator;
+        private IIterator<double> _iterator;
 
         /// <summary>
         /// Indicates the number of <c>BiCGStab</c> steps should be taken 
@@ -102,7 +105,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// Initializes a new instance of the <see cref="GpBiCg"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator"/> with
+        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings and a default preconditioner.
         /// </remarks>
         public GpBiCg() : this(null, null)
@@ -117,18 +120,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// When using this constructor the solver will use a default preconditioner.
         /// </para>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator"/> are:
+        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator.Status"/> property.
+        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IIterator iterator) : this(null, iterator)
+        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
+        public GpBiCg(IIterator<double> iterator) : this(null, iterator)
         {
         }
 
@@ -136,11 +139,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// Initializes a new instance of the <see cref="GpBiCg"/> class.
         /// </summary>
         /// <remarks>
-        /// When using this constructor the solver will use the <see cref="IIterator"/> with
+        /// When using this constructor the solver will use the <see cref="IIterator{T}"/> with
         /// the standard settings.
         /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
-        public GpBiCg(IPreConditioner preconditioner) : this(preconditioner, null)
+        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
+        public GpBiCg(IPreConditioner<double> preconditioner) : this(preconditioner, null)
         {
         }
 
@@ -149,19 +152,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The main advantages of using a user defined <see cref="IIterator"/> are:
+        /// The main advantages of using a user defined <see cref="IIterator{T}"/> are:
         /// <list type="number">
         /// <item>It is possible to set the desired convergence limits.</item>
         /// <item>
         /// It is possible to check the reason for which the solver finished 
-        /// the iterative procedure by calling the <see cref="IIterator.Status"/> property.
+        /// the iterative procedure by calling the <see cref="IIterator{T}.Status"/> property.
         /// </item>
         /// </list>
         /// </para>
         /// </remarks>
-        /// <param name="preconditioner">The <see cref="IPreConditioner"/> that will be used to precondition the matrix equation.</param>
-        /// <param name="iterator">The <see cref="IIterator"/> that will be used to monitor the iterative process.</param>
-        public GpBiCg(IPreConditioner preconditioner, IIterator iterator)
+        /// <param name="preconditioner">The <see cref="IPreConditioner{T}"/> that will be used to precondition the matrix equation.</param>
+        /// <param name="iterator">The <see cref="IIterator{T}"/> that will be used to monitor the iterative process.</param>
+        public GpBiCg(IPreConditioner<double> preconditioner, IIterator<double> iterator)
         {
             _iterator = iterator;
             _preconditioner = preconditioner;
@@ -212,19 +215,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         }
 
         /// <summary>
-        /// Sets the <see cref="IPreConditioner"/> that will be used to precondition the iterative process.
+        /// Sets the <see cref="IPreConditioner{T}"/> that will be used to precondition the iterative process.
         /// </summary>
         /// <param name="preconditioner">The preconditioner.</param>
-        public void SetPreconditioner(IPreConditioner preconditioner)
+        public void SetPreconditioner(IPreConditioner<double> preconditioner)
         {
             _preconditioner = preconditioner;
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
+        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator iterator)
+        public void SetIterator(IIterator<double> iterator)
         {
             _iterator = iterator;
         }
@@ -259,14 +262,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector Solve(Matrix matrix, Vector vector)
+        public Vector<double> Solve(Matrix<double> matrix, Vector<double> vector)
         {
             if (vector == null)
             {
                 throw new ArgumentNullException();
             }
 
-            Vector result = new DenseVector(matrix.RowCount);
+            Vector<double> result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result);
             return result;
         }
@@ -278,7 +281,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix matrix, Vector input, Vector result)
+        public void Solve(Matrix<double> matrix, Vector<double> input, Vector<double> result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -328,11 +331,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
             // x_0 is initial guess
             // Take x_0 = 0
-            Vector xtemp = new DenseVector(input.Count);
+            Vector<double> xtemp = new DenseVector(input.Count);
 
             // r_0 = b - Ax_0
             // This is basically a SAXPY so it could be made a lot faster
-            Vector residuals = new DenseVector(matrix.RowCount);
+            Vector<double> residuals = new DenseVector(matrix.RowCount);
             CalculateTrueResidual(matrix, residuals, xtemp, input);
 
             // Define the temporary scalars
@@ -341,24 +344,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
             // Define the temporary vectors
             // rDash_0 = r_0
-            Vector rdash = new DenseVector(residuals);
+            Vector<double> rdash = new DenseVector(residuals);
 
             // t_-1 = 0
-            Vector t = new DenseVector(residuals.Count);
-            Vector t0 = new DenseVector(residuals.Count);
+            Vector<double> t = new DenseVector(residuals.Count);
+            Vector<double> t0 = new DenseVector(residuals.Count);
 
             // w_-1 = 0
-            Vector w = new DenseVector(residuals.Count);
+            Vector<double> w = new DenseVector(residuals.Count);
 
             // Define the remaining temporary vectors
-            Vector c = new DenseVector(residuals.Count);
-            Vector p = new DenseVector(residuals.Count);
-            Vector s = new DenseVector(residuals.Count);
-            Vector u = new DenseVector(residuals.Count);
-            Vector y = new DenseVector(residuals.Count);
-            Vector z = new DenseVector(residuals.Count);
+            Vector<double> c = new DenseVector(residuals.Count);
+            Vector<double> p = new DenseVector(residuals.Count);
+            Vector<double> s = new DenseVector(residuals.Count);
+            Vector<double> u = new DenseVector(residuals.Count);
+            Vector<double> y = new DenseVector(residuals.Count);
+            Vector<double> z = new DenseVector(residuals.Count);
 
-            Vector temp = new DenseVector(residuals.Count);
+            Vector<double> temp = new DenseVector(residuals.Count);
          
             // for (k = 0, 1, .... )
             var iterationNumber = 0;
@@ -499,11 +502,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <summary>
         /// Calculates the true residual of the matrix equation Ax = b according to: residual = b - Ax
         /// </summary>
-        /// <param name="matrix">Instance of the <see cref="Matrix"/> A.</param>
-        /// <param name="residual">Residual values in <see cref="Vector"/>.</param>
-        /// <param name="x">Instance of the <see cref="Vector"/> x.</param>
-        /// <param name="b">Instance of the <see cref="Vector"/> b.</param>
-        private static void CalculateTrueResidual(Matrix matrix, Vector residual, Vector x, Vector b)
+        /// <param name="matrix">Instance of the <see cref="Matrix{T}"/> A.</param>
+        /// <param name="residual">Residual values in <see cref="Vector{T}"/>.</param>
+        /// <param name="x">Instance of the <see cref="Vector{T}"/> x.</param>
+        /// <param name="b">Instance of the <see cref="Vector{T}"/> b.</param>
+        private static void CalculateTrueResidual(Matrix<double> matrix, Vector<double> residual, Vector<double> x, Vector<double> b)
         {
             // -Ax = residual
             matrix.Multiply(x, residual);
@@ -517,11 +520,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// Determine if calculation should continue
         /// </summary>
         /// <param name="iterationNumber">Number of iterations passed</param>
-        /// <param name="result">Result <see cref="Vector"/>.</param>
-        /// <param name="source">Source <see cref="Vector"/>.</param>
-        /// <param name="residuals">Residual <see cref="Vector"/>.</param>
+        /// <param name="result">Result <see cref="Vector{T}"/>.</param>
+        /// <param name="source">Source <see cref="Vector{T}"/>.</param>
+        /// <param name="residuals">Residual <see cref="Vector{T}"/>.</param>
         /// <returns><c>true</c> if continue, otherwise <c>false</c></returns>
-        private bool ShouldContinue(int iterationNumber, Vector result, Vector source, Vector residuals)
+        private bool ShouldContinue(int iterationNumber, Vector<double> result, Vector<double> source, Vector<double> residuals)
         {
             if (_hasBeenStopped)
             {
@@ -562,7 +565,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix Solve(Matrix matrix, Matrix input)
+        public Matrix<double> Solve(Matrix<double> matrix, Matrix<double> input)
         {
             if (matrix == null)
             {
@@ -586,7 +589,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix matrix, Matrix input, Matrix result)
+        public void Solve(Matrix<double> matrix, Matrix<double> input, Matrix<double> result)
         {
             if (matrix == null)
             {

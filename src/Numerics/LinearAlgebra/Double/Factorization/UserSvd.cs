@@ -30,10 +30,12 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
+    using Generic;
+    using Generic.Factorization;
     using Properties;
 
     /// <summary>
-    /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD) for <see cref="Matrix"/>.</para>
+    /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD) for <see cref="Matrix{T}"/>.</para>
     /// <para>Suppose M is an m-by-n matrix whose entries are real numbers. 
     /// Then there exists a factorization of the form M = UΣVT where:
     /// - U is an m-by-m unitary matrix;
@@ -46,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public class UserSvd : Svd
+    public class UserSvd : Svd<double>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSvd"/> class. This object will compute the
@@ -56,7 +58,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
         /// <exception cref="ArgumentException">If SVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
-        public UserSvd(Matrix matrix, bool computeVectors)
+        public UserSvd(Matrix<double> matrix, bool computeVectors)
         {
             if (matrix == null)
             {
@@ -603,7 +605,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="rowCount">The number of rows in <paramref name="a"/></param>
         /// <param name="columnA">Column A index to swap</param>
         /// <param name="columnB">Column B index to swap</param>
-        private static void Dswap(Matrix a, int rowCount, int columnA, int columnB)
+        private static void Dswap(Matrix<double> a, int rowCount, int columnA, int columnB)
         {
             for (var i = 0; i < rowCount; i++)
             {
@@ -621,7 +623,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="column">Column to scale</param>
         /// <param name="rowStart">Row to scale from</param>
         /// <param name="z">Scale value</param>
-        private static void DscalColumn(Matrix a, int rowCount, int column, int rowStart, double z)
+        private static void DscalColumn(Matrix<double> a, int rowCount, int column, int rowStart, double z)
         {
             for (var i = rowStart; i < rowCount; i++)
             {
@@ -708,7 +710,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="column">Column index</param>
         /// <param name="rowStart">Start row index</param>
         /// <returns>Norm2 (Euclidean norm) of trhe column</returns>
-        private static double Dnrm2Column(Matrix a, int rowCount, int column, int rowStart)
+        private static double Dnrm2Column(Matrix<double> a, int rowCount, int column, int rowStart)
         {
             double s = 0;
             for (var i = rowStart; i < rowCount; i++)
@@ -745,7 +747,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="columnB">Index of column B</param>
         /// <param name="rowStart">Starting row index</param>
         /// <returns>Dot product value</returns>
-        private static double Ddot(Matrix a, int rowCount, int columnA, int columnB, int rowStart)
+        private static double Ddot(Matrix<double> a, int rowCount, int columnA, int columnB, int rowStart)
         {
             var z = 0.0;
             for (var i = rowStart; i < rowCount; i++)
@@ -766,7 +768,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="columnB">Index of column B</param>
         /// <param name="c">Scalar "c" value</param>
         /// <param name="s">Scalar "s" value</param>
-        private static void Drot(Matrix a, int rowCount, int columnA, int columnB, double c, double s)
+        private static void Drot(Matrix<double> a, int rowCount, int columnA, int columnB, double c, double s)
         {
             for (var i = 0; i < rowCount; i++)
             {
@@ -780,9 +782,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
-        public override void Solve(Matrix input, Matrix result)
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
+        public override void Solve(Matrix<double> input, Matrix<double> result)
         {
             // Check for proper arguments.
             if (input == null)
@@ -858,8 +860,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Solves a system of linear equations, <b>Ax = b</b>, with A SVD factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
-        public override void Solve(Vector input, Vector result)
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
+        public override void Solve(Vector<double> input, Vector<double> result)
         {
             if (input == null)
             {
@@ -919,5 +921,39 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 result[j] = value;
             }
         }
+
+        #region Simple arithmetic of type T
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected sealed override double MultiplyT(double val1, double val2)
+        {
+            return val1 * val2;
+        }
+
+        /// <summary>
+        /// Returns the absolute value of a specified number.
+        /// </summary>
+        /// <param name="val1"> A number whose absolute is to be found</param>
+        /// <returns>Absolute value </returns>
+        protected sealed override double AbsoluteT(double val1)
+        {
+            return Math.Abs(val1);
+        }
+
+        /// <summary>
+        /// Get value of type T equal to one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected sealed override double OneValueT
+        {
+            get { return 1.0; }
+        }
+
+        #endregion
     }
 }

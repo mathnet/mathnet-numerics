@@ -28,6 +28,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
     using System.Linq;
+    using System.Text;
+    using Distributions;
+    using Generic;
     using Properties;
     using Threading;
 
@@ -40,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// entries are set. The exception to this is when the off diagonal elements are
     /// 0.0 or NaN; these settings will cause no change to the diagonal matrix.
     /// </remarks>
-    public class DiagonalMatrix : Matrix 
+    public class DiagonalMatrix : Matrix<double> 
     {
          /// <summary>
         /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class. This matrix is square with a given size.
@@ -195,19 +198,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <c>DiagonalMatrix</c> with the given dimensions.
         /// </returns>
-        public override Matrix CreateMatrix(int numberOfRows, int numberOfColumns)
+        public override Matrix<double> CreateMatrix(int numberOfRows, int numberOfColumns)
         {
             return new DiagonalMatrix(numberOfRows, numberOfColumns);
         }
 
         /// <summary>
-        /// Creates a <see cref="Vector"/> with a the given dimension.
+        /// Creates a <see cref="Vector{T}"/> with a the given dimension.
         /// </summary>
         /// <param name="size">The size of the vector.</param>
         /// <returns>
-        /// A <see cref="Vector"/> with the given dimension.
+        /// A <see cref="Vector{T}"/> with the given dimension.
         /// </returns>
-        public override Vector CreateVector(int size)
+        public override Vector<double> CreateVector(int size)
         {
             return new SparseVector(size);
         }
@@ -283,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not <see cref="DiagonalMatrix"/>.</exception>
-        public override void Add(Matrix other)
+        public override void Add(Matrix<double> other)
         {
             if (other == null)
             {
@@ -327,7 +330,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         /// <exception cref="ArgumentException">If <paramref name="other"/> is not <see cref="DiagonalMatrix"/>.</exception>
-        public override void Subtract(Matrix other)
+        public override void Subtract(Matrix<double> other)
         {
             if (other == null)
             {
@@ -390,7 +393,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies the values of the given <see cref="Vector"/> to the diagonal.
+        /// Copies the values of the given <see cref="Vector{T}"/> to the diagonal.
         /// </summary>
         /// <param name="source">The vector to copy the values from. The length of the vector should be
         /// Min(Rows, Columns).</param>
@@ -399,7 +402,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// equal Min(Rows, Columns).</exception>
         /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
         /// this[i,i].</remarks>
-        public override void SetDiagonal(Vector source)
+        public override void SetDiagonal(Vector<double> source)
         {
             var denseSource = source as DenseVector;
             if (denseSource == null)
@@ -445,7 +448,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void Multiply(Matrix other, Matrix result)
+        public override void Multiply(Matrix<double> other, Matrix<double> result)
         {
             if (other == null)
             {
@@ -492,7 +495,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
-        public override Matrix Multiply(Matrix other)
+        public override Matrix<double> Multiply(Matrix<double> other)
         {
             if (other == null)
             {
@@ -524,7 +527,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.ColumnCount != <paramref name="rightSide"/>.Count</strong>.</exception>
-        public override void Multiply(Vector rightSide, Vector result)
+        public override void Multiply(Vector<double> rightSide, Vector<double> result)
         {
             if (rightSide == null)
             {
@@ -574,7 +577,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
-        public override void LeftMultiply(Vector leftSide, Vector result)
+        public override void LeftMultiply(Vector<double> leftSide, Vector<double> result)
         {
             if (leftSide == null)
             {
@@ -635,7 +638,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The elements of the diagonal.</returns>
         /// <remarks>For non-square matrices, the method returns Min(Rows, Columns) elements where
         /// i == j (i is the row index, and j is the column index).</remarks>
-        public override Vector Diagonal()
+        public override Vector<double> Diagonal()
         {
             // TODO: Should we return reference to array? In current implementation we return copy of array, so changes in DenseVector will
             // not influence onto diagonal elements
@@ -651,7 +654,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix other, Matrix result)
+        public override void TransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
             var otherDiagonal = other as DiagonalMatrix;
             var resultDiagonal = result as DiagonalMatrix;
@@ -672,7 +675,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of multiplication.</returns>
-        public override Matrix TransposeAndMultiply(Matrix other)
+        public override Matrix<double> TransposeAndMultiply(Matrix<double> other)
         {
             var otherDiagonal = other as DiagonalMatrix;
             if (otherDiagonal == null)
@@ -732,7 +735,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this and the target matrix do not have the same dimensions..
         /// </exception>
-        public override void CopyTo(Matrix target)
+        public override void CopyTo(Matrix<double> target)
         {
             var diagonalTarget = target as DiagonalMatrix;
 
@@ -759,7 +762,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>
-        public override Matrix Transpose()
+        public override Matrix<double> Transpose()
         {
             var ret = new DiagonalMatrix(ColumnCount, RowCount);
             Buffer.BlockCopy(Data, 0, ret.Data, 0, Data.Length * Constants.SizeOfDouble);
@@ -772,8 +775,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="columnIndex">The column to copy elements from.</param>
         /// <param name="rowIndex">The row to start copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
-        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <param name="result">The <see cref="Vector{T}"/> to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result <see cref="Vector{T}"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is negative,
         /// or greater than or equal to the number of columns.</exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is negative,
@@ -782,7 +785,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
-        public override void Column(int columnIndex, int rowIndex, int length, Vector result)
+        public override void Column(int columnIndex, int rowIndex, int length, Vector<double> result)
         {
             if (result == null)
             {
@@ -823,13 +826,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Copies the requested row elements into a new <see cref="Vector"/>.
+        /// Copies the requested row elements into a new <see cref="Vector{T}"/>.
         /// </summary>
         /// <param name="rowIndex">The row to copy elements from.</param>
         /// <param name="columnIndex">The column to start copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        /// <param name="result">The <see cref="Vector"/> to copy the column into.</param>
-        /// <exception cref="ArgumentNullException">If the result <see cref="Vector"/> is <see langword="null" />.</exception>
+        /// <param name="result">The <see cref="Vector{T}"/> to copy the column into.</param>
+        /// <exception cref="ArgumentNullException">If the result <see cref="Vector{T}"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is negative,
         /// or greater than or equal to the number of columns.</exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is negative,
@@ -838,7 +841,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is greater than or equal to the number of rows.</exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
-        public override void Row(int rowIndex, int columnIndex, int length, Vector result)
+        public override void Row(int rowIndex, int columnIndex, int length, Vector<double> result)
         {
             if (result == null)
             {
@@ -913,10 +916,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             var maxSv = double.NegativeInfinity;
             var minSv = double.PositiveInfinity;
-            for (var i = 0; i < Data.Length; i++)
+            foreach (var t in Data)
             {
-                maxSv = Math.Max(maxSv, Math.Abs(Data[i]));
-                minSv = Math.Min(minSv, Math.Abs(Data[i]));
+                maxSv = Math.Max(maxSv, Math.Abs(t));
+                minSv = Math.Min(minSv, Math.Abs(t));
             }
 
             return maxSv / minSv;
@@ -926,7 +929,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <see cref="DiagonalMatrix"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <see cref="DiagonalMatrix"/> is singular.</exception>
         /// <returns>The inverse of this matrix.</returns>
-        public override Matrix Inverse()
+        public override Matrix<double> Inverse()
         {
             if (RowCount != ColumnCount)
             {
@@ -953,7 +956,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns a new matrix containing the lower triangle of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>  
-        public override Matrix LowerTriangle()
+        public override Matrix<double> LowerTriangle()
         {
             return Clone();
         }
@@ -964,7 +967,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void LowerTriangle(Matrix result)
+        public override void LowerTriangle(Matrix<double> result)
         {
             if (result == null)
             {
@@ -993,7 +996,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// does not contain the diagonal elements of this matrix.
         /// </summary>
         /// <returns>The lower triangle of this matrix.</returns>
-        public override Matrix StrictlyLowerTriangle()
+        public override Matrix<double> StrictlyLowerTriangle()
         {
             return new DiagonalMatrix(RowCount, ColumnCount);
         }
@@ -1004,7 +1007,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void StrictlyLowerTriangle(Matrix result)
+        public override void StrictlyLowerTriangle(Matrix<double> result)
         {
             if (result == null)
             {
@@ -1023,7 +1026,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns a new matrix containing the upper triangle of this matrix.
         /// </summary>
         /// <returns>The upper triangle of this matrix.</returns>   
-        public override Matrix UpperTriangle()
+        public override Matrix<double> UpperTriangle()
         {
             return Clone();
         }
@@ -1034,7 +1037,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void UpperTriangle(Matrix result)
+        public override void UpperTriangle(Matrix<double> result)
         {
             if (result == null)
             {
@@ -1058,7 +1061,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// does not contain the diagonal elements of this matrix.
         /// </summary>
         /// <returns>The upper triangle of this matrix.</returns>
-        public override Matrix StrictlyUpperTriangle()
+        public override Matrix<double> StrictlyUpperTriangle()
         {
             return new DiagonalMatrix(RowCount, ColumnCount);
         }
@@ -1069,7 +1072,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Where to store the lower triangle.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void StrictlyUpperTriangle(Matrix result)
+        public override void StrictlyUpperTriangle(Matrix<double> result)
         {
             if (result == null)
             {
@@ -1100,7 +1103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
         /// <exception cref="ArgumentException">If <paramref name="rowLength"/> or <paramref name="columnLength"/>
         /// is not positive.</exception>
-        public override Matrix SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
+        public override Matrix<double> SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
         {
             if (rowIndex >= RowCount || rowIndex < 0)
             {
@@ -1186,7 +1189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="column "/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="column"/> != the number of rows.</exception>
-        public override Matrix InsertColumn(int columnIndex, Vector column)
+        public override Matrix<double> InsertColumn(int columnIndex, Vector<double> column)
         {
             if (column == null)
             {
@@ -1229,7 +1232,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="row"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
         /// <exception cref="ArgumentException">If the size of <paramref name="row"/> != the number of columns.</exception>
-        public override Matrix InsertRow(int rowIndex, Vector row)
+        public override Matrix<double> InsertRow(int rowIndex, Vector<double> row)
         {
             if (row == null)
             {
@@ -1270,7 +1273,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The combined <see cref="SparseMatrix"/>.</returns>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public override Matrix Stack(Matrix lower)
+        public override Matrix<double> Stack(Matrix<double> lower)
         {
             if (lower == null)
             {
@@ -1294,7 +1297,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The combined <see cref="SparseMatrix"/>.</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>upper.Columns != lower.Columns</strong>.</exception>
-        public override void Stack(Matrix lower, Matrix result)
+        public override void Stack(Matrix<double> lower, Matrix<double> result)
         {
             if (lower == null)
             {
@@ -1340,7 +1343,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="right">The matrix to concatenate.</param>
         /// <returns>The combined <see cref="SparseMatrix"/>.</returns>
-        public override Matrix Append(Matrix right)
+        public override Matrix<double> Append(Matrix<double> right)
         {
             if (right == null)
             {
@@ -1362,7 +1365,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="right">The matrix to concatenate.</param>
         /// <param name="result">The combined <see cref="SparseMatrix"/>.</param>
-        public override void Append(Matrix right, Matrix result)
+        public override void Append(Matrix<double> right, Matrix<double> result)
         {
             if (right == null)
             {
@@ -1411,7 +1414,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="lower">The lower, right matrix.</param>
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <returns>the combined matrix</returns>
-        public override Matrix DiagonalStack(Matrix lower)
+        public override Matrix<double> DiagonalStack(Matrix<double> lower)
         {
             if (lower == null)
             {
@@ -1431,7 +1434,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If lower is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows + lower.rows) x (this.Columns + lower.Columns).</exception>
-        public override void DiagonalStack(Matrix lower, Matrix result)
+        public override void DiagonalStack(Matrix<double> lower, Matrix<double> result)
         {
             if (lower == null)
             {
@@ -1470,7 +1473,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Matrix other, Matrix result)
+        public override void PointwiseMultiply(Matrix<double> other, Matrix<double> result)
         {
             if (other == null)
             {
@@ -1548,5 +1551,191 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #endregion
+
+        /// <summary>
+        /// Negates each element of this matrix.
+        /// </summary>        
+        public override void Negate()
+        {
+            Multiply(-1);
+        }
+
+        /// <summary>
+        /// Generates matrix with random elements.
+        /// </summary>
+        /// <param name="numberOfRows">Number of rows.</param>
+        /// <param name="numberOfColumns">Number of columns.</param>
+        /// <param name="distribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
+        /// </returns>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
+        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
+            CommonParallel.For(
+                0,
+                ColumnCount,
+                j =>
+                {
+                    for (var i = 0; i < matrix.RowCount; i++)
+                    {
+                        matrix[i, j] = distribution.Sample();
+                    }
+                });
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Generates matrix with random elements.
+        /// </summary>
+        /// <param name="numberOfRows">Number of rows.</param>
+        /// <param name="numberOfColumns">Number of columns.</param>
+        /// <param name="distribution">Continuous Random Distribution or Source</param>
+        /// <returns>
+        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
+        /// </returns>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
+        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
+        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
+            CommonParallel.For(
+                0,
+                ColumnCount,
+                j =>
+                {
+                    for (var i = 0; i < matrix.RowCount; i++)
+                    {
+                        matrix[i, j] = distribution.Sample();
+                    }
+                });
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// <param name="format">
+        /// The format to use.
+        /// </param>
+        /// <param name="formatProvider">
+        /// The format provider to use.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            var stringBuilder = new StringBuilder();
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    stringBuilder.Append(At(row, column).ToString(format, formatProvider));
+                    if (column != ColumnCount - 1)
+                    {
+                        stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
+                    }
+                }
+
+                if (row != RowCount - 1)
+                {
+                    stringBuilder.Append(Environment.NewLine);
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        #region Simple arithmetic of type T
+        /// <summary>
+        /// Add two values T+T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of addition</returns>
+        protected sealed override double AddT(double val1, double val2)
+        {
+            return val1 + val2;
+        }
+
+        /// <summary>
+        /// Subtract two values T-T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of subtract</returns>
+        protected sealed override double SubtractT(double val1, double val2)
+        {
+            return val1 - val2;
+        }
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected sealed override double MultiplyT(double val1, double val2)
+        {
+            return val1 * val2;
+        }
+
+        /// <summary>
+        /// Divide two values T/T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of divide</returns>
+        protected sealed override double DivideT(double val1, double val2)
+        {
+            return val1 / val2;
+        }
+
+        /// <summary>
+        /// Is equal to one?
+        /// </summary>
+        /// <param name="val1">Value to check</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected sealed override bool IsOneT(double val1)
+        {
+            return 1.0.AlmostEqualInDecimalPlaces(val1, 15);
+        }
+
+        /// <summary>
+        /// Take absolute value
+        /// </summary>
+        /// <param name="val1">Source alue</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected sealed override double AbsoluteT(double val1)
+        {
+            return Math.Abs(val1);
+        }
+
+        #endregion  
     }
 }

@@ -4,8 +4,9 @@
     using System.Collections.Generic;
     using LinearAlgebra.Double;
     using LinearAlgebra.Double.Solvers;
-    using LinearAlgebra.Double.Solvers.Status;
     using LinearAlgebra.Double.Solvers.StopCriterium;
+    using LinearAlgebra.Generic.Solvers.Status;
+    using LinearAlgebra.Generic.Solvers.StopCriterium;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -24,7 +25,7 @@
         [MultipleAsserts]
         public void CreateWithEmptyCollection()
         {
-            var iterator = new Iterator(new IIterationStopCriterium[] { });
+            var iterator = new Iterator(new IIterationStopCriterium<double>[] { });
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -33,7 +34,7 @@
         [MultipleAsserts]
         public void CreateWithCollectionWithNulls()
         {
-            var iterator = new Iterator(new IIterationStopCriterium[] { null, null });
+            var iterator = new Iterator(new IIterationStopCriterium<double>[] { null, null });
             Assert.IsNotNull(iterator, "Should have an iterator");
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
@@ -42,7 +43,7 @@
         [ExpectedArgumentException]
         public void CreateWithDuplicates()
         {
-            new Iterator(new IIterationStopCriterium[]
+            new Iterator(new IIterationStopCriterium<double>[]
                          {
                              new FailureStopCriterium(),
                              new FailureStopCriterium()
@@ -53,7 +54,7 @@
         [MultipleAsserts]
         public void CreateWithCollection()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -96,7 +97,7 @@
         [MultipleAsserts]
         public void Add()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -126,7 +127,7 @@
         [ExpectedArgumentNullException]
         public void RemoveWithNullStopCriterium()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -143,7 +144,7 @@
         [MultipleAsserts]
         public void RemoveWithNonExistingStopCriterium()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -160,7 +161,7 @@
         [MultipleAsserts]
         public void Remove()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -192,7 +193,7 @@
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DetermineStatusWithNegativeIterationNumber()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -211,7 +212,7 @@
         [ExpectedArgumentNullException]
         public void DetermineStatusWithNullSolutionVector()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -230,7 +231,7 @@
         [ExpectedArgumentNullException]
         public void DetermineStatusWithNullSourceVector()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -249,7 +250,7 @@
         [ExpectedArgumentNullException]
         public void DetermineStatusWithNullResidualVector()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -268,7 +269,7 @@
         [MultipleAsserts]
         public void DetermineStatus()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -296,7 +297,7 @@
         [MultipleAsserts]
         public void ResetToPrecalculationState()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),
@@ -323,7 +324,7 @@
         [MultipleAsserts]
         public void Clone()
         {
-            var criteria = new List<IIterationStopCriterium>
+            var criteria = new List<IIterationStopCriterium<double>>
                            {
                                new FailureStopCriterium(),
                                new DivergenceStopCriterium(),

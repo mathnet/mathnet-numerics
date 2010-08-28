@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
 {
     /// <summary>
     /// Indicates that the calculation diverged.

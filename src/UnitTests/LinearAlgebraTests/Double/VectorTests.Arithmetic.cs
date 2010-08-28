@@ -28,6 +28,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using System;
     using LinearAlgebra.Double;
+    using LinearAlgebra.Generic;
     using MbUnit.Framework;
 
     public abstract partial class VectorTests
@@ -47,8 +48,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void OperatorPlusThrowsArgumentNullExceptionWhenCallOnNullVector()
         {
-            Vector vector = null;
-            Vector other = null;
+            Vector<double> vector = null;
+            Vector<double> other = null;
             Assert.Throws<ArgumentNullException>(() => other = +vector);
         }
 
@@ -154,7 +155,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void AdditionOperatorThrowsArgumentNullExpectionIfAVectorIsNull()
         {
-            Vector a = null;
+            Vector<double> a = null;
             var b = CreateVector(Data.Length);
             Assert.Throws<ArgumentNullException>(() => a += b);
 
@@ -273,8 +274,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void OperatorNegateThrowsArgumentNullExceptionWhenCallOnNullVector()
         {
-            Vector vector = null;
-            Vector other = null;
+            Vector<double> vector = null;
+            Vector<double> other = null;
             Assert.Throws<ArgumentNullException>(() => other = -vector);
         }
 
@@ -379,7 +380,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void SubtractionOperatorThrowsArgumentNullExpectionIfAVectorIsNull()
         {
-            Vector a = null;
+            Vector<double> a = null;
             var b = CreateVector(Data.Length);
             Assert.Throws<ArgumentNullException>(() => a -= b);
 
@@ -650,8 +651,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void OperatorMultiplyThrowsArgumentNullExceptionWhenVectorIsNull()
         {
-            Vector vector = null;
-            Vector result = null;
+            Vector<double> vector = null;
+            Vector<double> result = null;
             Assert.Throws<ArgumentNullException>(() => result = vector * 2.0);
             Assert.Throws<ArgumentNullException>(() => result = 2.0 * vector);
         }
@@ -659,7 +660,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void OperatorDivideThrowsArgumentNullExceptionWhenVectorIsNull()
         {
-            Vector vector = null;
+            Vector<double> vector = null;
             Assert.Throws<ArgumentNullException>(() => vector = vector / 2.0);
         }
 
@@ -677,7 +678,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void DotProductThrowsExceptionWhenArgumentIsNull()
         {
             var dataA = CreateVector(Data);
-            Vector dataB = null;
+            Vector<double> dataB = null;
 
             dataA.DotProduct(dataB);
         }
@@ -706,7 +707,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void OperatorDotProductThrowsExceptionWhenLeftArgumentIsNull()
         {
             var dataA = CreateVector(Data);
-            Vector dataB = null;
+            Vector<double> dataB = null;
 
             var d = dataA * dataB;
         }
@@ -715,7 +716,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void OperatorDotProductThrowsExceptionWhenRightArgumentIsNull()
         {
-            Vector dataA = null;
+            Vector<double> dataA = null;
             var dataB = CreateVector(Data);
 
             var d = dataA * dataB;
@@ -761,7 +762,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void PointwiseMultiplyWithOtherNullShouldThrowException()
         {
             var vector1 = CreateVector(Data);
-            Vector vector2 = null;
+            Vector<double> vector2 = null;
             var result = CreateVector(vector1.Count);
             vector1.PointwiseMultiply(vector2, result);
         }
@@ -772,7 +773,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
-            Vector result = null;
+            Vector<double> result = null;
             vector1.PointwiseMultiply(vector2, result);
         }
 
@@ -816,7 +817,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void PointwiseDivideWithOtherNullShouldThrowException()
         {
             var vector1 = CreateVector(Data);
-            Vector vector2 = null;
+            Vector<double> vector2 = null;
             var result = CreateVector(vector1.Count);
             vector1.PointwiseDivide(vector2, result);
         }
@@ -827,7 +828,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
-            Vector result = null;
+            Vector<double> result = null;
             vector1.PointwiseDivide(vector2, result);
         }
 
@@ -846,7 +847,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = CreateVector(Data);
             var vector2 = CreateVector(Data);
-            Matrix m = Vector.OuterProduct(vector1, vector2);
+            Matrix<double> m = Vector<double>.OuterProduct(vector1, vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
                 for (var j = 0; j < vector2.Count; j++)
@@ -860,9 +861,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [ExpectedArgumentNullException]
         public void OuterProductWithFirstParameterNullShouldThrowException()
         {
-            Vector vector1 = null;
+            Vector<double> vector1 = null;
             var vector2 = CreateVector(Data);
-            Vector.OuterProduct(vector1, vector2);
+            Vector<double>.OuterProduct(vector1, vector2);
         }
 
         [Test]
@@ -870,8 +871,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void OutercProductWithSecondParameterNullShouldThrowException()
         {
             var vector1 = CreateVector(Data);
-            Vector vector2 = null;
-            Vector.OuterProduct(vector1, vector2);
+            Vector<double> vector2 = null;
+            Vector<double>.OuterProduct(vector1, vector2);
         }
 
         [Test]
@@ -894,7 +895,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void TensorMultiplyWithNullParameterNullShouldThrowException()
         {
             var vector1 = CreateVector(Data);
-            Vector vector2 = null;
+            Vector<double> vector2 = null;
             vector1.TensorMultiply(vector2);
         }
     }

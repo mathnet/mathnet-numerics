@@ -30,9 +30,14 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using LinearAlgebra.Double;
+    using System;
+    using System.Text;
+    using Distributions;
+    using LinearAlgebra.Generic;
+    using Properties;
+    using Threading;
 
-    internal class UserDefinedMatrix : Matrix
+    internal class UserDefinedMatrix : Matrix<double>
     {
         private readonly double[,] _data;
 
@@ -61,12 +66,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             _data[row, column] = value;
         }
 
-        public override Matrix CreateMatrix(int numberOfRows, int numberOfColumns)
+        public override Matrix<double> CreateMatrix(int numberOfRows, int numberOfColumns)
         {
             return new UserDefinedMatrix(numberOfRows, numberOfColumns);
         }
 
-        public override Vector CreateVector(int size)
+        public override Vector<double> CreateVector(int size)
         {
             return new UserDefinedVector(size);
         }
@@ -81,26 +86,115 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             return m;
         }
+
+        public override void Negate()
+        {
+            Multiply(-1);
+        }
+
+        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
+            CommonParallel.For(
+                0,
+                ColumnCount,
+                j =>
+                {
+                    for (var i = 0; i < matrix.RowCount; i++)
+                    {
+                        matrix[i, j] = distribution.Sample();
+                    }
+                });
+
+            return matrix;
+        }
+
+        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
+            CommonParallel.For(
+                0,
+                ColumnCount,
+                j =>
+                {
+                    for (var i = 0; i < matrix.RowCount; i++)
+                    {
+                        matrix[i, j] = distribution.Sample();
+                    }
+                });
+
+            return matrix;
+        }
+
+        protected sealed override double AddT(double val1, double val2)
+        {
+            return val1 + val2;
+        }
+
+        protected sealed override double SubtractT(double val1, double val2)
+        {
+            return val1 - val2;
+        }
+
+        protected sealed override double MultiplyT(double val1, double val2)
+        {
+            return val1 * val2;
+        }
+
+        protected sealed override double DivideT(double val1, double val2)
+        {
+            return val1 / val2;
+        }
+
+        protected sealed override bool IsOneT(double val1)
+        {
+            return 1.0.AlmostEqualInDecimalPlaces(val1, 15);
+        }
+
+        protected sealed override double AbsoluteT(double val1)
+        {
+            return Math.Abs(val1);
+        }
     }
 
     public class UserDefinedMatrixTests : MatrixTests
     {
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<double> CreateMatrix(int rows, int columns)
         {
             return new UserDefinedMatrix(rows, columns);
         }
 
-        protected override Matrix CreateMatrix(double[,] data)
+        protected override Matrix<double> CreateMatrix(double[,] data)
         {
             return new UserDefinedMatrix(data);
         }
 
-        protected override Vector CreateVector(int size)
+        protected override Vector<double> CreateVector(int size)
         {
             return new UserDefinedVector(size);
         }
 
-        protected override Vector CreateVector(double[] data)
+        protected override Vector<double> CreateVector(double[] data)
         {
             return new UserDefinedVector(data);
         }

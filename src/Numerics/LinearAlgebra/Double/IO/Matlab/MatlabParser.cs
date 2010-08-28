@@ -31,6 +31,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
     using System.IO;
     using System.Text;
     using Common.IO.Matlab;
+    using Generic;
     using Properties;
     using zlib;
 
@@ -296,7 +297,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
                         size = reader.ReadInt32();
                     }
 
-                    Matrix matrix;
+                    Matrix<double> matrix;
                     switch (arrayClass)
                     {
                         case ArrayClass.Sparse:
@@ -331,7 +332,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
         /// <param name="columns">The number of columns.</param>
         /// <param name="size">The size of the block.</param>
         /// <returns>A populated sparse matrix.</returns>
-        private static Matrix PopulateSparseMatrix(BinaryReader reader, int rows, int columns, int size)
+        private static Matrix<double> PopulateSparseMatrix(BinaryReader reader, int rows, int columns, int size)
         {
             // populate the row data array
             var ir = new int[size / 4];
@@ -360,7 +361,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
             // skip length since we already no it for the number of rows
             reader.BaseStream.Seek(4, SeekOrigin.Current);
 
-            Matrix matrix = new SparseMatrix(rows, columns);
+            Matrix<double> matrix = new SparseMatrix(rows, columns);
             var col = 0;
             for (var i = 0; i < ir.Length; i++)
             {
@@ -420,9 +421,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO.Matlab
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>Returns a populated dense matrix.</returns>
-        private static Matrix PopulateDenseMatrix(DataType type, BinaryReader reader, int rows, int columns)
+        private static Matrix<double> PopulateDenseMatrix(DataType type, BinaryReader reader, int rows, int columns)
         {
-            Matrix matrix = new DenseMatrix(rows, columns);
+            Matrix<double> matrix = new DenseMatrix(rows, columns);
             switch (type)
             {
                 case DataType.Int8:

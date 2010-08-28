@@ -33,6 +33,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System;
     using Algorithms.LinearAlgebra;
     using LinearAlgebra.Double;
+    using LinearAlgebra.Generic;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -343,22 +344,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         }
 
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<double> CreateMatrix(int rows, int columns)
         {
             return new DenseMatrix(rows, columns);
         }
 
-        protected override Matrix CreateMatrix(double[,] data)
+        protected override Matrix<double> CreateMatrix(double[,] data)
         {
             return new DenseMatrix(data);
         }
 
-        protected override Vector CreateVector(int size)
+        protected override Vector<double> CreateVector(int size)
         {
             return new DenseVector(size);
         }
 
-        protected override Vector CreateVector(double[] data)
+        protected override Vector<double> CreateVector(double[] data)
         {
             return new DenseVector(data);
         }

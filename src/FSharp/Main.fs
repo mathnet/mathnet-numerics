@@ -31,12 +31,12 @@
 namespace MathNet.Numerics
 
 open MathNet.Numerics.LinearAlgebra.Double
-
+open MathNet.Numerics.LinearAlgebra.Generic
 /// A module which implements some F# utility functions.
 module FSharp =
 
     /// Construct a dense matrix from a list of floating point numbers.
-    let inline matrix (lst: list<list<float>>) = DenseMatrix.ofList lst :> Matrix
+    let inline matrix (lst: list<list<float>>) = DenseMatrix.ofList lst :> Matrix<float>
 
     /// Construct a dense vector from a list of floating point numbers.
-    let inline vector (lst: list<float>) = DenseVector.ofList lst :> Vector
+    let inline vector (lst: list<float>) = DenseVector.ofList lst :> Vector<float>

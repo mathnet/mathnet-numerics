@@ -32,9 +32,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    using Generic;
 
     /// <summary>
-    /// Writes an <see cref="Matrix"/> to delimited text file. If the user does not
+    /// Writes an <see cref="Matrix{T}"/> to delimited text file. If the user does not
     /// specify a delimiter, a tab separator is used.
     /// </summary>
     public class DelimitedWriter : MatrixWriter
@@ -115,13 +116,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         }
 
         /// <summary>
-        /// Writes the given <see cref="Matrix"/> to the given <see cref="TextWriter"/>.
+        /// Writes the given <see cref="Matrix{T}"/> to the given <see cref="TextWriter"/>.
         /// </summary>
         /// <param name="matrix">The matrix to write.</param>
         /// <param name="writer">The <see cref="TextWriter"/> to write the matrix to.</param>
         /// <param name="format">The format to use on each element.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="writer"/> is <c>null</c>.</exception>
-        protected override void DoWriteMatrix(Matrix matrix, TextWriter writer, string format)
+        protected override void DoWriteMatrix(Matrix<double> matrix, TextWriter writer, string format)
         {
             if (matrix == null)
             {

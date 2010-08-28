@@ -24,29 +24,32 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double
+namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Numerics;
     using System.Text;
     using Distributions;
     using Properties;
     using Threading;
 
     /// <summary>
-    /// Defines the base class for <c>Vector</c> classes.
+    /// Defines the generic class for <c>Vector</c> classes.
     /// </summary>
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
-    public abstract class Vector :
+    public abstract class Vector<T> :
 #if SILVERLIGHT
-    IFormattable, IEnumerable<double>, IEquatable<Vector>
+    IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
 #else
-        IFormattable, IEnumerable<double>, IEquatable<Vector>, ICloneable
+    IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, ICloneable
 #endif
+    where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Vector"/> class. 
+        /// Initializes a new instance of the Vector class. 
         /// Constructs a <strong>Vector</strong> with the given size.
         /// </summary>
         /// <param name="size">
@@ -79,7 +82,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
         /// <exception cref="IndexOutOfRangeException">If <paramref name="index"/> is negative or 
         /// greater than the size of the vector.</exception>
-        public abstract double this[int index]
+        public abstract T this[int index]
         {
             get;
             set;
@@ -98,7 +101,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A matrix with the given dimensions.
         /// </returns>
-        public abstract Matrix CreateMatrix(int rows, int columns);
+        public abstract Matrix<T> CreateMatrix(int rows, int columns);
 
         /// <summary>
         /// Creates a <strong>Vector</strong> of the given size using the same storage type
@@ -110,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// The new <c>Vector</c>.
         /// </returns>
-        public abstract Vector CreateVector(int size);
+        public abstract Vector<T> CreateVector(int size);
 
         #region Elementary operations
 
@@ -121,18 +124,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The scalar to add.
         /// </param>
         /// <returns>A copy of the vector with the scalar added.</returns>
-        public virtual Vector Add(double scalar)
+        public virtual Vector<T> Add(T scalar)
         {
-            if (scalar == 0.0)
+            if (scalar.Equals(default(T)))
             {
                 return Clone();
             }
 
             var copy = Clone();
-            CommonParallel.For(
-                0, 
-                Count,
-                index => copy[index] += scalar);
+            Add(scalar, copy);
             return copy;
         }
 
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Add(double scalar, Vector result)
+        public virtual void Add(T scalar, Vector<T> result)
         {
             if (result == null)
             {
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] += scalar);
+                index => result[index] = AddT(result[index], scalar));
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>
         /// Added as an alternative to the unary addition operator.
         /// </remarks>
-        public virtual Vector Plus()
+        public virtual Vector<T> Plus()
         {
             return Clone();
         }
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="other"/> are not the same size.
         /// </exception>
-        public virtual Vector Add(Vector other)
+        public virtual Vector<T> Add(Vector<T> other)
         {
             if (other == null)
             {
@@ -214,10 +214,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var copy = Clone();
-            CommonParallel.For(
-                0, 
-                Count,
-                index => copy[index] += other[index]);
+            Add(other, copy);
             return copy;
         }
 
@@ -242,7 +239,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Add(Vector other, Vector result)
+        public virtual void Add(Vector<T> other, Vector<T> result)
         {
             if (result == null)
             {
@@ -264,7 +261,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CommonParallel.For(
                     0,
                     Count,
-                    index => result[index] = this[index] + other[index]);
+                    index => result[index] = AddT(this[index], other[index]));
             }
         }
 
@@ -275,18 +272,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The scalar to subtract.
         /// </param>
         /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
-        public virtual Vector Subtract(double scalar)
+        public virtual Vector<T> Subtract(T scalar)
         {
-            if (scalar == 0.0)
+            if (scalar.Equals(default(T)))
             {
                 return Clone();
             }
 
             var copy = Clone();
-            CommonParallel.For(
-                0, 
-                Count, 
-                index => copy[index] -= scalar);
+            Subtract(scalar, copy);
             return copy;
         }
 
@@ -305,7 +299,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Subtract(double scalar, Vector result)
+        public virtual void Subtract(T scalar, Vector<T> result)
         {
             if (result == null)
             {
@@ -325,7 +319,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] -= scalar);
+                index => result[index] = SubtractT(result[index], scalar));
         }
 
         /// <summary>
@@ -337,10 +331,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>
         /// Added as an alternative to the unary negation operator.
         /// </remarks>
-        public virtual Vector Negate()
-        {
-            return this * -1;
-        }
+        public abstract Vector<T> Negate();
 
         /// <summary>
         /// Subtracts another vector from this vector.
@@ -355,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="other"/> are not the same size.
         /// </exception>
-        public virtual Vector Subtract(Vector other)
+        public virtual Vector<T> Subtract(Vector<T> other)
         {
             if (other == null)
             {
@@ -368,10 +359,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var copy = Clone();
-            CommonParallel.For(
-                0, 
-                Count, 
-                index => copy[index] -= other[index]);
+            Subtract(other, copy);
             return copy;
         }
 
@@ -396,7 +384,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Subtract(Vector other, Vector result)
+        public virtual void Subtract(Vector<T> other, Vector<T> result)
         {
             if (result == null)
             {
@@ -419,7 +407,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CommonParallel.For(
                     0,
                     Count,
-                    index => result[index] = this[index] - other[index]);
+                    index => result[index] = SubtractT(this[index], other[index]));
             }
         }
 
@@ -430,18 +418,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The scalar to multiply.
         /// </param>
         /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
-        public virtual Vector Multiply(double scalar)
+        public virtual Vector<T> Multiply(T scalar)
         {
-            if (scalar == 1.0)
+            if (IsOneT(scalar))
             {
                 return Clone();
             }
 
             var copy = Clone();
-            CommonParallel.For(
-                0, 
-                Count,
-                index => copy[index] *= scalar);
+            Multiply(scalar, copy);
             return copy;
         }
 
@@ -460,7 +445,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Multiply(double scalar, Vector result)
+        public virtual void Multiply(T scalar, Vector<T> result)
         {
             if (result == null)
             {
@@ -480,7 +465,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] *= scalar);
+                index => result[index] = MultiplyT(result[index], scalar));
         }
 
         /// <summary>
@@ -498,7 +483,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">
         /// If <paramref name="other"/> is <see langword="null"/>.
         /// </exception>
-        public virtual double DotProduct(Vector other)
+        public virtual T DotProduct(Vector<T> other)
         {
             if (other == null)
             {
@@ -510,10 +495,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var dot = 0.0;
+            var dot = default(T);
             for (var i = 0; i < Count; i++)
             {
-                dot += this[i] * other[i];
+                dot = AddT(dot, MultiplyT(this[i], other[i]));
             }
 
             return dot;
@@ -526,14 +511,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The scalar to divide with.
         /// </param>
         /// <returns>A new vector that is the division of the vector and the scalar.</returns>
-        public virtual Vector Divide(double scalar)
+        public virtual Vector<T> Divide(T scalar)
         {
-            if (scalar == 1.0)
+            if (IsOneT(scalar))
             {
                 return Clone();
             }
 
-            return Multiply(1.0 / scalar);
+            var copy = Clone();
+            Divide(scalar, copy);
+            return copy;
         }
 
         /// <summary>
@@ -551,7 +538,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If this vector and <paramref name="result"/> are not the same size.
         /// </exception>
-        public virtual void Divide(double scalar, Vector result)
+        public virtual void Divide(T scalar, Vector<T> result)
         {
             if (result == null)
             {
@@ -567,11 +554,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 CopyTo(result);
             }
-
+            
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] /= scalar);
+                index => result[index] = DivideT(result[index], scalar));
         }
 
         /// <summary>
@@ -581,7 +568,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public virtual Vector PointwiseMultiply(Vector other)
+        public virtual Vector<T> PointwiseMultiply(Vector<T> other)
         {
             if (other == null)
             {
@@ -594,10 +581,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var copy = Clone();
-            CommonParallel.For(
-                0, 
-                Count,
-                index => copy[index] *= other[index]);
+            PointwiseMultiply(other, copy);
             return copy;
         }
 
@@ -610,7 +594,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointwiseMultiply(Vector other, Vector result)
+        public virtual void PointwiseMultiply(Vector<T> other, Vector<T> result)
         {
             if (result == null)
             {
@@ -642,7 +626,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CommonParallel.For(
                     0,
                     Count,
-                    index => result[index] = this[index] * other[index]);
+                    index => result[index] = MultiplyT(this[index], other[index]));
             }
         }
 
@@ -653,7 +637,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
         /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public virtual Vector PointwiseDivide(Vector other)
+        public virtual Vector<T> PointwiseDivide(Vector<T> other)
         {
             if (other == null)
             {
@@ -666,10 +650,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var copy = Clone();
-            CommonParallel.For(
-                0, 
-                Count, 
-                index => copy[index] /= other[index]);
+            PointwiseDivide(other, copy);
             return copy;
         }
 
@@ -682,7 +663,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointwiseDivide(Vector other, Vector result)
+        public virtual void PointwiseDivide(Vector<T> other, Vector<T> result)
         {
             if (result == null)
             {
@@ -714,7 +695,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CommonParallel.For(
                     0,
                     Count,
-                    index => result[index] = this[index] / other[index]);
+                    index => result[index] = DivideT(this[index], other[index]));
             }
         }
 
@@ -726,7 +707,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
         /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
-        public static DenseMatrix OuterProduct(Vector u, Vector v)
+        public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v)
         {
             if (u == null)
             {
@@ -738,17 +719,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentNullException("v");
             }
 
-            var matrix = new DenseMatrix(u.Count, v.Count);
+            var matrix = u.CreateMatrix(u.Count, v.Count);
             CommonParallel.For(
-                0, 
-                u.Count, 
-                i =>
-                {
-                    for (var j = 0; j < v.Count; j++)
-                    {
-                        matrix.At(i, j, u[i] * v[j]);
-                    }
-                });
+                0,
+                u.Count,
+                i => matrix.SetRow(i, v.Multiply(u[i])));
             return matrix;
         }
 
@@ -762,21 +737,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// to the specified random distribution.
         /// </returns>
         /// <exception cref="ArgumentException">If the n vector is non-positive.</exception> 
-        public virtual Vector Random(int length, IContinuousDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = CreateVector(length);
-            for (var index = 0; index < v.Count; index++)
-            {
-                v[index] = randomDistribution.Sample();
-            }
-
-            return v;
-        }
+        public abstract Vector<T> Random(int length, IContinuousDistribution randomDistribution);
 
         /// <summary>
         /// Generates a vector with random elements
@@ -788,21 +749,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// to the specified random distribution.
         /// </returns>
         /// <exception cref="ArgumentException">If the n vector is not positive.</exception> 
-        public virtual Vector Random(int length, IDiscreteDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = CreateVector(length);
-            for (var index = 0; index < v.Count; index++)
-            {
-                v[index] = randomDistribution.Sample();
-            }
-
-            return v;
-        }
+        public abstract Vector<T> Random(int length, IDiscreteDistribution randomDistribution);
 
         /// <summary>
         /// Tensor Product (Dyadic) of this and another vector.
@@ -812,7 +759,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
         /// <seealso cref="OuterProduct"/>
-        public Matrix TensorMultiply(Vector v)
+        public Matrix<T> TensorMultiply(Vector<T> v)
         {
             return OuterProduct(this, v);
         }
@@ -823,7 +770,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The value of the absolute minimum element.</returns>
         public virtual double AbsoluteMinimum()
         {
-            return Math.Abs(this[AbsoluteMinimumIndex()]);
+            return AbsoluteT(this[AbsoluteMinimumIndex()]);
         }
 
         /// <summary>
@@ -833,10 +780,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public virtual int AbsoluteMinimumIndex()
         {
             var index = 0;
-            var min = Math.Abs(this[index]);
+            var min = AbsoluteT(this[index]);
             for (var i = 1; i < Count; i++)
             {
-                var test = Math.Abs(this[i]);
+                var test = AbsoluteT(this[i]);
                 if (test < min)
                 {
                     index = i;
@@ -846,14 +793,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             return index;
         }
-
+        
         /// <summary>
         /// Returns the value of the absolute maximum element.
         /// </summary>
         /// <returns>The value of the absolute maximum element.</returns>
         public virtual double AbsoluteMaximum()
         {
-            return Math.Abs(this[AbsoluteMaximumIndex()]);
+            return AbsoluteT(this[AbsoluteMaximumIndex()]);
         }
 
         /// <summary>
@@ -863,10 +810,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public virtual int AbsoluteMaximumIndex()
         {
             var index = 0;
-            var max = Math.Abs(this[index]);
+            var max = AbsoluteT(this[index]);
             for (var i = 1; i < Count; i++)
             {
-                var test = Math.Abs(this[i]);
+                var test = AbsoluteT(this[i]);
                 if (test > max)
                 {
                     index = i;
@@ -881,7 +828,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the value of maximum element.
         /// </summary>
         /// <returns>The value of maximum element.</returns>        
-        public virtual double Maximum()
+        public virtual T Maximum()
         {
             return this[MaximumIndex()];
         }
@@ -890,27 +837,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>          
-        public virtual int MaximumIndex()
-        {
-            var index = 0;
-            var max = this[0];
-            for (var i = 1; i < Count; i++)
-            {
-                if (max < this[i])
-                {
-                    index = i;
-                    max = this[i];
-                }
-            }
-
-            return index;
-        }
+        public abstract int MaximumIndex();
 
         /// <summary>
         /// Returns the value of the minimum element.
         /// </summary>
         /// <returns>The value of the minimum element.</returns>
-        public virtual double Minimum()
+        public virtual T Minimum()
         {
             return this[MinimumIndex()];
         }
@@ -919,32 +852,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the index of the minimum element.
         /// </summary>
         /// <returns>The index of minimum element.</returns>  
-        public virtual int MinimumIndex()
-        {
-            var index = 0;
-            var min = this[0];
-            for (var i = 1; i < Count; i++)
-            {
-                if (min > this[i])
-                {
-                    index = i;
-                    min = this[i];
-                }
-            }
-
-            return index;
-        }
+        public abstract int MinimumIndex();
 
         /// <summary>
         /// Computes the sum of the vector's elements.
         /// </summary>
         /// <returns>The sum of the vector's elements.</returns>
-        public virtual double Sum()
+        public virtual T Sum()
         {
-            double result = 0;
+            var result = default(T);
             for (var i = 0; i < Count; i++)
             {
-                result += this[i];
+                result = AddT(result, this[i]);
             }
 
             return result;
@@ -959,7 +878,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             double result = 0;
             for (var i = 0; i < Count; i++)
             {
-                result += Math.Abs(this[i]);
+                result += AbsoluteT(this[i]);
             }
 
             return result;
@@ -976,7 +895,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the same values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator +(Vector rightSide)
+        public static Vector<T> operator +(Vector<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -994,7 +913,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator +(Vector leftSide, Vector rightSide)
+        public static Vector<T> operator +(Vector<T> leftSide, Vector<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -1020,7 +939,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator -(Vector rightSide)
+        public static Vector<T> operator -(Vector<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -1038,7 +957,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator -(Vector leftSide, Vector rightSide)
+        public static Vector<T> operator -(Vector<T> leftSide, Vector<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -1065,7 +984,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The scalar value.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector operator *(Vector leftSide, double rightSide)
+        public static Vector<T> operator *(Vector<T> leftSide, T rightSide)
         {
             if (leftSide == null)
             {
@@ -1082,7 +1001,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The vector to scale.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator *(double leftSide, Vector rightSide)
+        public static Vector<T> operator *(T leftSide, Vector<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -1100,7 +1019,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The dot product between the two vectors.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static double operator *(Vector leftSide, Vector rightSide)
+        public static T operator *(Vector<T> leftSide, Vector<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -1127,14 +1046,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The scalar value.</param>
         /// <returns>The result of the division.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Vector operator /(Vector leftSide, double rightSide)
+        public static Vector<T> operator /(Vector<T> leftSide, T rightSide)
         {
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
             }
 
-            return leftSide.Multiply(1.0 / rightSide);
+            return leftSide.Divide(rightSide);
         }
 
         #endregion
@@ -1162,14 +1081,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return CommonParallel.Select(
                     0,
                     Count,
-                    (index, localData) => Math.Max(localData, Math.Abs(this[index])),
+                    (index, localData) => Math.Max(localData, AbsoluteT(this[index])),
                     Math.Max);
             }
 
             var sum = CommonParallel.Aggregate(
                 0,
                 Count,
-                index => Math.Pow(Math.Abs(this[index]), p));
+                index => Math.Pow(AbsoluteT(this[index]), p));
 
             return Math.Pow(sum, 1.0 / p);
         }
@@ -1183,24 +1102,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// This vector normalized to a unit vector with respect to the p-norm.
         /// </returns>
-        public virtual Vector Normalize(double p)
-        {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            var norm = Norm(p);
-            var clone = Clone();
-            if (norm == 0.0)
-            {
-                return clone;
-            }
-
-            clone.Multiply(1.0 / norm, clone);
-
-            return clone;
-        }
+        public abstract Vector<T> Normalize(double p);
 
         #endregion
 
@@ -1212,7 +1114,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A deep-copy clone of the vector.
         /// </returns>
-        public Vector Clone()
+        public Vector<T> Clone()
         {
             var retrunVector = CreateVector(Count);
             CopyTo(retrunVector);
@@ -1231,7 +1133,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">
         /// If <paramref name="target"/> is not the same size as this vector.
         /// </exception>
-        public virtual void CopyTo(Vector target)
+        public virtual void CopyTo(Vector<T> target)
         {
             if (target == null)
             {
@@ -1269,7 +1171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="count">
         /// The number of elements to copy.
         /// </param>
-        public virtual void CopyTo(Vector destination, int offset, int destinationOffset, int count)
+        public virtual void CopyTo(Vector<T> destination, int offset, int destinationOffset, int count)
         {
             if (destination == null)
             {
@@ -1321,9 +1223,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// The vector's data as an array.
         /// </returns>
-        public virtual double[] ToArray()
+        public virtual T[] ToArray()
         {
-            var ret = new double[Count];
+            var ret = new T[Count];
             for (var i = 0; i < ret.Length; i++)
             {
                 ret[i] = this[i];
@@ -1338,7 +1240,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// This vector as a column matrix.
         /// </returns>
-        public virtual Matrix ToColumnMatrix()
+        public virtual Matrix<T> ToColumnMatrix()
         {
             var matrix = CreateMatrix(Count, 1);
             for (var i = 0; i < Count; i++)
@@ -1355,7 +1257,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// This vector as a row matrix.
         /// </returns>
-        public virtual Matrix ToRowMatrix()
+        public virtual Matrix<T> ToRowMatrix()
         {
             var matrix = CreateMatrix(1, Count);
             for (var i = 0; i < Count; i++)
@@ -1377,7 +1279,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <item>If <paramref name="index"/> + <paramref name="length"/> is greater than or equal to the size of the vector.</item>
         /// </list></exception>
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
-        public virtual Vector SubVector(int index, int length)
+        public virtual Vector<T> SubVector(int index, int length)
         {
             if (index < 0 || index >= Count)
             {
@@ -1409,7 +1311,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="values">The array containing the values to use.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="values"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="values"/> is not the same size as this vector.</exception>
-        public virtual void SetValues(double[] values)
+        public virtual void SetValues(T[] values)
         {
             if (values == null)
             {
@@ -1465,7 +1367,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         #endregion
 
-        #region IEnumerable<double>
+        #region IEnumerable<T>
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
@@ -1473,7 +1375,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
-        public virtual IEnumerator<double> GetEnumerator()
+        public virtual IEnumerator<T> GetEnumerator()
         {
             for (var index = 0; index < Count; index++)
             {
@@ -1497,11 +1399,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
         /// with a zero value.
         /// </remarks>
-        public virtual IEnumerable<KeyValuePair<int, double>> GetIndexedEnumerator()
+        public virtual IEnumerable<KeyValuePair<int, T>> GetIndexedEnumerator()
         {
             for (var i = 0; i < Count; i++)
             {
-                yield return new KeyValuePair<int, double>(i, this[i]);
+                yield return new KeyValuePair<int, T>(i, this[i]);
             }
         }
 
@@ -1516,7 +1418,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(Vector other)
+        public virtual bool Equals(Vector<T> other)
         {
             // Reject equality when the argument is null or has a different length.
             if (other == null)
@@ -1538,7 +1440,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             // If all else fails, perform element wise comparison.
             for (var index = 0; index < Count; index++)
             {
-                if (!this[index].AlmostEqual(other[index]))
+                if (!this[index].Equals(other[index]))
                 {
                     return false;
                 }
@@ -1577,7 +1479,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
-        public string ToString(string format, IFormatProvider formatProvider)
+        public virtual string ToString(string format, IFormatProvider formatProvider)
         {
             var stringBuilder = new StringBuilder();
             for (var index = 0; index < Count; index++)
@@ -1591,7 +1493,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             return stringBuilder.ToString();
         }
-
         #endregion
 
         #endregion
@@ -1609,7 +1510,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as Vector);
+            return Equals(obj as Vector<T>);
         }
 
         /// <summary>
@@ -1625,9 +1526,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             for (var i = 0; i < hashNum; i++)
             {
 #if SILVERLIGHT
-                hash ^= Precision.DoubleToInt64Bits(this[i]);
+                hash ^= Precision.DoubleToInt64Bits(AbsoluteT(this[i]));
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(this[i]);
+                hash ^= BitConverter.DoubleToInt64Bits(this[i].GetHashCode());
 #endif
             }
 
@@ -1652,7 +1553,56 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public virtual void Clear()
         {
-            CommonParallel.For(0, Count, index => this[index] = 0);
+            CommonParallel.For(0, Count, index => this[index] = default(T));
         }
+
+        #region Simple arithmetic of type T
+
+        /// <summary>
+        /// Add two values T+T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of addition</returns>
+        protected abstract T AddT(T val1, T val2);
+
+        /// <summary>
+        /// Subtract two values T-T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of subtract</returns>
+        protected abstract T SubtractT(T val1, T val2);
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected abstract T MultiplyT(T val1, T val2);
+
+        /// <summary>
+        /// Divide two values T/T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of divide</returns>
+        protected abstract T DivideT(T val1, T val2);
+
+        /// <summary>
+        /// Is equal to one?
+        /// </summary>
+        /// <param name="val1">Value to check</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected abstract bool IsOneT(T val1);
+
+        /// <summary>
+        /// Take absolute value
+        /// </summary>
+        /// <param name="val1">Source alue</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected abstract double AbsoluteT(T val1);
+        #endregion
     }
 }

@@ -31,7 +31,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 
 open MathNet.Numerics.LinearAlgebra
-
+open MathNet.Numerics.LinearAlgebra.Generic
 /// A module which implements functional sparse vector operations.
 module SparseMatrix =
     
@@ -55,7 +55,7 @@ module SparseMatrix =
         A
     
     /// Create a square matrix with the vector elements on the diagonal.
-    let inline diag (v: #Vector) =
+    let inline diag (v: #Vector<float>) =
         let n = v.Count
         let A = new Double.SparseMatrix(n,n)
         for i=0 to n-1 do
@@ -63,13 +63,13 @@ module SparseMatrix =
         A
 
     /// Initialize a matrix by calling a construction function for every row.
-    let inline initRow (n: int) (m: int) (f: int -> #Vector) =
+    let inline initRow (n: int) (m: int) (f: int -> #Vector<float>) =
         let A = new Double.SparseMatrix(n,m)
         for i=0 to n-1 do A.SetRow(i, f i)
         A
 
     /// Initialize a matrix by calling a construction function for every column.
-    let inline initCol (n: int) (m: int) (f: int -> #Vector) =
+    let inline initCol (n: int) (m: int) (f: int -> #Vector<float>) =
         let A = new Double.SparseMatrix(n,m)
         for i=0 to n-1 do A.SetColumn(i, f i)
         A

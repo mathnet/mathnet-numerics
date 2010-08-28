@@ -1,4 +1,4 @@
-// <copyright file="CalculationCancelled.cs" company="Math.NET">
+// <copyright file="CalculationIndetermined.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,12 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
 {
     /// <summary>
-    /// Indicates that a calculation was cancelled by the user.
+    /// Indicates that the state of the calculation is indetermined, not started or stopped.
     /// </summary>
-    public struct CalculationCancelled : ICalculationStatus
+    public struct CalculationIndetermined : ICalculationStatus
     {
         /// <summary>
         /// Gets a value indicating whether current status warrants stopping the calculation.
@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
         {
             get
             {
-                return true;
+                return false;
             }
         }
     }

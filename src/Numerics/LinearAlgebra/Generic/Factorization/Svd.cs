@@ -28,9 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
+namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
     using System;
+    using System.Numerics;
+    using Generic;
     using Properties;
 
     /// <summary>
@@ -47,7 +49,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public abstract class Svd : ISolver
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    public abstract class Svd<T> : ISolver<T>
+    where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Gets or sets a value indicating whether to compute U and VT matrices during SVD factorization or not
@@ -61,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets or sets the singular values (Σ) of matrix in ascending value.
         /// </summary>
-        protected Vector VectorS
+        protected Vector<T> VectorS
         {
             get;
             set;
@@ -70,7 +74,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets or sets left singular vectors (U - m-by-m unitary matrix)
         /// </summary>
-        protected Matrix MatrixU
+        protected Matrix<T> MatrixU
         {
             get;
             set;
@@ -79,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets or sets transpose right singular vectors (transpose of V, an n-by-n unitary matrix
         /// </summary>
-        protected Matrix MatrixVT
+        protected Matrix<T> MatrixVT
         {
             get;
             set;
@@ -94,12 +98,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             get
             {
                 var eps = Math.Pow(2.0, -52.0);
-                var tol = Math.Max(MatrixU.RowCount, MatrixVT.ColumnCount) * VectorS[0] * eps;
+                var tol = Math.Max(MatrixU.RowCount, MatrixVT.ColumnCount) * AbsoluteT(VectorS[0]) * eps;
                 var nm = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount);
                 var rank = 0;
                 for (var h = 0; h < nm; h++)
                 {
-                    if (VectorS[h] > tol)
+                    if (AbsoluteT(VectorS[h]) > tol)
                     {
                         rank++;
                     }
@@ -115,26 +119,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <returns>An SVD object.</returns>
-        internal static Svd Create(Matrix matrix, bool computeVectors)
+        internal static Svd<T> Create(Matrix<T> matrix, bool computeVectors)
         {
-            var dense = matrix as DenseMatrix;
-            if (dense != null)
+            if (typeof(T) == typeof(double))
             {
-                return new DenseSvd(dense, computeVectors);
+                var dense = matrix as LinearAlgebra.Double.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Double.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
+                }
+
+                return new LinearAlgebra.Double.Factorization.UserSvd(matrix as Matrix<double>, computeVectors) as Svd<T>;
             }
 
-            return new UserSvd(matrix, computeVectors);
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Gets the two norm of the <see cref="Matrix"/>.
+        /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
-        /// <returns>The 2-norm of the <see cref="Matrix"/>.</returns>
+        /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
         public virtual double Norm2
         {
             get
             {
-                return VectorS[0];
+                return AbsoluteT(VectorS[0]);
             }
         }
 
@@ -147,7 +156,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             get
             {
                 var tmp = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount) - 1;
-                return VectorS[0] / VectorS[tmp];
+                return AbsoluteT(VectorS[0]) / AbsoluteT(VectorS[tmp]);
             }
         }
 
@@ -163,38 +172,38 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     throw new ArgumentException(Resources.ArgumentMatrixSquare);
                 }
 
-                var det = 1.0;
+                var det = OneValueT;
                 for (var i = 0; i < VectorS.Count; i++)
                 {
-                    det *= VectorS[i];
-                    if (Math.Abs(VectorS[i]).AlmostEqualInDecimalPlaces(0.0, 15))
+                    det = MultiplyT(det, VectorS[i]);
+                    if (AbsoluteT(VectorS[i]).AlmostEqualInDecimalPlaces(0.0, 15))
                     {
                         return 0;
                     }
                 }
 
-                return Math.Abs(det);
+                return AbsoluteT(det);
             }
         }
 
-        /// <summary>Returns the left singular vectors as a <see cref="Matrix"/>.</summary>
+        /// <summary>Returns the left singular vectors as a <see cref="Matrix{T}"/>.</summary>
         /// <returns>The left singular vectors. The matrix will be <c>null</c>, if <b>computeVectors</b> in the constructor is set to <c>false</c>.</returns>
-        public Matrix U()
+        public Matrix<T> U()
         {
             return ComputeVectors ? MatrixU.Clone() : null;
         }
 
-        /// <summary>Returns the right singular vectors as a <see cref="Matrix"/>.</summary>
+        /// <summary>Returns the right singular vectors as a <see cref="Matrix{T}"/>.</summary>
         /// <returns>The right singular vectors. The matrix will be <c>null</c>, if <b>computeVectors</b> in the constructor is set to <c>false</c>.</returns>
         /// <remarks>This is the transpose of the V matrix.</remarks>
-        public Matrix VT()
+        public Matrix<T> VT()
         {
             return ComputeVectors ? MatrixVT.Clone() : null;
         }
 
-        /// <summary>Returns the singular values as a diagonal <see cref="Matrix"/>.</summary>
-        /// <returns>The singular values as a diagonal <see cref="Matrix"/>.</returns>        
-        public Matrix W()
+        /// <summary>Returns the singular values as a diagonal <see cref="Matrix{T}"/>.</summary>
+        /// <returns>The singular values as a diagonal <see cref="Matrix{T}"/>.</returns>        
+        public Matrix<T> W()
         {
             var rows = MatrixU.RowCount;
             var columns = MatrixVT.ColumnCount;
@@ -213,9 +222,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             return result;
         }
 
-        /// <summary>Returns the singular values as a <see cref="Vector"/>.</summary>
-        /// <returns>the singular values as a <see cref="Vector"/>.</returns>
-        public Vector S()
+        /// <summary>Returns the singular values as a <see cref="Vector{T}"/>.</summary>
+        /// <returns>the singular values as a <see cref="Vector{T}"/>.</returns>
+        public Vector<T> S()
         {
             return VectorS.Clone();
         }
@@ -223,9 +232,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <returns>The left hand side <see cref="Matrix"/>, <b>X</b>.</returns>
-        public virtual Matrix Solve(Matrix input)
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
+        public virtual Matrix<T> Solve(Matrix<T> input)
         {
             // Check for proper arguments.
             if (input == null)
@@ -238,7 +247,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
 
-            Matrix result = MatrixU.CreateMatrix(MatrixVT.ColumnCount, input.ColumnCount);
+            var result = MatrixU.CreateMatrix(MatrixVT.ColumnCount, input.ColumnCount);
             Solve(input, result);
             return result;
         }
@@ -246,16 +255,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A SVD factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
-        public abstract void Solve(Matrix input, Matrix result);
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
+        public abstract void Solve(Matrix<T> input, Matrix<T> result);
 
         /// <summary>
         /// Solves a system of linear equations, <b>Ax = b</b>, with A SVD factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <returns>The left hand side <see cref="Vector"/>, <b>x</b>.</returns>
-        public virtual Vector Solve(Vector input)
+        /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
+        public virtual Vector<T> Solve(Vector<T> input)
         {
             // Check for proper arguments.
             if (input == null)
@@ -277,7 +286,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Solves a system of linear equations, <b>Ax = b</b>, with A SVD factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
-        public abstract void Solve(Vector input, Vector result);
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
+        public abstract void Solve(Vector<T> input, Vector<T> result);
+
+        #region Simple arithmetic of type T
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected abstract T MultiplyT(T val1, T val2);
+
+        /// <summary>
+        /// Take absolute value
+        /// </summary>
+        /// <param name="val">Source alue</param>
+        /// <returns>True if one; otherwise false</returns>
+        protected abstract double AbsoluteT(T val);
+
+        /// <summary>
+        /// Gets value of type T equal to one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected abstract T OneValueT
+        {
+            get;
+        }
+
+        #endregion
     }
 }

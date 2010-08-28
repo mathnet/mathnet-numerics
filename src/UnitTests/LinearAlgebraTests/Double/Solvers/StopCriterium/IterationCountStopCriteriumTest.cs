@@ -1,8 +1,8 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCriterium
 {
     using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Solvers.Status;
     using LinearAlgebra.Double.Solvers.StopCriterium;
+    using LinearAlgebra.Generic.Solvers.Status;
     using MbUnit.Framework;
 
     [TestFixture]

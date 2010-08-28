@@ -1,4 +1,4 @@
-// <copyright file="IIterativeSolverSetup.cs" company="Math.NET">
+// <copyright file="ISolver.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -14,10 +14,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,44 +26,43 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
+    using System.Numerics;
 
     /// <summary>
-    /// Defines the interface for objects that can create an iterative solver with
-    /// specific settings. This interface is used to pass iterative solver creation 
-    /// setup information around.
+    /// Classes that solves a system of linear equations, <c>AX = B</c>.
     /// </summary>
-    public interface IIterativeSolverSetup
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    public interface ISolver<T> where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
-        /// Gets the type of the solver that will be created by this setup object.
+        /// Solves a system of linear equations, <c>AX = B</c>.
         /// </summary>
-        Type SolverType { get; }
+        /// <param name="input">The right hand side Matrix, <c>B</c>.</param>
+        /// <returns>The left hand side Matrix, <c>X</c>.</returns>
+        Matrix<T> Solve(Matrix<T> input);
 
         /// <summary>
-        /// Gets type of preconditioner, if any, that will be created by this setup object.
+        /// Solves a system of linear equations, <c>AX = B</c>.
         /// </summary>
-        Type PreconditionerType { get; }
+        /// <param name="input">The right hand side Matrix, <c>B</c>.</param>
+        /// <param name="result">The left hand side Matrix, <c>X</c>.</param>
+        void Solve(Matrix<T> input, Matrix<T> result);
 
         /// <summary>
-        /// Creates a fully functional iterative solver with the default settings
-        /// given by this setup.
+        /// Solves a system of linear equations, <c>Ax = b</c>
         /// </summary>
-        /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
-        IIterativeSolver CreateNew();
+        /// <param name="input">The right hand side vector, <c>b</c>.</param>
+        /// <returns>The left hand side Vector, <c>x</c>.</returns>
+        Vector<T> Solve(Vector<T> input);
 
         /// <summary>
-        /// Gets the relative speed of the solver. 
+        /// Solves a system of linear equations, <c>Ax = b</c>.
         /// </summary>
-        /// <value>Returns a value between 0 and 1, inclusive.</value>
-        double SolutionSpeed { get; }
-
-        /// <summary>
-        /// Gets the relative reliability of the solver.
-        /// </summary>
-        /// <value>Returns a value between 0 and 1 inclusive.</value>
-        double Reliability { get; }
+        /// <param name="input">The right hand side vector, <c>b</c>.</param>
+        /// <param name="result">The left hand side Matrix>, <c>x</c>.</param>
+        void Solve(Vector<T> input, Vector<T> result);
     }
 }

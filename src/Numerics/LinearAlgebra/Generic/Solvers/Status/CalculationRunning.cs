@@ -1,4 +1,4 @@
-// <copyright file="ICalculationStatus.cs" company="Math.NET">
+// <copyright file="CalculationRunning.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,16 +28,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
 {
     /// <summary>
-    /// Defines the base interface for calculation status objects.
+    /// Indicates that the calculation is running and no results are yet known.
     /// </summary>
-    public interface ICalculationStatus
+    public struct CalculationRunning : ICalculationStatus
     {
         /// <summary>
         /// Gets a value indicating whether current status warrants stopping the calculation.
         /// </summary>
-        bool TerminatesCalculation { get; }
+        public bool TerminatesCalculation
+        {
+            get 
+            { 
+                return false; 
+            }
+        }
+
+        // TODO: CalculationRunning - Get current residuals?
     }
 }

@@ -224,9 +224,6 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Double\DiagonalMatrix.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Cholesky.cs">
-      <Link>LinearAlgebra\Double\Factorization\Cholesky.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseCholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseCholesky.cs</Link>
     </Compile>
@@ -245,12 +242,6 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\GramSchmidt.cs">
       <Link>LinearAlgebra\Double\Factorization\GramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\LU.cs">
-      <Link>LinearAlgebra\Double\Factorization\LU.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\QR.cs">
-      <Link>LinearAlgebra\Double\Factorization\QR.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\SparseCholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\SparseCholesky.cs</Link>
     </Compile>
@@ -262,9 +253,6 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\SparseSvd.cs">
       <Link>LinearAlgebra\Double\Factorization\SparseSvd.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Svd.cs">
-      <Link>LinearAlgebra\Double\Factorization\Svd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\UserCholesky.cs</Link>
@@ -289,24 +277,6 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\IO\MatrixWriter.cs">
       <Link>LinearAlgebra\Double\IO\MatrixWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\ISolver.cs">
-      <Link>LinearAlgebra\Double\ISolver.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.Arithmetic.cs">
-      <Link>LinearAlgebra\Double\Matrix.Arithmetic.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.cs">
-      <Link>LinearAlgebra\Double\Matrix.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterativeSolver.cs">
-      <Link>LinearAlgebra\Double\Solvers\IIterativeSolver.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterativeSolverSetup.cs">
-      <Link>LinearAlgebra\Double\Solvers\IIterativeSolverSetup.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterator.cs">
-      <Link>LinearAlgebra\Double\Solvers\IIterator.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs</Link>
@@ -338,35 +308,8 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\IncompleteLU.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\IncompleteLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\IPreConditioner.cs">
-      <Link>LinearAlgebra\Double\Solvers\Preconditioners\IPreConditioner.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\UnitPreconditioner.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Status\CalculationCancelled.cs">
-      <Link>LinearAlgebra\Double\Solvers\Status\CalculationCancelled.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Status\CalculationConverged.cs">
-      <Link>LinearAlgebra\Double\Solvers\Status\CalculationConverged.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Status\CalculationDiverged.cs">
-      <Link>LinearAlgebra\Double\Solvers\Status\CalculationDiverged.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Status\CalculationFailure.cs">
-      <Link>LinearAlgebra\Double\Solvers\Status\CalculationFailure.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Status\CalculationIndetermined.cs">
-      <Link>LinearAlgebra\Double\Solvers\Status\CalculationIndetermined.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Status\CalculationRunning.cs">
-      <Link>LinearAlgebra\Double\Solvers\Status\CalculationRunning.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Status\CalculationStoppedWithoutConvergence.cs">
-      <Link>LinearAlgebra\Double\Solvers\Status\CalculationStoppedWithoutConvergence.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Status\ICalculationStatus.cs">
-      <Link>LinearAlgebra\Double\Solvers\Status\ICalculationStatus.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs</Link>
@@ -374,17 +317,11 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\IIterationStopCriterium.cs">
-      <Link>LinearAlgebra\Double\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\StopLevel.cs">
-      <Link>LinearAlgebra\Double\Solvers\StopCriterium\StopLevel.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\SparseMatrix.cs">
       <Link>LinearAlgebra\Double\SparseMatrix.cs</Link>
@@ -392,8 +329,71 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\SparseVector.cs">
       <Link>LinearAlgebra\Double\SparseVector.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Vector.cs">
-      <Link>LinearAlgebra\Double\Vector.cs</Link>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Cholesky.cs">
+      <Link>LinearAlgebra\Generic\Factorization\Cholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\LU.cs">
+      <Link>LinearAlgebra\Generic\Factorization\LU.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\QR.cs">
+      <Link>LinearAlgebra\Generic\Factorization\QR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Svd.cs">
+      <Link>LinearAlgebra\Generic\Factorization\Svd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\ISolver.cs">
+      <Link>LinearAlgebra\Generic\ISolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Matrix.Arithmetic.cs">
+      <Link>LinearAlgebra\Generic\Matrix.Arithmetic.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Matrix.cs">
+      <Link>LinearAlgebra\Generic\Matrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\IIterativeSolver.cs">
+      <Link>LinearAlgebra\Generic\Solvers\IIterativeSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\IIterativeSolverSetup.cs">
+      <Link>LinearAlgebra\Generic\Solvers\IIterativeSolverSetup.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\IIterator.cs">
+      <Link>LinearAlgebra\Generic\Solvers\IIterator.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Preconditioners\IPreConditioner.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Preconditioners\IPreConditioner.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\CalculationCancelled.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Status\CalculationCancelled.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\CalculationConverged.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Status\CalculationConverged.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\CalculationDiverged.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Status\CalculationDiverged.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\CalculationFailure.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Status\CalculationFailure.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\CalculationIndetermined.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Status\CalculationIndetermined.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\CalculationRunning.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Status\CalculationRunning.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\CalculationStoppedWithoutConvergence.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Status\CalculationStoppedWithoutConvergence.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\ICalculationStatus.cs">
+      <Link>LinearAlgebra\Generic\Solvers\Status\ICalculationStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\StopCriterium\IIterationStopCriterium.cs">
+      <Link>LinearAlgebra\Generic\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\StopCriterium\StopLevel.cs">
+      <Link>LinearAlgebra\Generic\Solvers\StopCriterium\StopLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Vector.cs">
+      <Link>LinearAlgebra\Generic\Vector.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\NumberTheory\IntegerTheory.cs">
       <Link>NumberTheory\IntegerTheory.cs</Link>

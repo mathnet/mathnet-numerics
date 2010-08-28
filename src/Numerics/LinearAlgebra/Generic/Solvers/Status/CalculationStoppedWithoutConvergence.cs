@@ -1,4 +1,4 @@
-// <copyright file="CalculationConverged.cs" company="Math.NET">
+// <copyright file="CalculationStoppedWithoutConvergence.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,12 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
+namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Status
 {
     /// <summary>
-    /// Indicates that a calculation has converged to the desired convergence levels.
+    /// Indicates that the calculation has been stopped due to reaching the stopping
+    /// limits, but that convergence was not achieved.
     /// </summary>
-    public struct CalculationConverged : ICalculationStatus
+    public struct CalculationStoppedWithoutConvergence : ICalculationStatus
     {
         /// <summary>
         /// Gets a value indicating whether current status warrants stopping the calculation.
@@ -46,6 +47,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Status
             }
         }
 
-        // TODO: CalculationConverged: Should we put the achieved residuals and convergence levels on here?
+        // TODO: Indicate which stopping limit was reached?
     }
 }

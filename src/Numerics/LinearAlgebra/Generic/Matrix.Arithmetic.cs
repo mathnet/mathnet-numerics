@@ -24,9 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double
+namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
+    using System.Numerics;
     using Distributions;
     using Factorization;
     using Properties;
@@ -35,7 +36,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-    public abstract partial class Matrix
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    public abstract partial class Matrix<T>
     {
         /// <summary>
         /// Adds another matrix to this matrix. The result will be written into this matrix.
@@ -43,7 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The matrix to add to this matrix.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual void Add(Matrix other)
+        public virtual void Add(Matrix<T> other)
         {
             if (other == null)
             {
@@ -56,13 +58,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             CommonParallel.For(
-                0, 
-                RowCount, 
+                0,
+                RowCount,
                 i =>
                 {
                     for (var j = 0; j < ColumnCount; j++)
                     {
-                        At(i, j, At(i, j) + other.At(i, j));
+                        At(i, j, AddT(At(i, j), other.At(i, j)));
                     }
                 });
         }
@@ -73,7 +75,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The matrix to subtract.</param>
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual void Subtract(Matrix other)
+        public virtual void Subtract(Matrix<T> other)
         {
             if (other == null)
             {
@@ -86,13 +88,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             CommonParallel.For(
-                0, 
-                RowCount, 
+                0,
+                RowCount,
                 i =>
                 {
                     for (var j = 0; j < ColumnCount; j++)
                     {
-                        At(i, j, At(i, j) - other.At(i, j));
+                        At(i, j, SubtractT(At(i, j), other.At(i, j)));
                     }
                 });
         }
@@ -101,21 +103,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Multiplies each element of this matrix with a scalar.
         /// </summary>
         /// <param name="scalar">The scalar to multiply with.</param>
-        public virtual void Multiply(double scalar)
+        public virtual void Multiply(T scalar)
         {
-            if (1.0.AlmostEqualInDecimalPlaces(scalar, 15))
+            if (IsOneT(scalar))
             {
                 return;
             }
 
             CommonParallel.For(
-                0, 
-                RowCount, 
+                0,
+                RowCount,
                 i =>
                 {
                     for (var j = 0; j < ColumnCount; j++)
                     {
-                        At(i, j, At(i, j) * scalar);
+                        At(i, j, MultiplyT(At(i, j), scalar));
                     }
                 });
         }
@@ -127,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The matrix to multiply.</param>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public virtual void Multiply(double scalar, Matrix result)
+        public virtual void Multiply(T scalar, Matrix<T> result)
         {
             if (result == null)
             {
@@ -155,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <c>this.ColumnCount != rightSide.Count</c>.</exception>
-        public virtual Vector Multiply(Vector rightSide)
+        public virtual Vector<T> Multiply(Vector<T> rightSide)
         {
             var ret = CreateVector(RowCount);
             Multiply(rightSide, ret);
@@ -171,7 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If <paramref name="result"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.RowCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.ColumnCount != <paramref name="rightSide"/>.Count</strong>.</exception>
-        public virtual void Multiply(Vector rightSide, Vector result)
+        public virtual void Multiply(Vector<T> rightSide, Vector<T> result)
         {
             if (rightSide == null)
             {
@@ -202,14 +204,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 CommonParallel.For(
-                    0, 
-                    RowCount, 
+                    0,
+                    RowCount,
                     i =>
                     {
-                        double s = 0;
+                        var s = default(T);
                         for (var j = 0; j != ColumnCount; j++)
                         {
-                            s += At(i, j) * rightSide[j];
+                            s = AddT(s, MultiplyT(At(i, j), rightSide[j]));
                         }
 
                         result[i] = s;
@@ -224,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
-        public virtual Vector LeftMultiply(Vector leftSide)
+        public virtual Vector<T> LeftMultiply(Vector<T> leftSide)
         {
             var ret = CreateVector(ColumnCount);
             LeftMultiply(leftSide, ret);
@@ -240,7 +242,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>result.Count != this.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If <strong>this.RowCount != <paramref name="leftSide"/>.Count</strong>.</exception>
-        public virtual void LeftMultiply(Vector leftSide, Vector result)
+        public virtual void LeftMultiply(Vector<T> leftSide, Vector<T> result)
         {
             if (leftSide == null)
             {
@@ -271,14 +273,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 CommonParallel.For(
-                    0, 
-                    RowCount, 
+                    0,
+                    RowCount,
                     j =>
                     {
-                        double s = 0;
+                        var s = default(T);
                         for (var i = 0; i != leftSide.Count; i++)
                         {
-                            s += leftSide[i] * At(i, j);
+                            s = AddT(s, MultiplyT(leftSide[i], At(i, j)));
                         }
 
                         result[j] = s;
@@ -295,7 +297,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public virtual void Multiply(Matrix other, Matrix result)
+        public virtual void Multiply(Matrix<T> other, Matrix<T> result)
         {
             if (other == null)
             {
@@ -326,16 +328,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 CommonParallel.For(
-                    0, 
-                    RowCount, 
+                    0,
+                    RowCount,
                     j =>
                     {
                         for (var i = 0; i != other.ColumnCount; i++)
                         {
-                            double s = 0;
+                            var s = default(T);
                             for (var l = 0; l < ColumnCount; l++)
                             {
-                                s += At(j, l) * other.At(l, i);
+                                s = AddT(s, MultiplyT(At(j, l), other.At(l, i)));
                             }
 
                             result.At(j, i, s);
@@ -351,7 +353,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of the multiplication.</returns>
-        public virtual Matrix Multiply(Matrix other)
+        public virtual Matrix<T> Multiply(Matrix<T> other)
         {
             if (other == null)
             {
@@ -377,8 +379,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.RowCount x other.RowCount.</exception>
-        public virtual void TransposeAndMultiply(Matrix other, Matrix result)
-        {
+        public virtual void TransposeAndMultiply(Matrix<T> other, Matrix<T> result)
+               {
             if (other == null)
             {
                 throw new ArgumentNullException("other");
@@ -414,13 +416,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     {
                         for (var i = 0; i < RowCount; i++)
                         {
-                            double s = 0;
+                            var s = default(T);
                             for (var l = 0; l < ColumnCount; l++)
                             {
-                                s += At(i, l) * other.At(j, l);
+                                s = AddT(s, MultiplyT(At(i, l), other.At(j, l)));
                             }
 
-                            result.At(i, j, s + result.At(i, j));
+                            result.At(i, j, AddT(s, result.At(i, j)));
                         }
                     });
             }
@@ -433,7 +435,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentException">If <strong>this.Columns != other.ColumnCount</strong>.</exception>        
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
         /// <returns>The result of the multiplication.</returns>
-        public virtual Matrix TransposeAndMultiply(Matrix other)
+        public virtual Matrix<T> TransposeAndMultiply(Matrix<T> other)
         {
             if (other == null)
             {
@@ -451,12 +453,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Negates each element of this matrix.
-        /// </summary>        
-        public virtual void Negate()
-        {
-            Multiply(-1);
-        }
+        /// Negate each element of this matrix.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
+        public abstract void Negate();
 
         /// <summary>
         /// Negate each element of this matrix and place the results into the result matrix.
@@ -464,7 +465,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the negation.</param>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
-        public virtual void Negate(Matrix result)
+        public virtual void Negate(Matrix<T> result)
         {
             if (result == null)
             {
@@ -491,7 +492,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix operator +(Matrix leftSide, Matrix rightSide)
+        public static Matrix<T> operator +(Matrix<T> leftSide, Matrix<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -519,7 +520,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The matrix to get the values from.</param>
         /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix operator +(Matrix rightSide)
+        public static Matrix<T> operator +(Matrix<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -540,7 +541,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix operator -(Matrix leftSide, Matrix rightSide)
+        public static Matrix<T> operator -(Matrix<T> leftSide, Matrix<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -568,7 +569,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The matrix to negate.</param>
         /// <returns>A matrix containing the negated values.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix operator -(Matrix rightSide)
+        public static Matrix<T> operator -(Matrix<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -587,7 +588,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The constant to multiply the matrix by.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
-        public static Matrix operator *(Matrix leftSide, double rightSide)
+        public static Matrix<T> operator *(Matrix<T> leftSide, T rightSide)
         {
             if (leftSide == null)
             {
@@ -606,7 +607,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="rightSide">The constant to multiply the matrix by.</param>
         /// <returns>The result of the multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Matrix operator *(double leftSide, Matrix rightSide)
+        public static Matrix<T> operator *(T leftSide, Matrix<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -629,7 +630,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
-        public static Matrix operator *(Matrix leftSide, Matrix rightSide)
+        public static Matrix<T> operator *(Matrix<T> leftSide, Matrix<T> rightSide)
         {
             if (leftSide == null)
             {
@@ -650,13 +651,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Multiplies a <strong>Matrix</strong> and a <see cref="Vector"/>.
+        /// Multiplies a <strong>Matrix</strong> and a Vector.
         /// </summary>
         /// <param name="leftSide">The matrix to multiply.</param>
         /// <param name="rightSide">The vector to multiply.</param>
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator *(Matrix leftSide, Vector rightSide)
+        public static Vector<T> operator *(Matrix<T> leftSide, Vector<T> rightSide)
         {
             if (leftSide == null)
             {
@@ -667,13 +668,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Multiplies a <see cref="Vector"/> and a <strong>Matrix</strong>.
+        /// Multiplies a Vector and a <strong>Matrix</strong>.
         /// </summary>
         /// <param name="leftSide">The vector to multiply.</param>
         /// <param name="rightSide">The matrix to multiply.</param>
         /// <returns>The result of multiplication.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector operator *(Vector leftSide, Matrix rightSide)
+        public static Vector<T> operator *(Vector<T> leftSide, Matrix<T> rightSide)
         {
             if (rightSide == null)
             {
@@ -690,7 +691,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <returns>A new matrix that is the pointwise multiplication of this matrix and <paramref name="other"/>.</returns>
-        public virtual Matrix PointwiseMultiply(Matrix other)
+        public virtual Matrix<T> PointwiseMultiply(Matrix<T> other)
         {
             if (other == null)
             {
@@ -716,7 +717,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointwiseMultiply(Matrix other, Matrix result)
+        public virtual void PointwiseMultiply(Matrix<T> other, Matrix<T> result)
         {
             if (other == null)
             {
@@ -739,13 +740,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             CommonParallel.For(
-                0, 
-                ColumnCount, 
+                0,
+                ColumnCount,
                 j =>
                 {
                     for (var i = 0; i < RowCount; i++)
                     {
-                        result.At(i, j, At(i, j) * other.At(i, j));
+                        result.At(i, j, MultiplyT(At(i, j), other.At(i, j)));
                     }
                 });
         }
@@ -757,7 +758,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <returns>A new matrix that is the pointwise division of this matrix and <paramref name="other"/>.</returns>
-        public virtual Matrix PointwiseDivide(Matrix other)
+        public virtual Matrix<T> PointwiseDivide(Matrix<T> other)
         {
             if (other == null)
             {
@@ -783,7 +784,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public virtual void PointwiseDivide(Matrix other, Matrix result)
+        public virtual void PointwiseDivide(Matrix<T> other, Matrix<T> result)
         {
             if (other == null)
             {
@@ -806,13 +807,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             CommonParallel.For(
-                0, 
-                ColumnCount, 
+                0,
+                ColumnCount,
                 j =>
                 {
                     for (var i = 0; i < RowCount; i++)
                     {
-                        result.At(i, j, At(i, j) / other.At(i, j));
+                        result.At(i, j, DivideT(At(i, j), other.At(i, j)));
                     }
                 });
         }
@@ -828,32 +829,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public virtual Matrix Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = distribution.Sample();
-                    }
-                });
-
-            return matrix;
-        }
+        public abstract Matrix<T> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution);
 
         /// <summary>
         /// Generates matrix with random elements.
@@ -866,46 +842,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public virtual Matrix Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = distribution.Sample();
-                    }
-                });
-
-            return matrix;
-        }
+        public abstract Matrix<T> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution);
 
         /// <summary>
         /// Computes the trace of this matrix.
         /// </summary>
         /// <returns>The trace of this matrix</returns>
         /// <exception cref="ArgumentException">If the matrix is not square</exception>
-        public virtual double Trace()
+        public virtual T Trace()
         {
             if (RowCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            return CommonParallel.Aggregate(0, RowCount, i => this[i, i]);
+            var sum = default(T);
+            CommonParallel.For(0, RowCount, i => sum = AddT(sum, this[i, i]));
+            return sum;
         }
 
         /// <summary>
@@ -914,8 +867,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>effective numerical rank, obtained from SVD</returns>
         public virtual int Rank()
         {
-            var svd = this.Svd(false);
-            return svd.Rank;
+            return Svd<T>.Create(this, false).Rank;
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>
@@ -923,34 +875,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks>The condition number is calculated using singular value decomposition.</remarks>
         public virtual double ConditionNumber()
         {
-            var svd = this.Svd(false);
-            return svd.ConditionNumber;
+            return Svd<T>.Create(this, false).ConditionNumber;
         }
 
         /// <summary>Computes the determinant of this matrix.</summary>
         /// <returns>The determinant of this matrix.</returns>
-        public virtual double Determinant()
+        public virtual T Determinant()
         {
             if (RowCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            var lu = this.LU();
-            return lu.Determinant;
+            return LU<T>.Create(this).Determinant;
         }
 
         /// <summary>Computes the inverse of this matrix.</summary>
         /// <returns>The inverse of this matrix.</returns>
-        public virtual Matrix Inverse()
+        public virtual Matrix<T> Inverse()
         {
             if (RowCount != ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            var lu = this.LU();
-            return lu.Inverse();
+            return LU<T>.Create(this).Inverse();
         }
 
         /// <summary>
@@ -960,7 +909,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="other">The other matrix.</param>
         /// <exception cref="ArgumentNullException">If other is <see langword="null" />.</exception>
         /// <returns>The kronecker product of the two matrices.</returns>
-        public virtual Matrix KroneckerProduct(Matrix other)
+        public virtual Matrix<T> KroneckerProduct(Matrix<T> other)
         {
             if (other == null)
             {
@@ -981,7 +930,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentNullException">If other is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not (this.Rows * lower.rows) x (this.Columns * lower.Columns).</exception>
-        public virtual void KroneckerProduct(Matrix other, Matrix result)
+        public virtual void KroneckerProduct(Matrix<T> other, Matrix<T> result)
         {
             if (other == null)
             {
@@ -1016,7 +965,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="p">The norm under which to normalize the columns under.</param>
         /// <returns>A normalized version of the matrix.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If the parameter p is not positive.</exception>
-        public virtual Matrix NormalizeColumns(int p)
+        public virtual Matrix<T> NormalizeColumns(int p)
         {
             if (p < 1)
             {
@@ -1025,17 +974,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var ret = Clone();
             CommonParallel.For(
-                0, 
-                ColumnCount, 
-                i =>
-                {
-                    var coli = Column(i);
-                    var norm = coli.Norm(p);
-                    for (var j = 0; j < RowCount; j++)
-                    {
-                        ret[j, i] = coli[j] / norm;
-                    }
-                });
+                0,
+                ColumnCount,
+                i => ret.SetColumn(i, Column(i).Normalize(p)));
             return ret;
         }
 
@@ -1045,7 +986,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="p">The norm under which to normalize the rows under.</param>
         /// <returns>A normalized version of the matrix.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If the parameter p is not positive.</exception>
-        public virtual Matrix NormalizeRows(int p)
+        public virtual Matrix<T> NormalizeRows(int p)
         {
             if (p < 1)
             {
@@ -1054,32 +995,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             var ret = Clone();
 
-            // BUG: Seems that commented-out implementation is wrong.
-            // CommonParallel.For(
-            //    0, 
-            //    ColumnCount, 
-            //    j =>
-            //    {
-            //        var rowj = Row(j);
-            //        var norm = rowj.Norm(p);
-            //        for (var i = 0; i < RowCount; i++)
-            //        {
-            //            ret[i, j] = rowj[j] / norm;
-            //        }
-            //    });
             CommonParallel.For(
                 0,
                 RowCount,
-                i =>
-                {
-                    var rowi = Row(i);
-                    var norm = rowi.Norm(p);
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        ret[i, j] = rowi[j] / norm;
-                    }
-                });
-
+                i => ret.SetRow(i, Row(i).Normalize(p)));
             return ret;
         }
     }

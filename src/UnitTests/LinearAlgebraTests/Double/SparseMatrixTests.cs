@@ -31,27 +31,28 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
 	using System.Collections.Generic;
+	using LinearAlgebra.Generic;
 	using MbUnit.Framework;
     using LinearAlgebra.Double;
 
     public class SparseMatrixTests : MatrixTests
     {
-        protected override Matrix CreateMatrix(int rows, int columns)
+        protected override Matrix<double> CreateMatrix(int rows, int columns)
         {
             return new SparseMatrix(rows, columns);
         }
 
-        protected override Matrix CreateMatrix(double[,] data)
+        protected override Matrix<double> CreateMatrix(double[,] data)
         {
             return new SparseMatrix(data);
         }
 
-        protected override Vector CreateVector(int size)
+        protected override Vector<double> CreateVector(int size)
         {
             return new SparseVector(size);
         }
 
-        protected override Vector CreateVector(double[] data)
+        protected override Vector<double> CreateVector(double[] data)
         {
             return new SparseVector(data);
         }
@@ -59,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateMatrixFrom1DArray()
         {
-            var testData = new Dictionary<string, Matrix>
+            var testData = new Dictionary<string, Matrix<double>>
                            {
                                { "Singular3x3", new SparseMatrix(3, 3, new double[] { 1, 1, 1, 1, 1, 1, 2, 2, 2 }) },
                                { "Square3x3", new SparseMatrix(3, 3, new[] { -1.1, 0.0, -4.4, -2.2, 1.1, 5.5, -3.3, 2.2, 6.6 }) },

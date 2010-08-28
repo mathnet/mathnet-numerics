@@ -29,6 +29,7 @@ namespace FsUnit
 
 open MathNet.Numerics
 open MathNet.Numerics.LinearAlgebra.Double
+open MathNet.Numerics.LinearAlgebra.Generic
 
 type Result =
     | Pass
@@ -174,7 +175,7 @@ module SpecOps =
                 else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
             (sprintf "NOT Expected: %A\nActual: %A" expected actual)
             
-    let approximately_vector_equal (places : int) (expected: #Vector) (actual: #Vector) =
+    let approximately_vector_equal (places : int) (expected: #Vector<float>) (actual: #Vector<float>) =
         make (fun () ->
             let mutable f = true
             for i=0 to expected.Count-1 do
@@ -184,7 +185,7 @@ module SpecOps =
                 else Fail (sprintf "Expected: %A\nActual: %A" expected actual))
             (sprintf "NOT Expected: %A\nActual: %A" expected actual)
             
-    let approximately_matrix_equal (places : int) (expected: #Matrix) (actual: #Matrix) =
+    let approximately_matrix_equal (places : int) (expected: #Matrix<float>) (actual: #Matrix<float>) =
         make (fun () ->
             let mutable f = true
             for i=0 to expected.RowCount-1 do

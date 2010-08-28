@@ -29,16 +29,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System;
     using System.Collections.Generic;
     using LinearAlgebra.Double;
+    using LinearAlgebra.Generic;
     using MbUnit.Framework;
 
     public class DenseVectorTests : VectorTests
     {
-        protected override Vector CreateVector(int size)
+        protected override Vector<double> CreateVector(int size)
         {
             return new DenseVector(size);
         }
 
-        protected override Vector CreateVector(IList<double> data)
+        protected override Vector<double> CreateVector(IList<double> data)
         {
             var vector = new DenseVector(data.Count);
             for (var index = 0; index < data.Count; index++)
@@ -85,7 +86,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCreateDenseVectorFromAnotherVector()
         {
-            var vector = (Vector)new DenseVector(Data);
+            var vector = (Vector<double>)new DenseVector(Data);
             var other = new DenseVector(vector);
 
             Assert.AreNotSame(vector, other);
@@ -258,7 +259,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = CreateVector(Data);
             var vector2 = CreateVector(Data);
-            Matrix m = Vector.OuterProduct(vector1, vector2);
+            Matrix<double> m = Vector<double>.OuterProduct(vector1, vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
                 for (var j = 0; j < vector2.Count; j++)
@@ -274,7 +275,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             DenseVector vector1 = null;
             var vector2 = CreateVector(Data);
-            Vector.OuterProduct(vector1, vector2);
+            Vector<double>.OuterProduct(vector1, vector2);
         }
 
         [Test]
@@ -283,7 +284,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = CreateVector(Data);
             DenseVector vector2 = null;
-            Vector.OuterProduct(vector1, vector2);
+            Vector<double>.OuterProduct(vector1, vector2);
         }
     }
 }

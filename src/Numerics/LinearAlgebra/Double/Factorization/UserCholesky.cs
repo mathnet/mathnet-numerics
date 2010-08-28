@@ -31,6 +31,8 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
+    using Generic;
+    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -42,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public class UserCholesky : Cholesky
+    public class UserCholesky : Cholesky<double>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserCholesky"/> class. This object will compute the
@@ -52,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
-        public UserCholesky(Matrix matrix)
+        public UserCholesky(Matrix<double> matrix)
         {
             if (matrix == null)
             {
@@ -97,11 +99,45 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         /// <summary>
+        /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
+        /// </summary>
+        public override double Determinant
+        {
+            get
+            {
+                var det = 1.0;
+                for (var j = 0; j < CholeskyFactor.RowCount; j++)
+                {
+                    det *= CholeskyFactor[j, j] * CholeskyFactor[j, j];
+                }
+
+                return det;
+            }
+        }
+
+        /// <summary>
+        /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
+        /// </summary>
+        public override double DeterminantLn
+        {
+            get
+            {
+                var det = 0.0;
+                for (var j = 0; j < CholeskyFactor.RowCount; j++)
+                {
+                    det += 2.0 * Math.Log(CholeskyFactor[j, j]);
+                }
+
+                return det;
+            }
+        }
+
+        /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
-        public override void Solve(Matrix input, Matrix result)
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
+        public override void Solve(Matrix<double> input, Matrix<double> result)
         {
             if (input == null)
             {
@@ -165,8 +201,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
-        public override void Solve(Vector input, Vector result)
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
+        public override void Solve(Vector<double> input, Vector<double> result)
         {
             // Check for proper arguments.
             if (input == null)
@@ -218,5 +254,39 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 result[i] = sum / CholeskyFactor.At(i, i);
             }
         }
+
+        #region Simple T Mathematics
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected sealed override double MultiplyT(double val1, double val2)
+        {
+            return val1 * val2;
+        }
+
+        /// <summary>
+        /// Returns the natural (base e) logarithm of a specified number.
+        /// </summary>
+        /// <param name="val1"> A number whose logarithm is to be found</param>
+        /// <returns>Natural (base e) logarithm </returns>
+        protected sealed override double LogT(double val1)
+        {
+            return Math.Log(val1);
+        }
+
+        /// <summary>
+        /// Get value of type T equal to one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected sealed override double OneValueT
+        {
+            get { return 1.0; }
+        }
+
+        #endregion
     }
 }

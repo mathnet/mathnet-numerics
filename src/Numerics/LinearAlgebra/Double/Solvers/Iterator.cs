@@ -33,14 +33,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Generic;
+    using Generic.Solvers;
+    using Generic.Solvers.Status;
+    using Generic.Solvers.StopCriterium;
     using Properties;
-    using Status;
     using StopCriterium;
 
     /// <summary>
     /// An iterator that is used to check if an iterative calculation should continue or stop.
     /// </summary>
-    public sealed class Iterator : IIterator
+    public sealed class Iterator : IIterator<double>
     {
         /// <summary>
         /// The default status for the iterator.
@@ -48,10 +51,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         private static readonly ICalculationStatus DefaultStatus = new CalculationIndetermined();
 
         /// <summary>
-        /// Creates a default iterator with all the <see cref="IIterationStopCriterium"/> objects.
+        /// Creates a default iterator with all the <see cref="IIterationStopCriterium{T}"/> objects.
         /// </summary>
-        /// <returns>A new <see cref="IIterator"/> object.</returns>
-        public static IIterator CreateDefault()
+        /// <returns>A new <see cref="IIterator{T}"/> object.</returns>
+        public static IIterator<double> CreateDefault()
         {
             var iterator = new Iterator();
             iterator.Add(new FailureStopCriterium());
@@ -66,7 +69,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// The collection that holds all the stop criteria and the flag indicating if they should be added
         /// to the child iterators.
         /// </summary>
-        private readonly Dictionary<Type, IIterationStopCriterium> _stopCriterias = new Dictionary<Type, IIterationStopCriterium>();
+        private readonly Dictionary<Type, IIterationStopCriterium<double>> _stopCriterias = new Dictionary<Type, IIterationStopCriterium<double>>();
 
         /// <summary>
         /// The status of the iterator.
@@ -93,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// of the stop criteria will be passed on to child iterators.
         /// </param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="stopCriteria"/> contains multiple stop criteria of the same type.</exception>
-        public Iterator(IEnumerable<IIterationStopCriterium> stopCriteria)
+        public Iterator(IEnumerable<IIterationStopCriterium<double>> stopCriteria)
         {
             // Add the stop criteria
             if (stopCriteria == null)
@@ -108,7 +111,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Adds an <see cref="IIterationStopCriterium"/> to the internal collection of stop-criteria. Only a 
+        /// Adds an <see cref="IIterationStopCriterium{T}"/> to the internal collection of stop-criteria. Only a 
         /// single stop criterium of each type can be stored.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium to add.</param>
@@ -117,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Thrown if <paramref name="stopCriterium"/> is of the same type as an already 
         /// stored criterium.
         /// </exception>
-        public void Add(IIterationStopCriterium stopCriterium)
+        public void Add(IIterationStopCriterium<double> stopCriterium)
         {
             if (stopCriterium == null)
             {
@@ -134,10 +137,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Removes the <see cref="IIterationStopCriterium"/> from the internal collection.
+        /// Removes the <see cref="IIterationStopCriterium{T}"/> from the internal collection.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium that must be removed.</param>
-        public void Remove(IIterationStopCriterium stopCriterium)
+        public void Remove(IIterationStopCriterium<double> stopCriterium)
         {
             if (stopCriterium == null)
             {
@@ -154,11 +157,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Indicates if the specific stop criterium is stored by the <see cref="IIterator"/>.
+        /// Indicates if the specific stop criterium is stored by the <see cref="IIterator{T}"/>.
         /// </summary>
         /// <param name="stopCriterium">The stop criterium.</param>
-        /// <returns><c>true</c> if the <see cref="IIterator"/> contains the stop criterium; otherwise <c>false</c>.</returns>
-        public bool Contains(IIterationStopCriterium stopCriterium)
+        /// <returns><c>true</c> if the <see cref="IIterator{T}"/> contains the stop criterium; otherwise <c>false</c>.</returns>
+        public bool Contains(IIterationStopCriterium<double> stopCriterium)
         {
             return stopCriterium != null && _stopCriterias.ContainsKey(stopCriterium.GetType());
         }
@@ -179,7 +182,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Gets an <c>IEnumerator</c> that enumerates over all the stored stop criteria.
         /// </summary>
         /// <remarks>Used for testing only.</remarks>
-        internal IEnumerator<IIterationStopCriterium> StoredStopCriteria
+        internal IEnumerator<IIterationStopCriterium<double>> StoredStopCriteria
         {
             get
             {
@@ -201,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <c>IIterator</c>. Result is set into <c>Status</c> field.
+        /// by the current <see cref="IIterator{T}"/>. Result is set into <c>Status</c> field.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
@@ -212,7 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector)
+        public void DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
         {
             if (_stopCriterias.Count == 0)
             {
@@ -284,7 +287,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Resets the <see cref="IIterator"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterator{T}"/> to the pre-calculation state.
         /// </summary>
         public void ResetToPrecalculationState()
         {
@@ -305,9 +308,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Creates a deep clone of the current iterator.
         /// </summary>
         /// <returns>The deep clone of the current iterator.</returns>
-        public IIterator Clone()
+        public IIterator<double> Clone()
         {
-            var stopCriteria = _stopCriterias.Select(pair => pair.Value).Select(stopCriterium => (IIterationStopCriterium)stopCriterium.Clone()).ToList();
+            var stopCriteria = _stopCriterias.Select(pair => pair.Value).Select(stopCriterium => (IIterationStopCriterium<double>)stopCriterium.Clone()).ToList();
             return new Iterator(stopCriteria);
         }
 

@@ -32,17 +32,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using System;
     using System.Collections.Generic;
+    using LinearAlgebra.Generic;
     using MbUnit.Framework;
     using LinearAlgebra.Double;
 
     public class SparseVectorTest : VectorTests
     {
-        protected override Vector CreateVector(int size)
+        protected override Vector<double> CreateVector(int size)
         {
             return new SparseVector(size);
         }
 
-        protected override Vector CreateVector(IList<double> data)
+        protected override Vector<double> CreateVector(IList<double> data)
         {
             var vector = new SparseVector(data.Count);
             for (var index = 0; index < data.Count; index++)
@@ -85,7 +86,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCreateSparseVectorFromAnotherVector()
         {
-            var vector = (Vector)new SparseVector(Data);
+            var vector = (Vector<double>)new SparseVector(Data);
             var other = new SparseVector(vector);
 
             Assert.AreNotSame(vector, other);
@@ -257,7 +258,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = CreateVector(Data);
             var vector2 = CreateVector(Data);
-            Matrix m = Vector.OuterProduct(vector1, vector2);
+            Matrix<double> m = Vector<double>.OuterProduct(vector1, vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
                 for (var j = 0; j < vector2.Count; j++)
@@ -273,7 +274,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             SparseVector vector1 = null;
             var vector2 = CreateVector(Data);
-            Vector.OuterProduct(vector1, vector2);
+            Vector<double>.OuterProduct(vector1, vector2);
         }
 
         [Test]
@@ -282,7 +283,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var vector1 = CreateVector(Data);
             SparseVector vector2 = null;
-            Vector.OuterProduct(vector1, vector2);
+            Vector<double>.OuterProduct(vector1, vector2);
         }
         #endregion
 
@@ -290,7 +291,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [MultipleAsserts]
         public void CanCreateSparseVectorFromDenseVector()
         {
-            var vector = (Vector)new DenseVector(Data);
+            var vector = (Vector<double>)new DenseVector(Data);
             var other = new SparseVector(vector);
 
             Assert.AreNotSame(vector, other);

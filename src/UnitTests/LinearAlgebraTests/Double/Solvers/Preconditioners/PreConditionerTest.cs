@@ -1,7 +1,8 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Preconditioners
 {
     using LinearAlgebra.Double;
-    using LinearAlgebra.Double.Solvers.Preconditioners;
+    using LinearAlgebra.Generic;
+    using LinearAlgebra.Generic.Solvers.Preconditioners;
     using MbUnit.Framework;
 
     public abstract class PreconditionerTest
@@ -19,9 +20,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             return matrix;
         }
 
-        protected Vector CreateStandardBcVector(int size)
+        protected Vector<double> CreateStandardBcVector(int size)
         {
-            Vector vector = new DenseVector(size);
+            Vector<double> vector = new DenseVector(size);
             for (var i = 0; i < size; i++)
             {
                 vector[i] = i + 1;
@@ -30,9 +31,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             return vector;
         }
 
-        internal abstract IPreConditioner CreatePreconditioner();
+        internal abstract IPreConditioner<double> CreatePreconditioner();
 
-        protected abstract void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result);
+        protected abstract void CheckResult(IPreConditioner<double> preconditioner, SparseMatrix matrix, Vector<double> vector, Vector<double> result);
 
         [Test]
         [MultipleAsserts]
@@ -62,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector result = new DenseVector(vector.Count);
+            Vector<double> result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
 
             CheckResult(preconditioner, newMatrix, vector, result);
@@ -79,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector result = new DenseVector(vector.Count + 10);
+            Vector<double> result = new DenseVector(vector.Count + 10);
             preconditioner.Approximate(vector, result);
         }
 
@@ -94,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector result = new DenseVector(vector.Count + 10);
+            Vector<double> result = new DenseVector(vector.Count + 10);
             preconditioner.Approximate(null, result);
         }
 
@@ -109,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector result = null;
+            Vector<double> result = null;
             preconditioner.Approximate(vector, result);
         }
 

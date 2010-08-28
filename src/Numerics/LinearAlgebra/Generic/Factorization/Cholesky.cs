@@ -28,9 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
+namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
     using System;
+    using System.Numerics;
+    using Generic;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization.</para>
@@ -41,28 +43,35 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public abstract class Cholesky : ISolver
+    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    public abstract class Cholesky<T> : ISolver<T>
+    where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Internal method which routes the call to perform the Cholesky factorization to the appropriate class.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>A cholesky factorization object.</returns>
-        internal static Cholesky Create(Matrix matrix)
+        internal static Cholesky<T> Create(Matrix<T> matrix)
         {
-            var dense = matrix as DenseMatrix;
-            if (dense != null)
+            if (typeof(T) == typeof(double))
             {
-                return new DenseCholesky(dense);
+                var dense = matrix as LinearAlgebra.Double.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Double.Factorization.DenseCholesky(dense) as Cholesky<T>;
+                }
+
+                return new LinearAlgebra.Double.Factorization.UserCholesky(matrix as Matrix<double>) as Cholesky<T>;
             }
 
-            return new UserCholesky(matrix);
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Gets or sets the lower triangular form of the Cholesky matrix
         /// </summary>
-        protected Matrix CholeskyFactor
+        protected Matrix<T> CholeskyFactor
         {
             get;
             set;
@@ -71,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets the lower triangular form of the Cholesky matrix.
         /// </summary>
-        public virtual Matrix Factor
+        public virtual Matrix<T> Factor
         {
             get
             {
@@ -82,14 +91,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public virtual double Determinant
+        public virtual T Determinant
         {
             get
             {
-                var det = 1.0;
+                var det = OneValueT;
                 for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det *= CholeskyFactor[j, j] * CholeskyFactor[j, j];
+                    det = MultiplyT(det, MultiplyT(CholeskyFactor[j, j], CholeskyFactor[j, j]));
                 }
 
                 return det;
@@ -106,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 var det = 0.0;
                 for (var j = 0; j < CholeskyFactor.RowCount; j++)
                 {
-                    det += 2.0 * Math.Log(CholeskyFactor[j, j]);
+                    det += 2.0 * LogT(CholeskyFactor[j, j]);
                 }
 
                 return det;
@@ -116,9 +125,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <returns>The left hand side <see cref="Matrix"/>, <b>X</b>.</returns>
-        public virtual Matrix Solve(Matrix input)
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
+        public virtual Matrix<T> Solve(Matrix<T> input)
         {
             // Check for proper arguments.
             if (input == null)
@@ -134,16 +143,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
         /// </summary>
-        /// <param name="input">The right hand side <see cref="Matrix"/>, <b>B</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>X</b>.</param>
-        public abstract void Solve(Matrix input, Matrix result);
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
+        public abstract void Solve(Matrix<T> input, Matrix<T> result);
 
         /// <summary>
         /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <returns>The left hand side <see cref="Vector"/>, <b>x</b>.</returns>
-        public virtual Vector Solve(Vector input)
+        /// <returns>The left hand side <see cref="Vector{T}"/>, <b>x</b>.</returns>
+        public virtual Vector<T> Solve(Vector<T> input)
         {
             // Check for proper arguments.
             if (input == null)
@@ -160,7 +169,34 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Solves a system of linear equations, <b>Ax = b</b>, with A Cholesky factorized.
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
-        /// <param name="result">The left hand side <see cref="Matrix"/>, <b>x</b>.</param>
-        public abstract void Solve(Vector input, Vector result);
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
+        public abstract void Solve(Vector<T> input, Vector<T> result);
+
+        #region Simple arithmetic of type T
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected abstract T MultiplyT(T val1, T val2);
+
+        /// <summary>
+        /// Returns the natural (base e) logarithm of a specified number.
+        /// </summary>
+        /// <param name="val1"> A number whose logarithm is to be found</param>
+        /// <returns>Natural (base e) logarithm </returns>
+        protected abstract double LogT(T val1);
+
+        /// <summary>
+        /// Gets value of type T equal to one
+        /// </summary>
+        /// <returns>One value</returns>
+        protected abstract T OneValueT
+        {
+            get;
+        }
+        #endregion
     }
 }
