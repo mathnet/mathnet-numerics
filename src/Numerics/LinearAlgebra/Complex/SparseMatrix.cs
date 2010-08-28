@@ -1687,16 +1687,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override bool IsOneT(Complex val1)
-        {
-            return Complex.One.AlmostEqual(val1);
-        }
-
-        /// <summary>
         /// Take absolute value
         /// </summary>
         /// <param name="val1">Source alue</param>

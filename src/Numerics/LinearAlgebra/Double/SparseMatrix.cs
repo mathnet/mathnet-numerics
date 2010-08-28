@@ -1648,15 +1648,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return stringBuilder.ToString();
         }
 
-        /// <summary>
-        /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
-        /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<double> ConjugateTranspose()
-        {
-            throw new NotSupportedException("ConjugateTranspose is not supported for real matricies");
-        }
-
         #region Simple arithmetic of type T
         /// <summary>
         /// Add two values T+T
@@ -1700,16 +1691,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected sealed override double DivideT(double val1, double val2)
         {
             return val1 / val2;
-        }
-
-        /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override bool IsOneT(double val1)
-        {
-            return 1.0.AlmostEqualInDecimalPlaces(val1, 15);
         }
 
         /// <summary>

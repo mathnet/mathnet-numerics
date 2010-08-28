@@ -91,6 +91,30 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Numerically stable hypotenuse of a right angle triangle, i.e. <code>(a,b) -> sqrt(a^2 + b^2)</code>
+        /// </summary>
+        /// <param name="a">The length of side a of the triangle.</param>
+        /// <param name="b">The length of side b of the triangle.</param>
+        /// <returns>Returns <code>sqrt(a<sup>2</sup> + b<sup>2</sup>)</code> without underflow/overflow.</returns>
+        public static float Hypotenuse(float a, float b)
+        {
+            if (Math.Abs(a) > Math.Abs(b))
+            {
+                float r = b / a;
+                return Math.Abs(a) * (float)Math.Sqrt(1 + (r * r));
+            }
+
+            if (b != 0.0)
+            {
+                // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
+                float r = a / b;
+                return Math.Abs(b) * (float)Math.Sqrt(1 + (r * r));
+            }
+
+            return 0f;
+        }
+
+        /// <summary>
         /// Numerically stable series summation
         /// </summary>
         /// <param name="nextSummand">provides the summands sequentially</param>

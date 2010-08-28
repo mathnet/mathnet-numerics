@@ -1498,15 +1498,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             Array.Clear(Data, 0, Data.Length);
         }
 
-        /// <summary>
-        /// Conjugates vector and save result to <paramref name="target"/>
-        /// </summary>
-        /// <param name="target">Target vector</param>
-        public override void Conjugate(Vector<double> target)
-        {
-            throw new NotSupportedException("Conjugate is not supported for real vectors");
-        }
-
         #region Simple arithmetic of type T
         /// <summary>
         /// Add two values T+T
@@ -1550,16 +1541,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected sealed override double DivideT(double val1, double val2)
         {
             return val1 / val2;
-        }
-
-        /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override bool IsOneT(double val1)
-        {
-            return val1 == 1.0;
         }
 
         /// <summary>

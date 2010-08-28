@@ -376,10 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var otherVector = target as SparseVector;
             if (otherVector == null)
             {
-                CommonParallel.For(
-                    0,
-                    Count,
-                    index => target[index] = this[index].Conjugate());
+                base.Conjugate(target);
             }
             else
             {
@@ -1669,16 +1666,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         protected sealed override Complex DivideT(Complex val1, Complex val2)
         {
             return val1 / val2;
-        }
-
-        /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override bool IsOneT(Complex val1)
-        {
-            return Complex.One.AlmostEqual(val1);
         }
 
         /// <summary>

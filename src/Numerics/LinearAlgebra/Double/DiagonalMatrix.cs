@@ -1584,16 +1584,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = distribution.Sample();
-                    }
-                });
+            var mn = Math.Min(numberOfRows, numberOfColumns);
+            CommonParallel.For(0, mn, i => matrix[i, i] = distribution.Sample());
 
             return matrix;
         }
@@ -1622,16 +1614,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = distribution.Sample();
-                    }
-                });
+            var mn = Math.Min(numberOfRows, numberOfColumns);
+            CommonParallel.For(0, mn, i => matrix[i, i] = distribution.Sample());
 
             return matrix;
         }
@@ -1669,15 +1653,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return stringBuilder.ToString();
-        }
-
-        /// <summary>
-        /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
-        /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<double> ConjugateTranspose()
-        {
-            throw new NotSupportedException("ConjugateTranspose is not supported for real matricies");
         }
 
         #region Simple arithmetic of type T
@@ -1723,16 +1698,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected sealed override double DivideT(double val1, double val2)
         {
             return val1 / val2;
-        }
-
-        /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override bool IsOneT(double val1)
-        {
-            return 1.0.AlmostEqualInDecimalPlaces(val1, 15);
         }
 
         /// <summary>

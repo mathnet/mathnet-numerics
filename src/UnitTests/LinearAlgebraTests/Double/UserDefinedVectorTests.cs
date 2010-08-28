@@ -190,19 +190,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return val1 / val2;
         }
 
-        protected sealed override bool IsOneT(double val1)
-        {
-            return val1 == 1.0;
-        }
-
         protected sealed override double AbsoluteT(double val1)
         {
             return Math.Abs(val1);
-        }
-
-        public override void Conjugate(Vector<double> target)
-        {
-            throw new NotSupportedException();
         }
     }
 

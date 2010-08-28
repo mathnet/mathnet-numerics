@@ -141,6 +141,67 @@ namespace MathNet.Numerics.Threading
         }
 
         /// <summary>
+        /// Aggregates a function over a loop.
+        /// </summary>
+        /// <param name="fromInclusive">Starting index of the loop.</param>
+        /// <param name="toExclusive">Ending index of the loop</param>
+        /// <param name="body">The function to aggregate.</param>
+        /// <returns>The sum of the function over the loop.</returns>
+        public static float Aggregate(int fromInclusive, int toExclusive, Func<int, float> body)
+        {
+            var sync = new object();
+            var sum = 0.0f;
+
+#if SILVERLIGHT
+            Parallel.For(
+                fromInclusive, 
+                toExclusive, 
+                () => 0.0f, 
+                (i, localData) => localData += body(i), 
+                localResult =>
+                {
+                    lock (sync)
+                    {
+                        sum += localResult;
+                    }
+                });
+#else
+
+            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            {
+                for (var index = fromInclusive; index < toExclusive; index++)
+                {
+                    sum += body(index);
+                }
+            }
+            else
+            {
+                Parallel.ForEach(
+                    Partitioner.Create(fromInclusive, toExclusive),
+                    new ParallelOptions { MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads },
+                    () => 0.0f,
+                    (range, loopState, localData) =>
+                    {
+                        for (var i = range.Item1; i < range.Item2; i++)
+                        {
+                            localData += body(i);
+                        }
+
+                        return localData;
+                    },
+                    localResult =>
+                    {
+                        lock (sync)
+                        {
+                            sum += localResult;
+                        }
+                    });
+            }
+#endif
+            return sum;
+        }
+
+        /// <summary>
         /// Aggregates a function over a loop for Complex data type.
         /// </summary>
         /// <param name="fromInclusive">Starting index of the loop.</param>

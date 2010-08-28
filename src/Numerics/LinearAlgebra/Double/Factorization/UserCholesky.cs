@@ -99,40 +99,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         /// <summary>
-        /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
-        /// </summary>
-        public override double Determinant
-        {
-            get
-            {
-                var det = 1.0;
-                for (var j = 0; j < CholeskyFactor.RowCount; j++)
-                {
-                    det *= CholeskyFactor[j, j] * CholeskyFactor[j, j];
-                }
-
-                return det;
-            }
-        }
-
-        /// <summary>
-        /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
-        /// </summary>
-        public override double DeterminantLn
-        {
-            get
-            {
-                var det = 0.0;
-                for (var j = 0; j < CholeskyFactor.RowCount; j++)
-                {
-                    det += 2.0 * Math.Log(CholeskyFactor[j, j]);
-                }
-
-                return det;
-            }
-        }
-
-        /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
@@ -287,16 +253,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             return Math.Log(val1);
         }
-
-        /// <summary>
-        /// Get value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        protected sealed override double OneValueT
-        {
-            get { return 1.0; }
-        }
-
         #endregion
     }
 }

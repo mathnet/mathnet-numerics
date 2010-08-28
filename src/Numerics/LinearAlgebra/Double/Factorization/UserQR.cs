@@ -352,15 +352,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             return Math.Abs(val1);
         }
-
-        /// <summary>
-        /// Get value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        protected sealed override double OneValueT
-        {
-            get { return 1.0; }
-        }
         #endregion
     }
 }

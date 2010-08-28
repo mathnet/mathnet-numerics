@@ -1491,7 +1491,25 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Returns the conjugate transpose of this matrix.
         /// </summary>        
         /// <returns>The conjugate transpose of this matrix.</returns>
-        public abstract Matrix<T> ConjugateTranspose();
+        public virtual Matrix<T> ConjugateTranspose()
+        {
+            // In case of real return regulart transpose
+            if ((typeof(T) == typeof(double)) || ((typeof(T) == typeof(float))))
+            {
+                return Transpose();
+            }
+
+            var ret = CreateMatrix(ColumnCount, RowCount);
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
+                {
+                    ret.At(j, i, ConjugateT(At(i, j)));
+                }
+            }
+
+            return ret;
+        }
 
         /// <summary>
         /// Permute the rows of a matrix according to a permutation.
@@ -1867,18 +1885,79 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract T DivideT(T val1, T val2);
 
         /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected abstract bool IsOneT(T val1);
-
-        /// <summary>
         /// Take absolute value
         /// </summary>
         /// <param name="val1">Source alue</param>
         /// <returns>True if one; otherwise false</returns>
         protected abstract double AbsoluteT(T val1);
+
+        /// <summary>
+        /// Is equal to one?
+        /// </summary>
+        /// <param name="val1">Value to check</param>
+        /// <returns>True if one; otherwise false</returns>
+        private static bool IsOneT(T val1)
+        {
+            if (typeof(T) == typeof(Complex))
+            {
+                object obj1 = val1;
+                return Complex.One.AlmostEqual((Complex)obj1);
+            }
+
+            if (typeof(T) == typeof(Complex32))
+            {
+                object obj1 = val1;
+                return Complex32.One.AlmostEqual((Complex32)obj1);
+            }
+
+            if (typeof(T) == typeof(double))
+            {
+                object obj1 = val1;
+                return 1.0.AlmostEqualInDecimalPlaces((double)obj1, 15);
+            }
+
+            if (typeof(T) == typeof(float))
+            {
+                object obj1 = val1;
+                return 1.0f.AlmostEqualInDecimalPlaces((float)obj1, 7);
+            }
+
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Conjugate complex value. In real case the same value is returned
+        /// </summary>
+        /// <param name="val1">Value to conjugate</param>
+        /// <returns>Conjugated value (complex) or the same (real)</returns>
+        private static T ConjugateT(T val1)
+        {
+            if (typeof(T) == typeof(Complex))
+            {
+                object obj = val1;
+                object conj = Complex.Conjugate((Complex)obj);
+                return (T)(conj);
+            }
+
+            if (typeof(T) == typeof(Complex32))
+            {
+                object obj = val1;
+                object conj = ((Complex32)obj).Conjugate();
+                return (T)(conj);
+            }
+
+            if (typeof(T) == typeof(double))
+            {
+                return val1;
+            }
+
+            if (typeof(T) == typeof(float))
+            {
+                return val1;
+            }
+
+            throw new NotSupportedException();
+        }
         #endregion
     }
 }

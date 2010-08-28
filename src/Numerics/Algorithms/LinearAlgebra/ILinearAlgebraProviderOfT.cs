@@ -185,15 +185,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Multiples two matrices. <c>result = x * y</c>
         /// </summary>
         /// <param name="x">The x matrix.</param>
-        /// <param name="xRows">The number of rows in the x matrix.</param>
-        /// <param name="xColumns">The number of columns in the x matrix.</param>
+        /// <param name="rowsX">The number of rows in the x matrix.</param>
+        /// <param name="columnsX">The number of columns in the x matrix.</param>
         /// <param name="y">The y matrix.</param>
-        /// <param name="yRows">The number of rows in the y matrix.</param>
-        /// <param name="yColumns">The number of columns in the y matrix.</param>
+        /// <param name="rowsY">The number of rows in the y matrix.</param>
+        /// <param name="columnsY">The number of columns in the y matrix.</param>
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
-        void MatrixMultiply(T[] x, int xRows, int xColumns, T[] y, int yRows, int yColumns, T[] result);
+        void MatrixMultiply(T[] x, int rowsX, int columnsX, T[] y, int rowsY, int columnsY, T[] result);
 
         /// <summary>
         /// Multiplies two matrices and updates another with the result. <c>c = alpha*op(a)*op(b) + beta*c</c>
@@ -202,14 +202,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="transposeB">How to transpose the <paramref name="b"/> matrix.</param>
         /// <param name="alpha">The value to scale <paramref name="a"/> matrix.</param>
         /// <param name="a">The a matrix.</param>
-        /// <param name="aRows">The number of rows in the <paramref name="a"/> matrix.</param>
-        /// <param name="aColumns">The number of columns in the <paramref name="a"/> matrix.</param>
+        /// <param name="rowsA">The number of rows in the <paramref name="a"/> matrix.</param>
+        /// <param name="columnsA">The number of columns in the <paramref name="a"/> matrix.</param>
         /// <param name="b">The b matrix</param>
-        /// <param name="bRows">The number of rows in the <paramref name="b"/> matrix.</param>
-        /// <param name="bColumns">The number of columns in the <paramref name="b"/> matrix.</param>
+        /// <param name="rowsB">The number of rows in the <paramref name="b"/> matrix.</param>
+        /// <param name="columnsB">The number of columns in the <paramref name="b"/> matrix.</param>
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
-        void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, T alpha, T[] a, int aRows, int aColumns, T[] b, int bRows, int bColumns, T beta, T[] c);
+        void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, T alpha, T[] a, int rowsA, int columnsA, T[] b, int rowsB, int columnsB, T beta, T[] c);
 
         /// <summary>
         /// Computes the LUP factorization of A. P*A = L*U.
@@ -319,116 +319,116 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Solves A*X=B for X using Cholesky factorization.
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
-        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="orderA">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-        /// <param name="bRows">The number of rows in the B matrix.</param>
-        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="rowsB">The number of rows in the B matrix.</param>
+        /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
-        void CholeskySolve(T[] a, int aOrder, T[] b, int bRows, int bColumns);
+        void CholeskySolve(T[] a, int orderA, T[] b, int rowsB, int columnsB);
 
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
-        /// <param name="aOrder">The number of rows and columns in A.</param>
+        /// <param name="orderA">The number of rows and columns in A.</param>
         /// <param name="b">The B matrix.</param>
-        /// <param name="bRows">The number of rows in the B matrix.</param>
-        /// <param name="bColumns">The number of columns in the B matrix.</param>
+        /// <param name="rowsB">The number of rows in the B matrix.</param>
+        /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
-        void CholeskySolveFactored(T[] a, int aOrder, T[] b, int bRows, int bColumns);
+        void CholeskySolveFactored(T[] a, int orderA, T[] b, int rowsB, int columnsB);
 
         /// <summary>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
         /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rRows">The number of rows in the A matrix.</param>
-        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsR">The number of rows in the A matrix.</param>
+        /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(T[] r, int rRows, int rColumns, T[] q);
+        void QRFactor(T[] r, int rowsR, int columnsR, T[] q);
 
         /// <summary>
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
         /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rRows">The number of rows in the A matrix.</param>
-        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsR">The number of rows in the A matrix.</param>
+        /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(T[] r, int rRows, int rColumns, T[] q, T[] work);
+        void QRFactor(T[] r, int rowsR, int columnsR, T[] q, T[] work);
 
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
         /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rRows">The number of rows in the A matrix.</param>
-        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsR">The number of rows in the A matrix.</param>
+        /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
-        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void QRSolve(T[] r, int rRows, int rColumns, T[] q, T[] b, int bColumns, T[] x);
+        void QRSolve(T[] r, int rowsR, int columnsR, T[] q, T[] b, int columnsB, T[] x);
 
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
         /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rRows">The number of rows in the A matrix.</param>
-        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsR">The number of rows in the A matrix.</param>
+        /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
         /// <param name="b">The B matrix.</param>
-        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        void QRSolve(T[] r, int rRows, int rColumns, T[] q, T[] b, int bColumns, T[] x, T[] work);
+        void QRSolve(T[] r, int rowsR, int columnsR, T[] q, T[] b, int columnsB, T[] x, T[] work);
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
         /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(T[],int,int,T[])"/>.</param>
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[])"/>. </param>
-        /// <param name="rRows">The number of rows in the A matrix.</param>
-        /// <param name="rColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsR">The number of rows in the A matrix.</param>
+        /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>
-        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void QRSolveFactored(T[] q, T[] r, int rRows, int rColumns, T[] b, int bColumns, T[] x);
+        void QRSolveFactored(T[] q, T[] r, int rowsR, int columnsR, T[] b, int columnsB, T[] x);
 
         /// <summary>
         /// Computes the singular value decomposition of A.
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="aRows">The number of rows in the A matrix.</param>
-        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value. </param>
         /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        void SingularValueDecomposition(bool computeVectors, T[] a, int aRows, int aColumns, T[] s, T[] u, T[] vt);
+        void SingularValueDecomposition(bool computeVectors, T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt);
 
         /// <summary>
         /// Computes the singular value decomposition of A.
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="aRows">The number of rows in the A matrix.</param>
-        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value. </param>
         /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
         /// singular vectors.</param>
@@ -439,51 +439,51 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// On exit, work[0] contains the optimal work size value.
         /// </param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        void SingularValueDecomposition(bool computeVectors, T[] a, int aRows, int aColumns, T[] s, T[] u, T[] vt, T[] work);
+        void SingularValueDecomposition(bool computeVectors, T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] work);
 
         /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="aRows">The number of rows in the A matrix.</param>
-        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value. </param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
-        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void SvdSolve(T[] a, int aRows, int aColumns, T[] s, T[] u, T[] vt, T[] b, int bColumns, T[] x);
+        void SvdSolve(T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);
 
         /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="aRows">The number of rows in the A matrix.</param>
-        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value. </param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
-        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.
         /// </param>
-        void SvdSolve(T[] a, int aRows, int aColumns, T[] s, T[] u, T[] vt, T[] b, int bColumns, T[] x, T[] work);
+        void SvdSolve(T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x, T[] work);
 
         /// <summary>
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
-        /// <param name="aRows">The number of rows in the A matrix.</param>
-        /// <param name="aColumns">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[])"/>.</param>
         /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int, T[],T[],T[])"/>.</param>
         /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[],T[])"/>.</param>
         /// <param name="b">The B matrix.</param>
-        /// <param name="bColumns">The number of columns of B.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void SvdSolveFactored(int aRows, int aColumns, T[] s, T[] u, T[] vt, T[] b, int bColumns, T[] x);
+        void SvdSolveFactored(int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);
     }
 }
