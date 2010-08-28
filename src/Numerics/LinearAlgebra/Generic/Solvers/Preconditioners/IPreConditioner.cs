@@ -65,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <returns>The left hand side vector.</returns>
-        Vector<double> Approximate(Vector<T> rhs);
+        Vector<T> Approximate(Vector<T> rhs);
 
         /// <summary>
         /// Approximates the solution to the matrix equation <b>Mx = b</b>.

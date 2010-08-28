@@ -80,6 +80,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Double.Factorization.UserQR(matrix as Matrix<double>) as QR<T>;
             }
 
+            if (typeof(T) == typeof(Complex))
+            {
+                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex.Factorization.DenseQR(dense) as QR<T>;
+                }
+
+                return new LinearAlgebra.Complex.Factorization.UserQR(matrix as Matrix<Complex>) as QR<T>;
+            }
+
             throw new NotImplementedException();
         }
 

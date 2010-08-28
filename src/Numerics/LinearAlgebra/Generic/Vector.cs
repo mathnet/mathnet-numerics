@@ -1106,6 +1106,23 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
         #endregion
 
+        /// <summary>
+        /// Return vector with conjugate values of the source vector
+        /// </summary>
+        /// <returns>Conjugated vector</returns>
+        public Vector<T> Conjugate()
+        {
+            var retrunVector = CreateVector(Count);
+            Conjugate(retrunVector);
+            return retrunVector;
+        }
+
+        /// <summary>
+        /// Conjugates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        public abstract void Conjugate(Vector<T> target);
+
         #region Copying and Conversion
 
         /// <summary>

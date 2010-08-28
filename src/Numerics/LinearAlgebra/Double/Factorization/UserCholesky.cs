@@ -256,6 +256,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         }
 
         #region Simple T Mathematics
+        /// <summary>
+        /// Add two values T+T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of addition</returns>
+        protected sealed override double AddT(double val1, double val2)
+        {
+            return val1 + val2;
+        }
 
         /// <summary>
         /// Multiply two values T*T

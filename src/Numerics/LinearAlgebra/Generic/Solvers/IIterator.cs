@@ -105,7 +105,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers
         void ResetToPrecalculationState();
 
 #if SILVERLIGHT
-        IIterator<double> Clone();
+        IIterator<T> Clone();
 #endif
     }
 }

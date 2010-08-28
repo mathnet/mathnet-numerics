@@ -32,7 +32,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using Distributions;
     using LinearAlgebra.Generic;
     using Properties;
@@ -199,6 +198,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         protected sealed override double AbsoluteT(double val1)
         {
             return Math.Abs(val1);
+        }
+
+        public override void Conjugate(Vector<double> target)
+        {
+            throw new NotSupportedException();
         }
     }
 

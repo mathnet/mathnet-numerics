@@ -1488,6 +1488,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Returns the conjugate transpose of this matrix.
+        /// </summary>        
+        /// <returns>The conjugate transpose of this matrix.</returns>
+        public abstract Matrix<T> ConjugateTranspose();
+
+        /// <summary>
         /// Permute the rows of a matrix according to a permutation.
         /// </summary>
         /// <param name="p">The row permutation to apply to this matrix.</param>
@@ -1795,9 +1801,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             var transpose = Transpose();
             var aat = this * transpose;
-
-            // TODO: Replace with multiple Transpose
-            //// aat.Gemm(1.0, 0.0, false, true, this, this);
 
             var norm = 0.0;
             for (var i = 0; i < RowCount; i++)
