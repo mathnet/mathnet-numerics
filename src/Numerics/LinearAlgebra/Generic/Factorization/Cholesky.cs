@@ -65,6 +65,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Double.Factorization.UserCholesky(matrix as Matrix<double>) as Cholesky<T>;
             }
 
+            if (typeof(T) == typeof(float))
+            {
+                var dense = matrix as LinearAlgebra.Single.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Single.Factorization.DenseCholesky(dense) as Cholesky<T>;
+                }
+
+                return new LinearAlgebra.Single.Factorization.UserCholesky(matrix as Matrix<float>) as Cholesky<T>;
+            }
+
             if (typeof(T) == typeof(Complex))
             {
                 var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
@@ -213,9 +224,36 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// Gets value of type T equal to one
         /// </summary>
         /// <returns>One value</returns>
-        protected abstract T OneValueT
+        private static T OneValueT
         {
-            get;
+            get
+            {
+                if (typeof(T) == typeof(Complex))
+                {
+                    object one = Complex.One;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(Complex32))
+                {
+                    object one = Complex32.One;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(double))
+                {
+                    object one = 1.0d;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(float))
+                {
+                    object one = 1.0f;
+                    return (T)one;
+                }
+
+                throw new NotSupportedException();
+            }
         }
         #endregion
     }

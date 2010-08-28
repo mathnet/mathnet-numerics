@@ -165,11 +165,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             return val1 / val2;
         }
 
-        protected sealed override bool IsOneT(Complex val1)
-        {
-            return Complex.One.AlmostEqual(val1);
-        }
-
         protected sealed override double AbsoluteT(Complex val1)
         {
             return val1.Magnitude;

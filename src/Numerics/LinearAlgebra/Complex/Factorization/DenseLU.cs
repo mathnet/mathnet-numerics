@@ -201,24 +201,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         {
             return val1 * val2;
         }
-
-        /// <summary>
-        /// Get value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        protected sealed override Complex OneValueT
-        {
-            get { return Complex.One; }
-        }
-
-        /// <summary>
-        /// Get value of type T equal to minus one
-        /// </summary>
-        /// <returns>One value</returns>
-        protected sealed override Complex MinusOneValueT
-        {
-            get { return -Complex.One; }
-        }
         #endregion
     }
 }

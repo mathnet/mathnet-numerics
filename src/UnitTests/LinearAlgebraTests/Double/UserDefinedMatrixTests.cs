@@ -165,19 +165,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return val1 / val2;
         }
 
-        protected sealed override bool IsOneT(double val1)
-        {
-            return 1.0.AlmostEqualInDecimalPlaces(val1, 15);
-        }
-
         protected sealed override double AbsoluteT(double val1)
         {
             return Math.Abs(val1);
-        }
-
-        public override Matrix<double> ConjugateTranspose()
-        {
-            throw new NotSupportedException();
         }
     }
 

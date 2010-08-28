@@ -1597,16 +1597,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = new Complex(distribution.Sample(), distribution.Sample());
-                    }
-                });
+            var mn = Math.Min(numberOfRows, numberOfColumns);
+            CommonParallel.For(0, mn, i => matrix[i, i] = new Complex(distribution.Sample(), distribution.Sample()));
 
             return matrix;
         }
@@ -1635,16 +1627,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = new Complex(distribution.Sample(), distribution.Sample());
-                    }
-                });
+            var mn = Math.Min(numberOfRows, numberOfColumns);
+            CommonParallel.For(0, mn, i => matrix[i, i] = new Complex(distribution.Sample(), distribution.Sample()));
 
             return matrix;
         }
@@ -1692,16 +1676,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         protected sealed override Complex DivideT(Complex val1, Complex val2)
         {
             return val1 / val2;
-        }
-
-        /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override bool IsOneT(Complex val1)
-        {
-            return Complex.One.AlmostEqual(val1);
         }
 
         /// <summary>

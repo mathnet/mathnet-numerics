@@ -85,6 +85,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Double.Factorization.GramSchmidt(matrix as Matrix<double>) as QR<T>;
             }
 
+            if (typeof(T) == typeof(float))
+            {
+                return new LinearAlgebra.Single.Factorization.GramSchmidt(matrix as Matrix<float>) as QR<T>;
+            }
+
             if (typeof(T) == typeof(Complex))
             {
                 return new LinearAlgebra.Complex.Factorization.GramSchmidt(matrix as Matrix<Complex>) as QR<T>;

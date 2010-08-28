@@ -80,6 +80,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Double.Factorization.UserQR(matrix as Matrix<double>) as QR<T>;
             }
 
+            if (typeof(T) == typeof(float))
+            {
+                var dense = matrix as LinearAlgebra.Single.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Single.Factorization.DenseQR(dense) as QR<T>;
+                }
+
+                return new LinearAlgebra.Single.Factorization.UserQR(matrix as Matrix<float>) as QR<T>;
+            }
+
             if (typeof(T) == typeof(Complex))
             {
                 var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
@@ -132,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 for (var i = 0; i < MatrixR.ColumnCount; i++)
                 {
                     det = MultiplyT(det, MatrixR.At(i, i));
-                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
+                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float)) ? 7 : 15))
                     {
                         return 0;
                     }
@@ -152,7 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
             {
                 for (var i = 0; i < MatrixR.ColumnCount; i++)
                 {
-                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
+                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float)) ? 7 : 15))
                     {
                         return false;
                     }
@@ -232,9 +243,36 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// Gets value of type T equal to one
         /// </summary>
         /// <returns>One value</returns>
-        protected abstract T OneValueT
+        private static T OneValueT
         {
-            get;
+            get
+            {
+                if (typeof(T) == typeof(Complex))
+                {
+                    object one = Complex.One;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(Complex32))
+                {
+                    object one = Complex32.One;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(double))
+                {
+                    object one = 1.0d;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(float))
+                {
+                    object one = 1.0f;
+                    return (T)one;
+                }
+
+                throw new NotSupportedException();
+            }
         }
 
         #endregion

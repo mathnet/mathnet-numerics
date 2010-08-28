@@ -31,6 +31,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
     using System;
+    using System.Linq;
     using System.Numerics;
     using Generic;
     using Properties;
@@ -97,19 +98,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         {
             get
             {
-                var eps = Math.Pow(2.0, -52.0);
-                var tol = Math.Max(MatrixU.RowCount, MatrixVT.ColumnCount) * AbsoluteT(VectorS[0]) * eps;
-                var nm = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount);
-                var rank = 0;
-                for (var h = 0; h < nm; h++)
-                {
-                    if (AbsoluteT(VectorS[h]) > tol)
-                    {
-                        rank++;
-                    }
-                }
-
-                return rank;
+                return VectorS.Count(t => !AbsoluteT(t).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float)) ? 7 : 15));
             }
         }
 
@@ -130,6 +119,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 }
 
                 return new LinearAlgebra.Double.Factorization.UserSvd(matrix as Matrix<double>, computeVectors) as Svd<T>;
+            }
+
+            if (typeof(T) == typeof(float))
+            {
+                var dense = matrix as LinearAlgebra.Single.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Single.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
+                }
+
+                return new LinearAlgebra.Single.Factorization.UserSvd(matrix as Matrix<float>, computeVectors) as Svd<T>;
             }
 
             if (typeof(T) == typeof(Complex))
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 for (var i = 0; i < VectorS.Count; i++)
                 {
                     det = MultiplyT(det, VectorS[i]);
-                    if (AbsoluteT(VectorS[i]).AlmostEqualInDecimalPlaces(0.0, 15))
+                    if (AbsoluteT(VectorS[i]).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float)) ? 7 : 15))
                     {
                         return 0;
                     }
@@ -320,9 +320,36 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// Gets value of type T equal to one
         /// </summary>
         /// <returns>One value</returns>
-        protected abstract T OneValueT
+        private static T OneValueT
         {
-            get;
+            get
+            {
+                if (typeof(T) == typeof(Complex))
+                {
+                    object one = Complex.One;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(Complex32))
+                {
+                    object one = Complex32.One;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(double))
+                {
+                    object one = 1.0d;
+                    return (T)one;
+                }
+
+                if (typeof(T) == typeof(float))
+                {
+                    object one = 1.0f;
+                    return (T)one;
+                }
+
+                throw new NotSupportedException();
+            }
         }
 
         #endregion

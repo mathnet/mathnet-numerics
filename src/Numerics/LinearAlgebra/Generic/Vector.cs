@@ -1121,7 +1121,37 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Conjugates vector and save result to <paramref name="target"/>
         /// </summary>
         /// <param name="target">Target vector</param>
-        public abstract void Conjugate(Vector<T> target);
+        public virtual void Conjugate(Vector<T> target)
+        {
+            // In case of real return copy of vector
+            if ((typeof(T) == typeof(double)) || ((typeof(T) == typeof(float))))
+            {
+                CopyTo(target);
+                return;
+            }
+
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (Count != target.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                var tmp = CreateVector(Count);
+                Conjugate(tmp);
+                tmp.CopyTo(target);
+            }
+
+            CommonParallel.For(
+                0,
+                Count,
+                index => target[index] = ConjugateT(this[index]));
+        }
 
         #region Copying and Conversion
 
@@ -1608,18 +1638,79 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract T DivideT(T val1, T val2);
 
         /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected abstract bool IsOneT(T val1);
-
-        /// <summary>
         /// Take absolute value
         /// </summary>
         /// <param name="val1">Source alue</param>
         /// <returns>True if one; otherwise false</returns>
         protected abstract double AbsoluteT(T val1);
+
+        /// <summary>
+        /// Is equal to one?
+        /// </summary>
+        /// <param name="val1">Value to check</param>
+        /// <returns>True if one; otherwise false</returns>
+        private static bool IsOneT(T val1)
+        {
+            if (typeof(T) == typeof(Complex))
+            {
+                object obj1 = val1;
+                return Complex.One.AlmostEqual((Complex)obj1);
+            }
+
+            if (typeof(T) == typeof(Complex32))
+            {
+                object obj1 = val1;
+                return Complex32.One.AlmostEqual((Complex32)obj1);
+            }
+
+            if (typeof(T) == typeof(double))
+            {
+                object obj1 = val1;
+                return 1.0.AlmostEqualInDecimalPlaces((double)obj1, 15);
+            }
+
+            if (typeof(T) == typeof(float))
+            {
+                object obj1 = val1;
+                return 1.0f.AlmostEqualInDecimalPlaces((float)obj1, 7);
+            }
+
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Conjugate complex value. In real case the same value is returned
+        /// </summary>
+        /// <param name="val1">Value to conjugate</param>
+        /// <returns>Conjugated value (complex) or the same (real)</returns>
+        private static T ConjugateT(T val1)
+        {
+            if (typeof(T) == typeof(Complex))
+            {
+                object obj = val1;
+                object conj = Complex.Conjugate((Complex)obj);
+                return (T)(conj);
+            }
+
+            if (typeof(T) == typeof(Complex32))
+            {
+                object obj = val1;
+                object conj = ((Complex32)obj).Conjugate();
+                return (T)(conj);
+            }
+
+            if (typeof(T) == typeof(double))
+            {
+                return val1;
+            }
+
+            if (typeof(T) == typeof(float))
+            {
+                return val1;
+            }
+
+            throw new NotSupportedException();
+        }
         #endregion
     }
 }

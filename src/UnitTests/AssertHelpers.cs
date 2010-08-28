@@ -83,7 +83,29 @@ namespace MathNet.Numerics.UnitTests
                 return;
             }
 
-            bool pass = Precision.AlmostEqualInDecimalPlaces(expected, actual, decimalPlaces);
+            bool pass = expected.AlmostEqualInDecimalPlaces(actual, decimalPlaces);
+            if (!pass)
+            {
+                // signals Gallio that the test failed.
+                Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected, actual);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the expected value and the actual value are equal up to a certain number of decimal places. If both
+        /// <paramref name="expected"/> and <paramref name="actual"/> are NaN then no assert is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value.</param>
+        /// <param name="actual">The actual value.</param>
+        /// <param name="decimalPlaces">The number of decimal places to agree on.</param>
+        public static void AlmostEqual(float expected, float actual, int decimalPlaces)
+        {
+            if (float.IsNaN(expected) && float.IsNaN(actual))
+            {
+                return;
+            }
+
+            bool pass = expected.AlmostEqualInDecimalPlaces(actual, decimalPlaces);
             if (!pass)
             {
                 // signals Gallio that the test failed.
@@ -159,6 +181,24 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="actual">The actual value list.</param>
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         public static void AlmostEqualList(IList<double> expected, IList<double> actual, double maximumError)
+        {
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if (!actual[i].AlmostEqualWithError(expected[i], maximumError))
+                {
+                    Assert.Fail("Not equal within a maximum error {0}. Expected:{1}; Actual:{2}", maximumError, expected[i], actual[i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the expected value and the actual value are equal up to a certain
+        /// maximum error.
+        /// </summary>
+        /// <param name="expected">The expected value list.</param>
+        /// <param name="actual">The actual value list.</param>
+        /// <param name="maximumError">The accuracy required for being almost equal.</param>
+        public static void AlmostEqualList(IList<float> expected, IList<float> actual, double maximumError)
         {
             for (int i = 0; i < expected.Count; i++)
             {
