@@ -1494,7 +1494,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> ConjugateTranspose()
         {
             // In case of real return regulart transpose
-            if ((typeof(T) == typeof(double)) || ((typeof(T) == typeof(float))))
+            if ((typeof(T) == typeof(double)) || (typeof(T) == typeof(float)))
             {
                 return Transpose();
             }
@@ -1936,14 +1936,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 object obj = val1;
                 object conj = Complex.Conjugate((Complex)obj);
-                return (T)(conj);
+                return (T)conj;
             }
 
             if (typeof(T) == typeof(Complex32))
             {
                 object obj = val1;
                 object conj = ((Complex32)obj).Conjugate();
-                return (T)(conj);
+                return (T)conj;
             }
 
             if (typeof(T) == typeof(double))

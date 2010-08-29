@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -93,7 +89,7 @@ namespace MathNet.Numerics
         /// <exception cref="ArgumentException">If <paramref name="z"/> or <paramref name="w"/> are not positive.</exception>
         public static double Beta(double z, double w)
         {
-            return System.Math.Exp(BetaLn(z, w));
+            return Math.Exp(BetaLn(z, w));
         }
 
         /// <summary>
@@ -110,15 +106,15 @@ namespace MathNet.Numerics
         /// <returns>The value of the DiGamma function at <paramref name="x"/>.</returns>
         public static double DiGamma(double x)
         {
-            const double c = 12.0,
-                         d1 = -0.57721566490153286,
-                         d2 = 1.6449340668482264365,
-                         s = 1e-6,
-                         s3 = 1.0 / 12.0,
-                         s4 = 1.0 / 120.0,
-                         s5 = 1.0 / 252.0,
-                         s6 = 1.0 / 240.0,
-                         s7 = 1.0 / 132.0;
+            const double C = 12.0;
+            const double D1 = -0.57721566490153286;
+            const double D2 = 1.6449340668482264365;
+            const double S = 1e-6;
+            const double S3 = 1.0 / 12.0;
+            const double S4 = 1.0 / 120.0;
+            const double S5 = 1.0 / 252.0;
+            const double S6 = 1.0 / 240.0;
+            const double S7 = 1.0 / 132.0;
 
             if (Double.IsNegativeInfinity(x) || Double.IsNaN(x))
             {
@@ -137,25 +133,25 @@ namespace MathNet.Numerics
                 return DiGamma(1.0 - x) + (Math.PI / Math.Tan(-Math.PI * x));
             }
 
-            if (x <= s)
+            if (x <= S)
             {
-                return d1 - (1 / x) + (d2 * x);
+                return D1 - (1 / x) + (D2 * x);
             }
 
             double result = 0;
-            while (x < c)
+            while (x < C)
             {
                 result -= 1 / x;
                 x++;
             }
 
-            if (x >= c)
+            if (x >= C)
             {
-                double r = 1 / x;
+                var r = 1 / x;
                 result += Math.Log(x) - (0.5 * r);
                 r *= r;
 
-                result -= r * (s3 - (r * (s4 - (r * (s5 - (r * (s6 - (r * s7))))))));
+                result -= r * (S3 - (r * (S4 - (r * (S5 - (r * (S6 - (r * S7))))))));
             }
 
             return result;
@@ -185,8 +181,8 @@ namespace MathNet.Numerics
                 return Double.PositiveInfinity;
             }
 
-            double x = Math.Exp(p);
-            for (double d = 1.0; d > 1.0e-15; d /= 2.0)
+            var x = Math.Exp(p);
+            for (var d = 1.0; d > 1.0e-15; d /= 2.0)
             {
                 x += d * Math.Sign(p - DiGamma(x));
             }
@@ -217,41 +213,45 @@ namespace MathNet.Numerics
         /// <returns>The regularized lower incomplete beta function.</returns>
         public static double BetaRegularized(double a, double b, double x)
         {
-            if (a < 0.0 || b < 0.0)
+            if (a < 0.0)
             {
-                throw new ArgumentOutOfRangeException("a,b", Properties.Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException("a", Resources.ArgumentNotNegative);
+            }
+
+            if (b < 0.0)
+            {
+                throw new ArgumentOutOfRangeException("b", Resources.ArgumentNotNegative);
             }
 
             if (x < 0.0 || x > 1.0)
             {
-                throw new ArgumentOutOfRangeException("x", Properties.Resources.ArgumentInIntervalXYInclusive);
+                throw new ArgumentOutOfRangeException("x", Resources.ArgumentInIntervalXYInclusive);
             }
 
-            double bt = (x == 0.0 || x == 1.0)
-                ? 0.0
-                : Math.Exp(GammaLn(a + b) - GammaLn(a) - GammaLn(b) + (a * Math.Log(x)) + (b * Math.Log(1.0 - x)));
+            var bt = (x == 0.0 || x == 1.0)
+                         ? 0.0
+                         : Math.Exp(GammaLn(a + b) - GammaLn(a) - GammaLn(b) + (a * Math.Log(x)) + (b * Math.Log(1.0 - x)));
 
-            bool symmetryTransformation = x >= (a + 1.0) / (a + b + 2.0);
+            var symmetryTransformation = x >= (a + 1.0) / (a + b + 2.0);
 
             /* Continued fraction representation */
-
             const int MaxIterations = 100;
-            double eps = Precision.DoubleMachinePrecision;
-            double fpmin = Precision.Increment(0.0) / eps;
+            var eps = Precision.DoubleMachinePrecision;
+            var fpmin = 0.0.Increment() / eps;
 
             if (symmetryTransformation)
             {
                 x = 1.0 - x;
-                double swap = a;
+                var swap = a;
                 a = b;
                 b = swap;
             }
 
-            double qab = a + b;
-            double qap = a + 1.0;
-            double qam = a - 1.0;
-            double c = 1.0;
-            double d = 1.0 - (qab * x / qap);
+            var qab = a + b;
+            var qap = a + 1.0;
+            var qam = a - 1.0;
+            var c = 1.0;
+            var d = 1.0 - (qab * x / qap);
 
             if (Math.Abs(d) < fpmin)
             {
@@ -259,11 +259,11 @@ namespace MathNet.Numerics
             }
 
             d = 1.0 / d;
-            double h = d;
+            var h = d;
 
             for (int m = 1, m2 = 2; m <= MaxIterations; m++, m2 += 2)
             {
-                double aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+                var aa = m * (b - m) * x / ((qam + m2) * (a + m2));
                 d = 1.0 + (aa * d);
 
                 if (Math.Abs(d) < fpmin)
@@ -295,7 +295,7 @@ namespace MathNet.Numerics
                 }
 
                 d = 1.0 / d;
-                double del = d * c;
+                var del = d * c;
                 h *= del;
 
                 if (Math.Abs(del - 1.0) <= eps)
@@ -309,7 +309,7 @@ namespace MathNet.Numerics
                 }
             }
 
-            throw new ArgumentException(Properties.Resources.ArgumentTooLargeForIterationLimit, "a,b");
+            throw new ArgumentException(Resources.ArgumentTooLargeForIterationLimit);
         }
 
         /// <summary>

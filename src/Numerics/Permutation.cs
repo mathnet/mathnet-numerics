@@ -51,7 +51,7 @@ namespace MathNet.Numerics
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the Permutation structure.
+        /// Initializes a new instance of the Permutation class.
         /// </summary>
         /// <param name="indices">An array which represents where each integer is permuted too: indices[i] represents that integer i
         /// is permuted to location indices[i].</param>
@@ -62,13 +62,13 @@ namespace MathNet.Numerics
                 throw new ArgumentException(Resources.PermutationAsIntArrayInvalid, "indices");
             }
 
-            _indices = (int[]) indices.Clone();
+            _indices = (int[])indices.Clone();
         }
 
         #endregion
 
         /// <summary>
-        /// The number of elements this permutation is over.
+        /// Gets the number of elements this permutation is over.
         /// </summary>
         public int Dimension
         {
@@ -91,7 +91,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Computes the inverse of the permutation.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The inverse of the permutation.</returns>
         public Permutation Inverse()
         {
             var invIdx = new int[Dimension];
@@ -119,7 +119,8 @@ namespace MathNet.Numerics
             {
                 idx[i] = i;
             }
-            for (int i = inv.Length-1; i >= 0; i--)
+
+            for (int i = inv.Length - 1; i >= 0; i--)
             {
                 if (idx[i] != inv[i])
                 {
