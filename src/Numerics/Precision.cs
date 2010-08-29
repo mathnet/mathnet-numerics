@@ -1741,6 +1741,11 @@ namespace MathNet.Numerics
             return 2 * EpsilonOf(value);
         }
 
+        /// <summary>
+        /// Converts a float valut to a bit array stored in an int.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The bit array.</returns>
         internal static int FloatToInt32Bits(float value)
         {
             return BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
