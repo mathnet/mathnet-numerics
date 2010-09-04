@@ -109,11 +109,22 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
-        /// <returns>The QR decomposition object.</returns>
+        /// <returns>The SVD decomposition object.</returns>
         /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
         public static Svd<T> Svd<T>(this Matrix<T> matrix, bool computeVectors) where T : struct, IEquatable<T>, IFormattable
         {
             return Factorization.Svd<T>.Create(matrix, computeVectors);
+        }
+
+        /// <summary>
+        /// Computes the EVD decomposition for a matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix to factor.</param>
+        /// <returns>The EVD decomposition object.</returns>
+        /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+        public static Evd<T> Evd<T>(this Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
+        {
+            return Factorization.Evd<T>.Create(matrix);
         }
     }
 }

@@ -428,6 +428,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\UserCholesky.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserEvd.cs">
+      <Link>LinearAlgebra\Double\Factorization\UserEvd.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserLU.cs">
       <Link>LinearAlgebra\Double\Factorization\UserLU.cs</Link>
     </Compile>
@@ -499,6 +502,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\SparseVector.cs">
       <Link>LinearAlgebra\Double\SparseVector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Evd.cs">
+      <Link>LinearAlgebra\Generic\Factorization\Evd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\DenseMatrix.cs">
       <Link>LinearAlgebra\Single\DenseMatrix.cs</Link>
