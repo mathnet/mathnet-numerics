@@ -705,10 +705,17 @@ namespace MathNet.Numerics
             {
                 if (_real != 0.0f)
                 {
-                    ret.Append(_imag < 0 ? " " : " + ");
+                    if (_imag < 0)
+                    {
+                        ret.Append(" - ");
+                    }
+                    else
+                    {
+                        ret.Append(" + ");
+                    }
                 }
 
-                ret.Append(_imag.ToString(format, formatProvider)).Append("i");
+                ret.Append(Math.Abs(_imag).ToString(format, formatProvider)).Append("i");
             }
 
             if (ret.Length == 0)
@@ -915,6 +922,11 @@ namespace MathNet.Numerics
         /// <param name="divisor">The divisor.</param>
         public static Complex32 operator /(Complex32 dividend, Complex32 divisor)
         {
+            if (dividend.IsZero() && divisor.IsZero())
+            {
+                return NaN;
+            }
+
             if (divisor.IsZero())
             {
                 return Infinity;
@@ -932,6 +944,11 @@ namespace MathNet.Numerics
         /// <param name="divisor">The divisor.</param>
         public static Complex32 operator /(float dividend, Complex32 divisor)
         {
+            if (dividend == 0.0f && divisor.IsZero())
+            {
+                return NaN;
+            }
+
             if (divisor.IsZero())
             {
                 return Infinity;
@@ -947,6 +964,11 @@ namespace MathNet.Numerics
         /// <param name="divisor">The divisor.</param>
         public static Complex32 operator /(Complex32 dividend, float divisor)
         {
+            if (dividend.IsZero() && divisor == 0.0f)
+            {
+                return NaN;
+            }
+
             if (divisor == 0.0f)
             {
                 return Infinity;

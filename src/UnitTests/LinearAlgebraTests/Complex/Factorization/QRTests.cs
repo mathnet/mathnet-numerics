@@ -90,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         {
             var I = DenseMatrix.Identity(order);
             var factorQR = I.QR();
-            Assert.AreEqual(Complex.One, factorQR.Determinant);
+            Assert.AreEqual(1.0, factorQR.Determinant);
         }
 
         [Test]

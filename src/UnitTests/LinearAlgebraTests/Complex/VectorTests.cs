@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             var str = vector.ToString();
             var sep = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var decsep = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-            Assert.AreEqual(string.Format("(1{0} 1){1}(2, 1){1}(3{0} 1){1}(4{0} 1){1}(5{0} 1)", decsep, sep), str);
+            Assert.AreEqual(string.Format("(1{0} 1){1}(2{0} 1){1}(3{0} 1){1}(4{0} 1){1}(5{0} 1)", decsep, sep), str);
         }
 
         [Test]

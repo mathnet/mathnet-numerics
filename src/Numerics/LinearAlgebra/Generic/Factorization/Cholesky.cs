@@ -33,6 +33,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     using System;
     using System.Numerics;
     using Generic;
+    using Numerics;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization.</para>
@@ -85,6 +86,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 }
 
                 return new LinearAlgebra.Complex.Factorization.UserCholesky(matrix as Matrix<Complex>) as Cholesky<T>;
+            }
+
+            if (typeof(T) == typeof(Complex32))
+            {
+                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex32.Factorization.DenseCholesky(dense) as Cholesky<T>;
+                }
+
+                return new LinearAlgebra.Complex32.Factorization.UserCholesky(matrix as Matrix<Complex32>) as Cholesky<T>;
             }
 
             throw new NotImplementedException();
