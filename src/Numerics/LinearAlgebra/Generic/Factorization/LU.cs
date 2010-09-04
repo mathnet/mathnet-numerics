@@ -29,6 +29,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     using System;
     using System.Numerics;
     using Generic;
+    using Numerics;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>
@@ -100,6 +101,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 }
 
                 return new LinearAlgebra.Complex.Factorization.UserLU(matrix as Matrix<Complex>) as LU<T>;
+            }
+
+            if (typeof(T) == typeof(Complex32))
+            {
+                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex32.Factorization.DenseLU(dense) as LU<T>;
+                }
+
+                return new LinearAlgebra.Complex32.Factorization.UserLU(matrix as Matrix<Complex32>) as LU<T>;
             }
 
             throw new NotImplementedException();

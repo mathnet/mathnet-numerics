@@ -263,6 +263,67 @@ namespace MathNet.Numerics.Threading
         }
 
         /// <summary>
+        /// Aggregates a function over a loop for Complex32 data type.
+        /// </summary>
+        /// <param name="fromInclusive">Starting index of the loop.</param>
+        /// <param name="toExclusive">Ending index of the loop</param>
+        /// <param name="body">The function to aggregate.</param>
+        /// <returns>The sum of the function over the loop.</returns>
+        public static Complex32 Aggregate(int fromInclusive, int toExclusive, Func<int, Complex32> body)
+        {
+            var sync = new object();
+            var sum = Complex32.Zero;
+
+#if SILVERLIGHT
+            Parallel.For(
+                fromInclusive, 
+                toExclusive, 
+                () => Complex32.Zero, 
+                (i, localData) => localData += body(i), 
+                localResult =>
+                {
+                    lock (sync)
+                    {
+                        sum += localResult;
+                    }
+                });
+#else
+
+            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
+            {
+                for (var index = fromInclusive; index < toExclusive; index++)
+                {
+                    sum += body(index);
+                }
+            }
+            else
+            {
+                Parallel.ForEach(
+                    Partitioner.Create(fromInclusive, toExclusive),
+                    new ParallelOptions { MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads },
+                    () => Complex32.Zero,
+                    (range, loopState, localData) =>
+                    {
+                        for (var i = range.Item1; i < range.Item2; i++)
+                        {
+                            localData += body(i);
+                        }
+
+                        return localData;
+                    },
+                    localResult =>
+                    {
+                        lock (sync)
+                        {
+                            sum += localResult;
+                        }
+                    });
+            }
+#endif
+            return sum;
+        }
+
+        /// <summary>
         /// Executes each of the provided actions inside a discrete, asynchronous task. 
         /// </summary>
         /// <param name="actions">An array of actions to execute.</param>

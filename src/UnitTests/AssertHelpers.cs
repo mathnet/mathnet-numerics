@@ -70,6 +70,36 @@ namespace MathNet.Numerics.UnitTests
         }
 
         /// <summary>
+        /// Asserts that the expected value and the actual value are equal.
+        /// </summary>
+        /// <param name="expected">The expected value.</param>
+        /// <param name="actual">The actual value.</param>
+        public static void AreEqual(Complex32 expected, Complex32 actual)
+        {
+            if (expected.IsNaN() && actual.IsNaN())
+            {
+                return;
+            }
+
+            if (expected.IsInfinity() && expected.IsInfinity())
+            {
+                return;
+            }
+
+            bool pass = expected.Real.AlmostEqual(actual.Real);
+            if (!pass)
+            {
+                Assert.Fail("Real components are not equal. Expected:{0}; Actual:{1}", expected.Real, actual.Real);
+            }
+
+            pass = expected.Imaginary.AlmostEqual(actual.Imaginary);
+            if (!pass)
+            {
+                Assert.Fail("Imaginary components are not equal. Expected:{0}; Actual:{1}", expected.Imaginary, actual.Imaginary);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the expected value and the actual value are equal up to a certain number of decimal places. If both
         /// <paramref name="expected"/> and <paramref name="actual"/> are NaN then no assert is thrown.
         /// </summary>

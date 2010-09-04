@@ -122,7 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     {
                         Data[i] = array[i, j];
                     }
-                    else if (array[i, j] != 0.0 && !Double.IsNaN(array[i, j]))
+                    else if (array[i, j] != 0.0f && !float.IsNaN(array[i, j]))
                     {
                         throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
                     }
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 Data[row] = value;
             }
-            else if (value != 0.0 && !Double.IsNaN(value))
+            else if (value != 0.0f && !float.IsNaN(value))
             {
                 throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
             }

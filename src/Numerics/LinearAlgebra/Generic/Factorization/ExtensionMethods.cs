@@ -33,6 +33,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     using System;
     using System.Numerics;
     using Generic;
+    using Numerics;
 
     /// <summary>
     /// Extension methods which return factorizations for the various matrix classes.
@@ -93,6 +94,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
             if (typeof(T) == typeof(Complex))
             {
                 return new LinearAlgebra.Complex.Factorization.GramSchmidt(matrix as Matrix<Complex>) as QR<T>;
+            }
+
+            if (typeof(T) == typeof(Complex32))
+            {
+                return new LinearAlgebra.Complex32.Factorization.GramSchmidt(matrix as Matrix<Complex32>) as QR<T>;
             }
 
             throw new NotImplementedException();

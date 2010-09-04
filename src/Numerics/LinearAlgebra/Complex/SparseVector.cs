@@ -1172,7 +1172,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var v = (SparseVector)CreateVector(length);
             for (var index = 0; index < v.Count; index++)
             {
-                v[index] = randomDistribution.Sample();
+                v[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
             }
 
             return v;

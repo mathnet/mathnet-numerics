@@ -29,6 +29,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     using System;
     using System.Numerics;
     using Generic;
+    using Numerics;
     using Properties;
 
     /// <summary>
@@ -102,6 +103,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Complex.Factorization.UserQR(matrix as Matrix<Complex>) as QR<T>;
             }
 
+            if (typeof(T) == typeof(Complex32))
+            {
+                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex32.Factorization.DenseQR(dense) as QR<T>;
+                }
+
+                return new LinearAlgebra.Complex32.Factorization.UserQR(matrix as Matrix<Complex32>) as QR<T>;
+            }
+
             throw new NotImplementedException();
         }
 
@@ -143,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 for (var i = 0; i < MatrixR.ColumnCount; i++)
                 {
                     det = MultiplyT(det, MatrixR.At(i, i));
-                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float)) ? 7 : 15))
+                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15))
                     {
                         return 0;
                     }
@@ -163,7 +175,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
             {
                 for (var i = 0; i < MatrixR.ColumnCount; i++)
                 {
-                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float)) ? 7 : 15))
+                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15))
                     {
                         return false;
                     }

@@ -32,6 +32,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     using System.Numerics;
     using System.Text;
     using Distributions;
+    using Numerics;
     using Properties;
     using Threading;
 
@@ -1124,7 +1125,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual void Conjugate(Vector<T> target)
         {
             // In case of real return copy of vector
-            if ((typeof(T) == typeof(double)) || ((typeof(T) == typeof(float))))
+            if (typeof(T) == typeof(double) || (typeof(T) == typeof(float)))
             {
                 CopyTo(target);
                 return;
@@ -1573,7 +1574,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             for (var i = 0; i < hashNum; i++)
             {
 #if SILVERLIGHT
-                hash ^= Precision.DoubleToInt64Bits(AbsoluteT(this[i]));
+                hash ^= Precision.DoubleToInt64Bits(this[i].GetHashCode());
 #else
                 hash ^= BitConverter.DoubleToInt64Bits(this[i].GetHashCode());
 #endif
@@ -1689,14 +1690,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 object obj = val1;
                 object conj = Complex.Conjugate((Complex)obj);
-                return (T)(conj);
+                return (T)conj;
             }
 
             if (typeof(T) == typeof(Complex32))
             {
                 object obj = val1;
                 object conj = ((Complex32)obj).Conjugate();
-                return (T)(conj);
+                return (T)conj;
             }
 
             if (typeof(T) == typeof(double))

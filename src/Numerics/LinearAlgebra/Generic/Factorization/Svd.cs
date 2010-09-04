@@ -34,6 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     using System.Linq;
     using System.Numerics;
     using Generic;
+    using Numerics;
     using Properties;
 
     /// <summary>
@@ -98,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         {
             get
             {
-                return VectorS.Count(t => !AbsoluteT(t).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float)) ? 7 : 15));
+                return VectorS.Count(t => !AbsoluteT(t).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15));
             }
         }
 
@@ -141,6 +142,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 }
 
                 return new LinearAlgebra.Complex.Factorization.UserSvd(matrix as Matrix<Complex>, computeVectors) as Svd<T>;
+            }
+
+            if (typeof(T) == typeof(Complex32))
+            {
+                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex32.Factorization.DenseSvd(dense, computeVectors) as Svd<T>;
+                }
+
+                return new LinearAlgebra.Complex32.Factorization.UserSvd(matrix as Matrix<Complex32>, computeVectors) as Svd<T>;
             }
 
             throw new NotImplementedException();
@@ -187,7 +199,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 for (var i = 0; i < VectorS.Count; i++)
                 {
                     det = MultiplyT(det, VectorS[i]);
-                    if (AbsoluteT(VectorS[i]).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float)) ? 7 : 15))
+                    if (AbsoluteT(VectorS[i]).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15))
                     {
                         return 0;
                     }

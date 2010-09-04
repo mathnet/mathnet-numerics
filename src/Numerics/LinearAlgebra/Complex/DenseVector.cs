@@ -1120,7 +1120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var v = (DenseVector)CreateVector(length);
             for (var index = 0; index < v.Data.Length; index++)
             {
-                v.Data[index] = randomDistribution.Sample();
+                v.Data[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
             }
 
             return v;
@@ -1146,7 +1146,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var v = (DenseVector)CreateVector(length);
             for (var index = 0; index < v.Data.Length; index++)
             {
-                v.Data[index] = randomDistribution.Sample();
+                v.Data[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
             }
 
             return v;
