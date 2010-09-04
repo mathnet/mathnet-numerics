@@ -168,6 +168,8 @@
     <Compile Include="LinearAlgebra\Double\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Double\DiagonalMatrix.cs" />
+    <Compile Include="LinearAlgebra\Double\Factorization\UserEvd.cs" />
+    <Compile Include="LinearAlgebra\Generic\Factorization\Evd.cs" />
     <Compile Include="LinearAlgebra\Single\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Single\DiagonalMatrix.cs" />

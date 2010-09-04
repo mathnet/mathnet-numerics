@@ -169,6 +169,7 @@
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\DiagonalMatrixTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserEvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\GramSchmidtTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\UserCholeskyTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\UserLUTests.cs" />
