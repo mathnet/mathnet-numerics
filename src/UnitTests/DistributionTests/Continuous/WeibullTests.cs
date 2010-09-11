@@ -53,8 +53,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateWeibull(double shape, double scale)
         {
             var n = new Weibull(shape, scale);
-            AssertEx.AreEqual<double>(shape, n.Shape);
-            AssertEx.AreEqual<double>(scale, n.Scale);
+            Assert.AreEqual<double>(shape, n.Shape);
+            Assert.AreEqual<double>(scale, n.Scale);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new Weibull(1.0, 2.0);
-            AssertEx.AreEqual<string>("Weibull(Shape = 1, Scale = 2)", n.ToString());
+            Assert.AreEqual<string>("Weibull(Shape = 1, Scale = 2)", n.ToString());
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMode(double shape, double scale, double mode)
         {
             var n = new Weibull(shape, scale);
-            AssertEx.AreEqual<double>(mode, n.Mode);
+            Assert.AreEqual<double>(mode, n.Mode);
         }
 
         [Test]
@@ -194,14 +194,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMinimum()
         {
             var n = new Weibull(1.0,1.0);
-            AssertEx.AreEqual<double>(0.0, n.Minimum);
+            Assert.AreEqual<double>(0.0, n.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var n = new Weibull(1.0, 1.0);
-            AssertEx.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
         }
         
         [Test]

@@ -48,9 +48,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateStandardStudentT()
         {
             var n = new StudentT();
-            AssertEx.AreEqual<double>(0.0, n.Location);
-            AssertEx.AreEqual<double>(1.0, n.Scale);
-            AssertEx.AreEqual<double>(1.0, n.DegreesOfFreedom);
+            Assert.AreEqual<double>(0.0, n.Location);
+            Assert.AreEqual<double>(1.0, n.Scale);
+            Assert.AreEqual<double>(1.0, n.DegreesOfFreedom);
         }
 
         [Test, MultipleAsserts]
@@ -65,9 +65,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateStudentT(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(location, n.Location);
-            AssertEx.AreEqual<double>(scale, n.Scale);
-            AssertEx.AreEqual<double>(dof, n.DegreesOfFreedom);
+            Assert.AreEqual<double>(location, n.Location);
+            Assert.AreEqual<double>(scale, n.Scale);
+            Assert.AreEqual<double>(dof, n.DegreesOfFreedom);
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new StudentT(1.0, 2.0, 1.0);
-            AssertEx.AreEqual<string>("StudentT(Location = 1, Scale = 2, DoF = 1)", n.ToString());
+            Assert.AreEqual<string>("StudentT(Location = 1, Scale = 2, DoF = 1)", n.ToString());
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMean(double location, double scale, double dof, double mean)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(mean, n.Mean);
+            Assert.AreEqual<double>(mean, n.Mean);
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateVariance(double location, double scale, double dof, double var)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(var, n.Variance);
+            Assert.AreEqual<double>(var, n.Variance);
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateStdDev(double location, double scale, double dof, double sdev)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(sdev, n.StdDev);
+            Assert.AreEqual<double>(sdev, n.StdDev);
         }
 
         [Test]
@@ -219,7 +219,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMode(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(location, n.Mode);
+            Assert.AreEqual<double>(location, n.Mode);
         }
 
         [Test]
@@ -237,21 +237,21 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMedian(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
-            AssertEx.AreEqual<double>(location, n.Median);
+            Assert.AreEqual<double>(location, n.Median);
         }
 
         [Test]
         public void ValidateMinimum()
         {
             var n = new StudentT();
-            AssertEx.AreEqual<double>(System.Double.NegativeInfinity, n.Minimum);
+            Assert.AreEqual<double>(System.Double.NegativeInfinity, n.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var n = new StudentT();
-            AssertEx.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
         }
 
         [Test]

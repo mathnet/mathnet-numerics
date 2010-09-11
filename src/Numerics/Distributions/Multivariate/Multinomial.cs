@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -34,7 +30,6 @@ namespace MathNet.Numerics.Distributions
     using System.Collections.Generic;
     using Properties;
 
-
     /// <summary>
     /// Implements the multinomial distribution. For details about this distribution, see 
     /// <a href="http://en.wikipedia.org/wiki/Multinomial_distribution">Wikipedia - Multinomial distribution</a>.
@@ -46,7 +41,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Multinomial
     {
         /// <summary>
@@ -75,7 +70,7 @@ namespace MathNet.Numerics.Distributions
         public Multinomial(double[] p, int n)
         {
             SetParameters(p, n);
-            RandomSource = new System.Random();
+            RandomSource = new Random();
         }
 
         /* TODO
@@ -100,6 +95,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// A string representation of the distribution.
         /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
             return "Multinomial(Dimension = " + _p.Length + ", Number of Trails = " + _n + ")";
@@ -111,21 +107,19 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
-        /// <returns>If any of the probabilities are negative returns false, 
-        /// if the sum of parameters is 0.0, or if the number of trials is negative; otherwise true</returns>
-        private static bool IsValidParameterSet(double[] p, int n)
+        /// <returns>If any of the probabilities are negative returns <c>false</c>, 
+        /// if the sum of parameters is 0.0, or if the number of trials is negative; otherwise <c>true</c>.</returns>
+        private static bool IsValidParameterSet(IEnumerable<double> p, int n)
         {
-            double sum = 0.0;
-            for (int i = 0; i < p.Length; i++)
+            var sum = 0.0;
+            foreach (var t in p)
             {
-                if (p[i] < 0.0 || Double.IsNaN(p[i]))
+                if (t < 0.0 || Double.IsNaN(t))
                 {
                     return false;
                 }
-                else
-                {
-                    sum += p[i];
-                }
+
+                sum += t;
             }
 
             if (sum == 0.0)
@@ -133,12 +127,7 @@ namespace MathNet.Numerics.Distributions
                 return false;
             }
 
-            if (n < 0)
-            {
-                return false;
-            }
-
-            return true;
+            return n >= 0;
         }
 
         /// <summary>
@@ -166,7 +155,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return (double[]) _p.Clone();
+                return (double[])_p.Clone();
             }
 
             set
@@ -241,7 +230,7 @@ namespace MathNet.Numerics.Distributions
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
         /// <returns>the counts for each of the different possible values.</returns>
-        public static int[] Sample(System.Random rnd, double[] p, int n)
+        public static int[] Sample(Random rnd, double[] p, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
@@ -249,11 +238,12 @@ namespace MathNet.Numerics.Distributions
             }
 
             // The cumulative density of p.
-            double[] cp = Categorical.UnnormalizedCDF(p);
-            // The variable that stores the counts.
-            int[] ret = new int[p.Length];
+            var cp = Categorical.UnnormalizedCdf(p);
 
-            for (int i = 0; i < n; i++)
+// The variable that stores the counts.
+            var ret = new int[p.Length];
+
+            for (var i = 0; i < n; i++)
             {
                 ret[Categorical.DoSample(rnd, cp)]++;
             }
@@ -269,7 +259,7 @@ namespace MathNet.Numerics.Distributions
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of variables needed.</param>
         /// <returns>a sequence of counts for each of the different possible values.</returns>
-        public static IEnumerable<int[]> Samples(System.Random rnd, double[] p, int n)
+        public static IEnumerable<int[]> Samples(Random rnd, double[] p, int n)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
@@ -277,14 +267,14 @@ namespace MathNet.Numerics.Distributions
             }
 
             // The cumulative density of p.
-            double[] cp = Categorical.UnnormalizedCDF(p);
+            var cp = Categorical.UnnormalizedCdf(p);
 
             while (true)
             {
                 // The variable that stores the counts.
-                int[] ret = new int[p.Length];
+                var ret = new int[p.Length];
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     ret[Categorical.DoSample(rnd, cp)]++;
                 }

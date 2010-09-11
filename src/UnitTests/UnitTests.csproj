@@ -56,17 +56,25 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gallio, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+    <Reference Include="Gallio, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Gallio_3.1.397.0\bin\Gallio.dll</HintPath>
+      <HintPath>..\..\lib\Gallio_3.2.517.0\Gallio.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+    <Reference Include="Gallio40, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Gallio_3.1.397.0\bin\MbUnit.dll</HintPath>
+      <HintPath>..\..\lib\Gallio_3.2.517.0\Gallio40.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit35, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+    <Reference Include="MbUnit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Gallio_3.1.397.0\bin\MbUnit35.dll</HintPath>
+      <HintPath>..\..\lib\Gallio_3.2.517.0\MbUnit.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit35, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Gallio_3.2.517.0\MbUnit35.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit40, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Gallio_3.2.517.0\MbUnit40.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -90,6 +98,27 @@
     <Compile Include="ComplexTests\ComplexTest.cs" />
     <Compile Include="ComplexTests\Complex32Test.TextHandling.cs" />
     <Compile Include="ComplexTests\Complex32Test.cs" />
+    <Compile Include="DistributionTests\Continuous\CauchyTests.cs" />
+    <Compile Include="DistributionTests\Continuous\ChiSquareTests.cs" />
+    <Compile Include="DistributionTests\Continuous\ChiTests.cs" />
+    <Compile Include="DistributionTests\Continuous\ErlangTests.cs" />
+    <Compile Include="DistributionTests\Continuous\ExponentialTests.cs" />
+    <Compile Include="DistributionTests\Continuous\FisherSnedecorTests.cs" />
+    <Compile Include="DistributionTests\Continuous\InverseGammaTests.cs" />
+    <Compile Include="DistributionTests\Continuous\LaplaceTests.cs" />
+    <Compile Include="DistributionTests\Continuous\ParetoTests.cs" />
+    <Compile Include="DistributionTests\Continuous\RayleighTests.cs" />
+    <Compile Include="DistributionTests\Continuous\StableTests.cs" />
+    <Compile Include="DistributionTests\Discrete\ConwayMaxwellPoissonTests.cs" />
+    <Compile Include="DistributionTests\Discrete\GeometricTests.cs" />
+    <Compile Include="DistributionTests\Discrete\HypergeometricTests.cs" />
+    <Compile Include="DistributionTests\Discrete\NegativeBinomialTests.cs" />
+    <Compile Include="DistributionTests\Discrete\ZipfTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DistributionTests\Multivariate\InverseWishartTests.cs" />
+    <Compile Include="DistributionTests\Multivariate\MatrixNormalTests.cs" />
+    <Compile Include="DistributionTests\Multivariate\WishartTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTests.cs" />

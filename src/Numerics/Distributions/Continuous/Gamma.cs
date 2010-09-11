@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -50,7 +46,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Gamma : IContinuousDistribution
     {
         /// <summary>
@@ -88,7 +84,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a normal distribution.</returns>
         public static Gamma WithShapeScale(double shape, double scale)
         {
-            return new Gamma(shape, 1.0/scale);
+            return new Gamma(shape, 1.0 / scale);
         }
 
         /// <summary>
@@ -117,7 +113,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape of the Gamma distribution.</param>
         /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(double shape, double invScale)
         {
             if (shape < 0.0 || invScale < 0.0 || Double.IsNaN(shape) || Double.IsNaN(invScale))
@@ -173,11 +169,11 @@ namespace MathNet.Numerics.Distributions
 
             set
             {
-                double invScale = 1.0/value;
+                var invScale = 1.0 / value;
 
-                if(Double.IsNegativeInfinity(invScale))
+                if (Double.IsNegativeInfinity(invScale))
                 {
-                    invScale = - invScale;
+                    invScale = -invScale;
                 }
 
                 SetParameters(_shape, invScale);
@@ -234,14 +230,13 @@ namespace MathNet.Numerics.Distributions
                 {
                     return _shape;
                 }
-                else if(_invScale == 0.0 && _shape == 0.0)
+                
+                if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                else
-                {
-                    return _shape / _invScale;
-                }
+                
+                return _shape / _invScale;
             }
         }
 
@@ -256,14 +251,13 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                else if (_invScale == 0.0 && _shape == 0.0)
+                
+                if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                else
-                {
-                    return _shape / (_invScale * _invScale);
-                }
+                
+                return _shape / (_invScale * _invScale);
             }
         }
 
@@ -278,14 +272,13 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                else if (_invScale == 0.0 && _shape == 0.0)
+                
+                if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                else
-                {
-                    return Math.Sqrt(_shape / (_invScale * _invScale));
-                }
+                
+                return Math.Sqrt(_shape / (_invScale * _invScale));
             }
         }
 
@@ -300,14 +293,13 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                else if (_invScale == 0.0 && _shape == 0.0)
+                
+                if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                else
-                {
-                    return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape) * SpecialFunctions.DiGamma(_shape));
-                }
+                
+                return _shape - Math.Log(_invScale) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape) * SpecialFunctions.DiGamma(_shape));
             }
         }
 
@@ -322,16 +314,16 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                else if (_invScale == 0.0 && _shape == 0.0)
+                
+                if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                else
-                {
-                    return 2.0 / Math.Sqrt(_shape);
-                }
+                
+                return 2.0 / Math.Sqrt(_shape);
             }
         }
+
         #endregion
 
         #region IContinuousDistribution implementation
@@ -347,14 +339,13 @@ namespace MathNet.Numerics.Distributions
                 {
                     return _shape;
                 }
-                else if (_invScale == 0.0 && _shape == 0.0)
+                
+                if (_invScale == 0.0 && _shape == 0.0)
                 {
                     return Double.NaN;
                 }
-                else
-                {
-                    return (_shape - 1.0) / _invScale;
-                }
+                
+                return (_shape - 1.0) / _invScale;
             }
         }
 
@@ -363,7 +354,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { throw new NotSupportedException(); }
+            get
+            {
+                throw new NotSupportedException();
+            }
         }
 
         /// <summary>
@@ -371,7 +365,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get { return 0.0; }
+            get
+            {
+                return 0.0;
+            }
         }
 
         /// <summary>
@@ -379,7 +376,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get { return Double.PositiveInfinity; }
+            get
+            {
+                return Double.PositiveInfinity;
+            }
         }
 
         /// <summary>
@@ -391,27 +391,20 @@ namespace MathNet.Numerics.Distributions
         {
             if (Double.IsPositiveInfinity(_invScale))
             {
-                if (x == _shape)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x == _shape ? Double.PositiveInfinity : 0.0;
             }
-            else if (_shape == 0.0 && _invScale == 0.0)
+            
+            if (_shape == 0.0 && _invScale == 0.0)
             {
                 return 0.0;
             }
-            else if (_shape == 1.0)
+            
+            if (_shape == 1.0)
             {
-                return _invScale * Math.Exp(- _invScale * x);
+                return _invScale * Math.Exp(-_invScale * x);
             }
-            else
-            {
-                return Math.Pow(_invScale, _shape) * Math.Pow(x, _shape - 1.0) * Math.Exp(-_invScale * x) / SpecialFunctions.Gamma(_shape);
-            } 
+            
+            return Math.Pow(_invScale, _shape) * Math.Pow(x, _shape - 1.0) * Math.Exp(-_invScale * x) / SpecialFunctions.Gamma(_shape);
         }
 
         /// <summary>
@@ -423,27 +416,20 @@ namespace MathNet.Numerics.Distributions
         {
             if (Double.IsPositiveInfinity(_invScale))
             {
-                if (x == _shape)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return Double.NegativeInfinity;
-                }
+                return x == _shape ? Double.PositiveInfinity : Double.NegativeInfinity;
             }
-            else if(_shape == 0.0 && _invScale == 0.0)
+            
+            if (_shape == 0.0 && _invScale == 0.0)
             {
                 return Double.NegativeInfinity;
             }
-            else if(_shape == 1.0)
+            
+            if (_shape == 1.0)
             {
                 return Math.Log(_invScale) - (_invScale * x);
             }
-            else
-            {
-                return (_shape * Math.Log(_invScale)) + ((_shape - 1.0) * Math.Log(x)) - (_invScale * x) - SpecialFunctions.GammaLn(_shape);
-            }
+            
+            return (_shape * Math.Log(_invScale)) + ((_shape - 1.0) * Math.Log(x)) - (_invScale * x) - SpecialFunctions.GammaLn(_shape);
         }
 
         /// <summary>
@@ -455,23 +441,15 @@ namespace MathNet.Numerics.Distributions
         {
             if (Double.IsPositiveInfinity(_invScale))
             {
-                if (x >= _shape)
-                {
-                    return 1.0;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x >= _shape ? 1.0 : 0.0;
             }
-            else if (_shape == 0.0 && _invScale == 0.0)
+            
+            if (_shape == 0.0 && _invScale == 0.0)
             {
                 return 0.0;
             }
-            else
-            {
-                return SpecialFunctions.GammaLowerRegularized(_shape, x * _invScale);
-            } 
+            
+            return SpecialFunctions.GammaLowerRegularized(_shape, x * _invScale);
         }
 
         /// <summary>
@@ -494,6 +472,7 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleGamma(RandomSource, _shape, _invScale);
             }
         }
+
         #endregion
 
         /// <summary>
@@ -543,48 +522,46 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape of the Gamma distribution.</param>
         /// <param name="invScale">The inverse scale of the Gamma distribution.</param>
         /// <returns>A sample from a Gamma distributed random variable.</returns>
-        internal static double SampleGamma(System.Random rnd, double shape, double invScale)
+        internal static double SampleGamma(Random rnd, double shape, double invScale)
         {
             if (Double.IsPositiveInfinity(invScale))
             {
                 return shape;
             }
-            else
-            {
-                double a = shape;
-                double alphafix = 1.0;
 
-                // Fix when alpha is less than one.
-                if (shape < 1.0)
+            var a = shape;
+            var alphafix = 1.0;
+
+            // Fix when alpha is less than one.
+            if (shape < 1.0)
+            {
+                a = shape + 1.0;
+                alphafix = Math.Pow(rnd.NextDouble(), 1.0 / shape);
+            }
+
+            var d = a - (1.0 / 3.0);
+            var c = 1.0 / Math.Sqrt(9.0 * d);
+            while (true)
+            {
+                var x = Normal.Sample(rnd, 0.0, 1.0);
+                var v = 1.0 + (c * x);
+                while (v <= 0.0)
                 {
-                    a = shape + 1.0;
-                    alphafix = System.Math.Pow(rnd.NextDouble(), 1.0 / shape);
+                    x = Normal.Sample(rnd, 0.0, 1.0);
+                    v = 1.0 + (c * x);
                 }
 
-                double d = a - (1.0 / 3.0);
-                double c = 1.0 / System.Math.Sqrt(9.0 * d);
-                while (true)
+                v = v * v * v;
+                var u = rnd.NextDouble();
+                x = x * x;
+                if (u < 1.0 - (0.0331 * x * x))
                 {
-                    double x = Normal.Sample(rnd, 0.0, 1.0);
-                    double v = 1.0 + (c * x);
-                    while (v <= 0.0)
-                    {
-                        x = Normal.Sample(rnd, 0.0, 1.0);
-                        v = 1.0 + (c * x);
-                    }
+                    return alphafix * d * v / invScale;
+                }
 
-                    v = v * v * v;
-                    double u = rnd.NextDouble();
-                    x = x * x;
-                    if (u < 1.0 - (0.0331 * x * x))
-                    {
-                        return alphafix * d * v / invScale;
-                    }
-
-                    if (System.Math.Log(u) < (0.5 * x) + (d * (1.0 - v + System.Math.Log(v))))
-                    {
-                        return alphafix * d * v / invScale;
-                    }
+                if (Math.Log(u) < (0.5 * x) + (d * (1.0 - v + Math.Log(v))))
+                {
+                    return alphafix * d * v / invScale;
                 }
             }
         }

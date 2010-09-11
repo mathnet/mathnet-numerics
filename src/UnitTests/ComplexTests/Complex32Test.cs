@@ -34,6 +34,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
     using System.Numerics;
     using MbUnit.Framework;
 
+
     [TestFixture]
     public class Complex32Test
     {

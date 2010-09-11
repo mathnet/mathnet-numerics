@@ -46,10 +46,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
 
-            AssertEx.AreEqual<double>(meanLocation, ng.MeanLocation);
-            AssertEx.AreEqual<double>(meanScale, ng.MeanScale);
-            AssertEx.AreEqual<double>(precShape, ng.PrecisionShape);
-            AssertEx.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
+            Assert.AreEqual<double>(meanLocation, ng.MeanLocation);
+            Assert.AreEqual<double>(meanScale, ng.MeanScale);
+            Assert.AreEqual<double>(precShape, ng.PrecisionShape);
+            Assert.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void CanGetMeanLocation(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
-            AssertEx.AreEqual<double>(meanLocation, ng.MeanLocation);
+            Assert.AreEqual<double>(meanLocation, ng.MeanLocation);
         }
 
         [Test, MultipleAsserts]
@@ -79,10 +79,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             ng.MeanLocation = -5.0;
 
-            AssertEx.AreEqual<double>(-5.0, ng.MeanLocation);
-            AssertEx.AreEqual<double>(meanScale, ng.MeanScale);
-            AssertEx.AreEqual<double>(precShape, ng.PrecisionShape);
-            AssertEx.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
+            Assert.AreEqual<double>(-5.0, ng.MeanLocation);
+            Assert.AreEqual<double>(meanScale, ng.MeanScale);
+            Assert.AreEqual<double>(precShape, ng.PrecisionShape);
+            Assert.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void CanGetMeanScale(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
-            AssertEx.AreEqual<double>(meanScale, ng.MeanScale);
+            Assert.AreEqual<double>(meanScale, ng.MeanScale);
         }
 
         [Test, MultipleAsserts]
@@ -101,10 +101,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             ng.MeanScale = 5.0;
-            AssertEx.AreEqual<double>(meanLocation, ng.MeanLocation);
-            AssertEx.AreEqual<double>(5.0, ng.MeanScale);
-            AssertEx.AreEqual<double>(precShape, ng.PrecisionShape);
-            AssertEx.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
+            Assert.AreEqual<double>(meanLocation, ng.MeanLocation);
+            Assert.AreEqual<double>(5.0, ng.MeanScale);
+            Assert.AreEqual<double>(precShape, ng.PrecisionShape);
+            Assert.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void CanGetPrecisionShape(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
-            AssertEx.AreEqual<double>(precShape, ng.PrecisionShape);
+            Assert.AreEqual<double>(precShape, ng.PrecisionShape);
         }
 
         [Test, MultipleAsserts]
@@ -123,10 +123,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             ng.PrecisionShape = 5.0;
-            AssertEx.AreEqual<double>(meanLocation, ng.MeanLocation);
-            AssertEx.AreEqual<double>(meanScale, ng.MeanScale);
-            AssertEx.AreEqual<double>(5.0, ng.PrecisionShape);
-            AssertEx.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
+            Assert.AreEqual<double>(meanLocation, ng.MeanLocation);
+            Assert.AreEqual<double>(meanScale, ng.MeanScale);
+            Assert.AreEqual<double>(5.0, ng.PrecisionShape);
+            Assert.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void CanGetPrecisionInverseScale(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
-            AssertEx.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
+            Assert.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
         }
 
         [Test, MultipleAsserts]
@@ -145,10 +145,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             ng.PrecisionInverseScale = 5.0;
-            AssertEx.AreEqual<double>(meanLocation, ng.MeanLocation);
-            AssertEx.AreEqual<double>(meanScale, ng.MeanScale);
-            AssertEx.AreEqual<double>(precShape, ng.PrecisionShape);
-            AssertEx.AreEqual<double>(5.0, ng.PrecisionInverseScale);
+            Assert.AreEqual<double>(meanLocation, ng.MeanLocation);
+            Assert.AreEqual<double>(meanScale, ng.MeanScale);
+            Assert.AreEqual<double>(precShape, ng.PrecisionShape);
+            Assert.AreEqual<double>(5.0, ng.PrecisionInverseScale);
         }
 
         [Test, MultipleAsserts]
@@ -160,9 +160,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             var mm = ng.MeanMarginal();
-            AssertEx.AreEqual<double>(meanMarginalMean, mm.Location);
-            AssertEx.AreEqual<double>(meanMarginalScale, mm.Scale);
-            AssertEx.AreEqual<double>(meanMarginalDoF, mm.DegreesOfFreedom);
+            Assert.AreEqual<double>(meanMarginalMean, mm.Location);
+            Assert.AreEqual<double>(meanMarginalScale, mm.Scale);
+            Assert.AreEqual<double>(meanMarginalDoF, mm.DegreesOfFreedom);
         }
 
         [Test, MultipleAsserts]
@@ -173,8 +173,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             var pm = ng.PrecisionMarginal();
-            AssertEx.AreEqual<double>(precShape, pm.Shape);
-            AssertEx.AreEqual<double>(precInvScale, pm.InvScale);
+            Assert.AreEqual<double>(precShape, pm.Shape);
+            Assert.AreEqual<double>(precInvScale, pm.InvScale);
         }
 
         [Test, MultipleAsserts]
@@ -185,8 +185,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             double meanMean, double meanPrecision)
         {
             NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
-            AssertEx.AreEqual<double>(meanMean, ng.Mean.Mean);
-            AssertEx.AreEqual<double>(meanPrecision, ng.Mean.Precision);
+            Assert.AreEqual<double>(meanMean, ng.Mean.Mean);
+            Assert.AreEqual<double>(meanPrecision, ng.Mean.Precision);
         }
 
         [Test]

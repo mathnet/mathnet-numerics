@@ -48,8 +48,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateContinuousUniform()
         {
             var n = new ContinuousUniform();
-            AssertEx.AreEqual<double>(0.0, n.Lower);
-            AssertEx.AreEqual<double>(1.0, n.Upper);
+            Assert.AreEqual<double>(0.0, n.Lower);
+            Assert.AreEqual<double>(1.0, n.Upper);
         }
 
         [Test, MultipleAsserts]
@@ -63,8 +63,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateContinuousUniform(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
-            AssertEx.AreEqual<double>(lower, n.Lower);
-            AssertEx.AreEqual<double>(upper, n.Upper);
+            Assert.AreEqual<double>(lower, n.Lower);
+            Assert.AreEqual<double>(upper, n.Upper);
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new ContinuousUniform(1.0, 2.0);
-            AssertEx.AreEqual<string>("ContinuousUniform(Lower = 1, Upper = 2)", n.ToString());
+            Assert.AreEqual<string>("ContinuousUniform(Lower = 1, Upper = 2)", n.ToString());
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateEntropy(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
-            AssertEx.AreEqual<double>(Math.Log(upper - lower), n.Entropy);
+            Assert.AreEqual<double>(Math.Log(upper - lower), n.Entropy);
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateSkewness(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
-            AssertEx.AreEqual<double>(0.0, n.Skewness);
+            Assert.AreEqual<double>(0.0, n.Skewness);
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMode(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
-            AssertEx.AreEqual<double>( (lower + upper) / 2.0 , n.Mode);
+            Assert.AreEqual<double>( (lower + upper) / 2.0 , n.Mode);
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMedian(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
-            AssertEx.AreEqual<double>((lower + upper) / 2.0, n.Median);
+            Assert.AreEqual<double>((lower + upper) / 2.0, n.Median);
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMinimum(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
-            AssertEx.AreEqual<double>(lower, n.Minimum);
+            Assert.AreEqual<double>(lower, n.Minimum);
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMaximum(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
-            AssertEx.AreEqual<double>(upper, n.Maximum);
+            Assert.AreEqual<double>(upper, n.Maximum);
         }
 
         [Test]
@@ -216,11 +216,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 double x = i - 5.0;
                 if(x >= lower && x <= upper)
                 {
-                    AssertEx.AreEqual<double>(1.0 / (upper - lower), n.Density(x));
+                    Assert.AreEqual<double>(1.0 / (upper - lower), n.Density(x));
                 }
                 else
                 {
-                    AssertEx.AreEqual<double>(0.0, n.Density(x));
+                    Assert.AreEqual<double>(0.0, n.Density(x));
                 }
             }
         }
@@ -240,11 +240,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 double x = i - 5.0;
                 if (x >= lower && x <= upper)
                 {
-                    AssertEx.AreEqual<double>(-Math.Log(upper - lower), n.DensityLn(x));
+                    Assert.AreEqual<double>(-Math.Log(upper - lower), n.DensityLn(x));
                 }
                 else
                 {
-                    AssertEx.AreEqual<double>(double.NegativeInfinity, n.DensityLn(x));
+                    Assert.AreEqual<double>(double.NegativeInfinity, n.DensityLn(x));
                 }
             }
         }
@@ -306,15 +306,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 double x = i - 5.0;
                 if (x <= lower)
                 {
-                    AssertEx.AreEqual<double>(0.0, n.CumulativeDistribution(x));
+                    Assert.AreEqual<double>(0.0, n.CumulativeDistribution(x));
                 }
                 else if (x >= upper)
                 {
-                    AssertEx.AreEqual<double>(1.0, n.CumulativeDistribution(x));
+                    Assert.AreEqual<double>(1.0, n.CumulativeDistribution(x));
                 }
                 else
                 {
-                    AssertEx.AreEqual<double>((x - lower) / (upper - lower), n.CumulativeDistribution(x));
+                    Assert.AreEqual<double>((x - lower) / (upper - lower), n.CumulativeDistribution(x));
                 }
             }
         }

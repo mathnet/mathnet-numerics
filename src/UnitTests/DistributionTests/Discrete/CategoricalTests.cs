@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 
             for (int i = 0; i <= m.Maximum; i++)
             {
-                AssertEx.AreEqual<double>(1.0/10.0, m.P[i]);
+                Assert.AreEqual<double>(1.0/10.0, m.P[i]);
             }
         }
 
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var b = new Categorical(smallP);
-            AssertEx.AreEqual<string>("Categorical(Dimension = 3)", b.ToString());
+            Assert.AreEqual<string>("Categorical(Dimension = 3)", b.ToString());
         }
 
         [Test]

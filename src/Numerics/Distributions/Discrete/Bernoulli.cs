@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -42,7 +38,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Bernoulli : IDiscreteDistribution
     {
         /// <summary>
@@ -63,12 +59,13 @@ namespace MathNet.Numerics.Distributions
         public Bernoulli(double p)
         {
             SetParameters(p);
-            RandomSource = new System.Random();
+            RandomSource = new Random();
         }
 
         /// <summary>
         /// A string representation of the distribution.
         /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
             return "Bernoulli(P = " + _p + ")";
@@ -78,7 +75,7 @@ namespace MathNet.Numerics.Distributions
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
         /// <param name="p">The probability of generating a one.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(double p)
         {
             if (p >= 0.0 && p <= 1.0)
@@ -148,7 +145,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _p; }
+            get
+            {
+                return _p;
+            }
         }
 
         /// <summary>
@@ -156,7 +156,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(_p * (1.0 - _p)); }
+            get
+            {
+                return Math.Sqrt(_p * (1.0 - _p));
+            }
         }
 
         /// <summary>
@@ -164,7 +167,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _p * (1.0 - _p); }
+            get
+            {
+                return _p * (1.0 - _p);
+            }
         }
 
         /// <summary>
@@ -172,7 +178,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return -_p * Math.Log(_p) - (1.0 - _p) * Math.Log(1.0 - _p); }
+            get
+            {
+                return -(_p * Math.Log(_p)) - ((1.0 - _p) * Math.Log(1.0 - _p));
+            }
         }
 
         /// <summary>
@@ -180,18 +189,33 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (1.0 - 2.0 * _p) / Math.Sqrt(_p * (1.0 - _p)); }
+            get
+            {
+                return (1.0 - (2.0 * _p)) / Math.Sqrt(_p * (1.0 - _p));
+            }
         }
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Minimum { get { return 0; } }
+        public int Minimum
+        {
+            get
+            {
+                return 0;
+            }
+        }
 
         /// <summary>
         /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Maximum { get { return 1; } }
+        public int Maximum
+        {
+            get
+            {
+                return 1;
+            }
+        }
 
         /// <summary>
         /// Computes the cumulative distribution function of the Bernoulli distribution.
@@ -204,7 +228,8 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            else if (x < 1.0)
+            
+            if (x < 1.0)
             {
                 return 1.0 - _p;
             }
@@ -217,32 +242,40 @@ namespace MathNet.Numerics.Distributions
         #region IDiscreteDistribution Members
 
         /// <summary>
-        /// The mode of the distribution.
+        /// Gets the mode of the distribution.
         /// </summary>
         public int Mode
         {
-            get { return _p > 0.5 ? 1 : 0; }
+            get
+            {
+                return _p > 0.5 ? 1 : 0;
+            }
         }
 
         /// <summary>
-        /// The median of the distribution.
+        /// Gets the median of the distribution.
         /// </summary>
         public int Median
         {
-            get { throw new Exception("The median of the Bernoulli distribution is undefined."); }
+            get
+            {
+                throw new Exception("The median of the Bernoulli distribution is undefined.");
+            }
         }
 
         /// <summary>
-        /// Computes the probability of a specific value.
+        /// Computes values of the probability mass function.
         /// </summary>
-        public double Probability(int val)
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
+        public double Probability(int k)
         {
-            if (val == 0)
+            if (k == 0)
             {
                 return 1.0 - _p;
             }
 
-            if (val == 1)
+            if (k == 1)
             {
                 return _p;
             }
@@ -251,21 +284,18 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Computes the probability of a specific value.
+        /// Computes values of the log probability mass function.
         /// </summary>
-        public double ProbabilityLn(int val)
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
+        public double ProbabilityLn(int k)
         {
-            if (val == 0)
+            if (k == 0)
             {
                 return Math.Log(1.0 - _p);
             }
 
-            if (val == 1)
-            {
-                return Math.Log(_p);
-            }
-
-            return Double.NegativeInfinity;
+            return k == 1 ? Math.Log(_p) : Double.NegativeInfinity;
         }
 
         /// <summary>
@@ -297,7 +327,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The probability of generating a 1.</param>
         /// <returns>A sample from the Bernoulli distribution.</returns>
-        public static int Sample(System.Random rnd, double p)
+        public static int Sample(Random rnd, double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
             {
@@ -313,7 +343,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The probability of generating a 1.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<int> Samples(System.Random rnd, double p)
+        public static IEnumerable<int> Samples(Random rnd, double p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
             {
@@ -332,7 +362,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random source to use.</param>
         /// <param name="p">The probability of generating a one.</param>
         /// <returns>A random sample from the Bernoulli distribution.</returns>
-        private static int DoSample(System.Random rnd, double p)
+        private static int DoSample(Random rnd, double p)
         {
             if (rnd.NextDouble() < p)
             {

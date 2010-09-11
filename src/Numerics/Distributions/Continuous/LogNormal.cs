@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -42,7 +38,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class LogNormal : IContinuousDistribution
     {
         /// <summary>
@@ -61,11 +57,16 @@ namespace MathNet.Numerics.Distributions
         private Random _random;
 
         /// <summary>
-        /// Initializes a new instance of the Log-Normal class. The distribution will
-        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
+        /// Initializes a new instance of the <see cref="LogNormal"/> class. 
+        /// The distribution will be initialized with the default <seealso cref="System.Random"/>
+        /// random number generator.
         /// </summary>
-        /// <param name="mu">The mu of the logarithm of the distribution.</param>
-        /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
+        /// <param name="mu">
+        /// The mu of the logarithm of the distribution.
+        /// </param>
+        /// <param name="sigma">
+        /// The standard deviation of the logarithm of the distribution.
+        /// </param>
         public LogNormal(double mu, double sigma)
         {
             SetParameters(mu, sigma);
@@ -86,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="mu">The mu of the logarithm of the distribution.</param>
         /// <param name="sigma">The standard deviation of the logarithm of the distribution.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(double mu, double sigma)
         {
             if (sigma < 0.0 || Double.IsNaN(mu) || Double.IsNaN(mu) || Double.IsNaN(sigma))
@@ -119,9 +120,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mu
         {
-            get { return _mu; }
+            get
+            {
+                return _mu;
+            }
 
-            set { SetParameters(value, _sigma); }
+            set
+            {
+                SetParameters(value, _sigma);
+            }
         }
 
         /// <summary>
@@ -129,9 +136,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Sigma
         {
-            get { return _sigma; }
+            get
+            {
+                return _sigma;
+            }
 
-            set { SetParameters(_mu, value); }
+            set
+            {
+                SetParameters(_mu, value);
+            }
         }
 
         #region IDistribution implementation
@@ -162,7 +175,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return Math.Exp(_mu + _sigma * _sigma / 2.0); }
+            get
+            {
+                return Math.Exp(_mu + (_sigma * _sigma / 2.0));
+            }
         }
 
         /// <summary>
@@ -172,7 +188,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                double sigma2 = _sigma * _sigma;
+                var sigma2 = _sigma * _sigma;
                 return (Math.Exp(sigma2) - 1.0) * Math.Exp(_mu + _mu + sigma2);
             }
         }
@@ -184,7 +200,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                double sigma2 = _sigma * _sigma;
+                var sigma2 = _sigma * _sigma;
                 return Math.Sqrt((Math.Exp(sigma2) - 1.0) * Math.Exp(_mu + _mu + sigma2));
             }
         }
@@ -194,7 +210,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return 0.5 + Math.Log(_sigma) + _mu + Constants.LogSqrt2Pi; }
+            get
+            {
+                return 0.5 + Math.Log(_sigma) + _mu + Constants.LogSqrt2Pi;
+            }
         }
 
         /// <summary>
@@ -204,10 +223,11 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                double expsigma2 = Math.Exp(_sigma * _sigma);
+                var expsigma2 = Math.Exp(_sigma * _sigma);
                 return (expsigma2 + 2.0) * Math.Sqrt(expsigma2 - 1);
             }
         }
+
         #endregion
 
         #region IContinuousDistribution implementation
@@ -217,7 +237,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get { return Math.Exp(_mu - _sigma * _sigma); }
+            get
+            {
+                return Math.Exp(_mu - (_sigma * _sigma));
+            }
         }
 
         /// <summary>
@@ -225,7 +248,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return Math.Exp(_mu); }
+            get
+            {
+                return Math.Exp(_mu);
+            }
         }
 
         /// <summary>
@@ -233,7 +259,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get { return 0.0; }
+            get
+            {
+                return 0.0;
+            }
         }
 
         /// <summary>
@@ -241,7 +270,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get { return Double.PositiveInfinity; }
+            get
+            {
+                return Double.PositiveInfinity;
+            }
         }
 
         /// <summary>
@@ -256,7 +288,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            double a = (Math.Log(x) - _mu) / _sigma;
+            var a = (Math.Log(x) - _mu) / _sigma;
             return Math.Exp(-0.5 * a * a) / (x * _sigma * Constants.Sqrt2Pi);
         }
 
@@ -272,8 +304,8 @@ namespace MathNet.Numerics.Distributions
                 return Double.NegativeInfinity;
             }
 
-            double a = (Math.Log(x) - _mu) / _sigma;
-            return -0.5 * a * a - Math.Log(x * _sigma) - Constants.LogSqrt2Pi;
+            var a = (Math.Log(x) - _mu) / _sigma;
+            return (-0.5 * a * a) - Math.Log(x * _sigma) - Constants.LogSqrt2Pi;
         }
 
         /// <summary>
@@ -297,8 +329,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            double r2;
-            return Math.Exp(_mu + (_sigma * Normal.SampleBoxMuller(RandomSource, out r2)));
+            return Math.Exp(_mu + (_sigma * Normal.SampleBoxMuller(RandomSource).Item1));
         }
 
         /// <summary>
@@ -307,15 +338,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            double r2;
-
             while (true)
             {
-                double r1 = Normal.SampleBoxMuller(RandomSource, out r2);
-                yield return Math.Exp(_mu + (_sigma * r1));
-                yield return Math.Exp(_mu + (_sigma * r2));
+                var sample = Normal.SampleBoxMuller(RandomSource);
+                yield return Math.Exp(_mu + (_sigma * sample.Item1));
+                yield return Math.Exp(_mu + (_sigma * sample.Item2));
             }
         }
+
         #endregion
 
         /// <summary>
@@ -332,8 +362,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            double r2;
-            return Math.Exp(mu + (sigma * Normal.SampleBoxMuller(rng, out r2)));
+            return Math.Exp(mu + (sigma * Normal.SampleBoxMuller(rng).Item1));
         }
 
         /// <summary>
@@ -349,14 +378,12 @@ namespace MathNet.Numerics.Distributions
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
-            
-            double r2;
 
             while (true)
             {
-                double r1 = Normal.SampleBoxMuller(rng, out r2);
-                yield return Math.Exp(mu + (sigma * r1));
-                yield return Math.Exp(mu + (sigma * r2));
+                var sample = Normal.SampleBoxMuller(rng);
+                yield return Math.Exp(mu + (sigma * sample.Item1));
+                yield return Math.Exp(mu + (sigma * sample.Item2));
             }
         }
     }

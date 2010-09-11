@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,6 +27,7 @@
 namespace MathNet.Numerics.Distributions
 {
     using System;
+    using System.Linq;
     using Properties;
 
     /// <summary>
@@ -41,10 +38,12 @@ namespace MathNet.Numerics.Distributions
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Dirichlet
     {
-        // The Dirichlet distribution parameters.
+        /// <summary>
+        /// The Dirichlet distribution parameters.
+        /// </summary>
         private double[] _alpha;
 
         /// <summary>
@@ -64,16 +63,21 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Constructs a new symmetric Dirichlet distribution. The distribution will
-        /// be initialized with the default <seealso cref="System.Random"/> random number generator.
+        /// Initializes a new instance of the <see cref="Dirichlet"/> class. 
+        /// <seealso cref="System.Random"/>
+        /// random number generator.
         /// </summary>
-        /// <param name="alpha">The value of each parameter of the Dirichlet distribution.</param>
-        /// <param name="k">The dimension of the Dirichlet distribution.</param>
+        /// <param name="alpha">
+        /// The value of each parameter of the Dirichlet distribution.
+        /// </param>
+        /// <param name="k">
+        /// The dimension of the Dirichlet distribution.
+        /// </param>
         public Dirichlet(double alpha, int k)
         {
             // Create a parameter structure.
-            double[] parm = new double[k];
-            for (int i = 0; i < k; i++)
+            var parm = new double[k];
+            for (var i = 0; i < k; i++)
             {
                 parm[i] = alpha;
             }
@@ -83,33 +87,32 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid: no parameter can be less than zero and
-        /// at least one parameter should be larger than zero.
+        /// Checks whether the parameters of the distribution are valid: no
+        /// parameter can be less than zero and at least one parameter should be
+        /// larger than zero.
         /// </summary>
-        /// <param name="alpha">The parameters of the Dirichlet distribution.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <param name="alpha">The parameters of the Dirichlet distribution.
+        /// </param>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c>
+        /// otherwise.</returns>
         public static bool IsValidParameterSet(double[] alpha)
         {
-            bool allzero = true;
+            var allzero = true;
 
-            for (int i = 0; i < alpha.Length; i++)
+            foreach (var t in alpha)
             {
-                if (alpha[i] < 0.0)
+                if (t < 0.0)
                 {
                     return false;
                 }
-                else if (alpha[i] > 0.0)
+                
+                if (t > 0.0)
                 {
                     allzero = false;
                 }
             }
 
-            if (allzero)
-            {
-                return false;
-            }
-
-            return true;
+            return !allzero;
         }
 
         /// <summary>
@@ -124,15 +127,18 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            _alpha = (double[]) alpha.Clone();
+            _alpha = (double[])alpha.Clone();
         }
 
         /// <summary>
-        /// A string representation of the distribution.
+        /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
-            return "Dirichlet(Dimension = " + this.Dimension + ")";
+            return "Dirichlet(Dimension = " + Dimension + ")";
         }
 
         /// <summary>
@@ -140,7 +146,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Dimension
         {
-            get { return _alpha.Length; }
+            get
+            {
+                return _alpha.Length;
+            }
         }
 
         /// <summary>
@@ -152,6 +161,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return _alpha;
             }
+
             set
             {
                 SetParameters(value);
@@ -159,18 +169,13 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// The sum of the Dirichlet parameters.
+        /// Gets the sum of the Dirichlet parameters.
         /// </summary>
         private double AlphaSum
         {
             get
             {
-                double s = 0.0;
-                for (int i = 0; i < _alpha.Length; i++)
-                {
-                    s += _alpha[i];
-                }
-                return s;
+                return _alpha.Sum();
             }
         }
 
@@ -181,9 +186,9 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                double sum = AlphaSum;
-                double[] parm = new double[Dimension];
-                for (int i = 0; i < Dimension; i++)
+                var sum = AlphaSum;
+                var parm = new double[Dimension];
+                for (var i = 0; i < Dimension; i++)
                 {
                     parm[i] = _alpha[i] / sum;
                 }
@@ -199,12 +204,13 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                double s = this.AlphaSum;
-                double[] v = new double[_alpha.Length];
-                for (int i = 0; i < _alpha.Length; i++)
+                var s = AlphaSum;
+                var v = new double[_alpha.Length];
+                for (var i = 0; i < _alpha.Length; i++)
                 {
-                    v[i] = _alpha[i]*(s - _alpha[i])/(s*s*(s + 1.0));
+                    v[i] = _alpha[i] * (s - _alpha[i]) / (s * s * (s + 1.0));
                 }
+
                 return v;
             }
         }
@@ -233,6 +239,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Samples a Dirichlet distributed random vector.
         /// </summary>
+        /// <returns>A sample from this distribution.</returns>
         public double[] Sample()
         {
             return Sample(RandomSource, _alpha);
@@ -243,17 +250,18 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="alpha">The Dirichlet distribution parameter.</param>
-        public static double[] Sample(System.Random rnd, double[] alpha)
+        /// <returns>a sample from the distribution.</returns>
+        public static double[] Sample(Random rnd, double[] alpha)
         {
             if (Control.CheckDistributionParameters && ! IsValidParameterSet(alpha))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            int n = alpha.Length;
-            double[] gv = new double[n];
-            double sum = 0.0;
-            for (int i = 0; i < n; i++)
+            var n = alpha.Length;
+            var gv = new double[n];
+            var sum = 0.0;
+            for (var i = 0; i < n; i++)
             {
                 if (alpha[i] == 0.0)
                 {
@@ -267,7 +275,7 @@ namespace MathNet.Numerics.Distributions
                 sum += gv[i];
             }
 
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
                 gv[i] /= sum;
             }

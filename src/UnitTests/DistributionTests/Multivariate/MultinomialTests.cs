@@ -56,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void CanCreateMultinomial()
         {
             var m = new Multinomial(largeP, 4);
-            AssertEx.AreEqual<double[]>(largeP, m.P);
+            Assert.AreEqual<double[]>(largeP, m.P);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void ValidateToString()
         {
             var b = new Multinomial(smallP, 4);
-            AssertEx.AreEqual<string>("Multinomial(Dimension = 3, Number of Trails = 4)", b.ToString());
+            Assert.AreEqual<string>("Multinomial(Dimension = 3, Number of Trails = 4)", b.ToString());
         }
 
         [Test]
