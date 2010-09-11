@@ -54,8 +54,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateGamma(double shape, double invScale)
         {
             var n = new Gamma(shape, invScale);
-            AssertEx.AreEqual<double>(shape, n.Shape);
-            AssertEx.AreEqual<double>(invScale, n.InvScale);
+            Assert.AreEqual<double>(shape, n.Shape);
+            Assert.AreEqual<double>(invScale, n.InvScale);
         }
 
         [Test]
@@ -81,8 +81,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateGammaWithShapeInvScale(double shape, double invScale)
         {
             var n = Gamma.WithShapeInvScale(shape, invScale);
-            AssertEx.AreEqual<double>(shape, n.Shape);
-            AssertEx.AreEqual<double>(invScale, n.InvScale);
+            Assert.AreEqual<double>(shape, n.Shape);
+            Assert.AreEqual<double>(invScale, n.InvScale);
         }
 
         [Test, MultipleAsserts]
@@ -95,15 +95,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateGammaWithShapeScale(double shape, double scale)
         {
             var n = Gamma.WithShapeScale(shape, scale);
-            AssertEx.AreEqual<double>(shape, n.Shape);
-            AssertEx.AreEqual<double>(scale, n.Scale);
+            Assert.AreEqual<double>(shape, n.Shape);
+            Assert.AreEqual<double>(scale, n.Scale);
         }
 
         [Test]
         public void ValidateToString()
         {
             var n = new Gamma(1.0, 2.0);
-            AssertEx.AreEqual<string>("Gamma(Shape = 1, Inverse Scale = 2)", n.ToString());
+            Assert.AreEqual<string>("Gamma(Shape = 1, Inverse Scale = 2)", n.ToString());
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMean(double shape, double invScale, double mean)
         {
             var n = new Gamma(shape, invScale);
-            AssertEx.AreEqual<double>(mean, n.Mean);
+            Assert.AreEqual<double>(mean, n.Mean);
         }
 
         [Test]
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMode(double shape, double invScale, double mode)
         {
             var n = new Gamma(shape, invScale);
-            AssertEx.AreEqual<double>(mode, n.Mode);
+            Assert.AreEqual<double>(mode, n.Mode);
         }
 
         [Test]
@@ -265,14 +265,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMinimum()
         {
             var n = new Gamma(1.0,1.0);
-            AssertEx.AreEqual<double>(0.0, n.Minimum);
+            Assert.AreEqual<double>(0.0, n.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var n = new Gamma(1.0, 1.0);
-            AssertEx.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
         }
 
         [Test]

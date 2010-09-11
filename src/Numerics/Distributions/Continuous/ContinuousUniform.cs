@@ -42,7 +42,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class ContinuousUniform : IContinuousDistribution
     {
         /// <summary>
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(double lower, double upper)
         {
             if (upper < lower)
@@ -310,7 +310,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Generates a sample from the ContinuousUniform distribution.
+        /// Generates a sample from the <c>ContinuousUniform</c> distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
@@ -319,7 +319,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Generates a sequence of samples from the ContinuousUniform distribution.
+        /// Generates a sequence of samples from the <c>ContinuousUniform</c> distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
@@ -333,7 +333,7 @@ namespace MathNet.Numerics.Distributions
         #endregion
 
         /// <summary>
-        /// Generates a sample from the ContinuousUniform distribution.
+        /// Generates a sample from the <c>ContinuousUniform</c> distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="lower">The lower bound of the uniform random variable.</param>
@@ -350,7 +350,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Generates a sequence of samples from the ContinuousUniform distribution.
+        /// Generates a sequence of samples from the <c>ContinuousUniform</c> distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="lower">The lower bound of the uniform random variable.</param>
@@ -370,7 +370,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Generates one sample from the ContinuousUniform distribution without parameter checking.
+        /// Generates one sample from the <c>ContinuousUniform</c> distribution without parameter checking.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="lower">The lower bound of the uniform random variable.</param>

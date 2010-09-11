@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -49,7 +45,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Beta : IContinuousDistribution
     {
         /// <summary>
@@ -93,7 +89,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="a">The a shape parameter of the Beta distribution.</param>
         /// <param name="b">The b shape parameter of the Beta distribution.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(double a, double b)
         {
             if (a < 0.0 || b < 0.0 || Double.IsNaN(a) || Double.IsNaN(b))
@@ -126,8 +122,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double A
         {
-            get { return _shapeA; }
-            set { SetParameters(value, _shapeB); }
+            get
+            {
+                return _shapeA;
+            }
+
+            set
+            {
+                SetParameters(value, _shapeB);
+            }
         }
 
         /// <summary>
@@ -135,8 +138,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double B
         {
-            get { return _shapeB; }
-            set { SetParameters(_shapeA, value); }
+            get
+            {
+                return _shapeB;
+            }
+
+            set
+            {
+                SetParameters(_shapeA, value);
+            }
         }
 
         #region IDistribution implementation
@@ -169,34 +179,37 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if(_shapeA == 0.0 && _shapeB == 0.0)
+                if (_shapeA == 0.0 && _shapeB == 0.0)
                 {
                     return 0.5;
                 }
-                else if(_shapeA == 0.0)
+
+                if (_shapeA == 0.0)
                 {
                     return 0.0;
                 }
-                else if(_shapeB == 0.0)
+
+                if (_shapeB == 0.0)
                 {
                     return 1.0;
                 }
-                else if(Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+
+                if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
                 {
                     return 0.5;
                 }
-                else if (Double.IsPositiveInfinity(_shapeA))
+
+                if (Double.IsPositiveInfinity(_shapeA))
                 {
                     return 1.0;
                 }
-                else if (Double.IsPositiveInfinity(_shapeB))
+
+                if (Double.IsPositiveInfinity(_shapeB))
                 {
                     return 0.0;
                 }
-                else
-                {
-                    return _shapeA / (_shapeA + _shapeB);
-                }
+
+                return _shapeA / (_shapeA + _shapeB);
             }
         }
 
@@ -216,7 +229,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt((_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0))); }
+            get
+            {
+                return Math.Sqrt((_shapeA * _shapeB) / ((_shapeA + _shapeB) * (_shapeA + _shapeB) * (_shapeA + _shapeB + 1.0)));
+            }
         }
 
         /// <summary>
@@ -230,21 +246,21 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                else if (_shapeA == 0.0 && _shapeB == 0.0)
+
+                if (_shapeA == 0.0 && _shapeB == 0.0)
                 {
                     return -Math.Log(0.5);
                 }
-                else if (_shapeA == 0.0 || _shapeB == 0.0)
+
+                if (_shapeA == 0.0 || _shapeB == 0.0)
                 {
                     return 0.0;
                 }
-                else
-                {
-                    return SpecialFunctions.BetaLn(_shapeA, _shapeB)
-                           - ((_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA))
-                           - ((_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB))
-                           + ((_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB));
-                }
+
+                return SpecialFunctions.BetaLn(_shapeA, _shapeB)
+                       - ((_shapeA - 1.0) * SpecialFunctions.DiGamma(_shapeA))
+                       - ((_shapeB - 1.0) * SpecialFunctions.DiGamma(_shapeB))
+                       + ((_shapeA + _shapeB - 2.0) * SpecialFunctions.DiGamma(_shapeA + _shapeB));
             }
         }
 
@@ -259,33 +275,37 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.0;
                 }
-                else if (Double.IsPositiveInfinity(_shapeA))
+
+                if (Double.IsPositiveInfinity(_shapeA))
                 {
                     return -2.0;
                 }
-                else if (Double.IsPositiveInfinity(_shapeB))
+
+                if (Double.IsPositiveInfinity(_shapeB))
                 {
                     return 2.0;
                 }
-                else if (_shapeA == 0.0 && _shapeB == 0.0)
+
+                if (_shapeA == 0.0 && _shapeB == 0.0)
                 {
                     return 0.0;
                 }
-                else if (_shapeA == 0.0)
+
+                if (_shapeA == 0.0)
                 {
                     return 2.0;
                 }
-                else if (_shapeB == 0.0)
+
+                if (_shapeB == 0.0)
                 {
                     return -2.0;
                 }
-                else
-                {
-                    return 2.0 * (_shapeB - _shapeA) * Math.Sqrt(_shapeA + _shapeB + 1.0)
+
+                return 2.0 * (_shapeB - _shapeA) * Math.Sqrt(_shapeA + _shapeB + 1.0)
                        / ((_shapeA + _shapeB + 2.0) * Math.Sqrt(_shapeA * _shapeB));
-                }
             }
         }
+
         #endregion
 
         #region IContinuousDistribution implementation
@@ -301,34 +321,38 @@ namespace MathNet.Numerics.Distributions
                 {
                     return 0.5;
                 }
-                else if (_shapeA == 0.0)
+
+                if (_shapeA == 0.0)
                 {
                     return 0.0;
                 }
-                else if (_shapeB == 0.0)
+
+                if (_shapeB == 0.0)
                 {
                     return 1.0;
                 }
-                else if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+
+                if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
                 {
                     return 0.5;
                 }
-                else if (Double.IsPositiveInfinity(_shapeA))
+
+                if (Double.IsPositiveInfinity(_shapeA))
                 {
                     return 1.0;
                 }
-                else if (Double.IsPositiveInfinity(_shapeB))
+
+                if (Double.IsPositiveInfinity(_shapeB))
                 {
                     return 0.0;
                 }
-                else if(_shapeA == 1.0 && _shapeB == 1.0)
+
+                if (_shapeA == 1.0 && _shapeB == 1.0)
                 {
                     return 0.5;
                 }
-                else
-                {
-                    return (_shapeA - 1) / (_shapeA + _shapeB - 2);
-                }
+
+                return (_shapeA - 1) / (_shapeA + _shapeB - 2);
             }
         }
 
@@ -337,7 +361,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
@@ -345,7 +372,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get { return 0.0; }
+            get
+            {
+                return 0.0;
+            }
         }
 
         /// <summary>
@@ -353,7 +383,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get { return 1.0; }
+            get
+            {
+                return 1.0;
+            }
         }
 
         /// <summary>
@@ -367,81 +400,49 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            else if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+
+            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
             {
-                if (x == 0.5)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x == 0.5 ? Double.PositiveInfinity : 0.0;
             }
-            else if (Double.IsPositiveInfinity(_shapeA))
+
+            if (Double.IsPositiveInfinity(_shapeA))
             {
-                if (x == 1.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x == 1.0 ? Double.PositiveInfinity : 0.0;
             }
-            else if (Double.IsPositiveInfinity(_shapeB))
+
+            if (Double.IsPositiveInfinity(_shapeB))
             {
-                if (x == 0.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x == 0.0 ? Double.PositiveInfinity : 0.0;
             }
-            else if (_shapeA == 0.0 && _shapeB == 0.0)
+
+            if (_shapeA == 0.0 && _shapeB == 0.0)
             {
                 if (x == 0.0 || x == 1.0)
                 {
                     return Double.PositiveInfinity;
                 }
-                else
-                {
-                    return 0.0;
-                }
+
+                return 0.0;
             }
-            else if (_shapeA == 0.0)
+
+            if (_shapeA == 0.0)
             {
-                if (x == 0.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x == 0.0 ? Double.PositiveInfinity : 0.0;
             }
-            else if (_shapeB == 0.0)
+
+            if (_shapeB == 0.0)
             {
-                if (x == 1.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x == 1.0 ? Double.PositiveInfinity : 0.0;
             }
-            else if (_shapeA == 1.0 && _shapeB == 1.0)
+
+            if (_shapeA == 1.0 && _shapeB == 1.0)
             {
                 return 1.0;
             }
-            else
-            {
-                double b = SpecialFunctions.Gamma(_shapeA + _shapeB) / (SpecialFunctions.Gamma(_shapeA) * SpecialFunctions.Gamma(_shapeB));
-                return b * Math.Pow(x, _shapeA - 1.0) * Math.Pow(1.0 - x, _shapeB - 1.0);
-            }
+
+            var b = SpecialFunctions.Gamma(_shapeA + _shapeB) / (SpecialFunctions.Gamma(_shapeA) * SpecialFunctions.Gamma(_shapeB));
+            return b * Math.Pow(x, _shapeA - 1.0) * Math.Pow(1.0 - x, _shapeB - 1.0);
         }
 
         /// <summary>
@@ -455,83 +456,52 @@ namespace MathNet.Numerics.Distributions
             {
                 return Double.NegativeInfinity;
             }
-            else if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+
+            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
             {
-                if (x == 0.5)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return Double.NegativeInfinity;
-                }
+                return x == 0.5 ? Double.PositiveInfinity : Double.NegativeInfinity;
             }
-            else if (Double.IsPositiveInfinity(_shapeA))
+
+            if (Double.IsPositiveInfinity(_shapeA))
             {
-                if (x == 1.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return Double.NegativeInfinity;
-                }
+                return x == 1.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
             }
-            else if (Double.IsPositiveInfinity(_shapeB))
+
+            if (Double.IsPositiveInfinity(_shapeB))
             {
-                if (x == 0.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return Double.NegativeInfinity;
-                }
+                return x == 0.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
             }
-            else if (_shapeA == 0.0 && _shapeB == 0.0)
+
+            if (_shapeA == 0.0 && _shapeB == 0.0)
             {
                 if (x == 0.0 || x == 1.0)
                 {
                     return Double.PositiveInfinity;
                 }
-                else
-                {
-                    return Double.NegativeInfinity;
-                }
+
+                return Double.NegativeInfinity;
             }
-            else if (_shapeA == 0.0)
+
+            if (_shapeA == 0.0)
             {
-                if (x == 0.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return Double.NegativeInfinity;
-                }
+                return x == 0.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
             }
-            else if (_shapeB == 0.0)
+
+            if (_shapeB == 0.0)
             {
-                if (x == 1.0)
-                {
-                    return Double.PositiveInfinity;
-                }
-                else
-                {
-                    return Double.NegativeInfinity;
-                }
+                return x == 1.0 ? Double.PositiveInfinity : Double.NegativeInfinity;
             }
-            else if (_shapeA == 1.0 && _shapeB == 1.0)
+
+            if (_shapeA == 1.0 && _shapeB == 1.0)
             {
                 return 0.0;
             }
-            else
-            {
-                double a = SpecialFunctions.GammaLn(_shapeA + _shapeB) - SpecialFunctions.GammaLn(_shapeA) - SpecialFunctions.GammaLn(_shapeB);
-                double b = x == 0.0 ? (_shapeA == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeA - 1.0) * Math.Log(x);
-                double c = x == 1.0 ? (_shapeB == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeB - 1.0) * Math.Log(1.0 - x);
-                return a + b + c;
-            }
+
+            var a = SpecialFunctions.GammaLn(_shapeA + _shapeB) - SpecialFunctions.GammaLn(_shapeA) - SpecialFunctions.GammaLn(_shapeB);
+            var b = x == 0.0 ? (_shapeA == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeA - 1.0) * Math.Log(x);
+            var c = x == 1.0 ? (_shapeB == 1.0 ? 0.0 : Double.NegativeInfinity) : (_shapeB - 1.0) * Math.Log(1.0 - x);
+
+            return a + b + c;
         }
 
         /// <summary>
@@ -545,77 +515,53 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            else if (x >= 1.0)
+            
+            if (x >= 1.0)
             {
                 return 1.0;
             }
-            else if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
+            
+            if (Double.IsPositiveInfinity(_shapeA) && Double.IsPositiveInfinity(_shapeB))
             {
-                if (x < 0.5)
-                {
-                    return 0.0;
-                }
-                else
-                {
-                    return 1.0;
-                }
+                return x < 0.5 ? 0.0 : 1.0;
             }
-            else if (Double.IsPositiveInfinity(_shapeA))
+            
+            if (Double.IsPositiveInfinity(_shapeA))
             {
-                if (x < 1.0)
-                {
-                    return 0.0;
-                }
-                else
-                {
-                    return 1.0;
-                }
+                return x < 1.0 ? 0.0 : 1.0;
             }
-            else if (Double.IsPositiveInfinity(_shapeB))
+            
+            if (Double.IsPositiveInfinity(_shapeB))
             {
-                if (x >= 0.0)
-                {
-                    return 1.0;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x >= 0.0 ? 1.0 : 0.0;
             }
-            else if (_shapeA == 0.0 && _shapeB == 0.0)
+            
+            if (_shapeA == 0.0 && _shapeB == 0.0)
             {
                 if (x >= 0.0 && x < 1.0)
                 {
                     return 0.5;
                 }
-                else
-                {
-                    return 1.0;
-                }
+
+                return 1.0;
             }
-            else if (_shapeA == 0.0)
+            
+            if (_shapeA == 0.0)
             {
                 return 1.0;
             }
-            else if (_shapeB == 0.0)
+            
+            if (_shapeB == 0.0)
             {
-                if (x >= 1.0)
-                {
-                    return 1.0;
-                }
-                else
-                {
-                    return 0.0;
-                }
+                return x >= 1.0 ? 1.0 : 0.0;
             }
-            else if (_shapeA == 1.0 && _shapeB == 1.0)
+            
+            if (_shapeA == 1.0 && _shapeB == 1.0)
             {
                 return x;
             }
-            else
-            {
-                return SpecialFunctions.BetaRegularized(_shapeA, _shapeB, x);
-            }
+            
+            return SpecialFunctions.BetaRegularized(_shapeA, _shapeB, x);
         }
 
         /// <summary>
@@ -638,6 +584,7 @@ namespace MathNet.Numerics.Distributions
                 yield return SampleBeta(RandomSource, _shapeA, _shapeB);
             }
         }
+
         #endregion
 
         /// <summary>
@@ -686,8 +633,8 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a random number from the Beta distribution.</returns>
         internal static double SampleBeta(Random rnd, double a, double b)
         {
-            double x = Gamma.SampleGamma(rnd, a, 1.0);
-            double y = Gamma.SampleGamma(rnd, b, 1.0);
+            var x = Gamma.SampleGamma(rnd, a, 1.0);
+            var y = Gamma.SampleGamma(rnd, b, 1.0);
             return x / (x + y);
         }
     }

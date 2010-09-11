@@ -52,8 +52,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void CanCreateDiscreteUniform(int l, int u)
         {
             var du = new DiscreteUniform(l, u);
-            AssertEx.AreEqual(l, du.LowerBound);
-            AssertEx.AreEqual(u, du.UpperBound);
+            Assert.AreEqual(l, du.LowerBound);
+            Assert.AreEqual(u, du.UpperBound);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var b = new DiscreteUniform(0, 10);
-            AssertEx.AreEqual<string>("DiscreteUniform(Lower = 0, Upper = 10)", b.ToString());
+            Assert.AreEqual<string>("DiscreteUniform(Lower = 0, Upper = 10)", b.ToString());
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateSkewness(int l, int u)
         {
             var du = new DiscreteUniform(l, u);
-            AssertEx.AreEqual<double>(0.0, du.Skewness);
+            Assert.AreEqual<double>(0.0, du.Skewness);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateMode(int l, int u, int m)
         {
             var du = new DiscreteUniform(l, u);
-            AssertEx.AreEqual<double>(m, du.Mode);
+            Assert.AreEqual<double>(m, du.Mode);
         }
 
         [Test]
@@ -171,14 +171,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateMinimum()
         {
             var b = new DiscreteUniform(-10, 10);
-            AssertEx.AreEqual<double>(-10, b.Minimum);
+            Assert.AreEqual<double>(-10, b.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var b = new DiscreteUniform(-10, 10);
-            AssertEx.AreEqual<double>(10, b.Maximum);
+            Assert.AreEqual<double>(10, b.Maximum);
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbability(int l, int u, int x, double p)
         {
             var b = new DiscreteUniform(l, u);
-            AssertEx.AreEqual(p, b.Probability(x));
+            Assert.AreEqual(p, b.Probability(x));
         }
 
         [Test]
@@ -202,7 +202,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbabilityLn(int l, int u, int x, double dln)
         {
             var b = new DiscreteUniform(l, u);
-            AssertEx.AreEqual(dln, b.ProbabilityLn(x));
+            Assert.AreEqual(dln, b.ProbabilityLn(x));
         }
 
         [Test]
@@ -257,7 +257,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateCumulativeDistribution(int l, int u, double x, double cdf)
         {
             var b = new DiscreteUniform(l, u);
-            AssertEx.AreEqual(cdf, b.CumulativeDistribution(x));
+            Assert.AreEqual(cdf, b.CumulativeDistribution(x));
         }
     }
 }

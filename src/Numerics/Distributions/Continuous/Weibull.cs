@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Weibull : IContinuousDistribution
     {
         /// <summary>
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape of the Weibull distribution.</param>
         /// <param name="scale">The scale of the Weibull distribution.</param>
-        /// <returns>True when the parameters positive valid floating point numbers, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters positive valid floating point numbers, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(double shape, double scale)
         {
             if (shape <= 0.0 || scale <= 0.0 || Double.IsNaN(shape) || Double.IsNaN(scale))
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return _scale * SpecialFunctions.Gamma(1.0 + 1.0 / _shape);
+                return _scale * SpecialFunctions.Gamma(1.0 + (1.0 / _shape));
             }
         }
 
@@ -198,8 +198,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                double mu = this.Mean;
-                return _scale * _scale * SpecialFunctions.Gamma(1.0 + 2.0 / _shape) - mu * mu;
+                return (_scale * _scale * SpecialFunctions.Gamma(1.0 + (2.0 / _shape))) - (Mean * Mean);
             }
         }
 
@@ -210,18 +209,19 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return Math.Sqrt(this.Variance);
+                return Math.Sqrt(Variance);
             }
         }
 
         /// <summary>
         /// Gets the entropy of the Weibull distribution.
         /// </summary>
+        /// <remarks>Throws a not supported exception.</remarks>
         public double Entropy
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -232,12 +232,11 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                double mu = this.Mean;
-                double sigma = this.StdDev;
+                double mu = Mean;
+                double sigma = StdDev;
                 double sigma2 = sigma * sigma;
                 double sigma3 = sigma2 * sigma;
-                return (_scale * _scale * _scale * SpecialFunctions.Gamma(1.0 + 3.0 / _shape) 
-                            - 3.0 * sigma2 * mu - mu * mu * mu) / sigma3;
+                return ((_scale * _scale * _scale * SpecialFunctions.Gamma(1.0 + (3.0 / _shape))) - (3.0 * sigma2 * mu) - (mu * mu * mu)) / sigma3;
             }
         }
         #endregion
@@ -321,7 +320,7 @@ namespace MathNet.Numerics.Distributions
                     return Math.Log(_shape) - Math.Log(_scale);
                 }
 
-                return Math.Log(_shape) + (_shape - 1.0) * Math.Log(x / _scale) - (Math.Pow(x, _shape) * _scalePowShapeInv) - Math.Log(_scale);
+                return Math.Log(_shape) + ((_shape - 1.0) * Math.Log(x / _scale)) - (Math.Pow(x, _shape) * _scalePowShapeInv) - Math.Log(_scale);
             }
 
             return double.NegativeInfinity;
@@ -410,9 +409,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape of the Weibull distribution.</param>
         /// <param name="scale">The scale of the Weibull distribution.</param>
         /// <returns>A sample from a Weibull distributed random variable.</returns>
-        internal static double SampleWeibull(System.Random rnd, double shape, double scale)
+        internal static double SampleWeibull(Random rnd, double shape, double scale)
         {
-            double x = rnd.NextDouble();
+            var x = rnd.NextDouble();
             return scale * Math.Pow(-Math.Log(x), 1.0 / shape);
         }
     }

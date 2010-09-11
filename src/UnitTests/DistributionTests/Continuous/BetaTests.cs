@@ -58,8 +58,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateBeta(double a, double b)
         {
             var n = new Beta(a, b);
-            AssertEx.AreEqual<double>(a, n.A);
-            AssertEx.AreEqual<double>(b, n.B);
+            Assert.AreEqual<double>(a, n.A);
+            Assert.AreEqual<double>(b, n.B);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new Beta(1.0, 2.0);
-            AssertEx.AreEqual<string>("Beta(A = 1, B = 2)", n.ToString());
+            Assert.AreEqual<string>("Beta(A = 1, B = 2)", n.ToString());
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMean(double a, double b, double mean)
         {
             var n = new Beta(a, b);
-            AssertEx.AreEqual<double>(mean, n.Mean);
+            Assert.AreEqual<double>(mean, n.Mean);
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMode(double a, double b, double mode)
         {
             var n = new Beta(a, b);
-            AssertEx.AreEqual<double>(mode, n.Mode);
+            Assert.AreEqual<double>(mode, n.Mode);
         }
 
         [Test]
@@ -214,14 +214,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMinimum()
         {
             var n = new Beta(1.0, 1.0);
-            AssertEx.AreEqual<double>(0.0, n.Minimum);
+            Assert.AreEqual<double>(0.0, n.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var n = new Beta(1.0, 1.0);
-            AssertEx.AreEqual<double>(1.0, n.Maximum);
+            Assert.AreEqual<double>(1.0, n.Maximum);
         }
 
         [Test]

@@ -51,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void CanCreateBernoulli(double p)
         {
             var bernoulli = new Bernoulli(p);
-            AssertEx.AreEqual<double>(p, bernoulli.P);
+            Assert.AreEqual<double>(p, bernoulli.P);
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var b = new Bernoulli(0.3);
-            AssertEx.AreEqual<string>("Bernoulli(P = 0.3)", b.ToString());
+            Assert.AreEqual<string>("Bernoulli(P = 0.3)", b.ToString());
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateSkewness(double p)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual<double>((1.0 - 2.0 * p) / Math.Sqrt(p * (1.0 - p)), b.Skewness);
+            Assert.AreEqual<double>((1.0 - 2.0 * p) / Math.Sqrt(p * (1.0 - p)), b.Skewness);
         }
 
         [Test]
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateMode(double p, double m)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual<double>(m, b.Mode);
+            Assert.AreEqual<double>(m, b.Mode);
         }
 
         [Test]
@@ -134,14 +134,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateMinimum()
         {
             var b = new Bernoulli(0.3);
-            AssertEx.AreEqual<double>(0.0, b.Minimum);
+            Assert.AreEqual<double>(0.0, b.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var b = new Bernoulli(0.3);
-            AssertEx.AreEqual<double>(1.0, b.Maximum);
+            Assert.AreEqual<double>(1.0, b.Maximum);
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbability(double p, int x, double d)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual(d, b.Probability(x));
+            Assert.AreEqual(d, b.Probability(x));
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateProbabilityLn(double p, int x, double dln)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual(dln, b.ProbabilityLn(x));
+            Assert.AreEqual(dln, b.ProbabilityLn(x));
         }
 
         [Test]
@@ -243,7 +243,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateCumulativeDistribution(double p, double x, double cdf)
         {
             var b = new Bernoulli(p);
-            AssertEx.AreEqual(cdf, b.CumulativeDistribution(x));
+            Assert.AreEqual(cdf, b.CumulativeDistribution(x));
         }
     }
 }

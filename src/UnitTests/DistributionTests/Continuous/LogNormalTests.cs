@@ -55,8 +55,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateLogNormal(double mu, double sigma)
         {
             var n = new LogNormal(mu, sigma);
-            AssertEx.AreEqual<double>(mu, n.Mu);
-            AssertEx.AreEqual<double>(sigma, n.Sigma);
+            Assert.AreEqual<double>(mu, n.Mu);
+            Assert.AreEqual<double>(sigma, n.Sigma);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new LogNormal(1.0, 2.0);
-            AssertEx.AreEqual<string>("LogNormal(Mu = 1, Sigma = 2)", n.ToString());
+            Assert.AreEqual<string>("LogNormal(Mu = 1, Sigma = 2)", n.ToString());
         }
         
         [Test]
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMode(double mu, double sigma, double mode)
         {
             var n = new LogNormal(mu, sigma);
-            AssertEx.AreEqual<double>(mode, n.Mode);
+            Assert.AreEqual<double>(mode, n.Mode);
         }
 
         [Test]
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMedian(double mu, double sigma, double median)
         {
             var n = new LogNormal(mu, sigma);
-            AssertEx.AreEqual<double>(median, n.Median);
+            Assert.AreEqual<double>(median, n.Median);
         }
 
         [Test]
@@ -273,14 +273,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMinimum()
         {
             var n = new LogNormal(1.0, 2.0);
-            AssertEx.AreEqual<double>(0.0, n.Minimum);
+            Assert.AreEqual<double>(0.0, n.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var n = new LogNormal(1.0, 2.0);
-            AssertEx.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
         }
 
         [Test]

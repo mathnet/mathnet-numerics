@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -42,7 +38,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class DiscreteUniform : IDiscreteDistribution
     {
         /// <summary>
@@ -66,14 +62,17 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
         public DiscreteUniform(int lower, int upper)
-        {            
+        {
             SetParameters(lower, upper);
-            RandomSource = new System.Random();
+            RandomSource = new Random();
         }
 
         /// <summary>
-        /// A string representation of the distribution.
+        /// Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
+        /// <returns>
+        /// A <see cref="System.String"/> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return "DiscreteUniform(Lower = " + _lower + ", Upper = " + _upper + ")";
@@ -84,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound; must be at least as large as <paramref name="lower"/>.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(int lower, int upper)
         {
             if (lower <= upper)
@@ -172,7 +171,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return (_lower + _upper) / 2.0; }
+            get
+            {
+                return (_lower + _upper) / 2.0;
+            }
         }
 
         /// <summary>
@@ -180,7 +182,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return System.Math.Sqrt(((_upper - _lower + 1.0) * (_upper - _lower + 1.0) - 1.0) / 12.0); }
+            get
+            {
+                return Math.Sqrt((((_upper - _lower + 1.0) * (_upper - _lower + 1.0)) - 1.0) / 12.0);
+            }
         }
 
         /// <summary>
@@ -188,7 +193,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return ((_upper - _lower + 1.0) * (_upper - _lower + 1.0) - 1.0) / 12.0; }
+            get
+            {
+                return (((_upper - _lower + 1.0) * (_upper - _lower + 1.0)) - 1.0) / 12.0;
+            }
         }
 
         /// <summary>
@@ -196,7 +204,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return System.Math.Log(_upper - _lower + 1.0); }
+            get
+            {
+                return Math.Log(_upper - _lower + 1.0);
+            }
         }
 
         /// <summary>
@@ -204,18 +215,33 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return 0.0; }
+            get
+            {
+                return 0.0;
+            }
         }
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Minimum { get { return _lower; } }
+        public int Minimum
+        {
+            get
+            {
+                return _lower;
+            }
+        }
 
         /// <summary>
         /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Maximum { get { return _upper; } }
+        public int Maximum
+        {
+            get
+            {
+                return _upper;
+            }
+        }
 
         /// <summary>
         /// Computes the cumulative distribution function of the Bernoulli distribution.
@@ -228,7 +254,8 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            else if (x >= _upper)
+            
+            if (x >= _upper)
             {
                 return 1.0;
             }
@@ -241,27 +268,37 @@ namespace MathNet.Numerics.Distributions
         #region IDiscreteDistribution Members
 
         /// <summary>
-        /// The mode of the distribution; since every element in the domain has the same probability this method returns the middle one.
+        /// Gets the mode of the distribution; since every element in the domain has the same probability this method returns the middle one.
         /// </summary>
         public int Mode
         {
-            get { return (int) Math.Floor((_lower + _upper) / 2.0); }
+            get
+            {
+                return (int)Math.Floor((_lower + _upper) / 2.0);
+            }
         }
 
         /// <summary>
-        /// The median of the distribution.
+        /// Gets the median of the distribution.
         /// </summary>
         public int Median
         {
-            get { return (int)Math.Floor((_lower + _upper) / 2.0); }
+            get
+            {
+                return (int)Math.Floor((_lower + _upper) / 2.0);
+            }
         }
 
         /// <summary>
-        /// Computes the probability of a specific value.
+        /// Computes values of the probability mass function.
         /// </summary>
-        public double Probability(int val)
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <returns>
+        /// the probability mass at location <paramref name="k"/>.
+        /// </returns>
+        public double Probability(int k)
         {
-            if (val >= _lower && val <= _upper)
+            if (k >= _lower && k <= _upper)
             {
                 return 1.0 / (_upper - _lower + 1);
             }
@@ -272,19 +309,24 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Computes the probability of a specific value.
         /// </summary>
-        public double ProbabilityLn(int val)
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <returns>
+        /// the log probability mass at location <paramref name="k"/>.
+        /// </returns>
+        public double ProbabilityLn(int k)
         {
-            if (val >= _lower && val <= _upper)
+            if (k >= _lower && k <= _upper)
             {
-                return - Math.Log(_upper - _lower + 1);
+                return -Math.Log(_upper - _lower + 1);
             }
 
             return Double.NegativeInfinity;
         }
 
         /// <summary>
-        /// Samples a uniformly distributed random variable.
+        /// Draws a random sample from the distribution.
         /// </summary>
+        /// <returns>a sample from the distribution.</returns>
         public int Sample()
         {
             return DoSample(RandomSource, _lower, _upper);
@@ -311,7 +353,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">The lower bound of the uniform random variable.</param>
         /// <param name="upper">The upper bound of the uniform random variable.</param>
         /// <returns>A sample from the discrete uniform distribution.</returns>
-        public static int Sample(System.Random rnd, int lower, int upper)
+        public static int Sample(Random rnd, int lower, int upper)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
             {
@@ -328,7 +370,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">The lower bound of the uniform random variable.</param>
         /// <param name="upper">The upper bound of the uniform random variable.</param>
         /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
-        public static IEnumerable<int> Samples(System.Random rnd, int lower, int upper)
+        public static IEnumerable<int> Samples(Random rnd, int lower, int upper)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(lower, upper))
             {
@@ -348,9 +390,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="lower">The lower bound of the uniform random variable.</param>
         /// <param name="upper">The upper bound of the uniform random variable.</param>
         /// <returns>A random sample from the discrete uniform distribution.</returns>
-        private static int DoSample(System.Random rnd, int lower, int upper)
+        private static int DoSample(Random rnd, int lower, int upper)
         {
-            return rnd.Next() % (upper - lower + 1) + lower;
+            return (rnd.Next() % (upper - lower + 1)) + lower;
         }
     }
 }

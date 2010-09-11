@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,9 +28,9 @@ namespace MathNet.Numerics.Distributions
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Properties;
-    using MathNet.Numerics.Statistics;
-
+    using Statistics;
 
     /// <summary>
     /// Implements the categorical distribution. For details about this distribution, see 
@@ -48,7 +44,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Categorical : IDiscreteDistribution
     {
         /// <summary>
@@ -70,11 +66,11 @@ namespace MathNet.Numerics.Distributions
         public Categorical(double[] p)
         {
             SetParameters(p);
-            RandomSource = new System.Random();
+            RandomSource = new Random();
         }
 
         /// <summary>
-        /// Initializes a new instance of the Categorical class from a histogram <paramref name="h"/>. The distribution 
+        /// Initializes a new instance of the Categorical class from a <paramref name="histogram"/>. The distribution 
         /// will not be automatically updated when the histogram changes. The categorical distribution will have
         /// one value for each bucket and a probability for that value proportional to the bucket count.
         /// </summary>
@@ -83,25 +79,26 @@ namespace MathNet.Numerics.Distributions
         {
             if (histogram == null)
             {
-                throw new ArgumentNullException("Cannot create a categorical variable from a null histogram.");
+                throw new ArgumentNullException("histogram");
             }
 
             // The probability distribution vector.
-            double[] p = new double[histogram.BucketCount];
+            var p = new double[histogram.BucketCount];
 
             // Fill in the distribution vector.
-            for (int i = 0; i < histogram.BucketCount; i++)
+            for (var i = 0; i < histogram.BucketCount; i++)
             {
                 p[i] = histogram[i].Count;
             }
 
             SetParameters(p);
-            RandomSource = new System.Random();
+            RandomSource = new Random();
         }
 
         /// <summary>
         /// A string representation of the distribution.
         /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
             return "Categorical(Dimension = " + _p.Length + ")";
@@ -112,28 +109,21 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
         /// as this is often impossible using floating point arithmetic.</param>
-        /// <returns>If any of the probabilities are negative returns false, or if the sum of parameters is 0.0; otherwise true</returns>
-        private static bool IsValidParameterSet(double[] p)
+        /// <returns>If any of the probabilities are negative returns <c>false</c>, or if the sum of parameters is 0.0; otherwise <c>true</c></returns>
+        private static bool IsValidParameterSet(IEnumerable<double> p)
         {
-            double sum = 0.0;
-            for (int i = 0; i < p.Length; i++)
+            var sum = 0.0;
+            foreach (double t in p)
             {
-                if (p[i] < 0.0 || Double.IsNaN(p[i]))
+                if (t < 0.0 || Double.IsNaN(t))
                 {
                     return false;
                 }
-                else
-                {
-                    sum += p[i];
-                }
+                
+                sum += t;
             }
 
-            if (sum == 0.0)
-            {
-                return false;
-            }
-
-            return true;
+            return sum != 0.0;
         }
 
         /// <summary>
@@ -155,21 +145,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the normalized probability vector of the multinomial.
         /// </summary>
-        /// <remarks>Note that sometimes the normalized probability vector cannot be represented
+        /// <remarks>Sometimes the normalized probability vector cannot be represented
         /// exactly in a floating point representation.</remarks>
         public double[] P
         {
             get
             {
-                double[] p = (double[]) _p.Clone();
+                var p = (double[])_p.Clone();
 
-                double sum = 0.0;
-                for (int i = 0; i < p.Length; i++)
-                {
-                    sum += p[i];
-                }
+                var sum = p.Sum();
 
-                for (int i = 0; i < p.Length; i++)
+                for (var i = 0; i < p.Length; i++)
                 {
                     p[i] /= sum;
                 }
@@ -211,7 +197,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _p.Mean(); }
+            get
+            {
+                return _p.Mean();
+            }
         }
 
         /// <summary>
@@ -219,7 +208,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return _p.StandardDeviation(); }
+            get
+            {
+                return _p.StandardDeviation();
+            }
         }
 
         /// <summary>
@@ -227,7 +219,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _p.Variance(); }
+            get
+            {
+                return _p.Variance();
+            }
         }
 
         /// <summary>
@@ -235,34 +230,45 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get {
-                double E = 0.0;
-                for (int i = 0; i < _p.Length; i++)
-                {
-                    double p = _p[i];
-                    E += p * Math.Log(p);
-                }
-                return E;
+            get
+            {
+                return _p.Sum(p => p * Math.Log(p));
             }
         }
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
+        /// <remarks>Throws a <see cref="NotSupportedException"/>.</remarks>
         public double Skewness
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                throw new NotSupportedException();
+            }
         }
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Minimum { get { return 0; } }
+        public int Minimum
+        {
+            get
+            {
+                return 0;
+            }
+        }
 
         /// <summary>
         /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Maximum { get { return _p.Length-1; } }
+        public int Maximum
+        {
+            get
+            {
+                return _p.Length - 1;
+            }
+        }
 
         /// <summary>
         /// Computes the cumulative distribution function of the Binomial distribution.
@@ -275,13 +281,14 @@ namespace MathNet.Numerics.Distributions
             {
                 return 0.0;
             }
-            else if (x >= _p.Length)
+            
+            if (x >= _p.Length)
             {
                 return 1.0;
             }
 
-            var cdf = UnnormalizedCDF(_p);
-            return cdf[(int) Math.Floor(x)] / cdf[_p.Length - 1];
+            var cdf = UnnormalizedCdf(_p);
+            return cdf[(int)Math.Floor(x)] / cdf[_p.Length - 1];
         }
 
         #endregion
@@ -289,55 +296,66 @@ namespace MathNet.Numerics.Distributions
         #region IDiscreteDistribution Members
 
         /// <summary>
-        /// The mode of the distribution.
+        /// Gets he mode of the distribution.
         /// </summary>
+        /// <remarks>Throws a <see cref="NotSupportedException"/>.</remarks>
         public int Mode
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                throw new NotSupportedException();
+            }
         }
 
         /// <summary>
-        /// The median of the distribution.
+        /// Gets the median of the distribution.
         /// </summary>
         public int Median
         {
-            get { return (int) _p.Median(); }
+            get
+            {
+                return (int)_p.Median();
+            }
         }
 
         /// <summary>
-        /// Computes the probability of a specific value.
+        /// Computes values of the probability mass function.
         /// </summary>
-        public double Probability(int val)
+        /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
+        /// <returns>the probability mass at location <paramref name="k"/>.</returns>
+        public double Probability(int k)
         {
-            if (val < 0)
+            if (k < 0)
             {
                 return 0.0;
             }
 
-            if (val >= _p.Length)
+            if (k >= _p.Length)
             {
                 return 0.0;
             }
 
-            return _p[val];
+            return _p[k];
         }
 
         /// <summary>
-        /// Computes the probability of a specific value.
+        /// Computes values of the log probability mass function.
         /// </summary>
-        public double ProbabilityLn(int val)
+        /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
+        /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
+        public double ProbabilityLn(int k)
         {
-            if (val < 0)
+            if (k < 0)
             {
                 return 0.0;
             }
 
-            if (val >= _p.Length)
+            if (k >= _p.Length)
             {
                 return 0.0;
             }
 
-            return Math.Log(_p[val]);
+            return Math.Log(_p[k]);
         }
 
         /// <summary>
@@ -367,7 +385,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
         /// as this is often impossible using floating point arithmetic.</param>
         /// <returns>One random integer between 0 and the size of the categorical (exclusive).</returns>
-        public static int Sample(System.Random rnd, double[] p)
+        public static int Sample(Random rnd, double[] p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
             {
@@ -375,7 +393,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             // The cumulative density of p.
-            double[] cp = UnnormalizedCDF(p);
+            var cp = UnnormalizedCdf(p);
 
             return DoSample(rnd, cp);
         }
@@ -386,8 +404,8 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
         /// as this is often impossible using floating point arithmetic.</param>
-        /// <returns><paramref name="n"/> random integers between 0 and the size of the categorical (exclusive).</returns>
-        public static IEnumerable<int> Samples(System.Random rnd, double[] p)
+        /// <returns>random integers between 0 and the size of the categorical (exclusive).</returns>
+        public static IEnumerable<int> Samples(Random rnd, double[] p)
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p))
             {
@@ -395,7 +413,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             // The cumulative density of p.
-            double[] cp = UnnormalizedCDF(p);
+            var cp = UnnormalizedCdf(p);
 
             while (true)
             {
@@ -410,11 +428,11 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized 
         /// as this is often impossible using floating point arithmetic.</param>
         /// <returns>An array representing the unnormalized cumulative distribution function.</returns>
-        internal static double[] UnnormalizedCDF(double[] p)
+        internal static double[] UnnormalizedCdf(double[] p)
         {
-            double[] cp = (double[]) p.Clone();
+            var cp = (double[])p.Clone();
 
-            for (int i = 1; i < p.Length; i++)
+            for (var i = 1; i < p.Length; i++)
             {
                 cp[i] += cp[i - 1];
             }
@@ -428,15 +446,17 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="cdf">The cumulative distribution of the probability distribution.</param>
         /// <returns>One sample from the categorical distribution implied by <see cref="cdf"/>.</returns>
-        internal static int DoSample(System.Random rnd, double[] cdf)
+        internal static int DoSample(Random rnd, double[] cdf)
         {
             // TODO : use binary search to speed up this procedure.
-            double u = rnd.NextDouble() * cdf[cdf.Length - 1];
-            int idx = 0;
+            var u = rnd.NextDouble() * cdf[cdf.Length - 1];
+            
+            var idx = 0;
             while (u > cdf[idx])
             {
                 idx++;
             }
+
             return idx;
         }
     }

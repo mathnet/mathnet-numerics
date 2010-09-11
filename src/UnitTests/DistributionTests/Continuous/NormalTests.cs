@@ -48,8 +48,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateStandardNormal()
         {
             var n = new Normal();
-            AssertEx.AreEqual<double>(0.0, n.Mean);
-            AssertEx.AreEqual<double>(1.0, n.StdDev);
+            Assert.AreEqual<double>(0.0, n.Mean);
+            Assert.AreEqual<double>(1.0, n.StdDev);
         }
 
         [Test, MultipleAsserts]
@@ -63,8 +63,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateNormal(double mean, double sdev)
         {
             var n = new Normal(mean, sdev);
-            AssertEx.AreEqual<double>(mean, n.Mean);
-            AssertEx.AreEqual<double>(sdev, n.StdDev);
+            Assert.AreEqual<double>(mean, n.Mean);
+            Assert.AreEqual<double>(sdev, n.StdDev);
         }
 
         [Test]
@@ -89,8 +89,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateNormalFromMeanAndStdDev(double mean, double sdev)
         {
             var n = Normal.WithMeanStdDev(mean, sdev);
-            AssertEx.AreEqual<double>(mean, n.Mean);
-            AssertEx.AreEqual<double>(sdev, n.StdDev);
+            Assert.AreEqual<double>(mean, n.Mean);
+            Assert.AreEqual<double>(sdev, n.StdDev);
         }
 
         [Test, MultipleAsserts]
@@ -127,7 +127,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new Normal(1.0, 2.0);
-            AssertEx.AreEqual<string>("Normal(Mean = 1, StdDev = 2)", n.ToString());
+            Assert.AreEqual<string>("Normal(Mean = 1, StdDev = 2)", n.ToString());
         }
 
         [Test]
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateEntropy(double sdev)
         {
             var n = new Normal(1.0, sdev);
-            AssertEx.AreEqual<double>(MathNet.Numerics.Constants.LogSqrt2PiE + Math.Log(n.StdDev), n.Entropy);
+            Assert.AreEqual<double>(MathNet.Numerics.Constants.LogSqrt2PiE + Math.Log(n.StdDev), n.Entropy);
         }
 
         [Test]
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateSkewness(double sdev)
         {
             var n = new Normal(1.0, sdev);
-            AssertEx.AreEqual<double>(0.0, n.Skewness);
+            Assert.AreEqual<double>(0.0, n.Skewness);
         }
 
         [Test]
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMode(double mean)
         {
             var n = new Normal(mean, 1.0);
-            AssertEx.AreEqual<double>(mean, n.Mode);
+            Assert.AreEqual<double>(mean, n.Mode);
         }
 
         [Test]
@@ -258,21 +258,21 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateMedian(double mean)
         {
             var n = new Normal(mean, 1.0);
-            AssertEx.AreEqual<double>(mean, n.Median);
+            Assert.AreEqual<double>(mean, n.Median);
         }
 
         [Test]
         public void ValidateMinimum()
         {
             var n = new Normal();
-            AssertEx.AreEqual<double>(System.Double.NegativeInfinity, n.Minimum);
+            Assert.AreEqual<double>(System.Double.NegativeInfinity, n.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var n = new Normal();
-            AssertEx.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual<double>(System.Double.PositiveInfinity, n.Maximum);
         }
 
         [Test]
@@ -291,7 +291,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 double x = i - 5.0;
                 double d = (mean - x)/sdev;
                 double pdf = Math.Exp(-0.5*d*d)/(sdev*Constants.Sqrt2Pi);
-                AssertEx.AreEqual<double>(pdf, n.Density(x));
+                Assert.AreEqual<double>(pdf, n.Density(x));
             }
         }
 
@@ -311,7 +311,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 double x = i - 5.0;
                 double d = (mean - x) / sdev;
                 double pdfln = -0.5 * d * d - Math.Log(sdev) - Constants.LogSqrt2Pi;
-                AssertEx.AreEqual<double>(pdfln, n.DensityLn(x));
+                Assert.AreEqual<double>(pdfln, n.DensityLn(x));
             }
         }
 

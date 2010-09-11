@@ -59,6 +59,22 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Compute the generalized harmonic number of order n of m. (1 + 1/2^m + 1/3^m + ... + 1/n^m)
+        /// </summary>
+        /// <param name="n">The order parameter.</param>
+        /// <param name="m">The power parameter.</param>
+        /// <returns>General Harmonic number.</returns>
+        public static double GeneralHarmonic(int n, double m)
+        {
+            double sum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                sum += Math.Pow(i + 1, -m);
+            }
+            return sum;
+        }
+
+        /// <summary>
         /// Computes the logarithm of the Euler Beta function.
         /// </summary>
         /// <param name="z">The first Beta parameter, a positive real number.</param>

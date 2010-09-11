@@ -83,17 +83,50 @@
     <Compile Include="..\Numerics\Distributions\Continuous\Beta.cs">
       <Link>Distributions\Continuous\Beta.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Cauchy.cs">
+      <Link>Distributions\Continuous\Cauchy.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Chi.cs">
+      <Link>Distributions\Continuous\Chi.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\ChiSquare.cs">
+      <Link>Distributions\Continuous\ChiSquare.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Distributions\Continuous\ContinuousUniform.cs">
       <Link>Distributions\Continuous\ContinuousUniform.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Erlang.cs">
+      <Link>Distributions\Continuous\Erlang.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Exponential.cs">
+      <Link>Distributions\Continuous\Exponential.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\FisherSnedecor.cs">
+      <Link>Distributions\Continuous\FisherSnedecor.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Distributions\Continuous\Gamma.cs">
       <Link>Distributions\Continuous\Gamma.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\InverseGamma.cs">
+      <Link>Distributions\Continuous\InverseGamma.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Laplace.cs">
+      <Link>Distributions\Continuous\Laplace.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Distributions\Continuous\LogNormal.cs">
       <Link>Distributions\Continuous\LogNormal.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Distributions\Continuous\Normal.cs">
       <Link>Distributions\Continuous\Normal.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Pareto.cs">
+      <Link>Distributions\Continuous\Pareto.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Rayleigh.cs">
+      <Link>Distributions\Continuous\Rayleigh.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Continuous\Stable.cs">
+      <Link>Distributions\Continuous\Stable.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Distributions\Continuous\StudentT.cs">
       <Link>Distributions\Continuous\StudentT.cs</Link>
@@ -110,8 +143,23 @@
     <Compile Include="..\Numerics\Distributions\Discrete\Categorical.cs">
       <Link>Distributions\Discrete\Categorical.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\ConwayMaxwellPoisson.cs">
+      <Link>Distributions\Discrete\ConwayMaxwellPoisson.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Distributions\Discrete\DiscreteUniform.cs">
       <Link>Distributions\Discrete\DiscreteUniform.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\Geometric.cs">
+      <Link>Distributions\Discrete\Geometric.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\Hypergeometric.cs">
+      <Link>Distributions\Discrete\Hypergeometric.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\NegativeBinomial.cs">
+      <Link>Distributions\Discrete\NegativeBinomial.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\Zipf.cs">
+      <Link>Distributions\Continuous\Zipf.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Distributions\IContinuousDistribution.cs">
       <Link>Distributions\IContinuousDistribution.cs</Link>
@@ -125,11 +173,20 @@
     <Compile Include="..\Numerics\Distributions\Multivariate\Dirichlet.cs">
       <Link>Distributions\Multivariate\Dirichlet.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Distributions\Multivariate\InverseWishart.cs">
+      <Link>Distributions\Multivariate\InverseWishart.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Multivariate\MatrixNormal.cs">
+      <Link>Distributions\Multivariate\MatrixNormal.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Distributions\Multivariate\Multinomial.cs">
       <Link>Distributions\Multivariate\Multinomial.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Distributions\Multivariate\NormalGamma.cs">
       <Link>Distributions\Multivariate\NormalGamma.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Multivariate\Wishart.cs">
+      <Link>Distributions\Multivariate\Wishart.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\GlobalizationHelper.cs">
       <Link>GlobalizationHelper.cs</Link>

@@ -51,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void CanCreateBinomial(double p, int n)
         {
             var bernoulli = new Binomial(p,n);
-            AssertEx.AreEqual<double>(p, bernoulli.P);
+            Assert.AreEqual<double>(p, bernoulli.P);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var b = new Binomial(0.3, 2);
-            AssertEx.AreEqual<string>("Binomial(Success Probability = 0.3, Number of Trials = 2)", b.ToString());
+            Assert.AreEqual<string>("Binomial(Success Probability = 0.3, Number of Trials = 2)", b.ToString());
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateSkewness(double p, int n)
         {
             var b = new Binomial(p,n);
-            AssertEx.AreEqual<double>((1.0 - 2.0 * p) / Math.Sqrt(n * p * (1.0 - p)), b.Skewness);
+            Assert.AreEqual<double>((1.0 - 2.0 * p) / Math.Sqrt(n * p * (1.0 - p)), b.Skewness);
         }
 
         [Test]
@@ -120,21 +120,21 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateMode(double p, int n, int m)
         {
             var b = new Binomial(p,n);
-            AssertEx.AreEqual<int>(m, b.Mode);
+            Assert.AreEqual<int>(m, b.Mode);
         }
 
         [Test]
         public void ValidateMinimum()
         {
             var b = new Binomial(0.3, 10);
-            AssertEx.AreEqual<int>(0, b.Minimum);
+            Assert.AreEqual<int>(0, b.Minimum);
         }
 
         [Test]
         public void ValidateMaximum()
         {
             var b = new Binomial(0.3, 10);
-            AssertEx.AreEqual<int>(10, b.Maximum);
+            Assert.AreEqual<int>(10, b.Maximum);
         }
 
         [Test]

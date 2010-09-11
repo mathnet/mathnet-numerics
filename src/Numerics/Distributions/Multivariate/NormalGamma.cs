@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -40,36 +36,61 @@ namespace MathNet.Numerics.Distributions
     /// </summary>
     public struct MeanPrecisionPair
     {
-        private double mMean;
-        private double mPrecision;
+        /// <summary>
+        /// The mean value.
+        /// </summary>
+        private double _mean;
 
         /// <summary>
-        /// Constructs a new mean precision pair.
+        /// The precision value.
         /// </summary>
-        /// <param name="m">The mean of the pair.</param>
-        /// <param name="p">The precision of the pair.</param>
+        private double _precision;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeanPrecisionPair"/> struct. 
+        /// </summary>
+        /// <param name="m">
+        /// The mean of the pair.
+        /// </param>
+        /// <param name="p">
+        /// The precision of the pair.
+        /// </param>
         public MeanPrecisionPair(double m, double p)
         {
-            mMean = m;
-            mPrecision = p;
+            _mean = m;
+            _precision = p;
         }
 
         /// <summary>
-        /// Gets/sets the mean of the pair.
+        /// Gets or sets the mean of the pair.
         /// </summary>
         public double Mean
         {
-            get { return mMean; }
-            set { mMean = value; }
+            get
+            {
+                return _mean;
+            }
+
+            set
+            {
+                _mean = value;
+            }
         }
 
         /// <summary>
-        /// Gets/sets the precision of the pair.
+        /// Gets or sets the precision of the pair.
         /// </summary>
         public double Precision
         {
-            get { return mPrecision; }
-            set { mPrecision = value; }
+            get
+            {
+                return _precision;
+            }
+
+            set
+            {
+                _precision = value;
+            }
         }
     }
 
@@ -84,11 +105,11 @@ namespace MathNet.Numerics.Distributions
     /// infinity. When the mean is known, the mean location will encode the value of the mean while the scale
     /// will be positive infinity. A completely degenerate NormalGamma distribution with known mean and precision is possible as well.</para>
     /// </summary>
-    /// <para>The distribution will use the <see cref="System.Random"/> by default. 
+    /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class NormalGamma
     {
         /// <summary>
@@ -117,18 +138,26 @@ namespace MathNet.Numerics.Distributions
         private Random _random;
 
         /// <summary>
-        /// Constructs a NormalGamma distribution.
+        /// Initializes a new instance of the <see cref="NormalGamma"/> class. 
         /// </summary>
-        /// <param name="meanLocation">The location of the mean.</param>
-        /// <param name="meanScale">The scale of the mean.</param>
-        /// <param name="precShape">The shape of the precision.</param>
-        /// <param name="precInvScale">The inverse scale of the precision.</param>
-        public NormalGamma(double meanLocation, double meanScale, double precShape, double precInvScale)
+        /// <param name="meanLocation">
+        /// The location of the mean.
+        /// </param>
+        /// <param name="meanScale">
+        /// The scale of the mean.
+        /// </param>
+        /// <param name="precisionShape">
+        /// The shape of the precision.
+        /// </param>
+        /// <param name="precisionInverseScale">
+        /// The inverse scale of the precision.
+        /// </param>
+        public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale)
         {
-            SetParameters(meanLocation, meanScale, precShape, precInvScale);
+            SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
             _random = new Random();
         }
-        
+
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
@@ -136,11 +165,11 @@ namespace MathNet.Numerics.Distributions
         /// <param name="meanScale">The scale of the mean.</param>
         /// <param name="precShape">The shape of the precision.</param>
         /// <param name="precInvScale">The inverse scale of the precision.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
-            if (meanScale <= 0.0 || precShape <= 0.0 || precInvScale <= 0.0 
-                || Double.IsNaN(meanLocation) || Double.IsNaN(meanScale) || Double.IsNaN(precShape) 
+            if (meanScale <= 0.0 || precShape <= 0.0 || precInvScale <= 0.0
+                || Double.IsNaN(meanLocation) || Double.IsNaN(meanScale) || Double.IsNaN(precShape)
                 || Double.IsNaN(precInvScale))
             {
                 return false;
@@ -173,46 +202,75 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// A string representation of the distribution.
         /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
             return "NormalGamma(Mean Location = " + _meanLocation + ", Mean Scale = " + _meanScale +
-                        ", Precision Shape = " + _precisionShape + ", Precision Inverse Scale = " + _precisionInvScale + ")";
+                   ", Precision Shape = " + _precisionShape + ", Precision Inverse Scale = " + _precisionInvScale + ")";
         }
 
         /// <summary>
-        /// Gets the location of the mean.
+        /// Gets or sets the location of the mean.
         /// </summary>
         public double MeanLocation
         {
-            get { return _meanLocation; }
-            set { SetParameters(value, _meanScale, _precisionShape, _precisionInvScale); }
+            get
+            {
+                return _meanLocation;
+            }
+
+            set
+            {
+                SetParameters(value, _meanScale, _precisionShape, _precisionInvScale);
+            }
         }
 
         /// <summary>
-        /// Gets the scale of the mean.
+        /// Gets or sets the scale of the mean.
         /// </summary>
         public double MeanScale
         {
-            get { return _meanScale; }
-            set { SetParameters(_meanLocation, value, _precisionShape, _precisionInvScale); }
+            get
+            {
+                return _meanScale;
+            }
+
+            set
+            {
+                SetParameters(_meanLocation, value, _precisionShape, _precisionInvScale);
+            }
         }
 
         /// <summary>
-        /// Gets the shape of the precision.
+        /// Gets or sets the shape of the precision.
         /// </summary>
         public double PrecisionShape
         {
-            get { return _precisionShape; }
-            set { SetParameters(_meanLocation, _meanScale, value, _precisionInvScale); }
+            get
+            {
+                return _precisionShape;
+            }
+
+            set
+            {
+                SetParameters(_meanLocation, _meanScale, value, _precisionInvScale);
+            }
         }
 
         /// <summary>
-        /// Gets the inverse scale of the precision.
+        /// Gets or sets the inverse scale of the precision.
         /// </summary>
         public double PrecisionInverseScale
         {
-            get { return _precisionInvScale; }
-            set { SetParameters(_meanLocation, _meanScale, _precisionShape, value); }
+            get
+            {
+                return _precisionInvScale;
+            }
+
+            set
+            {
+                SetParameters(_meanLocation, _meanScale, _precisionShape, value);
+            }
         }
 
         /// <summary>
@@ -237,25 +295,23 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Returns the marginal distribution for the mean of the <see cref="NormalGamma"/> distribution.
+        /// Returns the marginal distribution for the mean of the <c>NormalGamma</c> distribution.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the marginal distribution for the mean of the <c>NormalGamma</c> distribution.</returns>
         public StudentT MeanMarginal()
         {
             if (Double.IsPositiveInfinity(_precisionInvScale))
             {
                 return new StudentT(_meanLocation, 1.0 / (_meanScale * _precisionShape), Double.PositiveInfinity);
             }
-            else
-            {
-                return new StudentT(_meanLocation, Math.Sqrt(_precisionInvScale / (_meanScale * _precisionShape)), 2.0 * _precisionShape);
-            }
+            
+            return new StudentT(_meanLocation, Math.Sqrt(_precisionInvScale / (_meanScale * _precisionShape)), 2.0 * _precisionShape);
         }
 
         /// <summary>
         /// Returns the marginal distribution for the precision of the <see cref="NormalGamma"/> distribution.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The marginal distribution for the precision of the <see cref="NormalGamma"/> distribution/</returns>
         public Gamma PrecisionMarginal()
         {
             return new Gamma(_precisionShape, _precisionInvScale);
@@ -269,14 +325,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_precisionInvScale))
-                {
-                    return new MeanPrecisionPair(_meanLocation, _precisionShape);
-                }
-                else
-                {
-                    return new MeanPrecisionPair(_meanLocation, _precisionShape / _precisionInvScale);
-                }
+                return Double.IsPositiveInfinity(_precisionInvScale) ? new MeanPrecisionPair(_meanLocation, _precisionShape) : new MeanPrecisionPair(_meanLocation, _precisionShape / _precisionInvScale);
             }
         }
 
@@ -349,63 +398,49 @@ namespace MathNet.Numerics.Distributions
         }*/
 
         /// <summary>
-        /// Generates a sample from the NormalGamma distribution.
+        /// Generates a sample from the <c>NormalGamma</c> distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
         public MeanPrecisionPair Sample()
         {
-            return NormalGamma.Sample(RandomSource, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
+            return Sample(RandomSource, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
         }
 
         /// <summary>
-        /// Generates a sequence of samples from the NormalGamma distribution
+        /// Generates a sequence of samples from the <c>NormalGamma</c> distribution
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<MeanPrecisionPair> Samples()
         {
             while (true)
             {
-                yield return NormalGamma.Sample(RandomSource, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
+                yield return Sample(RandomSource, _meanLocation, _meanScale, _precisionShape, _precisionInvScale);
             }
         }
 
         /// <summary>
-        /// Generates a sample from the NormalGamma distribution.
+        /// Generates a sample from the <c>NormalGamma</c> distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
-        /// <param name="precShape">The shape of the precision.</param>
-        /// <param name="precInvScale">The inverse scale of the precision.</param>
+        /// <param name="precisionShape">The shape of the precision.</param>
+        /// <param name="precisionInverseScale">The inverse scale of the precision.</param>
         /// <returns>a sample from the distribution.</returns>
-        public static MeanPrecisionPair Sample(System.Random rnd, double meanLocation, double meanScale, double precShape, double precInvScale)
+        public static MeanPrecisionPair Sample(Random rnd, double meanLocation, double meanScale, double precisionShape, double precisionInverseScale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precShape, precInvScale))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precisionShape, precisionInverseScale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            MeanPrecisionPair mp = new MeanPrecisionPair();
+            var mp = new MeanPrecisionPair();
 
             // Sample the precision.
-            if(Double.IsPositiveInfinity(precInvScale))
-            {
-                mp.Precision = precShape;
-            }
-            else
-            {
-                mp.Precision = Gamma.Sample(rnd, precShape, precInvScale);
-            }
+            mp.Precision = Double.IsPositiveInfinity(precisionInverseScale) ? precisionShape : Gamma.Sample(rnd, precisionShape, precisionInverseScale);
 
             // Sample the mean.
-            if (meanScale == 0.0)
-            {
-                mp.Mean = meanLocation;
-            }
-            else
-            {
-                mp.Mean = Normal.Sample(rnd, meanLocation, System.Math.Sqrt(1.0 / (meanScale * mp.Precision)));
-            }
+            mp.Mean = meanScale == 0.0 ? meanLocation : Normal.Sample(rnd, meanLocation, Math.Sqrt(1.0 / (meanScale * mp.Precision)));
 
             return mp;
         }
@@ -416,39 +451,25 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
-        /// <param name="precShape">The shape of the precision.</param>
-        /// <param name="precInvScale">The inverse scale of the precision.</param>
+        /// <param name="precisionShape">The shape of the precision.</param>
+        /// <param name="precisionInvScale">The inverse scale of the precision.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<MeanPrecisionPair> Samples(System.Random rnd, double meanLocation, double meanScale, double precShape, double precInvScale)
+        public static IEnumerable<MeanPrecisionPair> Samples(Random rnd, double meanLocation, double meanScale, double precisionShape, double precisionInvScale)
         {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precShape, precInvScale))
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precisionShape, precisionInvScale))
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
             while (true)
             {
-                MeanPrecisionPair mp = new MeanPrecisionPair();
+                var mp = new MeanPrecisionPair();
 
                 // Sample the precision.
-                if (Double.IsPositiveInfinity(precInvScale))
-                {
-                    mp.Precision = precShape;
-                }
-                else
-                {
-                    mp.Precision = Gamma.Sample(rnd, precShape, precInvScale);
-                }
+                mp.Precision = Double.IsPositiveInfinity(precisionInvScale) ? precisionShape : Gamma.Sample(rnd, precisionShape, precisionInvScale);
 
                 // Sample the mean.
-                if (meanScale == 0.0)
-                {
-                    mp.Mean = meanLocation;
-                }
-                else
-                {
-                    mp.Mean = Normal.Sample(rnd, meanLocation, System.Math.Sqrt(1.0 / (meanScale * mp.Precision)));
-                }
+                mp.Mean = meanScale == 0.0 ? meanLocation : Normal.Sample(rnd, meanLocation, Math.Sqrt(1.0 / (meanScale * mp.Precision)));
 
                 yield return mp;
             }

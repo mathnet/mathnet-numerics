@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -42,7 +38,7 @@ namespace MathNet.Numerics.Distributions
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>
     /// <para>The statistics classes will check all the incoming parameters whether they are in the allowed
     /// range. This might involve heavy computation. Optionally, by setting Control.CheckDistributionParameters
-    /// to false, all parameter checks can be turned off.</para></remarks>
+    /// to <c>false</c>, all parameter checks can be turned off.</para></remarks>
     public class Normal : IContinuousDistribution
     {
         /// <summary>
@@ -110,11 +106,11 @@ namespace MathNet.Numerics.Distributions
         /// be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
-        /// <param name="prec">The precision of the normal distribution.</param>
+        /// <param name="precision">The precision of the normal distribution.</param>
         /// <returns>a normal distribution.</returns>
-        public static Normal WithMeanPrecision(double mean, double prec)
+        public static Normal WithMeanPrecision(double mean, double precision)
         {
-            return new Normal(mean, 1.0 / Math.Sqrt(prec));
+            return new Normal(mean, 1.0 / Math.Sqrt(precision));
         }
 
         /// <summary>
@@ -131,7 +127,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="mean">The mean of the normal distribution.</param>
         /// <param name="stddev">The standard deviation of the normal distribution.</param>
-        /// <returns>True when the parameters are valid, false otherwise.</returns>
+        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
         private static bool IsValidParameterSet(double mean, double stddev)
         {
             if (stddev < 0.0 || Double.IsNaN(mean) || Double.IsNaN(stddev))
@@ -171,7 +167,7 @@ namespace MathNet.Numerics.Distributions
 
             set
             {
-                double sdev = 1.0 / Math.Sqrt(value);
+                var sdev = 1.0 / Math.Sqrt(value);
 
                 // Handle the case when the precision is -0.
                 if (Double.IsInfinity(sdev))
@@ -211,8 +207,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _mean; }
-            set { SetParameters(value, _stdDev); }
+            get
+            {
+                return _mean;
+            }
+
+            set
+            {
+                SetParameters(value, _stdDev);
+            }
         }
 
         /// <summary>
@@ -220,8 +223,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _stdDev * _stdDev; }
-            set { SetParameters(_mean, value); }
+            get
+            {
+                return _stdDev * _stdDev;
+            }
+
+            set
+            {
+                SetParameters(_mean, value);
+            }
         }
 
         /// <summary>
@@ -229,8 +239,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return _stdDev; }
-            set { SetParameters(_mean, value); }
+            get
+            {
+                return _stdDev;
+            }
+
+            set
+            {
+                SetParameters(_mean, value);
+            }
         }
 
         /// <summary>
@@ -238,7 +255,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Entropy
         {
-            get { return Math.Log(_stdDev) + Constants.LogSqrt2PiE; }
+            get
+            {
+                return Math.Log(_stdDev) + Constants.LogSqrt2PiE;
+            }
         }
 
         /// <summary>
@@ -246,8 +266,12 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return 0.0; }
+            get
+            {
+                return 0.0;
+            }
         }
+
         #endregion
 
         #region IContinuousDistribution implementation
@@ -257,7 +281,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mode
         {
-            get { return _mean; }
+            get
+            {
+                return _mean;
+            }
         }
 
         /// <summary>
@@ -265,7 +292,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return _mean; }
+            get
+            {
+                return _mean;
+            }
         }
 
         /// <summary>
@@ -273,7 +303,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Minimum
         {
-            get { return Double.NegativeInfinity; }
+            get
+            {
+                return Double.NegativeInfinity;
+            }
         }
 
         /// <summary>
@@ -281,7 +314,10 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get { return Double.PositiveInfinity; }
+            get
+            {
+                return Double.PositiveInfinity;
+            }
         }
 
         /// <summary>
@@ -293,7 +329,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the density at <paramref name="x"/>.</returns>
         internal static double Density(double mean, double sdev, double x)
         {
-            double d = (x - mean) / sdev;
+            var d = (x - mean) / sdev;
             return Math.Exp(-0.5 * d * d) / (Constants.Sqrt2Pi * sdev);
         }
 
@@ -306,7 +342,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log density at <paramref name="x"/>.</returns>
         internal static double DensityLn(double mean, double sdev, double x)
         {
-            double d = (x - mean) / sdev;
+            var d = (x - mean) / sdev;
             return (-0.5 * d * d) - Math.Log(sdev) - Constants.LogSqrt2Pi;
         }
 
@@ -358,8 +394,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            double r2;
-            return _mean + (_stdDev * SampleBoxMuller(RandomSource, out r2));
+            return _mean + (_stdDev * SampleBoxMuller(RandomSource).Item1);
         }
 
         /// <summary>
@@ -368,15 +403,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            double r2;
-
             while (true)
             {
-                double r1 = SampleBoxMuller(RandomSource, out r2);
-                yield return _mean + (_stdDev * r1);
-                yield return _mean + (_stdDev * r2);
+                var sample = SampleBoxMuller(RandomSource);
+                yield return _mean + (_stdDev * sample.Item1);
+                yield return _mean + (_stdDev * sample.Item2);
             }
         }
+
         #endregion
 
         /// <summary>
@@ -403,8 +437,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
 
-            double r2;
-            return mean + (stddev * SampleBoxMuller(rng, out r2));
+            return mean + (stddev * SampleBoxMuller(rng).Item1);
         }
 
         /// <summary>
@@ -420,14 +453,12 @@ namespace MathNet.Numerics.Distributions
             {
                 throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
             }
-            
-            double r2;
 
             while (true)
             {
-                double r1 = SampleBoxMuller(rng, out r2);
-                yield return mean + (stddev * r1);
-                yield return mean + (stddev * r2);
+                var sample = SampleBoxMuller(rng);
+                yield return mean + (stddev * sample.Item1);
+                yield return mean + (stddev * sample.Item2);
             }
         }
 
@@ -435,13 +466,12 @@ namespace MathNet.Numerics.Distributions
         /// Samples a pair of standard normal distributed random variables using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r2">A second random number from the standard normal distribution computed as a side product.</param>
-        /// <returns>a random number from the standard normal distribution.</returns>
-        internal static double SampleBoxMuller(Random rnd, out double r2)
+        /// <returns>a pair of random numbers from the standard normal distribution.</returns>
+        internal static Tuple<double, double> SampleBoxMuller(Random rnd)
         {
-            double v1 = (2.0 * rnd.NextDouble()) - 1.0;
-            double v2 = (2.0 * rnd.NextDouble()) - 1.0;
-            double r = (v1 * v1) + (v2 * v2);
+            var v1 = (2.0 * rnd.NextDouble()) - 1.0;
+            var v2 = (2.0 * rnd.NextDouble()) - 1.0;
+            var r = (v1 * v1) + (v2 * v2);
             while (r >= 1.0 || r == 0.0)
             {
                 v1 = (2.0 * rnd.NextDouble()) - 1.0;
@@ -449,9 +479,8 @@ namespace MathNet.Numerics.Distributions
                 r = (v1 * v1) + (v2 * v2);
             }
 
-            double fac = Math.Sqrt(-2.0 * Math.Log(r) / r);
-            r2 = v2 * fac;
-            return v1 * fac;
+            var fac = Math.Sqrt(-2.0 * Math.Log(r) / r);
+            return new Tuple<double, double>(v1 * fac, v2 * fac);
         }
     }
 }
