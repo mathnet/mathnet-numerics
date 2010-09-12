@@ -194,7 +194,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
             {
-                Assert.IsTrue((y[i] - z[i]).Magnitude.IsSmaller(ConvergenceBoundary, 1), "#05-" + i);
+                Assert.IsTrue((y[i] - z[i]).Magnitude.IsSmaller(1e-4f, 1), "#05-" + i);
             }
         }
 

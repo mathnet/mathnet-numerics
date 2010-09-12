@@ -1460,13 +1460,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public virtual void InfinityNorm()
         {
             Matrix<Complex32> matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(16.7777033f, (float)matrix.InfinityNorm(), 7);
+            AssertHelpers.AlmostEqual(16.7777033f, (float)matrix.InfinityNorm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(7.3514039f, (float)matrix.InfinityNorm(), 7);
+            AssertHelpers.AlmostEqual(7.3514039f, (float)matrix.InfinityNorm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(10.1023756f, (float)matrix.InfinityNorm(), 7);
+            AssertHelpers.AlmostEqual(10.1023756f, (float)matrix.InfinityNorm(), 6);
         }
 
         [Test]
@@ -1486,13 +1486,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public virtual void L2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(10.6381752f, (float)matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(10.6381752f, (float)matrix.L2Norm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(5.2058554f, (float)matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(5.2058554f, (float)matrix.L2Norm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(7.3582664f, (float)matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(7.3582664f, (float)matrix.L2Norm(), 6);
         }
     }
 }

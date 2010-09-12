@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
     public class Complex32TextHandlingTest
     {
         [Test]
-        [Row(1, -2, "1 -2i")]
+        [Row(1, -2, "1 - 2i")]
         [Row(1, 2, "1 + 2i")]
         [Row(1, 0, "1")]
         [Row(0, -2, "-2i")]

@@ -54,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeSquareNorm()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(60f, (float)vector.Norm(2) * (float)vector.Norm(2), 7);
+            AssertHelpers.AlmostEqual(60f, (float)vector.Norm(2) * (float)vector.Norm(2), 6);
         }
 
         [Test]

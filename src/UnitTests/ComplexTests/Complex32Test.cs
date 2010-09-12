@@ -142,7 +142,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             AssertHelpers.AlmostEqual(new Complex32(3.70040633557002510874f, -3.07370876701949232239f), a.Power(b), 7);
             a = new Complex32(0.0f, 2.0f);
             b = new Complex32(0.0f, -2.0f);
-            AssertHelpers.AlmostEqual(new Complex32(4.24532146387429353891f, -2.27479427903521192648e1f), a.Power(b), 7);
+            AssertHelpers.AlmostEqual(new Complex32(4.24532146387429353891f, -2.27479427903521192648e1f), a.Power(b), 6);
             a = new Complex32(0.0f, -8.388608e6f);
             b = new Complex32(1.19209289550780998537e-7f, 0.0f);
             AssertHelpers.AlmostEqual(new Complex32(1.00000190048219620166f, -1.87253870018168043834e-7f), a.Power(b), 7);

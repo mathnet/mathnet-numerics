@@ -28,7 +28,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
-            AssertHelpers.AlmostEqual(100.108979553704, matrix.FrobeniusNorm(), 13);
+            AssertHelpers.AlmostEqual(100.108979553704f, matrix.FrobeniusNorm(), 6);
         }
 
 
@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
             Assert.AreEqual(1, matrices.Length);
             Assert.AreEqual(100, matrices[0].RowCount);
             Assert.AreEqual(100, matrices[0].ColumnCount);
-            AssertHelpers.AlmostEqual(100.431635988639, matrices[0].FrobeniusNorm(), 13);
+            AssertHelpers.AlmostEqual(100.431635988639f, matrices[0].FrobeniusNorm(), 6);
             Assert.AreEqual(typeof(DenseMatrix), matrices[0].GetType());
         }
 
@@ -64,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(SparseMatrix), matrix.GetType());
-            AssertHelpers.AlmostEqual(17.6385090630805, matrix.FrobeniusNorm(), 12);
+            AssertHelpers.AlmostEqual(17.6385090630805f, matrix.FrobeniusNorm(), 6);
         }
     }
 }
