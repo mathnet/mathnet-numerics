@@ -713,9 +713,14 @@ namespace MathNet.Numerics
                     {
                         ret.Append(" + ");
                     }
+                    
+                    ret.Append(Math.Abs(_imag).ToString(format, formatProvider)).Append("i");
+                }
+                else
+                {
+                    ret.Append(_imag.ToString(format, formatProvider)).Append("i");
                 }
 
-                ret.Append(Math.Abs(_imag).ToString(format, formatProvider)).Append("i");
             }
 
             if (ret.Length == 0)

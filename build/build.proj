@@ -3,7 +3,7 @@
   <UsingTask TaskName="MSBuild.ExtensionPack.Framework.Assembly" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.Communication.Twitter" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MMSBuild.ExtensionPack.Communication.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.Compression.Zip" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.JSharp.dll" />
-  <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.1.397.0\bin\Gallio.MSBuildTasks.dll" />
+  <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.2.517.0\Gallio.MSBuildTasks.dll" />
   <UsingTask TaskName="UploadFiles" AssemblyFile=".\CodePlexApi\CodePlex.WebServices.Client.dll" />
   
   <PropertyGroup>

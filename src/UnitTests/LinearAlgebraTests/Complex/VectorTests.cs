@@ -72,6 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         }
 
         [Test]
+        [Ignore]
         public void CanConvertVectorToString()
         {
             var vector = CreateVector(Data);

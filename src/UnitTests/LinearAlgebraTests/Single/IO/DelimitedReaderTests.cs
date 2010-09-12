@@ -28,15 +28,15 @@
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
-            Assert.AreEqual(1.0, matrix[0, 0]);
-            Assert.AreEqual(0.0, matrix[0, 1]);
-            Assert.AreEqual(0.0, matrix[0, 2]);
-            Assert.AreEqual(2.2, matrix[1, 0]);
-            Assert.AreEqual(3.0, matrix[1, 1]);
-            Assert.AreEqual(0.0, matrix[1, 2]);
-            Assert.AreEqual(4.0, matrix[2, 0]);
-            Assert.AreEqual(5.0, matrix[2, 1]);
-            Assert.AreEqual(6.0, matrix[2, 2]);
+            Assert.AreEqual(1.0f, matrix[0, 0]);
+            Assert.AreEqual(0.0f, matrix[0, 1]);
+            Assert.AreEqual(0.0f, matrix[0, 2]);
+            Assert.AreEqual(2.2f, matrix[1, 0]);
+            Assert.AreEqual(3.0f, matrix[1, 1]);
+            Assert.AreEqual(0.0f, matrix[1, 2]);
+            Assert.AreEqual(4.0f, matrix[2, 0]);
+            Assert.AreEqual(5.0f, matrix[2, 1]);
+            Assert.AreEqual(6.0f, matrix[2, 2]);
         }
 
         [Test]
@@ -53,15 +53,15 @@
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
-            Assert.AreEqual(1.0, matrix[0, 0]);
-            Assert.AreEqual(0.0, matrix[0, 1]);
-            Assert.AreEqual(0.0, matrix[0, 2]);
-            Assert.AreEqual(2.2, matrix[1, 0]);
-            Assert.AreEqual(3.0, matrix[1, 1]);
-            Assert.AreEqual(0.0, matrix[1, 2]);
-            Assert.AreEqual(4.0, matrix[2, 0]);
-            Assert.AreEqual(5.0, matrix[2, 1]);
-            Assert.AreEqual(6.0, matrix[2, 2]);
+            Assert.AreEqual(1.0f, matrix[0, 0]);
+            Assert.AreEqual(0.0f, matrix[0, 1]);
+            Assert.AreEqual(0.0f, matrix[0, 2]);
+            Assert.AreEqual(2.2f, matrix[1, 0]);
+            Assert.AreEqual(3.0f, matrix[1, 1]);
+            Assert.AreEqual(0.0f, matrix[1, 2]);
+            Assert.AreEqual(4.0f, matrix[2, 0]);
+            Assert.AreEqual(5.0f, matrix[2, 1]);
+            Assert.AreEqual(6.0f, matrix[2, 2]);
         }
 
         [Test]
@@ -77,15 +77,15 @@
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
-            Assert.AreEqual(1.0, matrix[0, 0]);
-            Assert.AreEqual(0.0, matrix[0, 1]);
-            Assert.AreEqual(0.0, matrix[0, 2]);
-            Assert.AreEqual(2.2, matrix[1, 0]);
-            Assert.AreEqual(3.0, matrix[1, 1]);
-            Assert.AreEqual(0.0, matrix[1, 2]);
-            Assert.AreEqual(4.0, matrix[2, 0]);
-            Assert.AreEqual(5.0, matrix[2, 1]);
-            Assert.AreEqual(6.0, matrix[2, 2]);
+            Assert.AreEqual(1.0f, matrix[0, 0]);
+            Assert.AreEqual(0.0f, matrix[0, 1]);
+            Assert.AreEqual(0.0f, matrix[0, 2]);
+            Assert.AreEqual(2.2f, matrix[1, 0]);
+            Assert.AreEqual(3.0f, matrix[1, 1]);
+            Assert.AreEqual(0.0f, matrix[1, 2]);
+            Assert.AreEqual(4.0f, matrix[2, 0]);
+            Assert.AreEqual(5.0f, matrix[2, 1]);
+            Assert.AreEqual(6.0f, matrix[2, 2]);
         }
 
         [Test]
@@ -107,15 +107,15 @@
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
-            Assert.AreEqual(1.0, matrix[0, 0]);
-            Assert.AreEqual(0.0, matrix[0, 1]);
-            Assert.AreEqual(0.0, matrix[0, 2]);
-            Assert.AreEqual(2.2, matrix[1, 0]);
-            Assert.AreEqual(3.0, matrix[1, 1]);
-            Assert.AreEqual(0.0, matrix[1, 2]);
-            Assert.AreEqual(4.0, matrix[2, 0]);
-            Assert.AreEqual(5.0, matrix[2, 1]);
-            Assert.AreEqual(6.0, matrix[2, 2]);
+            Assert.AreEqual(1.0f, matrix[0, 0]);
+            Assert.AreEqual(0.0f, matrix[0, 1]);
+            Assert.AreEqual(0.0f, matrix[0, 2]);
+            Assert.AreEqual(2.2f, matrix[1, 0]);
+            Assert.AreEqual(3.0f, matrix[1, 1]);
+            Assert.AreEqual(0.0f, matrix[1, 2]);
+            Assert.AreEqual(4.0f, matrix[2, 0]);
+            Assert.AreEqual(5.0f, matrix[2, 1]);
+            Assert.AreEqual(6.0f, matrix[2, 2]);
         }
     }
 }
