@@ -436,16 +436,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Fortran subroutines in EISPACK.</remarks>
         private void NonsymmetricReduceToHessenberg(double[,] matrixH, int order)
         {
-            const int Low = 0;
-            var high = order - 1;
-
             var ort = new double[order];
 
-            for (var m = Low + 1; m <= high - 1; m++)
+            for (var m = 1; m < order - 1; m++)
             {
                 // Scale column.
                 var scale = 0.0;
-                for (var i = m; i <= high; i++)
+                for (var i = m; i < order; i++)
                 {
                     scale = scale + Math.Abs(matrixH[i, m - 1]);
                 }
@@ -454,7 +451,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 {
                     // Compute Householder transformation.
                     var h = 0.0;
-                    for (var i = high; i >= m; i--)
+                    for (var i = order - 1; i >= m; i--)
                     {
                         ort[i] = matrixH[i, m - 1] / scale;
                         h += ort[i] * ort[i];
@@ -474,28 +471,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     for (var j = m; j < order; j++)
                     {
                         var f = 0.0;
-                        for (var i = high; i >= m; i--)
+                        for (var i = order - 1; i >= m; i--)
                         {
                             f += ort[i] * matrixH[i, j];
                         }
 
                         f = f / h;
-                        for (var i = m; i <= high; i++)
+                        for (var i = m; i < order; i++)
                         {
                             matrixH[i, j] -= f * ort[i];
                         }
                     }
 
-                    for (var i = 0; i <= high; i++)
+                    for (var i = 0; i < order; i++)
                     {
                         var f = 0.0;
-                        for (var j = high; j >= m; j--)
+                        for (var j = order - 1; j >= m; j--)
                         {
                             f += ort[j] * matrixH[i, j];
                         }
 
                         f = f / h;
-                        for (var j = m; j <= high; j++)
+                        for (var j = m; j < order; j++)
                         {
                             matrixH[i, j] -= f * ort[j];
                         }
@@ -515,26 +512,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 }
             }
 
-            for (var m = high - 1; m >= Low + 1; m--)
+            for (var m = order - 2; m >= 1; m--)
             {
                 if (matrixH[m, m - 1] != 0.0)
                 {
-                    for (var i = m + 1; i <= high; i++)
+                    for (var i = m + 1; i < order; i++)
                     {
                         ort[i] = matrixH[i, m - 1];
                     }
 
-                    for (var j = m; j <= high; j++)
+                    for (var j = m; j < order; j++)
                     {
                         var g = 0.0;
-                        for (var i = m; i <= high; i++)
+                        for (var i = m; i < order; i++)
                         {
                             g += ort[i] * MatrixEv[i, j];
                         }
 
                         // Double division avoids possible underflow
                         g = (g / ort[m]) / matrixH[m, m - 1];
-                        for (var i = m; i <= high; i++)
+                        for (var i = m; i < order; i++)
                         {
                             MatrixEv[i, j] += g * ort[i];
                         }
@@ -558,8 +555,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             // Initialize
             var n = order - 1;
-            const int Low = 0;
-            var high = order - 1;
             var eps = Precision.DoubleMachinePrecision;
             var exshift = 0.0;
             double p = 0, q = 0, r = 0, s = 0, z = 0, w, x, y;
@@ -568,12 +563,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var norm = 0.0;
             for (var i = 0; i < order; i++)
             {
-                if (i < Low | i > high)
-                {
-                    d[i] = matrixH[i, i];
-                    e[i] = 0.0;
-                }
-
                 for (var j = Math.Max(i - 1, 0); j < order; j++)
                 {
                     norm = norm + Math.Abs(matrixH[i, j]);
@@ -582,11 +571,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Outer loop over eigenvalue index
             var iter = 0;
-            while (n >= Low)
+            while (n >= 0)
             {
                 // Look for single small sub-diagonal element
                 var l = n;
-                while (l > Low)
+                while (l > 0)
                 {
                     s = Math.Abs(matrixH[l - 1, l - 1]) + Math.Abs(matrixH[l, l]);
 
@@ -672,7 +661,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         }
 
                         // Accumulate transformations
-                        for (var i = Low; i <= high; i++)
+                        for (var i = 0; i < order; i++)
                         {
                             z = MatrixEv[i, n - 1];
                             MatrixEv[i, n - 1] = (q * z) + (p * MatrixEv[i, n]);
@@ -710,7 +699,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     if (iter == 10)
                     {
                         exshift += x;
-                        for (var i = Low; i <= n; i++)
+                        for (var i = 0; i <= n; i++)
                         {
                             matrixH[i, i] -= x;
                         }
@@ -734,7 +723,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                             }
 
                             s = x - (w / (((y - x) / 2.0) + s));
-                            for (var i = Low; i <= n; i++)
+                            for (var i = 0; i <= n; i++)
                             {
                                 matrixH[i, i] -= s;
                             }
@@ -862,7 +851,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                             }
 
                             // Accumulate transformations
-                            for (var i = Low; i <= high; i++)
+                            for (var i = 0; i < order; i++)
                             {
                                 p = (x * MatrixEv[i, k]) + (y * MatrixEv[i, k + 1]);
 
@@ -1049,25 +1038,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 }
             }
 
-            // Vectors of isolated roots
-            for (var i = 0; i < order; i++)
-            {
-                if (i < Low | i > high)
-                {
-                    for (var j = i; j < order; j++)
-                    {
-                        MatrixEv[i, j] = matrixH[i, j];
-                    }
-                }
-            }
-
             // Back transformation to get eigenvectors of original matrix
-            for (var j = order - 1; j >= Low; j--)
+            for (var j = order - 1; j >= 0; j--)
             {
-                for (var i = Low; i <= high; i++)
+                for (var i = 0; i < order; i++)
                 {
                     z = 0.0;
-                    for (var k = Low; k <= Math.Min(j, high); k++)
+                    for (var k = 0; k <= j; k++)
                     {
                         z = z + (MatrixEv[i, k] * matrixH[k, j]);
                     }
@@ -1168,7 +1145,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
             else
             {
-                throw new NotImplementedException();
+                throw new ArgumentException(Resources.ArgumentMatrixSymmetric);
             }
         }
 
@@ -1238,7 +1215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
             else
             {
-                throw new NotImplementedException();
+                throw new ArgumentException(Resources.ArgumentMatrixSymmetric);
             }
         }
 

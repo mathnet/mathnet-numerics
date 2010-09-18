@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
     using System;
-    using System.Linq;
     using System.Numerics;
     using Generic;
     using Numerics;
@@ -103,20 +102,21 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Double.Factorization.UserEvd(matrix as Matrix<double>) as Evd<T>;
             }
 
-            // if (typeof(T) == typeof(float))
-            // {
-            //    return new LinearAlgebra.Single.Factorization.UserEvd(matrix as Matrix<float>, computeVectors) as Evd<T>;
-            // }
+            if (typeof(T) == typeof(float))
+            {
+                return new LinearAlgebra.Single.Factorization.UserEvd(matrix as Matrix<float>) as Evd<T>;
+            }
 
-            // if (typeof(T) == typeof(Complex))
-            // {
-            //    return new LinearAlgebra.Complex.Factorization.UserEvd(matrix as Matrix<Complex>, computeVectors) as Evd<T>;
-            // }
+            if (typeof(T) == typeof(Complex))
+            {
+                return new LinearAlgebra.Complex.Factorization.UserEvd(matrix as Matrix<Complex>) as Evd<T>;
+            }
 
-            // if (typeof(T) == typeof(Complex32))
-            // {
-            //    return new LinearAlgebra.Complex32.Factorization.UserEvd(matrix as Matrix<Complex32>, computeVectors) as Evd<T>;
-            // }
+            if (typeof(T) == typeof(Complex32))
+            {
+                return new LinearAlgebra.Complex32.Factorization.UserEvd(matrix as Matrix<Complex32>) as Evd<T>;
+            }
+
             throw new NotImplementedException();
         }
 
@@ -131,9 +131,20 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 for (var i = 0; i < VectorEv.Count; i++)
                 {
                     det *= VectorEv[i];
-                    if (VectorEv[i].AlmostEqual(Complex.Zero))
+
+                    if (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32))
                     {
-                        return 0;
+                        if (((Complex32)VectorEv[i]).AlmostEqual(Complex32.Zero))
+                        {
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        if (VectorEv[i].AlmostEqual(Complex.Zero))
+                        {
+                            return 0;
+                        }
                     }
                 }
 
@@ -149,7 +160,28 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         {
             get
             {
-                return VectorEv.Count(t => !t.AlmostEqual(Complex.Zero));
+                var rank = 0;
+                for (var i = 0; i < VectorEv.Count; i++)
+                {
+                    if (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32))
+                    {
+                        if (((Complex32)VectorEv[i]).AlmostEqual(Complex32.Zero))
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if (VectorEv[i].AlmostEqual(Complex.Zero))
+                        {
+                            continue;
+                        }
+                    }
+
+                    rank++;
+                }
+
+                return rank;
             }
         }
 
@@ -252,43 +284,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <param name="val2">Right operand value</param>
         /// <returns>Result of multiplication</returns>
         protected abstract T MultiplyT(T val1, T val2);
-
-        /// <summary>
-        /// Gets value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        private static T OneValueT
-        {
-            get
-            {
-                if (typeof(T) == typeof(Complex))
-                {
-                    object one = Complex.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(Complex32))
-                {
-                    object one = Complex32.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(double))
-                {
-                    object one = 1.0d;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(float))
-                {
-                    object one = 1.0f;
-                    return (T)one;
-                }
-
-                throw new NotSupportedException();
-            }
-        }
-
+        
         #endregion
     }
 }

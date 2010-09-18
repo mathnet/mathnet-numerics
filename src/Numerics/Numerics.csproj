@@ -135,6 +135,7 @@
     <Compile Include="LinearAlgebra\Complex32\Factorization\DenseSvd.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\GramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\UserCholesky.cs" />
+    <Compile Include="LinearAlgebra\Complex32\Factorization\UserEvd.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\UserSvd.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="LinearAlgebra\Complex\Factorization\DenseSvd.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\GramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\UserCholesky.cs" />
+    <Compile Include="LinearAlgebra\Complex\Factorization\UserEvd.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\UserSvd.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="LinearAlgebra\Single\Factorization\DenseSvd.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\GramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\UserCholesky.cs" />
+    <Compile Include="LinearAlgebra\Single\Factorization\UserEvd.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\UserSvd.cs" />

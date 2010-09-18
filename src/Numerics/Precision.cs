@@ -787,6 +787,17 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Checks whether two Compex numbers are almost equal.
+        /// </summary>
+        /// <param name="a">The first number</param>
+        /// <param name="b">The second number</param>
+        /// <returns>true if the two values differ by no more than 10 * 2^(-52); false otherwise.</returns>
+        public static bool AlmostEqual(this Complex32 a, Complex32 b)
+        {
+            double diff = ((IPrecisionSupport<Complex32>)a).NormOfDifference(b);
+            return AlmostEqualWithError(((IPrecisionSupport<Complex32>)a).Norm(), ((IPrecisionSupport<Complex32>)b).Norm(), diff, _defaultSingleRelativeAccuracy);
+        }
+        /// <summary>
         /// Checks whether two structures with precision support are almost equal. 
         /// </summary>
         /// <typeparam name="T">The type of the structures. Must implement <see cref="IPrecisionSupport{T}"/>.</typeparam>
