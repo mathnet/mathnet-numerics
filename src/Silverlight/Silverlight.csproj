@@ -188,9 +188,6 @@
     <Compile Include="..\Numerics\Distributions\Multivariate\Wishart.cs">
       <Link>Distributions\Multivariate\Wishart.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Distributions\Multivariate\Wishart.cs">
-      <Link>Distributions\Multivariate\Wishart.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\GlobalizationHelper.cs">
       <Link>GlobalizationHelper.cs</Link>
     </Compile>

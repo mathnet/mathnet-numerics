@@ -11,7 +11,9 @@
               <Name>en-US</Name>
               <CaseSensitive>false</CaseSensitive>
               <UserWords>Wishart
-Wikipedia</UserWords>
+Wikipedia
+Marsaglia
+Xorshift</UserWords>
             </CustomDictionary>
           </Dictionaries>
         </CustomDictionaries>
