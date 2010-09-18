@@ -28,10 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.RandomTests
+namespace MathNet.Numerics.UnitTests.Random
 {
     using MbUnit.Framework;
-    using Random;
+    using Numerics.Random;
 
     [TestFixture]
     public class Mcg59Tests : RandomTests

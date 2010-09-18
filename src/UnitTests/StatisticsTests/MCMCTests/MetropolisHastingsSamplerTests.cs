@@ -31,7 +31,7 @@
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
     using System;
-    using Random;
+    using Numerics.Random;
     using Distributions;
     using Statistics.Mcmc;
     using MbUnit.Framework;

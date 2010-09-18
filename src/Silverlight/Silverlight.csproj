@@ -773,6 +773,9 @@
     <Compile Include="..\Numerics\Random\WH2006.cs">
       <Link>Random\WH2006.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Random\Xorshift.cs">
+      <Link>Random\Xorshift.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Sampling\Sample.Chebyshev.cs">
       <Link>Sampling\Sample.Chebyshev.cs</Link>
     </Compile>

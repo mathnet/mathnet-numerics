@@ -42,7 +42,7 @@ namespace MathNet.Numerics.UnitTests
         public void TestRandomTupleArraySorting()
         {
             const int Len = 0x1 << 10;
-            var random = new Random();
+            var random = new System.Random();
 
             int[] keys = new int[Len];
             int[] items = new int[Len];
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests
         public void TestRandomTupleListSorting()
         {
             const int Len = 0x1 << 10;
-            var random = new Random();
+            var random = new System.Random();
 
             List<int> keys = new List<int>(Len);
             List<int> items = new List<int>(Len);
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests
         public void TestRandomTripleArraySorting()
         {
             const int Len = 0x1 << 10;
-            var random = new Random();
+            var random = new System.Random();
 
             int[] keys = new int[Len];
             int[] items1 = new int[Len];
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests
         public void TestAppliedListSorting()
         {
             const int Len = 0x1 << 10;
-            var random = new Random();
+            var random = new System.Random();
 
             List<int> list = new List<int>();
 

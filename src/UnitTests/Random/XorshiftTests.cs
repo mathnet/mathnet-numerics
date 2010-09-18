@@ -1,4 +1,4 @@
-﻿// <copyright file="Mrg32k3aTests.cs" company="Math.NET">
+﻿// <copyright file="XorshiftTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -34,9 +34,10 @@ namespace MathNet.Numerics.UnitTests.Random
     using Numerics.Random;
 
     [TestFixture]
-    public class Mrg32k3aTests : RandomTests
+    public class XorshiftTests : RandomTests
     {
-        public Mrg32k3aTests() : base(typeof (Mrg32k3a))
+        public XorshiftTests()
+            : base(typeof(Xorshift))
         {
         }
     }
