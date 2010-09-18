@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal
                          {
-                             RandomSource = new Random.MersenneTwister(1)
+                             RandomSource = new Numerics.Random.MersenneTwister(1)
                          };
             var matrixA = new DenseMatrix(row, col);
             for (var i = 0; i < row; i++)
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal
                          {
-                             RandomSource = new Random.MersenneTwister(1)
+                             RandomSource = new Numerics.Random.MersenneTwister(1)
                          };
             var matrixA = new DenseMatrix(order);
             for (var i = 0; i < order; i++)
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal
                          {
-                             RandomSource = new Random.MersenneTwister(1)
+                             RandomSource = new Numerics.Random.MersenneTwister(1)
                          };
             var v = new DenseVector(order);
             for (var i = 0; i < order; i++)
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal
                          {
-                             RandomSource = new Random.MersenneTwister(1)
+                             RandomSource = new Numerics.Random.MersenneTwister(1)
                          };
             var matrixA = new UserDefinedMatrix(row, col);
             for (var i = 0; i < row; i++)
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal
                          {
-                             RandomSource = new Random.MersenneTwister(1)
+                             RandomSource = new Numerics.Random.MersenneTwister(1)
                          };
             var matrixA = new UserDefinedMatrix(order);
             for (var i = 0; i < order; i++)
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal
                          {
-                             RandomSource = new Random.MersenneTwister(1)
+                             RandomSource = new Numerics.Random.MersenneTwister(1)
                          };
             var v = new UserDefinedVector(order);
             for (var i = 0; i < order; i++)

@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 	using System;
 	using System.Linq;
 	using MbUnit.Framework;
-	using Random;
+	using Numerics.Random;
 	using Distributions;
 
 	[TestFixture]

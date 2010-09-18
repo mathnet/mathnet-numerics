@@ -34,7 +34,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
     using System.Linq;
     using System.Collections.Generic;
     using MbUnit.Framework;
-    using Random;
+    using Numerics.Random;
     using Statistics;
     using Distributions;
 

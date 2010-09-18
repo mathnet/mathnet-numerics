@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.RandomTests
+namespace MathNet.Numerics.UnitTests.Random
 {
     using System;
     using System.Threading;
     using MbUnit.Framework;
 
-	public abstract class RandomTests
+    public abstract class RandomTests
     {
         private const int _n = 10000;
         private readonly Type _randomType;

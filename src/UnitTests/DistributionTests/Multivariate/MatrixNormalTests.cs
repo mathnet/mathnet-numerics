@@ -31,13 +31,9 @@
 namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 {
     using System;
-    using System.Linq;
-    using LinearAlgebra.Generic;
     using MbUnit.Framework;
-    using Random;
     using Distributions;
     using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Double.Factorization;
     using MathNet.Numerics.UnitTests.LinearAlgebraTests.Double;
 
     [TestFixture]
