@@ -129,6 +129,7 @@
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\QRTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\SvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserCholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserEvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserLUTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserQRTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserSvdTests.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="LinearAlgebraTests\Complex\Factorization\QRTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\SvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\UserCholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserEvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\UserLUTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\UserQRTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\UserSvdTests.cs" />
@@ -235,6 +237,7 @@
     <Compile Include="LinearAlgebraTests\Single\Factorization\QRTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\SvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\UserCholeskyTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\UserEvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\UserLUTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\UserQRTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\UserSvdTests.cs" />

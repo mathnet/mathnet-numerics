@@ -188,6 +188,9 @@
     <Compile Include="..\Numerics\Distributions\Multivariate\Wishart.cs">
       <Link>Distributions\Multivariate\Wishart.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Distributions\Multivariate\Wishart.cs">
+      <Link>Distributions\Multivariate\Wishart.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\GlobalizationHelper.cs">
       <Link>GlobalizationHelper.cs</Link>
     </Compile>
@@ -299,6 +302,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserCholesky.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserEvd.cs">
+      <Link>LinearAlgebra\Complex32\Factorization\UserEvd.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserLU.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserLU.cs</Link>
     </Compile>
@@ -385,6 +391,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserCholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserEvd.cs">
+      <Link>LinearAlgebra\Complex\Factorization\UserEvd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserLU.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserLU.cs</Link>
@@ -589,6 +598,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Single\Factorization\UserCholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserEvd.cs">
+      <Link>LinearAlgebra\Single\Factorization\UserEvd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserLU.cs">
       <Link>LinearAlgebra\Single\Factorization\UserLU.cs</Link>
