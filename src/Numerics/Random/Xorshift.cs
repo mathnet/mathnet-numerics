@@ -67,6 +67,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>If the seed value is zero, it is set to one. Uses the
         /// value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
         /// set whether the instance is thread safe.
+        /// Note: <paramref name="c"/> must be less than <paramref name="a"/>.
         /// </remarks>
         public Xorshift(long a, long c, long x1, long x2)
             : this((int)DateTime.Now.Ticks, a, c, x1, x2)
@@ -100,6 +101,7 @@ namespace MathNet.Numerics.Random
         /// <param name="c">The initial carry value.</param>
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
+        /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
         public Xorshift(bool threadSafe, long a, long c, long x1, long x2)
             : this((int)DateTime.Now.Ticks, threadSafe, a, c, x1, x2)
         {
@@ -134,6 +136,7 @@ namespace MathNet.Numerics.Random
         /// <param name="c">The initial carry value.</param>
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
+        /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
         public Xorshift(int seed, long a, long c, long x1, long x2)
             : this(seed, Control.ThreadSafeRandomNumberGenerators, a, c, x1, x2)
         {
@@ -175,12 +178,18 @@ namespace MathNet.Numerics.Random
         /// <param name="c">The initial carry value.</param>
         /// <param name="x1">The initial value if X1.</param>
         /// <param name="x2">The initial value if X2.</param>
+        /// <remarks><paramref name="c"/> must be less than <paramref name="a"/>.</remarks>
         public Xorshift(int seed, bool threadSafe, long a, long c, long x1, long x2)
             : base(threadSafe)
         {
             if (seed == 0)
             {
                 seed = 1;
+            }
+
+            if (a > c)
+            {
+                throw new ArgumentException("a must be less than c", "a");
             }
 
             _x = (uint)seed;

@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Random
     public class Palf : AbstractRandomNumberGenerator
     {
         /// <summary>
-        /// Dafult value for the ShortLag
+        /// Default value for the ShortLag
         /// </summary>
         private const int DefaultShortLag = 418;
 
