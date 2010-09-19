@@ -349,6 +349,7 @@
     <Compile Include="Random\Mcg59.cs" />
     <Compile Include="Random\MersenneTwister.cs" />
     <Compile Include="Random\Mrg32k3a.cs" />
+    <Compile Include="Random\Palf.cs" />
     <Compile Include="Random\SystemCrypto.cs" />
     <Compile Include="Random\SystemRandomExtensions.cs" />
     <Compile Include="Random\WH1982.cs" />
