@@ -321,6 +321,7 @@
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Random\PalfTests.cs" />
     <Compile Include="Random\XorshiftTests.cs" />
     <Compile Include="Random\Mcg31m1Tests.cs" />
     <Compile Include="Random\Mcg59Tests.cs" />

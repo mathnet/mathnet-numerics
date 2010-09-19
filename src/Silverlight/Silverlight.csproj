@@ -758,6 +758,9 @@
     <Compile Include="..\Numerics\Random\Mrg32k3a.cs">
       <Link>Random\Mrg32k3a.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Random\Palf.cs">
+      <Link>Random\Palf.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Random\SystemCrypto.cs">
       <Link>Random\SystemCrypto.cs</Link>
     </Compile>
