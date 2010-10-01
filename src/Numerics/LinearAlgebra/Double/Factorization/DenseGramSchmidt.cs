@@ -1,4 +1,4 @@
-﻿// <copyright file="GramSchmidt.cs" company="Math.NET">
+﻿// <copyright file="DenseGramSchmidt.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,12 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
+namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Generic;
     using Generic.Factorization;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition Modified Gram-Schmidt Orthogonalization.</para>
@@ -42,17 +43,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
     /// </remarks>
-    public class GramSchmidt : QR<float>
+    public class DenseGramSchmidt : GramSchmidt<double>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GramSchmidt"/> class. This object creates an orthogonal matrix 
+        /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an orthogonal matrix 
         /// using the modified Gram-Schmidt method.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is rank deficient</exception>
-        public GramSchmidt(Matrix<float> matrix)
+        public DenseGramSchmidt(DenseMatrix matrix)
         {
             if (matrix == null)
             {
@@ -66,69 +67,50 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             MatrixQ = matrix.Clone();
             MatrixR = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
+            Factorize(((DenseMatrix)MatrixQ).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, ((DenseMatrix)MatrixR).Data);
+        }
 
-            for (var k = 0; k < MatrixQ.ColumnCount; k++)
+        /// <summary>
+        /// Factorize matrix using the modified Gram-Schmidt method.
+        /// </summary>
+        /// <param name="q">Initial matrix. On exit is replaced by <see cref="Matrix{T}"/> Q.</param>
+        /// <param name="rowsQ">Number of rows in <see cref="Matrix{T}"/> Q.</param>
+        /// <param name="columnsQ">Number of columns in <see cref="Matrix{T}"/> Q.</param>
+        /// <param name="r">On exit is filled by <see cref="Matrix{T}"/> R.</param>
+        private static void Factorize(double[] q, int rowsQ, int columnsQ, double[] r)
+        {
+            for (var k = 0; k < columnsQ; k++)
             {
-                var norm = (float)MatrixQ.Column(k).Norm(2);
+                var norm = 0.0;
+                for (var i = 0; i < rowsQ; i++)
+                {
+                    norm += q[(k * rowsQ) + i] * q[(k * rowsQ) + i];
+                }
+
+                norm = Math.Sqrt(norm);
                 if (norm == 0.0)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
                 }
 
-                MatrixR.At(k, k, norm);
-                for (var i = 0; i < MatrixQ.RowCount; i++)
+                r[(k * columnsQ) + k] = norm;
+                for (var i = 0; i < rowsQ; i++)
                 {
-                    MatrixQ.At(i, k, MatrixQ.At(i, k) / norm);
+                    q[(k * rowsQ) + i] /= norm;
                 }
 
-                for (var j = k + 1; j < MatrixQ.ColumnCount; j++)
+                for (var j = k + 1; j < columnsQ; j++)
                 {
-                    var dot = MatrixQ.Column(k).DotProduct(MatrixQ.Column(j));
-                    MatrixR.At(k, j, dot);
-                    for (var i = 0; i < MatrixQ.RowCount; i++)
+                    int k1 = k;
+                    int j1 = j;
+                    var dot = CommonParallel.Aggregate(0, rowsQ, index => q[(k1 * rowsQ) + index] * q[(j1 * rowsQ) + index]);
+                    r[(j * columnsQ) + k] = dot;
+                    for (var i = 0; i < rowsQ; i++)
                     {
-                        var value = MatrixQ.At(i, j) - (MatrixQ.At(i, k) * dot);
-                        MatrixQ.At(i, j, value);
+                        var value = q[(j * rowsQ) + i] - (q[(k * rowsQ) + i] * dot);
+                        q[(j * rowsQ) + i] = value;
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the matrix is full rank or not.
-        /// </summary>
-        /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public override bool IsFullRank
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets the determinant of the matrix for which the QR matrix was computed.
-        /// </summary>
-        public override double Determinant
-        {
-            get
-            {
-                if (MatrixQ.RowCount != MatrixQ.ColumnCount)
-                {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-                }
-
-                var det = 1.0;
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
-                {
-                    det *= MatrixR.At(i, i);
-                    if (Math.Abs(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0f, 7))
-                    {
-                        return 0;
-                    }
-                }
-
-                return Math.Abs(det);
             }
         }
 
@@ -137,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<float> input, Matrix<float> result)
+        public override void Solve(Matrix<double> input, Matrix<double> result)
         {
             // Check for proper arguments.
             if (input == null)
@@ -168,53 +150,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            var inputCopy = input.Clone();
-            
-            // Compute Y = transpose(Q)*B
-            var column = new float[MatrixQ.RowCount];
-            for (var j = 0; j < input.ColumnCount; j++)
+            var dinput = input as DenseMatrix;
+            if (dinput == null)
             {
-                for (var k = 0; k < MatrixQ.RowCount; k++)
-                {
-                    column[k] = inputCopy.At(k, j);
-                }
-
-                for (var i = 0; i < MatrixQ.ColumnCount; i++)
-                {
-                    float s = 0;
-                    for (var k = 0; k < MatrixQ.RowCount; k++)
-                    {
-                        s += MatrixQ.At(k, i) * column[k];
-                    }
-
-                    inputCopy.At(i, j, s);
-                }
+                throw new NotImplementedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
             }
 
-            // Solve R*X = Y;
-            for (var k = MatrixQ.ColumnCount - 1; k >= 0; k--)
+            var dresult = result as DenseMatrix;
+            if (dresult == null)
             {
-                for (var j = 0; j < input.ColumnCount; j++)
-                {
-                    inputCopy.At(k, j, inputCopy.At(k, j) / MatrixR.At(k, k));
-                }
-
-                for (var i = 0; i < k; i++)
-                {
-                    for (var j = 0; j < input.ColumnCount; j++)
-                    {
-                        inputCopy.At(i, j, inputCopy.At(i, j) - (inputCopy.At(k, j) * MatrixR.At(i, k)));
-                    }
-                }
+                throw new NotImplementedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
             }
 
-            for (var i = 0; i < MatrixR.ColumnCount; i++)
-            {
-                for (var j = 0; j < input.ColumnCount; j++)
-                {
-                    result.At(i, j, inputCopy.At(i, j));
-                }
-            }
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, dinput.Data, input.ColumnCount, dresult.Data);
         }
 
         /// <summary>
@@ -222,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<float> input, Vector<float> result)
+        public override void Solve(Vector<double> input, Vector<double> result)
         {
             if (input == null)
             {
@@ -247,40 +195,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            var inputCopy = input.Clone();
-
-            // Compute Y = transpose(Q)*B
-            var column = new float[MatrixQ.RowCount];
-            for (var k = 0; k < MatrixQ.RowCount; k++)
+            var dinput = input as DenseVector;
+            if (dinput == null)
             {
-                column[k] = inputCopy[k];
+                throw new NotImplementedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
-            for (var i = 0; i < MatrixQ.ColumnCount; i++)
+            var dresult = result as DenseVector;
+            if (dresult == null)
             {
-                float s = 0;
-                for (var k = 0; k < MatrixQ.RowCount; k++)
-                {
-                    s += MatrixQ.At(k, i) * column[k];
-                }
-
-                inputCopy[i] = s;
+                throw new NotImplementedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
-            // Solve R*X = Y;
-            for (var k = MatrixQ.ColumnCount - 1; k >= 0; k--)
-            {
-                inputCopy[k] /= MatrixR.At(k, k);
-                for (var i = 0; i < k; i++)
-                {
-                    inputCopy[i] -= inputCopy[k] * MatrixR.At(i, k);
-                }
-            }
-
-            for (var i = 0; i < MatrixR.ColumnCount; i++)
-            {
-                result[i] = inputCopy[i];
-            }
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, dinput.Data, 1, dresult.Data);
         }
 
         #region Simple arithmetic of type T
@@ -291,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <param name="val1">Left operand value</param>
         /// <param name="val2">Right operand value</param>
         /// <returns>Result of multiplication</returns>
-        protected sealed override float MultiplyT(float val1, float val2)
+        protected sealed override double MultiplyT(double val1, double val2)
         {
             return val1 * val2;
         }
@@ -301,11 +228,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// </summary>
         /// <param name="val1"> A number whose absolute is to be found</param>
         /// <returns>Absolute value </returns>
-        protected sealed override double AbsoluteT(float val1)
+        protected sealed override double AbsoluteT(double val1)
         {
             return Math.Abs(val1);
         }
-
         #endregion
     }
 }

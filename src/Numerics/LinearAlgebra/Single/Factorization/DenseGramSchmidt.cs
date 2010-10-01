@@ -1,0 +1,238 @@
+﻿// <copyright file="DenseGramSchmidt.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2010 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
+{
+    using System;
+    using Generic;
+    using Generic.Factorization;
+    using Properties;
+    using Threading;
+
+    /// <summary>
+    /// <para>A class which encapsulates the functionality of the QR decomposition Modified Gram-Schmidt Orthogonalization.</para>
+    /// <para>Any real square matrix A may be decomposed as A = QR where Q is an orthogonal mxn matrix and R is an nxn upper triangular matrix.</para>
+    /// </summary>
+    /// <remarks>
+    /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
+    /// </remarks>
+    public class DenseGramSchmidt : GramSchmidt<float>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an orthogonal matrix 
+        /// using the modified Gram-Schmidt method.
+        /// </summary>
+        /// <param name="matrix">The matrix to factor.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
+        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is rank deficient</exception>
+        public DenseGramSchmidt(DenseMatrix matrix)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix");
+            }
+
+            if (matrix.RowCount < matrix.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            MatrixQ = matrix.Clone();
+            MatrixR = matrix.CreateMatrix(matrix.ColumnCount, matrix.ColumnCount);
+            Factorize(((DenseMatrix)MatrixQ).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, ((DenseMatrix)MatrixR).Data);
+        }
+
+        /// <summary>
+        /// Factorize matrix using the modified Gram-Schmidt method.
+        /// </summary>
+        /// <param name="q">Initial matrix. On exit is replaced by <see cref="Matrix{T}"/> Q.</param>
+        /// <param name="rowsQ">Number of rows in <see cref="Matrix{T}"/> Q.</param>
+        /// <param name="columnsQ">Number of columns in <see cref="Matrix{T}"/> Q.</param>
+        /// <param name="r">On exit is filled by <see cref="Matrix{T}"/> R.</param>
+        private static void Factorize(float[] q, int rowsQ, int columnsQ, float[] r)
+        {
+            for (var k = 0; k < columnsQ; k++)
+            {
+                var norm = 0.0f;
+                for (var i = 0; i < rowsQ; i++)
+                {
+                    norm += q[(k * rowsQ) + i] * q[(k * rowsQ) + i];
+                }
+
+                norm = (float)Math.Sqrt(norm);
+                if (norm == 0.0)
+                {
+                    throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
+                }
+
+                r[(k * columnsQ) + k] = norm;
+                for (var i = 0; i < rowsQ; i++)
+                {
+                    q[(k * rowsQ) + i] /= norm;
+                }
+
+                for (var j = k + 1; j < columnsQ; j++)
+                {
+                    int k1 = k;
+                    int j1 = j;
+                    var dot = CommonParallel.Aggregate(0, rowsQ, index => q[(k1 * rowsQ) + index] * q[(j1 * rowsQ) + index]);
+                    r[(j * columnsQ) + k] = dot;
+                    for (var i = 0; i < rowsQ; i++)
+                    {
+                        var value = q[(j * rowsQ) + i] - (q[(k * rowsQ) + i] * dot);
+                        q[(j * rowsQ) + i] = value;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
+        /// </summary>
+        /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
+        public override void Solve(Matrix<float> input, Matrix<float> result)
+        {
+            // Check for proper arguments.
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            // The solution X should have the same number of columns as B
+            if (input.ColumnCount != result.ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+            }
+
+            // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
+            if (MatrixQ.RowCount != input.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+            }
+
+            // The solution X row dimension is equal to the column dimension of A
+            if (MatrixQ.ColumnCount != result.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+            }
+
+            var dinput = input as DenseMatrix;
+            if (dinput == null)
+            {
+                throw new NotImplementedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
+            }
+
+            var dresult = result as DenseMatrix;
+            if (dresult == null)
+            {
+                throw new NotImplementedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
+            }
+
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, dinput.Data, input.ColumnCount, dresult.Data);
+        }
+
+        /// <summary>
+        /// Solves a system of linear equations, <b>Ax = b</b>, with A QR factorized.
+        /// </summary>
+        /// <param name="input">The right hand side vector, <b>b</b>.</param>
+        /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
+        public override void Solve(Vector<float> input, Vector<float> result)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            // Ax=b where A is an m x n matrix
+            // Check that b is a column vector with m entries
+            if (MatrixQ.RowCount != input.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            // Check that x is a column vector with n entries
+            if (MatrixQ.ColumnCount != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            var dinput = input as DenseVector;
+            if (dinput == null)
+            {
+                throw new NotImplementedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
+            }
+
+            var dresult = result as DenseVector;
+            if (dresult == null)
+            {
+                throw new NotImplementedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
+            }
+
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, dinput.Data, 1, dresult.Data);
+        }
+
+        #region Simple arithmetic of type T
+
+        /// <summary>
+        /// Multiply two values T*T
+        /// </summary>
+        /// <param name="val1">Left operand value</param>
+        /// <param name="val2">Right operand value</param>
+        /// <returns>Result of multiplication</returns>
+        protected sealed override float MultiplyT(float val1, float val2)
+        {
+            return val1 * val2;
+        }
+
+        /// <summary>
+        /// Returns the absolute value of a specified number.
+        /// </summary>
+        /// <param name="val1"> A number whose absolute is to be found</param>
+        /// <returns>Absolute value </returns>
+        protected sealed override double AbsoluteT(float val1)
+        {
+            return Math.Abs(val1);
+        }
+
+        #endregion
+    }
+}

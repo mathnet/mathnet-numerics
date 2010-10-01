@@ -414,7 +414,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Samples an array of Bernoulli distributed random variables.
+        /// Samples an array of Binomially distributed random variables.
         /// </summary>
         /// <returns>a sequence of successes in N trials.</returns>
         public IEnumerable<int> Samples()

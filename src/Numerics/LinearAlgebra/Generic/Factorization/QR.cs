@@ -255,7 +255,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// Gets value of type T equal to one
         /// </summary>
         /// <returns>One value</returns>
-        private static T OneValueT
+        protected static T OneValueT
         {
             get
             {

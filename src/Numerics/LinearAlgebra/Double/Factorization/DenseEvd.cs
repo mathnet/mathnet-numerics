@@ -1,4 +1,4 @@
-﻿// <copyright file="UserEvd.cs" company="Math.NET">
+﻿// <copyright file="DenseEvd.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -50,16 +50,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.cond().
     /// </remarks>
-    public class UserEvd : Evd<double>
+    public class DenseEvd : Evd<double>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserEvd"/> class. This object will compute the
+        /// Initializes a new instance of the <see cref="DenseEvd"/> class. This object will compute the
         /// the eigenvalue decomposition when the constructor is called and cache it's decomposition.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
         /// <exception cref="ArgumentException">If EVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
-        public UserEvd(Matrix<double> matrix)
+        public DenseEvd(DenseMatrix matrix)
         {
             if (matrix == null)
             {
@@ -96,15 +96,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 matrix.CopyTo(MatrixEv);
                 d = MatrixEv.Row(order - 1).ToArray();
 
-                SymmetricTridiagonalize(d, e, order);
-                SymmetricDiagonalize(d, e, order);
+                SymmetricTridiagonalize(((DenseMatrix)MatrixEv).Data, d, e, order);
+                SymmetricDiagonalize(((DenseMatrix)MatrixEv).Data, d, e, order);
             }
             else
             {
                 var matrixH = matrix.ToArray();
 
-                NonsymmetricReduceToHessenberg(matrixH, order);
-                NonsymmetricReduceHessenberToRealSchur(matrixH, d, e, order);
+                NonsymmetricReduceToHessenberg(((DenseMatrix)MatrixEv).Data, matrixH, order);
+                NonsymmetricReduceHessenberToRealSchur(((DenseMatrix)MatrixEv).Data, matrixH, d, e, order);
             }
 
             for (var i = 0; i < order; i++)
@@ -130,6 +130,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Symmetric Householder reduction to tridiagonal form.
         /// </summary>
+        /// <param name="a">Data array of matrix V (eigenvectors)</param>
         /// <param name="d">Arrays for internal storage of real parts of eigenvalues</param>
         /// <param name="e">Arrays for internal storage of imaginary parts of eigenvalues</param>
         /// <param name="order">Order of initial matrix</param>
@@ -137,7 +138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Bowdler, Martin, Reinsch, and Wilkinson, Handbook for 
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding 
         /// Fortran subroutine in EISPACK.</remarks>
-        private void SymmetricTridiagonalize(double[] d, double[] e, int order)
+        private static void SymmetricTridiagonalize(double[] a, double[] d, double[] e, int order)
         {
             // Householder reduction to tridiagonal form.
             for (var i = order - 1; i > 0; i--)
@@ -156,9 +157,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     e[i] = d[i - 1];
                     for (var j = 0; j < i; j++)
                     {
-                        d[j] = MatrixEv.At(i - 1, j);
-                        MatrixEv.At(i, j, 0.0);
-                        MatrixEv.At(j, i, 0.0);
+                        d[j] = a[(j * order) + i - 1];
+                        a[(j * order) + i] = 0.0;
+                        a[(i * order) + j] = 0.0;
                     }
                 }
                 else
@@ -190,13 +191,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     for (var j = 0; j < i; j++)
                     {
                         f = d[j];
-                        MatrixEv.At(j, i, f);
-                        g = e[j] + (MatrixEv.At(j, j) * f);
+                        a[(i * order) + j] = f;
+                        g = e[j] + (a[(j * order) + j] * f);
 
                         for (var k = j + 1; k <= i - 1; k++)
                         {
-                            g += MatrixEv.At(k, j) * d[k];
-                            e[k] += MatrixEv.At(k, j) * f;
+                            g += a[(j * order) + k] * d[k];
+                            e[k] += a[(j * order) + k] * f;
                         }
 
                         e[j] = g;
@@ -224,11 +225,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
                         for (var k = j; k <= i - 1; k++)
                         {
-                            MatrixEv.At(k, j, MatrixEv.At(k, j) - (f * e[k]) - (g * d[k]));
+                            a[(j * order) + k] -= (f * e[k]) + (g * d[k]);
                         }
 
-                        d[j] = MatrixEv.At(i - 1, j);
-                        MatrixEv.At(i, j, 0.0);
+                        d[j] = a[(j * order) + i - 1];
+                        a[(j * order) + i] = 0.0;
                     }
                 }
 
@@ -238,14 +239,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             // Accumulate transformations.
             for (var i = 0; i < order - 1; i++)
             {
-                MatrixEv.At(order - 1, i, MatrixEv.At(i, i));
-                MatrixEv.At(i, i, 1.0);
+                a[(i * order) + order - 1] = a[(i * order) + i];
+                a[(i * order) + i] = 1.0;
                 var h = d[i + 1];
                 if (h != 0.0)
                 {
                     for (var k = 0; k <= i; k++)
                     {
-                        d[k] = MatrixEv.At(k, i + 1) / h;
+                        d[k] = a[((i + 1) * order) + k] / h;
                     }
 
                     for (var j = 0; j <= i; j++)
@@ -253,35 +254,36 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         var g = 0.0;
                         for (var k = 0; k <= i; k++)
                         {
-                            g += MatrixEv.At(k, i + 1) * MatrixEv.At(k, j);
+                            g += a[((i + 1) * order) + k] * a[(j * order) + k];
                         }
 
                         for (var k = 0; k <= i; k++)
                         {
-                            MatrixEv.At(k, j, MatrixEv.At(k, j) - g * d[k]);
+                            a[(j * order) + k] -= g * d[k];
                         }
                     }
                 }
 
                 for (var k = 0; k <= i; k++)
                 {
-                    MatrixEv.At(k, i + 1, 0.0);
+                    a[((i + 1) * order) + k] = 0.0;
                 }
             }
 
             for (var j = 0; j < order; j++)
             {
-                d[j] = MatrixEv.At(order - 1, j);
-                MatrixEv.At(order - 1, j, 0.0);
+                d[j] = a[(j * order) + order - 1];
+                a[(j * order) + order - 1] = 0.0;
             }
 
-            MatrixEv.At(order - 1, order - 1, 1.0);
+            a[(order * order) - 1] = 1.0;
             e[0] = 0.0;
         }
 
         /// <summary>
         /// Symmetric tridiagonal QL algorithm.
         /// </summary>
+        /// <param name="a">Data array of matrix V (eigenvectors)</param>
         /// <param name="d">Arrays for internal storage of real parts of eigenvalues</param>
         /// <param name="e">Arrays for internal storage of imaginary parts of eigenvalues</param>
         /// <param name="order">Order of initial matrix</param>
@@ -289,7 +291,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        private void SymmetricDiagonalize(double[] d, double[] e, int order)
+        private static void SymmetricDiagonalize(double[] a, double[] d, double[] e, int order)
         {
             const int Maxiter = 1000;
 
@@ -373,9 +375,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                             // Accumulate transformation.
                             for (var k = 0; k < order; k++)
                             {
-                                h = MatrixEv.At(k, i + 1);
-                                MatrixEv.At(k, i + 1, (s * MatrixEv.At(k, i)) + (c * h));
-                                MatrixEv.At(k, i, (c * MatrixEv.At(k, i)) - (s * h));
+                                h = a[((i + 1) * order) + k];
+                                a[((i + 1) * order) + k] = (s * a[(i * order) + k]) + (c * h);
+                                a[(i * order) + k] = (c * a[(i * order) + k]) - (s * h);
                             }
                         }
 
@@ -417,9 +419,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     d[i] = p;
                     for (var j = 0; j < order; j++)
                     {
-                        p = MatrixEv.At(j, i);
-                        MatrixEv.At(j, i, MatrixEv.At(j, k));
-                        MatrixEv.At(j, k, p);
+                        p = a[(i * order) + j];
+                        a[(i * order) + j] = a[(k * order) + j];
+                        a[(k * order) + j] = p;
                     }
                 }
             }
@@ -428,13 +430,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Nonsymmetric reduction to Hessenberg form.
         /// </summary>
+        /// <param name="a">Data array of matrix V (eigenvectors)</param>
         /// <param name="matrixH">Array for internal storage of nonsymmetric Hessenberg form.</param>
         /// <param name="order">Order of initial matrix</param>
         /// <remarks>This is derived from the Algol procedures orthes and ortran,
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutines in EISPACK.</remarks>
-        private void NonsymmetricReduceToHessenberg(double[,] matrixH, int order)
+        private static void NonsymmetricReduceToHessenberg(double[] a, double[,] matrixH, int order)
         {
             var ort = new double[order];
 
@@ -508,7 +511,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             {
                 for (var j = 0; j < order; j++)
                 {
-                    MatrixEv.At(i, j, i == j ? 1.0 : 0.0);
+                    a[(j * order) + i] = i == j ? 1.0 : 0.0;
                 }
             }
 
@@ -526,14 +529,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         var g = 0.0;
                         for (var i = m; i < order; i++)
                         {
-                            g += ort[i] * MatrixEv.At(i, j);
+                            g += ort[i] * a[(j * order) + i];
                         }
 
                         // Double division avoids possible underflow
                         g = (g / ort[m]) / matrixH[m, m - 1];
                         for (var i = m; i < order; i++)
                         {
-                            MatrixEv.At(i, j, MatrixEv.At(i, j) + g * ort[i]);
+                            a[(j * order) + i] += g * ort[i];
                         }
                     }
                 }
@@ -543,6 +546,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <summary>
         /// Nonsymmetric reduction from Hessenberg to real Schur form.
         /// </summary>
+        /// <param name="a">Data array of matrix V (eigenvectors)</param>
         /// <param name="matrixH">Array for internal storage of nonsymmetric Hessenberg form.</param>
         /// <param name="d">Arrays for internal storage of real parts of eigenvalues</param>
         /// <param name="e">Arrays for internal storage of imaginary parts of eigenvalues</param>
@@ -551,7 +555,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        private void NonsymmetricReduceHessenberToRealSchur(double[,] matrixH, double[] d, double[] e, int order)
+        private static void NonsymmetricReduceHessenberToRealSchur(double[] a, double[,] matrixH, double[] d, double[] e, int order)
         {
             // Initialize
             var n = order - 1;
@@ -663,9 +667,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         // Accumulate transformations
                         for (var i = 0; i < order; i++)
                         {
-                            z = MatrixEv.At(i, n - 1);
-                            MatrixEv.At(i, n - 1, (q * z) + (p * MatrixEv.At(i, n)));
-                            MatrixEv.At(i, n, (q * MatrixEv.At(i, n)) - (p * z));
+                            z = a[((n - 1) * order) + i];
+                            a[((n - 1) * order) + i] = (q * z) + (p * a[(n * order) + i]);
+                            a[(n * order) + i] = (q * a[(n * order) + i]) - (p * z);
                         }
 
                         // Complex pair
@@ -853,16 +857,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                             // Accumulate transformations
                             for (var i = 0; i < order; i++)
                             {
-                                p = (x * MatrixEv.At(i, k)) + (y * MatrixEv.At(i, k + 1));
+                                p = (x * a[(k * order) + i]) + (y * a[((k + 1) * order) + i]);
 
                                 if (notlast)
                                 {
-                                    p = p + (z * MatrixEv.At(i, k + 2));
-                                    MatrixEv.At(i, k + 2, MatrixEv.At(i, k + 2) - (p * r));
+                                    p = p + (z * a[((k + 2) * order) + i]);
+                                    a[((k + 2) * order) + i] -= p * r;
                                 }
 
-                                MatrixEv.At(i, k, MatrixEv.At(i, k) - p);
-                                MatrixEv.At(i, k + 1, MatrixEv.At(i, k + 1) - (p * q));
+                                a[(k * order) + i] -= p;
+                                a[((k + 1) * order) + i] -= p * q;
                             }
                         } // (s != 0)
                     } // k loop
@@ -1046,10 +1050,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     z = 0.0;
                     for (var k = 0; k <= j; k++)
                     {
-                        z = z + (MatrixEv.At(i, k) * matrixH[k, j]);
+                        z = z + (a[(k * order) + i] * matrixH[k, j]);
                     }
 
-                    MatrixEv.At(i, j, z);
+                    a[(j * order) + i] = z;
                 }
             }
         }
@@ -1122,7 +1126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         {
                             for (var i = 0; i < order; i++)
                             {
-                                value += MatrixEv.At(i, j) * input.At(i, k);
+                                value += ((DenseMatrix)MatrixEv).Data[(j * order) + i] * input.At(i, k);
                             }
 
                             value /= VectorEv[j].Real;
@@ -1136,7 +1140,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                         double value = 0;
                         for (var i = 0; i < order; i++)
                         {
-                            value += MatrixEv.At(j, i) * tmp[i];
+                            value += ((DenseMatrix)MatrixEv).Data[(i * order) + j] * tmp[i];
                         }
 
                         result[j, k] = value;
@@ -1193,7 +1197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     {
                         for (var i = 0; i < order; i++)
                         {
-                            value += MatrixEv.At(i, j) * input[i];
+                            value += ((DenseMatrix)MatrixEv).Data[(j * order) + i] * input[i];
                         }
 
                         value /= VectorEv[j].Real;
@@ -1207,7 +1211,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     value = 0;
                     for (int i = 0; i < order; i++)
                     {
-                        value += MatrixEv.At(j, i) * tmp[i];
+                        value += ((DenseMatrix)MatrixEv).Data[(i * order) + j] * tmp[i];
                     }
 
                     result[j] = value;

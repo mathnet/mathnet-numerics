@@ -35,8 +35,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
     using System.Diagnostics;
     using System.Linq;
     using Distributions;
-    using Factorization;
     using Generic;
+    using Generic.Factorization;
     using Generic.Solvers;
     using Generic.Solvers.Preconditioners;
     using Generic.Solvers.Status;
@@ -642,7 +642,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             }
 
             // Compute the orthogonalization.
-            var gs = new GramSchmidt(matrix);
+            var gs = matrix.GramSchmidt();
             var orthogonalMatrix = gs.Q;
 
             // Now transfer this to vectors

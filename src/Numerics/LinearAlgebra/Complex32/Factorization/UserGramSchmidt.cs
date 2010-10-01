@@ -1,4 +1,4 @@
-﻿// <copyright file="GramSchmidt.cs" company="Math.NET">
+﻿// <copyright file="UserGramSchmidt.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,31 +28,32 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
+namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
     using System;
     using Generic;
     using Generic.Factorization;
+    using Numerics;
     using Properties;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition Modified Gram-Schmidt Orthogonalization.</para>
-    /// <para>Any real square matrix A may be decomposed as A = QR where Q is an orthogonal mxn matrix and R is an nxn upper triangular matrix.</para>
+    /// <para>Any complex square matrix A may be decomposed as A = QR where Q is an unitary mxn matrix and R is an nxn upper triangular matrix.</para>
     /// </summary>
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
     /// </remarks>
-    public class GramSchmidt : QR<double>
+    public class UserGramSchmidt : GramSchmidt<Complex32>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GramSchmidt"/> class. This object creates an orthogonal matrix 
+        /// Initializes a new instance of the <see cref="UserGramSchmidt"/> class. This object creates an unitary matrix 
         /// using the modified Gram-Schmidt method.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is rank deficient</exception>
-        public GramSchmidt(Matrix<double> matrix)
+        public UserGramSchmidt(Matrix<Complex32> matrix)
         {
             if (matrix == null)
             {
@@ -69,8 +70,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             for (var k = 0; k < MatrixQ.ColumnCount; k++)
             {
-                var norm = MatrixQ.Column(k).Norm(2);
-                if (norm == 0.0)
+                var norm = (float)MatrixQ.Column(k).Norm(2);
+                if (norm == 0.0f)
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
                 }
@@ -83,7 +84,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
                 for (var j = k + 1; j < MatrixQ.ColumnCount; j++)
                 {
-                    var dot = MatrixQ.Column(k).DotProduct(MatrixQ.Column(j));
+                    var dot = Complex32.Zero;
+                    for (int i = 0; i < MatrixQ.RowCount; i++)
+                    {
+                        dot += MatrixQ.Column(k)[i].Conjugate() * MatrixQ.Column(j)[i];
+                    }
+                    
                     MatrixR.At(k, j, dot);
                     for (var i = 0; i < MatrixQ.RowCount; i++)
                     {
@@ -93,51 +99,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 }
             }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether the matrix is full rank or not.
-        /// </summary>
-        /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public override bool IsFullRank
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets the determinant of the matrix for which the QR matrix was computed.
-        /// </summary>
-        public override double Determinant
-        {
-            get
-            {
-                if (MatrixQ.RowCount != MatrixQ.ColumnCount)
-                {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-                }
-
-                var det = 1.0;
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
-                {
-                    det *= MatrixR.At(i, i);
-                    if (Math.Abs(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, 15))
-                    {
-                        return 0;
-                    }
-                }
-
-                return Math.Abs(det);
-            }
-        }
-
+        
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A QR factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</param>
-        public override void Solve(Matrix<double> input, Matrix<double> result)
+        public override void Solve(Matrix<Complex32> input, Matrix<Complex32> result)
         {
             // Check for proper arguments.
             if (input == null)
@@ -171,7 +139,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var inputCopy = input.Clone();
             
             // Compute Y = transpose(Q)*B
-            var column = new double[MatrixQ.RowCount];
+            var column = new Complex32[MatrixQ.RowCount];
             for (var j = 0; j < input.ColumnCount; j++)
             {
                 for (var k = 0; k < MatrixQ.RowCount; k++)
@@ -181,10 +149,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
                 for (var i = 0; i < MatrixQ.ColumnCount; i++)
                 {
-                    double s = 0;
+                    var s = Complex32.Zero;
                     for (var k = 0; k < MatrixQ.RowCount; k++)
                     {
-                        s += MatrixQ.At(k, i) * column[k];
+                        s += MatrixQ.At(k, i).Conjugate() * column[k];
                     }
 
                     inputCopy.At(i, j, s);
@@ -222,7 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
-        public override void Solve(Vector<double> input, Vector<double> result)
+        public override void Solve(Vector<Complex32> input, Vector<Complex32> result)
         {
             if (input == null)
             {
@@ -250,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var inputCopy = input.Clone();
 
             // Compute Y = transpose(Q)*B
-            var column = new double[MatrixQ.RowCount];
+            var column = new Complex32[MatrixQ.RowCount];
             for (var k = 0; k < MatrixQ.RowCount; k++)
             {
                 column[k] = inputCopy[k];
@@ -258,10 +226,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             for (var i = 0; i < MatrixQ.ColumnCount; i++)
             {
-                double s = 0;
+                var s = Complex32.Zero;
                 for (var k = 0; k < MatrixQ.RowCount; k++)
                 {
-                    s += MatrixQ.At(k, i) * column[k];
+                    s += MatrixQ.At(k, i).Conjugate() * column[k];
                 }
 
                 inputCopy[i] = s;
@@ -291,7 +259,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <param name="val1">Left operand value</param>
         /// <param name="val2">Right operand value</param>
         /// <returns>Result of multiplication</returns>
-        protected sealed override double MultiplyT(double val1, double val2)
+        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
         {
             return val1 * val2;
         }
@@ -301,10 +269,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="val1"> A number whose absolute is to be found</param>
         /// <returns>Absolute value </returns>
-        protected sealed override double AbsoluteT(double val1)
+        protected sealed override double AbsoluteT(Complex32 val1)
         {
-            return Math.Abs(val1);
+            return val1.Magnitude;
         }
+
         #endregion
     }
 }

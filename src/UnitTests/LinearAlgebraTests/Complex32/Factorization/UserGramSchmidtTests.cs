@@ -1,4 +1,4 @@
-﻿// <copyright file="GramSchmidtTests.cs" company="Math.NET">
+﻿// <copyright file="UserGramSchmidtTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,27 +28,26 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
     using LinearAlgebra.Generic.Factorization;
-    using LinearAlgebra.Single;
     using MbUnit.Framework;
-    using LinearAlgebra.Single.Factorization;
+    using LinearAlgebra.Complex32.Factorization;
 
-    public class GramSchmidtTests
+    public class UserGramSchmidtTests
     {
         [Test]
         [ExpectedArgumentNullException]
         public void ConstructorNull()
         {
-            new DenseGramSchmidt(null);
+            new UserGramSchmidt(null);
         }
 
         [Test]
         [ExpectedArgumentException]
         public void WideMatrixThrowsInvalidMatrixOperationException()
         {
-            new DenseGramSchmidt(new DenseMatrix(3, 4));
+            new UserGramSchmidt(new UserDefinedMatrix(3, 4));
         }
         
         [Test]
@@ -57,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [Row(100)]
         public void CanFactorizeIdentity(int order)
         {
-            var I = DenseMatrix.Identity(order);
+            var I = UserDefinedMatrix.Identity(order);
             var factorGramSchmidt = I.GramSchmidt();
 
             Assert.AreEqual(I.RowCount, factorGramSchmidt.Q.RowCount);
@@ -69,11 +68,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(1.0, factorGramSchmidt.R[i, j]);
+                        Assert.AreEqual(1.0f, factorGramSchmidt.R[i, j]);
                     }
                     else
                     {
-                        Assert.AreEqual(0.0, factorGramSchmidt.R[i, j]);
+                        Assert.AreEqual(0.0f, factorGramSchmidt.R[i, j]);
                     }
                 }
             }
@@ -84,11 +83,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(1.0, factorGramSchmidt.Q[i, j]);
+                        Assert.AreEqual(1.0f, factorGramSchmidt.Q[i, j]);
                     }
                     else
                     {
-                        Assert.AreEqual(0.0, factorGramSchmidt.Q[i, j]);
+                        Assert.AreEqual(0.0f, factorGramSchmidt.Q[i, j]);
                     }
                 }
             }
@@ -101,9 +100,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [Row(100)]
         public void IdentityDeterminantIsOne(int order)
         {
-            var I = DenseMatrix.Identity(order);
+            var I = UserDefinedMatrix.Identity(order);
             var factorGramSchmidt = I.GramSchmidt();
-            Assert.AreEqual(1.0, factorGramSchmidt.Determinant);
+            Assert.AreEqual(1.0f, factorGramSchmidt.Determinant);
         }
 
         [Test]
@@ -116,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [MultipleAsserts]
         public void CanFactorizeRandomMatrix(int row, int column)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var factorGramSchmidt = matrixA.GramSchmidt();
 
             // Make sure the Q has the right dimensions.
@@ -134,7 +133,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                 {
                     if (i > j)
                     {
-                        Assert.AreEqual(0.0, factorGramSchmidt.R[i, j]);
+                        Assert.AreEqual(0.0f, factorGramSchmidt.R[i, j]);
                     }
                 }
             }
@@ -145,9 +144,30 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixQfromR.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixA[i, j], matrixQfromR[i, j], 10e-5f);
+                    Assert.AreApproximatelyEqual(matrixA[i, j].Real, matrixQfromR[i, j].Real, 1e-3f);
+                    Assert.AreApproximatelyEqual(matrixA[i, j].Imaginary, matrixQfromR[i, j].Imaginary, 1e-3f);
                 }
             }
+
+            // Make sure the Q is unitary --> (Q*)x(Q) = I
+            var matrixQсtQ = factorGramSchmidt.Q.ConjugateTranspose() * factorGramSchmidt.Q;
+            for (var i = 0; i < matrixQсtQ.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQсtQ.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreApproximatelyEqual(matrixQсtQ[i, j].Real, 1.0f, 1e-3f);
+                        Assert.AreApproximatelyEqual(matrixQсtQ[i, j].Imaginary, 0.0f, 1e-3f);
+                    }
+                    else
+                    {
+                        Assert.AreApproximatelyEqual(matrixQсtQ[i, j].Real, 0.0f, 1e-3f);
+                        Assert.AreApproximatelyEqual(matrixQсtQ[i, j].Imaginary, 0.0f, 1e-3f);
+                    }
+                }
+            }
+
         }
 
         [Test]
@@ -160,11 +180,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
             var resultx = factorGramSchmidt.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
@@ -174,7 +194,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 10e-5f);
+                Assert.AreApproximatelyEqual(vectorb[i].Real, bReconstruct[i].Real, 1e-3f);
+                Assert.AreApproximatelyEqual(vectorb[i].Imaginary, bReconstruct[i].Imaginary, 1e-3f);
             }
 
             // Make sure A didn't change.
@@ -197,11 +218,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixX = factorGramSchmidt.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -216,7 +237,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 10e-5f);
+                    Assert.AreApproximatelyEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-3f);
+                    Assert.AreApproximatelyEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-3f);
                 }
             }
 
@@ -240,12 +262,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
             var vectorbCopy = vectorb.Clone();
-            var resultx = new DenseVector(order);
+            var resultx = new UserDefinedVector(order);
             factorGramSchmidt.Solve(vectorb,resultx);
 
             Assert.AreEqual(vectorb.Count, resultx.Count);
@@ -255,7 +277,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 10e-5f);
+                Assert.AreApproximatelyEqual(vectorb[i].Real, bReconstruct[i].Real, 1e-3f);
+                Assert.AreApproximatelyEqual(vectorb[i].Imaginary, bReconstruct[i].Imaginary, 1e-3f);
             }
 
             // Make sure A didn't change.
@@ -284,14 +307,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [MultipleAsserts]
         public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
             var factorGramSchmidt = matrixA.GramSchmidt();
 
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixBCopy = matrixB.Clone();
 
-            var matrixX = new DenseMatrix(order, order);
+            var matrixX = new UserDefinedMatrix(order, order);
             factorGramSchmidt.Solve(matrixB,matrixX);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -306,7 +329,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 10e-5f);
+                    Assert.AreApproximatelyEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1e-3f);
+                    Assert.AreApproximatelyEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1e-3f);
                 }
             }
 

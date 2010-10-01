@@ -1,4 +1,4 @@
-﻿// <copyright file="GramSchmidt.cs" company="Math.NET">
+﻿// <copyright file="UserGramSchmidt.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -43,17 +43,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
     /// </remarks>
-    public class GramSchmidt : QR<Complex>
+    public class UserGramSchmidt : GramSchmidt<Complex>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GramSchmidt"/> class. This object creates an unitary matrix 
+        /// Initializes a new instance of the <see cref="UserGramSchmidt"/> class. This object creates an unitary matrix 
         /// using the modified Gram-Schmidt method.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is rank deficient</exception>
-        public GramSchmidt(Matrix<Complex> matrix)
+        public UserGramSchmidt(Matrix<Complex> matrix)
         {
             if (matrix == null)
             {
@@ -97,44 +97,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         MatrixQ.At(i, j, value);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the matrix is full rank or not.
-        /// </summary>
-        /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public override bool IsFullRank
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets the determinant of the matrix for which the QR matrix was computed.
-        /// </summary>
-        public override double Determinant
-        {
-            get
-            {
-                if (MatrixQ.RowCount != MatrixQ.ColumnCount)
-                {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-                }
-
-                var det = Complex.One;
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
-                {
-                    det *= MatrixR.At(i, i);
-                    if (MatrixR.At(i, i).Magnitude.AlmostEqualInDecimalPlaces(0.0, 15))
-                    {
-                        return 0;
-                    }
-                }
-
-                return det.Magnitude;
             }
         }
 

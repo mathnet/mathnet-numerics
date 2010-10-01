@@ -110,6 +110,7 @@
     <Compile Include="DistributionTests\Continuous\RayleighTests.cs" />
     <Compile Include="DistributionTests\Continuous\StableTests.cs" />
     <Compile Include="DistributionTests\Discrete\ConwayMaxwellPoissonTests.cs" />
+    <Compile Include="DistributionTests\Discrete\PoissonTests.cs" />
     <Compile Include="DistributionTests\Discrete\GeometricTests.cs" />
     <Compile Include="DistributionTests\Discrete\HypergeometricTests.cs" />
     <Compile Include="DistributionTests\Discrete\NegativeBinomialTests.cs" />
@@ -125,6 +126,8 @@
     <Compile Include="LinearAlgebraTests\Complex32\DiagonalMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\CholeskyTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\GramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\EvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserGramSchmidtTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\LUTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\QRTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\SvdTests.cs" />
@@ -165,6 +168,8 @@
     <Compile Include="LinearAlgebraTests\Complex\DiagonalMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\CholeskyTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\GramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\EvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\Factorization\UserGramSchmidtTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\LUTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\QRTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\SvdTests.cs" />
@@ -200,8 +205,10 @@
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\DiagonalMatrixTests.cs" />
-    <Compile Include="LinearAlgebraTests\Double\Factorization\UserEvdTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\GramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\EvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserEvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\Factorization\UserGramSchmidtTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\UserCholeskyTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\UserLUTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Factorization\UserQRTests.cs" />
@@ -233,6 +240,8 @@
     <Compile Include="LinearAlgebraTests\Single\DiagonalMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\CholeskyTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\GramSchmidtTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\EvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\Factorization\UserGramSchmidtTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\LUTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\QRTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\SvdTests.cs" />

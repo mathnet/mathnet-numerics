@@ -93,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixAv.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixAv[i, j], matrixLv[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrixAv[i, j], matrixLv[i, j], 1.0e-10);
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrix[i, j], matrixA[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrix[i, j], matrixA[i, j], 1.0e-10);
                 }
             }
         }
@@ -189,10 +189,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorSvd = matrixA.Svd(true);
+            var factorEvd = matrixA.Evd();
 
             var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
-            var resultx = factorSvd.Solve(vectorb);
+            var resultx = factorEvd.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1.0e-11);
+                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1.0e-10);
             }
 
             // Make sure A didn't change.
@@ -226,10 +226,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorSvd = matrixA.Svd(true);
+            var factorEvd = matrixA.Evd();
 
             var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
-            var matrixX = factorSvd.Solve(matrixB);
+            var matrixX = factorEvd.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
@@ -243,7 +243,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-10);
                 }
             }
 
@@ -269,18 +269,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorSvd = matrixA.Svd(true);
+            var factorEvd = matrixA.Evd();
             var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
             var vectorbCopy = vectorb.Clone();
             var resultx = new UserDefinedVector(order);
-            factorSvd.Solve(vectorb, resultx);
+            factorEvd.Solve(vectorb, resultx);
 
             var bReconstruct = matrixA * resultx;
 
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1.0e-11);
+                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1.0e-10);
             }
 
             // Make sure A didn't change.
@@ -311,13 +311,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorSvd = matrixA.Svd(true);
+            var factorEvd = matrixA.Evd();
 
             var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new UserDefinedMatrix(order, order);
-            factorSvd.Solve(matrixB, matrixX);
+            factorEvd.Solve(matrixB, matrixX);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
@@ -331,7 +331,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-11);
+                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1.0e-10);
                 }
             }
 
