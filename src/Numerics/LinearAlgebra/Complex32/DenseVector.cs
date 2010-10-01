@@ -28,6 +28,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Distributions;
     using Generic;
     using NumberTheory;
@@ -1183,6 +1184,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     0,
                     Count,
                     index => Data[index].Magnitude);
+            }
+
+            if (2.0 == p)
+            {
+                return Data.Aggregate(Complex32.Zero, SpecialFunctions.Hypotenuse).Magnitude;
             }
 
             if (Double.IsPositiveInfinity(p))

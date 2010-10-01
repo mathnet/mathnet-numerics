@@ -186,16 +186,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Row(5)]
         [Row(10)]
         [Row(50)]
-        [Row(100)]
+     //   [Row(100)]
         [MultipleAsserts]
         public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorSvd = matrixA.Svd(true);
+            var factorEvd = matrixA.Evd();
 
             var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
-            var resultx = factorSvd.Solve(vectorb);
+            var resultx = factorEvd.Solve(vectorb);
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
@@ -230,10 +230,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorSvd = matrixA.Svd(true);
+            var factorEvd = matrixA.Evd();
 
             var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
-            var matrixX = factorSvd.Solve(matrixB);
+            var matrixX = factorEvd.Solve(matrixB);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
@@ -268,17 +268,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         [Row(5)]
         [Row(10)]
         [Row(50)]
-        [Row(100)]
+       // [Row(100)]
         [MultipleAsserts]
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorSvd = matrixA.Svd(true);
+            var factorEvd = matrixA.Evd();
             var vectorb = MatrixLoader.GenerateRandomUserDefinedVector(order);
             var vectorbCopy = vectorb.Clone();
             var resultx = new UserDefinedVector(order);
-            factorSvd.Solve(vectorb, resultx);
+            factorEvd.Solve(vectorb, resultx);
 
             var bReconstruct = matrixA * resultx;
 
@@ -317,13 +317,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
-            var factorSvd = matrixA.Svd(true);
+            var factorEvd = matrixA.Evd();
 
             var matrixB = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new UserDefinedMatrix(order, order);
-            factorSvd.Solve(matrixB, matrixX);
+            factorEvd.Solve(matrixB, matrixX);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);

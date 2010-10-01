@@ -90,7 +90,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             if (IsSymmetric)
             {
-                var matrixCopy = matrix.Clone();
+                var matrixCopy = matrix.ToArray();
                 var tau = new Complex[order];
                 var d = new double[order];
                 var e = new double[order];
@@ -126,14 +126,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for 
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding 
         /// Fortran subroutine in EISPACK.</remarks>
-        private static void SymmetricTridiagonalize(Matrix<Complex> matrixA, double[] d, double[] e, Complex[] tau, int order)
+        private static void SymmetricTridiagonalize(Complex[,] matrixA, double[] d, double[] e, Complex[] tau, int order)
         {
             double hh;
             tau[order - 1] = Complex.One;
 
-            for (var i = 0; i < matrixA.Diagonal().Count; i++)
+            for (var i = 0; i < order; i++)
             {
-                d[i] = matrixA.Diagonal()[i].Real;
+                d[i] = matrixA[i, i].Real;
             }
 
             // Householder reduction to tridiagonal form.
@@ -331,9 +331,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                             // Accumulate transformation.
                             for (var k = 0; k < order; k++)
                             {
-                                h = MatrixEv[k, i + 1].Real;
-                                MatrixEv[k, i + 1] = (s * MatrixEv[k, i].Real) + (c * h);
-                                MatrixEv[k, i] = (c * MatrixEv[k, i].Real) - (s * h);
+                                h = MatrixEv.At(k, i + 1).Real;
+                                MatrixEv.At(k, i + 1, (s * MatrixEv.At(k, i).Real) + (c * h));
+                                MatrixEv.At(k, i, (c * MatrixEv.At(k, i).Real) - (s * h));
                             }
                         }
 
@@ -375,9 +375,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     d[i] = p;
                     for (var j = 0; j < order; j++)
                     {
-                        p = MatrixEv[j, i].Real;
-                        MatrixEv[j, i] = MatrixEv[j, k];
-                        MatrixEv[j, k] = p;
+                        p = MatrixEv.At(j, i).Real;
+                        MatrixEv.At(j, i, MatrixEv.At(j, k));
+                        MatrixEv.At(j, k, p);
                     }
                 }
             }
@@ -393,13 +393,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// by Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        private void SymmetricUntridiagonalize(Matrix<Complex> matrixA, Complex[] tau, int order)
+        private void SymmetricUntridiagonalize(Complex[,] matrixA, Complex[] tau, int order)
         {
             for (var i = 0; i < order; i++)
             {
                 for (var j = 0; j < order; j++)
                 {
-                    MatrixEv[i, j] = MatrixEv[i, j].Real * tau[i].Conjugate();
+                    MatrixEv.At(i, j, MatrixEv.At(i, j).Real * tau[i].Conjugate());
                 }
             }
 
@@ -414,14 +414,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         var s = Complex.Zero;
                         for (var k = 0; k < i; k++)
                         {
-                            s += MatrixEv[k, j] * matrixA[i, k];
+                            s += MatrixEv.At(k, j) * matrixA[i, k];
                         }
 
                         s = (s / h) / h;
 
                         for (var k = 0; k < i; k++)
                         {
-                            MatrixEv[k, j] -= s * matrixA[i, k].Conjugate();
+                            MatrixEv.At(k, j, MatrixEv.At(k, j) - s * matrixA[i, k].Conjugate());
                         }
                     }
                 }
@@ -515,7 +515,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             {
                 for (var j = 0; j < order; j++)
                 {
-                    MatrixEv[i, j] = i == j ? Complex.One : Complex.Zero;
+                    MatrixEv.At(i, j, i == j ? Complex.One : Complex.Zero);
                 }
             }
 
@@ -535,14 +535,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         var g = Complex.Zero;
                         for (var i = m; i < order; i++)
                         {
-                            g += ort[i].Conjugate() * MatrixEv[i, j];
+                            g += ort[i].Conjugate() * MatrixEv.At(i, j);
                         }
 
                         // Double division avoids possible underflow
                         g /= norm;
                         for (var i = m; i < order; i++)
                         {
-                            MatrixEv[i, j] += g * ort[i];
+                            MatrixEv.At(i, j, MatrixEv.At(i, j) + g * ort[i]);
                         }
                     }
                 }
@@ -567,7 +567,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                     for (var j = 0; j < order; j++)
                     {
-                        MatrixEv[j, i] *= y;
+                        MatrixEv.At(j, i, MatrixEv.At(j, i) * y);
                     }
                 }
             }
@@ -706,10 +706,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                         for (var i = 0; i < order; i++)
                         {
-                            y = MatrixEv[i, j - 1];
-                            z = MatrixEv[i, j];
-                            MatrixEv[i, j - 1] = (x * y) + (matrixH[j, j - 1].Imaginary * z);
-                            MatrixEv[i, j] = (x.Conjugate() * z) - (matrixH[j, j - 1].Imaginary * y);
+                            y = MatrixEv.At(i, j - 1);
+                            z = MatrixEv.At(i, j);
+                            MatrixEv.At(i, j - 1, (x * y) + (matrixH[j, j - 1].Imaginary * z));
+                            MatrixEv.At(i, j, (x.Conjugate() * z) - (matrixH[j, j - 1].Imaginary * y));
                         }
                     }
 
@@ -722,7 +722,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
                         for (var i = 0; i < order; i++)
                         {
-                            MatrixEv[i, n] *= s;
+                            MatrixEv.At(i, n, MatrixEv.At(i, n) * s);
                         }
                     }
                 }
@@ -790,10 +790,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     z = Complex.Zero;
                     for (var k = 0; k <= j; k++)
                     {
-                        z += MatrixEv[i, k] * matrixH[k, j];
+                        z += MatrixEv.At(i, k) * matrixH[k, j];
                     }
 
-                    MatrixEv[i, j] = z;
+                    MatrixEv.At(i, j, z);
                 }
             }
         }
@@ -848,7 +848,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         {
                             for (var i = 0; i < order; i++)
                             {
-                                value += MatrixEv.At(i, j) * input.At(i, k);
+                                value += MatrixEv.At(i, j).Conjugate() * input.At(i, k);
                             }
 
                             value /= VectorEv[j].Real;
@@ -862,7 +862,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         Complex value = 0.0;
                         for (var i = 0; i < order; i++)
                         {
-                            value += MatrixEv.At(j, i).Conjugate() * tmp[i];
+                            value += MatrixEv.At(j, i) * tmp[i];
                         }
 
                         result[j, k] = value;
@@ -919,7 +919,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     {
                         for (var i = 0; i < order; i++)
                         {
-                            value += MatrixEv.At(i, j) * input[i];
+                            value += MatrixEv.At(i, j).Conjugate() * input[i];
                         }
 
                         value /= VectorEv[j].Real;
@@ -933,7 +933,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     value = 0;
                     for (int i = 0; i < order; i++)
                     {
-                        value += MatrixEv.At(j, i).Conjugate() * tmp[i];
+                        value += MatrixEv.At(j, i) * tmp[i];
                     }
 
                     result[j] = value;

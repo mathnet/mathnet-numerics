@@ -29,6 +29,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using Distributions;
     using Generic;
     using NumberTheory;
@@ -1235,6 +1236,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             if (NonZerosCount == 0)
             {
                 return 0.0;
+            }
+
+            if (2.0 == p)
+            {
+                return _nonZeroValues.Aggregate(0.0, SpecialFunctions.Hypotenuse);
             }
 
             if (Double.IsPositiveInfinity(p))

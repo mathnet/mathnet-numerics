@@ -99,21 +99,45 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         {
             if (typeof(T) == typeof(double))
             {
+                var dense = matrix as LinearAlgebra.Double.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Double.Factorization.DenseEvd(dense) as Evd<T>;
+                }
+
                 return new LinearAlgebra.Double.Factorization.UserEvd(matrix as Matrix<double>) as Evd<T>;
             }
 
             if (typeof(T) == typeof(float))
             {
+                var dense = matrix as LinearAlgebra.Single.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Single.Factorization.DenseEvd(dense) as Evd<T>;
+                }
+
                 return new LinearAlgebra.Single.Factorization.UserEvd(matrix as Matrix<float>) as Evd<T>;
             }
 
             if (typeof(T) == typeof(Complex))
             {
+                var dense = matrix as LinearAlgebra.Complex.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex.Factorization.DenseEvd(dense) as Evd<T>;
+                }
+
                 return new LinearAlgebra.Complex.Factorization.UserEvd(matrix as Matrix<Complex>) as Evd<T>;
             }
 
             if (typeof(T) == typeof(Complex32))
             {
+                var dense = matrix as LinearAlgebra.Complex32.DenseMatrix;
+                if (dense != null)
+                {
+                    return new LinearAlgebra.Complex32.Factorization.DenseEvd(dense) as Evd<T>;
+                }
+
                 return new LinearAlgebra.Complex32.Factorization.UserEvd(matrix as Matrix<Complex32>) as Evd<T>;
             }
 

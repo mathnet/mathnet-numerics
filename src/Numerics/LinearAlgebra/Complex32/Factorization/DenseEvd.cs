@@ -1,4 +1,4 @@
-﻿// <copyright file="UserEvd.cs" company="Math.NET">
+﻿// <copyright file="DenseEvd.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,16 +51,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.cond().
     /// </remarks>
-    public class UserEvd : Evd<Complex32>
+    public class DenseEvd : Evd<Complex32>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserEvd"/> class. This object will compute the
+        /// Initializes a new instance of the <see cref="DenseEvd"/> class. This object will compute the
         /// the eigenvalue decomposition when the constructor is called and cache it's decomposition.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
         /// <exception cref="ArgumentException">If EVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
-        public UserEvd(Matrix<Complex32> matrix)
+        public DenseEvd(DenseMatrix matrix)
         {
             if (matrix == null)
             {
@@ -97,8 +97,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 var e = new float[order];
 
                 SymmetricTridiagonalize(matrixCopy, d, e, tau, order);
-                SymmetricDiagonalize(d, e, order);
-                SymmetricUntridiagonalize(matrixCopy, tau, order);
+                SymmetricDiagonalize(((DenseMatrix)MatrixEv).Data, d, e, order);
+                SymmetricUntridiagonalize(((DenseMatrix)MatrixEv).Data, matrixCopy, tau, order);
 
                 for (var i = 0; i < order; i++)
                 {
@@ -108,8 +108,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             else
             {
                 var matrixH = matrix.ToArray();
-                NonsymmetricReduceToHessenberg(matrixH, order);
-                NonsymmetricReduceHessenberToRealSchur(matrixH, order);
+                NonsymmetricReduceToHessenberg(((DenseMatrix)MatrixEv).Data, matrixH, order);
+                NonsymmetricReduceHessenberToRealSchur(((LinearAlgebra.Complex.DenseVector)VectorEv).Data, ((DenseMatrix)MatrixEv).Data, matrixH, order);
             }
 
             for (var i = 0; i < VectorEv.Count; i++)
@@ -244,6 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Symmetric tridiagonal QL algorithm.
         /// </summary>
+        /// <param name="dataEv">Data array of matrix V (eigenvectors)</param>
         /// <param name="d">Arrays for internal storage of real parts of eigenvalues</param>
         /// <param name="e">Arrays for internal storage of imaginary parts of eigenvalues</param>
         /// <param name="order">Order of initial matrix</param>
@@ -251,7 +252,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        private void SymmetricDiagonalize(float[] d, float[] e, int order)
+        private static void SymmetricDiagonalize(Complex32[] dataEv, float[] d, float[] e, int order)
         {
             const int Maxiter = 1000;
 
@@ -335,9 +336,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                             // Accumulate transformation.
                             for (var k = 0; k < order; k++)
                             {
-                                h = MatrixEv.At(k, i + 1).Real;
-                                MatrixEv.At(k, i + 1, (s * MatrixEv.At(k, i).Real) + (c * h));
-                                MatrixEv.At(k, i, (c * MatrixEv.At(k, i).Real) - (s * h));
+                                h = dataEv[((i + 1) * order) + k].Real;
+                                dataEv[((i + 1) * order) + k] = (s * dataEv[(i * order) + k].Real) + (c * h);
+                                dataEv[(i * order) + k] = (c * dataEv[(i * order) + k].Real) - (s * h);
                             }
                         }
 
@@ -379,9 +380,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                     d[i] = p;
                     for (var j = 0; j < order; j++)
                     {
-                        p = MatrixEv.At(j, i).Real;
-                        MatrixEv.At(j, i, MatrixEv.At(j, k));
-                        MatrixEv.At(j, k, p);
+                        p = dataEv[(i * order) + j].Real;
+                        dataEv[(i * order) + j] = dataEv[(k * order) + j];
+                        dataEv[(k * order) + j] = p;
                     }
                 }
             }
@@ -390,6 +391,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Determines eigenvectors by undoing the symmetric tridiagonalize transformation
         /// </summary>
+        /// <param name="dataEv">Data array of matrix V (eigenvectors)</param>
         /// <param name="matrixA">Previously tridiagonalized matrix by <see cref="SymmetricTridiagonalize"/>.</param>
         /// <param name="tau">Contains further information about the transformations</param>
         /// <param name="order">Input matrix order</param>
@@ -397,13 +399,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// by Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for
         /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        private void SymmetricUntridiagonalize(Complex32[,] matrixA, Complex32[] tau, int order)
+        private static void SymmetricUntridiagonalize(Complex32[] dataEv, Complex32[,] matrixA, Complex32[] tau, int order)
         {
             for (var i = 0; i < order; i++)
             {
                 for (var j = 0; j < order; j++)
                 {
-                    MatrixEv.At(i, j, MatrixEv.At(i, j).Real * tau[i].Conjugate());
+                    dataEv[(j * order) + i] = dataEv[(j * order) + i].Real * tau[i].Conjugate();
                 }
             }
 
@@ -418,14 +420,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         var s = Complex32.Zero;
                         for (var k = 0; k < i; k++)
                         {
-                            s += MatrixEv.At(k, j) * matrixA[i, k];
+                            s += dataEv[(j * order) + k] * matrixA[i, k];
                         }
 
                         s = (s / h) / h;
 
                         for (var k = 0; k < i; k++)
                         {
-                            MatrixEv.At(k, j, MatrixEv.At(k, j) - s * matrixA[i, k].Conjugate());
+                            dataEv[(j * order) + k] -= s * matrixA[i, k].Conjugate();
                         }
                     }
                 }
@@ -435,13 +437,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Nonsymmetric reduction to Hessenberg form.
         /// </summary>
+        /// <param name="dataEv">Data array of matrix V (eigenvectors)</param>
         /// <param name="matrixH">Array for internal storage of nonsymmetric Hessenberg form.</param>
         /// <param name="order">Order of initial matrix</param>
         /// <remarks>This is derived from the Algol procedures orthes and ortran,
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutines in EISPACK.</remarks>
-        private void NonsymmetricReduceToHessenberg(Complex32[,] matrixH, int order)
+        private static void NonsymmetricReduceToHessenberg(Complex32[] dataEv, Complex32[,] matrixH, int order)
         {
             var ort = new Complex32[order];
 
@@ -519,7 +522,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 for (var j = 0; j < order; j++)
                 {
-                    MatrixEv.At(i, j, i == j ? Complex32.One : Complex32.Zero);
+                    dataEv[(j * order) + i] = i == j ? Complex32.One : Complex32.Zero;
                 }
             }
 
@@ -539,14 +542,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         var g = Complex32.Zero;
                         for (var i = m; i < order; i++)
                         {
-                            g += ort[i].Conjugate() * MatrixEv.At(i, j);
+                            g += ort[i].Conjugate() * dataEv[(j * order) + i];
                         }
 
                         // Double division avoids possible underflow
                         g /= norm;
                         for (var i = m; i < order; i++)
                         {
-                            MatrixEv.At(i, j, MatrixEv.At(i, j) + g * ort[i]);
+                            dataEv[(j * order) + i] += g * ort[i];
                         }
                     }
                 }
@@ -571,7 +574,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                     for (var j = 0; j < order; j++)
                     {
-                        MatrixEv.At(j, i, MatrixEv.At(j, i) * y);
+                        dataEv[(i * order) + j] *= y;
                     }
                 }
             }
@@ -580,13 +583,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <summary>
         /// Nonsymmetric reduction from Hessenberg to real Schur form.
         /// </summary>
+        /// <param name="vectorV">Data array of the eigenvectors</param>
+        /// <param name="dataEv">Data array of matrix V (eigenvectors)</param>
         /// <param name="matrixH">Array for internal storage of nonsymmetric Hessenberg form.</param>
         /// <param name="order">Order of initial matrix</param>
         /// <remarks>This is derived from the Algol procedure hqr2,
         /// by Martin and Wilkinson, Handbook for Auto. Comp.,
         /// Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
-        private void NonsymmetricReduceHessenberToRealSchur(Complex32[,] matrixH, int order)
+        private static void NonsymmetricReduceHessenberToRealSchur(Complex[] vectorV, Complex32[] dataEv, Complex32[,] matrixH, int order)
         {
             // Initialize
             var n = order - 1;
@@ -617,7 +622,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 if (l == n)
                 {
                     matrixH[n, n] += exshift;
-                    VectorEv[n] = matrixH[n, n].ToComplex();
+                    vectorV[n] = matrixH[n, n].ToComplex();
                     n--;
                     iter = 0;
                 }
@@ -662,7 +667,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         s = matrixH[i, i - 1].Real;
                         norm = SpecialFunctions.Hypotenuse(matrixH[i - 1, i - 1].Magnitude, s.Real);
                         x = matrixH[i - 1, i - 1] / norm;
-                        VectorEv[i - 1] = x.ToComplex();
+                        vectorV[i - 1] = x.ToComplex();
                         matrixH[i - 1, i - 1] = norm;
                         matrixH[i, i - 1] = new Complex32(0.0f, s.Real / norm);
 
@@ -690,7 +695,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                     // Inverse operation (columns).
                     for (var j = l + 1; j <= n; j++)
                     {
-                        x = (Complex32)VectorEv[j - 1];
+                        x = (Complex32)vectorV[j - 1];
                         for (var i = 0; i <= j; i++)
                         {
                             z = matrixH[i, j];
@@ -710,10 +715,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                         for (var i = 0; i < order; i++)
                         {
-                            y = MatrixEv.At(i, j - 1);
-                            z = MatrixEv.At(i, j);
-                            MatrixEv.At(i, j - 1, (x * y) + (matrixH[j, j - 1].Imaginary * z));
-                            MatrixEv.At(i, j, (x.Conjugate() * z) - (matrixH[j, j - 1].Imaginary * y));
+                            y = dataEv[((j - 1) * order) + i];
+                            z = dataEv[(j * order) + i];
+                            dataEv[((j - 1) * order) + i] = (x * y) + (matrixH[j, j - 1].Imaginary * z);
+                            dataEv[(j * order) + i] = (x.Conjugate() * z) - (matrixH[j, j - 1].Imaginary * y);
                         }
                     }
 
@@ -726,7 +731,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                         for (var i = 0; i < order; i++)
                         {
-                            MatrixEv.At(i, n, MatrixEv.At(i, n) * s);
+                            dataEv[(n * order) + i] *= s;
                         }
                     }
                 }
@@ -755,7 +760,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             for (n = order - 1; n > 0; n--)
             {
-                x = (Complex32)VectorEv[n];
+                x = (Complex32)vectorV[n];
                 matrixH[n, n] = 1.0f;
 
                 for (var i = n - 1; i >= 0; i--)
@@ -766,7 +771,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         z += matrixH[i, j] * matrixH[j, n];
                     }
 
-                    y = x - (Complex32)VectorEv[i];
+                    y = x - (Complex32)vectorV[i];
                     if (y.Real == 0.0f && y.Imaginary == 0.0f)
                     {
                         y = eps * norm;
@@ -794,10 +799,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                     z = Complex32.Zero;
                     for (var k = 0; k <= j; k++)
                     {
-                        z += MatrixEv.At(i, k) * matrixH[k, j];
+                        z += dataEv[(k * order) + i] * matrixH[k, j];
                     }
 
-                    MatrixEv.At(i, j, z);
+                    dataEv[(j * order) + i] = z;
                 }
             }
         }
@@ -852,7 +857,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         {
                             for (var i = 0; i < order; i++)
                             {
-                                value += MatrixEv.At(i, j).Conjugate() * input.At(i, k);
+                                value += ((DenseMatrix)MatrixEv).Data[(j * order) + i].Conjugate() * input.At(i, k);
                             }
 
                             value /= (float)VectorEv[j].Real;
@@ -866,7 +871,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                         Complex32 value = 0.0f;
                         for (var i = 0; i < order; i++)
                         {
-                            value += MatrixEv.At(j, i) * tmp[i];
+                            value += ((DenseMatrix)MatrixEv).Data[(i * order) + j] * tmp[i];
                         }
 
                         result[j, k] = value;
@@ -923,7 +928,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                     {
                         for (var i = 0; i < order; i++)
                         {
-                            value += MatrixEv.At(i, j).Conjugate() * input[i];
+                            value += ((DenseMatrix)MatrixEv).Data[(j * order) + i].Conjugate() * input[i];
                         }
 
                         value /= (float)VectorEv[j].Real;
@@ -937,7 +942,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                     value = 0;
                     for (int i = 0; i < order; i++)
                     {
-                        value += MatrixEv.At(j, i) * tmp[i];
+                        value += ((DenseMatrix)MatrixEv).Data[(i * order) + j] * tmp[i];
                     }
 
                     result[j] = value;

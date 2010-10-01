@@ -79,29 +79,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <param name="matrix">The matrix to factor.</param>
         /// <returns>The QR decomposition object.</returns>
         /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
-        public static QR<T> GramSchmidt<T>(this Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
+        public static GramSchmidt<T> GramSchmidt<T>(this Matrix<T> matrix) where T : struct, IEquatable<T>, IFormattable
         {
-            if (typeof(T) == typeof(double))
-            {
-                return new LinearAlgebra.Double.Factorization.GramSchmidt(matrix as Matrix<double>) as QR<T>;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                return new LinearAlgebra.Single.Factorization.GramSchmidt(matrix as Matrix<float>) as QR<T>;
-            }
-
-            if (typeof(T) == typeof(Complex))
-            {
-                return new LinearAlgebra.Complex.Factorization.GramSchmidt(matrix as Matrix<Complex>) as QR<T>;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                return new LinearAlgebra.Complex32.Factorization.GramSchmidt(matrix as Matrix<Complex32>) as QR<T>;
-            }
-
-            throw new NotImplementedException();
+            return Factorization.GramSchmidt<T>.Create(matrix);
         }
 
         /// <summary>

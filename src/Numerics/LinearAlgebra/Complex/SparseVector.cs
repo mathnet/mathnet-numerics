@@ -28,6 +28,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Numerics;
     using Distributions;
     using Generic;
@@ -1236,6 +1237,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             if (NonZerosCount == 0)
             {
                 return 0.0;
+            }
+
+            if (2.0 == p)
+            {
+                return _nonZeroValues.Aggregate(Complex.Zero, SpecialFunctions.Hypotenuse).Magnitude;
             }
 
             if (Double.IsPositiveInfinity(p))
