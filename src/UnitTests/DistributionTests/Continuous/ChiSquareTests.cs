@@ -289,7 +289,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double dof, double x)
         {
             var n = new ChiSquare(dof);
-            Assert.AreEqual<double>(SpecialFunctions.GammaUpperIncomplete(dof / 2.0, x / 2.0) / SpecialFunctions.Gamma(dof / 2.0), n.CumulativeDistribution(x));
+            Assert.AreEqual(SpecialFunctions.GammaLowerIncomplete(dof / 2.0, x / 2.0) / SpecialFunctions.Gamma(dof / 2.0), n.CumulativeDistribution(x));
         }
     }
 }

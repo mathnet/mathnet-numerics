@@ -310,6 +310,40 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
+        /// <summary>
+        /// Draws a random sample from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
+        /// <returns>A random number from this distribution.</returns>
+        public static double Sample(Random rnd, double lambda)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+            
+            return DoSample(rnd, lambda);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Exponential distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="lambda">The lambda parameter of the Exponential distribution.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(Random rnd, double lambda)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(lambda))
+            {
+                throw new ArgumentOutOfRangeException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return DoSample(rnd, lambda);
+            }
+        }
         #endregion
 
         /// <summary>

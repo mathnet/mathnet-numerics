@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var b = new Bernoulli(0.3);
-            Assert.AreEqual<string>("Bernoulli(P = 0.3)", b.ToString());
+            Assert.AreEqual(String.Format("Bernoulli(P = {0})", b.P), b.ToString());
         }
 
         [Test]

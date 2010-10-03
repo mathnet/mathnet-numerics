@@ -329,11 +329,11 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
-        /*
-
         /// <summary>
         /// Evaluates the probability density function for a NormalGamma distribution.
         /// </summary>
+        /// <param name="mp">The mean/precision pair of the distribution</param>
+        /// <returns>Density value</returns>
         public double Density(MeanPrecisionPair mp)
         {
             return Density(mp.Mean, mp.Precision);
@@ -342,31 +342,38 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Evaluates the probability density function for a NormalGamma distribution.
         /// </summary>
+        /// <param name="mean">The mean of the distribution</param>
+        /// <param name="prec">The precision of the distribution</param>
+        /// <returns>Density value</returns>
         public double Density(double mean, double prec)
         {
             if (Double.IsPositiveInfinity(_precisionInvScale) && _meanScale == 0.0)
             {
                 throw new NotImplementedException();
             }
-            else if (Double.IsPositiveInfinity(_precisionInvScale))
+
+            if (Double.IsPositiveInfinity(_precisionInvScale))
             {
                 throw new NotImplementedException();
             }
-            else if (_meanScale == 0.0)
+
+            if (_meanScale <= 0.0)
             {
                 throw new NotImplementedException();
             }
-            else
-            {
-                double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;
-                return System.Math.Pow(prec * _precisionInvScale, _precisionShape) * System.Math.Exp(e)
-                        / (Math.Constants.Sqrt2Pi * System.Math.Sqrt(prec) * Math.SpecialFunctions.Gamma(_precisionShape));
-            }
+
+            // double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;
+            // return Math.Pow(prec * _precisionInvScale, _precisionShape) * Math.Exp(e) / (Constants.Sqrt2Pi * Math.Sqrt(prec) * SpecialFunctions.Gamma(_precisionShape));
+            double e = -(0.5 * prec * _meanScale * (mean - _meanLocation) * (mean - _meanLocation)) - (prec * _precisionInvScale);
+            return Math.Pow(prec * _precisionInvScale, _precisionShape) * Math.Exp(e) * Math.Sqrt(_meanScale)
+                   / (Constants.Sqrt2Pi * Math.Sqrt(prec) * SpecialFunctions.Gamma(_precisionShape));
         }
 
         /// <summary>
         /// Evaluates the log probability density function for a NormalGamma distribution.
         /// </summary>
+        /// <param name="mp">The mean/precision pair of the distribution</param>
+        /// <returns>The log of the density value</returns>
         public double DensityLn(MeanPrecisionPair mp)
         {
             return DensityLn(mp.Mean, mp.Precision);
@@ -375,27 +382,31 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Evaluates the log probability density function for a NormalGamma distribution.
         /// </summary>
+        /// <param name="mean">The mean of the distribution</param>
+        /// <param name="prec">The precision of the distribution</param>
+        /// <returns>The log of the density value</returns>
         public double DensityLn(double mean, double prec)
         {
             if (Double.IsPositiveInfinity(_precisionInvScale) && _meanScale == 0.0)
             {
                 throw new NotImplementedException();
             }
-            else if (Double.IsPositiveInfinity(_precisionInvScale))
+            
+            if (Double.IsPositiveInfinity(_precisionInvScale))
             {
                 throw new NotImplementedException();
             }
-            else if (_meanScale == 0.0)
+            
+            if (_meanScale <= 0.0)
             {
                 throw new NotImplementedException();
             }
-            else
-            {
-                double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;
-                return (_precisionShape - 0.5) * System.Math.Log(prec) + _precisionShape * System.Math.Log(_precisionInvScale) + e
-                        - Math.Constants.LogSqrt2Pi - Math.SpecialFunctions.GammaLn(_precisionShape);
-            }
-        }*/
+
+            // double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;
+            // return (_precisionShape - 0.5) * Math.Log(prec) + _precisionShape * Math.Log(_precisionInvScale) + e - Constants.LogSqrt2Pi - SpecialFunctions.GammaLn(_precisionShape);
+            double e = -(0.5 * prec * _meanScale * (mean - _meanLocation) * (mean - _meanLocation)) - (prec * _precisionInvScale);
+            return ((_precisionShape - 0.5) * Math.Log(prec)) + (_precisionShape * Math.Log(_precisionInvScale))  - (0.5 * Math.Log(_meanScale)) + e - Constants.LogSqrt2Pi - SpecialFunctions.GammaLn(_precisionShape);
+        }
 
         /// <summary>
         /// Generates a sample from the <c>NormalGamma</c> distribution.

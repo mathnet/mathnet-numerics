@@ -82,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new InverseGamma(1.1, 2.1);
-            Assert.AreEqual<string>("InverseGamma(Shape = 1.1, Inverse Scale = 2.1)", n.ToString());
+            Assert.AreEqual(String.Format("InverseGamma(Shape = {0}, Inverse Scale = {1})", n.Shape, n.Scale), n.ToString());
         }
 
         [Test]
@@ -203,7 +203,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         [Test]
-        [ExpectedException(typeof(NotImplementedException))]
+        [ExpectedException(typeof(NotSupportedException))]
         public void ValidateMedian()
         {
             var n = new InverseGamma(1.0, 1.0);
@@ -291,7 +291,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double a, double b, double x)
         {
             var n = new InverseGamma(a, b);
-            Assert.AreEqual<double>(SpecialFunctions.GammaLowerIncomplete(a, b / x), n.CumulativeDistribution(x));
+            Assert.AreEqual<double>(SpecialFunctions.GammaUpperRegularized(a, b / x), n.CumulativeDistribution(x));
         }
     }
 }

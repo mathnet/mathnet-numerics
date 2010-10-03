@@ -184,7 +184,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.GammaUpperIncomplete(Mean / 2.0, x / 2.0) / SpecialFunctions.Gamma(Mean / 2.0);
+            return SpecialFunctions.GammaLowerIncomplete(Mean / 2.0, x / 2.0) / SpecialFunctions.Gamma(Mean / 2.0);
         }
 
         #endregion

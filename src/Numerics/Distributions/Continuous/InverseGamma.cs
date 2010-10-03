@@ -259,7 +259,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.GammaLowerIncomplete(_shape, _scale / x);
+            return SpecialFunctions.GammaUpperRegularized(_shape, _scale / x);
         }
 
         #endregion
@@ -280,12 +280,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        /// <remarks>Throws <see cref="NotImplementedException"/>.</remarks>
+        /// <remarks>Throws <see cref="NotSupportedException"/>.</remarks>
         public double Median
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 

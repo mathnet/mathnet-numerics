@@ -320,7 +320,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                return (int)Math.Floor(_p * _n);
             }
         }
 

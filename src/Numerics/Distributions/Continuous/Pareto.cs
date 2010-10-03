@@ -201,7 +201,12 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return _scale * _scale * _shape / ((_shape - 1.0) * (_shape - 1.0) * (_scale - 2.0));
+                if (_shape <= 2.0)
+                {
+                    return double.PositiveInfinity;
+                }
+
+                return _scale * _scale * _shape / ((_shape - 1.0) * (_shape - 1.0) * (_shape - 2.0));
             }
         }
 

@@ -249,7 +249,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.BetaRegularized(_d1 / 2.0, _d2 / 2.0, _d1 * _d2 / (_d1 + (_d1 * _d2)));
+            return SpecialFunctions.BetaRegularized(_d1 / 2.0, _d2 / 2.0, _d1 * x / ((_d1 * x) + _d2));
         }
 
         #endregion

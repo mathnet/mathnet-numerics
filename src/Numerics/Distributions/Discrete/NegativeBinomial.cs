@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         private Random _random;
 
         /// <summary>
-        /// Gets or sets the r parameter.
+        /// Gets or sets the number of trials.
         /// </summary>
         public double R
         {
@@ -75,7 +75,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the p parameter.
+        /// Gets or sets the probability of success.
         /// </summary>
         public double P
         {
@@ -93,12 +93,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class. 
         /// </summary>
-        /// <param name="r">
-        /// The r parameter.
-        /// </param>
-        /// <param name="p">
-        /// The p parameter.
-        /// </param>
+        /// <param name="r">The number of trials.</param>
+        /// <param name="p">The probability of a trial resulting in success.</param>
         public NegativeBinomial(double r, double p)
         {
             SetParameters(r, p);
@@ -108,8 +104,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
-        /// <param name="r">The r parameter.</param>
-        /// <param name="p">The p parameter.</param>
+        /// <param name="r">The number of trials.</param>
+        /// <param name="p">The probability of a trial resulting in success.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the parameters don't pass the <see cref="IsValidParameterSet"/> function.</exception>
         private void SetParameters(double r, double p)
         {
@@ -125,8 +121,8 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Checks whether the parameters of the distribution are valid. 
         /// </summary>
-        /// <param name="r">The r parameter.</param>
-        /// <param name="p">The p parameter.</param>
+        /// <param name="r">The number of trials.</param>
+        /// <param name="p">The probability of a trial resulting in success.</param>
         /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>        
         private static bool IsValidParameterSet(double r, double p)
         {
@@ -217,7 +213,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new Exception("Not implemented yet.");
+                throw new NotSupportedException();
             }
         }
 
@@ -239,7 +235,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            throw new NotImplementedException();
+            return 1 - SpecialFunctions.BetaRegularized(x + 1, _r, 1 - _p);
         }
 
         #endregion
@@ -264,7 +260,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new Exception("Not implemented yet.");
+                throw new NotSupportedException();
             }
         }
 
@@ -286,7 +282,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                return int.MaxValue;
             }
         }
 
