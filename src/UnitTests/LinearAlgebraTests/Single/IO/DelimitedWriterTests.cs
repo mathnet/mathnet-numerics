@@ -4,6 +4,7 @@
     using System.Globalization;
     using System.IO;
     using System.Text;
+    using LinearAlgebra.IO;
     using LinearAlgebra.Single;
     using LinearAlgebra.Single.IO;
     using MbUnit.Framework;
@@ -15,7 +16,7 @@
         public void CanWriteCommaDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { 1.1f, 2.2f, 3.3f }, { 4.4f, 5.5f, 6.6f }, { 7.7f, 8.8f, 9.9f } });
-            var writer = new DelimitedWriter(',');
+            var writer = new DelimitedWriter<float>(',');
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -32,7 +33,7 @@
         {
             var matrix = new DenseMatrix(new[,] { { 1.1f, 2.2f, 3.3f }, { 4.4f, 5.5f, 6.6f }, { 7.7f, 8.8f, 9.9f } });
             var culture = new CultureInfo("tr-TR");
-            var writer = new DelimitedWriter('.')
+            var writer = new DelimitedWriter<float>('.')
                          {
                              CultureInfo = culture
                          };
@@ -51,7 +52,7 @@
         public void CanWriteSpaceDelimitedData()
         {
             var matrix = new SparseMatrix(new[,] { { 1.1f, 0, 0 }, { 0, 5.5f, 0 }, { 0, 0, 9.9f } });
-            var writer = new DelimitedWriter(' ');
+            var writer = new DelimitedWriter<float>(' ');
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -68,7 +69,7 @@
         {
             var matrix = new UserDefinedMatrix(new[,] { { 1.1f, 2.2f, 3.3f }, { 4.4f, 5.5f, 6.6f }, { 7.7f, 8.8f, 9.9f } });
             var headers = new[] { "a", "b", "c" };
-            var writer = new DelimitedWriter('\t')
+            var writer = new DelimitedWriter<float>('\t')
                          {
                              ColumnHeaders = headers
                          };

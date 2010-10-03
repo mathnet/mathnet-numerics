@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Single.IO
+namespace MathNet.Numerics.LinearAlgebra.IO
 {
     using System;
     using System.Collections.Generic;
@@ -35,10 +35,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single.IO
     using Generic;
 
     /// <summary>
-    /// Writes an <see cref="Matrix{T}"/> to delimited text file. If the user does not
+    /// Writes an <see cref="Matrix{TDataType}"/> to delimited text file. If the user does not
     /// specify a delimiter, a tab separator is used.
     /// </summary>
-    public class DelimitedWriter : MatrixWriter
+    /// <typeparam name="TDataType">The data type of the matrix.</typeparam>    
+    public class DelimitedWriter<TDataType> : MatrixWriter<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable
     {
         /// <summary>
         /// The delimiter to use.
@@ -51,7 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.IO
         private CultureInfo _cultureInfo = CultureInfo.CurrentCulture;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class using
+        /// Initializes a new instance of the <see cref="DelimitedWriter{TDataType}"/> class. 
         /// a comma as the delimiter.
         /// </summary>
         public DelimitedWriter()
@@ -60,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class 
+        /// Initializes a new instance of the <see cref="DelimitedWriter{TDataType}"/> class. 
         /// using the given delimiter.
         /// </summary>
         /// <param name="delimiter">
@@ -72,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class
+        /// Initializes a new instance of the <see cref="DelimitedWriter{TDataType}"/> class. 
         /// using the given delimiter.
         /// </summary>
         /// <param name="delimiter">
@@ -116,13 +117,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.IO
         }
 
         /// <summary>
-        /// Writes the given <see cref="Matrix{T}"/> to the given <see cref="TextWriter"/>.
+        /// Writes the given <see cref="Matrix{TDataType}"/> to the given <see cref="TextWriter"/>.
         /// </summary>
         /// <param name="matrix">The matrix to write.</param>
         /// <param name="writer">The <see cref="TextWriter"/> to write the matrix to.</param>
         /// <param name="format">The format to use on each element.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="writer"/> is <c>null</c>.</exception>
-        protected override void DoWriteMatrix(Matrix<float> matrix, TextWriter writer, string format)
+        protected override void DoWriteMatrix(Matrix<TDataType> matrix, TextWriter writer, string format)
         {
             if (matrix == null)
             {

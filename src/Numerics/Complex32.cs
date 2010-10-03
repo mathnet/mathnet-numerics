@@ -682,52 +682,8 @@ namespace MathNet.Numerics
         /// </param>
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            var numberFormatInfo = formatProvider.GetNumberFormatInfo();
-
-            if (IsNaN())
-            {
-                return numberFormatInfo.NaNSymbol;
-            }
-
-            if (IsInfinity())
-            {
-                return numberFormatInfo.PositiveInfinitySymbol;
-            }
-
             var ret = new StringBuilder();
-
-            if (_real != 0.0f)
-            {
-                ret.Append(_real.ToString(format, formatProvider));
-            }
-
-            if (_imag != 0.0f)
-            {
-                if (_real != 0.0f)
-                {
-                    if (_imag < 0)
-                    {
-                        ret.Append(" - ");
-                    }
-                    else
-                    {
-                        ret.Append(" + ");
-                    }
-                    
-                    ret.Append(Math.Abs(_imag).ToString(format, formatProvider)).Append("i");
-                }
-                else
-                {
-                    ret.Append(_imag.ToString(format, formatProvider)).Append("i");
-                }
-
-            }
-
-            if (ret.Length == 0)
-            {
-                ret.Append(0.0f.ToString(format, formatProvider));
-            }
-
+            ret.Append("(").Append(_real.ToString(format, formatProvider)).Append(", ").Append(_imag.ToString(format, formatProvider)).Append(")");
             return ret.ToString();
         }
 
