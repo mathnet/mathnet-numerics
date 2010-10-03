@@ -195,7 +195,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotSupportedException();
+                return ((2.0 - _p) / Math.Sqrt(1.0 - _p));
+
             }
         }
 
@@ -231,7 +232,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return (int)Math.Ceiling(-Math.Log(2.0) / Math.Log(1 - _p));
+                return (int)Math.Ceiling(-Constants.Ln2 / Math.Log(1 - _p));
             }
         }
 
@@ -253,7 +254,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotSupportedException();
+                return int.MaxValue;
             }
         }
 

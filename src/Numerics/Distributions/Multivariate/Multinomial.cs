@@ -29,6 +29,7 @@ namespace MathNet.Numerics.Distributions
     using System;
     using System.Collections.Generic;
     using Properties;
+    using Statistics;
 
     /// <summary>
     /// Implements the multinomial distribution. For details about this distribution, see 
@@ -73,24 +74,31 @@ namespace MathNet.Numerics.Distributions
             RandomSource = new Random();
         }
 
-        /* TODO
         /// <summary>
-        /// Generate a multinomial distribution from histogram <paramref name="h"/>. The distribution will
+        /// Initializes a new instance of the Multinomial class from histogram <paramref name="h"/>. The distribution will
         /// not be automatically updated when the histogram changes.
         /// </summary>
-        public Multinomial(Histogram h)
+        /// <param name="h">Histogram instance</param>
+        /// <param name="n">The number of trials.</param>
+        public Multinomial(Histogram h, int n)
         {
-            // The probability distribution vector.
-            _p = new double[h.BinCount];
-
-            // Fill in the distribution vector.
-            for (int i = 0; i < h.BinCount; i++)
+            if (h == null)
             {
-                _p[i] = h[i];
+                throw new ArgumentNullException("h");
             }
 
-            RandomNumberGenerator = new System.Random();
-        }*/
+            // The probability distribution vector.
+            var p = new double[h.BucketCount];
+
+            // Fill in the distribution vector.
+            for (var i = 0; i < h.BucketCount; i++)
+            {
+                p[i] = h[i].Count;
+            }
+
+            SetParameters(p, n);
+            RandomSource = new Random();
+        }
 
         /// <summary>
         /// A string representation of the distribution.
@@ -240,7 +248,7 @@ namespace MathNet.Numerics.Distributions
             // The cumulative density of p.
             var cp = Categorical.UnnormalizedCdf(p);
 
-// The variable that stores the counts.
+            // The variable that stores the counts.
             var ret = new int[p.Length];
 
             for (var i = 0; i < n; i++)

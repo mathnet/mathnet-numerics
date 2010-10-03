@@ -108,7 +108,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateToString()
         {
             var n = new Stable(1.2, 0.3, 1.0, 2.0);
-            Assert.AreEqual<string>("Stable(Stability = 1.2, Skewness = 0.3, Scale = 1, Location = 2)", n.ToString());
+            Assert.AreEqual(String.Format("Stable(Stability = {0}, Skewness = {1}, Scale = {2}, Location = {3})",n.Alpha, n.Beta, n.Scale, n.Location) , n.ToString());
         }
 
         [Test]
@@ -319,7 +319,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         [Test]
-        [ExpectedException(typeof(NotImplementedException))]
         public void CanSample()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
@@ -327,7 +326,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         [Test]
-        [ExpectedException(typeof(NotImplementedException))]
         public void CanSampleSequence()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);

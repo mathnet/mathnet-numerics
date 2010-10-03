@@ -52,6 +52,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             Assert.AreEqual<double>(precInvScale, ng.PrecisionInverseScale);
         }
 
+        [Test, MultipleAsserts]
+        [Row(0.0, 1.0, 1.0, 1.0)]
+        [Row(10.0, 1.0, 2.0, 2.0)]
+        public void CanGetDensityAndDensityLn(double meanLocation, double meanScale, double precShape, double precInvScale)
+        {
+            var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
+            Assert.AreEqual(ng.DensityLn(meanLocation, precShape), Math.Log(ng.Density(meanLocation, precShape)));
+        }
+
         [Test]
         [Row(1.0, -1.3, 2.0, 2.0)]
         [Row(1.0, 1.0, -1.0, 1.0)]

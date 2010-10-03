@@ -169,7 +169,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateVariance(double scale, double shape)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>(scale * scale * shape / ((shape - 1.0) * (shape - 1.0) * (scale - 2.0)), n.Variance);
+            if (shape <= 2.0)
+            {
+                Assert.AreEqual(double.PositiveInfinity, n.Variance);
+            }
+            else
+            {
+                Assert.AreEqual(scale * scale * shape / ((shape - 1.0) * (shape - 1.0) * (shape - 2.0)), n.Variance);
+            }
         }
 
         [Test]

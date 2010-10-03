@@ -216,12 +216,11 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the entropy of the Weibull distribution.
         /// </summary>
-        /// <remarks>Throws a not supported exception.</remarks>
         public double Entropy
         {
             get
             {
-                throw new NotSupportedException();
+                return (Constants.EulerMascheroni * (1.0 - (1.0 / _shape))) + Math.Log(_scale / _shape) + 1.0;
             }
         }
 

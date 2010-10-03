@@ -481,7 +481,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            throw new NotImplementedException();
+            return DoSample(RandomSource, _alpha, _beta);
         }
 
         /// <summary>
@@ -490,9 +490,45 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                yield return DoSample(RandomSource, _alpha, _beta);
+            }
         }
 
+        /// <summary>
+        /// Samples the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="alpha">The stability parameter of the distribution.</param>
+        /// <param name="beta">The skewness parameter of the distribution.</param>
+        /// <returns>a random number from the distribution.</returns>
+        private static double DoSample(Random rnd, double alpha, double beta)
+        {
+            var randTheta = ContinuousUniform.Sample(rnd, -Constants.PiOver2, Constants.PiOver2);
+            var randW = Exponential.Sample(rnd, 1.0);
+
+            if (!1.0.AlmostEqual(alpha))
+            {
+                var theta = (1.0 / alpha) * Math.Atan(beta * Math.Tan(Constants.PiOver2 * alpha));
+                var angle = alpha * (randTheta + theta);
+                var part1 = beta * Math.Tan(Constants.PiOver2 * alpha);
+
+                var factor = Math.Pow(1.0 + (part1 * part1), 1.0 / (2.0 * alpha));
+                var factor1 = Math.Sin(angle) / Math.Pow(Math.Cos(randTheta), (1.0 / alpha));
+                var factor2 = Math.Pow(Math.Cos(randTheta - angle) / randW, (1 - alpha) / alpha);
+
+                return factor * factor1 * factor2;
+            }
+            else
+            {
+                var part1 = Constants.PiOver2 + (beta * randTheta);
+                var summand = part1 * Math.Tan(randTheta);
+                var subtrahend = beta * Math.Log(Constants.PiOver2 * randW * Math.Cos(randTheta) / part1);
+
+                return (2.0 / Math.PI) * (summand - subtrahend);
+            }
+        }
         #endregion
     }
 }

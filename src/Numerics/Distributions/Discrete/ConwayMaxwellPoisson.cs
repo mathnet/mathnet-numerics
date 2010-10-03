@@ -346,7 +346,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -357,7 +357,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -388,7 +388,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -399,7 +399,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -421,7 +421,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -488,7 +488,7 @@ namespace MathNet.Numerics.Distributions
 
                 _z = Normalization(_lambda, _nu);
                 return _z;
-            }
+            } 
         }
 
         /// <summary>

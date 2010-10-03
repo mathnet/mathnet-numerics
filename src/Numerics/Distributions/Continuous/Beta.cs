@@ -363,7 +363,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 

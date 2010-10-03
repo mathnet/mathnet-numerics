@@ -259,7 +259,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new Exception("The median of the Bernoulli distribution is undefined.");
+                throw new NotSupportedException("The median of the Bernoulli distribution is undefined.");
             }
         }
 

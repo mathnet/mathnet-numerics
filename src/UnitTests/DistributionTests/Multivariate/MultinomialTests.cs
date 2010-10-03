@@ -33,8 +33,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 	using System;
 	using MbUnit.Framework;
 	using Distributions;
+	using Statistics;
 
-	[TestFixture]
+    [TestFixture]
     public class MultinomialTests
     {
         double[] badP;
@@ -57,6 +58,28 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             var m = new Multinomial(largeP, 4);
             Assert.AreEqual<double[]>(largeP, m.P);
+        }
+
+        [Test]
+        [MultipleAsserts]
+        public void CanCreateMultinomialFromHistogram()
+        {
+            double[] smallDataset = { 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5 };
+            var hist = new Histogram(smallDataset, 10, 0.0, 10.0);
+            var m = new Multinomial(hist, 7);
+
+            foreach (var t in m.P)
+            {
+                Assert.AreEqual(1.0, t);
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void MultinomialCreateFailsWithNullHistogram()
+        {
+            Histogram h = null;
+            var m = new Categorical(h);
         }
 
         [Test]

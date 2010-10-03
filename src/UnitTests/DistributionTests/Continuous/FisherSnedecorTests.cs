@@ -365,7 +365,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateCumulativeDistribution(double d1, double d2, double x)
         {
             var n = new FisherSnedecor(d1, d2);
-            Assert.AreEqual<double>(SpecialFunctions.BetaRegularized(d1 / 2.0, d2 / 2.0, d1 * d2 / (d1 + d1 * d2)), n.CumulativeDistribution(x));
+            Assert.AreEqual<double>(SpecialFunctions.BetaRegularized(d1 / 2.0, d2 / 2.0, d1 * x / (d2 + x * d1)), n.CumulativeDistribution(x));
         }
     }
 }

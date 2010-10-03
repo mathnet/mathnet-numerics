@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var d = new NegativeBinomial(1.0, 0.3);
-            Assert.AreEqual<string>("NegativeBinomial(R = 1, P = 0.3)", d.ToString());
+            Assert.AreEqual(String.Format("NegativeBinomial(R = {0}, P = {1})", d.R, d.P), d.ToString());
         }
 
         [Test]
@@ -178,15 +178,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateMinimum()
         {
             var d = new NegativeBinomial(1.0, 0.5);
-            Assert.AreEqual<double>(0, d.Minimum);
+            Assert.AreEqual(0, d.Minimum);
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
         public void ValidateMaximum()
         {
             var d = new NegativeBinomial(1.0, 0.3);
-            int max = d.Maximum;
+            Assert.AreEqual(int.MaxValue, d.Maximum);
         }
 
         [Test]
@@ -222,6 +221,22 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         [Test]
+        [Row(0.0, 0.0, 5)]
+        [Row(0.0, 0.3, 3)]
+        [Row(0.0, 1.0, 0)]
+        [Row(0.1, 0.0, 2)]
+        [Row(0.1, 0.3, 1)]
+        [Row(0.1, 1.0, 2)]
+        [Row(1.0, 0.0, 2)]
+        [Row(1.0, 0.3, 10)]
+        [Row(1.0, 1.0, 5)]
+        public void ValidateCumulativeDistribution(double r, double p, int x)
+        {
+            var d = new NegativeBinomial(r, p);
+            Assert.AreApproximatelyEqual(SpecialFunctions.BetaRegularized(r, x + 1.0, p), d.CumulativeDistribution(x), 1e-12);
+        }
+
+        [Test]
         public void CanSample()
         {
             var d = new NegativeBinomial(1.0, 0.5);
@@ -234,14 +249,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
             var d = new NegativeBinomial(1.0, 0.5);
             var ied = d.Samples();
             var e = ied.Take(5).ToArray();
-        }
-
-        [Test]
-        [ExpectedException(typeof(NotImplementedException))]
-        public void ValidateCumulativeDistribution()
-        {
-            var d = new NegativeBinomial(1.0, 0.5);
-            var cdx = d.CumulativeDistribution(1.5);
         }
     }
 }

@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var b = new Binomial(0.3, 2);
-            Assert.AreEqual<string>("Binomial(Success Probability = 0.3, Number of Trials = 2)", b.ToString());
+            Assert.AreEqual(String.Format("Binomial(Success Probability = {0}, Number of Trials = {1})", b.P, b.N), b.ToString());
         }
 
         [Test]

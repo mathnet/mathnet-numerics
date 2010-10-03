@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void ValidateToString()
         {
             var d = new Geometric(0.3);
-            Assert.AreEqual<string>("Geometric(P = 0.3)", d.ToString());
+            Assert.AreEqual(String.Format("Geometric(P = {0})",d.P), d.ToString());
         }
 
         [Test]
@@ -103,11 +103,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         [Test]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void ValidateSkewness()
+        [Row(0.0)]
+        [Row(0.3)]
+        [Row(1.0)]
+        public void ValidateSkewness(double p)
         {
-            var d = new Geometric(0.3);
-            double s = d.Skewness;
+            var d = new Geometric(p);
+            Assert.AreEqual((2.0 - p) / Math.Sqrt(1.0 - p), d.Skewness);
         }
 
         [Test]
@@ -138,11 +140,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         [Test]
-        [ExpectedException(typeof(NotSupportedException))]
         public void ValidateMaximum()
         {
             var d = new Geometric(0.3);
-            int max = d.Maximum;
+            Assert.AreEqual(int.MaxValue, d.Maximum);
         }
 
         [Test]

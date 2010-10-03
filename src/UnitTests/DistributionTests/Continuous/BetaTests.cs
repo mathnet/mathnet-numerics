@@ -193,7 +193,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         [Test]
-        [ExpectedException(typeof(NotImplementedException))]
+        [ExpectedException(typeof(NotSupportedException))]
         [Row(0.0, 0.0)]
         [Row(0.0, 0.1)]
         [Row(1.0, 0.0)]
