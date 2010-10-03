@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var vector = CreateVector(Data);
             var str = vector.ToString();
             var sep = CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-            Assert.AreEqual(string.Format("1 + 1i{0}2 + 1i{0}3 + 1i{0}4 + 1i{0}5 + 1i", sep), str);
+            Assert.AreEqual(string.Format("(1, 1){0}(2, 1){0}(3, 1){0}(4, 1){0}(5, 1)", sep), str);
         }
 
         [Test]

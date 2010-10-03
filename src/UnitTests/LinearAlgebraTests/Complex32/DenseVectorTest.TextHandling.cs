@@ -39,16 +39,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     public class DenseVectorTextHandlingTest
     {
         [Test]
-        [Row("2", "2")]
-        [Row("(3)", "3")]
-        [Row("[1,2,3]", "1,2,3")]
-        [Row(" [ 1.1 , 2.1 , 3.1 ] ", "1.1,2.1,3.1")]
-        [Row(" [ -1.1 , 2.1 , +3.1 ] ", "-1.1,2.1,3.1")]
-        [Row(" [1.2,3.4 , 5.6] ", "1.2,3.4,5.6")]
-        [Row("[1+1i,2+1i,3+1i]", "1 + 1i,2 + 1i,3 + 1i")]
-        [Row(" [ 1.1 + 1i , 2.1+1i , 3.1+1i ] ", "1.1 + 1i,2.1 + 1i,3.1 + 1i")]
-        [Row(" [ -1.1 + 1i , 2.1-1i , +3.1+1i ] ", "-1.1 + 1i,2.1 - 1i,3.1 + 1i")]
-        [Row(" [1.2+2.3i ,3.4+4.5i , 5.6+ 6.7i] ", "1.2 + 2.3i,3.4 + 4.5i,5.6 + 6.7i")]
+        [Row("2", "(2, 0)")]
+        [Row("(3)", "(3, 0)")]
+        [Row("[1,2,3]", "(1, 0),(2, 0),(3, 0)")]
+        [Row(" [ 1.1 , 2.1 , 3.1 ] ", "(1.1, 0),(2.1, 0),(3.1, 0)")]
+        [Row(" [ -1.1 , 2.1 , +3.1 ] ", "(-1.1, 0),(2.1, 0),(3.1, 0)")]
+        [Row(" [1.2,3.4 , 5.6] ", "(1.2, 0),(3.4, 0),(5.6, 0)")]
+        [Row("[1+1i,2+1i,3+1i]", "(1, 1),(2, 1),(3, 1)")]
+        [Row(" [ 1.1 + 1i , 2.1+1i , 3.1+1i ] ", "(1.1, 1),(2.1, 1),(3.1, 1)")]
+        [Row(" [ -1.1 + 1i , 2.1-1i , +3.1+1i ] ", "(-1.1, 1),(2.1, -1),(3.1, 1)")]
+        [Row(" [1.2+2.3i ,3.4+4.5i , 5.6+ 6.7i] ", "(1.2, 2.3),(3.4, 4.5),(5.6, 6.7)")]
         public void CanParseComplexDenseVectorsWithInvariant(string stringToParse, string expectedToString)
         {
             var formatProvider = CultureInfo.InvariantCulture;
@@ -58,9 +58,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         }
 
         [Test]
-        [Row(" 1.2 + 1i , 3.4 + 1i , 5.6 + 1i ", "1.2 + 1i,3.4 + 1i,5.6 + 1i", "en-US")]
-        [Row(" 1.2 + 1i ; 3.4 + 1i ; 5.6 + 1i ", "1.2 + 1i;3.4 + 1i;5.6 + 1i", "de-CH")]
-        [Row(" 1,2 + 1i ; 3,4 + 1i ; 5,6 + 1i ", "1,2 + 1i;3,4 + 1i;5,6 + 1i", "de-DE")]
+        [Row(" 1.2 + 1i , 3.4 + 1i , 5.6 + 1i ", "(1.2, 1),(3.4, 1),(5.6, 1)", "en-US")]
+        [Row(" 1.2 + 1i ; 3.4 + 1i ; 5.6 + 1i ", "(1.2, 1);(3.4, 1);(5.6, 1)", "de-CH")]
+        [Row(" 1,2 + 1i ; 3,4 + 1i ; 5,6 + 1i ", "(1,2, 1);(3,4, 1);(5,6, 1)", "de-DE")]
         public void CanParseComplexDenseVectorsWithCulture(string stringToParse, string expectedToString, string culture)
         {
             var formatProvider = CultureInfo.GetCultureInfo(culture);

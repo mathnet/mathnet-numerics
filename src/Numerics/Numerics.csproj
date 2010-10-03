@@ -199,6 +199,8 @@
     <Compile Include="LinearAlgebra\Double\Factorization\UserEvd.cs" />
     <Compile Include="LinearAlgebra\Generic\Factorization\GramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Generic\Factorization\Evd.cs" />
+    <Compile Include="LinearAlgebra\IO\DelimitedWriter.cs" />
+    <Compile Include="LinearAlgebra\IO\MatrixWriter.cs" />
     <Compile Include="LinearAlgebra\Single\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Single\DiagonalMatrix.cs" />
@@ -215,12 +217,10 @@
     <Compile Include="LinearAlgebra\Single\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\UserSvd.cs" />
     <Compile Include="LinearAlgebra\Single\IO\DelimitedReader.cs" />
-    <Compile Include="LinearAlgebra\Single\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Single\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\Single\IO\Matlab\MatlabFile.cs" />
     <Compile Include="LinearAlgebra\Single\IO\Matlab\MatlabParser.cs" />
     <Compile Include="LinearAlgebra\Single\IO\MatrixReader.cs" />
-    <Compile Include="LinearAlgebra\Single\IO\MatrixWriter.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\CompositeSolver.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\GpBiCg.cs" />
@@ -257,12 +257,10 @@
     <Compile Include="LinearAlgebra\Double\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserSvd.cs" />
     <Compile Include="LinearAlgebra\Double\IO\DelimitedReader.cs" />
-    <Compile Include="LinearAlgebra\Double\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Double\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\Double\IO\Matlab\MatlabFile.cs" />
     <Compile Include="LinearAlgebra\Double\IO\Matlab\MatlabParser.cs" />
     <Compile Include="LinearAlgebra\Double\IO\MatrixReader.cs" />
-    <Compile Include="LinearAlgebra\Double\IO\MatrixWriter.cs" />
     <Compile Include="LinearAlgebra\Generic\ISolver.cs" />
     <Compile Include="LinearAlgebra\Generic\Solvers\IIterativeSolver.cs" />
     <Compile Include="LinearAlgebra\Generic\Solvers\IIterativeSolverSetup.cs" />
