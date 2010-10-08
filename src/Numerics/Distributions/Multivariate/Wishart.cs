@@ -215,6 +215,27 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets the variance of the distribution.
+        /// </summary>
+        /// <value>The variance  of the distribution.</value>
+        public Matrix<double> Variance
+        {
+            get
+            {
+                var res = _s.CreateMatrix(_s.RowCount, _s.ColumnCount);
+                for (var i = 0; i < res.RowCount; i++)
+                {
+                    for (var j = 0; j < res.ColumnCount; j++)
+                    {
+                        res.At(i, j, _nu * ((_s.At(i, j) * _s.At(i, j)) + (_s.At(i, i) * _s.At(j, j))));
+                    }
+                }
+
+                return res;
+            }
+        }
+
+        /// <summary>
         /// Evaluates the probability density function for the Wishart distribution.
         /// </summary>
         /// <param name="x">The matrix at which to evaluate the density at.</param>

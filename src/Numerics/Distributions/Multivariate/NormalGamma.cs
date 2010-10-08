@@ -330,6 +330,18 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets the variance of the distribution.
+        /// </summary>
+        /// <value>The mean of the distribution.</value>
+        public MeanPrecisionPair Variance
+        {
+            get
+            {
+                return new MeanPrecisionPair(_precisionInvScale / (_meanScale * (_precisionShape - 1)), _precisionShape / Math.Sqrt(_precisionInvScale));
+            }
+        }
+
+        /// <summary>
         /// Evaluates the probability density function for a NormalGamma distribution.
         /// </summary>
         /// <param name="mp">The mean/precision pair of the distribution</param>
@@ -349,17 +361,17 @@ namespace MathNet.Numerics.Distributions
         {
             if (Double.IsPositiveInfinity(_precisionInvScale) && _meanScale == 0.0)
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
 
             if (Double.IsPositiveInfinity(_precisionInvScale))
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
 
             if (_meanScale <= 0.0)
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
 
             // double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;
@@ -389,17 +401,17 @@ namespace MathNet.Numerics.Distributions
         {
             if (Double.IsPositiveInfinity(_precisionInvScale) && _meanScale == 0.0)
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
             
             if (Double.IsPositiveInfinity(_precisionInvScale))
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
             
             if (_meanScale <= 0.0)
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
 
             // double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;

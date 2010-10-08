@@ -212,7 +212,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             ng.RandomSource = new Random();
         }
 
-        /// <summary>
+        [Test, MultipleAsserts]
+        [Row(0.0, 1.0, 1.0, 1.0)]
+        [Row(10.0, 1.0, 2.0, 2.0)]
+        public void ValidateVariance(double meanLocation, double meanScale, double precShape, double precInvScale)
+        {
+            NormalGamma ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
+            var X = precInvScale / (meanScale * (precShape - 1));
+            var T = precShape / Math.Sqrt(precInvScale);
+            Assert.AreEqual(X, ng.Variance.Mean);
+            Assert.AreEqual(T, ng.Variance.Precision);
+        }
+
+	    /// <summary>
         /// Test the method which samples one variable at a time.
         /// </summary>
         [Test]

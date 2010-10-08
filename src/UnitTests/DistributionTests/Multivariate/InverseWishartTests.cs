@@ -193,6 +193,49 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             }
         }
 
+        [Test, MultipleAsserts]
+        [Row(1.0, 2)]
+        [Row(2.0, 2)]
+        [Row(5.0, 2)]
+        [Row(1.0, 5)]
+        [Row(2.0, 5)]
+        [Row(5.0, 5)]
+        public void ValidateMode(double nu, int order)
+        {
+            var d = new InverseWishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
+
+            var mode = d.Mode;
+            for (var i = 0; i < d.S.RowCount; i++)
+            {
+                for (var j = 0; j < d.S.ColumnCount; j++)
+                {
+                    Assert.AreEqual(d.S[i, j] * (1.0 / (nu + d.S.RowCount + 1.0)), mode[i, j]);
+                }
+            }
+        }
+
+        [Test, MultipleAsserts]
+        [Row(1.0, 2)]
+        [Row(2.0, 2)]
+        [Row(5.0, 2)]
+        [Row(1.0, 5)]
+        [Row(2.0, 5)]
+        [Row(5.0, 5)]
+        public void ValidateVariance(double nu, int order)
+        {
+            var d = new InverseWishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
+
+            var variance = d.Variance;
+            for (var i = 0; i < d.S.RowCount; i++)
+            {
+                for (var j = 0; j < d.S.ColumnCount; j++)
+                {
+                    var num1 = (nu - d.S.RowCount + 1) * d.S[i, j] * d.S[i, j] + (nu - d.S.RowCount - 1) * d.S[i, i] * d.S[j, j];
+                    var num2 = (nu - d.S.RowCount) * (nu - d.S.RowCount - 1) * (nu - d.S.RowCount - 1) * (nu - d.S.RowCount - 3);
+                    Assert.AreEqual(num1 / num2, variance[i, j]);
+                }
+            }
+        }
         [Test]
         [Row(1.0, 0.03228684517430723)]
         [Row(2.0, 0.018096748360719193)]

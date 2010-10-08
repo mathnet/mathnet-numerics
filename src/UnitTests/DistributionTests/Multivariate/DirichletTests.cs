@@ -31,6 +31,7 @@
 namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 {
 	using System;
+	using System.Linq;
 	using MbUnit.Framework;
 	using Distributions;
 
@@ -163,6 +164,36 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             {
                 AssertHelpers.AlmostEqual(i * (sum - i) / (sum * sum * (sum + 1.0)), d.Variance[i], 15);
             }
+        }
+
+        [Test]
+        [Row(new[] { 0.01, 0.03, 0.5 }, 1335.32600710379)]
+        [Row(new[] { 0.1, 0.2, 0.3, 0.4 }, 59.1446044600076)]
+        public void ValidateDensity(double[] x, double res)
+        {
+            var d = new Dirichlet(new[] { 0.1, 0.3, 0.5, 0.8 });
+            AssertHelpers.AlmostEqual(res, d.Density(x), 12);
+        }
+
+        [Test]
+        [Row(new[] { 0.01, 0.03, 0.5 })]
+        [Row(new[] { 0.1, 0.2, 0.3, 0.4 })]
+        public void ValidateDensityLn(double[] x)
+        {
+            var d = new Dirichlet(new[] { 0.1, 0.3, 0.5, 0.8 });
+            AssertHelpers.AlmostEqual(d.DensityLn(x), Math.Log(d.Density(x)), 12);
+        }
+
+        [Test]
+        [Row(new[] { 0.1, 0.3, 0.5, 0.8 })]
+        [Row(new[] { 0.1, 0.2, 0.3, 0.4 })]
+        public void ValidateEntropy(double[] x)
+        {
+            var d = new Dirichlet(x);
+
+            var sum = x.Sum(t => (t - 1) * SpecialFunctions.DiGamma(t));
+            var res = SpecialFunctions.GammaLn(x.Sum()) + (x.Sum() - x.Length) * SpecialFunctions.DiGamma(x.Sum()) - sum;
+            AssertHelpers.AlmostEqual(res, d.Entropy, 12);
         }
 
         [Test]
