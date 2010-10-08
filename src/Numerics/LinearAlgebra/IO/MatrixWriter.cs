@@ -36,7 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     /// <summary>
     /// Base class to write a single <see cref="Matrix{DataType}"/> to a file or stream.
     /// </summary>
-    /// <typeparam name="TDataType">The data type of the matrix.</typeparam>
+    /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
     public abstract class MatrixWriter<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable
     {
         /// <summary>

@@ -24,9 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.IO
+namespace MathNet.Numerics.LinearAlgebra.Complex.IO
 {
     using System;
+    using System.Numerics;
     using Generic;
     using LinearAlgebra.IO;
 
@@ -35,8 +36,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
     /// specify a delimiter, then any whitespace is used.
     /// </summary>
     /// <typeparam name="TMatrix">The type of the matrix to return.</typeparam>
-    public class DelimitedReader<TMatrix> : DelimitedReader<TMatrix, double>
-        where TMatrix : Matrix<double>
+    public class DelimitedReader<TMatrix> : DelimitedReader<TMatrix, Complex>
+        where TMatrix : Matrix<Complex>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DelimitedReader{TMatrix}"/> class using

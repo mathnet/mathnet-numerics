@@ -142,6 +142,7 @@
     <Compile Include="LinearAlgebra\Complex32\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\UserSvd.cs" />
+    <Compile Include="LinearAlgebra\Complex32\IO\DelimitedReader.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Iterative\BiCgStab.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Iterative\CompositeSolver.cs" />
     <Compile Include="LinearAlgebra\Complex32\Solvers\Iterative\GpBiCg.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="LinearAlgebra\Complex\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\UserSvd.cs" />
+    <Compile Include="LinearAlgebra\Complex\IO\DelimitedReader.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Iterative\CompositeSolver.cs" />
     <Compile Include="LinearAlgebra\Complex\Solvers\Iterative\GpBiCg.cs" />
@@ -197,9 +199,12 @@
     <Compile Include="LinearAlgebra\Double\Factorization\DenseGramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\DenseEvd.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserEvd.cs" />
+    <Compile Include="LinearAlgebra\Double\IO\DelimitedReader.cs" />
     <Compile Include="LinearAlgebra\Generic\Factorization\GramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Generic\Factorization\Evd.cs" />
+    <Compile Include="LinearAlgebra\IO\DelimitedReader.cs" />
     <Compile Include="LinearAlgebra\IO\DelimitedWriter.cs" />
+    <Compile Include="LinearAlgebra\IO\MatrixReader.cs" />
     <Compile Include="LinearAlgebra\IO\MatrixWriter.cs" />
     <Compile Include="LinearAlgebra\Single\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\DenseVector.cs" />
@@ -220,7 +225,6 @@
     <Compile Include="LinearAlgebra\Single\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\Single\IO\Matlab\MatlabFile.cs" />
     <Compile Include="LinearAlgebra\Single\IO\Matlab\MatlabParser.cs" />
-    <Compile Include="LinearAlgebra\Single\IO\MatrixReader.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\CompositeSolver.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\GpBiCg.cs" />
@@ -256,11 +260,9 @@
     <Compile Include="LinearAlgebra\Double\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserSvd.cs" />
-    <Compile Include="LinearAlgebra\Double\IO\DelimitedReader.cs" />
     <Compile Include="LinearAlgebra\Double\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\Double\IO\Matlab\MatlabFile.cs" />
     <Compile Include="LinearAlgebra\Double\IO\Matlab\MatlabParser.cs" />
-    <Compile Include="LinearAlgebra\Double\IO\MatrixReader.cs" />
     <Compile Include="LinearAlgebra\Generic\ISolver.cs" />
     <Compile Include="LinearAlgebra\Generic\Solvers\IIterativeSolver.cs" />
     <Compile Include="LinearAlgebra\Generic\Solvers\IIterativeSolverSetup.cs" />
