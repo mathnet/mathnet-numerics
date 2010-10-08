@@ -521,12 +521,6 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserSvd.cs">
       <Link>LinearAlgebra\Double\Factorization\UserSvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\IO\DelimitedReader.cs">
-      <Link>LinearAlgebra\Double\IO\DelimitedReader.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\IO\MatrixReader.cs">
-      <Link>LinearAlgebra\Double\IO\MatrixReader.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
