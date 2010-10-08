@@ -24,7 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Double.IO
+namespace MathNet.Numerics.LinearAlgebra.IO
 {
     using System;
     using System.IO;
@@ -35,7 +35,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
     /// Base class to read a single <see cref="Matrix{T}"/> from a file or stream.
     /// </summary>
     /// <typeparam name="TMatrix">The type of Matrix to return.</typeparam>
-    public abstract class MatrixReader<TMatrix> where TMatrix : Matrix<double>
+    /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+    public abstract class MatrixReader<TMatrix, TDataType>
+        where TMatrix : Matrix<TDataType>
+        where TDataType : struct, IEquatable<TDataType>, IFormattable
     {
         /// <summary>
         /// Reads a <see cref="Matrix{T}"/> from a file.
@@ -46,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.IO
         /// <exception cref="IOException">If the file doesn't exist.</exception>
         /// <exception cref="FormatException">If a value is not a number or not in a valid format.</exception>
         /// <exception cref="OverflowException">If a value represents a number less than <see cref="Double.MinValue"/> or greater than <see cref="Double.MaxValue"/>.</exception>
-        public Matrix<double> ReadMatrix(string file)
+        public TMatrix ReadMatrix(string file)
         {
             if (file == null)
             {

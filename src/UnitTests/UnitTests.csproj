@@ -136,6 +136,7 @@
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserLUTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserQRTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\UserSvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex32\IO\DelimitedReaderTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\IO\DelimitedWriterTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\MatrixTests.Arithmetic.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="LinearAlgebraTests\Complex\Factorization\UserLUTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\UserQRTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\UserSvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Complex\IO\DelimitedReaderTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\IO\DelimitedWriterTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Complex\MatrixTests.Arithmetic.cs" />
