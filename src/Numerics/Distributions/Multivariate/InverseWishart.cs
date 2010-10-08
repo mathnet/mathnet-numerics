@@ -201,6 +201,43 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets the mode of the distribution.
+        /// </summary>
+        /// <value>The mode of the distribution.</value>
+        /// <remarks>A. O'Hagan, and J. J. Forster (2004). Kendall's Advanced Theory of Statistics: Bayesian Inference. 2B (2 ed.). Arnold. ISBN 0-340-80752-0.</remarks>
+        public Matrix<double> Mode
+        {
+            get
+            {
+                return _s * (1.0 / (_nu + _s.RowCount + 1.0));
+            }
+        }
+
+        /// <summary>
+        /// Gets the variance of the distribution.
+        /// </summary>
+        /// <value>The variance  of the distribution.</value>
+        /// <remarks>Kanti V. Mardia, J. T. Kent and J. M. Bibby (1979). Multivariate Analysis.</remarks>
+        public Matrix<double> Variance
+        {
+            get
+            {
+                var res = _s.CreateMatrix(_s.RowCount, _s.ColumnCount);
+                for (var i = 0; i < res.RowCount; i++)
+                {
+                    for (var j = 0; j < res.ColumnCount; j++)
+                    {
+                        var num1 = ((_nu - _s.RowCount + 1) * _s.At(i, j) * _s.At(i, j)) + ((_nu - _s.RowCount - 1) * _s.At(i, i) * _s.At(j, j));
+                        var num2 = (_nu - _s.RowCount) * (_nu - _s.RowCount - 1) * (_nu - _s.RowCount - 1) * (_nu - _s.RowCount - 3);
+                        res.At(i, j, num1 / num2);
+                    }
+                }
+
+                return res;
+            }
+        }
+
+        /// <summary>
         /// Evaluates the probability density function for the inverse Wishart distribution.
         /// </summary>
         /// <param name="x">The matrix at which to evaluate the density at.</param>

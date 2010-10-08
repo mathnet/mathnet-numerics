@@ -238,14 +238,14 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                return (SpecialFunctions.GeneralHarmonic(_n, _s - 3) * Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s), 2) - SpecialFunctions.GeneralHarmonic(_n, _s - 1) * (3 * SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2))) / Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2), 1.5);
+                return ((SpecialFunctions.GeneralHarmonic(_n, _s - 3) * Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s), 2)) - (SpecialFunctions.GeneralHarmonic(_n, _s - 1) * ((3 * SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2)))) / Math.Pow((SpecialFunctions.GeneralHarmonic(_n, _s - 2) * SpecialFunctions.GeneralHarmonic(_n, _s)) - Math.Pow(SpecialFunctions.GeneralHarmonic(_n, _s - 1), 2), 1.5);
             }
         }
 
-        /// <summary>
+        /// <summary> 
         /// Computes the cumulative distribution function of the distribution.
         /// </summary>
-        /// <param name="x">The location at which to compute the cumulative density.</param>
+        /// <param name="x">The integer location at which to compute the cumulative density.</param>
         /// <returns>the cumulative density at <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
@@ -254,14 +254,7 @@ namespace MathNet.Numerics.Distributions
                 return 0.0;
             }
 
-            var sum = 0.0;
-            var k = (int)Math.Ceiling(x) - 1;
-            for (var i = 0; i < k; i++)
-            {
-                sum += Math.Pow(i + 1, -_s);
-            }
-
-            return sum / SpecialFunctions.GeneralHarmonic(_n, _s);
+            return SpecialFunctions.GeneralHarmonic((int)x, _s) / SpecialFunctions.GeneralHarmonic(_n, _s);
         }
 
         #endregion
@@ -286,7 +279,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -368,20 +361,25 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a random number from the Zipf distribution.</returns>
         private static int DoSample(Random rnd, double s, int n)
         {
-            var r = rnd.NextDouble();
-            var x = 1;
-            var p = 1.0 / SpecialFunctions.GeneralHarmonic(n, s);
-            do
+            var r = 0.0;
+            while (r == 0.0)
             {
-                r -= p;
-                if (r >= 0)
+                r = rnd.NextDouble();
+            }
+
+            var p = 1.0 / SpecialFunctions.GeneralHarmonic(n, s);
+            int i;
+            var sum = 0.0;
+            for (i = 1; i <= n; i++)
+            {
+                sum += p / Math.Pow(i, s);
+                if (sum >= r)
                 {
-                    x++;
-                    p = p / Math.Pow((double)(x - 1) / x, s - 1);
+                    break;
                 }
             }
-            while (r >= 0);
-            return x;
+
+            return i;
         }
     }
 }

@@ -214,6 +214,27 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
             }
         }
 
+        [Test, MultipleAsserts]
+        [Row(1.0, 2)]
+        [Row(2.0, 2)]
+        [Row(5.0, 2)]
+        [Row(1.0, 5)]
+        [Row(2.0, 5)]
+        [Row(5.0, 5)]
+        public void ValidateVariance(double nu, int order)
+        {
+            var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
+
+            var variance = d.Variance;
+            for (var i = 0; i < d.S.RowCount; i++)
+            {
+                for (var j = 0; j < d.S.ColumnCount; j++)
+                {
+                    Assert.AreEqual(nu * (d.S[i, j] * d.S[i, j] + d.S[i, i] * d.S[j, j]), variance[i, j]);
+                }
+            }
+        }
+
         [Test]
         [Row(1.0, 0.014644982561926487)]
         [Row(2.0, 0.041042499311949421)]

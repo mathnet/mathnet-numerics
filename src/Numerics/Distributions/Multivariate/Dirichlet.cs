@@ -216,6 +216,80 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Gets the entropy of the distribution.
+        /// </summary>
+        public double Entropy
+        {
+            get
+            {
+                var num = _alpha.Sum(t => (t - 1) * SpecialFunctions.DiGamma(t));
+                return SpecialFunctions.GammaLn(AlphaSum) + ((AlphaSum - Dimension) * SpecialFunctions.DiGamma(AlphaSum)) - num;
+            }
+        }
+
+        /// <summary>
+        /// Computes the density of the distribution.
+        /// </summary>
+        /// <param name="x">The locations at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        /// <remarks>The Dirichlet distribution requires that the sum of the components of x equals 1. 
+        /// You can also leave out the last <paramref name="x"/> component, and it will be computed from the others. </remarks>
+        public double Density(double[] x)
+        {
+            return Math.Exp(DensityLn(x));
+        }
+
+        /// <summary>
+        /// Computes the log density of the distribution.
+        /// </summary>
+        /// <param name="x">The locations at which to compute the density.</param>
+        /// <returns>the density at <paramref name="x"/>.</returns>
+        public double DensityLn(double[] x)
+        {
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            var flag = x.Length == (_alpha.Length - 1);
+            if ((x.Length != _alpha.Length) && !flag)
+            {
+                throw new ArgumentException("x");
+            }
+
+            var num = 0.0;
+            var num2 = 0.0;
+            for (var i = 0; i < x.Length; i++)
+            {
+                var d = x[i];
+                if ((d <= 0.0) || (d >= 1.0))
+                {
+                    return 0.0;
+                }
+
+                num += (_alpha[i] - 1.0) * Math.Log(d);
+                num2 += d;
+            }
+
+            // Calculate x[Length - 1] element, if needed
+            if (flag)
+            {
+                if (num2 >= 1.0)
+                {
+                    return 0.0;
+                }
+
+                num += (_alpha[_alpha.Length - 1] - 1.0) * Math.Log(1.0 - num2);
+            }
+            else if (!num2.AlmostEqualInDecimalPlaces(1.0, 8))
+            {
+                return 0.0;
+            }
+
+            return -SpecialFunctions.GammaLn(AlphaSum) + num;
+        }
+
+        /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public Random RandomSource

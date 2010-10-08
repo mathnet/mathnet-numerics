@@ -28,6 +28,9 @@ namespace MathNet.Numerics.Distributions
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using LinearAlgebra.Double;
+    using LinearAlgebra.Generic;
     using Properties;
     using Statistics;
 
@@ -80,6 +83,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="h">Histogram instance</param>
         /// <param name="n">The number of trials.</param>
+                /// <exception cref="ArgumentOutOfRangeException">If any of the probabilities are negative or do not sum to one.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(Histogram h, int n)
         {
             if (h == null)
@@ -207,6 +212,116 @@ namespace MathNet.Numerics.Distributions
 
                 _random = value;
             }
+        }
+
+        /// <summary>
+        /// Gets the mean of the distribution.
+        /// </summary>
+        public Vector<double> Mean
+        {
+            get
+            {
+                return _n * (DenseVector)P;
+            }
+        }
+
+        /// <summary>
+        /// Gets the variance of the distribution.
+        /// </summary>
+        public Vector<double> Variance
+        {
+            get
+            {
+                // Do not use _p, because operations below will modify _p array. Use P or _p.Clone(). 
+                var res = (DenseVector)P;
+                for (var i = 0; i < res.Count; i++)
+                {
+                    res[i] *= _n * (1 - res[i]);
+                }
+
+                return res;
+            }
+        }
+
+        /// <summary>
+        /// Gets the skewness of the distribution.
+        /// </summary>
+        public Vector<double> Skewness
+        {
+            get
+            {
+                // Do not use _p, because operations below will modify _p array. Use P or _p.Clone(). 
+                var res = (DenseVector)P;
+                for (var i = 0; i < res.Count; i++)
+                {
+                    res[i] = (1.0 - (2.0 * res[i])) / Math.Sqrt(_n * (1.0 - res[i]) * res[i]);
+                }
+
+                return res;
+            }
+        }
+
+        /// <summary>
+        /// Computes values of the probability mass function.
+        /// </summary>
+        /// <param name="x">Non-negative integers x1, ..., xk</param>
+        /// <returns>The probability mass at location <paramref name="x"/>.</returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="x"/> is null.</exception>
+        /// <exception cref="ArgumentException">When length of <paramref name="x"/> is not equal to event probabilities count.</exception>
+        public double Probability(int[] x)
+        {
+            if (null == x)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != _p.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "x");
+            }
+
+            if (x.Sum() == _n)
+            {
+                var coef = SpecialFunctions.Multinomial(_n, x);
+                var num = 1.0;
+                for (var i = 0; i < x.Length; i++)
+                {
+                    num *= Math.Pow(_p[i], x[i]);
+                }
+
+                return coef * num;
+            }
+
+            return 0.0;
+        }
+
+        /// <summary>
+        /// Computes values of the log probability mass function.
+        /// </summary>
+        /// <param name="x">Non-negative integers x1, ..., xk</param>
+        /// <returns>The log probability mass at location <paramref name="x"/>.</returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="x"/> is null.</exception>
+        /// <exception cref="ArgumentException">When length of <paramref name="x"/> is not equal to event probabilities count.</exception>
+        public double ProbabilityLn(int[] x)
+        {
+            if (null == x)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != _p.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "x");
+            }
+
+            if (x.Sum() == _n)
+            {
+                var coef = Math.Log(SpecialFunctions.Multinomial(_n, x));
+                var num = x.Select((t, i) => t * Math.Log(_p[i])).Sum();
+                return coef + num;
+            }
+
+            return 0.0;
         }
 
         /// <summary>

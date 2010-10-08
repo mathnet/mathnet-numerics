@@ -524,14 +524,8 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\IO\DelimitedReader.cs">
       <Link>LinearAlgebra\Double\IO\DelimitedReader.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\IO\DelimitedWriter.cs">
-      <Link>LinearAlgebra\Double\IO\DelimitedWriter.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\IO\MatrixReader.cs">
       <Link>LinearAlgebra\Double\IO\MatrixReader.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\IO\MatrixWriter.cs">
-      <Link>LinearAlgebra\Double\IO\MatrixWriter.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs</Link>

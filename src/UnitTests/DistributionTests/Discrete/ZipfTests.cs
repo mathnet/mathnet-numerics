@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-/*namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
+namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 {
     using System;
     using System.Linq;
@@ -165,7 +165,7 @@
         }
 
         [Test]
-        [ExpectedException(typeof(NotImplementedException))]
+        [ExpectedException(typeof(NotSupportedException))]
         public void ValidateMedian()
         {
             var d = new Zipf(1.0, 5);
@@ -229,33 +229,39 @@
         [Test]
         public void CanSample()
         {
-            var d = new Zipf(1.0, 5);
+            var d = new Zipf(0.7, 5);
             var s = d.Sample();
+            Assert.Between(s, 0, 5);
         }
 
         [Test]
         public void CanSampleSequence()
         {
-            var d = new Zipf(1.0, 5);
+            var d = new Zipf(0.7, 5);
             var ied = d.Samples();
-            var e = ied.Take(5).ToArray();
+            var e = ied.Take(1000).ToArray();
+            foreach (var i in e)
+            {
+                Assert.Between(i, 0, 5);
+            }
         }
 
         [Test]
-        [Row(0.1, 1, 1.1, 1.0)]
-        [Row(0.1, 20, 1.1, 0.061588204519703309)]
-        [Row(0.1, 50, 1.1, 0.026806743865513603)]
-        [Row(1.0, 1, 1.1, 1.0)]
-        [Row(1.0, 20, 1.1, 0.27795229652440168)]
-        [Row(1.0, 50, 1.1, 0.22226147170498)]
-        [Row(0.1, 20, 15.0, 0.061588204519703309)]
-        [Row(0.1, 50, 15.0, 0.026806743865513603)]
-        [Row(1.0, 20, 15.0, 0.27795229652440168)]
-        [Row(1.0, 50, 15.0, 0.22226147170498)]
-        public void ValidateCumulativeDistribution(double s, int n, double x, double cdf)
+        [Row(0.1, 1, 2)]
+        [Row(0.1, 20, 2)]
+        [Row(0.1, 50, 2)]
+        [Row(1.0, 1, 2)]
+        [Row(1.0, 20, 2)]
+        [Row(1.0, 50, 2)]
+        [Row(0.1, 20, 15)]
+        [Row(0.1, 50, 15)]
+        [Row(1.0, 20, 15)]
+        [Row(1.0, 50, 15)]
+        public void ValidateCumulativeDistribution(double s, int n, int x)
         {
             var d = new Zipf(s, n);
+            var cdf = SpecialFunctions.GeneralHarmonic(x, s) / SpecialFunctions.GeneralHarmonic(n, s);
             AssertHelpers.AlmostEqual(cdf, d.CumulativeDistribution(x), 14);
         }
     }
-}*/
+}
