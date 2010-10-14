@@ -24,7 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Single.IO
+namespace MathNet.Numerics.LinearAlgebra.Complex.IO
 {
     using System.IO;
     using LinearAlgebra.IO;
@@ -32,7 +32,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.IO
     /// <summary>
     /// Creates matrices from Matlab files.
     /// </summary>
-    public class MatlabMatrixReader : MatlabMatrixReader<float>
+    public class MatlabMatrixReader : MatlabMatrixReader<System.Numerics.Complex>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MatlabMatrixReader"/> class.

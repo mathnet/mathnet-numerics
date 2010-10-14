@@ -1,4 +1,4 @@
-﻿// <copyright file="ArrayFlags.cs" company="Math.NET">
+﻿// <copyright file="DelimitedWriter.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -26,29 +26,45 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Common.IO.Matlab
+namespace MathNet.Numerics.LinearAlgebra.Complex.IO
 {
-    using System;
+    using Generic;
+    using LinearAlgebra.IO;
 
     /// <summary>
-    /// Matlab Array Flags
+    /// Writes an <see cref="Matrix{TDataType}"/> to delimited text file. If the user does not
+    /// specify a delimiter, a tab separator is used.
     /// </summary>
-    [Flags]
-    internal enum ArrayFlags
+    public class DelimitedWriter : DelimitedWriter<System.Numerics.Complex>
     {
         /// <summary>
-        /// Complex flag
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
+        /// a comma as the delimiter.
         /// </summary>
-        Complex = 8,
+        public DelimitedWriter()
+        {
+        }
 
         /// <summary>
-        /// Global flag
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
+        /// using the given delimiter.
         /// </summary>
-        Global = 4, 
+        /// <param name="delimiter">
+        /// the delimiter to use.
+        /// </param>
+        public DelimitedWriter(char delimiter) : base(delimiter)
+        {
+        }
 
         /// <summary>
-        /// Logical flag
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
+        /// using the given delimiter.
         /// </summary>
-        Logical = 2
+        /// <param name="delimiter">
+        /// the delimiter to use.
+        /// </param>
+        public DelimitedWriter(string delimiter) : base(delimiter)
+        {
+        }
     }
 }

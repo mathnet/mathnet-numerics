@@ -1,4 +1,4 @@
-﻿// <copyright file="ArrayClass.cs" company="Math.NET">
+﻿// <copyright file="DataType.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -26,96 +26,91 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Common.IO.Matlab
+namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 {
     /// <summary>
-    /// Enumeration for the Matlab array types
+    /// Matlab data types
     /// </summary>
-    internal enum ArrayClass : byte
+    internal enum DataType
     {
         /// <summary>
-        /// mxUNKNOWN CLASS
+        /// Unkown type
         /// </summary>
-        Unknown = 0, 
+        Unknown = 0,
 
         /// <summary>
-        /// mxCELL CLASS
+        /// miINT8 type
         /// </summary>
-        Cell = 1, 
- 
-        /// <summary>
-        ///  mxSTRUCT CLASS
-        /// </summary>
-        Structure = 2,
+        Int8 = 1,
 
         /// <summary>
-        ///  mxOBJECT CLASS
+        ///  miUINT8 type
         /// </summary>
-        Object = 3, 
+        UInt8 = 2,
 
         /// <summary>
-        /// mxCHAR CLASS
+        ///  miINT16 type
         /// </summary>
-        Character = 4,
+        Int16 = 3,
 
         /// <summary>
-        /// mxSPARSE CLASS
+        ///  miUINT16 type
         /// </summary>
-        Sparse = 5,
+        UInt16 = 4,
 
         /// <summary>
-        /// mxDOUBLE CLASS
+        ///  miINT32 type
         /// </summary>
-        Double = 6,
+        Int32 = 5, 
 
         /// <summary>
-        /// mxSINGLE CLASS
+        ///  miUINT32 type
+        /// </summary>
+        UInt32 = 6,
+
+        /// <summary>
+        ///  miSINGLE type
         /// </summary>
         Single = 7, 
 
         /// <summary>
-        /// mxINT8 CLASS
+        ///  miDOUBLE type
         /// </summary>
-        Int8 = 8, 
+        Double = 9, 
+        
+        /// <summary>
+        ///  miINT64 type
+        /// </summary>
+        Int64 = 12,
 
         /// <summary>
-        /// mxUINT8 CLASS
+        ///  miUINT6 4type
         /// </summary>
-        UInt8 = 9, 
+        UInt64 = 13, 
+        
+        /// <summary>
+        /// miMATRIX type
+        /// </summary>
+        Matrix = 14,
 
         /// <summary>
-        /// mxINT16 CLASS
+        ///  miCOMPRESSED type
         /// </summary>
-        Int16 = 10, 
+        Compressed = 15, 
 
         /// <summary>
-        /// mxUINT16 CLASS
+        ///  miUTF8 type
         /// </summary>
-        UInt16 = 11, 
+        Utf8 = 16, 
 
         /// <summary>
-        /// mxINT32 CLASS
+        ///  miUTF16 type
         /// </summary>
-        Int32 = 12, 
-
+        Utf16 = 17, 
+        
         /// <summary>
-        /// mxUINT32 CLASS
+        ///  miUTF32 type
         /// </summary>
-        UInt32 = 13, 
-
-        /// <summary>
-        ///  mxINT64 CLASS
-        /// </summary>
-        Int64 = 14,
-
-        /// <summary>
-        /// mxUINT64 CLASS
-        /// </summary>
-        UInt64 = 15, 
-
-        /// <summary>
-        ///  mxFUNCTION CLASS
-        /// </summary>
-        Function = 16 
+        Utf32 = 18 
     }
 }

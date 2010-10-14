@@ -1,9 +1,11 @@
-﻿// <copyright file="MatlabReader.cs" company="Math.NET">
+﻿// <copyright file="ArrayFlags.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
+//
 // Copyright (c) 2009-2010 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -24,30 +26,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Single.IO
+namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 {
-    using System.IO;
-    using LinearAlgebra.IO;
+    using System;
 
     /// <summary>
-    /// Creates matrices from Matlab files.
+    /// Matlab Array Flags
     /// </summary>
-    public class MatlabMatrixReader : MatlabMatrixReader<float>
+    [Flags]
+    internal enum ArrayFlags
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabMatrixReader"/> class.
+        /// Complex flag
         /// </summary>
-        /// <param name="filename">Name of the file to read matrices from.</param>
-        public MatlabMatrixReader(string filename) : base(filename)
-        {
-        }
+        Complex = 8,
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabMatrixReader"/> class.
+        /// Global flag
         /// </summary>
-        /// <param name="stream">The stream to reader matrices from.</param>
-        public MatlabMatrixReader(Stream stream) : base(stream)
-        {
-        }
+        Global = 4, 
+
+        /// <summary>
+        /// Logical flag
+        /// </summary>
+        Logical = 2
     }
 }

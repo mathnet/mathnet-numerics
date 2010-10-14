@@ -4,8 +4,8 @@
     using System.Globalization;
     using System.IO;
     using LinearAlgebra.Complex32;
+    using LinearAlgebra.Complex32.IO;
     using Numerics;
-    using LinearAlgebra.IO;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -15,7 +15,7 @@
         public void CanWriteCommaDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { new Complex32(1.1f, 1.1f), new Complex32(2.2f, 2.2f), new Complex32(3.3f, 3.3f) }, { new Complex32(4.4f, 4.4f), new Complex32(5.5f, 5.5f), new Complex32(6.6f, 6.6f) }, { new Complex32(7.7f, 7.7f), new Complex32(8.8f, 8.8f), new Complex32(9.9f, 9.9f) } });
-            var writer = new DelimitedWriter<Complex32>(',');
+            var writer = new DelimitedWriter(',');
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -32,7 +32,7 @@
         {
             var matrix = new DenseMatrix(new[,] { { new Complex32(1.1f, 1.1f), new Complex32(2.2f, 2.2f), new Complex32(3.3f, 3.3f) }, { new Complex32(4.4f, 4.4f), new Complex32(5.5f, 5.5f), new Complex32(6.6f, 6.6f) }, { new Complex32(7.7f, 7.7f), new Complex32(8.8f, 8.8f), new Complex32(9.9f, 9.9f) } });
             var culture = new CultureInfo("tr-TR");
-            var writer = new DelimitedWriter<Complex32>('.')
+            var writer = new DelimitedWriter('.')
                          {
                              CultureInfo = culture
                          };
@@ -51,7 +51,7 @@
         public void CanWriteSpaceDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { new Complex32(1.1f, 1.1f), new Complex32(2.2f, 2.2f), new Complex32(3.3f, 3.3f) }, { new Complex32(4.4f, 4.4f), new Complex32(5.5f, 5.5f), new Complex32(6.6f, 6.6f) }, { new Complex32(7.7f, 7.7f), new Complex32(8.8f, 8.8f), new Complex32(9.9f, 9.9f) } });
-            var writer = new DelimitedWriter<Complex32>(' ');
+            var writer = new DelimitedWriter(' ');
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -68,7 +68,7 @@
         {
             var matrix = new DenseMatrix(new[,] { { new Complex32(1.1f, 1.1f), new Complex32(2.2f, 2.2f), new Complex32(3.3f, 3.3f) }, { new Complex32(4.4f, 4.4f), new Complex32(5.5f, 5.5f), new Complex32(6.6f, 6.6f) }, { new Complex32(7.7f, 7.7f), new Complex32(8.8f, 8.8f), new Complex32(9.9f, 9.9f) } });
             var headers = new[] { "a", "b", "c" };
-            var writer = new DelimitedWriter<Complex32>('\t')
+            var writer = new DelimitedWriter('\t')
                          {
                              ColumnHeaders = headers
                          };
