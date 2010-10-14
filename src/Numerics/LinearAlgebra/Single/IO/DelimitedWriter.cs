@@ -1,9 +1,11 @@
-﻿// <copyright file="MatlabReader.cs" company="Math.NET">
+﻿// <copyright file="DelimitedWriter.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
+//
 // Copyright (c) 2009-2010 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -26,27 +28,42 @@
 
 namespace MathNet.Numerics.LinearAlgebra.Single.IO
 {
-    using System.IO;
+    using Generic;
     using LinearAlgebra.IO;
 
     /// <summary>
-    /// Creates matrices from Matlab files.
+    /// Writes an <see cref="Matrix{TDataType}"/> to delimited text file. If the user does not
+    /// specify a delimiter, a tab separator is used.
     /// </summary>
-    public class MatlabMatrixReader : MatlabMatrixReader<float>
+    public class DelimitedWriter : DelimitedWriter<float>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabMatrixReader"/> class.
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
+        /// a comma as the delimiter.
         /// </summary>
-        /// <param name="filename">Name of the file to read matrices from.</param>
-        public MatlabMatrixReader(string filename) : base(filename)
+        public DelimitedWriter()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabMatrixReader"/> class.
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
+        /// using the given delimiter.
         /// </summary>
-        /// <param name="stream">The stream to reader matrices from.</param>
-        public MatlabMatrixReader(Stream stream) : base(stream)
+        /// <param name="delimiter">
+        /// the delimiter to use.
+        /// </param>
+        public DelimitedWriter(char delimiter) : base(delimiter)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
+        /// using the given delimiter.
+        /// </summary>
+        /// <param name="delimiter">
+        /// the delimiter to use.
+        /// </param>
+        public DelimitedWriter(string delimiter) : base(delimiter)
         {
         }
     }

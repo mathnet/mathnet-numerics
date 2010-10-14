@@ -4,7 +4,7 @@
     using System.Globalization;
     using System.IO;
     using LinearAlgebra.Double;
-    using LinearAlgebra.IO;
+    using LinearAlgebra.Double.IO;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -14,7 +14,7 @@
         public void CanWriteCommaDelimitedData()
         {
             var matrix = new DenseMatrix(new[,] { { 1.1, 2.2, 3.3 }, { 4.4, 5.5, 6.6 }, { 7.7, 8.8, 9.9 } });
-            var writer = new DelimitedWriter<double>(',');
+            var writer = new DelimitedWriter(',');
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -31,7 +31,7 @@
         {
             var matrix = new DenseMatrix(new[,] { { 1.1, 2.2, 3.3 }, { 4.4, 5.5, 6.6 }, { 7.7, 8.8, 9.9 } });
             var culture = new CultureInfo("tr-TR");
-            var writer = new DelimitedWriter<double>('.')
+            var writer = new DelimitedWriter('.')
                          {
                              CultureInfo = culture
                          };
@@ -50,7 +50,7 @@
         public void CanWriteSpaceDelimitedData()
         {
             var matrix = new SparseMatrix(new[,] { { 1.1, 0, 0 }, { 0, 5.5, 0 }, { 0, 0, 9.9 } });
-            var writer = new DelimitedWriter<double>(' ');
+            var writer = new DelimitedWriter(' ');
             var stream = new MemoryStream();
             writer.WriteMatrix(matrix, stream);
             var data = stream.ToArray();
@@ -67,7 +67,7 @@
         {
             var matrix = new UserDefinedMatrix(new[,] { { 1.1, 2.2, 3.3 }, { 4.4, 5.5, 6.6 }, { 7.7, 8.8, 9.9 } });
             var headers = new[] { "a", "b", "c" };
-            var writer = new DelimitedWriter<double>('\t')
+            var writer = new DelimitedWriter('\t')
                          {
                              ColumnHeaders = headers
                          };
