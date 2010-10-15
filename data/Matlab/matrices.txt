@@ -13,3 +13,13 @@ collection.mat contains:
 
 A.mat contains:
 * a matrix A
+
+complex.mat contains:
+* dense, complex matrix a
+* dense, complex matrix b
+* dense, complex matrix c
+
+sparse_complex.mat contains:
+* sparse, complex matrix sa
+* sparse, complex matrix sb
+* sparse, complex matrix sc

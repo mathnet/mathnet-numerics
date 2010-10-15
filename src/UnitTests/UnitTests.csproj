@@ -376,6 +376,10 @@
       <Link>data\Matlab\collection.mat</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\data\Matlab\complex.mat">
+      <Link>data\Matlab\complex.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\data\Matlab\sparse-large.mat">
       <Link>data\Matlab\sparse-large.mat</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -383,6 +387,10 @@
     <None Include="..\..\data\Matlab\sparse-small.mat">
       <Link>data\Matlab\sparse-small.mat</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Matlab\sparse_complex.mat">
+      <Link>data\Matlab\sparse_complex.mat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\..\data\Matlab\v.mat">
       <Link>data\Matlab\v.mat</Link>
