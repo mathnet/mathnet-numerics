@@ -1017,6 +1017,9 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 
             if (isComplex)
             {
+                // skip header
+                reader.ReadBytes(8);
+
                 switch (type)
                 {
                     case DataType.Int8:
@@ -1244,6 +1247,9 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 
             if (isComplex)
             {
+                // skip header
+                reader.ReadBytes(8);
+
                 switch (type)
                 {
                     case DataType.Int8:

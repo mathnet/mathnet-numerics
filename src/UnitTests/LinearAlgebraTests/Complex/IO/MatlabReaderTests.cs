@@ -1,13 +1,52 @@
 ﻿
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
 {
-    using LinearAlgebra.Double;
-    using LinearAlgebra.Double.IO;
+    using System;
+    using System.Diagnostics;
+    using LinearAlgebra.Complex;
+    using LinearAlgebra.Complex.IO;
     using MbUnit.Framework;
 
     [TestFixture]
     public class MatlabMatrixReaderTest
     {
+
+        [Test]
+        public void CanReadComplexAllMatrices()
+        {
+            var dmr = new MatlabMatrixReader("./data/Matlab/complex.mat");
+            var matrices = dmr.ReadMatrices();
+            Assert.AreEqual(3, matrices.Length);
+            foreach (var matrix in matrices)
+            {
+                Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
+            }
+
+            var a = matrices[0];
+
+            Assert.AreEqual(100, a.RowCount);
+            Assert.AreEqual(100, a.ColumnCount);
+            AssertHelpers.AlmostEqual(27.232498979698409, a.L2Norm(), 15);
+        }
+
+        [Test]
+        public void CanReadSparseComplexAllMatrices()
+        {
+            var dmr = new MatlabMatrixReader("./data/Matlab/sparse_complex.mat");
+            var matrices = dmr.ReadMatrices();
+            Assert.AreEqual(3, matrices.Length);
+            foreach (var matrix in matrices)
+            {
+                Assert.AreEqual(typeof(SparseMatrix), matrix.GetType());
+            }
+
+            var a = matrices[0];
+
+            Assert.AreEqual(100, a.RowCount);
+            Assert.AreEqual(100, a.ColumnCount);
+            AssertHelpers.AlmostEqual(13.223654390985379, a.L2Norm(), 15);
+        }
+
         [Test]
         public void CanReadNonComplexAllMatrices()
         {
