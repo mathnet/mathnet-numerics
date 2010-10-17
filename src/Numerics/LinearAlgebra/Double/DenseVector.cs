@@ -1246,14 +1246,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Tensor Product (Dyadic) of this and another vector.
+        /// Outer product of this and another vector.
         /// </summary>
         /// <param name="v">The vector to operate on.</param>
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
         /// <seealso cref="OuterProduct"/>
-        public Matrix<double> TensorMultiply(DenseVector v)
+        public Matrix<double> OuterProduct(DenseVector v)
         {
             return OuterProduct(this, v);
         }
