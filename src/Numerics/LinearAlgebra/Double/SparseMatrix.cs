@@ -38,7 +38,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     using Threading;
     
     /// <summary>
-    /// A Matrix class with sparse storage. The underlying storage scheme is 3-array CSR Format.
+    /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
+    /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
     public class SparseMatrix : Matrix<double> 
     {

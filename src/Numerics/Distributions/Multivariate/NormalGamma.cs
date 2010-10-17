@@ -104,6 +104,7 @@ namespace MathNet.Numerics.Distributions
     /// the precision shape will encode the value of the precision while the precision inverse scale is positive
     /// infinity. When the mean is known, the mean location will encode the value of the mean while the scale
     /// will be positive infinity. A completely degenerate NormalGamma distribution with known mean and precision is possible as well.</para>
+    /// <a href="http://en.wikipedia.org/wiki/Normal-gamma_distribution">Wikipedia - Normal-Gamma distribution</a>.
     /// </summary>
     /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
     /// Users can get/set the random number generator by using the <see cref="RandomSource"/> property.</para>

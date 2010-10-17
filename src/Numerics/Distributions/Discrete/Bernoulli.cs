@@ -33,6 +33,7 @@ namespace MathNet.Numerics.Distributions
     /// <summary>
     /// The Bernoulli distribution is a distribution over bits. The parameter
     /// p specifies the probability that a 1 is generated.
+    /// <a href="http://en.wikipedia.org/wiki/Bernoulli_distribution">Wikipedia - Bernoulli distribution</a>.
     /// </summary>
     /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
     /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>

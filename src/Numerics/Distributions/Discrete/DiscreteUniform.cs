@@ -33,6 +33,7 @@ namespace MathNet.Numerics.Distributions
     /// <summary>
     /// The discrete uniform distribution is a distribution over integers. The distribution
     /// is parameterized by a lower and upper bound (both inclusive).
+    /// <a href="http://en.wikipedia.org/wiki/Uniform_distribution_%28discrete%29">Wikipedia - Discrete uniform distribution</a>.
     /// </summary>
     /// <remarks><para>The distribution will use the <see cref="System.Random"/> by default. 
     /// Users can set the random number generator by using the <see cref="RandomSource"/> property.</para>
