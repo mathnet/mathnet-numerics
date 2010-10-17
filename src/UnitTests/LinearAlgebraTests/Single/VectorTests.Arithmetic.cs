@@ -879,7 +879,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var vector1 = CreateVector(Data);
             var vector2 = CreateVector(Data);
-            var m = vector1.TensorMultiply(vector2);
+            var m = vector1.OuterProduct(vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
                 for (var j = 0; j < vector2.Count; j++)
@@ -895,7 +895,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var vector1 = CreateVector(Data);
             Vector<float> vector2 = null;
-            vector1.TensorMultiply(vector2);
+            vector1.OuterProduct(vector2);
         }
     }
 }

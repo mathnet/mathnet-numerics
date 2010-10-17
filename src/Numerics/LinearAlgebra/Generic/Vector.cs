@@ -753,14 +753,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public abstract Vector<T> Random(int length, IDiscreteDistribution randomDistribution);
 
         /// <summary>
-        /// Tensor Product (Dyadic) of this and another vector.
+        /// Outer product of this and another vector.
         /// </summary>
         /// <param name="v">The vector to operate on.</param>
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
         /// <seealso cref="OuterProduct"/>
-        public Matrix<T> TensorMultiply(Vector<T> v)
+        public Matrix<T> OuterProduct(Vector<T> v)
         {
             return OuterProduct(this, v);
         }

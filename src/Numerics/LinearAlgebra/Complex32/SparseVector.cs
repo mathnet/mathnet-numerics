@@ -1206,14 +1206,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Tensor Product (Outer) of this and another vector.
+        /// Outer product of this and another vector.
         /// </summary>
         /// <param name="v">The vector to operate on.</param>
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
         /// <seealso cref="OuterProduct"/>
-        public Matrix<Complex32> TensorMultiply(SparseVector v)
+        public Matrix<Complex32> OuterProduct(SparseVector v)
         {
             return OuterProduct(this, v);
         }
