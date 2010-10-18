@@ -34,10 +34,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     using System.Numerics;
     using System.Collections.Generic;
     using Distributions;
+    using LinearAlgebra.Complex;
     using LinearAlgebra.Generic;
     using Threading;
 
-    internal class UserDefinedVector : Vector<Complex>
+    internal class UserDefinedVector : Vector
     {
         private readonly Complex[] _data;
 
@@ -76,128 +77,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             return new UserDefinedVector(size);
         }
 
-        public override Vector<Complex> Negate()
-        {
-            var result = new UserDefinedVector(Count);
-            CommonParallel.For(
-                0,
-                _data.Length,
-                index => result[index] = -_data[index]);
-
-            return result;
-        }
-
-        public override Vector<Complex> Random(int length, IContinuousDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException("length");
-            }
-
-            var v = (UserDefinedVector)CreateVector(length);
-            for (var index = 0; index < v._data.Length; index++)
-            {
-                v._data[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
-            }
-
-            return v;
-        }
-
-        public override Vector<Complex> Random(int length, IDiscreteDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException("length");
-            }
-
-            var v = (UserDefinedVector)CreateVector(length);
-            for (var index = 0; index < v._data.Length; index++)
-            {
-                v._data[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
-            }
-
-            return v;
-        }
-
-        public override int MinimumIndex()
-        {
-            throw new NotSupportedException();
-        }
-
-        public override int MaximumIndex()
-        {
-            throw new NotSupportedException();
-        }
-
-        public override Vector<Complex> Normalize(double p)
-        {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            var norm = Norm(p);
-            var clone = Clone();
-            if (norm == 0.0)
-            {
-                return clone;
-            }
-
-            clone.Multiply(1.0 / norm, clone);
-
-            return clone;
-        }
-
-        protected sealed override Complex AddT(Complex val1, Complex val2)
-        {
-            return val1 + val2;
-        }
-
-        protected sealed override Complex SubtractT(Complex val1, Complex val2)
-        {
-            return val1 - val2;
-        }
-
-        protected sealed override Complex MultiplyT(Complex val1, Complex val2)
-        {
-            return val1 * val2;
-        }
-
-        protected sealed override Complex DivideT(Complex val1, Complex val2)
-        {
-            return val1 / val2;
-        }
-
-        protected sealed override double AbsoluteT(Complex val1)
-        {
-            return val1.Magnitude;
-        }
-
-        public override void Conjugate(Vector<Complex> target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (Count != target.Count)
-            {
-                throw new ArgumentException("target");
-            }
-
-            if (ReferenceEquals(this, target))
-            {
-                var tmp = CreateVector(Count);
-                Conjugate(tmp);
-                tmp.CopyTo(target);
-            }
-
-            CommonParallel.For(
-                0,
-                Count,
-                index => target[index] = this[index].Conjugate());
-        }
-    }
+       }
 
     public class UserDefinedVectorTests : VectorTests
     {

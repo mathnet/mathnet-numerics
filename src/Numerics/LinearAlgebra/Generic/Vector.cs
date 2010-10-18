@@ -50,6 +50,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
+        /// The zero value for type T.
+        /// </summary>
+        private static readonly T Zero = default(T);
+
+        /// <summary>
+        /// The value on 1.0 for type T.
+        /// </summary>
+        private static readonly T One = SetOne();
+
+        /// <summary>
         /// Initializes a new instance of the Vector class. 
         /// Constructs a <strong>Vector</strong> with the given size.
         /// </summary>
@@ -127,14 +137,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>A copy of the vector with the scalar added.</returns>
         public virtual Vector<T> Add(T scalar)
         {
-            if (scalar.Equals(default(T)))
+            if (scalar.Equals(Zero))
             {
                 return Clone();
             }
 
-            var copy = Clone();
-            Add(scalar, copy);
-            return copy;
+            var result = CreateVector(Count);
+            Add(scalar, result);
+            return result;
         }
 
         /// <summary>
@@ -169,11 +179,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 CopyTo(result);
             }
 
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = AddT(result[index], scalar));
+            DoAdd(scalar, result);
         }
+
+        /// <summary>
+        /// Adds a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">
+        /// The scalar to add.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the addition.
+        /// </param>
+        protected abstract void DoAdd(T scalar, Vector<T> result);
 
         /// <summary>
         /// Returns a copy of this vector.
@@ -214,9 +232,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var copy = Clone();
-            Add(other, copy);
-            return copy;
+            var result = CreateVector(Count);
+            Add(other, result);
+            return result;
         }
 
         /// <summary>
@@ -259,12 +277,20 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    Count,
-                    index => result[index] = AddT(this[index], other[index]));
+                DoAdd(other, result);
             }
         }
+
+        /// <summary>
+        /// Adds another vector to this vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">
+        /// The vector to add to this one.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the addition.
+        /// </param>
+        protected abstract void DoAdd(Vector<T> other, Vector<T> result);
 
         /// <summary>
         /// Subtracts a scalar from each element of the vector.
@@ -280,9 +306,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 return Clone();
             }
 
-            var copy = Clone();
-            Subtract(scalar, copy);
-            return copy;
+            var result = CreateVector(Count);
+            Subtract(scalar, result);
+            return result;
         }
 
         /// <summary>
@@ -317,11 +343,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 CopyTo(result);
             }
 
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = SubtractT(result[index], scalar));
+            DoSubtract(scalar, result);
         }
+
+        /// <summary>
+        /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">
+        /// The scalar to subtract.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the subtraction.
+        /// </param>
+        protected abstract void DoSubtract(T scalar, Vector<T> result);
 
         /// <summary>
         /// Returns a negated vector.
@@ -359,9 +393,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var copy = Clone();
-            Subtract(other, copy);
-            return copy;
+            var result = CreateVector(Count);
+            Subtract(other, result);
+            return result;
         }
 
         /// <summary>
@@ -404,13 +438,20 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
             else
             {
-                CopyTo(result);
-                CommonParallel.For(
-                    0,
-                    Count,
-                    index => result[index] = SubtractT(this[index], other[index]));
+                DoSubtract(other, result);
             }
         }
+
+        /// <summary>
+        /// Subtracts another vector to this vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">
+        /// The vector to subtract from this one.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the subtraction.
+        /// </param>
+        protected abstract void DoSubtract(Vector<T> other, Vector<T> result);
 
         /// <summary>
         /// Multiplies a scalar to each element of the vector.
@@ -421,14 +462,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
         public virtual Vector<T> Multiply(T scalar)
         {
-            if (IsOneT(scalar))
+            if (scalar.Equals(One))
             {
                 return Clone();
             }
 
-            var copy = Clone();
-            Multiply(scalar, copy);
-            return copy;
+            var result = CreateVector(Count);
+            Multiply(scalar, result);
+            return result;
         }
 
         /// <summary>
@@ -463,11 +504,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 CopyTo(result);
             }
 
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = MultiplyT(result[index], scalar));
+            DoMultiply(scalar, result);
         }
+
+        /// <summary>
+        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">
+        /// The scalar to multiply.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the multiplication.
+        /// </param>
+        protected abstract void DoMultiply(T scalar, Vector<T> result);
 
         /// <summary>
         /// Computes the dot product between this vector and another vector.
@@ -475,7 +524,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="other">
         /// The other vector to add.
         /// </param>
-        /// <returns>
+        /// <returns>s
         /// The result of the addition.
         /// </returns>
         /// <exception cref="ArgumentException">
@@ -496,14 +545,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var dot = default(T);
-            for (var i = 0; i < Count; i++)
-            {
-                dot = AddT(dot, MultiplyT(this[i], other[i]));
-            }
-
-            return dot;
+            return DoDotProduct(other);
         }
+
+        /// <summary>
+        /// Computes the dot product between this vector and another vector.
+        /// </summary>
+        /// <param name="other">
+        /// The other vector to add.
+        /// </param>
+        /// <returns>s
+        /// The result of the addition.
+        /// </returns>
+        protected abstract T DoDotProduct(Vector<T> other);
 
         /// <summary>
         /// Divides each element of the vector by a scalar.
@@ -514,14 +568,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>A new vector that is the division of the vector and the scalar.</returns>
         public virtual Vector<T> Divide(T scalar)
         {
-            if (IsOneT(scalar))
+            if (scalar.Equals(One))
             {
                 return Clone();
             }
 
-            var copy = Clone();
-            Divide(scalar, copy);
-            return copy;
+            var result = CreateVector(Count);
+            Divide(scalar, result);
+            return result;
         }
 
         /// <summary>
@@ -556,11 +610,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 CopyTo(result);
             }
             
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = DivideT(result[index], scalar));
+            DoDivide(scalar, result);
         }
+
+        /// <summary>
+        /// Divides each element of the vector by a scalar and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">
+        /// The scalar to divide with.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the division.
+        /// </param>
+        protected abstract void DoDivide(T scalar, Vector<T> result);
 
         /// <summary>
         /// Pointwise multiplies this vector with another vector.
@@ -581,9 +643,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var copy = Clone();
-            PointwiseMultiply(other, copy);
-            return copy;
+            var result = CreateVector(Count);
+            PointwiseMultiply(other, result);
+            return result;
         }
 
         /// <summary>
@@ -624,12 +686,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    Count,
-                    index => result[index] = MultiplyT(this[index], other[index]));
+                DoPointwiseMultiply(other, result);
             }
         }
+
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        protected abstract void DoPointwiseMultiply(Vector<T> other, Vector<T> result);
 
         /// <summary>
         /// Pointwise divide this vector with another vector.
@@ -650,9 +716,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
             }
 
-            var copy = Clone();
-            PointwiseDivide(other, copy);
-            return copy;
+            var result = CreateVector(Count);
+            PointwiseDivide(other, result);
+            return result;
         }
 
         /// <summary>
@@ -693,12 +759,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    Count,
-                    index => result[index] = DivideT(this[index], other[index]));
+                DoPointwiseDivide(other, result);
             }
         }
+
+        /// <summary>
+        /// Pointwise divide this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="result">The vector to store the result of the pointwise division.</param>
+        protected abstract void DoPointwiseDivide(Vector<T> other, Vector<T> result);
 
         /// <summary>
         /// Outer product of two vectors
@@ -769,61 +839,25 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
-        public virtual double AbsoluteMinimum()
-        {
-            return AbsoluteT(this[AbsoluteMinimumIndex()]);
-        }
+        public abstract T AbsoluteMinimum();
 
         /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>
         /// <returns>The index of absolute minimum element.</returns>   
-        public virtual int AbsoluteMinimumIndex()
-        {
-            var index = 0;
-            var min = AbsoluteT(this[index]);
-            for (var i = 1; i < Count; i++)
-            {
-                var test = AbsoluteT(this[i]);
-                if (test < min)
-                {
-                    index = i;
-                    min = test;
-                }
-            }
+        public abstract int AbsoluteMinimumIndex();
 
-            return index;
-        }
-        
         /// <summary>
         /// Returns the value of the absolute maximum element.
         /// </summary>
         /// <returns>The value of the absolute maximum element.</returns>
-        public virtual double AbsoluteMaximum()
-        {
-            return AbsoluteT(this[AbsoluteMaximumIndex()]);
-        }
+        public abstract T AbsoluteMaximum();
 
         /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>   
-        public virtual int AbsoluteMaximumIndex()
-        {
-            var index = 0;
-            var max = AbsoluteT(this[index]);
-            for (var i = 1; i < Count; i++)
-            {
-                var test = AbsoluteT(this[i]);
-                if (test > max)
-                {
-                    index = i;
-                    max = test;
-                }
-            }
-
-            return index;
-        }
+        public abstract int AbsoluteMaximumIndex();
 
         /// <summary>
         /// Returns the value of maximum element.
@@ -859,31 +893,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Computes the sum of the vector's elements.
         /// </summary>
         /// <returns>The sum of the vector's elements.</returns>
-        public virtual T Sum()
-        {
-            var result = default(T);
-            for (var i = 0; i < Count; i++)
-            {
-                result = AddT(result, this[i]);
-            }
-
-            return result;
-        }
+        public abstract T Sum();
 
         /// <summary>
         /// Computes the sum of the absolute value of the vector's elements.
         /// </summary>
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public virtual double SumMagnitudes()
-        {
-            double result = 0;
-            for (var i = 0; i < Count; i++)
-            {
-                result += AbsoluteT(this[i]);
-            }
-
-            return result;
-        }
+        public abstract T SumMagnitudes();
 
         #endregion
 
@@ -1070,29 +1086,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// <c>Scalar ret = (sum(abs(this[i])^p))^(1/p)</c>
         /// </returns>
-        public virtual double Norm(double p)
-        {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            if (Double.IsPositiveInfinity(p))
-            {
-                return CommonParallel.Select(
-                    0,
-                    Count,
-                    (index, localData) => Math.Max(localData, AbsoluteT(this[index])),
-                    Math.Max);
-            }
-
-            var sum = CommonParallel.Aggregate(
-                0,
-                Count,
-                index => Math.Pow(AbsoluteT(this[index]), p));
-
-            return Math.Pow(sum, 1.0 / p);
-        }
+        public abstract T Norm(double p);
 
         /// <summary>
         /// Normalizes this vector to a unit vector with respect to the p-norm.
@@ -1124,13 +1118,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="target">Target vector</param>
         public virtual void Conjugate(Vector<T> target)
         {
-            // In case of real return copy of vector
-            if (typeof(T) == typeof(double) || (typeof(T) == typeof(float)))
-            {
-                CopyTo(target);
-                return;
-            }
-
             if (target == null)
             {
                 throw new ArgumentNullException("target");
@@ -1141,18 +1128,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
             }
 
-            if (ReferenceEquals(this, target))
-            {
-                var tmp = CreateVector(Count);
-                Conjugate(tmp);
-                tmp.CopyTo(target);
-            }
-
-            CommonParallel.For(
-                0,
-                Count,
-                index => target[index] = ConjugateT(this[index]));
+            DoConjugate(target);
         }
+
+        /// <summary>
+        /// Conjugates vector and save result to <paramref name="target"/>
+        /// </summary>
+        /// <param name="target">Target vector</param>
+        protected abstract void DoConjugate(Vector<T> target);
 
         #region Copying and Conversion
 
@@ -1604,114 +1587,33 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             CommonParallel.For(0, Count, index => this[index] = default(T));
         }
 
-        #region Simple arithmetic of type T
-
         /// <summary>
-        /// Add two values T+T
+        /// Sets the value of <c>1.0</c> for type T.
         /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected abstract T AddT(T val1, T val2);
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected abstract T SubtractT(T val1, T val2);
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected abstract T MultiplyT(T val1, T val2);
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected abstract T DivideT(T val1, T val2);
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected abstract double AbsoluteT(T val1);
-
-        /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
-        private static bool IsOneT(T val1)
+        /// <returns>The value of <c>1.0</c> for type T.</returns>
+        private static T SetOne()
         {
             if (typeof(T) == typeof(Complex))
             {
-                object obj1 = val1;
-                return Complex.One.AlmostEqual((Complex)obj1);
+                return (T)(object)Complex.One;
             }
 
             if (typeof(T) == typeof(Complex32))
             {
-                object obj1 = val1;
-                return Complex32.One.AlmostEqual((Complex32)obj1);
+                return (T)(object)Complex32.One;
             }
 
             if (typeof(T) == typeof(double))
             {
-                object obj1 = val1;
-                return 1.0.AlmostEqualInDecimalPlaces((double)obj1, 15);
+                return (T)(object)1.0;
             }
 
             if (typeof(T) == typeof(float))
             {
-                object obj1 = val1;
-                return 1.0f.AlmostEqualInDecimalPlaces((float)obj1, 7);
+                return (T)(object)1.0f;
             }
 
             throw new NotSupportedException();
         }
-
-        /// <summary>
-        /// Conjugate complex value. In real case the same value is returned
-        /// </summary>
-        /// <param name="val1">Value to conjugate</param>
-        /// <returns>Conjugated value (complex) or the same (real)</returns>
-        private static T ConjugateT(T val1)
-        {
-            if (typeof(T) == typeof(Complex))
-            {
-                object obj = val1;
-                object conj = Complex.Conjugate((Complex)obj);
-                return (T)conj;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                object obj = val1;
-                object conj = ((Complex32)obj).Conjugate();
-                return (T)conj;
-            }
-
-            if (typeof(T) == typeof(double))
-            {
-                return val1;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                return val1;
-            }
-
-            throw new NotSupportedException();
-        }
-        #endregion
     }
 }

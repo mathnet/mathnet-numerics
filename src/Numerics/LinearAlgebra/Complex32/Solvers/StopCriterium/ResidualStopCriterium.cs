@@ -46,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// <summary>
         /// The default value for the maximum value of the residual.
         /// </summary>
-        public const double DefaultMaximumResidual = 1e-6;
+        public const float DefaultMaximumResidual = 1e-6f;
 
         /// <summary>
         /// The default value for the minimum number of iterations.
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// <summary>
         /// The maximum value for the residual below which the calculation is considered converged.
         /// </summary>
-        private double _maximum;
+        private float _maximum;
 
         /// <summary>
         /// The minimum number of iterations for which the residual has to be below the maximum before
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// maximum residual and the default minimum number of iterations.
         /// </summary>
         /// <param name="maximum">The maximum value for the residual below which the calculation is considered converged.</param>
-        public ResidualStopCriterium(double maximum) : this(maximum, DefaultMinimumIterationsBelowMaximum)
+        public ResidualStopCriterium(float maximum) : this(maximum, DefaultMinimumIterationsBelowMaximum)
         {
         }
 
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// The minimum number of iterations for which the residual has to be below the maximum before
         /// the calculation is considered converged.
         /// </param>
-        public ResidualStopCriterium(double maximum, int minimumIterationsBelowMaximum)
+        public ResidualStopCriterium(float maximum, int minimumIterationsBelowMaximum)
         {
             if (maximum < 0)
             {
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// converged.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the <c>Maximum</c> is set to a negative value.</exception>
-        public double Maximum
+        public float Maximum
         {
             [DebuggerStepThrough]
             get
@@ -259,16 +259,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals
             // later on.
-            var residualNorm = residualVector.Norm(Double.PositiveInfinity);
+            var residualNorm = residualVector.Norm(float.PositiveInfinity);
             
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
-            var stopCriterium = ComputeStopCriterium(sourceVector.Norm(Double.PositiveInfinity));
+            var stopCriterium = ComputeStopCriterium(sourceVector.Norm(float.PositiveInfinity).Real);
 
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we
             // stop if that is the case.
-            if (double.IsNaN(stopCriterium) || double.IsNaN(residualNorm))
+            if (float.IsNaN(stopCriterium) || float.IsNaN(residualNorm.Real))
             {
                 _iterationCount = 0;
                 SetStatusToDiverged();
@@ -278,7 +278,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
             // ||r_i|| <= stop_tol * ||b||
             // Stop the calculation if it's clearly smaller than the tolerance
             var decimalMagnitude = Math.Abs(stopCriterium.Magnitude()) + 1;
-            if (residualNorm.IsSmallerWithDecimalPlaces(stopCriterium, decimalMagnitude))
+            if (residualNorm.Real.IsSmallerWithDecimalPlaces(stopCriterium, decimalMagnitude))
             {
                 if (_lastIteration <= iterationNumber)
                 {
@@ -307,7 +307,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
         /// </summary>
         /// <param name="solutionNorm">Solution vector norm</param>
         /// <returns>Criterium value</returns>
-        private double ComputeStopCriterium(double solutionNorm)
+        private float ComputeStopCriterium(float solutionNorm)
         {
             // This is criterium 1 from Templates for the solution of linear systems.
             // The problem with this criterium is that it's not limiting enough. For now 

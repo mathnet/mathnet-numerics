@@ -39,7 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
-    public class DenseVector : Vector<Complex32>
+    public class DenseVector : Vector
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseVector"/> class with a given size.
@@ -767,7 +767,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
-        public override double AbsoluteMinimum()
+        public override Complex32 AbsoluteMinimum()
         {
             return Data[AbsoluteMinimumIndex()].Magnitude;
         }
@@ -776,7 +776,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the value of the absolute maximum element.
         /// </summary>
         /// <returns>The value of the absolute maximum element.</returns>
-        public override double AbsoluteMaximum()
+        public override Complex32 AbsoluteMaximum()
         {
             return Data[AbsoluteMaximumIndex()].Magnitude;
         }
@@ -869,28 +869,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The sum of the vector's elements.</returns>
         public override Complex32 Sum()
         {
-            var result = Complex32.Zero;
-            for (var i = 0; i < Count; i++)
-            {
-                result += Data[i];
-            }
-
-            return result;
+            return CommonParallel.Aggregate(
+                0,
+                Count,
+                i => Data[i]);
         }
 
         /// <summary>
         /// Computes the sum of the absolute value of the vector's elements.
         /// </summary>
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public override double SumMagnitudes()
+        public override Complex32 SumMagnitudes()
         {
-            double result = 0;
-            for (var i = 0; i < Count; i++)
-            {
-                result += Data[i].Magnitude;
-            }
-
-            return result;
+            return CommonParallel.Aggregate(
+             0,
+             Count,
+             i => Data[i].Magnitude);
         }
 
         /// <summary>
@@ -1171,7 +1165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
-        public override double Norm(double p)
+        public override Complex32 Norm(double p)
         {
             if (p < 0.0)
             {
@@ -1197,7 +1191,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     0,
                     Count,
                     (index, localData) => Math.Max(localData, Data[index].Magnitude),
-                    Math.Max);
+                    Common.Max);
             }
 
             var sum = CommonParallel.Aggregate(
@@ -1205,35 +1199,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 Count,
                 index => Math.Pow(Data[index].Magnitude, p));
 
-            return Math.Pow(sum, 1.0 / p);
-        }
-
-        /// <summary>
-        /// Normalizes this vector to a unit vector with respect to the p-norm.
-        /// </summary>
-        /// <param name="p">
-        /// The p value.
-        /// </param>
-        /// <returns>
-        /// This vector normalized to a unit vector with respect to the p-norm.
-        /// </returns>
-        public override Vector<Complex32> Normalize(double p)
-        {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            var norm = Norm(p);
-            var clone = Clone();
-            if (norm == 0.0)
-            {
-                return clone;
-            }
-
-            clone.Multiply(Complex32.One / (float)norm, clone);
-
-            return clone;
+            return (float)Math.Pow(sum, 1.0 / p);
         }
 
         #region Parse Functions
@@ -1396,24 +1362,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         #endregion
 
         /// <summary>
-        /// Returns the index of the absolute maximum element.
-        /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>          
-        public override int MaximumIndex()
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Returns the index of the minimum element.
-        /// </summary>
-        /// <returns>The index of minimum element.</returns>  
-        public override int MinimumIndex()
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
         /// Resets all values to zero.
         /// </summary>
         public override void Clear()
@@ -1457,61 +1405,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     index => otherVector.Data[index] = Data[index].Conjugate());
             }
         }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override Complex32 AddT(Complex32 val1, Complex32 val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override Complex32 SubtractT(Complex32 val1, Complex32 val2)
-        {
-            return val1 - val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override Complex32 DivideT(Complex32 val1, Complex32 val2)
-        {
-            return val1 / val2;
-        }
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(Complex32 val1)
-        {
-            return val1.Magnitude;
-        }
-        #endregion
     }
 }

@@ -29,7 +29,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Distributions;
     using Generic;
     using NumberTheory;
     using Numerics;
@@ -39,7 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// <summary>
     /// A vector with sparse storage.
     /// </summary>
-    public class SparseVector : Vector<Complex32>
+    public class SparseVector : Vector
     {
         /// <summary>
         /// Lock object for the indexer.
@@ -581,11 +580,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     var sparseother = other as SparseVector;
                     if (sparseother == null)
                     {
-                        sparse.AddScaledSparseVector(Complex32.One, sparseother);
+                        base.Add(other, result);
                     }
                     else
                     {
-                        base.Add(other, result);
+                        CopyTo(result); 
+                        sparse.AddScaledSparseVector(Complex32.One, sparseother);
                     }
                 }
             }
@@ -753,11 +753,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     var sparseother = other as SparseVector;
                     if (sparseother == null)
                     {
-                        sparse.AddScaledSparseVector(-Complex32.One, sparseother);
+                        base.Subtract(other, result);
                     }
                     else
                     {
-                        base.Subtract(other, result);
+                        CopyTo(result);
+                        sparse.AddScaledSparseVector(-Complex32.One, sparseother);
                     }
                 }
             }
@@ -1075,9 +1076,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Computes the sum of the absolute value of the vector's elements.
         /// </summary>
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public override double SumMagnitudes()
+        public override Complex32 SumMagnitudes()
         {
-            double result = 0;
+            var result = 0.0f;
             for (var i = 0; i < NonZerosCount; i++)
             {
                 result += _nonZeroValues[i].Magnitude;
@@ -1154,58 +1155,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the length vector is non positive<see langword="null" />.</exception> 
-        public override Vector<Complex32> Random(int length, IContinuousDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = (SparseVector)CreateVector(length);
-            for (var index = 0; index < v.Count; index++)
-            {
-                v[index] = new Complex32((float)randomDistribution.Sample(), (float)randomDistribution.Sample());
-            }
-
-            return v;
-        }
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<Complex32> Random(int length, IDiscreteDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = (SparseVector)CreateVector(length);
-            for (var index = 0; index < v.Count; index++)
-            {
-                v[index] = new Complex32(randomDistribution.Sample(), randomDistribution.Sample());
-            }
-
-            return v;
-        }
-
-        /// <summary>
         /// Outer product of this and another vector.
         /// </summary>
         /// <param name="v">The vector to operate on.</param>
@@ -1227,7 +1176,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
-        public override double Norm(double p)
+        public override Complex32 Norm(double p)
         {
             if (1 > p)
             {
@@ -1236,7 +1185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (NonZerosCount == 0)
             {
-                return 0.0;
+                return Complex32.Zero;
             }
 
             if (2.0 == p)
@@ -1246,7 +1195,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (Double.IsPositiveInfinity(p))
             {
-                return CommonParallel.Select(0, NonZerosCount, (index, localData) => Math.Max(localData, _nonZeroValues[index].Magnitude), Math.Max);
+                return CommonParallel.Select(0, NonZerosCount, (index, localData) => Math.Max(localData, _nonZeroValues[index].Magnitude), Common.Max);
             }
 
             var sum = CommonParallel.Aggregate(
@@ -1254,36 +1203,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 NonZerosCount,
                 index => Math.Pow(_nonZeroValues[index].Magnitude, p));
 
-            return Math.Pow(sum, 1.0 / p);
+            return (float)Math.Pow(sum, 1.0 / p);
         }
 
-        /// <summary>
-        /// Normalizes this vector to a unit vector with respect to the p-norm.
-        /// </summary>
-        /// <param name="p">
-        /// The p value.
-        /// </param>
-        /// <returns>
-        /// This vector normalized to a unit vector with respect to the p-norm.
-        /// </returns>
-        public override Vector<Complex32> Normalize(double p)
-        {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            var norm = Norm(p);
-            var clone = Clone();
-            if (norm == 0.0)
-            {
-                return clone;
-            }
-
-            clone.Multiply(Complex32.One / (float)norm, clone);
-
-            return clone;
-        }
         #endregion
 
         #region Parse Functions
@@ -1609,80 +1531,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
         }
 
-        #endregion
-
-        /// <summary>
-        /// Returns the index of the absolute maximum element.
-        /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>          
-        public override int MaximumIndex()
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Returns the index of the minimum element.
-        /// </summary>
-        /// <returns>The index of minimum element.</returns>  
-        public override int MinimumIndex()
-        {
-            throw new NotSupportedException();
-        }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override Complex32 AddT(Complex32 val1, Complex32 val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override Complex32 SubtractT(Complex32 val1, Complex32 val2)
-        {
-            return val1 - val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override Complex32 DivideT(Complex32 val1, Complex32 val2)
-        {
-            return val1 / val2;
-        }
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(Complex32 val1)
-        {
-            return val1.Magnitude;
-        }
         #endregion
     }
 }

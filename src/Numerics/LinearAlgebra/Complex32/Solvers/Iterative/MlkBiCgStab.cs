@@ -652,7 +652,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 result.Add(orthogonalMatrix.Column(i));
                 
                 // Normalize the result vector
-                result[i].Multiply(1 / (float)result[i].Norm(2), result[i]);
+                result[i].Multiply(1 / result[i].Norm(2).Real, result[i]);
             }
 
             return result;

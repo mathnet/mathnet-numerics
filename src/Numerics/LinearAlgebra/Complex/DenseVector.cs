@@ -39,7 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
-    public class DenseVector : Vector<Complex>
+    public class DenseVector : Vector
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseVector"/> class with a given size.
@@ -767,7 +767,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
-        public override double AbsoluteMinimum()
+        public override Complex AbsoluteMinimum()
         {
             return Data[AbsoluteMinimumIndex()].Magnitude;
         }
@@ -776,7 +776,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Returns the value of the absolute maximum element.
         /// </summary>
         /// <returns>The value of the absolute maximum element.</returns>
-        public override double AbsoluteMaximum()
+        public override Complex AbsoluteMaximum()
         {
             return Data[AbsoluteMaximumIndex()].Magnitude;
         }
@@ -869,28 +869,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The sum of the vector's elements.</returns>
         public override Complex Sum()
         {
-            var result = Complex.Zero;
-            for (var i = 0; i < Count; i++)
-            {
-                result += Data[i];
-            }
-
-            return result;
+            return CommonParallel.Aggregate(
+               0,
+               Count,
+               i => Data[i]);
         }
 
         /// <summary>
         /// Computes the sum of the absolute value of the vector's elements.
         /// </summary>
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
-        public override double SumMagnitudes()
+        public override Complex SumMagnitudes()
         {
-            double result = 0;
-            for (var i = 0; i < Count; i++)
-            {
-                result += Data[i].Magnitude;
-            }
-
-            return result;
+            return CommonParallel.Aggregate(
+                0,
+                Count,
+                i => Data[i].Magnitude);
         }
 
         /// <summary>
@@ -1102,58 +1096,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<Complex> Random(int length, IContinuousDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = (DenseVector)CreateVector(length);
-            for (var index = 0; index < v.Data.Length; index++)
-            {
-                v.Data[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
-            }
-
-            return v;
-        }
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<Complex> Random(int length, IDiscreteDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = (DenseVector)CreateVector(length);
-            for (var index = 0; index < v.Data.Length; index++)
-            {
-                v.Data[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
-            }
-
-            return v;
-        }
-
-        /// <summary>
         /// Outer product of this and another vector.
         /// </summary>
         /// <param name="v">The vector to operate on.</param>
@@ -1171,7 +1113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="p">The p value.</param>
         /// <returns>Scalar <c>ret = (sum(abs(this[i])^p))^(1/p)</c></returns>
-        public override double Norm(double p)
+        public override Complex Norm(double p)
         {
             if (p < 0.0)
             {
@@ -1206,34 +1148,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 index => Math.Pow(Data[index].Magnitude, p));
 
             return Math.Pow(sum, 1.0 / p);
-        }
-
-        /// <summary>
-        /// Normalizes this vector to a unit vector with respect to the p-norm.
-        /// </summary>
-        /// <param name="p">
-        /// The p value.
-        /// </param>
-        /// <returns>
-        /// This vector normalized to a unit vector with respect to the p-norm.
-        /// </returns>
-        public override Vector<Complex> Normalize(double p)
-        {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            var norm = Norm(p);
-            var clone = Clone();
-            if (norm == 0.0)
-            {
-                return clone;
-            }
-
-            clone.Multiply(1.0 / norm, clone);
-
-            return clone;
         }
 
         #region Parse Functions
@@ -1396,24 +1310,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         #endregion
 
         /// <summary>
-        /// Returns the index of the absolute maximum element.
-        /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>          
-        public override int MaximumIndex()
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Returns the index of the minimum element.
-        /// </summary>
-        /// <returns>The index of minimum element.</returns>  
-        public override int MinimumIndex()
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
         /// Resets all values to zero.
         /// </summary>
         public override void Clear()
@@ -1457,61 +1353,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     index => otherVector.Data[index] = Data[index].Conjugate());
             }
         }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override Complex AddT(Complex val1, Complex val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override Complex SubtractT(Complex val1, Complex val2)
-        {
-            return val1 - val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex MultiplyT(Complex val1, Complex val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override Complex DivideT(Complex val1, Complex val2)
-        {
-            return val1 / val2;
-        }
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(Complex val1)
-        {
-            return val1.Magnitude;
-        }
-        #endregion
     }
 }
