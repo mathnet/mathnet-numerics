@@ -110,7 +110,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.StopCriterium
             var residualNorm = residualVector.Norm(Double.PositiveInfinity);
             var solutionNorm = solutionVector.Norm(Double.PositiveInfinity);
 
-            if (Double.IsNaN(solutionNorm) || Double.IsNaN(residualNorm))
+            if (Single.IsNaN(solutionNorm.Real) || Single.IsNaN(residualNorm.Real))
             {
                 SetStatusToFailed();
             }

@@ -39,7 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
-    public class DenseVector : Vector<double>
+    public class DenseVector : Vector
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseVector"/> class with a given size.
@@ -961,13 +961,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The sum of the vector's elements.</returns>
         public override double Sum()
         {
-            double result = 0;
-            for (var i = 0; i < Count; i++)
-            {
-                result += Data[i];
-            }
-
-            return result;
+            return CommonParallel.Aggregate(
+                0,
+                Count,
+                i => Data[i]);
         }
 
         /// <summary>
@@ -976,13 +973,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
         public override double SumMagnitudes()
         {
-            double result = 0;
-            for (var i = 0; i < Count; i++)
-            {
-                result += Math.Abs(Data[i]);
-            }
-
-            return result;
+            return CommonParallel.Aggregate(
+                0,
+                Count,
+                i => Math.Abs(Data[i]));
         }
 
         /// <summary>
@@ -1194,58 +1188,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<double> Random(int length, IContinuousDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = (DenseVector)CreateVector(length);
-            for (var index = 0; index < v.Data.Length; index++)
-            {
-                v.Data[index] = randomDistribution.Sample();
-            }
-
-            return v;
-        }
-
-        /// <summary>
-        /// Generates a vector with random elements
-        /// </summary>
-        /// <param name="length">Number of elements in the vector.</param>
-        /// <param name="randomDistribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// A vector with n-random elements distributed according
-        /// to the specified random distribution.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">If the n vector is non positive<see langword="null" />.</exception> 
-        public override Vector<double> Random(int length, IDiscreteDistribution randomDistribution)
-        {
-            if (length < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
-            }
-
-            var v = (DenseVector)CreateVector(length);
-            for (var index = 0; index < v.Data.Length; index++)
-            {
-                v.Data[index] = randomDistribution.Sample();
-            }
-
-            return v;
-        }
-
-        /// <summary>
         /// Outer product of this and another vector.
         /// </summary>
         /// <param name="v">The vector to operate on.</param>
@@ -1301,34 +1243,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             return Math.Pow(sum, 1.0 / p);
         }
-
-        /// <summary>
-        /// Normalizes this vector to a unit vector with respect to the p-norm.
-        /// </summary>
-        /// <param name="p">
-        /// The p value.
-        /// </param>
-        /// <returns>
-        /// This vector normalized to a unit vector with respect to the p-norm.
-        /// </returns>
-        public override Vector<double> Normalize(double p)
-        {
-            if (p < 0.0)
-            {
-                throw new ArgumentOutOfRangeException("p");
-            }
-
-            var norm = Norm(p);
-            var clone = Clone();
-            if (norm == 0.0)
-            {
-                return clone;
-            }
-
-            clone.Multiply(1.0 / norm, clone);
-
-            return clone;
-        }
+       
         #endregion
 
         #region Parse Functions
@@ -1497,61 +1412,5 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             Array.Clear(Data, 0, Data.Length);
         }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override double AddT(double val1, double val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override double SubtractT(double val1, double val2)
-        {
-            return val1 - val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override double MultiplyT(double val1, double val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override double DivideT(double val1, double val2)
-        {
-            return val1 / val2;
-        }
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(double val1)
-        {
-            return Math.Abs(val1);
-        }
-        #endregion
     }
 }

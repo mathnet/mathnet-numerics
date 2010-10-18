@@ -385,5 +385,57 @@ namespace MathNet.Numerics.Threading
 
             return ret;
        }
+
+        /// <summary>
+        /// Selects an item (such as Max or Min).
+        /// </summary>
+        /// <param name="fromInclusive">Starting index of the loop.</param>
+        /// <param name="toExclusive">Ending index of the loop</param>
+        /// <param name="body">The function to select items over a subset.</param>
+        /// <param name="localFinally">The function to select the item of selection from the subsets.</param>
+        /// <returns>The selected value.</returns>
+        public static float Select(int fromInclusive, int toExclusive, Func<int, float, float> body, Func<float, float, float> localFinally)
+        {
+            float ret = 0;
+            var syncLock = new object();
+
+#if SILVERLIGHT
+             Parallel.For(
+                fromInclusive, 
+                toExclusive, 
+                () => 0.0f, 
+                (i, localData) => localData += body(i, localData), 
+                localResult =>
+                {
+                    lock (syncLock)
+                    {
+                        ret = localFinally(ret, localResult);
+                    }
+                });
+#else
+            Parallel.ForEach(
+                Partitioner.Create(fromInclusive, toExclusive),
+                new ParallelOptions { MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads },
+                () => 0.0f,
+                (range, loop, localData) =>
+                {
+                    for (var i = range.Item1; i < range.Item2; i++)
+                    {
+                        localData = body(i, localData);
+                    }
+
+                    return localData;
+                },
+                localResult =>
+                {
+                    lock (syncLock)
+                    {
+                        ret = localFinally(ret, localResult);
+                    }
+                });
+#endif
+
+            return ret;
+        }
     }
 }

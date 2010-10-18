@@ -286,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             Complex32 eta = 0;
             float theta = 0;
 
-            var tau = (float)startNorm;
+            var tau = startNorm.Real;
             Complex32 rho = tau * tau;
 
             // Calculate the initial values for v
@@ -342,7 +342,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 yinternal.Add(temp, d);
 
                 // theta = ||pseudoResiduals||_2 / tau
-                theta = (float)pseudoResiduals.Norm(2) / tau;
+                theta = pseudoResiduals.Norm(2).Real / tau;
                 var c = 1 / (float)Math.Sqrt(1 + (theta * theta));
 
                 // tau = tau * theta * c

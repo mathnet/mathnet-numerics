@@ -80,11 +80,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var vector = CreateVector(Data);
             var result = vector.Normalize(2);
-            AssertHelpers.AlmostEqual(0.134839967f, result[0], 7);
-            AssertHelpers.AlmostEqual(0.269679934f, result[1], 7);
-            AssertHelpers.AlmostEqual(0.404519916f, result[2], 7);
-            AssertHelpers.AlmostEqual(0.539359868f, result[3], 7);
-            AssertHelpers.AlmostEqual(0.6741998f, result[4], 7);
+            AssertHelpers.AlmostEqual(0.134839967f, result[0], 6);
+            AssertHelpers.AlmostEqual(0.269679934f, result[1], 6);
+            AssertHelpers.AlmostEqual(0.404519916f, result[2], 6);
+            AssertHelpers.AlmostEqual(0.539359868f, result[3], 6);
+            AssertHelpers.AlmostEqual(0.6741998f, result[4], 6);
         }
     }
 }

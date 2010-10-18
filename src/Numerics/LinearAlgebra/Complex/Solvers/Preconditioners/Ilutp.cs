@@ -442,7 +442,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
                     // {
                     //     w(j) = 0
                     // }
-                    if (workVector[j].Magnitude <= _dropTolerance * vectorNorm)
+                    if (workVector[j].Magnitude <= _dropTolerance * vectorNorm.Real)
                     {
                         workVector[j] = 0.0;
                     }

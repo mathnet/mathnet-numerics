@@ -368,6 +368,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\SparseVector.cs">
       <Link>LinearAlgebra\Complex32\SparseVector.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Vector.cs">
+      <Link>LinearAlgebra\Complex32\Vector.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\DenseMatrix.cs">
       <Link>LinearAlgebra\Complex\DenseMatrix.cs</Link>
     </Compile>
@@ -463,6 +466,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\SparseVector.cs">
       <Link>LinearAlgebra\Complex\SparseVector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Vector.cs">
+      <Link>LinearAlgebra\Complex\Vector.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\DenseMatrix.cs">
       <Link>LinearAlgebra\Double\DenseMatrix.cs</Link>
@@ -571,6 +577,12 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\SparseVector.cs">
       <Link>LinearAlgebra\Double\SparseVector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Vector.cs">
+      <Link>LinearAlgebra\Double\Vector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Common.cs">
+      <Link>LinearAlgebra\Generic\Common.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Evd.cs">
       <Link>LinearAlgebra\Generic\Factorization\Evd.cs</Link>
@@ -742,6 +754,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Vector.cs">
       <Link>LinearAlgebra\Generic\Vector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Vector.cs">
+      <Link>LinearAlgebra\Single\Vector.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\NumberTheory\IntegerTheory.cs">
       <Link>NumberTheory\IntegerTheory.cs</Link>

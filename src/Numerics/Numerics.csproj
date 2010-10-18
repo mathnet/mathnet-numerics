@@ -126,9 +126,13 @@
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
     <Compile Include="LinearAlgebra\Complex32\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Complex32\IO\MatlabReader.cs" />
+    <Compile Include="LinearAlgebra\Complex32\Vector.cs" />
     <Compile Include="LinearAlgebra\Complex\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Complex\IO\MatlabReader.cs" />
+    <Compile Include="LinearAlgebra\Complex\Vector.cs" />
     <Compile Include="LinearAlgebra\Double\IO\DelimitedWriter.cs" />
+    <Compile Include="LinearAlgebra\Double\Vector.cs" />
+    <Compile Include="LinearAlgebra\Generic\Common.cs" />
     <Compile Include="LinearAlgebra\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\IO\Matlab\ArrayClass.cs" />
     <Compile Include="LinearAlgebra\IO\Matlab\ArrayFlags.cs" />
@@ -305,6 +309,7 @@
     <Compile Include="LinearAlgebra\Generic\Matrix.Arithmetic.cs" />
     <Compile Include="LinearAlgebra\Generic\Matrix.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.cs" />
+    <Compile Include="LinearAlgebra\Single\Vector.cs" />
     <Compile Include="Permutation.cs" />
     <Compile Include="Distributions\Continuous\Beta.cs" />
     <Compile Include="Distributions\Continuous\ContinuousUniform.cs" />

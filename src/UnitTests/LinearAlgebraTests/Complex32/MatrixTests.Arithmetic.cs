@@ -707,7 +707,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             for (var j = 0; j < result.ColumnCount; j++)
             {
                 var col = result.Column(j);
-                AssertHelpers.AlmostEqual(Complex32.One, (float)col.Norm(pValue), 6);
+                AssertHelpers.AlmostEqual(Complex32.One, col.Norm(pValue).Real, 6);
             }
         }
 
@@ -721,7 +721,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var row = matrix.Row(i);
-                AssertHelpers.AlmostEqual(Complex32.One, (float)row.Norm(pValue), 6);
+                AssertHelpers.AlmostEqual(Complex32.One, row.Norm(pValue).Real, 6);
             }
         }
 

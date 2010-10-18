@@ -263,12 +263,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             
             // Check the residuals by calculating:
             // ||r_i|| <= stop_tol * ||b||
-            var stopCriterium = ComputeStopCriterium(sourceVector.Norm(Double.PositiveInfinity));
+            var stopCriterium = ComputeStopCriterium(sourceVector.Norm(Double.PositiveInfinity).Real);
 
             // First check that we have real numbers not NaN's.
             // NaN's can occur when the iterative process diverges so we
             // stop if that is the case.
-            if (double.IsNaN(stopCriterium) || double.IsNaN(residualNorm))
+            if (double.IsNaN(stopCriterium) || double.IsNaN(residualNorm.Real))
             {
                 _iterationCount = 0;
                 SetStatusToDiverged();
@@ -278,7 +278,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             // ||r_i|| <= stop_tol * ||b||
             // Stop the calculation if it's clearly smaller than the tolerance
             var decimalMagnitude = Math.Abs(stopCriterium.Magnitude()) + 1;
-            if (residualNorm.IsSmallerWithDecimalPlaces(stopCriterium, decimalMagnitude))
+            if (residualNorm.Real.IsSmallerWithDecimalPlaces(stopCriterium, decimalMagnitude))
             {
                 if (_lastIteration <= iterationNumber)
                 {

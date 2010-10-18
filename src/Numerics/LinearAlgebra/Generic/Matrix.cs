@@ -1888,15 +1888,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Take absolute value
         /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
+        /// <param name="val1">Source value</param>
+        /// <returns>True if one; otherwise <c>false</c></returns>
         protected abstract double AbsoluteT(T val1);
 
         /// <summary>
         /// Is equal to one?
         /// </summary>
         /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise false</returns>
+        /// <returns>True if one; otherwise <c>false</c></returns>
         private static bool IsOneT(T val1)
         {
             if (typeof(T) == typeof(Complex))

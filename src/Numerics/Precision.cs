@@ -200,6 +200,42 @@ namespace MathNet.Numerics
 #endif
         }
 
+
+        /// <summary>
+        /// Returns the magnitude of the number.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The magnitude of the number.</returns>
+        public static int Magnitude(this float value)
+        {
+            // Can't do this with zero because the 10-log of zero doesn't exist.
+            if (value.Equals(0.0f))
+            {
+                return 0;
+            }
+
+            // Note that we need the absolute value of the input because Log10 doesn't
+            // work for negative numbers (obviously).
+            var magnitude = Convert.ToSingle(Math.Log10(Math.Abs(value)));
+
+            // To get the right number we need to know if the value is negative or positive
+            // truncating a positive number will always give use the correct magnitude
+            // truncating a negative number will give us a magnitude that is off by 1
+            if (magnitude < 0)
+            {
+#if SILVERLIGHT
+                return (int)Truncate(magnitude - 1);
+#else
+                return (int)Math.Truncate(magnitude - 1);
+#endif
+            }
+
+#if SILVERLIGHT
+            return (int)Truncate(magnitude);
+#else
+            return (int)Math.Truncate(magnitude);
+#endif
+        }
         /// <summary>
         /// Returns the number divided by it's magnitude, effectively returning a number between -10 and 10.
         /// </summary>
@@ -1571,6 +1607,34 @@ namespace MathNet.Numerics
         /// <param name="decimalPlaces">The number of decimal places.</param>
         /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
         public static bool IsSmallerWithDecimalPlaces(this double a, double b, int decimalPlaces)
+        {
+            // If A or B are a NAN, return false. NANs are equal to nothing,
+            // not even themselves, and thus they're not bigger or
+            // smaller than anything either
+            if (double.IsNaN(a) || double.IsNaN(b))
+            {
+                return false;
+            }
+
+            return CompareToInDecimalPlaces(a, b, decimalPlaces) < 0;
+        }
+        
+        ///<summary>
+        /// Compares two floats and determines if the <c>first</c> value is smaller than the <c>second</c>
+        /// value to within the specified number of decimal places or not.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
+        /// two so that we have half the range on each side of th<paramref name="decimalPlaces"/>g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// 0.005 and 0.015, but not 0.02 and not 0.00
+        /// </para>
+        /// </remarks>
+        /// <param name="a">The first value.</param>
+        /// <param name="b">The second value.</param>
+        /// <param name="decimalPlaces">The number of decimal places.</param>
+        /// <returns><c>true</c> if the first value is smaller than the second value; otherwise <c>false</c>.</returns>
+        public static bool IsSmallerWithDecimalPlaces(this float a, float b, int decimalPlaces)
         {
             // If A or B are a NAN, return false. NANs are equal to nothing,
             // not even themselves, and thus they're not bigger or
