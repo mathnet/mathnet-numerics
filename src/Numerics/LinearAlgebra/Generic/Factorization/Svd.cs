@@ -162,11 +162,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
-        public virtual double Norm2
+        public virtual T Norm2
         {
             get
             {
-                return AbsoluteT(VectorS[0]);
+                throw new NotImplementedException();
+                //return AbsoluteT(VectorS[0]);
             }
         }
 

@@ -38,7 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    /// <typeparam name="T">Supported data types are <c>double</c>, <c>single</c>, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
     public abstract partial class Matrix<T> :
 #if SILVERLIGHT
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="column">
         /// The column of the element.
         /// </param>
-        /// <value>The double value to get or set.</value>
+        /// <value>The value to get or set.</value>
         /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,T)"/>
         /// to get and set values without range checking.</remarks>
         public virtual T this[int row, int column]
@@ -1492,25 +1492,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Returns the conjugate transpose of this matrix.
         /// </summary>        
         /// <returns>The conjugate transpose of this matrix.</returns>
-        public virtual Matrix<T> ConjugateTranspose()
-        {
-            // In case of real return regulart transpose
-            if (typeof(T) == typeof(double) || (typeof(T) == typeof(float)))
-            {
-                return Transpose();
-            }
-
-            var ret = CreateMatrix(ColumnCount, RowCount);
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                for (var i = 0; i < RowCount; i++)
-                {
-                    ret.At(j, i, ConjugateT(At(i, j)));
-                }
-            }
-
-            return ret;
-        }
+        public abstract Matrix<T> ConjugateTranspose();
 
         /// <summary>
         /// Permute the rows of a matrix according to a permutation.
@@ -1788,177 +1770,23 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
         /// <summary>Calculates the L1 norm.</summary>
         /// <returns>The L1 norm of the matrix.</returns>
-        public virtual double L1Norm()
-        {
-            double norm = 0.0;
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                var s = 0.0;
-                for (var i = 0; i < RowCount; i++)
-                {
-                    s += AbsoluteT(At(i, j));
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
-        }
+        public abstract T L1Norm();
 
         /// <summary>Calculates the L2 norm.</summary>
         /// <returns>The L2 norm of the matrix.</returns>   
         /// <remarks>For sparse matrices, the L2 norm is computed using a dense implementation of singular value decomposition. 
         /// In a later release, it will be replaced with a sparse implementation.</remarks>
-        public virtual double L2Norm()
+        public virtual T L2Norm()
         {
             return Svd<T>.Create(this, false).Norm2;
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
-        public virtual double FrobeniusNorm()
-        {
-            var transpose = Transpose();
-            var aat = this * transpose;
-
-            var norm = 0.0;
-            for (var i = 0; i < RowCount; i++)
-            {
-                norm += AbsoluteT(aat.At(i, i));
-            }
-
-            norm = Math.Sqrt(norm);
-
-            return norm;
-        }
+        public abstract T FrobeniusNorm();
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>   
-        public virtual double InfinityNorm()
-        {
-            var norm = 0.0;
-            for (var i = 0; i < RowCount; i++)
-            {
-                var s = 0.0;
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    s += AbsoluteT(At(i, j));
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
-        }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected abstract T AddT(T val1, T val2);
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected abstract T SubtractT(T val1, T val2);
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected abstract T MultiplyT(T val1, T val2);
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected abstract T DivideT(T val1, T val2);
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source value</param>
-        /// <returns>True if one; otherwise <c>false</c></returns>
-        protected abstract double AbsoluteT(T val1);
-
-        /// <summary>
-        /// Is equal to one?
-        /// </summary>
-        /// <param name="val1">Value to check</param>
-        /// <returns>True if one; otherwise <c>false</c></returns>
-        private static bool IsOneT(T val1)
-        {
-            if (typeof(T) == typeof(Complex))
-            {
-                object obj1 = val1;
-                return Complex.One.AlmostEqual((Complex)obj1);
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                object obj1 = val1;
-                return Complex32.One.AlmostEqual((Complex32)obj1);
-            }
-
-            if (typeof(T) == typeof(double))
-            {
-                object obj1 = val1;
-                return 1.0.AlmostEqualInDecimalPlaces((double)obj1, 15);
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                object obj1 = val1;
-                return 1.0f.AlmostEqualInDecimalPlaces((float)obj1, 7);
-            }
-
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Conjugate complex value. In real case the same value is returned
-        /// </summary>
-        /// <param name="val1">Value to conjugate</param>
-        /// <returns>Conjugated value (complex) or the same (real)</returns>
-        private static T ConjugateT(T val1)
-        {
-            if (typeof(T) == typeof(Complex))
-            {
-                object obj = val1;
-                object conj = Complex.Conjugate((Complex)obj);
-                return (T)conj;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                object obj = val1;
-                object conj = ((Complex32)obj).Conjugate();
-                return (T)conj;
-            }
-
-            if (typeof(T) == typeof(double))
-            {
-                return val1;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                return val1;
-            }
-
-            throw new NotSupportedException();
-        }
-        #endregion
+        public abstract T InfinityNorm();
     }
 }

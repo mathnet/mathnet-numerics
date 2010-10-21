@@ -40,12 +40,23 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     public abstract partial class Matrix<T>
     {
         /// <summary>
-        /// Adds another matrix to this matrix. The result will be written into this matrix.
+        /// The value of 1.0.
+        /// </summary>
+        private static readonly T One = Common.SetOne<T>();
+
+        /// <summary>
+        /// The value of 0.0.
+        /// </summary>
+        private static readonly T Zero = default(T);
+
+        /// <summary>
+        /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual void Add(Matrix<T> other)
+        public virtual Matrix<T> Add(Matrix<T> other)
         {
             if (other == null)
             {
@@ -57,25 +68,55 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            CommonParallel.For(
-                0,
-                RowCount,
-                i =>
-                {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        At(i, j, AddT(At(i, j), other.At(i, j)));
-                    }
-                });
+            var result = CreateMatrix(RowCount, ColumnCount);
+            Add(other, result);
+            return result;
         }
 
         /// <summary>
-        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
+        /// Adds another matrix to this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public virtual void Add(Matrix<T> other, Matrix<T> result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("result", Resources.ArgumentMatrixDimensions);
+            }
+
+            DoAdd(other, result);
+        }
+
+        /// <summary>
+        /// Adds another matrix to this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        protected abstract void DoAdd(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix.
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public virtual void Subtract(Matrix<T> other)
+        public virtual Matrix<T> Subtract(Matrix<T> other)
         {
             if (other == null)
             {
@@ -87,46 +128,67 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            CommonParallel.For(
-                0,
-                RowCount,
-                i =>
-                {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        At(i, j, SubtractT(At(i, j), other.At(i, j)));
-                    }
-                });
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoSubtract(other, result);
+            return result;
         }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix. 
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public virtual void Subtract(Matrix<T> other, Matrix<T> result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+            }
+
+            DoSubtract(other, result);
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        protected abstract void DoSubtract(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Multiplies each element of this matrix with a scalar.
         /// </summary>
         /// <param name="scalar">The scalar to multiply with.</param>
-        public virtual void Multiply(T scalar)
+        /// <returns>The result of the multiplication.</returns>
+        public virtual Matrix<T> Multiply(T scalar)
         {
-            if (IsOneT(scalar))
+            if (scalar.Equals(One))
             {
-                return;
+                return Clone();
             }
 
-            CommonParallel.For(
-                0,
-                RowCount,
-                i =>
-                {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        At(i, j, MultiplyT(At(i, j), scalar));
-                    }
-                });
+            if (scalar.Equals(0.0))
+            {
+                return CreateMatrix(RowCount, ColumnCount);
+            }
+
+            var result = CreateMatrix(RowCount, ColumnCount);
+            Multiply(scalar, result);
+            return result;
         }
 
         /// <summary>
         /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
         /// <param name="scalar">The scalar to multiply the matrix with.</param>
-        /// <param name="result">The matrix to multiply.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
         public virtual void Multiply(T scalar, Matrix<T> result)
@@ -146,9 +208,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
             }
 
-            CopyTo(result);
-            result.Multiply(scalar);
+            DoMultiply(scalar, result);
         }
+
+        /// <summary>
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
+        protected abstract void DoMultiply(T scalar, Matrix<T> result);
 
         /// <summary>
         /// Multiplies this matrix by a vector and returns the result.
@@ -165,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Multiplies this matrix with a vector and places the results into the result vactor.
+        /// Multiplies this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
@@ -203,22 +271,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    RowCount,
-                    i =>
-                    {
-                        var s = default(T);
-                        for (var j = 0; j != ColumnCount; j++)
-                        {
-                            s = AddT(s, MultiplyT(At(i, j), rightSide[j]));
-                        }
-
-                        result[i] = s;
-                    });
+                DoMultiply(rightSide, result);
             }
         }
 
+        /// <summary>
+        /// Multiplies this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoMultiply(Vector<T> rightSide, Vector<T> result);
+       
         /// <summary>
         /// Left multiply a matrix with a vector ( = vector * matrix ).
         /// </summary>
@@ -272,21 +335,16 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    RowCount,
-                    j =>
-                    {
-                        var s = default(T);
-                        for (var i = 0; i != leftSide.Count; i++)
-                        {
-                            s = AddT(s, MultiplyT(leftSide[i], At(i, j)));
-                        }
-
-                        result[j] = s;
-                    });
+                DoLeftMultiply(leftSide, result);
             }
         }
+
+        /// <summary>
+        /// Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector.
+        /// </summary>
+        /// <param name="leftSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoLeftMultiply(Vector<T> leftSide, Vector<T> result);
 
         /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.
@@ -327,22 +385,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    RowCount,
-                    j =>
-                    {
-                        for (var i = 0; i != other.ColumnCount; i++)
-                        {
-                            var s = default(T);
-                            for (var l = 0; l < ColumnCount; l++)
-                            {
-                                s = AddT(s, MultiplyT(At(j, l), other.At(l, i)));
-                            }
-
-                            result.At(j, i, s);
-                        }
-                    });
+                DoMultiply(other, result);
             }
         }
 
@@ -370,6 +413,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             return result;
         }
 
+        /// <summary>
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoMultiply(Matrix<T> other, Matrix<T> result);
+  
         /// <summary>
         /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
         /// </summary>
@@ -409,22 +459,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    RowCount,
-                    j =>
-                    {
-                        for (var i = 0; i < RowCount; i++)
-                        {
-                            var s = default(T);
-                            for (var l = 0; l < ColumnCount; l++)
-                            {
-                                s = AddT(s, MultiplyT(At(i, l), other.At(j, l)));
-                            }
-
-                            result.At(i, j, AddT(s, result.At(i, j)));
-                        }
-                    });
+                DoTransposeAndMultiply(other, result);
             }
         }
 
@@ -453,11 +488,22 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoTransposeAndMultiply(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
         /// Negate each element of this matrix.
         /// </summary>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
-        public abstract void Negate();
+        /// <returns>A matrix containing the negated values.</returns>
+        public virtual Matrix<T> Negate()
+        {
+            var result = CreateMatrix(RowCount, ColumnCount);
+            Negate(result);
+            return result;
+        }
 
         /// <summary>
         /// Negate each element of this matrix and place the results into the result matrix.
@@ -477,9 +523,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            CopyTo(result);
-            result.Negate();
+            DoNegate(result);
         }
+
+        /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected abstract void DoNegate(Matrix<T> result);
 
         /// <summary>
         /// Adds two matrices together and returns the results.
@@ -739,16 +790,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, MultiplyT(At(i, j), other.At(i, j)));
-                    }
-                });
+            DoPointwiseMultiply(other, result);
         }
 
         /// <summary>
@@ -774,6 +816,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             PointwiseDivide(other, result);
             return result;
         }
+
+        /// <summary>
+        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
+        protected abstract void DoPointwiseMultiply(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
@@ -806,17 +855,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, DivideT(At(i, j), other.At(i, j)));
-                    }
-                });
+            DoPointwiseDivide(other, result);
         }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="result">The matrix to store the result of the pointwise division.</param>
+        protected abstract void DoPointwiseDivide(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Generates matrix with random elements.
@@ -849,17 +896,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <returns>The trace of this matrix</returns>
         /// <exception cref="ArgumentException">If the matrix is not square</exception>
-        public virtual T Trace()
-        {
-            if (RowCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            }
-
-            var sum = default(T);
-            CommonParallel.For(0, RowCount, i => sum = AddT(sum, this[i, i]));
-            return sum;
-        }
+        public abstract T Trace();
 
         /// <summary>
         /// Calculates the rank of the matrix

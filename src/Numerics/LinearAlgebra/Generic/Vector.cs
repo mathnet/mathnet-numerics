@@ -55,9 +55,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         private static readonly T Zero = default(T);
 
         /// <summary>
-        /// The value on 1.0 for type T.
+        /// The value of 1.0 for type T.
         /// </summary>
-        private static readonly T One = SetOne();
+        private static readonly T One = Common.SetOne<T>();
 
         /// <summary>
         /// Initializes a new instance of the Vector class. 
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateVector(Count);
-            Add(scalar, result);
+            DoAdd(scalar, result);
             return result;
         }
 
@@ -172,11 +172,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (!ReferenceEquals(this, result))
-            {
-                CopyTo(result);
             }
 
             DoAdd(scalar, result);
@@ -233,7 +228,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateVector(Count);
-            Add(other, result);
+            DoAdd(other, result);
             return result;
         }
 
@@ -270,15 +265,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = Add(other);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                DoAdd(other, result);
-            }
+            DoAdd(other, result);
         }
 
         /// <summary>
@@ -307,7 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateVector(Count);
-            Subtract(scalar, result);
+            DoSubtract(scalar, result);
             return result;
         }
 
@@ -336,11 +323,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (!ReferenceEquals(this, result))
-            {
-                CopyTo(result);
             }
 
             DoSubtract(scalar, result);
@@ -394,7 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateVector(Count);
-            Subtract(other, result);
+            DoSubtract(other, result);
             return result;
         }
 
@@ -431,15 +413,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = Subtract(other);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                DoSubtract(other, result);
-            }
+            DoSubtract(other, result);
         }
 
         /// <summary>
@@ -468,7 +442,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateVector(Count);
-            Multiply(scalar, result);
+            DoMultiply(scalar, result);
             return result;
         }
 
@@ -497,11 +471,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             if (Count != result.Count)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (!ReferenceEquals(this, result))
-            {
-                CopyTo(result);
             }
 
             DoMultiply(scalar, result);
@@ -574,7 +543,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateVector(Count);
-            Divide(scalar, result);
+            DoDivide(scalar, result);
             return result;
         }
 
@@ -605,11 +574,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (!ReferenceEquals(this, result))
-            {
-                CopyTo(result);
-            }
-            
             DoDivide(scalar, result);
         }
 
@@ -644,7 +608,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateVector(Count);
-            PointwiseMultiply(other, result);
+            DoPointwiseMultiply(other, result);
             return result;
         }
 
@@ -679,15 +643,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = PointwiseMultiply(other);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                DoPointwiseMultiply(other, result);
-            }
+            DoPointwiseMultiply(other, result);
         }
 
         /// <summary>
@@ -717,7 +673,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateVector(Count);
-            PointwiseDivide(other, result);
+            DoPointwiseDivide(other, result);
             return result;
         }
 
@@ -752,15 +708,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = PointwiseDivide(other);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                DoPointwiseDivide(other, result);
-            }
+            DoPointwiseDivide(other, result);
         }
 
         /// <summary>
@@ -829,7 +777,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
-        /// <seealso cref="OuterProduct"/>
+        /// <seealso cref="OuterProduct(Vector{T}, Vector{T})"/>
         public Matrix<T> OuterProduct(Vector<T> v)
         {
             return OuterProduct(this, v);
@@ -1585,35 +1533,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual void Clear()
         {
             CommonParallel.For(0, Count, index => this[index] = default(T));
-        }
-
-        /// <summary>
-        /// Sets the value of <c>1.0</c> for type T.
-        /// </summary>
-        /// <returns>The value of <c>1.0</c> for type T.</returns>
-        private static T SetOne()
-        {
-            if (typeof(T) == typeof(Complex))
-            {
-                return (T)(object)Complex.One;
-            }
-
-            if (typeof(T) == typeof(Complex32))
-            {
-                return (T)(object)Complex32.One;
-            }
-
-            if (typeof(T) == typeof(double))
-            {
-                return (T)(object)1.0;
-            }
-
-            if (typeof(T) == typeof(float))
-            {
-                return (T)(object)1.0f;
-            }
-
-            throw new NotSupportedException();
         }
     }
 }
