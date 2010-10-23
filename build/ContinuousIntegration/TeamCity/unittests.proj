@@ -12,7 +12,7 @@
   </Target>
   
   <Target Name="Test" DependsOnTargets="Compile">
-    <Gallio.MSBuildTasks.Gallio RunnerExtensions="TeamCityExtension,Gallio.TeamCityIntegration" ContinueOnError="False" IgnoreFailures="False" Files="./bin/MathNet.Numerics.UnitTests.dll" />
+    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="./bin/MathNet.Numerics.UnitTests.dll" />
     <Exec Command="$(MSBuildProjectDirectory)/bin/FSharpUnitTests.exe" IgnoreExitCode="false" />
   </Target>
   
