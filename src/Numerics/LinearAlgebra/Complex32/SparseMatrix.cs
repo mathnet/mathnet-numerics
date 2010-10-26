@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using System;
-    using Distributions;
     using Generic;
     using Numerics;
     using Properties;
@@ -41,7 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
-    public class SparseMatrix : Matrix<Complex32>
+    public class SparseMatrix : Matrix 
     {
         /// <summary>
         /// Object for use in "lock"
@@ -113,7 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="value">The value which we assign to each element of the matrix.</param>
         public SparseMatrix(int rows, int columns, Complex32 value) : this(rows, columns)
         {
-            if (value == Complex32.Zero)
+            if (value == 0.0f)
             {
                 return;
             }
@@ -551,7 +550,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 for (var i = 0; i < RowCount; i++)
                 {
                     var index = FindItem(i, j);
-                    ret[(j * RowCount) + i] = index >= 0 ? _nonZeroValues[index] : Complex32.Zero;
+                    ret[(j * RowCount) + i] = index >= 0 ? _nonZeroValues[index] : 0.0f;
                 }
             }
 
@@ -575,7 +574,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             lock (_lockObject)
             {
                 var index = FindItem(row, column);
-                return index >= 0 ? _nonZeroValues[index] : Complex32.Zero;
+                return index >= 0 ? _nonZeroValues[index] : 0.0f;
             }
         }
         
@@ -613,7 +612,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             if (index >= 0)
             {
                 // Non-zero item found in matrix
-                if (value == Complex32.Zero)
+                if (value == 0.0f)
                 {
                     // Delete existing item
                     DeleteItemByIndex(index, row);
@@ -627,7 +626,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             else
             {
                 // Item not found. Add new value
-                if (value == Complex32.Zero)
+                if (value == 0.0f)
                 {
                     return;
                 }
@@ -790,54 +789,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 sparseTarget._columnIndices = new int[NonZerosCount];
                 sparseTarget.NonZerosCount = NonZerosCount;
 
-                if (NonZerosCount != 0)
-                {
-                    CommonParallel.For(0, NonZerosCount, index => sparseTarget._nonZeroValues[index] = _nonZeroValues[index]);
-                    Buffer.BlockCopy(_columnIndices, 0, sparseTarget._columnIndices, 0, NonZerosCount * Constants.SizeOfInt);
-                    Buffer.BlockCopy(_rowIndex, 0, sparseTarget._rowIndex, 0, RowCount * Constants.SizeOfInt);
-                }
+                Array.Copy(_nonZeroValues, sparseTarget._nonZeroValues, NonZerosCount);
+                Array.Copy(_columnIndices, sparseTarget._columnIndices, NonZerosCount);
+                Array.Copy(_rowIndex, sparseTarget._rowIndex, RowCount);
             }
-        }
-        
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="obj">
-        /// An object to compare with this object.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="obj"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            var sparseMatrix = obj as SparseMatrix;
-
-            if (sparseMatrix == null)
-            {
-                return base.Equals(obj);
-            }
-
-            // Accept if the argument is the same object as this
-            if (ReferenceEquals(this, sparseMatrix))
-            {
-                return true;
-            }
-
-            if (ColumnCount != sparseMatrix.ColumnCount || RowCount != sparseMatrix.RowCount || NonZerosCount != sparseMatrix.NonZerosCount)
-            {
-                return false;
-            }
-
-            // If all else fails, perform element wise comparison.
-            for (var index = 0; index < NonZerosCount; index++)
-            {
-                if (!_nonZeroValues[index].AlmostEqual(sparseMatrix._nonZeroValues[index]) || _columnIndices[index] != sparseMatrix._columnIndices[index])
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
         
         /// <summary>
@@ -853,9 +808,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             for (var i = 0; i < hashNum; i++)
             {
 #if SILVERLIGHT
-                hash ^= Precision.DoubleToInt64Bits(_nonZeroValues[i].GetHashCode());
+                hash ^= Precision.DoubleToInt64Bits(_nonZeroValues[i].Magnitude);
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i].GetHashCode());
+                hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i].Magnitude);
 #endif
             }
 
@@ -897,49 +852,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return ret;
         }
 
-        /// <summary>
-        /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
-        /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<Complex32> ConjugateTranspose()
-        {
-            var ret = new SparseMatrix(ColumnCount, RowCount)
-            {
-                _columnIndices = new int[NonZerosCount],
-                _nonZeroValues = new Complex32[NonZerosCount]
-            };
-
-            // Do an 'inverse' CopyTo iterate over the rows
-            for (var i = 0; i < _rowIndex.Length; i++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
-
-                // Get the values for the current row
-                if (startIndex == endIndex)
-                {
-                    // Begin and end are equal. There are no values in the row, Move to the next row
-                    continue;
-                }
-
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    ret.SetValueAt(_columnIndices[j], i, _nonZeroValues[j].Conjugate());
-                }
-            }
-
-            return ret;
-        }
-
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
-        public override double FrobeniusNorm()
+        public override Complex32 FrobeniusNorm()
         {
             var transpose = (SparseMatrix)Transpose();
-            var aat = this * transpose;
+            var aat = (SparseMatrix)(this * transpose);
 
-            var norm = 0.0;
+            var norm = 0.0f;
 
             for (var i = 0; i < aat._rowIndex.Length; i++)
             {
@@ -963,15 +883,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 }
             }
 
-            norm = Math.Sqrt(norm);
+            norm = Convert.ToSingle(Math.Sqrt(norm));
             return norm;
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>   
-        public override double InfinityNorm()
+        public override Complex32 InfinityNorm()
         {
-            var norm = 0.0;
+            var norm = 0.0f;
             for (var i = 0; i < _rowIndex.Length; i++)
             {
                 // Get the begin / end index for the current row
@@ -985,7 +905,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     continue;
                 }
 
-                var s = 0.0;
+                var s = 0.0f;
                 for (var j = startIndex; j < endIndex; j++)
                 {
                     s += _nonZeroValues[j].Magnitude;
@@ -1060,7 +980,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 {
                     // Copy code from At(row, column) to avoid unnecessary lock
                     var index = FindItem(rowIndex, i);
-                    result[j] = index >= 0 ? _nonZeroValues[index] : Complex32.Zero;
+                    result[j] = index >= 0 ? _nonZeroValues[index] : 0.0f;
                 }
             }
         }
@@ -1112,198 +1032,229 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
         }
 
-        #region Elementary operations
+        #region Static constructors for special matrices.
+        /// <summary>
+        /// Initializes a square <see cref="SparseMatrix"/> with all zero's except for ones on the diagonal.
+        /// </summary>
+        /// <param name="order">the size of the square matrix.</param>
+        /// <returns>Identity <c>SparseMatrix</c></returns>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="order"/> is less than one.
+        /// </exception>
+        public static SparseMatrix Identity(int order)
+        {
+            var m = new SparseMatrix(order)
+                    {
+                        NonZerosCount = order,
+                        _nonZeroValues = new Complex32[order],
+                        _columnIndices = new int[order]
+                    };
+
+            for (var i = 0; i < order; i++)
+            {
+                m._nonZeroValues[i] = 1.0f;
+                m._columnIndices[i] = i;
+                m._rowIndex[i] = i;
+            }
+
+            return m;
+        }
+        #endregion
 
         /// <summary>
-        /// Adds another matrix to this matrix. The result will be written into this matrix.
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(Matrix<Complex32> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                return false;
+            }
+
+            // Accept if the argument is the same object as this.
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            var sparseMatrix = other as SparseMatrix;
+
+            if (sparseMatrix == null)
+            {
+                return base.Equals(other);
+            }
+
+            if (NonZerosCount != sparseMatrix.NonZerosCount)
+            {
+                return false;
+            }
+
+            // If all else fails, perform element wise comparison.
+            for (var index = 0; index < NonZerosCount; index++)
+            {
+                if (!_nonZeroValues[index].AlmostEqual(sparseMatrix._nonZeroValues[index]) || _columnIndices[index] != sparseMatrix._columnIndices[index])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Add(Matrix<Complex32> other)
+        protected override void DoAdd(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            if (ReferenceEquals(this, other))
-            {
-                Multiply(2);
-                return;
-            }
+            result.Clear();
 
-            var m = other as SparseMatrix;
-            if (m == null)
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
             {
-                base.Add(other);
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] + other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0f)
+                        {
+                            result.At(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
             }
             else
             {
-                Add(m);
-            }
-        }
-
-        /// <summary>
-        /// Adds another <see cref="SparseMatrix"/> to this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The <see cref="SparseMatrix"/> to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Add(SparseMatrix other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            for (var i = 0; i < other.RowCount; i++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = other._rowIndex[i];
-                var endIndex = i < other._rowIndex.Length - 1 ? other._rowIndex[i + 1] : other.NonZerosCount;
-
-                for (var j = startIndex; j < endIndex; j++)
+                for (var i = 0; i < other.RowCount; i++)
                 {
-                    var index = FindItem(i, other._columnIndices[j]);
-                    if (index >= 0)
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
                     {
-                        if (_nonZeroValues[index] + other._nonZeroValues[j] == Complex32.Zero)
+                        var resVal = _nonZeroValues[j] + other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0f)
                         {
-                            DeleteItemByIndex(index, i);
+                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
                         }
-                        else
-                        {
-                            _nonZeroValues[index] += other._nonZeroValues[j];
-                        }
-                    }
-                    else
-                    {
-                        SetValueAt(i, other._columnIndices[j], other._nonZeroValues[j]);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
+        /// Subtracts another matrix from this matrix.
         /// </summary>
-        /// <param name="other">The matrix to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <param name="other">The matrix to subtract to this matrix.</param>
+        /// <param name="result">The matrix to store the result of subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Subtract(Matrix<Complex32> other)
+        protected override void DoSubtract(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            // We are substracting Matrix form itself
-            if (ReferenceEquals(this, other))
-            {
-                Clear();
-                return;
-            }
+            result.Clear();
 
-            var m = other as SparseMatrix;
-            if (m == null)
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
             {
-                base.Subtract(other);
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] - other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0f)
+                        {
+                            result.At(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
             }
             else
             {
-                Subtract(m);
-            }
-        }
-
-        /// <summary>
-        /// Subtracts another <see cref="SparseMatrix"/> from this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The <see cref="SparseMatrix"/> to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Subtract(SparseMatrix other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            for (var i = 0; i < other.RowCount; i++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = other._rowIndex[i];
-                var endIndex = i < other._rowIndex.Length - 1 ? other._rowIndex[i + 1] : other.NonZerosCount;
-
-                for (var j = startIndex; j < endIndex; j++)
+                for (var i = 0; i < other.RowCount; i++)
                 {
-                    var index = FindItem(i, other._columnIndices[j]);
-                    if (index >= 0)
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
                     {
-                        if (_nonZeroValues[index] - other._nonZeroValues[j] == Complex32.Zero)
+                        var resVal = _nonZeroValues[j] - other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0f)
                         {
-                            DeleteItemByIndex(index, i);
+                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
                         }
-                        else
-                        {
-                            _nonZeroValues[index] -= other._nonZeroValues[j];
-                        }
-                    }
-                    else
-                    {
-                        SetValueAt(i, other._columnIndices[j], -other._nonZeroValues[j]);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Multiplies each element of this matrix with a complex.
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="complex">The complex to multiply with.</param>
-        public override void Multiply(Complex32 complex)
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
+        protected override void DoMultiply(Complex32 scalar, Matrix<Complex32> result)
         {
-            if (Complex32.One.AlmostEqual(complex))
+            if (scalar == 1.0f)
             {
+                CopyTo(result);
                 return;
             }
 
-            if (Complex32.Zero.AlmostEqual(complex))
+            if (scalar == 0.0f)
             {
-                Clear();
+                result.Clear();
                 return;
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(complex, _nonZeroValues);
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
+            {
+                base.DoMultiply(scalar, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._nonZeroValues);
+            }
         }
 
         /// <summary>
-        /// Multiplies this sparse matrix with another sparse matrix and places the results into the result sparse matrix.
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the Rows x other.Columns.</exception>
-        public override void Multiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        protected override void DoMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
             var otherSparseMatrix = other as SparseMatrix;
             var resultSparseMatrix = result as SparseMatrix;
             if (otherSparseMatrix == null || resultSparseMatrix == null)
             {
-                base.Multiply(other, result);
+                base.DoMultiply(other, result);
                 return;
-            }
-
-            if (ColumnCount != otherSparseMatrix.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if (resultSparseMatrix.RowCount != RowCount || resultSparseMatrix.ColumnCount != otherSparseMatrix.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
             resultSparseMatrix.Clear();
@@ -1332,58 +1283,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Multiplies this matrix with another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>Columns != other.Rows</strong>.</exception>        
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex32> Multiply(Matrix<Complex32> other)
-        {
-            var matrix = other as SparseMatrix;
-            if (matrix == null)
-            {
-                return base.Multiply(other);
-            }
-
-            if (ColumnCount != matrix.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var result = (SparseMatrix)CreateMatrix(RowCount, matrix.ColumnCount);
-            Multiply(matrix, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Multiplies this dense matrix with transpose of another dense matrix and places the results into the result dense matrix.
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        protected override void DoTransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
             var otherSparse = other as SparseMatrix;
             var resultSparse = result as SparseMatrix;
 
             if (otherSparse == null || resultSparse == null)
             {
-                base.TransposeAndMultiply(other, result);
+                base.DoTransposeAndMultiply(other, result);
                 return;
-            }
-
-            if (ColumnCount != otherSparse.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if ((resultSparse.RowCount != RowCount) || (resultSparse.ColumnCount != otherSparse.RowCount))
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
             resultSparse.Clear();
@@ -1415,65 +1327,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                         index =>
                         {
                             var ind = FindItem(i1, otherSparse._columnIndices[index]);
-                            return ind >= 0 ? otherSparse._nonZeroValues[index] * _nonZeroValues[ind] : Complex32.Zero;
+                            return ind >= 0 ? otherSparse._nonZeroValues[index] * _nonZeroValues[ind] : 0.0f;
                         });
 
                     resultSparse.SetValueAt(i, j, sum + result.At(i, j));
                 }
             }
         }
-    
-        /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex32> TransposeAndMultiply(Matrix<Complex32> other)
-        {
-            var otherSparse = other as SparseMatrix;
-            if (otherSparse == null)
-            {
-                return base.TransposeAndMultiply(other);
-            }
-
-            if (ColumnCount != otherSparse.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var result = (SparseMatrix)CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
-            return result;
-        }
 
         /// <summary>
-        /// Multiplies two sparse matrices.
+        /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>
-        /// <param name="leftSide">The left matrix to multiply.</param>
-        /// <param name="rightSide">The right matrix to multiply.</param>
-        /// <returns>The result of multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
-        public static SparseMatrix operator *(SparseMatrix leftSide, SparseMatrix rightSide)
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<Complex32> result)
         {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (leftSide.ColumnCount != rightSide.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            return (SparseMatrix)leftSide.Multiply(rightSide);
+            CopyTo(result);
+            DoMultiply(-1, result);
         }
 
         /// <summary>
@@ -1481,221 +1350,95 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
         /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        protected override void DoPointwiseMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
             result.Clear();
-            for (var i = 0; i < other.RowCount; i++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
 
-                for (var j = startIndex; j < endIndex; j++)
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
+            {
+                for (var i = 0; i < other.RowCount; i++)
                 {
-                    var resVal = _nonZeroValues[j] * other[i, _columnIndices[j]];
-                    if (resVal != Complex32.Zero)
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
                     {
-                        result[i, _columnIndices[j]] = resVal;
+                        var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0f)
+                        {
+                            result.At(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0f)
+                        {
+                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
+                        }
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Generates matrix with random elements.
+        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<Complex32> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
+        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="result">The matrix to store the result of the pointwise division.</param>
+        protected override void DoPointwiseDivide(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
+            result.Clear();
 
-            if (numberOfColumns < 1)
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = (SparseMatrix)CreateMatrix(numberOfRows, numberOfColumns);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
+                for (var i = 0; i < other.RowCount; i++)
                 {
-                    var value = new Complex32((float)distribution.Sample(), (float)distribution.Sample());
-                    if (value != Complex32.Zero)
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
                     {
-                        matrix.SetValueAt(i, j, value);
+                        var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0f)
+                        {
+                            result.At(i, _columnIndices[j], resVal);
+                        }
                     }
                 }
             }
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<Complex32> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
+            else
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = (SparseMatrix)CreateMatrix(numberOfRows, numberOfColumns);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
+                for (var i = 0; i < other.RowCount; i++)
                 {
-                    var value = new Complex32(distribution.Sample(), distribution.Sample());
-                    if (value != Complex32.Zero)
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
                     {
-                        matrix.SetValueAt(i, j, value);
+                        var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0f)
+                        {
+                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
+                        }
                     }
                 }
             }
-
-            return matrix;
         }
-
-        #endregion
-
-        #region Static constructors for special matrices.
-        /// <summary>
-        /// Initializes a square <see cref="SparseMatrix"/> with all zero's except for ones on the diagonal.
-        /// </summary>
-        /// <param name="order">the size of the square matrix.</param>
-        /// <returns>Identity <c>SparseMatrix</c></returns>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="order"/> is less than one.
-        /// </exception>
-        public static SparseMatrix Identity(int order)
-        {
-            var m = new SparseMatrix(order)
-                    {
-                        NonZerosCount = order,
-                        _nonZeroValues = new Complex32[order],
-                        _columnIndices = new int[order]
-                    };
-
-            for (var i = 0; i < order; i++)
-            {
-                m._nonZeroValues[i] = Complex32.One;
-                m._columnIndices[i] = i;
-                m._rowIndex[i] = i;
-            }
-
-            return m;
-        }
-        #endregion
-
-        /// <summary>
-        /// Negates each element of this matrix.
-        /// </summary>        
-        public override void Negate()
-        {
-            Multiply(-1);
-        }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override Complex32 AddT(Complex32 val1, Complex32 val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override Complex32 SubtractT(Complex32 val1, Complex32 val2)
-        {
-            return val1 - val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override Complex32 DivideT(Complex32 val1, Complex32 val2)
-        {
-            return val1 / val2;
-        }
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(Complex32 val1)
-        {
-            return val1.Magnitude;
-        }
-        #endregion
     }
 }

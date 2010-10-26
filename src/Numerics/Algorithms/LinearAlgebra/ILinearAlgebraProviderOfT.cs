@@ -145,7 +145,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
         /// <summary>
         /// Does a point wise multiplication of two arrays <c>z = x * y</c>. This can be used
-        /// to multiple elements of vectors or matrices.
+        /// to multiply elements of vectors or matrices.
         /// </summary>
         /// <param name="x">The array x.</param>
         /// <param name="y">The array y.</param>
@@ -154,6 +154,18 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
         void PointWiseMultiplyArrays(T[] x, T[] y, T[] result);
+
+        /// <summary>
+        /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
+        /// to divide elements of vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise division.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        void PointWiseDivideArrays(T[] x, T[] y, T[] result);
 
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.

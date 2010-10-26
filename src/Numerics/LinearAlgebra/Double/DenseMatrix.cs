@@ -27,7 +27,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using Distributions;
     using Generic;
     using Properties;
     using Threading;
@@ -242,7 +241,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double FrobeniusNorm()
         {
             var transpose = (DenseMatrix)Transpose();
-            var aat = (DenseMatrix) (this * transpose);
+            var aat = (DenseMatrix)(this * transpose);
 
             var norm = 0.0;
             for (var i = 0; i < RowCount; i++)
@@ -332,89 +331,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var m = new DenseMatrix(order);
             for (var i = 0; i < order; i++)
             {
-                m[i, i] = 1.0;
+                m.Data[(i * order) + i] = 1.0;
             }
 
             return m;
         }
 
         #endregion
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = distribution.Sample();
-                    }
-                });
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = distribution.Sample();
-                    }
-                });
-
-            return matrix;
-        }
 
         /// <summary>
         /// Returns the conjugate transpose of this matrix.
@@ -424,20 +347,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             return Transpose();
         }
-
-      /*      Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                Algorithms.LinearAlgebra.Transpose.Transpose,
-                1.0,
-                Data,
-                RowCount,
-                ColumnCount,
-                otherDense.Data,
-                otherDense.RowCount,
-                otherDense.ColumnCount,
-                1.0,
-                resultDense.Data);
-        */
 
         /// <summary>
         /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
@@ -453,10 +362,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, denseResult.Data);
             }
         }
-
+     
         /// <summary>
         /// Multiplies this matrix with a vector and places the results into the result vector.
         /// </summary>
@@ -464,19 +373,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<double> rightSide, Vector<double> result)
         {
-            CommonParallel.For(
-                0,
-                RowCount,
-                i =>
-                {
-                    var s = 0.0;
-                    for (var j = 0; j != ColumnCount; j++)
-                    {
-                        s += At(i, j) * rightSide[j];
-                    }
+            var denseRight = rightSide as DenseVector;
+            var denseResult = result as DenseVector;
 
-                    result[i] = s;
-                });
+            if (denseRight == null || denseResult == null)
+            {
+                base.DoMultiply(rightSide, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0,
+                    Data,
+                    RowCount,
+                    ColumnCount,
+                    denseRight.Data,
+                    denseRight.Count,
+                    1,
+                    0.0,
+                    denseResult.Data);
+            }
         }
 
         /// <summary>
@@ -486,19 +404,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoLeftMultiply(Vector<double> leftSide, Vector<double> result)
         {
-            CommonParallel.For(
-                0,
-                RowCount,
-                j =>
-                {
-                    var s = 0.0;
-                    for (var i = 0; i != leftSide.Count; i++)
-                    {
-                        s += leftSide[i] * At(i, j);
-                    }
+            var denseLeft = leftSide as DenseVector;
+            var denseResult = result as DenseVector;
 
-                    result[j] = s;
-                });
+            if (denseLeft == null || denseResult == null)
+            {
+                base.DoLeftMultiply(leftSide, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0,
+                    denseLeft.Data,
+                    1,
+                    denseResult.Count,
+                    Data,
+                    RowCount,
+                    ColumnCount,
+                    0.0,
+                    denseResult.Data);
+            }
         }
 
         /// <summary>
@@ -517,41 +444,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CommonParallel.For(
-                0,
-                RowCount,
-                j =>
-                {
-                    for (var i = 0; i != other.ColumnCount; i++)
-                    {
-                        var s = 0.0;
-                        for (var l = 0; l < ColumnCount; l++)
-                        {
-                            s += Data[(j * RowCount) + l] * denseOther.Data[(i * RowCount) + l];
-                        }
-
-                        result.At(j, i, s);
-                    }
-                });
-
-                CommonParallel.For(
-                    0,
-                    RowCount,
-                    j =>
-                    {
-                        for (var i = 0; i < RowCount; i++)
-                        {
-                            var s = 0.0;
-                            for (var l = 0; l < ColumnCount; l++)
-                            {
-                                s += Data[(j * RowCount) + l] * denseOther.Data[(l * RowCount) + j];
-                            }
-
-                            denseResult.Data[(j * RowCount) + i] *= s;
-                        }
-                    });
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  1.0,
+                                  Data,
+                                  RowCount,
+                                  ColumnCount,
+                                  denseOther.Data,
+                                  denseOther.RowCount,
+                                  denseOther.ColumnCount,
+                                  0.0,
+                                  denseResult.Data);
             }
-            }
+        }
 
         /// <summary>
         /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
@@ -569,22 +475,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    RowCount,
-                    j =>
-                    {
-                        for (var i = 0; i < RowCount; i++)
-                        {
-                            var s = 0.0;
-                            for (var l = 0; l < ColumnCount; l++)
-                            {
-                                s += Data[(j * RowCount) + l] * denseOther.Data[(l * RowCount) + j];
-                            }
-
-                            denseResult.Data[(j * RowCount) + i] *= s;
-                        }
-                    });
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  Algorithms.LinearAlgebra.Transpose.Transpose,
+                                  1.0,
+                                  Data,
+                                  RowCount,
+                                  ColumnCount,
+                                  denseOther.Data,
+                                  denseOther.RowCount,
+                                  denseOther.ColumnCount,
+                                  0.0,
+                                  denseResult.Data);
             }
         }
 
@@ -602,17 +504,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    RowCount,
-                    i =>
-                    {
-                        for (var j = 0; j != ColumnCount; j++)
-                        {
-                            var index = (j * RowCount) + i;
-                            denseResult.Data[index] =- Data[index];
-                        }
-                    });
+                Buffer.BlockCopy(Data, 0, denseResult.Data, 0, Data.Length * Constants.SizeOfDouble);
+                Control.LinearAlgebraProvider.ScaleArray(-1, denseResult.Data);
             }
         }
 
@@ -632,18 +525,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    ColumnCount,
-                    j =>
-                    {
-                        for (var i = 0; i < RowCount; i++)
-                        {
-                            var index = (j * RowCount) + i;
-                            denseResult.Data[index] = Data[index] * denseOther.Data[index];
-
-                        }
-                    });
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(Data, denseOther.Data, denseResult.Data);
             }
         }
 
@@ -663,17 +545,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    ColumnCount,
-                    j =>
-                    {
-                        for (var i = 0; i < RowCount; i++)
-                        {
-                            var index = (j * RowCount) + i;
-                            denseResult.Data[index] = Data[index] / denseOther.Data[index];
-                        }
-                    });
+                Control.LinearAlgebraProvider.PointWiseDivideArrays(Data, denseOther.Data, denseResult.Data);
             }
         }
 

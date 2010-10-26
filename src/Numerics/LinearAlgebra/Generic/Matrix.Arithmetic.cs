@@ -207,10 +207,90 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
             }
+            
+            if (scalar.Equals(One))
+            {
+                CopyTo(result);
+                return;
+            }
+            
+            if (scalar.Equals(Zero))
+            {
+                result.Clear();
+                return;
+            }
 
+            CopyTo(result);
             DoMultiply(scalar, result);
         }
 
+        /// <summary>
+        /// Divides each element of this matrix with a scalar.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide with.</param>
+        /// <returns>The result of the division.</returns>
+        public virtual Matrix<T> Divide(T scalar)
+        {
+            if (scalar.Equals(One))
+            {
+                return Clone();
+            }
+
+            if (scalar.Equals(0.0))
+            {
+                throw new DivideByZeroException();
+            }
+
+            var result = CreateMatrix(RowCount, ColumnCount);
+            Divide(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Divides each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public virtual void Divide(T scalar, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (result.RowCount != RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
+            }
+
+            if (result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
+            }
+
+            if (scalar.Equals(One))
+            {
+                CopyTo(result);
+                return;
+            }
+
+            if (scalar.Equals(0.0))
+            {
+                throw new DivideByZeroException();
+            }
+
+            DoDivide(scalar, result);
+        }
+
+        /// <summary>
+        /// Divides each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to divide the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected abstract void DoDivide(T scalar, Matrix<T> result);
+        
         /// <summary>
         /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
@@ -560,9 +640,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            var ret = leftSide.Clone();
-            ret.Add(rightSide);
-            return ret;
+            return leftSide.Add(rightSide);
         }
 
         /// <summary>
@@ -609,9 +687,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
             }
 
-            var ret = leftSide.Clone();
-            ret.Subtract(rightSide);
-            return ret;
+            return leftSide.Subtract(rightSide);
         }
 
         /// <summary>
@@ -627,9 +703,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("rightSide");
             }
 
-            var ret = rightSide.Clone();
-            ret.Negate();
-            return ret;
+            return rightSide.Negate();
         }
 
         /// <summary>
@@ -646,9 +720,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("leftSide");
             }
 
-            var ret = leftSide.Clone();
-            ret.Multiply(rightSide);
-            return ret;
+            return leftSide.Multiply(rightSide);
         }
 
         /// <summary>
@@ -665,9 +737,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("rightSide");
             }
 
-            var ret = rightSide.Clone();
-            ret.Multiply(leftSide);
-            return ret;
+            return rightSide.Multiply(leftSide);
         }
 
         /// <summary>
@@ -866,20 +936,42 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoPointwiseDivide(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
-        /// Generates matrix with random elements.
+        /// Generates a matrix with random elements.
         /// </summary>
         /// <param name="numberOfRows">Number of rows.</param>
         /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
+        /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
         /// <returns>
         /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
         /// </returns>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public abstract Matrix<T> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution);
+        public virtual Matrix<T> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
+            DoRandom(matrix, distribution);
+            return matrix;
+        }
 
         /// <summary>
-        /// Generates matrix with random elements.
+        /// Populates a matrix with random elements.
+        /// </summary>
+        /// <param name="matrix">The matrix to populate.</param>
+        /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
+       protected abstract void DoRandom(Matrix<T> matrix, IContinuousDistribution distribution);
+
+        /// <summary>
+        /// Generates a matrix with random elements.
         /// </summary>
         /// <param name="numberOfRows">Number of rows.</param>
         /// <param name="numberOfColumns">Number of columns.</param>
@@ -889,7 +981,29 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
         /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public abstract Matrix<T> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution);
+        public virtual Matrix<T> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
+        {
+            if (numberOfRows < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+            }
+
+            if (numberOfColumns < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+            }
+
+            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
+            DoRandom(matrix, distribution);
+            return matrix;
+        }
+
+        /// <summary>
+        /// Populates a matrix with random elements.
+        /// </summary>
+        /// <param name="matrix">The matrix to populate.</param>
+        /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
+        protected abstract void DoRandom(Matrix<T> matrix, IDiscreteDistribution distribution);
 
         /// <summary>
         /// Computes the trace of this matrix.
@@ -910,9 +1024,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>Calculates the condition number of this matrix.</summary>
         /// <returns>The condition number of the matrix.</returns>
         /// <remarks>The condition number is calculated using singular value decomposition.</remarks>
-        public virtual double ConditionNumber()
+        public virtual T ConditionNumber()
         {
-            return Svd<T>.Create(this, false).ConditionNumber;
+            throw new NotImplementedException();
+            //return Svd<T>.Create(this, false).ConditionNumber;
         }
 
         /// <summary>Computes the determinant of this matrix.</summary>

@@ -24,7 +24,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
 
             Assert.AreEqual(100, a.RowCount);
             Assert.AreEqual(100, a.ColumnCount);
-            AssertHelpers.AlmostEqual(27.232498979698409, a.L2Norm(), 6);
+            AssertHelpers.AlmostEqual(27.232498979698409, a.L2Norm().Real, 6);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
 
             Assert.AreEqual(100, a.RowCount);
             Assert.AreEqual(100, a.ColumnCount);
-            AssertHelpers.AlmostEqual(13.223654390985379, a.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(13.223654390985379, a.L2Norm().Real, 7);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
-            AssertHelpers.AlmostEqual(100.108979553704, matrix.FrobeniusNorm(), 6);
+            AssertHelpers.AlmostEqual(100.108979553704, matrix.FrobeniusNorm().Real, 6);
         }
 
 
@@ -89,7 +89,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
             Assert.AreEqual(1, matrices.Length);
             Assert.AreEqual(100, matrices[0].RowCount);
             Assert.AreEqual(100, matrices[0].ColumnCount);
-            AssertHelpers.AlmostEqual(100.431635988639, matrices[0].FrobeniusNorm(), 6);
+            AssertHelpers.AlmostEqual(100.431635988639, matrices[0].FrobeniusNorm().Real, 6);
             Assert.AreEqual(typeof(DenseMatrix), matrices[0].GetType());
         }
 
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.IO
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(SparseMatrix), matrix.GetType());
-            AssertHelpers.AlmostEqual(17.6385090630805, matrix.FrobeniusNorm(), 6);
+            AssertHelpers.AlmostEqual(17.6385090630805, matrix.FrobeniusNorm().Real, 6);
         }
     }
 }

@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,17 +26,15 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-    using System;
     using System.Numerics;
-    using Distributions;
+    using LinearAlgebra.Complex;
     using LinearAlgebra.Generic;
-    using Threading;
 
-    internal class UserDefinedMatrix : Matrix<Complex>
+    internal class UserDefinedMatrix : Matrix
     {
         private readonly Complex[,] _data;
 
-        public UserDefinedMatrix(int order): base(order, order)
+        public UserDefinedMatrix(int order) : base(order, order)
         {
             _data = new Complex[order, order];
         }
@@ -84,104 +78,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             }
 
             return m;
-        }
-
-        public override void Negate()
-        {
-            Multiply(-Complex.One);
-        }
-
-        public override Matrix<Complex> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException("numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException("numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = new Complex(distribution.Sample(), distribution.Sample());
-                    }
-                });
-
-            return matrix;
-        }
-
-        public override Matrix<Complex> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException("numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException("numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = new Complex(distribution.Sample(), distribution.Sample());
-                    }
-                });
-
-            return matrix;
-        }
-
-        protected sealed override Complex AddT(Complex val1, Complex val2)
-        {
-            return val1 + val2;
-        }
-
-        protected sealed override Complex SubtractT(Complex val1, Complex val2)
-        {
-            return val1 - val2;
-        }
-
-        protected sealed override Complex MultiplyT(Complex val1, Complex val2)
-        {
-            return val1 * val2;
-        }
-
-        protected sealed override Complex DivideT(Complex val1, Complex val2)
-        {
-            return val1 / val2;
-        }
-
-        protected sealed override double AbsoluteT(Complex val1)
-        {
-            return val1.Magnitude;
-        }
-
-        public override Matrix<Complex> ConjugateTranspose()
-        {
-            var ret = CreateMatrix(ColumnCount, RowCount);
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                for (var i = 0; i < RowCount; i++)
-                {
-                    ret.At(j, i, At(i, j).Conjugate());
-                }
-            }
-
-            return ret;
         }
     }
 

@@ -28,7 +28,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 {
     using System;
     using System.Numerics;
-    using Distributions;
     using Generic;
     using Properties;
     using Threading;
@@ -36,7 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
     /// </summary>
-    public class DenseMatrix : Matrix<Complex>
+    public class DenseMatrix : Matrix
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseMatrix"/> class. This matrix is square with a given size.
@@ -219,28 +218,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return ret;
         }
 
-        /// <summary>
-        /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
-        /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<Complex> ConjugateTranspose()
-        {
-            var ret = new DenseMatrix(ColumnCount, RowCount);
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                var index = j * RowCount;
-                for (var i = 0; i < RowCount; i++)
-                {
-                    ret.Data[(i * ColumnCount) + j] = Data[index + i].Conjugate();
-                }
-            }
-
-            return ret;
-        }
-
         /// <summary>Calculates the L1 norm.</summary>
         /// <returns>The L1 norm of the matrix.</returns>
-        public override double L1Norm()
+        public override Complex L1Norm()
         {
             var norm = 0.0;
             for (var j = 0; j < ColumnCount; j++)
@@ -259,10 +239,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
-        public override double FrobeniusNorm()
+        public override Complex FrobeniusNorm()
         {
             var transpose = (DenseMatrix)Transpose();
-            var aat = this * transpose;
+            var aat = (DenseMatrix)(this * transpose);
 
             var norm = 0.0;
             for (var i = 0; i < RowCount; i++)
@@ -276,7 +256,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>  
-        public override double InfinityNorm()
+        public override Complex InfinityNorm()
         {
             var norm = 0.0;
             for (var i = 0; i < RowCount; i++)
@@ -296,272 +276,45 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         #region Elementary operations
 
         /// <summary>
-        /// Adds another matrix to this matrix. The result will be written into this matrix.
+        /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <param name="result">The matrix to store the result of add</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Add(Matrix<Complex> other)
+        protected override void DoAdd(Matrix<Complex> other, Matrix<Complex> result)
         {
-            var m = other as DenseMatrix;
-            if (m == null)
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+            if (denseOther == null || denseResult == null)
             {
-                base.Add(other);
+                base.DoAdd(other, result);
             }
             else
             {
-                Add(m);
+                Control.LinearAlgebraProvider.AddArrays(Data, denseOther.Data, denseResult.Data);
             }
         }
 
         /// <summary>
-        /// Adds another <see cref="DenseMatrix"/> to this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The <see cref="DenseMatrix"/> to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Add(DenseMatrix other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            Control.LinearAlgebraProvider.AddArrays(Data, other.Data, Data);
-        }
-
-        /// <summary>
-        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
+        /// Subtracts another matrix from this matrix.
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Subtract(Matrix<Complex> other)
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        protected override void DoSubtract(Matrix<Complex> other, Matrix<Complex> result)
         {
-            var m = other as DenseMatrix;
-            if (m == null)
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+            if (denseOther == null || denseResult == null)
             {
-                base.Subtract(other);
+                base.DoSubtract(other, result);
             }
             else
             {
-                Subtract(m);
+                Control.LinearAlgebraProvider.SubtractArrays(Data, denseOther.Data, denseResult.Data);
             }
         }
-
-        /// <summary>
-        /// Subtracts another <see cref="DenseMatrix"/> from this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The <see cref="DenseMatrix"/> to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Subtract(DenseMatrix other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            Control.LinearAlgebraProvider.SubtractArrays(Data, other.Data, Data);
-        }
-
-        /// <summary>
-        /// Multiplies each element of this matrix with a complex.
-        /// </summary>
-        /// <param name="complex">The complex to multiply with.</param>
-        public override void Multiply(Complex complex)
-        {
-            Control.LinearAlgebraProvider.ScaleArray(complex, Data);
-        }
-
-        /// <summary>
-        /// Multiplies this dense matrix with another dense matrix and places the results into the result dense matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void Multiply(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != other.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if (result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var m = other as DenseMatrix;
-            var r = result as DenseMatrix;
-
-            if (m == null || r == null)
-            {
-                base.Multiply(other, result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.MatrixMultiply(
-                    Data, 
-                    RowCount, 
-                    ColumnCount, 
-                    m.Data, 
-                    m.RowCount, 
-                    m.ColumnCount, 
-                    r.Data);
-            }
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex> Multiply(Matrix<Complex> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (ColumnCount != other.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var m = other as DenseMatrix;
-            if (m == null)
-            {
-                return base.Multiply(other);
-            }
-
-            var result = (DenseMatrix)CreateMatrix(RowCount, other.ColumnCount);
-            Multiply(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Multiplies this dense matrix with transpose of another dense matrix and places the results into the result dense matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            var otherDense = other as DenseMatrix;
-            var resultDense = result as DenseMatrix;
-
-            if (otherDense == null || resultDense == null)
-            {
-                base.TransposeAndMultiply(other, result);
-                return;
-            }
-
-            if (ColumnCount != otherDense.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if ((resultDense.RowCount != RowCount) || (resultDense.ColumnCount != otherDense.RowCount))
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                Algorithms.LinearAlgebra.Transpose.Transpose,
-                1.0,
-                Data,
-                RowCount,
-                ColumnCount,
-                otherDense.Data,
-                otherDense.RowCount,
-                otherDense.ColumnCount,
-                1.0,
-                resultDense.Data);
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex> TransposeAndMultiply(Matrix<Complex> other)
-        {
-            var otherDense = other as DenseMatrix;
-            if (otherDense == null)
-            {
-                return base.TransposeAndMultiply(other);
-            }
-
-            if (ColumnCount != otherDense.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var result = (DenseMatrix)CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Multiplies two dense matrices.
-        /// </summary>
-        /// <param name="leftSide">The left matrix to multiply.</param>
-        /// <param name="rightSide">The right matrix to multiply.</param>
-        /// <returns>The result of multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
-        public static DenseMatrix operator *(DenseMatrix leftSide, DenseMatrix rightSide)
-        {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (leftSide.ColumnCount != rightSide.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            return (DenseMatrix)leftSide.Multiply(rightSide);
-        }
-
+    
         #endregion
 
         #region Static constructors for special matrices.
@@ -579,7 +332,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var m = new DenseMatrix(order);
             for (var i = 0; i < order; i++)
             {
-                m[i, i] = Complex.One;
+                m.Data[(i * order) + i] = 1.0;
             }
 
             return m;
@@ -588,145 +341,238 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         #endregion
 
         /// <summary>
-        /// Negate each element of this matrix.
-        /// </summary>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void Negate()
+        /// Returns the conjugate transpose of this matrix.
+        /// </summary>        
+        /// <returns>The conjugate transpose of this matrix.</returns>
+        public override Matrix<Complex> ConjugateTranspose()
         {
-            Multiply(-1);
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<Complex> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
-        {
-            if (numberOfRows < 1)
+            var ret = new DenseMatrix(ColumnCount, RowCount);
+            for (var j = 0; j < ColumnCount; j++)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
+                var index = j * RowCount;
+                for (var i = 0; i < RowCount; i++)
                 {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = new Complex(distribution.Sample(), distribution.Sample());
-                    }
-                });
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<Complex> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
+                    ret.Data[(i * ColumnCount) + j] = Data[index + i].Conjugate();
+                }
             }
 
-            if (numberOfColumns < 1)
+            return ret;
+        }
+
+        /// <summary>
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
+        protected override void DoMultiply(Complex scalar, Matrix<Complex> result)
+        {
+            var denseResult = result as DenseMatrix;
+            if (denseResult == null)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
+                base.DoMultiply(scalar, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.ScaleArray(scalar, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Vector<Complex> rightSide, Vector<Complex> result)
+        {
+            var denseRight = rightSide as DenseVector;
+            var denseResult = result as DenseVector;
+
+            if (denseRight == null || denseResult == null)
+            {
+                base.DoMultiply(rightSide, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0,
+                    Data,
+                    RowCount,
+                    ColumnCount,
+                    denseRight.Data,
+                    denseRight.Count,
+                    1,
+                    0.0,
+                    denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector.
+        /// </summary>
+        /// <param name="leftSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoLeftMultiply(Vector<Complex> leftSide, Vector<Complex> result)
+        {
+            var denseLeft = leftSide as DenseVector;
+            var denseResult = result as DenseVector;
+
+            if (denseLeft == null || denseResult == null)
+            {
+                base.DoLeftMultiply(leftSide, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0,
+                    denseLeft.Data,
+                    1,
+                    denseResult.Count,
+                    Data,
+                    RowCount,
+                    ColumnCount,
+                    0.0,
+                    denseResult.Data);
+            }
+        }
+   
+        /// <summary>
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoMultiply(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  1.0,
+                                  Data,
+                                  RowCount,
+                                  ColumnCount,
+                                  denseOther.Data,
+                                  denseOther.RowCount,
+                                  denseOther.ColumnCount,
+                                  0.0,
+                                  denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeAndMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        {
+             var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoTransposeAndMultiply(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  Algorithms.LinearAlgebra.Transpose.Transpose,
+                                  1.0,
+                                  Data,
+                                  RowCount,
+                                  ColumnCount,
+                                  denseOther.Data,
+                                  denseOther.RowCount,
+                                  denseOther.ColumnCount,
+                                  0.0,
+                                  denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<Complex> result)
+        {
+            var denseResult = result as DenseMatrix;
+
+            if (denseResult == null)
+            {
+                base.DoNegate(result);
+            }
+            else
+            {
+                Array.Copy(Data, denseResult.Data, Data.Length);
+                Control.LinearAlgebraProvider.ScaleArray(-1, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
+        protected override void DoPointwiseMultiply(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoPointwiseMultiply(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(Data, denseOther.Data, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="result">The matrix to store the result of the pointwise division.</param>
+        protected override void DoPointwiseDivide(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoPointwiseDivide(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.PointWiseDivideArrays(Data, denseOther.Data, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Computes the trace of this matrix.
+        /// </summary>
+        /// <returns>The trace of this matrix</returns>
+        /// <exception cref="ArgumentException">If the matrix is not square</exception>
+        public override Complex Trace()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = new Complex(distribution.Sample(), distribution.Sample());
-                    }
-                });
-
-            return matrix;
+            return CommonParallel.Aggregate(0, RowCount, i => Data[(i * RowCount) + i]);
         }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override Complex AddT(Complex val1, Complex val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override Complex SubtractT(Complex val1, Complex val2)
-        {
-            return val1 - val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex MultiplyT(Complex val1, Complex val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override Complex DivideT(Complex val1, Complex val2)
-        {
-            return val1 / val2;
-        }
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(Complex val1)
-        {
-            return val1.Magnitude;
-        }
-        #endregion  
     }
 }
