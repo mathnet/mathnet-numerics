@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,17 +26,14 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using System;
-    using Distributions;
     using LinearAlgebra.Generic;
-    using Properties;
-    using Threading;
+    using LinearAlgebra.Single;
 
-    internal class UserDefinedMatrix : Matrix<float>
+    internal class UserDefinedMatrix : Matrix
     {
         private readonly float[,] _data;
 
-        public UserDefinedMatrix(int order): base(order, order)
+        public UserDefinedMatrix(int order) : base(order, order)
         {
             _data = new float[order, order];
         }
@@ -84,90 +77,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
 
             return m;
-        }
-
-        public override void Negate()
-        {
-            Multiply(-1);
-        }
-
-        public override Matrix<float> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = (float)distribution.Sample();
-                    }
-                });
-
-            return matrix;
-        }
-
-        public override Matrix<float> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = distribution.Sample();
-                    }
-                });
-
-            return matrix;
-        }
-
-        protected sealed override float AddT(float val1, float val2)
-        {
-            return val1 + val2;
-        }
-
-        protected sealed override float SubtractT(float val1, float val2)
-        {
-            return val1 - val2;
-        }
-
-        protected sealed override float MultiplyT(float val1, float val2)
-        {
-            return val1 * val2;
-        }
-
-        protected sealed override float DivideT(float val1, float val2)
-        {
-            return val1 / val2;
-        }
-
-        protected sealed override double AbsoluteT(float val1)
-        {
-            return Math.Abs(val1);
         }
     }
 

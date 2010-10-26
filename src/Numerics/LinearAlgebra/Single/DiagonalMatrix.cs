@@ -28,8 +28,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 {
     using System;
     using System.Linq;
-    using System.Text;
-    using Distributions;
     using Generic;
     using Properties;
     using Threading;
@@ -43,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     /// entries are set. The exception to this is when the off diagonal elements are
     /// 0.0 or NaN; these settings will cause no change to the diagonal matrix.
     /// </remarks>
-    public class DiagonalMatrix : Matrix<float> 
+    public class DiagonalMatrix : Matrix
     {
          /// <summary>
         /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class. This matrix is square with a given size.
@@ -122,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     {
                         Data[i] = array[i, j];
                     }
-                    else if (array[i, j] != 0.0f && !float.IsNaN(array[i, j]))
+                    else if (array[i, j] != 0.0 && !float.IsNaN(array[i, j]))
                     {
                         throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
                     }
@@ -180,7 +178,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 Data[row] = value;
             }
-            else if (value != 0.0f && !float.IsNaN(value))
+            else if (value != 0.0 && !float.IsNaN(value))
             {
                 throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
             }
@@ -279,36 +277,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         #region Elementary operations
+
         /// <summary>
-        /// Adds another matrix to this matrix. The result will be written into this matrix.
+        /// Adds another matrix to this matrix.
         /// </summary>
         /// <param name="other">The matrix to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="other"/> is not <see cref="DiagonalMatrix"/>.</exception>
-        public override void Add(Matrix<float> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            var m = other as DiagonalMatrix;
-            if (m == null)
-            {
-                throw new ArgumentException(Resources.ArgumentTypeMismatch);
-            }
-
-            Add(m);
-        }
-
-        /// <summary>
-        /// Adds another <see cref="DiagonalMatrix"/> to this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The <see cref="DiagonalMatrix"/> to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Add(DiagonalMatrix other)
+        public override Matrix<float> Add(Matrix<float> other)
         {
             if (other == null)
             {
@@ -317,42 +294,73 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
             }
 
-            Control.LinearAlgebraProvider.AddArrays(Data, other.Data, Data);
+            Matrix<float> result;
+            if (other is DiagonalMatrix)
+            {
+                result = new DenseMatrix(RowCount, ColumnCount);
+            }
+            else
+            {
+                result = new DiagonalMatrix(RowCount, ColumnCount);
+            }
+
+            Add(other, result);
+            return result;
         }
 
         /// <summary>
-        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
+        /// Adds another matrix to this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public override void Add(Matrix<float> other, Matrix<float> result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("result", Resources.ArgumentMatrixDimensions);
+            }
+
+            var diagOther = other as DiagonalMatrix;
+            var diagResult = result as DiagonalMatrix;
+
+            if (diagOther == null || diagResult == null)
+            {
+                base.Add(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.AddArrays(Data, diagOther.Data, diagResult.Data);    
+            }
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix.
         /// </summary>
         /// <param name="other">The matrix to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of the subtraction.</returns>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="other"/> is not <see cref="DiagonalMatrix"/>.</exception>
-        public override void Subtract(Matrix<float> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            var m = other as DiagonalMatrix;
-            if (m == null)
-            {
-                throw new ArgumentException(Resources.ArgumentTypeMismatch);
-            }
-
-            Subtract(m);
-        }
-
-        /// <summary>
-        /// Subtracts another <see cref="DiagonalMatrix"/> from this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The <see cref="DiagonalMatrix"/> to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Subtract(DiagonalMatrix other)
+        public override Matrix<float> Subtract(Matrix<float> other)
         {
             if (other == null)
             {
@@ -361,10 +369,63 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
             }
 
-            Control.LinearAlgebraProvider.SubtractArrays(Data, other.Data, Data);
+            Matrix<float> result;
+            if (other is DiagonalMatrix)
+            {
+                result = new DenseMatrix(RowCount, ColumnCount);
+            }
+            else
+            {
+                result = new DiagonalMatrix(RowCount, ColumnCount);
+            }
+
+            Subtract(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix. 
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        public override void Subtract(Matrix<float> other, Matrix<float> result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
+            }
+
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("result", Resources.ArgumentMatrixDimensions);
+            }
+
+            var diagOther = other as DiagonalMatrix;
+            var diagResult = result as DiagonalMatrix;
+
+            if (diagOther == null || diagResult == null)
+            {
+                base.Subtract(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.SubtractArrays(Data, diagOther.Data, diagResult.Data);
+            }
         }
 
         /// <summary>
@@ -420,23 +481,41 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Multiplies each element of this matrix with a scalar.
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="scalar">The scalar to multiply with.</param>
-        public override void Multiply(float scalar)
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public override void Multiply(float scalar, Matrix<float> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
             if (scalar == 0.0)
             {
-                Clear();
+                result.Clear();
                 return;
             }
 
             if (scalar == 1.0)
             {
+                CopyTo(result);
                 return;
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(scalar, Data);
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult == null)
+            {
+                base.Multiply(scalar, result);
+            }
+            else
+            {
+                CopyTo(diagResult);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, diagResult.Data);
+            }
         }
 
         /// <summary>
@@ -693,34 +772,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return result;
         }
 
-        /// <summary>
-        /// Multiplies two diagonal matrices.
-        /// </summary>
-        /// <param name="leftSide">The left matrix to multiply.</param>
-        /// <param name="rightSide">The right matrix to multiply.</param>
-        /// <returns>The result of multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
-        public static DiagonalMatrix operator *(DiagonalMatrix leftSide, DiagonalMatrix rightSide)
-        {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (leftSide.ColumnCount != rightSide.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            return (DiagonalMatrix)leftSide.Multiply(rightSide);
-        }
-
         #endregion
 
         /// <summary>
@@ -883,36 +934,36 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>Calculates the L1 norm.</summary>
         /// <returns>The L1 norm of the matrix.</returns>
-        public override double L1Norm()
+        public override float L1Norm()
         {
             return Data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
         /// <summary>Calculates the L2 norm.</summary>
         /// <returns>The L2 norm of the matrix.</returns>   
-        public override double L2Norm()
+        public override float L2Norm()
         {
             return Data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
-        public override double FrobeniusNorm()
+        public override float FrobeniusNorm()
         {
             var norm = Data.Sum(t => t * t);
-            return Math.Sqrt(norm);
+            return Convert.ToSingle(Math.Sqrt(norm));
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>   
-        public override double InfinityNorm()
+        public override float InfinityNorm()
         {
             return L1Norm();
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>
         /// <returns>The condition number of the matrix.</returns>
-        public override double ConditionNumber()
+        public override float ConditionNumber()
         {
             var maxSv = float.NegativeInfinity;
             var minSv = float.PositiveInfinity;
@@ -1465,50 +1516,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to pointwise multiply with this one.</param>
-        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Matrix<float> other, Matrix<float> result)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
-            var m = other as DiagonalMatrix;
-            var r = result as DiagonalMatrix;
-
-            if (m == null || r == null)
-            {
-                base.PointwiseMultiply(other, result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(Data, m.Data, r.Data);
-            }
-        }
-
-        /// <summary>
         /// Permute the columns of a matrix according to a permutation.
         /// </summary>
         /// <param name="p">The column permutation to apply to this matrix.</param>
@@ -1529,6 +1536,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             throw new InvalidOperationException("Permutations in diagonal matrix are not allowed");
         }
+
         #region Static constructors for special matrices.
 
         /// <summary>
@@ -1551,173 +1559,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         #endregion
-
-        /// <summary>
-        /// Negates each element of this matrix.
-        /// </summary>        
-        public override void Negate()
-        {
-            Multiply(-1);
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<float> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            var mn = Math.Min(numberOfRows, numberOfColumns);
-            CommonParallel.For(0, mn, i => matrix[i, i] = (float)distribution.Sample());
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<float> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = distribution.Sample();
-                    }
-                });
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="format">
-        /// The format to use.
-        /// </param>
-        /// <param name="formatProvider">
-        /// The format provider to use.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString(string format, IFormatProvider formatProvider)
-        {
-            var stringBuilder = new StringBuilder();
-            for (var row = 0; row < RowCount; row++)
-            {
-                for (var column = 0; column < ColumnCount; column++)
-                {
-                    stringBuilder.Append(At(row, column).ToString(format, formatProvider));
-                    if (column != ColumnCount - 1)
-                    {
-                        stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
-                    }
-                }
-
-                if (row != RowCount - 1)
-                {
-                    stringBuilder.Append(Environment.NewLine);
-                }
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override float AddT(float val1, float val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override float SubtractT(float val1, float val2)
-        {
-            return val1 - val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override float MultiplyT(float val1, float val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override float DivideT(float val1, float val2)
-        {
-            return val1 / val2;
-        }
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(float val1)
-        {
-            return Math.Abs(val1);
-        }
-
-        #endregion  
     }
 }

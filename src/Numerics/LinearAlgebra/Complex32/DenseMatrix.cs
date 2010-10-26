@@ -27,7 +27,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using System;
-    using Distributions;
     using Generic;
     using Numerics;
     using Properties;
@@ -36,7 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
     /// </summary>
-    public class DenseMatrix : Matrix<Complex32>
+    public class DenseMatrix : Matrix
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseMatrix"/> class. This matrix is square with a given size.
@@ -219,6 +218,128 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return ret;
         }
 
+        /// <summary>Calculates the L1 norm.</summary>
+        /// <returns>The L1 norm of the matrix.</returns>
+        public override Complex32 L1Norm()
+        {
+            var norm = 0.0f;
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var s = 0.0f;
+                for (var i = 0; i < RowCount; i++)
+                {
+                    s += Data[(j * RowCount) + i].Magnitude;
+                }
+
+                norm = Math.Max(norm, s);
+            }
+
+            return norm;
+        }
+
+        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
+        /// <returns>The Frobenius norm of this matrix.</returns>
+        public override Complex32 FrobeniusNorm()
+        {
+            var transpose = (DenseMatrix)Transpose();
+            var aat = (DenseMatrix)(this * transpose);
+
+            var norm = 0.0f;
+            for (var i = 0; i < RowCount; i++)
+            {
+                norm += aat.Data[(i * RowCount) + i].Magnitude;
+            }
+
+            norm = Convert.ToSingle(Math.Sqrt(norm));
+            return norm;
+        }
+
+        /// <summary>Calculates the infinity norm of this matrix.</summary>
+        /// <returns>The infinity norm of this matrix.</returns>  
+        public override Complex32 InfinityNorm()
+        {
+            var norm = 0.0f;
+            for (var i = 0; i < RowCount; i++)
+            {
+                var s = 0.0f;
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    s += Data[(j * RowCount) + i].Magnitude;
+                }
+
+                norm = Math.Max(norm, s);
+            }
+
+            return norm;
+        }
+
+        #region Elementary operations
+
+        /// <summary>
+        /// Adds another matrix to this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <param name="result">The matrix to store the result of add</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        protected override void DoAdd(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoAdd(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.AddArrays(Data, denseOther.Data, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        protected override void DoSubtract(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoSubtract(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.SubtractArrays(Data, denseOther.Data, denseResult.Data);
+            }
+        }
+    
+        #endregion
+
+        #region Static constructors for special matrices.
+
+        /// <summary>
+        /// Initializes a square <see cref="DenseMatrix"/> with all zero's except for ones on the diagonal.
+        /// </summary>
+        /// <param name="order">the size of the square matrix.</param>
+        /// <returns>A dense identity matrix.</returns>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="order"/> is less than one.
+        /// </exception>
+        public static DenseMatrix Identity(int order)
+        {
+            var m = new DenseMatrix(order);
+            for (var i = 0; i < order; i++)
+            {
+                m.Data[(i * order) + i] = 1.0f;
+            }
+
+            return m;
+        }
+
+        #endregion
+
         /// <summary>
         /// Returns the conjugate transpose of this matrix.
         /// </summary>        
@@ -238,495 +359,220 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return ret;
         }
 
-        /// <summary>Calculates the L1 norm.</summary>
-        /// <returns>The L1 norm of the matrix.</returns>
-        public override double L1Norm()
-        {
-            var norm = 0.0;
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                var s = 0.0;
-                for (var i = 0; i < RowCount; i++)
-                {
-                    s += Data[(j * RowCount) + i].Magnitude;
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
-        }
-
-        /// <summary>Calculates the Frobenius norm of this matrix.</summary>
-        /// <returns>The Frobenius norm of this matrix.</returns>
-        public override double FrobeniusNorm()
-        {
-            var transpose = (DenseMatrix)Transpose();
-            var aat = this * transpose;
-
-            var norm = 0.0;
-            for (var i = 0; i < RowCount; i++)
-            {
-                norm += aat.Data[(i * RowCount) + i].Magnitude;
-            }
-
-            norm = Math.Sqrt(norm);
-            return norm;
-        }
-
-        /// <summary>Calculates the infinity norm of this matrix.</summary>
-        /// <returns>The infinity norm of this matrix.</returns>  
-        public override double InfinityNorm()
-        {
-            var norm = 0.0;
-            for (var i = 0; i < RowCount; i++)
-            {
-                var s = 0.0;
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    s += Data[(j * RowCount) + i].Magnitude;
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
-        }
-
-        #region Elementary operations
-
         /// <summary>
-        /// Adds another matrix to this matrix. The result will be written into this matrix.
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Add(Matrix<Complex32> other)
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
+        protected override void DoMultiply(Complex32 scalar, Matrix<Complex32> result)
         {
-            var m = other as DenseMatrix;
-            if (m == null)
+            var denseResult = result as DenseMatrix;
+            if (denseResult == null)
             {
-                base.Add(other);
+                base.DoMultiply(scalar, result);
             }
             else
             {
-                Add(m);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, denseResult.Data);
             }
         }
 
         /// <summary>
-        /// Adds another <see cref="DenseMatrix"/> to this matrix. The result will be written into this matrix.
+        /// Multiplies this matrix with a vector and places the results into the result vector.
         /// </summary>
-        /// <param name="other">The <see cref="DenseMatrix"/> to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Add(DenseMatrix other)
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
+            var denseRight = rightSide as DenseVector;
+            var denseResult = result as DenseVector;
 
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            if (denseRight == null || denseResult == null)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            Control.LinearAlgebraProvider.AddArrays(Data, other.Data, Data);
-        }
-
-        /// <summary>
-        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Subtract(Matrix<Complex32> other)
-        {
-            var m = other as DenseMatrix;
-            if (m == null)
-            {
-                base.Subtract(other);
+                base.DoMultiply(rightSide, result);
             }
             else
             {
-                Subtract(m);
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0f,
+                    Data,
+                    RowCount,
+                    ColumnCount,
+                    denseRight.Data,
+                    denseRight.Count,
+                    1,
+                    0.0f,
+                    denseResult.Data);
             }
         }
 
         /// <summary>
-        /// Subtracts another <see cref="DenseMatrix"/> from this matrix. The result will be written into this matrix.
+        /// Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector.
         /// </summary>
-        /// <param name="other">The <see cref="DenseMatrix"/> to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Subtract(DenseMatrix other)
+        /// <param name="leftSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoLeftMultiply(Vector<Complex32> leftSide, Vector<Complex32> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
+            var denseLeft = leftSide as DenseVector;
+            var denseResult = result as DenseVector;
 
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
+            if (denseLeft == null || denseResult == null)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                base.DoLeftMultiply(leftSide, result);
             }
-
-            Control.LinearAlgebraProvider.SubtractArrays(Data, other.Data, Data);
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0f,
+                    denseLeft.Data,
+                    1,
+                    denseResult.Count,
+                    Data,
+                    RowCount,
+                    ColumnCount,
+                    0.0f,
+                    denseResult.Data);
+            }
         }
 
         /// <summary>
-        /// Multiplies each element of this matrix with a complex.
-        /// </summary>
-        /// <param name="complex">The complex to multiply with.</param>
-        public override void Multiply(Complex32 complex)
-        {
-            Control.LinearAlgebraProvider.ScaleArray(complex, Data);
-        }
-
-        /// <summary>
-        /// Multiplies this dense matrix with another dense matrix and places the results into the result dense matrix.
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void Multiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        protected override void DoMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
 
-            if (result == null)
+            if (denseOther == null || denseResult == null)
             {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != other.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if (result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var m = other as DenseMatrix;
-            var r = result as DenseMatrix;
-
-            if (m == null || r == null)
-            {
-                base.Multiply(other, result);
+                base.DoMultiply(other, result);
             }
             else
             {
-                Control.LinearAlgebraProvider.MatrixMultiply(
-                    Data, 
-                    RowCount, 
-                    ColumnCount, 
-                    m.Data, 
-                    m.RowCount, 
-                    m.ColumnCount, 
-                    r.Data);
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  1.0f,
+                                  Data,
+                                  RowCount,
+                                  ColumnCount,
+                                  denseOther.Data,
+                                  denseOther.RowCount,
+                                  denseOther.ColumnCount,
+                                  0.0f,
+                                  denseResult.Data);
             }
         }
 
         /// <summary>
-        /// Multiplies this matrix with another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex32> Multiply(Matrix<Complex32> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (ColumnCount != other.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var m = other as DenseMatrix;
-            if (m == null)
-            {
-                return base.Multiply(other);
-            }
-
-            var result = (DenseMatrix)CreateMatrix(RowCount, other.ColumnCount);
-            Multiply(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Multiplies this dense matrix with transpose of another dense matrix and places the results into the result dense matrix.
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        protected override void DoTransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            var otherDense = other as DenseMatrix;
-            var resultDense = result as DenseMatrix;
+             var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
 
-            if (otherDense == null || resultDense == null)
+            if (denseOther == null || denseResult == null)
             {
-                base.TransposeAndMultiply(other, result);
-                return;
+                base.DoTransposeAndMultiply(other, result);
             }
-
-            if (ColumnCount != otherDense.ColumnCount)
+            else
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  Algorithms.LinearAlgebra.Transpose.Transpose,
+                                  1.0f,
+                                  Data,
+                                  RowCount,
+                                  ColumnCount,
+                                  denseOther.Data,
+                                  denseOther.RowCount,
+                                  denseOther.ColumnCount,
+                                  0.0f,
+                                  denseResult.Data);
             }
-
-            if ((resultDense.RowCount != RowCount) || (resultDense.ColumnCount != otherDense.RowCount))
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                Algorithms.LinearAlgebra.Transpose.Transpose,
-                Complex32.One,
-                Data,
-                RowCount,
-                ColumnCount,
-                otherDense.Data,
-                otherDense.RowCount,
-                otherDense.ColumnCount,
-                Complex32.One,
-                resultDense.Data);
         }
 
         /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and returns the result.
+        /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<Complex32> TransposeAndMultiply(Matrix<Complex32> other)
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<Complex32> result)
         {
-            var otherDense = other as DenseMatrix;
-            if (otherDense == null)
-            {
-                return base.TransposeAndMultiply(other);
-            }
+            var denseResult = result as DenseMatrix;
 
-            if (ColumnCount != otherDense.ColumnCount)
+            if (denseResult == null)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                base.DoNegate(result);
             }
-
-            var result = (DenseMatrix)CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
-            return result;
+            else
+            {
+                Array.Copy(Data, denseResult.Data, Data.Length);
+                Control.LinearAlgebraProvider.ScaleArray(-1, denseResult.Data);
+            }
         }
 
         /// <summary>
-        /// Multiplies two dense matrices.
+        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
-        /// <param name="leftSide">The left matrix to multiply.</param>
-        /// <param name="rightSide">The right matrix to multiply.</param>
-        /// <returns>The result of multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
-        public static DenseMatrix operator *(DenseMatrix leftSide, DenseMatrix rightSide)
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
+        protected override void DoPointwiseMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            if (leftSide == null)
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseOther == null || denseResult == null)
             {
-                throw new ArgumentNullException("leftSide");
+                base.DoPointwiseMultiply(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(Data, denseOther.Data, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="result">The matrix to store the result of the pointwise division.</param>
+        protected override void DoPointwiseDivide(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoPointwiseDivide(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.PointWiseDivideArrays(Data, denseOther.Data, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Computes the trace of this matrix.
+        /// </summary>
+        /// <returns>The trace of this matrix</returns>
+        /// <exception cref="ArgumentException">If the matrix is not square</exception>
+        public override Complex32 Trace()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (leftSide.ColumnCount != rightSide.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            return (DenseMatrix)leftSide.Multiply(rightSide);
+            return CommonParallel.Aggregate(0, RowCount, i => Data[(i * RowCount) + i]);
         }
-
-        #endregion
-
-        #region Static constructors for special matrices.
-
-        /// <summary>
-        /// Initializes a square <see cref="DenseMatrix"/> with all zero's except for ones on the diagonal.
-        /// </summary>
-        /// <param name="order">the size of the square matrix.</param>
-        /// <returns>A dense identity matrix.</returns>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="order"/> is less than one.
-        /// </exception>
-        public static DenseMatrix Identity(int order)
-        {
-            var m = new DenseMatrix(order);
-            for (var i = 0; i < order; i++)
-            {
-                m[i, i] = Complex32.One;
-            }
-
-            return m;
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Negate each element of this matrix.
-        /// </summary>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">if the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void Negate()
-        {
-            Multiply(-1);
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<Complex32> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = new Complex32((float)distribution.Sample(), (float)distribution.Sample());
-                    }
-                });
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<Complex32> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = CreateMatrix(numberOfRows, numberOfColumns);
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
-                {
-                    for (var i = 0; i < matrix.RowCount; i++)
-                    {
-                        matrix[i, j] = new Complex32(distribution.Sample(), distribution.Sample());
-                    }
-                });
-
-            return matrix;
-        }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override Complex32 AddT(Complex32 val1, Complex32 val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Subtract two values T-T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override Complex32 SubtractT(Complex32 val1, Complex32 val2)
-        {
-            return val1 - val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Divide two values T/T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override Complex32 DivideT(Complex32 val1, Complex32 val2)
-        {
-            return val1 / val2;
-        }
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(Complex32 val1)
-        {
-            return val1.Magnitude;
-        }
-        #endregion  
     }
 }

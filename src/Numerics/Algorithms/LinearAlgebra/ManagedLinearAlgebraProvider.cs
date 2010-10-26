@@ -229,6 +229,42 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             CommonParallel.For(0, y.Length, index => { result[index] = x[index] * y[index]; });
         }
 
+
+        /// <summary>
+        /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
+        /// to divide elements of vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise division.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+       public void PointWiseDivideArrays(double[] x, double[] y, double[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            CommonParallel.For(0, y.Length, index => { result[index] = x[index] / y[index]; });
+        }
+
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
@@ -2983,6 +3019,41 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
+        /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
+        /// to divide elements of vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise division.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public void PointWiseDivideArrays(float[] x, float[] y, float[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            CommonParallel.For(0, y.Length, index => { result[index] = x[index] / y[index]; });
+        }
+        
+        /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
@@ -5581,7 +5652,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("x");
             }
 
-            if (alpha == 1.0)
+            if (alpha.IsOne())
             {
                 return;
             }
@@ -5719,6 +5790,41 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             CommonParallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
+        }
+
+        /// <summary>
+        /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
+        /// to divide elements of vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise division.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public void PointWiseDivideArrays(Complex[] x, Complex[] y, Complex[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            CommonParallel.For(0, y.Length, index => { result[index] = x[index] / y[index]; });
         }
 
         /// <summary>
@@ -5921,7 +6027,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 rowsC = rowsA;
             }
 
-            if (alpha == 0.0 && beta == 0.0)
+            if (alpha.IsZero() && beta.IsZero())
             {
                 Array.Clear(c, 0, c.Length);
                 return;
@@ -5950,9 +6056,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 bdata = b;
             }
 
-            if (alpha == 1.0)
+            if (alpha.IsOne())
             {
-                if (beta == 0.0)
+                if (beta.IsZero())
                 {
                     if ((int)transposeA > 111 && (int)transposeB > 111)
                     {
@@ -8420,6 +8526,41 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             CommonParallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
+        }
+
+        /// <summary>
+        /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
+        /// to divide elements of vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise division.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public void PointWiseDivideArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            CommonParallel.For(0, y.Length, index => { result[index] = x[index] / y[index]; });
         }
 
         /// <summary>

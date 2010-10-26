@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] = result[index] + scalar);
+                index => result[index] = this[index] + scalar);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] = result[index] * scalar);
+                index => result[index] = this[index] * scalar);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] = result[index] / scalar);
+                index => result[index] = this[index] / scalar);
         }
 
         /// <summary>

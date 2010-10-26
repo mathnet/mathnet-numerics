@@ -31,8 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
-    using System.Text;
-    using Distributions;
     using Generic;
     using Properties;
     using Threading;
@@ -41,7 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
-    public class SparseMatrix : Matrix<double> 
+    public class SparseMatrix : Matrix 
     {
         /// <summary>
         /// Object for use in "lock"
@@ -858,7 +856,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double FrobeniusNorm()
         {
             var transpose = (SparseMatrix)Transpose();
-            var aat = this * transpose;
+            var aat = (SparseMatrix)(this * transpose);
 
             var norm = 0.0;
 
@@ -1033,499 +1031,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
         }
 
-        #region Elementary operations
-
-        /// <summary>
-        /// Adds another matrix to this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Add(Matrix<double> other)
-        {
-            if (ReferenceEquals(this, other))
-            {
-                Multiply(2);
-                return;
-            }
-
-            var m = other as SparseMatrix;
-            if (m == null)
-            {
-                base.Add(other);
-            }
-            else
-            {
-                Add(m);
-            }
-        }
-
-        /// <summary>
-        /// Adds another <see cref="SparseMatrix"/> to this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The <see cref="SparseMatrix"/> to add to this matrix.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Add(SparseMatrix other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            for (var i = 0; i < other.RowCount; i++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = other._rowIndex[i];
-                var endIndex = i < other._rowIndex.Length - 1 ? other._rowIndex[i + 1] : other.NonZerosCount;
-
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    var index = FindItem(i, other._columnIndices[j]);
-                    if (index >= 0)
-                    {
-                        if (_nonZeroValues[index] + other._nonZeroValues[j] == 0.0)
-                        {
-                            DeleteItemByIndex(index, i);
-                        }
-                        else
-                        {
-                            _nonZeroValues[index] += other._nonZeroValues[j];
-                        }
-                    }
-                    else
-                    {
-                        SetValueAt(i, other._columnIndices[j], other._nonZeroValues[j]);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Subtracts another matrix from this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public override void Subtract(Matrix<double> other)
-        {
-            // We are substracting Matrix form itself
-            if (ReferenceEquals(this, other))
-            {
-                Clear();
-                return;
-            }
-
-            var m = other as SparseMatrix;
-            if (m == null)
-            {
-                base.Subtract(other);
-            }
-            else
-            {
-                Subtract(m);
-            }
-        }
-
-        /// <summary>
-        /// Subtracts another <see cref="SparseMatrix"/> from this matrix. The result will be written into this matrix.
-        /// </summary>
-        /// <param name="other">The <see cref="SparseMatrix"/> to subtract.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        public void Subtract(SparseMatrix other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
-            }
-
-            for (var i = 0; i < other.RowCount; i++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = other._rowIndex[i];
-                var endIndex = i < other._rowIndex.Length - 1 ? other._rowIndex[i + 1] : other.NonZerosCount;
-
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    var index = FindItem(i, other._columnIndices[j]);
-                    if (index >= 0)
-                    {
-                        if (_nonZeroValues[index] - other._nonZeroValues[j] == 0.0)
-                        {
-                            DeleteItemByIndex(index, i);
-                        }
-                        else
-                        {
-                            _nonZeroValues[index] -= other._nonZeroValues[j];
-                        }
-                    }
-                    else
-                    {
-                        SetValueAt(i, other._columnIndices[j], -other._nonZeroValues[j]);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Multiplies each element of this matrix with a scalar.
-        /// </summary>
-        /// <param name="scalar">The scalar to multiply with.</param>
-        public override void Multiply(double scalar)
-        {
-            if (1.0.AlmostEqualInDecimalPlaces(scalar, 15))
-            {
-                return;
-            }
-
-            if (0.0.AlmostEqualInDecimalPlaces(scalar, 15))
-            {
-                Clear();
-                return;
-            }
-
-            Control.LinearAlgebraProvider.ScaleArray(scalar, _nonZeroValues);
-        }
-
-        /// <summary>
-        /// Multiplies this sparse matrix with another sparse matrix and places the results into the result sparse matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the Rows x other.Columns.</exception>
-        public override void Multiply(Matrix<double> other, Matrix<double> result)
-        {
-            var otherSparseMatrix = other as SparseMatrix;
-            var resultSparseMatrix = result as SparseMatrix;
-            if (otherSparseMatrix == null || resultSparseMatrix == null)
-            {
-                base.Multiply(other, result);
-                return;
-            }
-
-            if (ColumnCount != otherSparseMatrix.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if (resultSparseMatrix.RowCount != RowCount || resultSparseMatrix.ColumnCount != otherSparseMatrix.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            resultSparseMatrix.Clear();
-            var columnVector = new DenseVector(otherSparseMatrix.RowCount);
-            for (var row = 0; row < RowCount; row++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
-                if (startIndex == endIndex)
-                {
-                    continue;
-                }
-
-                for (var column = 0; column < otherSparseMatrix.ColumnCount; column++)
-                {
-                    // Multiply row of matrix A on column of matrix B
-                    otherSparseMatrix.Column(column, columnVector);
-                    var sum = CommonParallel.Aggregate(
-                        startIndex,
-                        endIndex,
-                        index => _nonZeroValues[index] * columnVector[_columnIndices[index]]);
-                    resultSparseMatrix.SetValueAt(row, column, sum);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Multiplies this matrix with another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>Columns != other.Rows</strong>.</exception>        
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<double> Multiply(Matrix<double> other)
-        {
-            var matrix = other as SparseMatrix;
-            if (matrix == null)
-            {
-                return base.Multiply(other);
-            }
-
-            if (ColumnCount != matrix.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var result = (SparseMatrix)CreateMatrix(RowCount, matrix.ColumnCount);
-            Multiply(matrix, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Multiplies this dense matrix with transpose of another dense matrix and places the results into the result dense matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>
-        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.Rows x other.Columns.</exception>
-        public override void TransposeAndMultiply(Matrix<double> other, Matrix<double> result)
-        {
-            var otherSparse = other as SparseMatrix;
-            var resultSparse = result as SparseMatrix;
-
-            if (otherSparse == null || resultSparse == null)
-            {
-                base.TransposeAndMultiply(other, result);
-                return;
-            }
-
-            if (ColumnCount != otherSparse.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if ((resultSparse.RowCount != RowCount) || (resultSparse.ColumnCount != otherSparse.RowCount))
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            resultSparse.Clear();
-            for (var j = 0; j < RowCount; j++)
-            {
-                // Get the begin / end index for the row
-                var startIndexOther = otherSparse._rowIndex[j];
-                var endIndexOther = j < otherSparse._rowIndex.Length - 1 ? otherSparse._rowIndex[j + 1] : otherSparse.NonZerosCount;
-                if (startIndexOther == endIndexOther)
-                {
-                    continue;
-                }
-
-                for (var i = 0; i < RowCount; i++)
-                {
-                    // Multiply row of matrix A on row of matrix B
-                    // Get the begin / end index for the row
-                    var startIndexThis = _rowIndex[i];
-                    var endIndexThis = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
-                    if (startIndexThis == endIndexThis)
-                    {
-                        continue;
-                    }
-
-                    var i1 = i;
-                    var sum = CommonParallel.Aggregate(
-                        startIndexOther,
-                        endIndexOther,
-                        index =>
-                        {
-                            var ind = FindItem(i1, otherSparse._columnIndices[index]);
-                            return ind >= 0 ? otherSparse._nonZeroValues[index] * _nonZeroValues[ind] : 0.0;
-                        });
-
-                    resultSparse.SetValueAt(i, j, sum + result.At(i, j));
-                }
-            }
-        }
-    
-        /// <summary>
-        /// Multiplies this matrix with transpose of another matrix and returns the result.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <exception cref="ArgumentException">If <strong>this.Columns != other.Rows</strong>.</exception>        
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
-        /// <returns>The result of multiplication.</returns>
-        public override Matrix<double> TransposeAndMultiply(Matrix<double> other)
-        {
-            var otherSparse = other as SparseMatrix;
-            if (otherSparse == null)
-            {
-                return base.TransposeAndMultiply(other);
-            }
-
-            if (ColumnCount != otherSparse.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            var result = (SparseMatrix)CreateMatrix(RowCount, other.RowCount);
-            TransposeAndMultiply(other, result);
-            return result;
-        }
-
-        /// <summary>
-        /// Multiplies two sparse matrices.
-        /// </summary>
-        /// <param name="leftSide">The left matrix to multiply.</param>
-        /// <param name="rightSide">The right matrix to multiply.</param>
-        /// <returns>The result of multiplication.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
-        public static SparseMatrix operator *(SparseMatrix leftSide, SparseMatrix rightSide)
-        {
-            if (leftSide == null)
-            {
-                throw new ArgumentNullException("leftSide");
-            }
-
-            if (rightSide == null)
-            {
-                throw new ArgumentNullException("rightSide");
-            }
-
-            if (leftSide.ColumnCount != rightSide.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            return (SparseMatrix)leftSide.Multiply(rightSide);
-        }
-
-        /// <summary>
-        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to pointwise multiply with this one.</param>
-        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Matrix<double> other, Matrix<double> result)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
-            result.Clear();
-            for (var i = 0; i < other.RowCount; i++)
-            {
-                // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
-
-                for (var j = startIndex; j < endIndex; j++)
-                {
-                    var resVal = _nonZeroValues[j] * other[i, _columnIndices[j]];
-                    if (resVal != 0.0)
-                    {
-                        result[i, _columnIndices[j]] = resVal;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IContinuousDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = (SparseMatrix)CreateMatrix(numberOfRows, numberOfColumns);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    var value = distribution.Sample();
-                    if (value != 0.0)
-                    {
-                        matrix.SetValueAt(i, j, value);
-                    }
-                }
-            }
-
-            return matrix;
-        }
-
-        /// <summary>
-        /// Generates matrix with random elements.
-        /// </summary>
-        /// <param name="numberOfRows">Number of rows.</param>
-        /// <param name="numberOfColumns">Number of columns.</param>
-        /// <param name="distribution">Continuous Random Distribution or Source</param>
-        /// <returns>
-        /// An <c>numberOfRows</c>-by-<c>numberOfColumns</c> matrix with elements distributed according to the provided distribution.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfRows"/> is not positive.</exception>
-        /// <exception cref="ArgumentException">If the parameter <paramref name="numberOfColumns"/> is not positive.</exception>
-        public override Matrix<double> Random(int numberOfRows, int numberOfColumns, IDiscreteDistribution distribution)
-        {
-            if (numberOfRows < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfRows");
-            }
-
-            if (numberOfColumns < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "numberOfColumns");
-            }
-
-            var matrix = (SparseMatrix)CreateMatrix(numberOfRows, numberOfColumns);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    var value = distribution.Sample();
-                    if (value != 0.0)
-                    {
-                        matrix.SetValueAt(i, j, value);
-                    }
-                }
-            }
-
-            return matrix;
-        }
-
-        #endregion
-
         #region Static constructors for special matrices.
         /// <summary>
         /// Initializes a square <see cref="SparseMatrix"/> with all zero's except for ones on the diagonal.
@@ -1554,14 +1059,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return m;
         }
         #endregion
-
-        /// <summary>
-        /// Negates each element of this matrix.
-        /// </summary>        
-        public override void Negate()
-        {
-            Multiply(-1);
-        }
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -1615,94 +1112,332 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Adds another matrix to this matrix.
         /// </summary>
-        /// <param name="format">
-        /// The format to use.
-        /// </param>
-        /// <param name="formatProvider">
-        /// The format provider to use.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override string ToString(string format, IFormatProvider formatProvider)
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        protected override void DoAdd(Matrix<double> other, Matrix<double> result)
         {
-            var stringBuilder = new StringBuilder();
-            for (var row = 0; row < RowCount; row++)
+            result.Clear();
+
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
             {
-                for (var column = 0; column < ColumnCount; column++)
+                for (var i = 0; i < other.RowCount; i++)
                 {
-                    stringBuilder.Append(At(row, column).ToString(format, formatProvider));
-                    if (column != ColumnCount - 1)
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
                     {
-                        stringBuilder.Append(formatProvider.GetTextInfo().ListSeparator);
+                        var resVal = _nonZeroValues[j] + other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0)
+                        {
+                            result.At(i, _columnIndices[j], resVal);
+                        }
                     }
                 }
-
-                if (row != RowCount - 1)
+            }
+            else
+            {
+                for (var i = 0; i < other.RowCount; i++)
                 {
-                    stringBuilder.Append(Environment.NewLine);
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] + other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0)
+                        {
+                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
+                        }
+                    }
                 }
             }
-
-            return stringBuilder.ToString();
-        }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override double AddT(double val1, double val2)
-        {
-            return val1 + val2;
         }
 
         /// <summary>
-        /// Subtract two values T-T
+        /// Subtracts another matrix from this matrix.
         /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of subtract</returns>
-        protected sealed override double SubtractT(double val1, double val2)
+        /// <param name="other">The matrix to subtract to this matrix.</param>
+        /// <param name="result">The matrix to store the result of subtraction.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        protected override void DoSubtract(Matrix<double> other, Matrix<double> result)
         {
-            return val1 - val2;
+            result.Clear();
+
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
+            {
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] - other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0)
+                        {
+                            result.At(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] - other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0)
+                        {
+                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
-        /// Multiply two values T*T
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override double MultiplyT(double val1, double val2)
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
+        protected override void DoMultiply(double scalar, Matrix<double> result)
         {
-            return val1 * val2;
+            if (scalar == 1.0)
+            {
+                CopyTo(result);
+                return;
+            }
+
+            if (scalar == 0.0)
+            {
+                result.Clear();
+                return;
+            }
+
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
+            {
+                base.DoMultiply(scalar, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._nonZeroValues);
+            }
         }
 
         /// <summary>
-        /// Divide two values T/T
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of divide</returns>
-        protected sealed override double DivideT(double val1, double val2)
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Matrix<double> other, Matrix<double> result)
         {
-            return val1 / val2;
+            var otherSparseMatrix = other as SparseMatrix;
+            var resultSparseMatrix = result as SparseMatrix;
+            if (otherSparseMatrix == null || resultSparseMatrix == null)
+            {
+                base.DoMultiply(other, result);
+                return;
+            }
+
+            resultSparseMatrix.Clear();
+            var columnVector = new DenseVector(otherSparseMatrix.RowCount);
+            for (var row = 0; row < RowCount; row++)
+            {
+                // Get the begin / end index for the current row
+                var startIndex = _rowIndex[row];
+                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                if (startIndex == endIndex)
+                {
+                    continue;
+                }
+
+                for (var column = 0; column < otherSparseMatrix.ColumnCount; column++)
+                {
+                    // Multiply row of matrix A on column of matrix B
+                    otherSparseMatrix.Column(column, columnVector);
+                    var sum = CommonParallel.Aggregate(
+                        startIndex,
+                        endIndex,
+                        index => _nonZeroValues[index] * columnVector[_columnIndices[index]]);
+                    resultSparseMatrix.SetValueAt(row, column, sum);
+                }
+            }
         }
 
         /// <summary>
-        /// Take absolute value
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
         /// </summary>
-        /// <param name="val1">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected sealed override double AbsoluteT(double val1)
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            return Math.Abs(val1);
+            var otherSparse = other as SparseMatrix;
+            var resultSparse = result as SparseMatrix;
+
+            if (otherSparse == null || resultSparse == null)
+            {
+                base.DoTransposeAndMultiply(other, result);
+                return;
+            }
+
+            resultSparse.Clear();
+            for (var j = 0; j < RowCount; j++)
+            {
+                // Get the begin / end index for the row
+                var startIndexOther = otherSparse._rowIndex[j];
+                var endIndexOther = j < otherSparse._rowIndex.Length - 1 ? otherSparse._rowIndex[j + 1] : otherSparse.NonZerosCount;
+                if (startIndexOther == endIndexOther)
+                {
+                    continue;
+                }
+
+                for (var i = 0; i < RowCount; i++)
+                {
+                    // Multiply row of matrix A on row of matrix B
+                    // Get the begin / end index for the row
+                    var startIndexThis = _rowIndex[i];
+                    var endIndexThis = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                    if (startIndexThis == endIndexThis)
+                    {
+                        continue;
+                    }
+
+                    var i1 = i;
+                    var sum = CommonParallel.Aggregate(
+                        startIndexOther,
+                        endIndexOther,
+                        index =>
+                        {
+                            var ind = FindItem(i1, otherSparse._columnIndices[index]);
+                            return ind >= 0 ? otherSparse._nonZeroValues[index] * _nonZeroValues[ind] : 0.0;
+                        });
+
+                    resultSparse.SetValueAt(i, j, sum + result.At(i, j));
+                }
+            }
         }
-        #endregion  
+
+        /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<double> result)
+        {
+            CopyTo(result);
+            DoMultiply(-1, result);
+        }
+
+        /// <summary>
+        /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise multiply with this one.</param>
+        /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
+        protected override void DoPointwiseMultiply(Matrix<double> other, Matrix<double> result)
+        {
+            result.Clear();
+
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
+            {
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0)
+                        {
+                            result.At(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0)
+                        {
+                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Pointwise divide this matrix by another matrix and stores the result into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to pointwise divide this one by.</param>
+        /// <param name="result">The matrix to store the result of the pointwise division.</param>
+        protected override void DoPointwiseDivide(Matrix<double> other, Matrix<double> result)
+        {
+            result.Clear();
+
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
+            {
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0)
+                        {
+                            result.At(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < other.RowCount; i++)
+                {
+                    // Get the begin / end index for the current row
+                    var startIndex = _rowIndex[i];
+                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
+                        if (resVal != 0.0)
+                        {
+                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

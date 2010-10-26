@@ -497,7 +497,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 AssertHelpers.AreEqual(Data[i] / 2.0, vector[i]);
             }
 
-            vector.Divide(1.0);
+            vector = vector.Divide(1.0);
             for (var i = 0; i < Data.Length; i++)
             {
                 AssertHelpers.AreEqual(Data[i] / 2.0, vector[i]);
@@ -635,12 +635,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             var vector = CreateVector(Data);
             vector = vector / 2.0;
 
-            for (var i = 0; i < Data.Length; i++)
-            {
-                AssertHelpers.AreEqual(Data[i] / 2.0, vector[i]);
-            }
-
-            vector = vector / 1.0;
             for (var i = 0; i < Data.Length; i++)
             {
                 AssertHelpers.AreEqual(Data[i] / 2.0, vector[i]);

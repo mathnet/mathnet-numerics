@@ -70,35 +70,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\LinearAlgebra\Atlas\AtlasLinearAlgebraProvider.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AtlasLinearAlgebraProvider.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Atlas\SafeNativeMethods.cs">
-      <DependentUpon>SafeNativeMethods.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MklLinearAlgebraProvider.cs</LastGenOutput>
-    </None>
     <None Include="Algorithms\LinearAlgebra\NativeAlgebraProvider.include" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.cs">
-      <DependentUpon>MklLinearAlgebraProvider.tt</DependentUpon>
-      <SubType>Code</SubType>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SafeNativeMethods.tt</DependentUpon>
-    </Compile>
     <Compile Include="Combinatorics.cs" />
     <Compile Include="ComplexExtensions.cs" />
     <Compile Include="Constants.cs" />
@@ -124,18 +99,28 @@
     <Compile Include="Distributions\Multivariate\InverseWishart.cs" />
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
+    <Compile Include="LinearAlgebra\Complex32\DenseMatrix.cs" />
+    <Compile Include="LinearAlgebra\Complex32\DiagonalMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex32\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Complex32\IO\MatlabReader.cs" />
+    <Compile Include="LinearAlgebra\Complex32\Matrix.cs" />
+    <Compile Include="LinearAlgebra\Complex32\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex32\Vector.cs" />
+    <Compile Include="LinearAlgebra\Complex\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\DenseVector.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebra\Complex\DiagonalMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Complex\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\Complex\Matrix.cs" />
+    <Compile Include="LinearAlgebra\Complex\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\Vector.cs" />
+    <Compile Include="LinearAlgebra\Double\DenseMatrix.cs" />
+    <Compile Include="LinearAlgebra\Double\DiagonalMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.cs" />
+    <Compile Include="LinearAlgebra\Double\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\Vector.cs" />
     <Compile Include="LinearAlgebra\Generic\Common.cs" />
     <Compile Include="LinearAlgebra\IO\MatlabReader.cs" />
@@ -212,7 +197,9 @@
     <Compile Include="LinearAlgebra\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\IO\MatrixReader.cs" />
     <Compile Include="LinearAlgebra\IO\MatrixWriter.cs" />
+    <Compile Include="LinearAlgebra\Single\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\DenseVector.cs" />
+    <Compile Include="LinearAlgebra\Single\DiagonalMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\DenseGramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\DenseEvd.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\DenseCholesky.cs" />
@@ -228,6 +215,7 @@
     <Compile Include="LinearAlgebra\Single\IO\DelimitedReader.cs" />
     <Compile Include="LinearAlgebra\Single\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Single\IO\MatlabReader.cs" />
+    <Compile Include="LinearAlgebra\Single\Matrix.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\CompositeSolver.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\GpBiCg.cs" />
@@ -243,6 +231,7 @@
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\IterationCountStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\StopCriterium\ResidualStopCriterium.cs" />
+    <Compile Include="LinearAlgebra\Single\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\SparseVector.cs" />
     <Compile Include="LinearAlgebra\Generic\Factorization\Cholesky.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\DenseCholesky.cs" />
@@ -397,18 +386,6 @@
   <ItemGroup>
     <None Include="..\MathNet.Numerics.snk">
       <Link>MathNet.Numerics.snk</Link>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Atlas\AtlasLinearAlgebraProvider.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AtlasLinearAlgebraProvider.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Atlas\SafeNativeMethods.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
     </None>
     <None Include="Algorithms\LinearAlgebra\SafeNativeMethods.include">
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>

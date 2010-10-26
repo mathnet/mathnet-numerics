@@ -65,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] = result[index] + scalar);
+                index => result[index] = this[index] + scalar);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] = result[index] * scalar);
+                index => result[index] = this[index] * scalar);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             CommonParallel.For(
                 0,
                 Count,
-                index => result[index] = result[index] / scalar);
+                index => result[index] = this[index] / scalar);
         }
 
         /// <summary>

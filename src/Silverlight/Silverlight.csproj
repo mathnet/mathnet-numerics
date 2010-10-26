@@ -317,6 +317,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserSvd.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserSvd.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Matrix.cs">
+      <Link>LinearAlgebra\Complex32\Matrix.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
@@ -415,6 +418,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserSvd.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Matrix.cs">
+      <Link>LinearAlgebra\Complex\Matrix.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs</Link>
@@ -527,6 +533,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserSvd.cs">
       <Link>LinearAlgebra\Double\Factorization\UserSvd.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.cs">
+      <Link>LinearAlgebra\Double\Matrix.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
@@ -634,6 +643,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserSvd.cs">
       <Link>LinearAlgebra\Single\Factorization\UserSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Matrix.cs">
+      <Link>LinearAlgebra\Single\Matrix.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs</Link>
