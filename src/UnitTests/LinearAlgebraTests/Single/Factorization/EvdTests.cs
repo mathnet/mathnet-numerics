@@ -55,15 +55,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var I = DenseMatrix.Identity(order);
             var factorEvd = I.Evd();
 
-            Assert.AreEqual(I.RowCount, factorEvd.EVectors().RowCount);
-            Assert.AreEqual(I.RowCount, factorEvd.EVectors().ColumnCount);
+            Assert.AreEqual(I.RowCount, factorEvd.EigenVectors().RowCount);
+            Assert.AreEqual(I.RowCount, factorEvd.EigenVectors().ColumnCount);
 
             Assert.AreEqual(I.ColumnCount, factorEvd.D().RowCount);
             Assert.AreEqual(I.ColumnCount, factorEvd.D().ColumnCount);
 
-            for (var i = 0; i < factorEvd.EValues().Count; i++)
+            for (var i = 0; i < factorEvd.EigenValues().Count; i++)
             {
-                Assert.AreEqual(Complex.One, factorEvd.EValues()[i]);
+                Assert.AreEqual(Complex.One, factorEvd.EigenValues()[i]);
             }
         }
 
@@ -80,15 +80,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var factorEvd = matrixA.Evd();
 
-            Assert.AreEqual(order, factorEvd.EVectors().RowCount);
-            Assert.AreEqual(order, factorEvd.EVectors().ColumnCount);
+            Assert.AreEqual(order, factorEvd.EigenVectors().RowCount);
+            Assert.AreEqual(order, factorEvd.EigenVectors().ColumnCount);
 
             Assert.AreEqual(order, factorEvd.D().RowCount);
             Assert.AreEqual(order, factorEvd.D().ColumnCount);
 
             // Make sure the A*V = λ*V 
-            var matrixAv = matrixA * factorEvd.EVectors();
-            var matrixLv = factorEvd.EVectors() * factorEvd.D();
+            var matrixAv = matrixA * factorEvd.EigenVectors();
+            var matrixLv = factorEvd.EigenVectors() * factorEvd.D();
 
             for (var i = 0; i < matrixAv.RowCount; i++) 
             {
@@ -113,14 +113,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
             var factorEvd = matrixA.Evd();
 
-            Assert.AreEqual(order, factorEvd.EVectors().RowCount);
-            Assert.AreEqual(order, factorEvd.EVectors().ColumnCount);
+            Assert.AreEqual(order, factorEvd.EigenVectors().RowCount);
+            Assert.AreEqual(order, factorEvd.EigenVectors().ColumnCount);
 
             Assert.AreEqual(order, factorEvd.D().RowCount);
             Assert.AreEqual(order, factorEvd.D().ColumnCount);
 
             // Make sure the A = V*λ*VT 
-            var matrix = factorEvd.EVectors() * factorEvd.D() * factorEvd.EVectors().Transpose();
+            var matrix = factorEvd.EigenVectors() * factorEvd.D() * factorEvd.EigenVectors().Transpose();
 
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -164,7 +164,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             }
             var factorEvd = matrixA.Evd();
 
-            Assert.AreEqual(factorEvd.Determinant, 0);
+            AssertHelpers.AlmostEqual(factorEvd.Determinant, 0, 6);
             Assert.AreEqual(factorEvd.Rank, order - 1);
         }
 

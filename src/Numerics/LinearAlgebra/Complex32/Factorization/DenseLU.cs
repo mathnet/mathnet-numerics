@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Numerics;
     using Properties;
     using Threading;
@@ -45,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public class DenseLU : LU<Complex32>
+    public class DenseLU : LU
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseLU"/> class. This object will compute the
@@ -112,13 +111,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             var dinput = input as DenseMatrix;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do LU factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do LU factorization for dense matrices at the moment.");
             }
 
             var dresult = result as DenseMatrix;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do LU factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do LU factorization for dense matrices at the moment.");
             }
 
             // Copy the contents of input to result.
@@ -161,13 +160,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             var dinput = input as DenseVector;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do LU factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do LU factorization for dense vectors at the moment.");
             }
 
             var dresult = result as DenseVector;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do LU factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do LU factorization for dense vectors at the moment.");
             }
 
             // Copy the contents of input to result.
@@ -188,19 +187,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             Control.LinearAlgebraProvider.LUInverseFactored(result.Data, result.RowCount, Pivots);
             return result;
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
-        {
-            return val1 * val2;
-        }
-        #endregion
     }
 }

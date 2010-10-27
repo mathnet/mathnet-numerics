@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Numerics;
     using Properties;
 
@@ -43,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
     /// </remarks>
-    public class UserGramSchmidt : GramSchmidt<Complex32>
+    public class UserGramSchmidt : GramSchmidt
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserGramSchmidt"/> class. This object creates an unitary matrix 
@@ -250,30 +249,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 result[i] = inputCopy[i];
             }
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the absolute value of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose absolute is to be found</param>
-        /// <returns>Absolute value </returns>
-        protected sealed override double AbsoluteT(Complex32 val1)
-        {
-            return val1.Magnitude;
-        }
-
-        #endregion
     }
 }

@@ -33,7 +33,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using System;
     using System.Numerics;
     using Generic;
-    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -44,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public class UserLU : LU<Complex>
+    public class UserLU : LU
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserLU"/> class. This object will compute the
@@ -299,19 +298,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             return Solve(inverse);
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex MultiplyT(Complex val1, Complex val2)
-        {
-            return val1 * val2;
-        }
-        #endregion
     }
 }

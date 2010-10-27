@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -43,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>
-    public class UserLU : LU<float>
+    public class UserLU : LU
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserLU"/> class. This object will compute the
@@ -298,19 +297,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             return Solve(inverse);
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override float MultiplyT(float val1, float val2)
-        {
-            return val1 * val2;
-        }
-        #endregion
     }
 }

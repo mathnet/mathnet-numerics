@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using System;
     using System.Numerics;
     using Generic;
-    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -48,16 +47,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     /// columns of V represent the eigenvectors in the sense that A*V = V*D,
     /// i.e. A.Multiply(V) equals V.Multiply(D).  The matrix V may be badly
     /// conditioned, or even singular, so the validity of the equation
-    /// A = V*D*Inverse(V) depends upon V.cond().
+    /// A = V*D*Inverse(V) depends upon V.Condition().
     /// </remarks>
-    public class DenseEvd : Evd<Complex>
+    public class DenseEvd : Evd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseEvd"/> class. This object will compute the
         /// the eigenvalue decomposition when the constructor is called and cache it's decomposition.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If EVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
         public DenseEvd(DenseMatrix matrix)
         {
@@ -948,17 +947,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSymmetric);
             }
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex MultiplyT(Complex val1, Complex val2)
-        {
-            return val1 * val2;
         }
     }
 }

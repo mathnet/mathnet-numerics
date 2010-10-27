@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Numerics;
     using Properties;
 
@@ -49,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public class DenseSvd : Svd<Complex32>
+    public class DenseSvd : Svd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseSvd"/> class. This object will compute the
@@ -57,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If SVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
         public DenseSvd(DenseMatrix matrix, bool computeVectors)
         {
@@ -118,13 +117,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             var dinput = input as DenseMatrix;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do SVD factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do SVD factorization for dense matrices at the moment.");
             }
 
             var dresult = result as DenseMatrix;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do SVD factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do SVD factorization for dense matrices at the moment.");
             }
 
             Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Data, input.ColumnCount, dresult.Data);
@@ -168,40 +167,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             var dinput = input as DenseVector;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do SVD factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do SVD factorization for dense vectors at the moment.");
             }
 
             var dresult = result as DenseVector;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do SVD factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do SVD factorization for dense vectors at the moment.");
             }
 
             Control.LinearAlgebraProvider.SvdSolveFactored(MatrixU.RowCount, MatrixVT.ColumnCount, ((DenseVector)VectorS).Data, ((DenseMatrix)MatrixU).Data, ((DenseMatrix)MatrixVT).Data, dinput.Data, 1, dresult.Data);
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the absolute value of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose absolute is to be found</param>
-        /// <returns>Absolute value </returns>
-        protected sealed override double AbsoluteT(Complex32 val1)
-        {
-            return val1.Magnitude;
-        }
-        #endregion
     }
 }

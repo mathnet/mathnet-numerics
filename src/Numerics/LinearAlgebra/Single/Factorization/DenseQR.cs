@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -44,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
     /// </remarks>
-    public class DenseQR : QR<float>
+    public class DenseQR : QR
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseQR"/> class. This object will compute the
@@ -109,13 +108,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var dinput = input as DenseMatrix;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do QR factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do QR factorization for dense matrices at the moment.");
             }
 
             var dresult = result as DenseMatrix;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do QR factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do QR factorization for dense matrices at the moment.");
             }
 
             Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, dinput.Data, input.ColumnCount, dresult.Data);
@@ -154,41 +153,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var dinput = input as DenseVector;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do QR factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
             var dresult = result as DenseVector;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do QR factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
             Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, dinput.Data, 1, dresult.Data);
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override float MultiplyT(float val1, float val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the absolute value of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose absolute is to be found</param>
-        /// <returns>Absolute value </returns>
-        protected sealed override double AbsoluteT(float val1)
-        {
-            return Math.Abs(val1);
-        }
-
-        #endregion
     }
 }

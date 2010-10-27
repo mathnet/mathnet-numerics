@@ -48,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     /// columns of V represent the eigenvectors in the sense that A*V = V*D,
     /// i.e. A.Multiply(V) equals V.Multiply(D).  The matrix V may be badly
     /// conditioned, or even singular, so the validity of the equation
-    /// A = V*D*Inverse(V) depends upon V.cond().
+    /// A = V*D*Inverse(V) depends upon V.Condition().
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class Evd<T> : ISolver<T>
@@ -61,6 +61,32 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         {
             get;
             protected set;
+        }
+
+        /// <summary>
+        /// Gets the absolute value of determinant of the square matrix for which the EVD was computed.
+        /// </summary>
+        public abstract T Determinant
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the effective numerical matrix rank.
+        /// </summary>
+        /// <value>The number of non-negligible singular values.</value>
+        public abstract int Rank
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the matrix is full rank or not.
+        /// </summary>
+        /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
+        public abstract bool IsFullRank
+        {
+            get;
         }
 
         /// <summary>
@@ -141,104 +167,19 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Complex32.Factorization.UserEvd(matrix as Matrix<Complex32>) as Evd<T>;
             }
 
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the absolute value of determinant of the square matrix for which the EVD was computed.
-        /// </summary>
-        public virtual double Determinant
-        {
-            get
-            {
-                var det = Complex.One;
-                for (var i = 0; i < VectorEv.Count; i++)
-                {
-                    det *= VectorEv[i];
-
-                    if (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32))
-                    {
-                        if (((Complex32)VectorEv[i]).AlmostEqual(Complex32.Zero))
-                        {
-                            return 0;
-                        }
-                    }
-                    else
-                    {
-                        if (VectorEv[i].AlmostEqual(Complex.Zero))
-                        {
-                            return 0;
-                        }
-                    }
-                }
-
-                return det.Magnitude;
-            }
-        }
-
-        /// <summary>
-        /// Gets the effective numerical matrix rank.
-        /// </summary>
-        /// <value>The number of non-negligible singular values.</value>
-        public virtual int Rank
-        {
-            get
-            {
-                var rank = 0;
-                for (var i = 0; i < VectorEv.Count; i++)
-                {
-                    if (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32))
-                    {
-                        if (((Complex32)VectorEv[i]).AlmostEqual(Complex32.Zero))
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (VectorEv[i].AlmostEqual(Complex.Zero))
-                        {
-                            continue;
-                        }
-                    }
-
-                    rank++;
-                }
-
-                return rank;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the matrix is full rank or not.
-        /// </summary>
-        /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public virtual bool IsFullRank
-        {
-            get
-            {
-                for (var i = 0; i < VectorEv.Count; i++)
-                {
-                    if (VectorEv[i].AlmostEqual(Complex.Zero))
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
+            throw new NotSupportedException();
         }
 
         /// <summary>Returns the eigen values as a <see cref="Vector{T}"/>.</summary>
         /// <returns>The eigen values.</returns>
-        public Vector<Complex> EValues()
+        public Vector<Complex> EigenValues()
         {
             return VectorEv.Clone();
         }
 
         /// <summary>Returns the right eigen vectors as a <see cref="Matrix{T}"/>.</summary>
         /// <returns>The eigen vectors. </returns>
-        public Matrix<T> EVectors()
+        public Matrix<T> EigenVectors()
         {
             return MatrixEv.Clone();
         }
@@ -299,16 +240,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
         public abstract void Solve(Vector<T> input, Vector<T> result);
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected abstract T MultiplyT(T val1, T val2);
-        
-        #endregion
     }
 }

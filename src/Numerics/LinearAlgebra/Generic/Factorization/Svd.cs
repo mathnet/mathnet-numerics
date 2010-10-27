@@ -95,12 +95,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// Gets the effective numerical matrix rank.
         /// </summary>
         /// <value>The number of non-negligible singular values.</value>
-        public virtual int Rank
+        public abstract int Rank
         {
-            get
-            {
-                return VectorS.Count(t => !AbsoluteT(t).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15));
-            }
+            get;
         }
 
         /// <summary>
@@ -155,59 +152,33 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Complex32.Factorization.UserSvd(matrix as Matrix<Complex32>, computeVectors) as Svd<T>;
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
         /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
-        public virtual T Norm2
+        public abstract T Norm2
         {
-            get
-            {
-                throw new NotImplementedException();
-                //return AbsoluteT(VectorS[0]);
-            }
+            get;
         }
 
         /// <summary>
         /// Gets the condition number <b>max(S) / min(S)</b>
         /// </summary>
         /// <returns>The condition number.</returns>
-        public virtual double ConditionNumber
+        public abstract T ConditionNumber
         {
-            get
-            {
-                var tmp = Math.Min(MatrixU.RowCount, MatrixVT.ColumnCount) - 1;
-                return AbsoluteT(VectorS[0]) / AbsoluteT(VectorS[tmp]);
-            }
+            get;
         }
 
         /// <summary>
         /// Gets the determinant of the square matrix for which the SVD was computed.
         /// </summary>
-        public virtual double Determinant
+        public abstract T Determinant
         {
-            get
-            {
-                if (MatrixU.RowCount != MatrixVT.ColumnCount)
-                {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-                }
-
-                var det = OneValueT;
-                for (var i = 0; i < VectorS.Count; i++)
-                {
-                    det = MultiplyT(det, VectorS[i]);
-                    if (AbsoluteT(VectorS[i]).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15))
-                    {
-                        return 0;
-                    }
-                }
-
-                return AbsoluteT(det);
-            }
+            get;
         }
 
         /// <summary>Returns the left singular vectors as a <see cref="Matrix{T}"/>.</summary>
@@ -312,59 +283,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
         public abstract void Solve(Vector<T> input, Vector<T> result);
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected abstract T MultiplyT(T val1, T val2);
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected abstract double AbsoluteT(T val);
-
-        /// <summary>
-        /// Gets value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        private static T OneValueT
-        {
-            get
-            {
-                if (typeof(T) == typeof(Complex))
-                {
-                    object one = Complex.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(Complex32))
-                {
-                    object one = Complex32.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(double))
-                {
-                    object one = 1.0d;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(float))
-                {
-                    object one = 1.0f;
-                    return (T)one;
-                }
-
-                throw new NotSupportedException();
-            }
-        }
-
-        #endregion
     }
 }

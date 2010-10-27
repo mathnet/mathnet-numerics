@@ -281,6 +281,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Complex32\DiagonalMatrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\Cholesky.cs">
+      <Link>LinearAlgebra\Complex32\Factorization\Cholesky.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\DenseCholesky.cs">
       <Link>LinearAlgebra\Complex32\Factorization\DenseCholesky.cs</Link>
     </Compile>
@@ -298,6 +301,21 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\DenseSvd.cs">
       <Link>LinearAlgebra\Complex32\Factorization\DenseSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\Evd.cs">
+      <Link>LinearAlgebra\Complex32\Factorization\Evd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\GramSchmidt.cs">
+      <Link>LinearAlgebra\Complex32\Factorization\GramSchmidt.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\LU.cs">
+      <Link>LinearAlgebra\Complex32\Factorization\LU.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\QR.cs">
+      <Link>LinearAlgebra\Complex32\Factorization\QR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\Svd.cs">
+      <Link>LinearAlgebra\Complex32\Factorization\Svd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserCholesky.cs</Link>
@@ -383,6 +401,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Complex\DiagonalMatrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\Cholesky.cs">
+      <Link>LinearAlgebra\Complex\Factorization\Cholesky.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseCholesky.cs">
       <Link>LinearAlgebra\Complex\Factorization\DenseCholesky.cs</Link>
     </Compile>
@@ -400,6 +421,21 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseSvd.cs">
       <Link>LinearAlgebra\Complex\Factorization\DenseSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\Evd.cs">
+      <Link>LinearAlgebra\Complex\Factorization\Evd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\GramSchmidt.cs">
+      <Link>LinearAlgebra\Complex\Factorization\GramSchmidt.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\LU.cs">
+      <Link>LinearAlgebra\Complex\Factorization\LU.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\QR.cs">
+      <Link>LinearAlgebra\Complex\Factorization\QR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\Svd.cs">
+      <Link>LinearAlgebra\Complex\Factorization\Svd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserCholesky.cs</Link>
@@ -485,6 +521,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Double\DiagonalMatrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Cholesky.cs">
+      <Link>LinearAlgebra\Double\Factorization\Cholesky.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseCholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseCholesky.cs</Link>
     </Compile>
@@ -503,17 +542,20 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseSvd.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseSvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\SparseCholesky.cs">
-      <Link>LinearAlgebra\Double\Factorization\SparseCholesky.cs</Link>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Evd.cs">
+      <Link>LinearAlgebra\Double\Factorization\Evd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\SparseLU.cs">
-      <Link>LinearAlgebra\Double\Factorization\SparseLU.cs</Link>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\GramSchmidt.cs">
+      <Link>LinearAlgebra\Double\Factorization\GramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\SparseQR.cs">
-      <Link>LinearAlgebra\Double\Factorization\SparseQR.cs</Link>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\LU.cs">
+      <Link>LinearAlgebra\Double\Factorization\LU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\SparseSvd.cs">
-      <Link>LinearAlgebra\Double\Factorization\SparseSvd.cs</Link>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\QR.cs">
+      <Link>LinearAlgebra\Double\Factorization\QR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Svd.cs">
+      <Link>LinearAlgebra\Double\Factorization\Svd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\UserCholesky.cs</Link>
@@ -608,6 +650,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Single\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Single\DiagonalMatrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\Cholesky.cs">
+      <Link>LinearAlgebra\Single\Factorization\Cholesky.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\DenseCholesky.cs">
       <Link>LinearAlgebra\Single\Factorization\DenseCholesky.cs</Link>
     </Compile>
@@ -625,6 +670,21 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\DenseSvd.cs">
       <Link>LinearAlgebra\Single\Factorization\DenseSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\Evd.cs">
+      <Link>LinearAlgebra\Single\Factorization\Evd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\GramSchmidt.cs">
+      <Link>LinearAlgebra\Single\Factorization\GramSchmidt.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\LU.cs">
+      <Link>LinearAlgebra\Single\Factorization\LU.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\QR.cs">
+      <Link>LinearAlgebra\Single\Factorization\QR.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\Svd.cs">
+      <Link>LinearAlgebra\Single\Factorization\Svd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Single\Factorization\UserCholesky.cs</Link>

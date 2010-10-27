@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Complex32.Factorization.UserCholesky(matrix as Matrix<Complex32>) as Cholesky<T>;
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -125,36 +125,17 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public virtual T Determinant
+        public abstract T Determinant
         {
-            get
-            {
-                var det = OneValueT;
-                for (var j = 0; j < CholeskyFactor.RowCount; j++)
-                {
-                    det = MultiplyT(det, MultiplyT(CholeskyFactor[j, j], CholeskyFactor[j, j]));
-                }
-
-                return det;
-            }
+            get;
         }
 
         /// <summary>
         /// Gets the log determinant of the matrix for which the Cholesky matrix was computed.
         /// </summary>
-        public virtual T DeterminantLn
+        public abstract T DeterminantLn
         {
-            get
-            {
-                var det = default(T);
-                for (var j = 0; j < CholeskyFactor.RowCount; j++)
-                {
-                    // det += 2.0 * CholeskyFactor[j, j].NaturalLogarithm();
-                    det = AddT(det, MultiplyT(AddT(OneValueT, OneValueT), LogT(CholeskyFactor[j, j])));
-                }
-
-                return det;
-            }
+            get;
         }
 
         /// <summary>
@@ -206,67 +187,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
         public abstract void Solve(Vector<T> input, Vector<T> result);
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected abstract T AddT(T val1, T val2);
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected abstract T MultiplyT(T val1, T val2);
-
-        /// <summary>
-        /// Returns the natural (base e) logarithm of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose logarithm is to be found</param>
-        /// <returns>Natural (base e) logarithm </returns>
-        protected abstract T LogT(T val1);
-
-        /// <summary>
-        /// Gets value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        private static T OneValueT
-        {
-            get
-            {
-                if (typeof(T) == typeof(Complex))
-                {
-                    object one = Complex.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(Complex32))
-                {
-                    object one = Complex32.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(double))
-                {
-                    object one = 1.0d;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(float))
-                {
-                    object one = 1.0f;
-                    return (T)one;
-                }
-
-                throw new NotSupportedException();
-            }
-        }
-        #endregion
     }
 }
