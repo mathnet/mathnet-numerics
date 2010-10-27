@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -48,7 +47,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>
-    public class UserSvd : Svd<double>
+    public class UserSvd : Svd
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSvd"/> class. This object will compute the
@@ -56,7 +55,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <b>null</b>.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If SVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
         public UserSvd(Matrix<double> matrix, bool computeVectors)
         {
@@ -702,14 +701,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             db = z;
         }
 
-        /// <summary>dded
+        /// <summary>
         /// Calculate Norm 2 of the column <paramref name="column"/> in matrix <paramref name="a"/> starting from row <paramref name="rowStart"/>
         /// </summary>
         /// <param name="a">Source matrix</param>
         /// <param name="rowCount">The number of rows in <paramref name="a"/></param>
         /// <param name="column">Column index</param>
         /// <param name="rowStart">Start row index</param>
-        /// <returns>Norm2 (Euclidean norm) of trhe column</returns>
+        /// <returns>Norm2 (Euclidean norm) of the column</returns>
         private static double Dnrm2Column(Matrix<double> a, int rowCount, int column, int rowStart)
         {
             double s = 0;
@@ -921,30 +920,5 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 result[j] = value;
             }
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override double MultiplyT(double val1, double val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the absolute value of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose absolute is to be found</param>
-        /// <returns>Absolute value </returns>
-        protected sealed override double AbsoluteT(double val1)
-        {
-            return Math.Abs(val1);
-        }
-
-        #endregion
     }
 }

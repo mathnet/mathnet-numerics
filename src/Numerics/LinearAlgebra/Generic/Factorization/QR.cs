@@ -114,7 +114,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Complex32.Factorization.UserQR(matrix as Matrix<Complex32>) as QR<T>;
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -142,47 +142,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <summary>
         /// Gets the absolute determinant value of the matrix for which the QR matrix was computed.
         /// </summary>
-        public virtual double Determinant
+        public abstract T Determinant
         {
-            get
-            {
-                if (MatrixR.RowCount != MatrixR.ColumnCount)
-                {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-                }
-
-                var det = OneValueT;
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
-                {
-                    det = MultiplyT(det, MatrixR.At(i, i));
-                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15))
-                    {
-                        return 0;
-                    }
-                }
-
-                return AbsoluteT(det);
-            }
+            get;
         }
 
         /// <summary>
         /// Gets a value indicating whether the matrix is full rank or not.
         /// </summary>
         /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public virtual bool IsFullRank
+        public abstract bool IsFullRank
         {
-            get
-            {
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
-                {
-                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15))
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
+            get;
         }
 
         /// <summary>
@@ -234,59 +205,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <param name="input">The right hand side vector, <b>b</b>.</param>
         /// <param name="result">The left hand side <see cref="Matrix{T}"/>, <b>x</b>.</param>
         public abstract void Solve(Vector<T> input, Vector<T> result);
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected abstract T MultiplyT(T val1, T val2);
-
-        /// <summary>
-        /// Take absolute value
-        /// </summary>
-        /// <param name="val">Source alue</param>
-        /// <returns>True if one; otherwise false</returns>
-        protected abstract double AbsoluteT(T val);
-
-        /// <summary>
-        /// Gets value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        protected static T OneValueT
-        {
-            get
-            {
-                if (typeof(T) == typeof(Complex))
-                {
-                    object one = Complex.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(Complex32))
-                {
-                    object one = Complex32.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(double))
-                {
-                    object one = 1.0d;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(float))
-                {
-                    object one = 1.0f;
-                    return (T)one;
-                }
-
-                throw new NotSupportedException();
-            }
-        }
-
-        #endregion
     }
 }

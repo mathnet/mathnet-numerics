@@ -33,7 +33,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     using System;
     using System.Linq;
     using Generic;
-    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -45,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
     /// </remarks>
-    public class UserQR : QR<float>
+    public class UserQR : QR
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserQR"/> class. This object will compute the
@@ -91,7 +90,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// Generate column from initial matrix to work array
         /// </summary>
         /// <param name="a">Initial matrix</param>
-        /// <param name="rowStart">The firts row</param>
+        /// <param name="rowStart">The first row</param>
         /// <param name="rowEnd">The last row</param>
         /// <param name="column">Column index</param>
         /// <returns>Generated vector</returns>
@@ -329,29 +328,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 result[i] = inputCopy[i];
             }
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override float MultiplyT(float val1, float val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the absolute value of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose absolute is to be found</param>
-        /// <returns>Absolute value </returns>
-        protected sealed override double AbsoluteT(float val1)
-        {
-            return Math.Abs(val1);
-        }
-        #endregion
     }
 }

@@ -25,7 +25,11 @@ indices
 Frobenius
 Pointwise
 multipcation
-kronecker</UserWords>
+kronecker
+Cholesky
+Eigen
+mxn
+nxn</UserWords>
             </CustomDictionary>
           </Dictionaries>
         </CustomDictionaries>

@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -44,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public class UserCholesky : Cholesky<double>
+    public class UserCholesky : Cholesky
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserCholesky"/> class. This object will compute the
@@ -220,39 +219,5 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 result[i] = sum / CholeskyFactor.At(i, i);
             }
         }
-
-        #region Simple T Mathematics
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override double AddT(double val1, double val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override double MultiplyT(double val1, double val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the natural (base e) logarithm of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose logarithm is to be found</param>
-        /// <returns>Natural (base e) logarithm </returns>
-        protected sealed override double LogT(double val1)
-        {
-            return Math.Log(val1);
-        }
-        #endregion
     }
 }

@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Properties;
 
     /// <summary>
@@ -44,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public class DenseCholesky : Cholesky<float>
+    public class DenseCholesky : Cholesky
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseCholesky"/> class. This object will compute the
@@ -109,13 +108,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var dinput = input as DenseMatrix;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
             }
 
             var dresult = result as DenseMatrix;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
             }
 
             // Copy the contents of input to result.
@@ -158,13 +157,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var dinput = input as DenseVector;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do Cholesky factorization for dense vectors at the moment.");
             }
 
             var dresult = result as DenseVector;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do Cholesky factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do Cholesky factorization for dense vectors at the moment.");
             }
 
             // Copy the contents of input to result.
@@ -174,39 +173,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var dfactor = (DenseMatrix)CholeskyFactor;
             Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.Count, 1);
         }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override float AddT(float val1, float val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override float MultiplyT(float val1, float val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the natural (base e) logarithm of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose logarithm is to be found</param>
-        /// <returns>Natural (base e) logarithm </returns>
-        protected sealed override float LogT(float val1)
-        {
-            return (float)Math.Log(val1);
-        }
-        #endregion
     }
 }

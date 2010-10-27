@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Properties;
     using Threading;
 
@@ -43,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
     /// </remarks>
-    public class DenseGramSchmidt : GramSchmidt<double>
+    public class DenseGramSchmidt : GramSchmidt
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an orthogonal matrix 
@@ -153,13 +152,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var dinput = input as DenseMatrix;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
             }
 
             var dresult = result as DenseMatrix;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
+                throw new NotSupportedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
             }
 
             Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, dinput.Data, input.ColumnCount, dresult.Data);
@@ -198,40 +197,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var dinput = input as DenseVector;
             if (dinput == null)
             {
-                throw new NotImplementedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
             var dresult = result as DenseVector;
             if (dresult == null)
             {
-                throw new NotImplementedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
+                throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
             Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, dinput.Data, 1, dresult.Data);
         }
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override double MultiplyT(double val1, double val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the absolute value of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose absolute is to be found</param>
-        /// <returns>Absolute value </returns>
-        protected sealed override double AbsoluteT(double val1)
-        {
-            return Math.Abs(val1);
-        }
-        #endregion
     }
 }

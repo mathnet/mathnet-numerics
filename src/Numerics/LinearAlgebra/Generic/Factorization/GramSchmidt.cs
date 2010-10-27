@@ -30,7 +30,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     using System.Numerics;
     using Generic;
     using Numerics;
-    using Properties;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition Modified Gram-Schmidt Orthogonalization.</para>
@@ -94,45 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Complex32.Factorization.UserGramSchmidt(matrix as Matrix<Complex32>) as GramSchmidt<T>;
             }
 
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the matrix is full rank or not.
-        /// </summary>
-        /// <value><c>true</c> if the matrix is full rank; otherwise <c>false</c>.</value>
-        public sealed override bool IsFullRank
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Gets the absolute determinant value of the matrix for which the QR matrix was computed.
-        /// </summary>
-        public override double Determinant
-        {
-            get
-            {
-                if (MatrixQ.RowCount != MatrixQ.ColumnCount)
-                {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-                }
-
-                var det = OneValueT;
-                for (var i = 0; i < MatrixR.ColumnCount; i++)
-                {
-                    det = MultiplyT(det, MatrixR.At(i, i));
-                    if (AbsoluteT(MatrixR.At(i, i)).AlmostEqualInDecimalPlaces(0.0, (typeof(T) == typeof(float) || typeof(T) == typeof(Complex32)) ? 7 : 15))
-                    {
-                        return 0;
-                    }
-                }
-
-                return AbsoluteT(det);
-            }
+            throw new NotSupportedException();
         }
     }
 }

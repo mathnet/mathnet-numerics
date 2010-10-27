@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         {
             var matrix = TestMatrices["Singular3x3"];
             var clone = matrix.Clone();
-            clone.Multiply(scalar);
+            clone = clone.Multiply(scalar);
 
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var B = TestMatrices[mtxB];
 
             var matrix = A.Clone();
-            matrix.Add(B);
+            matrix = matrix.Add(B);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -336,7 +336,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var B = TestMatrices[mtxB];
 
             var matrix = A.Clone();
-            matrix.Subtract(B);
+            matrix =  matrix.Subtract(B);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -585,7 +585,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var matrix = TestMatrices[name];
             var copy = matrix.Clone();
 
-            copy.Negate();
+            copy = copy.Negate();
 
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -788,26 +788,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public virtual void PointwiseDivideResult()
         {
-            foreach (var  data in TestMatrices.Values)
+            var data = TestMatrices["Singular3x3"];
+            var other = data.Clone();
+            var result = data.Clone();
+            data.PointwiseDivide(other, result);
+            for (var i = 0; i < data.RowCount; i++)
             {
-                var other = data.Clone();
-                var result = data.Clone();
-                data.PointwiseDivide(other, result);
-                for (var i = 0; i < data.RowCount; i++)
+                for (var j = 0; j < data.ColumnCount; j++)
                 {
-                    for (var j = 0; j < data.ColumnCount; j++)
-                    {
-                        Assert.AreEqual(data[i, j] / other[i, j], result[i, j]);
-                    }
+                    Assert.AreEqual(data[i, j] / other[i, j], result[i, j]);
                 }
+            }
 
-                result = data.PointwiseDivide(other);
-                for (var i = 0; i < data.RowCount; i++)
+            result = data.PointwiseDivide(other);
+            for (var i = 0; i < data.RowCount; i++)
+            {
+                for (var j = 0; j < data.ColumnCount; j++)
                 {
-                    for (var j = 0; j < data.ColumnCount; j++)
-                    {
-                        Assert.AreEqual(data[i, j] / other[i, j], result[i, j]);
-                    }
+                    Assert.AreEqual(data[i, j] / other[i, j], result[i, j]);
                 }
             }
         }

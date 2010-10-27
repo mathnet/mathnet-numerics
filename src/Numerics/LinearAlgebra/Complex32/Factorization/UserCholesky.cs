@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
     using System;
     using Generic;
-    using Generic.Factorization;
     using Numerics;
     using Properties;
 
@@ -45,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
     /// </remarks>
-    public class UserCholesky : Cholesky<Complex32>
+    public class UserCholesky : Cholesky
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UserCholesky"/> class. This object will compute the
@@ -221,39 +220,5 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 result[i] = sum / CholeskyFactor.At(i, i);
             }
         }
-
-        #region Simple arithmetic of type T
-        /// <summary>
-        /// Add two values T+T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of addition</returns>
-        protected sealed override Complex32 AddT(Complex32 val1, Complex32 val2)
-        {
-            return val1 + val2;
-        }
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected sealed override Complex32 MultiplyT(Complex32 val1, Complex32 val2)
-        {
-            return val1 * val2;
-        }
-
-        /// <summary>
-        /// Returns the natural (base e) logarithm of a specified number.
-        /// </summary>
-        /// <param name="val1"> A number whose logarithm is to be found</param>
-        /// <returns>Natural (base e) logarithm </returns>
-        protected sealed override Complex32 LogT(Complex32 val1)
-        {
-            return val1.NaturalLogarithm();
-        }
-        #endregion
     }
 }

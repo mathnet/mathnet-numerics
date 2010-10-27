@@ -46,6 +46,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
+        /// Value of one for T.
+        /// </summary>
+        private static readonly T One = Common.SetOne<T>();
+
+        /// <summary>
         /// Gets or sets both the L and U factors in the same matrix.
         /// </summary>
         protected Matrix<T> Factors
@@ -114,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 return new LinearAlgebra.Complex32.Factorization.UserLU(matrix as Matrix<Complex32>) as LU<T>;
             }
 
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -127,7 +132,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
                 var result = Factors.LowerTriangle();
                 for (var i = 0; i < result.RowCount; i++)
                 {
-                    result.At(i, i, OneValueT);
+                    result.At(i, i, One);
                 }
 
                 return result;
@@ -159,25 +164,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// <summary>
         /// Gets the determinant of the matrix for which the LU factorization was computed.
         /// </summary>
-        public virtual T Determinant
+        public abstract T Determinant
         {
-            get
-            {
-                var det = OneValueT;
-                for (var j = 0; j < Factors.RowCount; j++)
-                {
-                    if (Pivots[j] != j)
-                    {
-                        det = MultiplyT(MinusOneValueT, MultiplyT(det, Factors.At(j, j)));
-                    }
-                    else
-                    {
-                        det = MultiplyT(det, Factors.At(j, j));
-                    }
-                }
-
-                return det;
-            }
+            get;
         }
 
         /// <summary>
@@ -235,89 +224,5 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
         /// </summary>
         /// <returns>The inverse of this matrix.</returns>
         public abstract Matrix<T> Inverse();
-
-        #region Simple arithmetic of type T
-
-        /// <summary>
-        /// Multiply two values T*T
-        /// </summary>
-        /// <param name="val1">Left operand value</param>
-        /// <param name="val2">Right operand value</param>
-        /// <returns>Result of multiplication</returns>
-        protected abstract T MultiplyT(T val1, T val2);
-
-        /// <summary>
-        /// Gets value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        private static T OneValueT
-        {
-            get
-            {
-                if (typeof(T) == typeof(Complex))
-                {
-                    object one = Complex.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(Complex32))
-                {
-                    object one = Complex32.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(double))
-                {
-                    object one = 1.0d;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(float))
-                {
-                    object one = 1.0f;
-                    return (T)one;
-                }
-
-                throw new NotSupportedException();
-            }
-        }
-
-        /// <summary>
-        /// Gets value of type T equal to one
-        /// </summary>
-        /// <returns>One value</returns>
-        private static T MinusOneValueT
-        {
-            get
-            {
-                if (typeof(T) == typeof(Complex))
-                {
-                    object one = -Complex.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(Complex32))
-                {
-                    object one = -Complex32.One;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(double))
-                {
-                    object one = -1.0d;
-                    return (T)one;
-                }
-
-                if (typeof(T) == typeof(float))
-                {
-                    object one = -1.0f;
-                    return (T)one;
-                }
-
-                throw new NotSupportedException();
-            }
-        }
-
-        #endregion
     }
 }
