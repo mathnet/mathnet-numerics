@@ -21,9 +21,9 @@
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();
-            const string expected = @"(1.1, 1.1),(2.2, 2.2),(3.3, 3.3)
-(4.4, 4.4),(5.5, 5.5),(6.6, 6.6)
-(7.7, 7.7),(8.8, 8.8),(9.9, 9.9)";
+            var expected = "(1.1, 1.1),(2.2, 2.2),(3.3, 3.3)" + Environment.NewLine
+                           + "(4.4, 4.4),(5.5, 5.5),(6.6, 6.6)" + Environment.NewLine
+                           + "(7.7, 7.7),(8.8, 8.8),(9.9, 9.9)";
             Assert.AreEqual(expected, text);
         }
 
@@ -41,9 +41,9 @@
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();
-            const string expected = @"(1,1, 1,1).(2,2, 2,2).(3,3, 3,3)
-(4,4, 4,4).(5,5, 5,5).(6,6, 6,6)
-(7,7, 7,7).(8,8, 8,8).(9,9, 9,9)";
+            var expected = "(1,1, 1,1).(2,2, 2,2).(3,3, 3,3)" + Environment.NewLine
+                           + "(4,4, 4,4).(5,5, 5,5).(6,6, 6,6)" + Environment.NewLine
+                           + "(7,7, 7,7).(8,8, 8,8).(9,9, 9,9)";
             Assert.AreEqual(expected, text);
         }
 
@@ -57,9 +57,9 @@
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();
-            const string expected = @"(1.1, 1.1) (2.2, 2.2) (3.3, 3.3)
-(4.4, 4.4) (5.5, 5.5) (6.6, 6.6)
-(7.7, 7.7) (8.8, 8.8) (9.9, 9.9)";
+            var expected = "(1.1, 1.1) (2.2, 2.2) (3.3, 3.3)" + Environment.NewLine
+                           + "(4.4, 4.4) (5.5, 5.5) (6.6, 6.6)" + Environment.NewLine
+                           + "(7.7, 7.7) (8.8, 8.8) (9.9, 9.9)";
             Assert.AreEqual(expected, text);
         }
 
@@ -77,13 +77,10 @@
             var data = stream.ToArray();
             var reader = new StreamReader(new MemoryStream(data));
             var text = reader.ReadToEnd();
-            var expected = "a\tb\tc"
-                + Environment.NewLine
-                + "(1.1, 1.1)\t(2.2, 2.2)\t(3.3, 3.3)"
-                + Environment.NewLine
-                + "(4.4, 4.4)\t(5.5, 5.5)\t(6.6, 6.6)"
-                + Environment.NewLine
-                + "(7.7, 7.7)\t(8.8, 8.8)\t(9.9, 9.9)";
+            var expected = "a\tb\tc" + Environment.NewLine
+                           + "(1.1, 1.1)\t(2.2, 2.2)\t(3.3, 3.3)" + Environment.NewLine
+                           + "(4.4, 4.4)\t(5.5, 5.5)\t(6.6, 6.6)" + Environment.NewLine
+                           + "(7.7, 7.7)\t(8.8, 8.8)\t(9.9, 9.9)";
             Assert.AreEqual(expected, text);
         }
     }
