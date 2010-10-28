@@ -1470,13 +1470,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public virtual void L2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(10.3913473f, matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(10.3913473f, matrix.L2Norm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(4.7540849f, matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(4.7540849f, matrix.L2Norm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(7.1827270f, matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(7.1827270f, matrix.L2Norm(), 6);
         }
     }
 }
