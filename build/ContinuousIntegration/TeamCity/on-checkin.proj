@@ -6,7 +6,7 @@
    
   <Target Name="Test">
     <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../../../src/UnitTests/bin/Release/MathNet.Numerics.UnitTests.dll" />
-    <Exec Command="../../../src/FSharpUnitTests/bin/Release/FSharpUnitTests.exe" IgnoreExitCode="false" />
+    <Exec Command="$(MSBuildProjectDirectory)/../../../src/FSharpUnitTests/bin/Release/FSharpUnitTests.exe" IgnoreExitCode="false" />
   </Target>
   
   <Target Name="StyleCop">
