@@ -15,16 +15,17 @@
         [MultipleAsserts]
         public void CanParseCommaDelimitedData()
         {
-            const string data =
-                @"a,b,c
-1
-""2.2"",0.3e1
-'4',5,6
-";
+            var data = "a,b,c" + Environment.NewLine
+                       + "1" + Environment.NewLine
+                       + "\"2.2\",0.3e1" + Environment.NewLine
+                       + "'4',5,6" + Environment.NewLine;
+
             var reader = new DelimitedReader<DenseMatrix>(',')
                          {
-                             HasHeaderRow = true
+                             HasHeaderRow = true,
+                             CultureInfo = CultureInfo.InvariantCulture
                          };
+
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
@@ -43,13 +44,15 @@
         [MultipleAsserts]
         public void CanParseTabDelimtedData()
         {
-            var data = "1"
-                       + Environment.NewLine
-                       + "\"2.2\"\t\t0.3e1"
-                       + Environment.NewLine
+            var data = "1" + Environment.NewLine
+                       + "\"2.2\"\t\t0.3e1" + Environment.NewLine
                        + "'4'\t5\t6";
 
-            var reader = new DelimitedReader<SparseMatrix>('\t');
+            var reader = new DelimitedReader<SparseMatrix>('\t')
+                         {
+                             CultureInfo = CultureInfo.InvariantCulture
+                         };
+
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
@@ -68,12 +71,15 @@
         [MultipleAsserts]
         public void CanParseWhiteSpaceDelimitedData()
         {
-            const string data =
-                @"1
-""2.2"" 0.3e1
-'4'   5      6
-";
-            var reader = new DelimitedReader<UserDefinedMatrix>();
+            var data = "1" + Environment.NewLine
+                       + "\"2.2\" 0.3e1" + Environment.NewLine
+                       + "'4'   5      6" + Environment.NewLine;
+
+            var reader = new DelimitedReader<UserDefinedMatrix>
+                         {
+                             CultureInfo = CultureInfo.InvariantCulture
+                         };
+
             var matrix = reader.ReadMatrix(new MemoryStream(Encoding.UTF8.GetBytes(data)));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
@@ -92,15 +98,14 @@
         [MultipleAsserts]
         public void CanParsePeriodDelimitedData()
         {
-            const string data =
-                @"a.b.c
-1
-""2,2"".0,3e1
-'4,0'.5,0.6,0
-";
+            var data = "a.b.c" + Environment.NewLine
+                       + "1" + Environment.NewLine
+                       + "\"2,2\".0,3e1" + Environment.NewLine
+                       + "'4,0'.5,0.6,0" + Environment.NewLine;
+
             var reader = new DelimitedReader<DenseMatrix>('.')
                          {
-                             HasHeaderRow = true, 
+                             HasHeaderRow = true,
                              CultureInfo = new CultureInfo("tr-TR")
                          };
 
