@@ -2,32 +2,14 @@
   <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\..\..\lib\Gallio_3.2.517.0\Gallio.MSBuildTasks.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile="..\..\MSBuild_Extension_Pack_3.5.5\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
   
-  <Target Name="Go" DependsOnTargets="PrepareApplyTemplates; Compile; Test; StyleCop; Gendarme" />
-  
-  <PropertyGroup>
-    <Config Condition="'$(Config)' == ''">Debug</Config>
-    <Optimize Condition="'$(Optimize)' == ''">True</Optimize>
-  </PropertyGroup>
-  
-  <Target Name="PrepareApplyTemplates">
-	<!-- regenerate files and update the version number -->
-    <Exec Command="$(MSBuildProjectDirectory)\prepare-t4.bat"/>
-  </Target>
-  
-  <Target Name="Compile" DependsOnTargets="PrepareApplyTemplates">
-    <MSBuild Projects="../../../src/Numerics/Numerics.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" Targets="Clean;Rebuild" />
-    <MSBuild Projects="../../../src/FSharp/FSharp.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" Targets="Clean;Rebuild" />
-    <MSBuild Projects="../../../src/Silverlight/Silverlight.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" Targets="Clean;Rebuild" />
-    <MSBuild Projects="../../../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" Targets="Clean;Rebuild" />
-    <MSBuild Projects="../../../src/FSharpUnitTests/FSharpUnitTests.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" Targets="Clean;Rebuild" />
-  </Target>
-  
-  <Target Name="Test" DependsOnTargets="Compile">
+  <Target Name="Go" DependsOnTargets="Test; StyleCop; Gendarme" />
+   
+  <Target Name="Test">
     <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="./bin/MathNet.Numerics.UnitTests.dll" />
     <Exec Command="$(MSBuildProjectDirectory)/bin/FSharpUnitTests.exe" IgnoreExitCode="false" />
   </Target>
   
-  <Target Name="StyleCop" DependsOnTargets="Compile">
+  <Target Name="StyleCop">
     <CreateItem Include="../../../src/Numerics/**/*.cs">
       <Output TaskParameter="Include" ItemName="StyleCopFiles" />
     </CreateItem>
@@ -41,7 +23,7 @@
     <Warning Text="%(Failures.Identity) - Failed on Line %(Failures.LineNumber). %(Failures.CheckId): %(Failures.Message)" />
   </Target>
   
-  <Target Name="Gendarme" DependsOnTargets="Compile">
+  <Target Name="Gendarme">
     <Exec Command="$(MSBuildProjectDirectory)\..\..\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\..\..\src\Numerics\bin\Debug\MathNet.Numerics.dll"/>
   </Target>
   
