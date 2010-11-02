@@ -583,6 +583,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ddd MMM dd HH:mm:ss yyyy.
+        /// </summary>
+        internal static string MatlabDateHeaderFormat {
+            get {
+                return ResourceManager.GetString("MatlabDateHeaderFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The number of columns of a matrix must be positive..
         /// </summary>
         internal static string MatrixColumnsMustBePositive {
@@ -615,6 +624,15 @@ namespace MathNet.Numerics.Properties {
         internal static string MoreThan2D {
             get {
                 return ResourceManager.GetString("MoreThan2D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name cannot contain a space. name:  {0}.
+        /// </summary>
+        internal static string NameCannotContainASpace {
+            get {
+                return ResourceManager.GetString("NameCannotContainASpace", resourceCulture);
             }
         }
         

@@ -1369,7 +1369,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <returns>
         /// An <see cref="IEnumerator{T}"/> over this vector that contains the position and value of each
-        /// non-zero element.
+        /// element.
         /// </returns>
         /// <remarks>
         /// The enumerator returns a 

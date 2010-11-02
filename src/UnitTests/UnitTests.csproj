@@ -224,6 +224,7 @@
     <Compile Include="LinearAlgebraTests\Double\IO\DelimitedWriterTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\IO\DelimitedReaderTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\IO\MatlabReaderTests.cs" />
+    <Compile Include="LinearAlgebraTests\Double\IO\MatlabWriterTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\BiCgStabTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\GpBiCgTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\Solvers\Iterative\MlkBiCgStabTest.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="LinearAlgebraTests\Single\IO\DelimitedReaderTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\IO\DelimitedWriterTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\IO\MatlabReaderTests.cs" />
+    <Compile Include="LinearAlgebraTests\Single\IO\MatlabWriterTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\ManagedLinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\MatrixLoader.cs" />
