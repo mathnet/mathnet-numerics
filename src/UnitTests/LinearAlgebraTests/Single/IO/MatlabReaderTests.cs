@@ -13,7 +13,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
         {
             var dmr = new MatlabMatrixReader("./data/Matlab/collection.mat");
             var matrices = dmr.ReadMatrices();
-            Assert.AreEqual(30, matrices.Length);
+            Assert.AreEqual(30, matrices.Count);
             foreach (var matrix in matrices)
             {
                 Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
         {
             var dmr = new MatlabMatrixReader("./data/Matlab/collection.mat");
             var matrices = dmr.ReadMatrices(new[] { "Ad", "Au64" });
-            Assert.AreEqual(2, matrices.Length);
+            Assert.AreEqual(2, matrices.Count);
             foreach (var matrix in matrices)
             {
                 Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
@@ -49,11 +49,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
         {
             var dmr = new MatlabMatrixReader("./data/Matlab/collection.mat");
             var matrices = dmr.ReadMatrices(new[] { "Ad" });
-            Assert.AreEqual(1, matrices.Length);
-            Assert.AreEqual(100, matrices[0].RowCount);
-            Assert.AreEqual(100, matrices[0].ColumnCount);
-            AssertHelpers.AlmostEqual(100.431635988639f, matrices[0].FrobeniusNorm(), 6);
-            Assert.AreEqual(typeof(DenseMatrix), matrices[0].GetType());
+            Assert.AreEqual(1, matrices.Count);
+            var ad = matrices["Ad"];
+            Assert.AreEqual(100, ad.RowCount);
+            Assert.AreEqual(100, ad.ColumnCount);
+            AssertHelpers.AlmostEqual(100.431635988639f, ad.FrobeniusNorm(), 6);
+            Assert.AreEqual(typeof(DenseMatrix), ad.GetType());
         }
 
         [Test]

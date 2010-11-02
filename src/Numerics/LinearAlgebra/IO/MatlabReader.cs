@@ -31,6 +31,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Generic;
     using Matlab;
     using Properties;
@@ -144,8 +145,9 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         /// <summary>
         /// Reads all matrices from the file or stream.
         /// </summary>
-        /// <returns>All matrices from the file or stream.</returns>
-        public Matrix<TDataType>[] ReadMatrices()
+        /// <returns>All matrices from the file or stream. The key to the <see cref="IDictionary{T,K}"/> 
+        /// is the matrix's name.</returns>
+        public IDictionary<string, Matrix<TDataType>> ReadMatrices()
         {
             return ReadMatrices(new string[] { });
         }
@@ -155,9 +157,9 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         /// </summary>
         /// <param name="names">The names of the matrices to retrieve.</param>
         /// <returns>
-        /// The named matrices from the file or stream.
-        /// </returns>
-        public Matrix<TDataType>[] ReadMatrices(IEnumerable<string> names)
+        /// The named matrices from the file or stream. The key to the <see cref="IDictionary{T,K}"/> 
+        /// is the matrix's name.</returns>
+        public IDictionary<string, Matrix<TDataType>> ReadMatrices(IEnumerable<string> names)
         {
             Stream stream;
             if (_filename == null)
@@ -173,20 +175,13 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             var parser = new MatlabParser<TDataType>(stream, names);
             var file = parser.Parse();
 
-            var matrices = new Matrix<TDataType>[file.Matrices.Count];
-            var i = 0;
-            foreach (var matrix in file.Matrices.Values)
-            {
-                matrices[i++] = matrix;
-            }
-
             if (_filename != null)
             {
                 stream.Close();
                 stream.Dispose();
             }
 
-            return matrices;
+            return file.Matrices.ToDictionary(matrix => matrix.Key, matrix => matrix.Value);
         }
     }
 }

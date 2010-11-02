@@ -339,4 +339,10 @@
   <data name="StopCriteriumMissing" xml:space="preserve">
     <value>There is no stop criterium in the collection.</value>
   </data>
+  <data name="NameCannotContainASpace" xml:space="preserve">
+    <value>Name cannot contain a space. name:  {0}</value>
+  </data>
+  <data name="MatlabDateHeaderFormat" xml:space="preserve">
+    <value>ddd MMM dd HH:mm:ss yyyy</value>
+  </data>
 </root>

@@ -1160,7 +1160,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
-        /// <seealso cref="OuterProduct"/>
         public Matrix<double> OuterProduct(SparseVector v)
         {
             return OuterProduct(this, v);
@@ -1544,6 +1543,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="IEnumerator{T}"/> over this vector that contains the position and value of each
+        /// element.
+        /// </returns>
+        /// <remarks>
+        /// The enumerator returns a 
+        /// <seealso cref="KeyValuePair{T,K}"/>
+        /// with the key being the element index and the value 
+        /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
+        /// with a zero value.
+        /// </remarks>
+        public override IEnumerable<KeyValuePair<int, double>> GetIndexedEnumerator()
+        {
+            for (var i = 0; i < NonZerosCount; i++)
+            {
+                yield return new KeyValuePair<int, double>(_nonZeroIndices[i], _nonZeroValues[i]);
+            }
         }
     }
 }
