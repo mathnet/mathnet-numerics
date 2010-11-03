@@ -33,6 +33,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     using System;
     using Generic;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization for user matrices.</para>
@@ -67,32 +68,74 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
             CholeskyFactor = matrix.Clone();
-            for (var j = 0; j < CholeskyFactor.RowCount; j++)
+            var tmpColumn = new double[CholeskyFactor.RowCount];
+
+            // Main loop - along the diagonal
+            for (var ij = 0; ij < CholeskyFactor.RowCount; ij++)
             {
-                var d = 0.0;
-                for (var k = 0; k < j; k++)
+                // "Pivot" element
+                var tmpVal = CholeskyFactor.At(ij, ij);
+
+                if (tmpVal > 0.0)
                 {
-                    var s = 0.0;
-                    for (var i = 0; i < k; i++)
+                    tmpVal = Math.Sqrt(tmpVal);
+                    CholeskyFactor.At(ij, ij, tmpVal);
+                    tmpColumn[ij] = tmpVal;
+
+                    // Calculate multipliers and copy to local column
+                    // Current column, below the diagonal
+                    for (var i = ij + 1; i < CholeskyFactor.RowCount; i++)
                     {
-                        s += CholeskyFactor.At(k, i) * CholeskyFactor.At(j, i);
+                        CholeskyFactor.At(i, ij, CholeskyFactor.At(i, ij) / tmpVal);
+                        tmpColumn[i] = CholeskyFactor.At(i, ij);
                     }
 
-                    s = (matrix.At(j, k) - s) / CholeskyFactor.At(k, k);
-                    CholeskyFactor.At(j, k, s);
-                    d += s * s;
+                    // Remaining columns, below the diagonal
+                    DoCholeskyStep(CholeskyFactor, CholeskyFactor.RowCount, ij + 1, CholeskyFactor.RowCount, tmpColumn, Control.NumberOfParallelWorkerThreads);
                 }
-
-                d = matrix.At(j, j) - d;
-                if (d <= 0.0)
+                else
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
 
-                CholeskyFactor.At(j, j, Math.Sqrt(d));
-                for (var k = j + 1; k < CholeskyFactor.RowCount; k++)
+                for (var i = ij + 1; i < CholeskyFactor.RowCount; i++)
                 {
-                    CholeskyFactor.At(j, k, 0.0);
+                    CholeskyFactor.At(ij, i, 0.0);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calculate Cholesky step
+        /// </summary>
+        /// <param name="data">Factor matrix</param>
+        /// <param name="rowDim">Number of rows</param>
+        /// <param name="firstCol">Column start</param>
+        /// <param name="colLimit">Total columns</param>
+        /// <param name="multipliers">Multipliers calculated previously</param>
+        /// <param name="availableCores">Number of available processors</param>
+        private static void DoCholeskyStep(Matrix<double> data, int rowDim, int firstCol, int colLimit, double[] multipliers, int availableCores)
+        {
+            var tmpColCount = colLimit - firstCol;
+
+            if ((availableCores > 1) && (tmpColCount > 200))
+            {
+                var tmpSplit = firstCol + (tmpColCount / 3);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
+                    () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
+            }
+            else
+            {
+                for (var j = firstCol; j < colLimit; j++)
+                {
+                    var tmpVal = multipliers[j];
+                    for (var i = j; i < rowDim; i++)
+                    {
+                        data.At(i, j, data.At(i, j) - (multipliers[i] * tmpVal));
+                    }
                 }
             }
         }
