@@ -4,7 +4,7 @@
     using System.Globalization;
     using System.IO;
     using LinearAlgebra.Double;
-    using LinearAlgebra.Double.IO;
+    using LinearAlgebra.IO;
     using MbUnit.Framework;
 
     [TestFixture]

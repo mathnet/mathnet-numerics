@@ -107,7 +107,6 @@
     <Compile Include="LinearAlgebra\Complex32\Factorization\LU.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\Svd.cs" />
-    <Compile Include="LinearAlgebra\Complex32\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Complex32\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\Complex32\Matrix.cs" />
     <Compile Include="LinearAlgebra\Complex32\SparseMatrix.cs" />
@@ -123,7 +122,6 @@
     <Compile Include="LinearAlgebra\Complex\Factorization\LU.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\Svd.cs" />
-    <Compile Include="LinearAlgebra\Complex\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Complex\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\Complex\Matrix.cs" />
     <Compile Include="LinearAlgebra\Complex\SparseMatrix.cs" />
@@ -135,7 +133,6 @@
     <Compile Include="LinearAlgebra\Double\Factorization\GramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\Svd.cs" />
-    <Compile Include="LinearAlgebra\Double\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\LU.cs" />
     <Compile Include="LinearAlgebra\Double\Matrix.cs" />
     <Compile Include="LinearAlgebra\Double\SparseMatrix.cs" />
@@ -238,7 +235,6 @@
     <Compile Include="LinearAlgebra\Single\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\UserSvd.cs" />
     <Compile Include="LinearAlgebra\Single\IO\DelimitedReader.cs" />
-    <Compile Include="LinearAlgebra\Single\IO\DelimitedWriter.cs" />
     <Compile Include="LinearAlgebra\Single\IO\MatlabReader.cs" />
     <Compile Include="LinearAlgebra\Single\Matrix.cs" />
     <Compile Include="LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs" />

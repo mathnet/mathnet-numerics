@@ -5,7 +5,7 @@
     using System.Numerics;
     using System.IO;
     using LinearAlgebra.Complex;
-    using LinearAlgebra.Complex.IO;
+    using LinearAlgebra.IO;
     using MbUnit.Framework;
 
     [TestFixture]
