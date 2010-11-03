@@ -35,6 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     using System.Numerics;
     using Generic;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
@@ -77,13 +78,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             var u = new Complex[minmn][];
             for (var i = 0; i < minmn; i++)
             {
-                u[i] = GenerateColumn(MatrixR, i, matrix.RowCount - 1, i);
-                ComputeQR(u[i], MatrixR, i, matrix.RowCount - 1, i + 1, matrix.ColumnCount - 1);
+                u[i] = GenerateColumn(MatrixR, i, i);
+                ComputeQR(u[i], MatrixR, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.NumberOfParallelWorkerThreads);
             }
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                ComputeQR(u[i], MatrixQ, i, matrix.RowCount - 1, i, matrix.RowCount - 1);
+                ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i, matrix.RowCount, Control.NumberOfParallelWorkerThreads);
             }
         }
 
@@ -91,27 +92,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// Generate column from initial matrix to work array
         /// </summary>
         /// <param name="a">Initial matrix</param>
-        /// <param name="rowStart">The first row</param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="row">The first row</param>
         /// <param name="column">Column index</param>
         /// <returns>Generated vector</returns>
-        private static Complex[] GenerateColumn(Matrix<Complex> a, int rowStart, int rowEnd, int column)
+        private static Complex[] GenerateColumn(Matrix<Complex> a, int row, int column)
         {
-            var ru = rowEnd - rowStart + 1;
+            var ru = a.RowCount - row;
             var u = new Complex[ru];
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            for (var i = row; i < a.RowCount; i++)
             {
-                u[i - rowStart] = a.At(i, column);
+                u[i - row] = a.At(i, column);
                 a.At(i, column, 0.0);
             }
 
             var norm = u.Aggregate(Complex.Zero, (current, t) => current + (t.Magnitude * t.Magnitude));
             norm = norm.SquareRoot();
 
-            if (rowStart == rowEnd || norm.Magnitude == 0)
+            if (row == a.RowCount - 1 || norm.Magnitude == 0)
             {
-                a.At(rowStart, column, -u[0]);
+                a.At(row, column, -u[0]);
                 u[0] = Math.Sqrt(2.0);
                 return u;
             }
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 norm = norm.Magnitude * (u[0] / u[0].Magnitude);
             }
 
-            a.At(rowStart, column, -norm);
+            a.At(row, column, -norm);
 
             for (var i = 0; i < ru; i++)
             {
@@ -140,40 +140,47 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         }
 
         /// <summary>
-        /// Compute matrix Q or R
+        /// Perform calculation of Q or R
         /// </summary>
-        /// <param name="u">H vectors values</param>
-        /// <param name="a">Matrix to calculate</param>
-        /// <param name="rowStart">Starting row index</param>
-        /// <param name="rowEnd">Ending row index</param>
-        /// <param name="columnStart">Starting column index</param>
-        /// <param name="columnEnd">Ending column index</param>
-        private static void ComputeQR(Complex[] u, Matrix<Complex> a, int rowStart, int rowEnd, int columnStart, int columnEnd)
+        /// <param name="u">Work array</param>
+        /// <param name="a">Q or R matrices</param>
+        /// <param name="rowStart">The first row</param>
+        /// <param name="rowDim">The last row</param>
+        /// <param name="columnStart">The first column</param>
+        /// <param name="columnDim">The last column</param>
+        /// <param name="availableCores">Number of available CPUs</param>
+        private static void ComputeQR(Complex[] u, Matrix<Complex> a, int rowStart, int rowDim, int columnStart, int columnDim, int availableCores)
         {
-            if (rowEnd < rowStart || columnEnd < columnStart)
+            if (rowDim < rowStart || columnDim < columnStart)
             {
                 return;
             }
 
-            var v = new Complex[columnEnd - columnStart + 1];
-            for (var j = columnStart; j <= columnEnd; j++)
-            {
-                v[j - columnStart] = 0.0;
-            }
+            var tmpColCount = columnDim - columnStart;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            if ((availableCores > 1) && (tmpColCount > 200))
             {
-                for (var j = columnStart; j <= columnEnd; j++)
-                {
-                    v[j - columnStart] = v[j - columnStart] + (u[i - rowStart] * a.At(i, j));
-                }
-            }
+                var tmpSplit = columnStart + (tmpColCount / 2);
+                var tmpCores = availableCores / 2;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+                CommonParallel.Invoke(
+                    () => ComputeQR(u, a, rowStart, rowDim, columnStart, tmpSplit, tmpCores),
+                    () => ComputeQR(u, a, rowStart, rowDim, tmpSplit, columnDim, tmpCores));
+            }
+            else
             {
-                for (var j = columnStart; j <= columnEnd; j++)
+                for (var j = columnStart; j < columnDim; j++)
                 {
-                    a.At(i, j, a.At(i, j) - (u[i - rowStart].Conjugate() * v[j - columnStart]));
+                    var scale = Complex.Zero;
+                    for (var i = rowStart; i < rowDim; i++)
+                    {
+                        scale += u[i - rowStart] * a.At(i, j);
+                    }
+
+                    for (var i = rowStart; i < rowDim; i++)
+                    {
+                        a.At(i, j, a.At(i, j) - (u[i - rowStart].Conjugate() * scale));
+                    }
                 }
             }
         }

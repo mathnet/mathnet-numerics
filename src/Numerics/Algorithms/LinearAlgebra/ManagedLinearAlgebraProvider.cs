@@ -229,7 +229,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             CommonParallel.For(0, y.Length, index => { result[index] = x[index] * y[index]; });
         }
 
-
         /// <summary>
         /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
         /// to divide elements of vectors or matrices.
@@ -289,8 +288,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 case Norm.FrobeniusNorm:
                     break;
             }
-
-            return ret;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -1206,36 +1204,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("a");
             }
 
-            for (var j = 0; j < order; j++)
+            var tmpColumn = new double[order];
+
+            // Main loop - along the diagonal
+            for (int ij = 0; ij < order; ij++)
             {
-                var d = 0.0;
-                int index;
-                for (var k = 0; k < j; k++)
+                // "Pivot" element
+                double tmpVal = a[(ij * order) + ij];
+
+                if (tmpVal > 0.0)
                 {
-                    var s = 0.0;
-                    int i;
-                    for (i = 0; i < k; i++)
+                    tmpVal = Math.Sqrt(tmpVal);
+                    a[(ij * order) + ij] = tmpVal;
+                    tmpColumn[ij] = tmpVal;
+
+                    // Calculate multipliers and copy to local column
+                    // Current column, below the diagonal
+                    for (int i = ij + 1; i < order; i++)
                     {
-                        s += a[(i * order) + k] * a[(i * order) + j];
+                        a[(ij * order) + i] /= tmpVal;
+                        tmpColumn[i] = a[(ij * order) + i];
                     }
 
-                    var tmp = k * order;
-                    index = tmp + j;
-                    a[index] = s = (a[index] - s) / a[tmp + k];
-                    d += s * s;
+                    // Remaining columns, below the diagonal
+                    DoCholeskyStep(a, order, ij + 1, order, tmpColumn, Control.NumberOfParallelWorkerThreads);
                 }
-
-                index = (j * order) + j;
-                d = a[index] - d;
-                if (d <= 0.0)
+                else
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
 
-                a[index] = Math.Sqrt(d);
-                for (var k = j + 1; k < order; k++)
+                for (int i = ij + 1; i < order; i++)
                 {
-                    a[(k * order) + j] = 0.0;
+                    a[(i * order) + ij] = 0.0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calculate Cholesky step
+        /// </summary>
+        /// <param name="data">Factor matrix</param>
+        /// <param name="rowDim">Number of rows</param>
+        /// <param name="firstCol">Column start</param>
+        /// <param name="colLimit">Total columns</param>
+        /// <param name="multipliers">Multipliears calculated previously</param>
+        /// <param name="availableCores">Number of available processors</param>
+        private static void DoCholeskyStep(double[] data, int rowDim, int firstCol, int colLimit, double[] multipliers, int availableCores)
+        {
+            var tmpColCount = colLimit - firstCol;
+
+            if ((availableCores > 1) && (tmpColCount > 200))
+            {
+                var tmpSplit = firstCol + (tmpColCount / 3);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
+                    () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
+            }
+            else
+            {
+                for (var j = firstCol; j < colLimit; j++)
+                {
+                    var tmpVal = multipliers[j];
+                    for (var i = j; i < rowDim; i++)
+                    {
+                        data[(j * rowDim) + i] -= multipliers[i] * tmpVal;
+                    }
                 }
             }
         }
@@ -1428,13 +1464,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var minmn = Math.Min(rowsR, columnsR);
             for (var i = 0; i < minmn; i++)
             {
-                GenerateColumn(work, r, rowsR, i, rowsR - 1, i);
-                ComputeQR(work, i, r, rowsR, i, rowsR - 1, i + 1, columnsR - 1);
+                GenerateColumn(work, r, rowsR, i, i);
+                ComputeQR(work, i, r, i, rowsR, i + 1, columnsR, Control.NumberOfParallelWorkerThreads);
             }
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                ComputeQR(work, i, q, rowsR, i, rowsR - 1, i, rowsR - 1);
+                ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.NumberOfParallelWorkerThreads);
             }
 
             work[0] = rowsR * rowsR;
@@ -1448,32 +1484,43 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="workIndex">Index of colunn in work array</param>
         /// <param name="a">Q or R matrices</param>
-        /// <param name="rowCount">The number of rows</param>
         /// <param name="rowStart">The first row in </param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="rowCount">The last row</param>
         /// <param name="columnStart">The first column</param>
-        /// <param name="columnEnd">The last column</param>
-        private static void ComputeQR(double[] work, int workIndex, double[] a, int rowCount, int rowStart, int rowEnd, int columnStart, int columnEnd)
+        /// <param name="columnCount">The last column</param>
+        /// <param name="availableCores">Number of available CPUs</param>
+        private static void ComputeQR(double[] work, int workIndex, double[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
         {
-            if (rowStart > rowEnd || columnStart > columnEnd)
+            if (rowStart > rowCount || columnStart > columnCount)
             {
                 return;
             }
 
-            var vector = new double[columnEnd - columnStart + 1];
-            for (var i = rowStart; i <= rowEnd; i++)
-            {
-                for (var j = columnStart; j <= columnEnd; j++)
-                {
-                    vector[j - columnStart] += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
-                }
-            }
+            var tmpColCount = columnCount - columnStart;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            if ((availableCores > 1) && (tmpColCount > 200))
             {
-                for (var j = columnStart; j <= columnEnd; j++)
+                var tmpSplit = columnStart + (tmpColCount / 2);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => ComputeQR(work, workIndex, a, rowStart, rowCount, columnStart, tmpSplit, tmpCores),
+                    () => ComputeQR(work, workIndex, a, rowStart, rowCount, tmpSplit, columnCount, tmpCores));
+            }
+            else
+            {
+                for (var j = columnStart; j < columnCount; j++)
                 {
-                    a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart] * vector[j - columnStart];
+                    var scale = 0.0;
+                    for (var i = rowStart; i < rowCount; i++)     
+                    {
+                        scale += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
+                    }
+                
+                    for (var i = rowStart; i < rowCount; i++)    
+                    {
+                        a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart] * scale;
+                    }
                 }
             }
         }
@@ -1484,33 +1531,32 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="a">Initial matrix</param>
         /// <param name="rowCount">The number of rows in matrix</param>
-        /// <param name="rowStart">The firts row</param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="row">The firts row</param>
         /// <param name="column">Column index</param>
-        private static void GenerateColumn(double[] work, double[] a, int rowCount, int rowStart, int rowEnd, int column)
+        private static void GenerateColumn(double[] work, double[] a, int rowCount, int row, int column)
         {
             var tmp = column * rowCount;
-            var index = tmp + rowStart;
+            var index = tmp + row;
 
             CommonParallel.For(
-                rowStart,
-                rowEnd + 1,
+                row,
+                rowCount,
                 i =>
                 {
                     var iIndex = tmp + i;
-                    work[iIndex - rowStart] = a[iIndex];
+                    work[iIndex - row] = a[iIndex];
                     a[iIndex] = 0.0;
                 });
 
             var norm = 0.0;
-            for (var i = 0; i < rowEnd - rowStart + 1; ++i)
+            for (var i = 0; i < rowCount - row; ++i)
             {
                 var iindex = tmp + i;
                 norm += work[iindex] * work[iindex];
             }
 
             norm = Math.Sqrt(norm);
-            if (rowStart == rowEnd || norm == 0)
+            if (row == rowCount - 1  || norm == 0)
             {
                 a[index] = -work[tmp];
                 work[tmp] = Math.Sqrt(2.0);
@@ -1524,11 +1570,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             a[index] = -1.0 / scale;
-            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] *= scale);
+            CommonParallel.For(0, rowCount - row, i => work[tmp + i] *= scale);
             work[tmp] += 1.0;
 
             var s = Math.Sqrt(1.0 / work[tmp]);
-            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] *= s);
+            CommonParallel.For(0, rowCount - row, i => work[tmp + i] *= s);
         }
 
         #endregion
@@ -3977,43 +4023,81 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         public void CholeskyFactor(float[] a, int order)
         {
-            var factor = new float[a.Length];
-
-            for (var j = 0; j < order; j++)
+            if (a == null)
             {
-                float d = 0.0f;
-                int index;
-                for (var k = 0; k < j; k++)
+                throw new ArgumentNullException("a");
+            }
+
+            var tmpColumn = new float[order];
+
+            // Main loop - along the diagonal
+            for (var ij = 0; ij < order; ij++)
+            {
+                // "Pivot" element
+                var tmpVal = a[(ij * order) + ij];
+
+                if (tmpVal > 0.0)
                 {
-                    float s = 0.0f;
-                    int i;
-                    for (i = 0; i < k; i++)
+                    tmpVal = (float)Math.Sqrt(tmpVal);
+                    a[(ij * order) + ij] = tmpVal;
+                    tmpColumn[ij] = tmpVal;
+
+                    // Calculate multipliers and copy to local column
+                    // Current column, below the diagonal
+                    for (var i = ij + 1; i < order; i++)
                     {
-                        s += factor[(i * order) + k] * factor[(i * order) + j];
+                        a[(ij * order) + i] /= tmpVal;
+                        tmpColumn[i] = a[(ij * order) + i];
                     }
 
-                    var tmp = k * order;
-                    index = tmp + j;
-                    s = (a[index] - s) / factor[tmp + k];
-                    factor[index] = s;
-                    d += s * s;
+                    // Remaining columns, below the diagonal
+                    DoCholeskyStep(a, order, ij + 1, order, tmpColumn, Control.NumberOfParallelWorkerThreads);
                 }
-
-                index = (j * order) + j;
-                d = a[index] - d;
-                if (d <= 0.0F)
+                else
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
 
-                factor[index] = (float)Math.Sqrt(d);
-                for (var k = j + 1; k < order; k++)
+                for (int i = ij + 1; i < order; i++)
                 {
-                    factor[(k * order) + j] = 0.0F;
+                    a[(i * order) + ij] = 0.0f;
                 }
             }
+        }
 
-            Buffer.BlockCopy(factor, 0, a, 0, factor.Length * Constants.SizeOfFloat);
+        /// <summary>
+        /// Calculate Cholesky step
+        /// </summary>
+        /// <param name="data">Factor matrix</param>
+        /// <param name="rowDim">Number of rows</param>
+        /// <param name="firstCol">Column start</param>
+        /// <param name="colLimit">Total columns</param>
+        /// <param name="multipliers">Multipliears calculated previously</param>
+        /// <param name="availableCores">Number of available processors</param>
+        private static void DoCholeskyStep(float[] data, int rowDim, int firstCol, int colLimit, float[] multipliers, int availableCores)
+        {
+            var tmpColCount = colLimit - firstCol;
+
+            if ((availableCores > 1) && (tmpColCount > 200))
+            {
+                var tmpSplit = firstCol + (tmpColCount / 3);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
+                    () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
+            }
+            else
+            {
+                for (var j = firstCol; j < colLimit; j++)
+                {
+                    var tmpVal = multipliers[j];
+                    for (var i = j; i < rowDim; i++)
+                    {
+                        data[(j * rowDim) + i] -= multipliers[i] * tmpVal;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -4204,13 +4288,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var minmn = Math.Min(rowsR, columnsR);
             for (var i = 0; i < minmn; i++)
             {
-                GenerateColumn(work, r, rowsR, i, rowsR - 1, i);
-                ComputeQR(work, i, r, rowsR, i, rowsR - 1, i + 1, columnsR - 1);
+                GenerateColumn(work, r, rowsR, i, i);
+                ComputeQR(work, i, r, i, rowsR, i + 1, columnsR, Control.NumberOfParallelWorkerThreads);
             }
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                ComputeQR(work, i, q, rowsR, i, rowsR - 1, i, rowsR - 1);
+                ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.NumberOfParallelWorkerThreads);
             }
 
             work[0] = rowsR * rowsR;
@@ -4224,32 +4308,43 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="workIndex">Index of colunn in work array</param>
         /// <param name="a">Q or R matrices</param>
-        /// <param name="rowCount">The number of rows</param>
         /// <param name="rowStart">The first row in </param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="rowCount">The last row</param>
         /// <param name="columnStart">The first column</param>
-        /// <param name="columnEnd">The last column</param>
-        private static void ComputeQR(float[] work, int workIndex, float[] a, int rowCount, int rowStart, int rowEnd, int columnStart, int columnEnd)
+        /// <param name="columnCount">The last column</param>
+        /// <param name="availableCores">Number of available CPUs</param>
+        private static void ComputeQR(float[] work, int workIndex, float[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
         {
-            if (rowStart > rowEnd || columnStart > columnEnd)
+            if (rowStart > rowCount || columnStart > columnCount)
             {
                 return;
             }
 
-            var vector = new float[columnEnd - columnStart + 1];
-            for (var i = rowStart; i <= rowEnd; i++)
-            {
-                for (var j = columnStart; j <= columnEnd; j++)
-                {
-                    vector[j - columnStart] += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
-                }
-            }
+            var tmpColCount = columnCount - columnStart;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            if ((availableCores > 1) && (tmpColCount > 200))
             {
-                for (var j = columnStart; j <= columnEnd; j++)
+                var tmpSplit = columnStart + (tmpColCount / 2);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => ComputeQR(work, workIndex, a, rowStart, rowCount, columnStart, tmpSplit, tmpCores),
+                    () => ComputeQR(work, workIndex, a, rowStart, rowCount, tmpSplit, columnCount, tmpCores));
+            }
+            else
+            {
+                for (var j = columnStart; j < columnCount; j++)
                 {
-                    a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart] * vector[j - columnStart];
+                    var scale = 0.0f;
+                    for (var i = rowStart; i < rowCount; i++)
+                    {
+                        scale += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
+                    }
+
+                    for (var i = rowStart; i < rowCount; i++)
+                    {
+                        a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart] * scale;
+                    }
                 }
             }
         }
@@ -4260,33 +4355,32 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="a">Initial matrix</param>
         /// <param name="rowCount">The number of rows in matrix</param>
-        /// <param name="rowStart">The firts row</param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="row">The firts row</param>
         /// <param name="column">Column index</param>
-        private static void GenerateColumn(float[] work, float[] a, int rowCount, int rowStart, int rowEnd, int column)
+        private static void GenerateColumn(float[] work, float[] a, int rowCount, int row, int column)
         {
             var tmp = column * rowCount;
-            var index = tmp + rowStart;
+            var index = tmp + row;
 
             CommonParallel.For(
-                rowStart,
-                rowEnd + 1,
+                row,
+                rowCount,
                 i =>
                 {
                     var iIndex = tmp + i;
-                    work[iIndex - rowStart] = a[iIndex];
+                    work[iIndex - row] = a[iIndex];
                     a[iIndex] = 0.0f;
                 });
 
             var norm = 0.0;
-            for (var i = 0; i < rowEnd - rowStart + 1; ++i)
+            for (var i = 0; i < rowCount - row; ++i)
             {
                 var iindex = tmp + i;
                 norm += work[iindex] * work[iindex];
             }
 
             norm = Math.Sqrt(norm);
-            if (rowStart == rowEnd || norm == 0)
+            if (row == rowCount - 1 || norm == 0)
             {
                 a[index] = -work[tmp];
                 work[tmp] = (float)Math.Sqrt(2.0);
@@ -4300,11 +4394,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             a[index] = -1.0f / scale;
-            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] *= scale);
+            CommonParallel.For(0, rowCount - row, i => work[tmp + i] *= scale);
             work[tmp] += 1.0f;
 
             var s = (float)Math.Sqrt(1.0 / work[tmp]);
-            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] *= s);
+            CommonParallel.For(0, rowCount - row, i => work[tmp + i] *= s);
         }
 
         #endregion
@@ -6769,35 +6863,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("a");
             }
 
-            for (var i = 0; i < order; i++)
+            var tmpColumn = new Complex[order];
+
+            // Main loop - along the diagonal
+            for (var ij = 0; ij < order; ij++)
             {
-                var d = Complex.Zero;
-                int index;
-                for (var j = 0; j < i; j++)
+                // "Pivot" element
+                var tmpVal = a[(ij * order) + ij];
+
+                if (tmpVal.Real > 0.0)
                 {
-                    var s = Complex.Zero;
-                    for (var k = 0; k < j; k++)
+                    tmpVal = tmpVal.SquareRoot();
+                    a[(ij * order) + ij] = tmpVal;
+                    tmpColumn[ij] = tmpVal;
+
+                    // Calculate multipliers and copy to local column
+                    // Current column, below the diagonal
+                    for (var i = ij + 1; i < order; i++)
                     {
-                        s += a[(k * order) + i] * a[(k * order) + j].Conjugate();
+                        a[(ij * order) + i] /= tmpVal;
+                        tmpColumn[i] = a[(ij * order) + i];
                     }
 
-                    var tmp = j * order;
-                    index = tmp + i;
-                    a[index] = s = (a[index] - s) / a[tmp + j];
-                    d += s * s.Conjugate();
+                    // Remaining columns, below the diagonal
+                    DoCholeskyStep(a, order, ij + 1, order, tmpColumn, Control.NumberOfParallelWorkerThreads);
                 }
-
-                index = (i * order) + i;
-                d = a[index] - d;
-                if (d.Real <= 0.0)
+                else
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
 
-                a[index] = d.SquareRoot();
-                for (var k = i + 1; k < order; k++)
+                for (var i = ij + 1; i < order; i++)
                 {
-                    a[(k * order) + i] = 0.0;
+                    a[(i * order) + ij] = 0.0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calculate Cholesky step
+        /// </summary>
+        /// <param name="data">Factor matrix</param>
+        /// <param name="rowDim">Number of rows</param>
+        /// <param name="firstCol">Column start</param>
+        /// <param name="colLimit">Total columns</param>
+        /// <param name="multipliers">Multipliears calculated previously</param>
+        /// <param name="availableCores">Number of available processors</param>
+        private static void DoCholeskyStep(Complex[] data, int rowDim, int firstCol, int colLimit, Complex[] multipliers, int availableCores)
+        {
+            var tmpColCount = colLimit - firstCol;
+
+            if ((availableCores > 1) && (tmpColCount > 200))
+            {
+                var tmpSplit = firstCol + (tmpColCount / 3);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
+                    () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
+            }
+            else
+            {
+                for (var j = firstCol; j < colLimit; j++)
+                {
+                    var tmpVal = multipliers[j];
+                    for (var i = j; i < rowDim; i++)
+                    {
+                        data[(j * rowDim) + i] -= multipliers[i] * tmpVal.Conjugate();
+                    }
                 }
             }
         }
@@ -6990,13 +7123,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var minmn = Math.Min(rowsR, columnsR);
             for (var i = 0; i < minmn; i++)
             {
-                GenerateColumn(work, r, rowsR, i, rowsR - 1, i);
-                ComputeQR(work, i, r, rowsR, i, rowsR - 1, i + 1, columnsR - 1);
+                GenerateColumn(work, r, rowsR, i, i);
+                ComputeQR(work, i, r, i, rowsR, i + 1, columnsR, Control.NumberOfParallelWorkerThreads);
             }
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                ComputeQR(work, i, q, rowsR, i, rowsR - 1, i, rowsR - 1);
+                ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.NumberOfParallelWorkerThreads);
             }
 
             work[0] = rowsR * rowsR;
@@ -7010,32 +7143,43 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="workIndex">Index of colunn in work array</param>
         /// <param name="a">Q or R matrices</param>
-        /// <param name="rowCount">The number of rows</param>
         /// <param name="rowStart">The first row in </param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="rowCount">The last row</param>
         /// <param name="columnStart">The first column</param>
-        /// <param name="columnEnd">The last column</param>
-        private static void ComputeQR(Complex[] work, int workIndex, Complex[] a, int rowCount, int rowStart, int rowEnd, int columnStart, int columnEnd)
+        /// <param name="columnCount">The last column</param>
+        /// <param name="availableCores">Number of available CPUs</param>
+        private static void ComputeQR(Complex[] work, int workIndex, Complex[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
         {
-            if (rowStart > rowEnd || columnStart > columnEnd)
+            if (rowStart > rowCount || columnStart > columnCount)
             {
                 return;
             }
 
-            var vector = new Complex[columnEnd - columnStart + 1];
-            for (var i = rowStart; i <= rowEnd; i++)
-            {
-                for (var j = columnStart; j <= columnEnd; j++)
-                {
-                    vector[j - columnStart] += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
-                }
-            }
+            var tmpColCount = columnCount - columnStart;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            if ((availableCores > 1) && (tmpColCount > 200))
             {
-                for (var j = columnStart; j <= columnEnd; j++)
+                var tmpSplit = columnStart + (tmpColCount / 2);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => ComputeQR(work, workIndex, a, rowStart, rowCount, columnStart, tmpSplit, tmpCores),
+                    () => ComputeQR(work, workIndex, a, rowStart, rowCount, tmpSplit, columnCount, tmpCores));
+            }
+            else
+            {
+                for (var j = columnStart; j < columnCount; j++)
                 {
-                    a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart].Conjugate() * vector[j - columnStart];
+                    var scale = Complex.Zero;
+                    for (var i = rowStart; i < rowCount; i++)
+                    {
+                        scale += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
+                    }
+
+                    for (var i = rowStart; i < rowCount; i++)
+                    {
+                        a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart].Conjugate() * scale;
+                    }
                 }
             }
         }
@@ -7046,33 +7190,32 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="a">Initial matrix</param>
         /// <param name="rowCount">The number of rows in matrix</param>
-        /// <param name="rowStart">The firts row</param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="row">The firts row</param>
         /// <param name="column">Column index</param>
-        private static void GenerateColumn(Complex[] work, Complex[] a, int rowCount, int rowStart, int rowEnd, int column)
+        private static void GenerateColumn(Complex[] work, Complex[] a, int rowCount, int row, int column)
         {
             var tmp = column * rowCount;
-            var index = tmp + rowStart;
+            var index = tmp + row;
 
             CommonParallel.For(
-                rowStart,
-                rowEnd + 1,
+                row,
+                rowCount,
                 i =>
                 {
                     var iIndex = tmp + i;
-                    work[iIndex - rowStart] = a[iIndex];
+                    work[iIndex - row] = a[iIndex];
                     a[iIndex] = Complex.Zero;
                 });
 
             var norm = Complex.Zero;
-            for (var i = 0; i < rowEnd - rowStart + 1; ++i)
+            for (var i = 0; i < rowCount - row; ++i)
             {
                 var index1 = tmp + i;
                 norm += work[index1].Magnitude * work[index1].Magnitude;
             }
 
             norm = norm.SquareRoot();
-            if (rowStart == rowEnd || norm.Magnitude == 0)
+            if (row == rowCount - 1 || norm.Magnitude == 0)
             {
                 a[index] = -work[tmp];
                 work[tmp] = new Complex(2.0, 0).SquareRoot();
@@ -7085,11 +7228,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             a[index] = -norm;
-            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] /= norm);
+            CommonParallel.For(0, rowCount - row, i => work[tmp + i] /= norm);
             work[tmp] += 1.0;
 
             var s = (1.0 / work[tmp]).SquareRoot();
-            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] = work[tmp + i].Conjugate() * s);
+            CommonParallel.For(0, rowCount - row, i => work[tmp + i] = work[tmp + i].Conjugate() * s);
         }
 
         #endregion
@@ -9505,35 +9648,74 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("a");
             }
 
-            for (var i = 0; i < order; i++)
+            var tmpColumn = new Complex32[order];
+
+            // Main loop - along the diagonal
+            for (var ij = 0; ij < order; ij++)
             {
-                var d = Complex32.Zero;
-                int index;
-                for (var j = 0; j < i; j++)
+                // "Pivot" element
+                var tmpVal = a[(ij * order) + ij];
+
+                if (tmpVal.Real > 0.0)
                 {
-                    var s = Complex32.Zero;
-                    for (var k = 0; k < j; k++)
+                    tmpVal = tmpVal.SquareRoot();
+                    a[(ij * order) + ij] = tmpVal;
+                    tmpColumn[ij] = tmpVal;
+
+                    // Calculate multipliers and copy to local column
+                    // Current column, below the diagonal
+                    for (var i = ij + 1; i < order; i++)
                     {
-                        s += a[(k * order) + i] * a[(k * order) + j].Conjugate();
+                        a[(ij * order) + i] /= tmpVal;
+                        tmpColumn[i] = a[(ij * order) + i];
                     }
 
-                    var tmp = j * order;
-                    index = tmp + i;
-                    a[index] = s = (a[index] - s) / a[tmp + j];
-                    d += s * s.Conjugate();
+                    // Remaining columns, below the diagonal
+                    DoCholeskyStep(a, order, ij + 1, order, tmpColumn, Control.NumberOfParallelWorkerThreads);
                 }
-
-                index = (i * order) + i;
-                d = a[index] - d;
-                if (d.Real <= 0.0f)
+                else
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
 
-                a[index] = d.SquareRoot();
-                for (var k = i + 1; k < order; k++)
+                for (var i = ij + 1; i < order; i++)
                 {
-                    a[(k * order) + i] = 0.0f;
+                    a[(i * order) + ij] = 0.0f;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calculate Cholesky step
+        /// </summary>
+        /// <param name="data">Factor matrix</param>
+        /// <param name="rowDim">Number of rows</param>
+        /// <param name="firstCol">Column start</param>
+        /// <param name="colLimit">Total columns</param>
+        /// <param name="multipliers">Multipliears calculated previously</param>
+        /// <param name="availableCores">Number of available processors</param>
+        private static void DoCholeskyStep(Complex32[] data, int rowDim, int firstCol, int colLimit, Complex32[] multipliers, int availableCores)
+        {
+            var tmpColCount = colLimit - firstCol;
+
+            if ((availableCores > 1) && (tmpColCount > 200))
+            {
+                var tmpSplit = firstCol + (tmpColCount / 3);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
+                    () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
+            }
+            else
+            {
+                for (var j = firstCol; j < colLimit; j++)
+                {
+                    var tmpVal = multipliers[j];
+                    for (var i = j; i < rowDim; i++)
+                    {
+                        data[(j * rowDim) + i] -= multipliers[i] * tmpVal.Conjugate();
+                    }
                 }
             }
         }
@@ -9726,13 +9908,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var minmn = Math.Min(rowsR, columnsR);
             for (var i = 0; i < minmn; i++)
             {
-                GenerateColumn(work, r, rowsR, i, rowsR - 1, i);
-                ComputeQR(work, i, r, rowsR, i, rowsR - 1, i + 1, columnsR - 1);
+                GenerateColumn(work, r, rowsR, i, i);
+                ComputeQR(work, i, r, i, rowsR, i + 1, columnsR, Control.NumberOfParallelWorkerThreads);
             }
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                ComputeQR(work, i, q, rowsR, i, rowsR - 1, i, rowsR - 1);
+                ComputeQR(work, i, q, i, rowsR, i, rowsR, Control.NumberOfParallelWorkerThreads);
             }
 
             work[0] = rowsR * rowsR;
@@ -9746,32 +9928,43 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="workIndex">Index of colunn in work array</param>
         /// <param name="a">Q or R matrices</param>
-        /// <param name="rowCount">The number of rows</param>
         /// <param name="rowStart">The first row in </param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="rowCount">The last row</param>
         /// <param name="columnStart">The first column</param>
-        /// <param name="columnEnd">The last column</param>
-        private static void ComputeQR(Complex32[] work, int workIndex, Complex32[] a, int rowCount, int rowStart, int rowEnd, int columnStart, int columnEnd)
+        /// <param name="columnCount">The last column</param>
+        /// <param name="availableCores">Number of available CPUs</param>
+        private static void ComputeQR(Complex32[] work, int workIndex, Complex32[] a, int rowStart, int rowCount, int columnStart, int columnCount, int availableCores)
         {
-            if (rowStart > rowEnd || columnStart > columnEnd)
+            if (rowStart > rowCount || columnStart > columnCount)
             {
                 return;
             }
 
-            var vector = new Complex32[columnEnd - columnStart + 1];
-            for (var i = rowStart; i <= rowEnd; i++)
-            {
-                for (var j = columnStart; j <= columnEnd; j++)
-                {
-                    vector[j - columnStart] += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
-                }
-            }
+            var tmpColCount = columnCount - columnStart;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            if ((availableCores > 1) && (tmpColCount > 200))
             {
-                for (var j = columnStart; j <= columnEnd; j++)
+                var tmpSplit = columnStart + (tmpColCount / 2);
+                var tmpCores = availableCores / 2;
+
+                CommonParallel.Invoke(
+                    () => ComputeQR(work, workIndex, a, rowStart, rowCount, columnStart, tmpSplit, tmpCores),
+                    () => ComputeQR(work, workIndex, a, rowStart, rowCount, tmpSplit, columnCount, tmpCores));
+            }
+            else
+            {
+                for (var j = columnStart; j < columnCount; j++)
                 {
-                    a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart].Conjugate() * vector[j - columnStart];
+                    var scale = Complex32.Zero;
+                    for (var i = rowStart; i < rowCount; i++)
+                    {
+                        scale += work[(workIndex * rowCount) + i - rowStart] * a[(j * rowCount) + i];
+                    }
+
+                    for (var i = rowStart; i < rowCount; i++)
+                    {
+                        a[(j * rowCount) + i] -= work[(workIndex * rowCount) + i - rowStart].Conjugate() * scale;
+                    }
                 }
             }
         }
@@ -9782,33 +9975,32 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="a">Initial matrix</param>
         /// <param name="rowCount">The number of rows in matrix</param>
-        /// <param name="rowStart">The firts row</param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="row">The firts row</param>
         /// <param name="column">Column index</param>
-        private static void GenerateColumn(Complex32[] work, Complex32[] a, int rowCount, int rowStart, int rowEnd, int column)
+        private static void GenerateColumn(Complex32[] work, Complex32[] a, int rowCount, int row, int column)
         {
             var tmp = column * rowCount;
-            var index = tmp + rowStart;
+            var index = tmp + row;
 
             CommonParallel.For(
-                rowStart,
-                rowEnd + 1,
+                row,
+                rowCount,
                 i =>
                 {
                     var iIndex = tmp + i;
-                    work[iIndex - rowStart] = a[iIndex];
+                    work[iIndex - row] = a[iIndex];
                     a[iIndex] = Complex32.Zero;
                 });
 
             var norm = Complex32.Zero;
-            for (var i = 0; i < rowEnd - rowStart + 1; ++i)
+            for (var i = 0; i < rowCount - row; ++i)
             {
                 var index1 = tmp + i;
                 norm += work[index1].Magnitude * work[index1].Magnitude;
             }
 
             norm = norm.SquareRoot();
-            if (rowStart == rowEnd || norm.Magnitude == 0)
+            if (row == rowCount - 1 || norm.Magnitude == 0)
             {
                 a[index] = -work[tmp];
                 work[tmp] = new Complex32(2.0f, 0).SquareRoot();
@@ -9821,11 +10013,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             a[index] = -norm;
-            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] /= norm);
+            CommonParallel.For(0, rowCount - row, i => work[tmp + i] /= norm);
             work[tmp] += 1.0f;
 
             var s = (1.0f / work[tmp]).SquareRoot();
-            CommonParallel.For(0, rowEnd - rowStart + 1, i => work[tmp + i] = work[tmp + i].Conjugate() * s);
+            CommonParallel.For(0, rowCount - row, i => work[tmp + i] = work[tmp + i].Conjugate() * s);
         }
 
         #endregion

@@ -34,6 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     using System.Linq;
     using Generic;
     using Properties;
+    using Threading;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
@@ -76,13 +77,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var u = new float[minmn][];
             for (var i = 0; i < minmn; i++)
             {
-                u[i] = GenerateColumn(MatrixR, i, matrix.RowCount - 1, i);
-                ComputeQR(u[i], MatrixR, i, matrix.RowCount - 1, i + 1, matrix.ColumnCount - 1);
+                u[i] = GenerateColumn(MatrixR, i, i);
+                ComputeQR(u[i], MatrixR, i, matrix.RowCount, i + 1, matrix.ColumnCount, Control.NumberOfParallelWorkerThreads);
             }
 
             for (var i = minmn - 1; i >= 0; i--)
             {
-                ComputeQR(u[i], MatrixQ, i, matrix.RowCount - 1, i, matrix.RowCount - 1);
+                ComputeQR(u[i], MatrixQ, i, matrix.RowCount, i, matrix.RowCount, Control.NumberOfParallelWorkerThreads);
             }
         }
 
@@ -90,27 +91,26 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// Generate column from initial matrix to work array
         /// </summary>
         /// <param name="a">Initial matrix</param>
-        /// <param name="rowStart">The first row</param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="row">The first row</param>
         /// <param name="column">Column index</param>
         /// <returns>Generated vector</returns>
-        private static float[] GenerateColumn(Matrix<float> a, int rowStart, int rowEnd, int column)
+        private static float[] GenerateColumn(Matrix<float> a, int row, int column)
         {
-            var ru = rowEnd - rowStart + 1;
+            var ru = a.RowCount - row;
             var u = new float[ru];
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            for (var i = row; i < a.RowCount; i++)
             {
-                u[i - rowStart] = a.At(i, rowStart);
-                a.At(i, rowStart, 0.0f);
+                u[i - row] = a.At(i, row);
+                a.At(i, row, 0.0f);
             }
 
             var norm = u.Sum(t => t * t);
             norm = (float)Math.Sqrt(norm);
 
-            if (rowStart == rowEnd || norm == 0)
+            if (row == a.RowCount - 1 || norm == 0)
             {
-                a.At(rowStart, column, -u[0]);
+                a.At(row, column, -u[0]);
                 u[0] = (float)Math.Sqrt(2.0);
                 return u;
             }
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 scale *= -1.0f;
             }
 
-            a.At(rowStart, column, -1.0f / scale);
+            a.At(row, column, -1.0f / scale);
 
             for (var i = 0; i < ru; i++)
             {
@@ -145,35 +145,42 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <param name="u">Work array</param>
         /// <param name="a">Q or R matrices</param>
         /// <param name="rowStart">The first row</param>
-        /// <param name="rowEnd">The last row</param>
+        /// <param name="rowDim">The last row</param>
         /// <param name="columnStart">The first column</param>
-        /// <param name="columnEnd">The last column</param>
-        private static void ComputeQR(float[] u, Matrix<float> a, int rowStart, int rowEnd, int columnStart, int columnEnd)
+        /// <param name="columnDim">The last column</param>
+        /// <param name="availableCores">Number of available CPUs</param>
+        private static void ComputeQR(float[] u, Matrix<float> a, int rowStart, int rowDim, int columnStart, int columnDim, int availableCores)
         {
-            if (rowEnd < rowStart || columnEnd < columnStart)
+            if (rowDim < rowStart || columnDim < columnStart)
             {
                 return;
             }
 
-            var v = new float[columnEnd - columnStart + 1];
-            for (var j = columnStart; j <= columnEnd; j++)
-            {
-                v[j - columnStart] = 0.0f;
-            }
+            var tmpColCount = columnDim - columnStart;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+            if ((availableCores > 1) && (tmpColCount > 200))
             {
-                for (var j = columnStart; j <= columnEnd; j++)
-                {
-                    v[j - columnStart] = v[j - columnStart] + (u[i - rowStart] * a.At(i, j));
-                }
-            }
+                var tmpSplit = columnStart + (tmpColCount / 2);
+                var tmpCores = availableCores / 2;
 
-            for (var i = rowStart; i <= rowEnd; i++)
+                CommonParallel.Invoke(
+                    () => ComputeQR(u, a, rowStart, rowDim, columnStart, tmpSplit, tmpCores),
+                    () => ComputeQR(u, a, rowStart, rowDim, tmpSplit, columnDim, tmpCores));
+            }
+            else
             {
-                for (var j = columnStart; j <= columnEnd; j++)
+                for (var j = columnStart; j < columnDim; j++)
                 {
-                    a.At(i, j, a.At(i, j) - (u[i - rowStart] * v[j - columnStart]));
+                    var scale = 0.0f;
+                    for (var i = rowStart; i < rowDim; i++)
+                    {
+                        scale += u[i - rowStart] * a.At(i, j);
+                    }
+
+                    for (var i = rowStart; i < rowDim; i++)
+                    {
+                        a.At(i, j, a.At(i, j) - (u[i - rowStart] * scale));
+                    }
                 }
             }
         }
