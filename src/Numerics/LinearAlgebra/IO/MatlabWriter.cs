@@ -221,11 +221,12 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         /// </summary>
         /// <param name="writer">The writer we are using.</param>
         /// <param name="arrayClass">The array class we are writing.</param>
+        /// <param name="isComplex">if set to <c>true</c> if this a complex matrix.</param>
         /// <param name="name">The name name of the matrix.</param>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The columns of columns.</param>
         /// <param name="nzmax">The maximum number of non-zero elements.</param>
-        private static void WriteMatrixTagAndName(BinaryWriter writer, ArrayClass arrayClass, string name, int rows, int columns, int nzmax)
+        private static void WriteMatrixTagAndName(BinaryWriter writer, ArrayClass arrayClass, bool isComplex, string name, int rows, int columns, int nzmax)
         {
             writer.Write((int)DataType.Matrix);
             
@@ -238,7 +239,14 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
             // write array class and flags 
             writer.Write((byte)arrayClass);
-            writer.Write((byte)0);
+            if (isComplex)
+            {
+                writer.Write((byte)ArrayFlags.Complex);
+            }
+            else
+            {
+                writer.Write((byte)0);
+            }
 
             writer.Write((short)0);
             writer.Write(nzmax);
@@ -299,7 +307,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             using (var dataMemoryStream = new MemoryStream())
             using (var dataWriter = new BinaryWriter(dataMemoryStream))
             {
-                WriteMatrixTagAndName(dataWriter, ArrayClass.Double, name, matrix.RowCount, matrix.ColumnCount, 0);
+                WriteMatrixTagAndName(dataWriter, ArrayClass.Double, false, name, matrix.RowCount, matrix.ColumnCount, 0);
 
                 // write data
                 dataWriter.Write((int)DataType.Double);
@@ -332,10 +340,11 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             using (var dataMemoryStream = new MemoryStream())
             using (var dataWriter = new BinaryWriter(dataMemoryStream))
             {
-                WriteMatrixTagAndName(dataWriter, ArrayClass.Single, name, matrix.RowCount, matrix.ColumnCount, 0);
+                WriteMatrixTagAndName(dataWriter, ArrayClass.Single, false, name, matrix.RowCount, matrix.ColumnCount, 0);
 
                 // write data
                 dataWriter.Write((int)DataType.Single);
+
                 dataWriter.Write(matrix.RowCount * matrix.ColumnCount * 4);
 
                 for (var j = 0; j < matrix.ColumnCount; j++)
@@ -346,6 +355,9 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                         dataWriter.Write(value);
                     }
                 }
+
+                var pad = (matrix.RowCount * matrix.ColumnCount * 4) % 8;
+                PadData(dataWriter, pad);
 
                 data = dataMemoryStream.ToArray();
             }
@@ -365,7 +377,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             using (var dataMemoryStream = new MemoryStream())
             using (var dataWriter = new BinaryWriter(dataMemoryStream))
             {
-                WriteMatrixTagAndName(dataWriter, ArrayClass.Double, name, matrix.RowCount, matrix.ColumnCount, 0);
+                WriteMatrixTagAndName(dataWriter, ArrayClass.Double, true, name, matrix.RowCount, matrix.ColumnCount, 0);
 
                 // write data
                 dataWriter.Write((int)DataType.Double);
@@ -379,8 +391,18 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                         dataWriter.Write(value.Real);
                     }
                 }
-                
-                throw new NotImplementedException();
+
+                dataWriter.Write((int)DataType.Double);
+                dataWriter.Write(matrix.RowCount * matrix.ColumnCount * 8);
+
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    var column = matrix.Column(j);
+                    foreach (var value in column)
+                    {
+                        dataWriter.Write(value.Imaginary);
+                    }
+                }
 
                 data = dataMemoryStream.ToArray();
             }
@@ -400,7 +422,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             using (var dataMemoryStream = new MemoryStream())
             using (var dataWriter = new BinaryWriter(dataMemoryStream))
             {
-                WriteMatrixTagAndName(dataWriter, ArrayClass.Single, name, matrix.RowCount, matrix.ColumnCount, 0);
+                WriteMatrixTagAndName(dataWriter, ArrayClass.Single, true, name, matrix.RowCount, matrix.ColumnCount, 0);
 
                 // write data
                 dataWriter.Write((int)DataType.Single);
@@ -415,7 +437,22 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                     }
                 }
 
-                throw new NotImplementedException();
+                var pad = (matrix.RowCount * matrix.ColumnCount * 4) % 8;
+                PadData(dataWriter, pad);
+
+                dataWriter.Write((int)DataType.Single);
+                dataWriter.Write(matrix.RowCount * matrix.ColumnCount * 4);
+
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    var column = matrix.Column(j);
+                    foreach (var value in column)
+                    {
+                        dataWriter.Write(value.Real);
+                    }
+                }
+                
+                PadData(dataWriter, pad);
 
                 data = dataMemoryStream.ToArray();
             }
@@ -436,7 +473,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             using (var dataWriter = new BinaryWriter(dataMemoryStream))
             {
                 var nzmax = matrix.NonZerosCount;
-                WriteMatrixTagAndName(dataWriter, ArrayClass.Sparse, name, matrix.RowCount, matrix.ColumnCount, nzmax);
+                WriteMatrixTagAndName(dataWriter, ArrayClass.Sparse, false, name, matrix.RowCount, matrix.ColumnCount, nzmax);
 
                 // write ir
                 dataWriter.Write((int)DataType.Int32);
@@ -504,7 +541,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             using (var dataWriter = new BinaryWriter(dataMemoryStream))
             {
                 var nzmax = matrix.NonZerosCount;
-                WriteMatrixTagAndName(dataWriter, ArrayClass.Sparse, name, matrix.RowCount, matrix.ColumnCount, nzmax);
+                WriteMatrixTagAndName(dataWriter, ArrayClass.Sparse, false, name, matrix.RowCount, matrix.ColumnCount, nzmax);
 
                 // write ir
                 dataWriter.Write((int)DataType.Int32);
@@ -553,6 +590,9 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                     }
                 }
 
+                var pad = (nzmax * 4) % 8;
+                PadData(dataWriter, pad);
+
                 data = dataMemoryStream.ToArray();
             }
 
@@ -572,7 +612,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             using (var dataWriter = new BinaryWriter(dataMemoryStream))
             {
                 var nzmax = matrix.NonZerosCount;
-                WriteMatrixTagAndName(dataWriter, ArrayClass.Sparse, name, matrix.RowCount, matrix.ColumnCount, nzmax);
+                WriteMatrixTagAndName(dataWriter, ArrayClass.Sparse, true, name, matrix.RowCount, matrix.ColumnCount, nzmax);
 
                 // write ir
                 dataWriter.Write((int)DataType.Int32);
@@ -621,7 +661,17 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                     }
                 }
 
-                throw new NotImplementedException();
+                dataWriter.Write((int)DataType.Double);
+                dataWriter.Write(nzmax * 8);
+
+                foreach (var column in matrix.ColumnEnumerator())
+                {
+                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    {
+                        dataWriter.Write(row.Value.Real);
+                    }
+                }
+
                 data = dataMemoryStream.ToArray();
             }
 
@@ -641,7 +691,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             using (var dataWriter = new BinaryWriter(dataMemoryStream))
             {
                 var nzmax = matrix.NonZerosCount;
-                WriteMatrixTagAndName(dataWriter, ArrayClass.Sparse, name, matrix.RowCount, matrix.ColumnCount, nzmax);
+                WriteMatrixTagAndName(dataWriter, ArrayClass.Sparse, true, name, matrix.RowCount, matrix.ColumnCount, nzmax);
 
                 // write ir
                 dataWriter.Write((int)DataType.Int32);
@@ -690,7 +740,22 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                     }
                 }
 
-                throw new NotImplementedException();
+                var pad = (nzmax * 4) % 8;
+                PadData(dataWriter, pad);
+
+                dataWriter.Write((int)DataType.Single);
+                dataWriter.Write(nzmax * 4);
+
+                foreach (var column in matrix.ColumnEnumerator())
+                {
+                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    {
+                        dataWriter.Write(row.Value.Real);
+                    }
+                }
+
+                PadData(dataWriter, pad);
+
                 data = dataMemoryStream.ToArray();
             }
 

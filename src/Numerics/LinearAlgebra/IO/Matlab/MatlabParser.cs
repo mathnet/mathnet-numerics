@@ -310,7 +310,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
                         case ArrayClass.Unknown:
                             throw new NotSupportedException();
                         default:
-                            matrix = PopulateDenseMatrix(type, reader, isComplex, rows, columns);
+                            matrix = PopulateDenseMatrix(type, reader, isComplex, rows, columns, size);
                             break;
                     }
 
@@ -357,9 +357,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
             AlignData(reader.BaseStream, jcsize, false);
 
             var type = (DataType)reader.ReadInt32();
-
-            // skip length since we already no it for the number of rows
-            reader.BaseStream.Seek(4, SeekOrigin.Current);
+            var dataSize = reader.ReadInt32();
 
             var matrix = CreateMatrix(true, rows, columns);
             var dataType = typeof(TDataType);
@@ -384,11 +382,11 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
             }
             else if (dataType == typeof(Complex))
             {
-                PopulateComplexSparseMatrix((Matrix<Complex>)(object)matrix, type, isComplex, ir, jc, reader);
+                PopulateComplexSparseMatrix((Matrix<Complex>)(object)matrix, type, isComplex, ir, jc, reader, dataSize);
             }
             else if (dataType == typeof(Complex32))
             {
-                PopulateComplex32SparseMatrix((Matrix<Complex32>)(object)matrix, type, isComplex, ir, jc, reader);
+                PopulateComplex32SparseMatrix((Matrix<Complex32>)(object)matrix, type, isComplex, ir, jc, reader, dataSize);
             }
             else
             {
@@ -521,7 +519,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="ir">The row indices.</param>
         /// <param name="jc">The column indices.</param>
         /// <param name="reader">The reader to read from.</param>
-        private static void PopulateComplexSparseMatrix(Matrix<Complex> matrix, DataType type, bool isComplex, IList<int> ir, IList<int> jc, BinaryReader reader)
+        private static void PopulateComplexSparseMatrix(Matrix<Complex> matrix, DataType type, bool isComplex, IList<int> ir, IList<int> jc, BinaryReader reader, int dataSize)
         {
             var col = 0;
             for (var i = 0; i < ir.Count; i++)
@@ -571,8 +569,14 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 
             if (isComplex)
             {
+                var skip = dataSize % 8;
+
+                // skip pad
+                reader.ReadBytes(skip);
+
                 // skip header
-                reader.ReadBytes(8);
+                type = (DataType)reader.ReadInt32();
+                reader.ReadInt32();
                 col = 0;
                 for (var i = 0; i < ir.Count; i++)
                 {
@@ -631,7 +635,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="ir">The row indices.</param>
         /// <param name="jc">The column indices.</param>
         /// <param name="reader">The reader to read from.</param>
-        private static void PopulateComplex32SparseMatrix(Matrix<Complex32> matrix, DataType type, bool isComplex, IList<int> ir, IList<int> jc, BinaryReader reader)
+        private static void PopulateComplex32SparseMatrix(Matrix<Complex32> matrix, DataType type, bool isComplex, IList<int> ir, IList<int> jc, BinaryReader reader, int dataSize)
         {
             var col = 0;
             for (var i = 0; i < ir.Count; i++)
@@ -681,8 +685,15 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 
             if (isComplex)
             {
+                var skip = dataSize % 8;
+
+                // skip pad
+                reader.ReadBytes(skip);
+
                 // skip header
-                reader.ReadBytes(8);
+                type = (DataType)reader.ReadInt32();
+                reader.ReadInt32();
+                
                 col = 0;
                 for (var i = 0; i < ir.Count; i++)
                 {
@@ -741,7 +752,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <returns>Returns a populated dense matrix.</returns>
-        private static Matrix<TDataType> PopulateDenseMatrix(DataType type, BinaryReader reader, bool isComplex, int rows, int columns)
+        private static Matrix<TDataType> PopulateDenseMatrix(DataType type, BinaryReader reader, bool isComplex, int rows, int columns, int size)
         {
             var matrix = CreateMatrix(false, rows, columns);
 
@@ -767,11 +778,11 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
             }
             else if (dataType == typeof(Complex))
             {
-                PopulateComplexDenseMatrix((Matrix<Complex>)(object)matrix, type, isComplex, reader, rows, columns);
+                PopulateComplexDenseMatrix((Matrix<Complex>)(object)matrix, type, isComplex, reader, rows, columns, size);
             }
             else if (dataType == typeof(Complex32))
             {
-                PopulateComplex32DenseMatrix((Matrix<Complex32>)(object)matrix, type, isComplex, reader, rows, columns);
+                PopulateComplex32DenseMatrix((Matrix<Complex32>)(object)matrix, type, isComplex, reader, rows, columns, size);
             }
             else
             {
@@ -907,7 +918,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="reader">The reader to read from.</param>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        public static void PopulateComplexDenseMatrix(Matrix<Complex> matrix, DataType type, bool isComplex, BinaryReader reader, int rows, int columns)
+        public static void PopulateComplexDenseMatrix(Matrix<Complex> matrix, DataType type, bool isComplex, BinaryReader reader, int rows, int columns, int dataSize)
         {
             switch (type)
             {
@@ -1017,8 +1028,14 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 
             if (isComplex)
             {
+                var skip = dataSize % 8;
+
+                // skip pad
+                reader.ReadBytes(skip);
+
                 // skip header
-                reader.ReadBytes(8);
+                type = (DataType)reader.ReadInt32();
+                reader.ReadInt32();
 
                 switch (type)
                 {
@@ -1137,7 +1154,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="reader">The reader to read from.</param>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        public static void PopulateComplex32DenseMatrix(Matrix<Complex32> matrix, DataType type, bool isComplex, BinaryReader reader, int rows, int columns)
+        public static void PopulateComplex32DenseMatrix(Matrix<Complex32> matrix, DataType type, bool isComplex, BinaryReader reader, int rows, int columns, int dataSize)
         {
             switch (type)
             {
@@ -1247,8 +1264,14 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
 
             if (isComplex)
             {
+                var skip = dataSize % 8;
+
+                // skip pad
+                reader.ReadBytes(skip);
+
                 // skip header
-                reader.ReadBytes(8);
+                type = (DataType)reader.ReadInt32();
+                reader.ReadInt32();
 
                 switch (type)
                 {
