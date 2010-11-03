@@ -19,7 +19,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             Assert.AreEqual(3, matrices.Count);
             foreach (var matrix in matrices)
             {
-                Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
+                Assert.AreEqual(typeof(DenseMatrix), matrix.Value.GetType());
             }
 
             var a = matrices["a"];
@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             Assert.AreEqual(3, matrices.Count);
             foreach (var matrix in matrices)
             {
-                Assert.AreEqual(typeof(SparseMatrix), matrix.GetType());
+                Assert.AreEqual(typeof(SparseMatrix), matrix.Value.GetType());
             }
 
             var a = matrices["sa"];
@@ -55,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             Assert.AreEqual(30, matrices.Count);
             foreach (var matrix in matrices)
             {
-                Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
+                Assert.AreEqual(typeof(DenseMatrix), matrix.Value.GetType());
             }
         }
 
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             Assert.AreEqual(2, matrices.Count);
             foreach (var matrix in matrices)
             {
-                Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
+                Assert.AreEqual(typeof(DenseMatrix), matrix.Value.GetType());
             }
         }
 

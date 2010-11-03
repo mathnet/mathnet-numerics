@@ -16,7 +16,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
             Assert.AreEqual(30, matrices.Count);
             foreach (var matrix in matrices)
             {
-                Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
+                Assert.AreEqual(typeof(DenseMatrix), matrix.Value.GetType());
             }
         }
 
@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
             Assert.AreEqual(2, matrices.Count);
             foreach (var matrix in matrices)
             {
-                Assert.AreEqual(typeof(DenseMatrix), matrix.GetType());
+                Assert.AreEqual(typeof(DenseMatrix), matrix.Value.GetType());
             }
         }
 
