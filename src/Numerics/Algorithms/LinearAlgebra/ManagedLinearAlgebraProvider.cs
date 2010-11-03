@@ -288,6 +288,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 case Norm.FrobeniusNorm:
                     break;
             }
+
             throw new NotImplementedException();
         }
 
