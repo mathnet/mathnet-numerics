@@ -4,7 +4,7 @@
     using System.Globalization;
     using System.IO;
     using LinearAlgebra.Complex32;
-    using LinearAlgebra.Complex32.IO;
+    using LinearAlgebra.IO;
     using Numerics;
     using MbUnit.Framework;
 

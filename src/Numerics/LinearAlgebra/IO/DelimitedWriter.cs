@@ -38,8 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
     /// Writes an <see cref="Matrix{TDataType}"/> to delimited text file. If the user does not
     /// specify a delimiter, a tab separator is used.
     /// </summary>
-    /// <typeparam name="TDataType">The data type of the matrix.</typeparam>    
-    public class DelimitedWriter<TDataType> : MatrixWriter<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable
+    public class DelimitedWriter : MatrixWriter
     {
         /// <summary>
         /// The delimiter to use.
@@ -47,12 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         private readonly string _delimiter;
 
         /// <summary>
-        /// The <see cref="CultureInfo"/> to use.
-        /// </summary>
-        private CultureInfo _cultureInfo = CultureInfo.CurrentCulture;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DelimitedWriter{TDataType}"/> class. 
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
         /// a comma as the delimiter.
         /// </summary>
         public DelimitedWriter()
@@ -61,7 +55,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelimitedWriter{TDataType}"/> class. 
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
         /// using the given delimiter.
         /// </summary>
         /// <param name="delimiter">
@@ -73,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DelimitedWriter{TDataType}"/> class. 
+        /// Initializes a new instance of the <see cref="DelimitedWriter"/> class. 
         /// using the given delimiter.
         /// </summary>
         /// <param name="delimiter">
@@ -96,34 +90,15 @@ namespace MathNet.Numerics.LinearAlgebra.IO
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="CultureInfo"/> to use when parsing the numbers.
-        /// </summary>
-        /// <value>The culture info.</value>
-        /// <remarks>Defaults to <c>CultureInfo.CurrentCulture</c>.</remarks>
-        public CultureInfo CultureInfo
-        {
-            get
-            {
-                return _cultureInfo;
-            }
-
-            set
-            {
-                if (value != null)
-                {
-                    _cultureInfo = value;
-                }
-            }
-        }
-
-        /// <summary>
         /// Writes the given <see cref="Matrix{TDataType}"/> to the given <see cref="TextWriter"/>.
         /// </summary>
+        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
         /// <param name="matrix">The matrix to write.</param>
         /// <param name="writer">The <see cref="TextWriter"/> to write the matrix to.</param>
-        /// <param name="format">The format to use on each element.</param>
+        /// <param name="format">The number format to use on each element.</param>
+        /// <param name="cultureInfo">The culture to use.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="writer"/> is <c>null</c>.</exception>
-        protected override void DoWriteMatrix(Matrix<TDataType> matrix, TextWriter writer, string format)
+        protected override void DoWriteMatrix<TDataType>(Matrix<TDataType> matrix, TextWriter writer, string format, CultureInfo cultureInfo)
         {
             if (matrix == null)
             {
@@ -152,7 +127,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    writer.Write(matrix[i, j].ToString(format, _cultureInfo));
+                    writer.Write(matrix[i, j].ToString(format, cultureInfo));
                     if (j != cols)
                     {
                         writer.Write(_delimiter);

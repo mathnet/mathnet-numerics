@@ -3,8 +3,8 @@
     using System;
     using System.Globalization;
     using System.IO;
+    using LinearAlgebra.IO;
     using LinearAlgebra.Single;
-    using LinearAlgebra.Single.IO;
     using MbUnit.Framework;
 
     [TestFixture]
