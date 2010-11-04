@@ -362,6 +362,7 @@
     <Compile Include="StatisticsTests\MCMCTests\MetropolisHastingsSamplerTests.cs" />
     <Compile Include="StatisticsTests\MCMCTests\MetropolisSamplerTests.cs" />
     <Compile Include="StatisticsTests\MCMCTests\RejectionSamplerTests.cs" />
+    <Compile Include="StatisticsTests\PercentileTests.cs" />
     <Compile Include="StatisticsTests\StatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatTestData.cs" />
     <Compile Include="StatisticsTests\MCMCTests\UnivariateSliceSamplerTests.cs" />
