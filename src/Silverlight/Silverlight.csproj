@@ -929,6 +929,9 @@
     <Compile Include="..\Numerics\Statistics\MCMC\UnivariateSliceSampler.cs">
       <Link>Statistics\MCMC\UnivariateSliceSampler.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\Statistics\Percentile.cs">
+      <Link>Statistics\Percentile.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Statistics\Statistics.cs">
       <Link>Statistics\Statistics.cs</Link>
     </Compile>

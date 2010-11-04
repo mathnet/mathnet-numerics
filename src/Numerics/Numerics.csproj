@@ -389,6 +389,7 @@
     <Compile Include="Statistics\MCMC\MetropolisHastingsSampler.cs" />
     <Compile Include="Statistics\MCMC\MetropolisSampler.cs" />
     <Compile Include="Statistics\MCMC\RejectionSampler.cs" />
+    <Compile Include="Statistics\Percentile.cs" />
     <Compile Include="Statistics\Statistics.cs" />
     <Compile Include="Statistics\MCMC\UnivariateSliceSampler.cs" />
     <Compile Include="Threading\CommonParallel.cs" />

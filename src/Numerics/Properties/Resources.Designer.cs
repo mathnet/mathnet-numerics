@@ -628,6 +628,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data must contain at least {0} values..
+        /// </summary>
+        internal static string MustContainAtLeast {
+            get {
+                return ResourceManager.GetString("MustContainAtLeast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name cannot contain a space. name:  {0}.
         /// </summary>
         internal static string NameCannotContainASpace {

@@ -345,4 +345,7 @@
   <data name="MatlabDateHeaderFormat" xml:space="preserve">
     <value>ddd MMM dd HH:mm:ss yyyy</value>
   </data>
+  <data name="MustContainAtLeast" xml:space="preserve">
+    <value>Data must contain at least {0} values.</value>
+  </data>
 </root>
