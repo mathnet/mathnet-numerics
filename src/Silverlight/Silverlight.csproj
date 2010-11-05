@@ -62,8 +62,17 @@
     <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs">
       <Link>Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs">
-      <Link>Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.cs</Link>
+    <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs">
+      <Link>Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs">
+      <Link>Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs">
+      <Link>Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs">
+      <Link>Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Combinatorics.cs">
       <Link>Combinatorics.cs</Link>
