@@ -28,6 +28,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 {
     using System;
     using System.Numerics;
+    using Algorithms.LinearAlgebra;
     using Generic;
     using Properties;
     using Threading;
@@ -222,55 +223,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The L1 norm of the matrix.</returns>
         public override Complex L1Norm()
         {
-            var norm = 0.0;
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                var s = 0.0;
-                for (var i = 0; i < RowCount; i++)
-                {
-                    s += Data[(j * RowCount) + i].Magnitude;
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
+            return Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, RowCount, ColumnCount, Data);
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override Complex FrobeniusNorm()
         {
-            var transpose = (DenseMatrix)Transpose();
-            var aat = (DenseMatrix)(this * transpose);
-
-            var norm = 0.0;
-            for (var i = 0; i < RowCount; i++)
-            {
-                norm += aat.Data[(i * RowCount) + i].Magnitude;
-            }
-
-            norm = Math.Sqrt(norm);
-            return norm;
+            return Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, RowCount, ColumnCount, Data);
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>  
         public override Complex InfinityNorm()
         {
-            var norm = 0.0;
-            for (var i = 0; i < RowCount; i++)
-            {
-                var s = 0.0;
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    s += Data[(j * RowCount) + i].Magnitude;
-                }
-
-                norm = Math.Max(norm, s);
-            }
-
-            return norm;
+            return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, RowCount, ColumnCount, Data);
         }
 
         #region Elementary operations
