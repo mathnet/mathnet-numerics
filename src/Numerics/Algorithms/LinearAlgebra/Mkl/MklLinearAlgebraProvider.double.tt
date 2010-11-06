@@ -1,0 +1,10 @@
+﻿<#@ template language="C#" debug="true" #>
+<#@ output extenstion="cs" #>
+<# string library = "Mkl";#>
+<# string dataType = "double";#>
+<# string zero = "0.0";#>
+<# string one = "1.0";#>
+<# string prefix = "d";#>
+<# string reff = "";#>
+
+<#@ include file="..\NativeAlgebraProvider.include" #>

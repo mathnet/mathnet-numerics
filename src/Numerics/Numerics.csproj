@@ -70,6 +70,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MklLinearAlgebraProvider.Complex32.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MklLinearAlgebraProvider.Complex.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.float.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MklLinearAlgebraProvider.float.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.double.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MklLinearAlgebraProvider.double.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
+    </None>
     <None Include="Algorithms\LinearAlgebra\NativeAlgebraProvider.include" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs" />
@@ -77,6 +97,31 @@
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.cs">
+      <DependentUpon>MklLinearAlgebraProvider.Complex32.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.cs">
+      <DependentUpon>MklLinearAlgebraProvider.Complex.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.float.cs">
+      <DependentUpon>MklLinearAlgebraProvider.float.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.double.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MklLinearAlgebraProvider.double.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SafeNativeMethods.tt</DependentUpon>
+    </Compile>
     <Compile Include="Combinatorics.cs" />
     <Compile Include="ComplexExtensions.cs" />
     <Compile Include="Constants.cs" />

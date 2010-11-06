@@ -1,4 +1,10 @@
 ﻿<#@ template language="C#" debug="true" #>
 <#@ output extenstion="cs" #>
 <# string library = "Mkl";#>
+<# string dataType = "Complex";#>
+<# string zero = "Complex.Zero";#>
+<# string one = "Complex.One";#>
+<# string prefix = "z";#>
+<# string reff = "ref ";#>
+
 <#@ include file="..\NativeAlgebraProvider.include" #>
