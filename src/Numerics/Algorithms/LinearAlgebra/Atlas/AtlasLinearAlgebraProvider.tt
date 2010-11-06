@@ -1,4 +1,0 @@
-﻿<#@ template language="C#" debug="true" #>
-<#@ output extenstion="cs" #>
-<# string library = "Atlas";#>
-<#@ include file="..\NativeAlgebraProvider.include" #>
