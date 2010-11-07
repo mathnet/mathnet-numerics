@@ -11,3 +11,4 @@ bin
 *.vsdoc
 *.XML
 Version1.cs
+src/Numerics/Algorithms/LinearAlgebra/Mkl/*.cs
