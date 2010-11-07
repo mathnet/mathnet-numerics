@@ -35,10 +35,10 @@
 namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
 {
     using System;
-	using System.Numerics;
+    using System.Numerics;
     using Properties;
    
-	/// <summary>
+    /// <summary>
     /// <#=title#> linear algebra provider.
     /// </summary>
     public partial class <#=library#>LinearAlgebraProvider : ManagedLinearAlgebraProvider
