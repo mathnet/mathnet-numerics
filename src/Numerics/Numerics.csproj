@@ -70,6 +70,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Algorithms\LinearAlgebra\native.footer.include" />
+    <None Include="Algorithms\LinearAlgebra\native.common.include" />
     <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MklLinearAlgebraProvider.Complex32.cs</LastGenOutput>
@@ -90,7 +92,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
     </None>
-    <None Include="Algorithms\LinearAlgebra\NativeAlgebraProvider.include" />
+    <None Include="Algorithms\LinearAlgebra\native.vector.include" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs" />
@@ -453,6 +455,7 @@
     <None Include="..\MathNet.Numerics.snk">
       <Link>MathNet.Numerics.snk</Link>
     </None>
+    <None Include="Algorithms\LinearAlgebra\native.header.include" />
     <None Include="Algorithms\LinearAlgebra\SafeNativeMethods.include">
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
     </None>

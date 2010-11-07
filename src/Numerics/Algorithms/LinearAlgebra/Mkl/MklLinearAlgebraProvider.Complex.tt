@@ -1,10 +1,13 @@
 ﻿<#@ template language="C#" debug="true" #>
 <#@ output extenstion="cs" #>
 <# string library = "Mkl";#>
+<# string title = "Intel's Math Kernel Library (MKL)";#>
 <# string dataType = "Complex";#>
 <# string zero = "Complex.Zero";#>
 <# string one = "Complex.One";#>
 <# string prefix = "z";#>
 <# string reff = "ref ";#>
-
-<#@ include file="..\NativeAlgebraProvider.include" #>
+<#@ include file="..\native.header.include" #>
+<#@ include file="..\native.common.include" #>
+<#@ include file="..\native.vector.include" #>
+<#@ include file="..\native.footer.include" #>
