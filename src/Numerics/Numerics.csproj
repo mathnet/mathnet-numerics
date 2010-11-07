@@ -70,6 +70,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Algorithms\LinearAlgebra\safe.native.vector.include">
+      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
+    </None>
     <None Include="Algorithms\LinearAlgebra\native.footer.include" />
     <None Include="Algorithms\LinearAlgebra\native.common.include" />
     <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.tt">
@@ -456,7 +459,7 @@
       <Link>MathNet.Numerics.snk</Link>
     </None>
     <None Include="Algorithms\LinearAlgebra\native.header.include" />
-    <None Include="Algorithms\LinearAlgebra\SafeNativeMethods.include">
+    <None Include="Algorithms\LinearAlgebra\safe.native.common.include">
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
     </None>
     <Compile Include="Distributions\Continuous\StudentT.cs" />

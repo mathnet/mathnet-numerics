@@ -1,4 +1,4 @@
-﻿// <copyright file="ManagedLinearAlgebraProvider.cs" company="Math.NET">
+﻿// <copyright file="ManagedLinearAlgebraProvider.Single.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -26,14 +26,13 @@
 namespace MathNet.Numerics.Algorithms.LinearAlgebra
 {
     using System;
-    using System.Numerics;
     using Properties;
     using Threading;
 
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
-    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
+    public partial class ManagedLinearAlgebraProvider
     {
         /// <summary>
         /// Adds a scaled vector to another: <c>y += alpha*x</c>.
@@ -1290,7 +1289,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="rowDim">Number of rows</param>
         /// <param name="firstCol">Column start</param>
         /// <param name="colLimit">Total columns</param>
-        /// <param name="multipliers">Multipliears calculated previously</param>
+        /// <param name="multipliers">Multipliers calculated previously</param>
         /// <param name="availableCores">Number of available processors</param>
         private static void DoCholeskyStep(float[] data, int rowDim, int firstCol, int colLimit, float[] multipliers, int availableCores)
         {
@@ -1524,7 +1523,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Perform calculation of Q or R
         /// </summary>
         /// <param name="work">Work array</param>
-        /// <param name="workIndex">Index of colunn in work array</param>
+        /// <param name="workIndex">Index of column in work array</param>
         /// <param name="a">Q or R matrices</param>
         /// <param name="rowStart">The first row in </param>
         /// <param name="rowCount">The last row</param>
@@ -1573,7 +1572,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">Work array</param>
         /// <param name="a">Initial matrix</param>
         /// <param name="rowCount">The number of rows in matrix</param>
-        /// <param name="row">The firts row</param>
+        /// <param name="row">The first row</param>
         /// <param name="column">Column index</param>
         private static void GenerateColumn(float[] work, float[] a, int rowCount, int row, int column)
         {
@@ -1861,9 +1860,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
-        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
         /// singular vectors.</param>
-        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         public virtual void SingularValueDecomposition(bool computeVectors, float[] a, int rowsA, int columnsA, float[] s, float[] u, float[] vt)
@@ -1916,9 +1915,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="s">The singular values of A in ascending value.</param>
-        /// <param name="u">If <paramref name="computeVectors"/> is true, on exit U contains the left
+        /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
         /// singular vectors.</param>
-        /// <param name="vt">If <paramref name="computeVectors"/> is true, on exit VT contains the transposed
+        /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
@@ -2594,7 +2593,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         }
 
         /// <summary>
-        /// Given the Cartesian coordinates (da, db) of a point p, these fucntion return the parameters da, db, c, and s 
+        /// Given the Cartesian coordinates (da, db) of a point p, these function return the parameters da, db, c, and s 
         /// associated with the Givens rotation that zeros the y-coordinate of the point.
         /// </summary>
         /// <param name="da">Provides the x-coordinate of the point p. On exit contains the parameter r associated with the Givens rotation</param>

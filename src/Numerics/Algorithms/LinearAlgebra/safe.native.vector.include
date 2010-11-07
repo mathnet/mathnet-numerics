@@ -1,0 +1,52 @@
+﻿
+        #region Vector Functions
+        
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_vector_add(int n, float[] x, float[] y, [In, Out] float[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_vector_subtract(int n, float[] x, float[] y, [In, Out] float[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_vector_multiply(int n, float[] x, float[] y, [In, Out] float[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_vector_divide(int n, float[] x, float[] y, [In, Out] float[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_vector_add(int n, double[] x, double[] y, [In, Out] double[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_vector_subtract(int n, double[] x, double[] y, [In, Out] double[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_vector_multiply(int n, double[] x, double[] y, [In, Out] double[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_vector_divide(int n, double[] x, double[] y, [In, Out] double[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_vector_add(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_vector_subtract(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_vector_multiply(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_vector_divide(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_vector_add(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_vector_subtract(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_vector_multiply(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_vector_divide(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
+        
+        #endregion  Vector Functions
