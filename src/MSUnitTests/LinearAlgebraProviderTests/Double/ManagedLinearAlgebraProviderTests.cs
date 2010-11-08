@@ -28,14 +28,22 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
+namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 {
-    using MbUnit.Framework;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    /// <summary>
+    /// Unit test container for the managed linear algebra provider.
+    /// </summary>
+    [TestClass]
     public class ManagedLinearAlgebraProviderTests : LinearAlgebraProviderTests
     {
-        [FixtureSetUp]
-        public void SetProvider()
+        /// <summary>
+        /// Sets the linear algebra provider to the managed one.
+        /// </summary>
+        /// <param name="context">The test context to use.</param>
+        [ClassInitialize]
+        public static void SetProvider(TestContext context)
         {
             Provider = new Algorithms.LinearAlgebra.ManagedLinearAlgebraProvider();
         }

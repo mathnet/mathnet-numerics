@@ -1,4 +1,4 @@
-﻿// <copyright file="ManagedLinearAlgebraProviderTests.cs" company="Math.NET">
+﻿// <copyright file="MklLinearAlgebraProviderTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,16 +28,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
-{
-    using MbUnit.Framework;
+using MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    public class ManagedLinearAlgebraProviderTests : LinearAlgebraProviderTests
+namespace MathNet.Numerics.MklWrapperTests.LinearAlgebra.Double
+{
+    /// <summary>
+    /// Unit test container for the MKL linear algebra provider.
+    /// </summary>
+    public class MklLinearAlgebraProviderTests : LinearAlgebraProviderTests
     {
-        [FixtureSetUp]
-        public void SetProvider()
+        /// <summary>
+        /// Sets the linear algebra provider to the managed one.
+        /// </summary>
+        /// <param name="context">The test context to use.</param>
+        [ClassInitialize]
+        public static void SetProvider(TestContext context)
         {
-            Provider = new Algorithms.LinearAlgebra.ManagedLinearAlgebraProvider();
+            Provider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
         }
     }
 }

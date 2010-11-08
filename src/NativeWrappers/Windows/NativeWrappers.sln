@@ -1,20 +1,16 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
-		Common\blas.c = Common\blas.c
-		Common\common.h = Common\common.h
-		Common\resource.h = Common\resource.h
-		Common\resource.rc = Common\resource.rc
-		Common\WindowsDLL.cpp = Common\WindowsDLL.cpp
+		..\Common\blas.c = ..\Common\blas.c
+		..\Common\common.h = ..\Common\common.h
+		..\Common\resource.h = ..\Common\resource.h
+		..\Common\resource.rc = ..\Common\resource.rc
+		..\Common\WindowsDLL.cpp = ..\Common\WindowsDLL.cpp
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ATLASWrapper", "ATLAS\ATLASWrapper.vcproj", "{A848B8C9-E72A-4716-A8F1-04104CC2422F}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MKLWrapper", "MKL\MKLWrapper.vcproj", "{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATLASWrapperTests", "ATLASWrapperTests\ATLASWrapperTests.csproj", "{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MKLWrapper", "MKL\MKLWrapper.vcxproj", "{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKLWrapper64Tests", "MKLWrapper64Tests\MKLWrapper64Tests.csproj", "{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}"
 EndProject
@@ -32,18 +28,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Debug|Win32.Build.0 = Debug|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Debug|x64.ActiveCfg = Debug|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Release|Any CPU.ActiveCfg = Release|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Release|Win32.ActiveCfg = Release|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Release|Win32.Build.0 = Release|Win32
-		{A848B8C9-E72A-4716-A8F1-04104CC2422F}.Release|x64.ActiveCfg = Release|Win32
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Mixed Platforms.Build.0 = Debug|x64
@@ -58,18 +42,6 @@ Global
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Release|Win32.Build.0 = Release|Win32
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Release|x64.ActiveCfg = Release|Win32
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Release|x64.Build.0 = Release|Win32
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Release|Win32.ActiveCfg = Release|Any CPU
-		{0EFC01B9-1F75-4BFD-ADB6-3FF18B2B9B5E}.Release|x64.ActiveCfg = Release|Any CPU
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

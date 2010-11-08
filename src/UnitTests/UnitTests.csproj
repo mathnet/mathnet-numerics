@@ -263,8 +263,6 @@
     <Compile Include="LinearAlgebraTests\Single\IO\DelimitedWriterTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\IO\MatlabReaderTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\IO\MatlabWriterTests.cs" />
-    <Compile Include="LinearAlgebraTests\Single\LinearAlgebraProviderTests.cs" />
-    <Compile Include="LinearAlgebraTests\Single\ManagedLinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Single\MatrixTests.Arithmetic.cs" />
     <Compile Include="LinearAlgebraTests\Single\MatrixTests.cs" />
@@ -322,8 +320,6 @@
     <Compile Include="LinearAlgebraTests\Double\Factorization\LUTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Double\MatrixTests.Arithmetic.cs" />
-    <Compile Include="LinearAlgebraTests\Double\LinearAlgebraProviderTests.cs" />
-    <Compile Include="LinearAlgebraTests\Double\ManagedLinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrixTests.cs" />
