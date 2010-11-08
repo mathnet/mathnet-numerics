@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -53,8 +51,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,2009,12,0
- PRODUCTVERSION 0,2009,12,0
+ FILEVERSION 0,2010,12,0
+ PRODUCTVERSION 0,2010,12,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -72,12 +70,12 @@ BEGIN
             VALUE "Comments", "http://mathdotnet.com"
             VALUE "CompanyName", "Math.NET"
             VALUE "FileDescription", "MathNET Numerics Native Library"
-            VALUE "FileVersion", "0.2009.12"
+            VALUE "FileVersion", "0.2010.12.0"
             VALUE "InternalName", "Math.NET"
-            VALUE "LegalCopyright", "Copyright (C) Math.NET 2009"
+            VALUE "LegalCopyright", "Copyright (C) Math.NET 2009-2010"
             VALUE "OriginalFilename", "MathNET.Numerics"
             VALUE "ProductName", "Math.NET"
-            VALUE "ProductVersion", "2009.12"
+            VALUE "ProductVersion", "0.2010.12.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -86,7 +84,7 @@ BEGIN
     END
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

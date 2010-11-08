@@ -122,7 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
-        internal float[] Data
+        public float[] Data
         {
             get;
             private set;

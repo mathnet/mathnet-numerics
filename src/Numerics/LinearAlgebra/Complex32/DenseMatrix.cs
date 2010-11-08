@@ -123,7 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
-        internal Complex32[] Data
+        public Complex32[] Data
         {
             get;
             private set;

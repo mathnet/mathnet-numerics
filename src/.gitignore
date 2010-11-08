@@ -4,3 +4,5 @@ obj
 *.user
 *.suo
 *.vsdoc
+TestResults
+*.sdf

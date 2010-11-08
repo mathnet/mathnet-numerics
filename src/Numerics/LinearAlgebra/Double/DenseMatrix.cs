@@ -122,7 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
-        internal double[] Data
+        public double[] Data
         {
             get;
             private set;
