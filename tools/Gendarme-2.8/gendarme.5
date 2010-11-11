@@ -1,0 +1,80 @@
+.\" 
+.\" Gendarme manual page.
+.\"
+.\" Authors:
+.\"	Sebastien Pouliot  <sebastien@ximian.com>
+.\"	Jesse Jones  <jesjones@mindspring.com>
+.\"
+.\" Copyright (C) 2005-2006,2008-2009 Novell, Inc (http://www.novell.com)
+.\"
+
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.TH Gendarme "Gendarme 2.8.0.0"
+.SH NAME
+Gendarme \- Rule-based code analysis for Mono.
+
+.SH FILE FORMATS
+.TP
+.I ignore-file
+This file is used to filter out defects from gendarme reports. It uses a line oriented
+file format where the first characters of the line control the interpretation of the line:
+.RS
+# - means that the line is a comment.
+.RE
+.RS
+R: - if the full name of a rule to be filtered.
+.RE
+.RS
+A: - is used to filter out an assembly (the extension can be omitted).
+.RE
+.RS
+T: - is used to filter out a namespace qualified type name.
+.RE
+.RS
+M: - is used to filter out a method. It must contain the full method name as it appears in the report.
+.RE
+
+.TP
+.I rules.xml
+This file is used in conjunction with the --set option to control and configure the rules
+used by Gendarme. It contains a set of named rules (rule sets) and each rule set contains 
+a list of rules. Rules have required from and include attributes, optional exclude and
+applyTo attributes, and optional parameter child elements.
+
+The from attribute is the path of a dll to load ("Gendarme.Rules.BadPractice.dll").
+Relative paths are relative to the gendarme executable.
+
+The include attribute may be "*" to match every rule in the dll or a list of rule names
+separated by '|' ("WhizBangRule | MyRule").
+
+The exclude attribute is a list of rule names separated by '|' ("IckyRule").
+These will override any rules matched by the include attribute.
+
+The applyTo attribute may be "all", "visible", or "nonvisible". If it is all (the default) then
+all types in the assemblies are checked, if it is visible then only the externally visible
+types are checked, if it is nonvisible then only the internally visible types are checked.
+
+The parameter child element is used to customize the behavior of a rule within a dll.
+It has three required attributes: rule, property, and value. rule is the name of the
+applicable rule ("AvoidSmallNamespaceRule"), property is the name of a public
+property in the rule ("Minimum"), value is the value to assign to the property ("10").
+.TP
+.I gendarme.exe.config
+Used by debug versions of Gendarme to enable logging for rules. A config
+file will be generated automatically by the make file. To enable logging
+for a rule edit the config file, add a switch using the rule's name, and set the 
+value to 1.
+
+.SH COPYRIGHT
+Copyright (C) 2005-2009 Novell, Inc (http://www.novell.com)
+.SH MAILING LISTS
+Mailing lists are listed at the
+http://groups.google.com/group/gendarme
+.SH WEB SITE
+http://www.mono-project.com/Gendarme
+.SH SEE ALSO
+.BR gendarme(1)
+

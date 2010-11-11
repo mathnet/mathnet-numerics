@@ -19,7 +19,8 @@ http://groups.google.com/group/gendarme
 IMPORTANT NOTES
 
 * Gendarme "official" build system is based on the auto*/Makefile files
-and tested on monobuild. See mono-tools on http://mono.ximian.com/monobuild/
+and tested on MonkeyWrench. See mono-tools-trunk on 
+http://build.mono-project.com/index.aspx?lane=mono-trunk
 (checking out gendarme without its parent dir 'mono-tools' is not supported)
 
 * Visual Studio solutions and projects files (usable by both MonoDevelop

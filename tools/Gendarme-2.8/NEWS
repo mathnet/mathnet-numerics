@@ -1,3 +1,81 @@
+2010-09-05  Version 2.8.0
+
+	First release in the 2.8.x serie which will lead to the 3.0
+	release. Many rules were enhanced and a lot of work was done
+	to make Gendarme adhere to its own rules (self-test).
+
+	This release also includes 10 new rules (221 rules total):
+
+	Gendarme.Rules.BadPractice
+	* PreferParamsArrayForVariableArgumentsRule [Sebastien Pouliot]
+	* PreferTryParseRule [Sebastien Pouliot]
+
+	Gendarme.Rules.Correctness
+	* UseNoInliningWithGetCallingAssemblyRule [Sebastien Pouliot]
+
+	Gendarme.Rules.Design
+	* ProvideTryParseAlternativeRule [Sebastien Pouliot]
+
+	Gendarme.Rules.Design.Generic
+	* AvoidDeclaringCustomDelegatesRule [Sebastien Pouliot]
+
+	Gendarme.Rules.Maintainability
+	* RemoveDependenceOnObsoleteCodeRule [Sebastien Pouliot]
+
+	Gendarme.Rules.Interoperability
+	* CentralizePInvokesIntoNativeMethodsTypeRule [Sebastien Pouliot]
+
+	Gendarme.Rules.Performance
+	* AvoidConcatenatingCharsRule [Sebastien Pouliot]
+	* AvoidLocalDataStoreSlotRule [Sebastien Pouliot]
+	* AvoidRepetitiveCallsToPropertiesRule [Sebastien Pouliot]
+
+	Contributors for this release are:
+	Antoine Vandecreme, JB Evain, Rolf Bjarne Kvinge and Sebastien 
+	Pouliot.
+
+2009-12-20  Version 2.6
+
+	Released just in time for xmas Gendarme 2.6 comes with a lot of
+	enhancements and bug fixes. Rule documentation (wiki) and our MAN
+	pages were also greatly enhanced by the work of Jesse Jones.
+
+	In the ecosystem Daniel Nauck contributed Gendarme support for 
+	CC.NET and a new NAnt task with reduced dependencies. With this
+	Gendarme should be easier than ever to use on your projects.
+
+	This release includes 12 new rules (207 rules total):
+
+	Gendarme.Rules.BadPractice
+	* DoNotUseEnumIsAssignableFromRule [JB Evain]
+	* OnlyUseDisposeForIDisposableTypesRule [Jesse Jones]
+	* PreferSafeHandleRule [Jesse Jones]
+
+	Gendarme.Rules.Concurrency
+	* DoNotUseThreadStaticWithInstanceFieldsRule [Jesse Jones]
+
+	Gendarme.Rules.Correctness
+	* ProvideValidXmlStringRule [Cedric Vivier]
+	* ProvideValidXPathExpressionRule [Cedric Vivier]
+
+	Gendarme.Rules.Design
+	* PreferXmlAbstractionsRule [Cedric Vivier]
+	* UseCorrectDisposeSignaturesRule [Jesse Jones]
+	* UseFlagsAttributeRule [Jesse Jones]
+
+	Gendarme.Rules.Exceptions
+	* UseObjectDisposedExceptionRule [Jesse Jones]
+
+	Gendarme.Rules.Interoperability
+	* DelegatesPassedToNativeCodeMustIncludeExceptionHandlingRule [Rolf Bjarne Kvinge]
+
+	Gendarme.Rules.Performance
+	* ReviewLinqMethodRule [Jesse Jones]
+
+	Contributors for this release are:
+	Cedric Vivier, Daniel Nauck, JB Evain, Jesse Jones, Rolf Bjarne 
+	Kvinge and Sebastien Pouliot.
+
 2009-01-20  Version 2.4
 
 	This release was the shortest (about 2 months) release cycle ever
@@ -40,7 +118,7 @@
 	Contributors for this release are:
 	Andres G. Aragoneses, Cedric Vivier, JB Evain, Jesse Jones, 
 	Nestor Salceda, Sebastien Pouliot.
-	
+
 2008-11-10  Version 2.2
 
 	This release includes the development results of the last four 

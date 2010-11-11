@@ -2,11 +2,11 @@
   <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\..\lib\Gallio_3.2.517.0\Gallio.MSBuildTasks.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile="..\MSBuild_Extension_Pack_3.5.5\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
   
-  <Target Name="Go" DependsOnTargets="Test; StyleCop;" />
+  <Target Name="Go" DependsOnTargets="Test; StyleCop; Gendarme" />
    
   <Target Name="Test">
     <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../../out/test/Net40/MathNet.Numerics.UnitTests.dll" />
-    <Exec Command="$(MSBuildProjectDirectory)/../../out/test/Net40/FSharpUnitTests.exe" IgnoreExitCode="false" />
+    <Exec Command="$(MSBuildProjectDirectory)\..\..\out\test\Net40\MathNet.Numerics.FSharp.UnitTests.exe" IgnoreExitCode="false" />
   </Target>
   
   <Target Name="StyleCop">
@@ -24,7 +24,7 @@
   </Target>
   
   <Target Name="Gendarme">
-    <Exec Command="$(MSBuildProjectDirectory)/../../tools/Gendarme-2.4/gendarme.exe $(MSBuildProjectDirectory)/../../out/lib/Net40/MathNet.Numerics.dll"/>
+    <Exec Command="$(MSBuildProjectDirectory)/../../tools/Gendarme-2.8/gendarme.exe $(MSBuildProjectDirectory)/../../out/lib/Net40/MathNet.Numerics.dll" IgnoreExitCode="true"/>
   </Target>
   
 </Project>
