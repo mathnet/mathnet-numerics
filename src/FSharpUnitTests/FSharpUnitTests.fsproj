@@ -8,7 +8,7 @@
     <ProjectGuid>{f2f8032b-a31d-4e33-a05e-f2cdcbfaa75d}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>FSharpUnitTests</RootNamespace>
-    <AssemblyName>FSharpUnitTests</AssemblyName>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <Name>FSharpUnitTests</Name>
     <TargetFrameworkProfile />
@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\out\test\debug\Net40\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\out\test\Net40\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
