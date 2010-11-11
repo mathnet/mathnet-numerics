@@ -174,7 +174,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 return Clone();
             }
 
-            if (scalar.Equals(0.0))
+            if (scalar.Equals(Zero))
             {
                 return CreateMatrix(RowCount, ColumnCount);
             }
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 return Clone();
             }
 
-            if (scalar.Equals(0.0))
+            if (scalar.Equals(Zero))
             {
                 throw new DivideByZeroException();
             }
@@ -276,7 +276,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 return;
             }
 
-            if (scalar.Equals(0.0))
+            if (scalar.Equals(Zero))
             {
                 throw new DivideByZeroException();
             }
@@ -1026,8 +1026,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <remarks>The condition number is calculated using singular value decomposition.</remarks>
         public virtual T ConditionNumber()
         {
-            throw new NotImplementedException();
-            //return Svd<T>.Create(this, false).ConditionNumber;
+            return Svd<T>.Create(this, false).ConditionNumber;
         }
 
         /// <summary>Computes the determinant of this matrix.</summary>
