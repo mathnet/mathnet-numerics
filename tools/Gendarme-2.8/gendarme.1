@@ -1,0 +1,128 @@
+.\" 
+.\" Gendarme manual page.
+.\"
+.\" Authors:
+.\"	Sebastien Pouliot  <sebastien@ximian.com>
+.\"	Jesse Jones  <jesjones@mindspring.com>
+.\"
+.\" Copyright (C) 2005-2006,2008-2010 Novell, Inc (http://www.novell.com)
+.\"
+
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.TH Gendarme "Gendarme 2.8.0.0"
+.SH NAME
+Gendarme \- Rule-based code analysis for Mono.
+.SH SYNOPSIS
+.PP
+.B gendarme [--config configfile] [--set ruleset] [--log file | --xml file | --html file] [options] assemblies ...
+.SH DESCRIPTION
+\fIGendarme\fP is a extensible rule-based tool used to find problems in .NET 
+applications and libraries. Gendarme inspects programs and libraries that
+contain code in ECMA CIL format (Mono and .NET) and looks for common 
+problems with the code, problems that compilers do not typically check or
+have historically not checked.
+.SH OPTIONS
+.TP
+.I "--config configfile"
+Specify the rule sets and rule settings. Default is 'rules.xml'.
+.TP
+.I "--set ruleset"
+Specify a rule set from configfile. Defaults to 'default'.
+.TP
+.I "--log file"
+Save the report to the specified file. If none of --log, --xml, or --html are used
+then the report is written to stdout.
+.TP
+.I "--xml file"
+Save the report, formatted as XML, to the specified file.
+.TP
+.I "--html file"
+Save the report, formatted as HTML, to the specified file.
+.TP
+.I "--ignore ignore-file"
+Do not report defects listed in the specified file.
+.TP
+.I "--limit N"
+Stop reporting after N defects are found.
+.TP
+.I "--severity [all | audit[+] | low[+|-] | medium[+|-] | high[+|-] | critical[-]],...
+Filter the reported defects to include the specified severity levels.
+Default is 'medium+' (i.e. low and audit levels are ignored).
+.TP
+.I "--confidence [all | low[+] | normal[+|-] | high[+|-] | total[-]],...
+Filter the reported defects to include the specified confidence levels.
+Default is 'normal+' (i.e. low level is ignored).
+.TP
+.I "--quiet"
+Used to disable progress and other information which is normally written to stdout.
+.TP
+.I "--v|verbose"
+When present additional progress information is written to stdout. May be used
+more than once to write even more info. 
+.TP
+.I "--version"
+Display Gendarme's version number. This will match the Mono version number
+that this copy of Gendarme was released with.
+.TP
+.I "assemblies ..."
+Specify the assemblies to verify. You can specify multiple filenames, 
+including masks (? and *). You can also provide a file that lists several
+assemblies (one per line) by prefixing the filename with @ on the command 
+line.
+.SH FILES
+.TP
+.I ignore-file
+This file is used to filter out defects from gendarme reports. 
+.TP
+.I rules.xml
+This file is used in conjunction with the --set option to control and configure the rules
+used by Gendarme. It contains a set of named rules (rule sets) and each rule set contains 
+a list of rules.
+.TP
+.I gendarme.exe.config
+Used by debug versions of Gendarme to enable logging for rules. It is useful
+for Gendarme's developers (i.e. not meant for end-users).
+.SH ENVIRONMENT VARIABLES
+.TP
+.I GENDARME_COLOR
+The runner will use colors when displaying defects on the console. 
+By default colors are dark in order to display correctly on any 
+background. You can change this default to "light" (lighter colors 
+looks nice on a dark background, or "none" so no colors will be used.
+E.g.
+.nf
+    GENDARME_COLOR=none gendarme ...
+.fi
+.SH EXIT STATUS
+.TP
+.I 0
+The runner returns 0 when no error has occurred. If some code was 
+analyzed then this also means that no defects were found and reported.
+.TP
+.I 1
+The runner execution was successful but either some defects where found
+or no assembly was specified.
+.TP
+.I 2
+The runner execution was interrupted by I/O errors (e.g. missing files).
+.TP
+.I 3
+The runner founds errors in the (default or user supplied) configuration
+files. Specific error messages should be printed on the console.
+.TP
+.I 4
+The runner execution was interrupted by a non-handled exception. This
+is likely a bug inside Gendarme and should be reported on Novell's
+bugzilla (http://bugzilla.novell.com) or on the mailing-list.
+.SH COPYRIGHT
+Copyright (C) 2005-2009 Novell, Inc (http://www.novell.com)
+.SH MAILING LISTS
+Mailing lists are listed at the
+http://groups.google.com/group/gendarme
+.SH WEB SITE
+http://www.mono-project.com/Gendarme
+.SH SEE ALSO
+.BR gendarme(5), mono(1)
