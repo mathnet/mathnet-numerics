@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<plugin pluginId="Gallio.ReSharperRunner51"
+        recommendedInstallationPath="ReSharper\v5.1"
+        xmlns="http://www.gallio.org/">
+  <traits>
+    <name>ReSharper v5.1 Runner</name>
+    <version>3.3.0.0</version>
+    <description>Enables ReSharper v5.1 to run tests using Gallio.</description>
+	<icon>plugin://Gallio.ReSharperRunner51/Resources/resharper.ico</icon>
+  </traits>
+
+  <dependencies>
+    <dependency pluginId="Gallio" />
+  </dependencies>
+
+  <files>
+    <file path="Gallio.ReSharperRunner51.plugin" />
+    <file path="Gallio.ReSharperRunner51.dll" />
+	<file path="Resources\resharper.ico" />
+  </files>
+</plugin>

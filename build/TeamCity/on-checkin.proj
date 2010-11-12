@@ -1,5 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Go" ToolsVersion="4.0">
-  <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\..\lib\Gallio_3.2.517.0\Gallio.MSBuildTasks.dll" />
+  <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\..\lib\Gallio_3.3.93.0\Gallio.MSBuildTasks.dll" />
   <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile="..\MSBuild_Extension_Pack_3.5.5\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
   
   <Target Name="Go" DependsOnTargets="Test; StyleCop; Gendarme" />
