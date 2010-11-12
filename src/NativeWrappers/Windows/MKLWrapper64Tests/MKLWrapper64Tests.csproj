@@ -41,7 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -55,17 +55,16 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\..\MSUnitTests\bin\Debug\MathNet.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Numerics.MSUnitTests">
-      <HintPath>..\..\..\MSUnitTests\bin\Debug\MathNet.Numerics.MSUnitTests.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=2010.7.9.1414, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\out\debug\Net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -76,6 +75,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\MSUnitTests\AssertHelpers.cs">
+      <Link>AssertHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MSUnitTests\LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
+      <Link>LinearAlgebra\Double\LinearAlgebraProviderTests.cs</Link>
+    </Compile>
     <Compile Include="..\MKLWrapper32Tests\LinearAlgebra\Double\MklLinearAlgebraProviderTests.cs">
       <Link>LinearAlgebra\Double\MklLinearAlgebraProviderTests.cs</Link>
     </Compile>
@@ -97,6 +102,16 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\x64\Debug\libiomp5md.dll">
+      <Link>libiomp5md.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\x64\Debug\MathNET.Numerics.MKL.dll">
+      <Link>MathNET.Numerics.MKL.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

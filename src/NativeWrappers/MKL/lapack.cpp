@@ -69,4 +69,24 @@ extern "C" {
 		}
 		return info;
 	}
+
+	DLLEXPORT float s_matrix_norm(char norm, int m, int n, float a[], float work[])
+	{
+		return SLANGE(&norm, &m, &n, a, &m, work);
+	}
+
+	DLLEXPORT double d_matrix_norm(char norm, int m, int n, double a[], double work[])
+	{
+		return DLANGE(&norm, &m, &n, a, &m, work);
+	}
+	
+	DLLEXPORT float c_matrix_norm(char norm, int m, int n, MKL_Complex8 a[], float work[])
+	{
+		return CLANGE(&norm, &m, &n, a, &m, work);
+	}
+	
+	DLLEXPORT double z_matrix_norm(char norm, int m, int n, MKL_Complex16 a[], double work[])
+	{
+		return ZLANGE(&norm, &m, &n, a, &m, work);
+	}
 }
