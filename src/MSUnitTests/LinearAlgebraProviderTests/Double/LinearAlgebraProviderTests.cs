@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         /// <summary>
         /// Gets or sets linear algebra provider to test.
         /// </summary>
-        protected static ILinearAlgebraProvider<double> Provider
+        protected static ILinearAlgebraProvider Provider
         {
             get;
             set;
@@ -184,6 +184,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         [TestMethod]
         public void CanComputeMatrixL1Norm()
         {
+            var matrix = _matrices["Square3x3"];
+            var work = new double[matrix.RowCount];
+            var norm = Provider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data, work);
+            Assert.AreEqual(1.1, norm);
         }
 
         /// <summary>

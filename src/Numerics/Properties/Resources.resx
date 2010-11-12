@@ -348,4 +348,7 @@
   <data name="MustContainAtLeast" xml:space="preserve">
     <value>Data must contain at least {0} values.</value>
   </data>
+  <data name="ArrayTooSmall" xml:space="preserve">
+    <value>The given array is too small. It must be at least {0} long.</value>
+  </data>
 </root>

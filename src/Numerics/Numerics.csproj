@@ -70,6 +70,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Common.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MklLinearAlgebraProvider.Common.cs</LastGenOutput>
+    </None>
+    <None Include="Algorithms\LinearAlgebra\native.generic.include" />
     <None Include="Algorithms\LinearAlgebra\safe.native.vector.include">
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
     </None>
@@ -102,6 +107,11 @@
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Common.cs">
+      <DependentUpon>MklLinearAlgebraProvider.Common.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.cs">
       <DependentUpon>MklLinearAlgebraProvider.Complex32.tt</DependentUpon>
       <AutoGen>True</AutoGen>

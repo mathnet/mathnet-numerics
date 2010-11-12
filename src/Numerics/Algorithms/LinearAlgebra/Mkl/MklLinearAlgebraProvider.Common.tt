@@ -2,12 +2,7 @@
 <#@ output extenstion="cs" #>
 <# string library = "Mkl";#>
 <# string title = "Intel's Math Kernel Library (MKL)";#>
-<# string dataType = "double";#>
-<# string zero = "0.0";#>
-<# string one = "1.0";#>
-<# string prefix = "d";#>
-<# string reff = "";#>
+<# string dataType = "Common";#>
 <#@ include file="..\native.header.include" #>
-<#@ include file="..\native.generic.include" #>
-<#@ include file="..\native.vector.include" #>
+<#@ include file="..\native.common.include" #>
 <#@ include file="..\native.footer.include" #>
