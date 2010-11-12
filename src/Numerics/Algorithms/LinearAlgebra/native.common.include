@@ -73,7 +73,7 @@
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows), "work");
             }
 
-            return SafeNativeMethods.s_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.s_matrix_norm((byte)norm, rows, columns, matrix, work);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows), "work");
             }
 
-            return SafeNativeMethods.d_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.d_matrix_norm((byte)norm, rows, columns, matrix, work);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows), "work");
             }
 
-            return SafeNativeMethods.c_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.c_matrix_norm((byte)norm, rows, columns, matrix, work);
         }
 
         /// <summary>
@@ -307,5 +307,5 @@
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows), "work");
             }
 
-            return SafeNativeMethods.z_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.z_matrix_norm((byte)norm, rows, columns, matrix, work);
         }

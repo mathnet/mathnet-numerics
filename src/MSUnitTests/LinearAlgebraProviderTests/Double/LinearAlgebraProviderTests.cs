@@ -187,7 +187,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var matrix = _matrices["Square3x3"];
             var work = new double[matrix.RowCount];
             var norm = Provider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data, work);
-            Assert.AreEqual(1.1, norm);
+            AssertHelpers.AlmostEqual(12.1, norm, 6);
         }
 
         /// <summary>
@@ -196,6 +196,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         [TestMethod]
         public void CanComputeMatrixFrobeniusNorm()
         {
+            var matrix = _matrices["Square3x3"];
+            var work = new double[matrix.RowCount];
+            var norm = Provider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data, work);
+            AssertHelpers.AlmostEqual(10.777754868246, norm, 8);
         }
 
         /// <summary>
@@ -204,6 +208,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         [TestMethod]
         public void CanComputeMatrixInfinityNorm()
         {
+            var matrix = _matrices["Square3x3"];
+            var work = new double[matrix.RowCount];
+            var norm = Provider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data, work);
+            Assert.AreEqual(16.5, norm);
         }
 
         /// <summary>
@@ -212,6 +220,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         [TestMethod]
         public void CanComputeMatrixL1NormWithWorkArray()
         {
+            var matrix = _matrices["Square3x3"];
+            var norm = Provider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data);
+            AssertHelpers.AlmostEqual(12.1, norm, 6);
         }
 
         /// <summary>
@@ -220,6 +231,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         [TestMethod]
         public void CanComputeMatrixFrobeniusNormWithWorkArray()
         {
+            var matrix = _matrices["Square3x3"];
+            var norm = Provider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data);
+            AssertHelpers.AlmostEqual(10.777754868246, norm, 8);
         }
 
         /// <summary>
@@ -228,6 +242,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         [TestMethod]
         public void CanComputeMatrixInfinityNormWithWorkArray()
         {
+            var matrix = _matrices["Square3x3"];
+            var norm = Provider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Data);
+            Assert.AreEqual(16.5, norm);
         }
 
         /// <summary>

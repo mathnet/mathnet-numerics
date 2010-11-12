@@ -56,16 +56,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\..\MSUnitTests\bin\Debug\MathNet.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="MathNet.Numerics.MSUnitTests">
-      <HintPath>..\..\..\MSUnitTests\bin\Debug\MathNet.Numerics.MSUnitTests.dll</HintPath>
+      <HintPath>..\..\..\..\out\debug\Net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -76,6 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\MSUnitTests\AssertHelpers.cs">
+      <Link>AssertHelpers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\MSUnitTests\LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
+      <Link>LinearAlgebra\Double\LinearAlgebraProviderTests.cs</Link>
+    </Compile>
     <Compile Include="LinearAlgebra\Double\MklLinearAlgebraProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -95,6 +99,16 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Win32\Debug\libiomp5md.dll">
+      <Link>libiomp5md.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Win32\Debug\MathNET.Numerics.MKL.dll">
+      <Link>MathNET.Numerics.MKL.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
