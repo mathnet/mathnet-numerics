@@ -38,5 +38,60 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     /// </summary>
     public interface ILinearAlgebraProvider : ILinearAlgebraProvider<double>, ILinearAlgebraProvider<float>, ILinearAlgebraProvider<Complex>, ILinearAlgebraProvider<Complex32>
     {
+        /// <summary>
+        /// Computes the requested <see cref="Norm"/> of the matrix.
+        /// </summary>
+        /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="matrix">The matrix to compute the norm from.</param>
+        /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
+        /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
+        /// <returns>
+        /// The requested <see cref="Norm"/> of the matrix.
+        /// </returns>
+        float MatrixNorm(Norm norm, int rows, int columns, float[] matrix, float[] work);
+
+        /// <summary>
+        /// Computes the requested <see cref="Norm"/> of the matrix.
+        /// </summary>
+        /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="matrix">The matrix to compute the norm from.</param>
+        /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
+        /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
+        /// <returns>
+        /// The requested <see cref="Norm"/> of the matrix.
+        /// </returns>
+        double MatrixNorm(Norm norm, int rows, int columns, double[] matrix, double[] work);
+
+        /// <summary>
+        /// Computes the requested <see cref="Norm"/> of the matrix.
+        /// </summary>
+        /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="matrix">The matrix to compute the norm from.</param>
+        /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
+        /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
+        /// <returns>
+        /// The requested <see cref="Norm"/> of the matrix.
+        /// </returns>
+        Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, float[] work);
+
+        /// <summary>
+        /// Computes the requested <see cref="Norm"/> of the matrix.
+        /// </summary>
+        /// <param name="norm">The type of norm to compute.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="matrix">The matrix to compute the norm from.</param>
+        /// <param name="work">The work array. Only used when <see cref="Norm.InfinityNorm"/>
+        /// and needs to be have a length of at least M (number of rows of <paramref name="matrix"/>.</param>
+        /// <returns>
+        /// The requested <see cref="Norm"/> of the matrix.
+        /// </returns>
+        Complex MatrixNorm(Norm norm, int rows, int columns, Complex[] matrix, double[] work);
     }
 }

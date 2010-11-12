@@ -5,6 +5,5 @@
 #>
 <#@ include file="..\safe.native.common.include" #>
 <#@ include file="..\safe.native.vector.include" #>
-
     }
 }

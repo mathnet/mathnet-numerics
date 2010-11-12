@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double;
+using MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double; 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MathNet.Numerics.MklWrapperTests.LinearAlgebra.Double
@@ -36,6 +36,7 @@ namespace MathNet.Numerics.MklWrapperTests.LinearAlgebra.Double
     /// <summary>
     /// Unit test container for the MKL linear algebra provider.
     /// </summary>
+    [TestClass]
     public class MklLinearAlgebraProviderTests : LinearAlgebraProviderTests
     {
         /// <summary>

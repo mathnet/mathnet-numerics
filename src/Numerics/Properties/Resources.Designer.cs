@@ -466,6 +466,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given array is too small. It must be at least {0} long..
+        /// </summary>
+        internal static string ArrayTooSmall {
+            get {
+                return ResourceManager.GetString("ArrayTooSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Big endian files are not supported..
         /// </summary>
         internal static string BigEndianNotSupported {

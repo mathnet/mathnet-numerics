@@ -99,7 +99,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
 
         #endregion BLAS
         
-		#region LAPACK
+        #region LAPACK
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void s_cholesky_factor(int n, [In, Out] float[] a);
@@ -113,4 +113,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_cholesky_factor(int n, [In, Out] Complex[] a);
 
-		#endregion LAPACK
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern float s_norm(byte norm, int rows, int columns, [In] float[] a, [In, Out] float[] work);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern float d_norm(byte norm, int rows, int columns, [In] double[] a, [In, Out] double[] work);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern float c_norm(byte norm, int rows, int columns, [In] Complex32[] a, [In, Out] float[] work);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern double z_norm(byte norm, int rows, int columns, [In] Complex[] a, [In, Out] double[] work);
+
+        #endregion LAPACK

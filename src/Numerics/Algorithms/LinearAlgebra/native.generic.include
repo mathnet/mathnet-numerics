@@ -1,106 +1,34 @@
-﻿// <copyright file="ILinearAlgebraProviderOfT.cs" company="Math.NET">
-// Math.NET Numerics, part of the Math.NET Project
-// http://numerics.mathdotnet.com
-// http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
-// Permission is hereby granted, free of charge, to any person
-// obtaining a copy of this software and associated documentation
-// files (the "Software"), to deal in the Software without
-// restriction, including without limitation the rights to use,
-// copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following
-// conditions:
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-// OTHER DEALINGS IN THE SOFTWARE.
-// </copyright>
-
-// INITIAL DRAFT MISSING EXCEPTION SPECIFICATIONS
-namespace MathNet.Numerics.Algorithms.LinearAlgebra
-{
-    using System.Numerics;
-
-    /// <summary>
-    /// How to transpose a matrix.
-    /// </summary>
-    public enum Transpose
-    {
-        /// <summary>
-        /// Don't transpose a matrix.
-        /// </summary>
-        DontTranspose = 111,
-
-        /// <summary>
-        /// Transpose a matrix.
-        /// </summary>
-        Transpose = 112,
-
-        /// <summary>
-        /// Conjugate transpose a complex matrix.
-        /// </summary>
-        /// <remarks>If a conjugate transpose is used with a real matrix, then the matrix is just transposed.</remarks>
-        ConjugateTranspose = 113
-    }
-
-    /// <summary>
-    /// Types of matrix norms.
-    /// </summary>
-    public enum Norm : byte
-    {
-        /// <summary>
-        /// The 1-norm.
-        /// </summary>
-        OneNorm = (byte)'1',
-
-        /// <summary>
-        /// The Frobenius norm.
-        /// </summary>
-        FrobeniusNorm = (byte)'f',
-
-        /// <summary>
-        /// The infinity norm.
-        /// </summary>
-        InfinityNorm = (byte)'i',
-
-        /// <summary>
-        /// The largest absolute value norm.
-        /// </summary>
-        LargestAbsoluteValue = (byte)'m'
-    }
-
-    /// <summary>
-    /// Interface to linear algebra algorithms that work off 1-D arrays.
-    /// </summary>
-    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
-    public interface ILinearAlgebraProvider<T>
-        where T : struct
-    {
-        /*/// <summary>
-        /// Queries the provider for the optimal, workspace block size
-        /// for the given routine.
-        /// </summary>
-        /// <param name="methodName">Name of the method to query.</param>
-        /// <returns>-1 if the provider cannot compute the workspace size; otherwise
-        /// the suggested block size.</returns>
-        int QueryWorkspaceBlockSize(string methodName);*/
-
-        /// <summary>
+﻿        /// <summary>
         /// Adds a scaled vector to another: <c>y += alpha*x</c>.
         /// </summary>
         /// <param name="y">The vector to update.</param>
         /// <param name="alpha">The value to scale <paramref name="x"/> by.</param>
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
-        /// <remarks>This is equivalent to the AXPY BLAS routine.</remarks>
-        void AddVectorToScaledVector(T[] y, T alpha, T[] x);
+        /// <remarks>This equivalent to the AXPY BLAS routine.</remarks>
+        public override void AddVectorToScaledVector(<#=dataType#>[] y, <#=dataType#> alpha, <#=dataType#>[] x)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (y.Length != x.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (alpha == <#=zero#>)
+            {
+                return;
+            }
+
+            SafeNativeMethods.<#=prefix#>_axpy(y.Length, <#=reff#>alpha, x, y);
+        }
 
         /// <summary>
         /// Scales an array. Can be used to scale a vector and a matrix.
@@ -108,7 +36,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="alpha">The scalar.</param>
         /// <param name="x">The values to scale.</param>
         /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
-        void ScaleArray(T alpha, T[] x);
+        public override void ScaleArray(<#=dataType#> alpha, <#=dataType#>[] x)
+        {
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            } 
+            
+            if (alpha == <#=one#>)
+            {
+                return;
+            }
+
+            SafeNativeMethods.<#=prefix#>_scale(x.Length, <#=reff#>alpha, x);
+        }
 
         /// <summary>
         /// Computes the dot product of x and y.
@@ -117,67 +58,25 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="y">The vector y.</param>
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
-        T DotProduct(T[] x, T[] y);
+        public override <#=dataType#> DotProduct(<#=dataType#>[] x, <#=dataType#>[] y)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
 
-        /// <summary>
-        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used 
-        /// to add vectors or matrices.
-        /// </summary>
-        /// <param name="x">The array x.</param>
-        /// <param name="y">The array y.</param>
-        /// <param name="result">The result of the addition.</param>
-        /// <remarks>There is no equivalent BLAS routine, but many libraries
-        /// provide optimized (parallel and/or vectorized) versions of this
-        /// routine.</remarks>
-        void AddArrays(T[] x, T[] y, T[] result);
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
 
-        /// <summary>
-        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used 
-        /// to subtract vectors or matrices.
-        /// </summary>
-        /// <param name="x">The array x.</param>
-        /// <param name="y">The array y.</param>
-        /// <param name="result">The result of the subtraction.</param>
-        /// <remarks>There is no equivalent BLAS routine, but many libraries
-        /// provide optimized (parallel and/or vectorized) versions of this
-        /// routine.</remarks>
-        void SubtractArrays(T[] x, T[] y, T[] result);
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
 
-        /// <summary>
-        /// Does a point wise multiplication of two arrays <c>z = x * y</c>. This can be used
-        /// to multiply elements of vectors or matrices.
-        /// </summary>
-        /// <param name="x">The array x.</param>
-        /// <param name="y">The array y.</param>
-        /// <param name="result">The result of the point wise multiplication.</param>
-        /// <remarks>There is no equivalent BLAS routine, but many libraries
-        /// provide optimized (parallel and/or vectorized) versions of this
-        /// routine.</remarks>
-        void PointWiseMultiplyArrays(T[] x, T[] y, T[] result);
-
-        /// <summary>
-        /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
-        /// to divide elements of vectors or matrices.
-        /// </summary>
-        /// <param name="x">The array x.</param>
-        /// <param name="y">The array y.</param>
-        /// <param name="result">The result of the point wise division.</param>
-        /// <remarks>There is no equivalent BLAS routine, but many libraries
-        /// provide optimized (parallel and/or vectorized) versions of this
-        /// routine.</remarks>
-        void PointWiseDivideArrays(T[] x, T[] y, T[] result);
-
-        /// <summary>
-        /// Computes the requested <see cref="Norm"/> of the matrix.
-        /// </summary>
-        /// <param name="norm">The type of norm to compute.</param>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <param name="matrix">The matrix to compute the norm from.</param>
-        /// <returns>
-        /// The requested <see cref="Norm"/> of the matrix.
-        /// </returns>
-        T MatrixNorm(Norm norm, int rows, int columns, T[] matrix);
+            return SafeNativeMethods.<#=prefix#>_dot_product(x.Length, x, y);
+        }
 
         /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>
@@ -190,8 +89,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsY">The number of columns in the y matrix.</param>
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
-        /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
-        void MatrixMultiply(T[] x, int rowsX, int columnsX, T[] y, int rowsY, int columnsY, T[] result);
+        /// set to <#=one#> and beta set to <#=zero#>, and x and y are not transposed.</remarks>
+        public override void MatrixMultiply(<#=dataType#>[] x, int rowsX, int columnsX, <#=dataType#>[] y, int rowsY, int columnsY, <#=dataType#>[] result)
+        {
+            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, <#=one#>, x, rowsX, columnsX, y, rowsY, columnsY, <#=zero#>, result);
+        }
 
         /// <summary>
         /// Multiplies two matrices and updates another with the result. <c>c = alpha*op(a)*op(b) + beta*c</c>
@@ -207,18 +109,53 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsB">The number of columns in the <paramref name="b"/> matrix.</param>
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
-        void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, T alpha, T[] a, int rowsA, int columnsA, T[] b, int rowsB, int columnsB, T beta, T[] c);
+        public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, <#=dataType#> alpha, <#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] b, int rowsB, int columnsB, <#=dataType#> beta, <#=dataType#>[] c)
+        {
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (c == null)
+            {
+                throw new ArgumentNullException("c");
+            }
+
+            var m = transposeA == Transpose.DontTranspose ? rowsA : columnsA;
+            var n = transposeB == Transpose.DontTranspose ? columnsB : rowsB;
+            var k = transposeA == Transpose.DontTranspose ? columnsA : rowsA;
+
+            if (c.Length != rowsA * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);   
+            }
+
+            if (columnsA != rowsB)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            SafeNativeMethods.<#=prefix#>_matrix_multiply(transposeA, transposeB, m, n, k, <#=reff#>alpha, a, b, <#=reff#>beta, c);
+        }
 
         /// <summary>
         /// Computes the LUP factorization of A. P*A = L*U.
         /// </summary>
         /// <param name="data">An <paramref name="order"/> by <paramref name="order"/> matrix. The matrix is overwritten with the
-        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always 1.0
+        /// the LU factorization on exit. The lower triangular factor L is stored in under the diagonal of <paramref name="data"/> (the diagonal is always <#=one#>
         /// for the L factor). The upper triangular factor U is stored on and above the diagonal of <paramref name="data"/>.</param>
         /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
-        void LUFactor(T[] data, int order, int[] ipiv);
+        public override void LUFactor(<#=dataType#>[] data, int order, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the inverse of matrix using LU factorization.
@@ -226,7 +163,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        void LUInverse(T[] a, int order);
+        public override void LUInverse(<#=dataType#>[] a, int order)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the inverse of a previously factored matrix.
@@ -235,7 +175,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        void LUInverseFactored(T[] a, int order, int[] ipiv);
+        public override void LUInverseFactored(<#=dataType#>[] a, int order, int[] ipiv)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the inverse of matrix using LU factorization.
@@ -246,7 +189,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        void LUInverse(T[] a, int order, T[] work);
+        public override void LUInverse(<#=dataType#>[] a, int order, <#=dataType#>[] work)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the inverse of a previously factored matrix.
@@ -255,10 +201,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent.  On exit, work[0] contains the optimal
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        void LUInverseFactored(T[] a, int order, int[] ipiv, T[] work);
+        public override void LUInverseFactored(<#=dataType#>[] a, int order, int[] ipiv, <#=dataType#>[] work)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using LU factorization.
@@ -268,7 +217,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        void LUSolve(int columnsOfB, T[] a, int order, T[] b);
+        public override void LUSolve(int columnsOfB, <#=dataType#>[] a, int order, <#=dataType#>[] b)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
@@ -279,7 +231,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        void LUSolveFactored(int columnsOfB, T[] a, int order, int[] ipiv, T[] b);
+        public override void LUSolveFactored(int columnsOfB, <#=dataType#>[] a, int order, int[] ipiv, <#=dataType#>[] b)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using LU factorization.
@@ -290,7 +245,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        void LUSolve(Transpose transposeA, int columnsOfB, T[] a, int order, T[] b);
+        public override void LUSolve(Transpose transposeA, int columnsOfB, <#=dataType#>[] a, int order, <#=dataType#>[] b)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
@@ -302,7 +260,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        void LUSolveFactored(Transpose transposeA, int columnsOfB, T[] a, int order, int[] ipiv, T[] b);
+        public override void LUSolveFactored(Transpose transposeA, int columnsOfB, <#=dataType#>[] a, int order, int[] ipiv, <#=dataType#>[] b)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the Cholesky factorization of A.
@@ -311,7 +272,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// the Cholesky factorization.</param>
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        void CholeskyFactor(T[] a, int order);
+        public override void CholeskyFactor(<#=dataType#>[] a, int order)
+        {
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (order < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
+            }
+
+            SafeNativeMethods.<#=prefix#>_cholesky_factor(order, a);
+        }
 
         /// <summary>
         /// Solves A*X=B for X using Cholesky factorization.
@@ -321,8 +295,12 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="rowsB">The number of rows in the B matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
-        /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
-        void CholeskySolve(T[] a, int orderA, T[] b, int rowsB, int columnsB);
+        /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
+        /// </remarks>
+        public override void CholeskySolve(<#=dataType#>[] a, int orderA, <#=dataType#>[] b, int rowsB, int columnsB)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
@@ -333,7 +311,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="rowsB">The number of rows in the B matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
-        void CholeskySolveFactored(T[] a, int orderA, T[] b, int rowsB, int columnsB);
+        public override void CholeskySolveFactored(<#=dataType#>[] a, int orderA, <#=dataType#>[] b, int rowsB, int columnsB)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the QR factorization of A.
@@ -345,7 +326,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(T[] r, int rowsR, int columnsR, T[] q);
+        public override void QRFactor(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the QR factorization of A.
@@ -360,7 +344,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(T[] r, int rowsR, int columnsR, T[] q, T[] work);
+        public override void QRFactor(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] work)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
@@ -374,7 +361,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void QRSolve(T[] r, int rowsR, int columnsR, T[] q, T[] b, int columnsB, T[] x);
+        public override void QRSolve(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
@@ -391,19 +381,25 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        void QRSolve(T[] r, int rowsR, int columnsR, T[] q, T[] b, int columnsB, T[] x, T[] work);
+        public override void QRSolve(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x, <#=dataType#>[] work)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(T[],int,int,T[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(<#=dataType#>[],int,int,<#=dataType#>[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(<#=dataType#>[],int,int,<#=dataType#>[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void QRSolveFactored(T[] q, T[] r, int rowsR, int columnsR, T[] b, int columnsB, T[] x);
+        public override void QRSolveFactored(<#=dataType#>[] q, <#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the singular value decomposition of A.
@@ -412,13 +408,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value. </param>
+        /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        void SingularValueDecomposition(bool computeVectors, T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt);
+        public override void SingularValueDecomposition(bool computeVectors, <#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Computes the singular value decomposition of A.
@@ -427,17 +426,19 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value. </param>
+        /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
-        /// On exit, work[0] contains the optimal work size value.
-        /// </param>
+        /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        void SingularValueDecomposition(bool computeVectors, T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] work);
+        public override void SingularValueDecomposition(bool computeVectors, <#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] work)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
@@ -445,13 +446,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value. </param>
+        /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void SvdSolve(T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);
+        public override void SvdSolve(<#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
@@ -459,7 +463,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value. </param>
+        /// <param name="s">The singular values of A in ascending value.</param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
@@ -467,21 +471,24 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
-        /// On exit, work[0] contains the optimal work size value.
-        /// </param>
-        void SvdSolve(T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x, T[] work);
+        /// On exit, work[0] contains the optimal work size value.</param>
+        public override void SvdSolve(<#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x, <#=dataType#>[] work)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
         /// </summary>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int, T[],T[],T[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[],T[])"/>.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[],<#=dataType#>[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[],<#=dataType#>[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[],<#=dataType#>[])"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void SvdSolveFactored(int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);
-    }
-}
+        public override void SvdSolveFactored(int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
+        {
+            throw new NotImplementedException();
+        }

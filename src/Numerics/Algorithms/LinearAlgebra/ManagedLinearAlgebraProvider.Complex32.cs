@@ -348,7 +348,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public virtual Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, Complex32[] work)
+        public virtual Complex32 MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix, float[] work)
         {
             return MatrixNorm(norm, rows, columns, matrix);
         }
