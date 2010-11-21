@@ -87,7 +87,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             Matrix<float> matrix = SparseMatrix.Identity(100);
 
             // Scale it with a funny number
-            matrix.Multiply((float)Math.PI);
+            matrix.Multiply((float)Math.PI, matrix);
 
             // Create the y vector
             Vector<float> y = new DenseVector(matrix.RowCount, 1);

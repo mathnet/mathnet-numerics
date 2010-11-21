@@ -187,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 });
         }
 
-         /// <summary>
+        /// <summary>
         /// Multiplies this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>

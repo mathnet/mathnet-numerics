@@ -1282,6 +1282,31 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Multiplies this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Vector<float> rightSide, Vector<float> result)
+        {
+            for (var row = 0; row < RowCount; row++)
+            {
+                // Get the begin / end index for the current row
+                var startIndex = _rowIndex[row];
+                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                if (startIndex == endIndex)
+                {
+                    continue;
+                }
+
+                var sum = CommonParallel.Aggregate(
+                    startIndex,
+                    endIndex,
+                    index => _nonZeroValues[index] * rightSide[_columnIndices[index]]);
+                result[row] = sum;
+            }
+        }
+
+        /// <summary>
         /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>

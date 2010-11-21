@@ -315,8 +315,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            // Initialize the solver fields
+            if (input.Count != matrix.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
 
+            // Initialize the solver fields
             // Set the convergence monitor
             if (_iterator == null)
             {
@@ -363,15 +367,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
             Vector<Complex> z = new DenseVector(residuals.Count);
 
             Vector<Complex> temp = new DenseVector(residuals.Count);
-            
+            Vector<Complex> temp2 = new DenseVector(residuals.Count);
+            Vector<Complex> temp3 = new DenseVector(residuals.Count);
+
             // for (k = 0, 1, .... )
             var iterationNumber = 0;
             while (ShouldContinue(iterationNumber, xtemp, input, residuals))
             {
                 // p_k = r_k + beta_(k-1) * (p_(k-1) - u_(k-1))
                 p.Subtract(u, temp);
-                
-                residuals.Add(temp.Multiply(beta), p);
+
+                temp.Multiply(beta, temp2);
+                residuals.Add(temp2, p);
 
                 // Solve M b_k = p_k
                 _preconditioner.Approximate(p, temp);
@@ -385,14 +392,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 // y_k = t_(k-1) - r_k - alpha_k * w_(k-1) + alpha_k s_k
                 s.Subtract(w, temp);
                 t.Subtract(residuals, y);
-                
-                y.Add(temp.Multiply(alpha), y);
+
+                temp.Multiply(alpha, temp2);
+                y.Add(temp2, temp3);
+                temp3.CopyTo(y);
 
                 // Store the old value of t in t0
                 t.CopyTo(t0);
 
                 // t_k = r_k - alpha_k s_k
-                residuals.Add(s.Multiply(-alpha), t);
+                s.Multiply(-alpha, temp2);
+                residuals.Add(temp2, t);
 
                 // Solve M d_k = t_k
                 _preconditioner.Approximate(t, temp);
@@ -450,38 +460,53 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 }
 
                 // u_k = sigma_k s_k + eta_k (t_(k-1) - r_k + beta_(k-1) u_(k-1))
-                t0.Add(u.Multiply(beta), temp);
+                u.Multiply(beta, temp2);
+                t0.Add(temp2, temp);
 
-                temp.Subtract(residuals, temp);
+                temp.Subtract(residuals, temp3);
+                temp3.CopyTo(temp);
                 temp.Multiply(eta, temp);
 
-                temp.Add(s.Multiply(sigma), u);
+                s.Multiply(sigma, temp2);
+                temp.Add(temp2, u);
 
                 // z_k = sigma_k r_k +_ eta_k z_(k-1) - alpha_k u_k
                 z.Multiply(eta, z);
-                z.Add(u.Multiply(-alpha), z);
-                z.Add(residuals.Multiply(sigma), z);
+                u.Multiply(-alpha, temp2);
+                z.Add(temp2, temp3);
+                temp3.CopyTo(z);
+
+                residuals.Multiply(sigma, temp2);
+                z.Add(temp2, temp3);
+                temp3.CopyTo(z);
 
                 // x_(k+1) = x_k + alpha_k p_k + z_k
-                xtemp.Add(p.Multiply(alpha), xtemp);
+                p.Multiply(alpha, temp2);
+                xtemp.Add(temp2, temp3);
+                temp3.CopyTo(xtemp);
 
-                xtemp.Add(z, xtemp);
+                xtemp.Add(z, temp3);
+                temp3.CopyTo(xtemp);
 
                 // r_(k+1) = t_k - eta_k y_k - sigma_k c_k
                 // Copy the old residuals to a temp vector because we'll
                 // need those in the next step
                 residuals.CopyTo(t0);
 
-                t.Add(y.Multiply(-eta), residuals);
+                y.Multiply(-eta, temp2);
+                t.Add(temp2, residuals);
 
-                residuals.Add(c.Multiply(-sigma), residuals);
+                c.Multiply(-sigma, temp2);
+                residuals.Add(temp2, temp3);
+                temp3.CopyTo(residuals);
 
                 // beta_k = alpha_k / sigma_k * (r*_0 * r_(k+1)) / (r*_0 * r_k)
                 // But first we check if there is a possible NaN. If so just reset beta to zero.
                 beta = (!sigma.Real.AlmostEqual(0, 1) || !sigma.Imaginary.AlmostEqual(0, 1)) ? alpha / sigma * rdash.DotProduct(residuals) / rdash.DotProduct(t0) : 0;
 
                 // w_k = c_k + beta_k s_k
-                c.Add(s.Multiply(beta), w);
+                s.Multiply(beta, temp2);
+                c.Add(temp2, w);
 
                 // Get the real value
                 _preconditioner.Approximate(xtemp, result);

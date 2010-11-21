@@ -336,6 +336,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
+            if (input.Count != matrix.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
             // Initialize the solver fields
             // Set the convergence monitor
             if (_iterator == null)
@@ -394,6 +399,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
             Vector<Complex> utemp = new DenseVector(residuals.Count);
             Vector<Complex> temp = new DenseVector(residuals.Count);
             Vector<Complex> temp1 = new DenseVector(residuals.Count);
+            Vector<Complex> temp2 = new DenseVector(residuals.Count);
 
             Vector<Complex> zd = new DenseVector(residuals.Count);
             Vector<Complex> zg = new DenseVector(residuals.Count);
@@ -428,7 +434,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 var alpha = _startingVectors[0].DotProduct(residuals) / c[k - 1];
 
                 // u_(jk+1) = r_((j-1)k+k) - alpha_(jk+1) w_((j-1)k+k)
-                residuals.Add(w[k - 1].Multiply(-alpha), u);
+                w[k - 1].Multiply(-alpha, temp);
+                residuals.Add(temp, u);
 
                 // SOLVE M u~_(jk+1) = u_(jk+1)
                 _preconditioner.Approximate(u, temp1);
@@ -448,18 +455,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 
                 rho = -u.DotProduct(temp) / rho;
 
-                // x_(jk+1) = x_((j-1)k_k) - rho_(j+1) u~_(jk+1) + alpha_(jk+1) g~_((j-1)k+k)
-                xtemp.Add(utemp.Multiply(-rho), xtemp);
-
-                gtemp.Multiply(alpha, gtemp);
-                xtemp.Add(gtemp, xtemp);
-
                 // r_(jk+1) = rho_(j+1) A u~_(jk+1) + u_(jk+1)
                 u.CopyTo(residuals);
 
                 // Reuse temp
                 temp.Multiply(rho, temp);
-                residuals.Add(temp, residuals);
+                residuals.Add(temp, temp2);
+                temp2.CopyTo(residuals);
+
+                // x_(jk+1) = x_((j-1)k_k) - rho_(j+1) u~_(jk+1) + alpha_(jk+1) g~_((j-1)k+k)
+                utemp.Multiply(-rho, temp);
+                xtemp.Add(temp, temp2);
+                temp2.CopyTo(xtemp);
+
+                gtemp.Multiply(alpha, gtemp);
+                xtemp.Add(gtemp, temp2);
+                temp2.CopyTo(xtemp);
 
                 // Check convergence and stop if we are converged.
                 if (!ShouldContinue(iterationNumber, xtemp, input, residuals))
@@ -498,13 +509,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                             beta = -_startingVectors[s + 1].DotProduct(zd) / c[s];
 
                             // z_d = z_d + beta^(jk+i)_((j-1)k+s) d_((j-1)k+s)
-                            zd.Add(d[s].Multiply(beta), zd);
+                            d[s].Multiply(beta, temp);
+                            zd.Add(temp, temp2);
+                            temp2.CopyTo(zd);
 
                             // z_g = z_g + beta^(jk+i)_((j-1)k+s) g_((j-1)k+s)
-                            zg.Add(g[s].Multiply(beta), zg);
+                            g[s].Multiply(beta, temp);
+                            zg.Add(temp, temp2);
+                            temp2.CopyTo(zg);
 
                             // z_w = z_w + beta^(jk+i)_((j-1)k+s) w_((j-1)k+s)
-                            zw.Add(w[s].Multiply(beta), zw);
+                            w[s].Multiply(beta, temp);
+                            zw.Add(temp, temp2);
+                            temp2.CopyTo(zw);
                         }
                     }
 
@@ -515,14 +532,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                     }
 
                     // beta^(jk+i)_((j-1)k+k) = -(q^T_1 (r_(jk+1) + rho_(j+1) z_w)) / (rho_(j+1) c_((j-1)k+k))
-                    residuals.Add(zw.Multiply(rho), temp);
+                    zw.Multiply(rho, temp2);
+                    residuals.Add(temp2, temp);
                     beta = -_startingVectors[0].DotProduct(temp) / beta;
 
                     // z_g = z_g + beta^(jk+i)_((j-1)k+k) g_((j-1)k+k)
-                    zg.Add(g[k - 1].Multiply(beta), zg);
+                    g[k - 1].Multiply(beta, temp);
+                    zg.Add(temp, temp2);
+                    temp2.CopyTo(zg);
 
                     // z_w = rho_(j+1) (z_w + beta^(jk+i)_((j-1)k+k) w_((j-1)k+k))
-                    zw.Add(w[k - 1].Multiply(beta), zw);
+                    w[k - 1].Multiply(beta, temp);
+                    zw.Add(temp, temp2);
+                    temp2.CopyTo(zw);
                     zw.Multiply(rho, zw);
 
                     // z_d = r_(jk+i) + z_w
@@ -535,10 +557,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                         beta = -_startingVectors[s + 1].DotProduct(zd) / c[s];
 
                         // z_d = z_d + beta^(jk+i)_(jk+s) * d_(jk+s)
-                        zd.Add(d[s].Multiply(beta), zd);
+                        d[s].Multiply(beta, temp);
+                        zd.Add(temp, temp2);
+                        temp2.CopyTo(zd);
 
                         // z_g = z_g + beta^(jk+i)_(jk+s) * g_(jk+s)
-                        zg.Add(g[s].Multiply(beta), zg);
+                        g[s].Multiply(beta, temp);
+                        zg.Add(temp, temp2);
+                        temp2.CopyTo(zg);
                     }
 
                     // d_(jk+i) = z_d - u_(jk+i)
@@ -561,19 +587,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                         alpha = _startingVectors[i + 1].DotProduct(u) / c[i];
 
                         // u_(jk+i+1) = u_(jk+i) - alpha_(jk+i+1) d_(jk+i)
-                        u.Add(d[i].Multiply(-alpha), u);
+                        d[i].Multiply(-alpha, temp);
+                        u.Add(temp, temp2);
+                        temp2.CopyTo(u);
 
                         // SOLVE M g~_(jk+i) = g_(jk+i)
                         _preconditioner.Approximate(g[i], gtemp);
 
                         // x_(jk+i+1) = x_(jk+i) + rho_(j+1) alpha_(jk+i+1) g~_(jk+i)
-                        xtemp.Add(gtemp.Multiply(rho * alpha), xtemp);
+                        gtemp.Multiply(rho * alpha, temp);
+                        xtemp.Add(temp, temp2);
+                        temp2.CopyTo(xtemp);
 
                         // w_(jk+i) = A g~_(jk+i)
                         matrix.Multiply(gtemp, w[i]);
 
                         // r_(jk+i+1) = r_(jk+i) - rho_(j+1) alpha_(jk+i+1) w_(jk+i)
-                        residuals.Add(w[i].Multiply(-rho * alpha), residuals);
+                        w[i].Multiply(-rho * alpha, temp);
+                        residuals.Add(temp, temp2);
+                        temp2.CopyTo(residuals);
 
                         // We can check the residuals here if they're close
                         if (!ShouldContinue(iterationNumber, xtemp, input, residuals))

@@ -87,7 +87,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             Matrix<Complex32> matrix = SparseMatrix.Identity(100);
 
             // Scale it with a funny number
-            matrix.Multiply(new Complex32((float)Math.PI, (float)Math.PI));
+            matrix.Multiply(new Complex32((float)Math.PI, (float)Math.PI), matrix);
 
             // Create the y vector
             Vector<Complex32> y = new DenseVector(matrix.RowCount, Complex32.One);
