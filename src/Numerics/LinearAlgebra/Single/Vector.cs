@@ -111,7 +111,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         protected override void DoSubtract(Vector<float> other, Vector<float> result)
         {
-            CopyTo(result);
             CommonParallel.For(
                 0,
                 Count,
@@ -467,7 +466,5 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             return v;
         }
-
-
     }
 }

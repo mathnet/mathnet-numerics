@@ -258,7 +258,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
- 
+
+            if (input.Count != matrix.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
             // Initialize the solver fields
             // Set the convergence monitor
             if (_iterator == null)
@@ -281,9 +286,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
 
             // Choose r~ (for example, r~ = r_0)
             var tempResiduals = residuals.Clone();
-            var temp = result.Clone();
-
-            // create five temporary vectors needed to hold temporary
+            
+            // create seven temporary vectors needed to hold temporary
             // coefficients. All vectors are mangled in each iteration.
             // These are defined here to prevent stressing the garbage collector
             Vector<double> vecP = new DenseVector(residuals.Count);
@@ -291,7 +295,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
             Vector<double> nu = new DenseVector(residuals.Count);
             Vector<double> vecS = new DenseVector(residuals.Count);
             Vector<double> vecSdash = new DenseVector(residuals.Count);
-            Vector<double> t = new DenseVector(residuals.Count);
+            Vector<double> temp = new DenseVector(residuals.Count);
+            Vector<double> temp2 = new DenseVector(residuals.Count);
 
             // create some temporary double variables that are needed
             // to hold values in between iterations
@@ -320,10 +325,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                     var beta = (currentRho / oldRho) * (alpha / omega);
 
                     // p_i = r_(i-1) + beta_(i-1)(p_(i-1) - omega_(i-1) * nu_(i-1))
-                    vecP.Add(nu.Multiply(-omega), vecP);
+                    nu.Multiply(-omega, temp);
+                    vecP.Add(temp, temp2);
+                    temp2.CopyTo(vecP);
 
                     vecP.Multiply(beta, vecP);
-                    vecP.Add(residuals, vecP);
+                    vecP.Add(residuals, temp2);
+                    temp2.CopyTo(vecP);
                 }
                 else
                 {
@@ -341,7 +349,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 alpha = currentRho * 1 / tempResiduals.DotProduct(nu);
 
                 // s = r_(i-1) - alpha_i nu_i
-                residuals.Add(nu.Multiply(-alpha), vecS);
+                nu.Multiply(-alpha, temp);
+                residuals.Add(temp, vecS);
 
                 // Check if we're converged. If so then stop. Otherwise continue;
                 // Calculate the temporary result. 
@@ -349,8 +358,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 // temp. Others will be used in the calculation later on.
                 // x_i = x_(i-1) + alpha_i * p^_i + s^_i
                 vecPdash.Multiply(alpha, temp);
-                temp.Add(vecSdash, temp);
-                temp.Add(result, temp);
+                temp.Add(vecSdash, temp2);
+                temp2.CopyTo(temp);
+                temp.Add(result, temp2);
+                temp2.CopyTo(temp);
 
                 // Check convergence and stop if we are converged.
                 if (!ShouldContinue(iterationNumber, temp, input, vecS))
@@ -376,18 +387,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 _preconditioner.Approximate(vecS, vecSdash);
 
                 // temp = As~
-                matrix.Multiply(vecSdash, t);
+                matrix.Multiply(vecSdash, temp);
 
                 // omega_i = temp^T s / temp^T temp
-                omega = t.DotProduct(vecS) / t.DotProduct(t);
+                omega = temp.DotProduct(vecS) / temp.DotProduct(temp);
 
                 // x_i = x_(i-1) + alpha_i p^ + omega_i s^
-                result.Add(vecSdash.Multiply(omega), result);
-                result.Add(vecPdash.Multiply(alpha), result);
+                temp.Multiply(-omega, residuals);
+                residuals.Add(vecS, temp2);
+                temp2.CopyTo(residuals);
 
-                t.Multiply(-omega, residuals);
-                residuals.Add(vecS, residuals);
+                vecSdash.Multiply(omega, temp);
+                result.Add(temp, temp2);
+                temp2.CopyTo(result);
 
+                vecPdash.Multiply(alpha, temp);
+                result.Add(temp, temp2);
+                temp2.CopyTo(result);
+                
                 // for continuation it is necessary that omega_i != 0.0
                 // If omega is only 1 ULP from zero then we fail.
                 if (omega.AlmostEqual(0, 1))

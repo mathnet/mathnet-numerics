@@ -110,7 +110,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         protected override void DoSubtract(Vector<double> other, Vector<double> result)
         {
-                CopyTo(result);
                 CommonParallel.For(
                     0,
                     Count,

@@ -248,6 +248,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
+            if (input.Count != matrix.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
             // Initialize the solver fields
             // Set the convergence monitor
             if (_iterator == null)
@@ -277,7 +282,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 
             // Temp vectors
             var temp = new DenseVector(input.Count);
-         
+            var temp1 = new DenseVector(input.Count);
+            var temp2 = new DenseVector(input.Count);
+
             // Initialize
             var startNorm = input.Norm(2);
 
@@ -319,7 +326,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                     alpha = rho / sigma;
 
                     // yOdd = yEven - alpha * v
-                    yeven.Add(v.Multiply(-alpha), yodd);
+                    v.Multiply(-alpha, temp1);
+                    yeven.Add(temp1, yodd);
 
                     // Solve M temp = yOdd
                     _preconditioner.Approximate(yodd, temp);
@@ -335,7 +343,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 var yinternal = IsEven(iterationNumber) ? yeven : yodd;
 
                 // pseudoResiduals = pseudoResiduals - alpha * uOdd
-                pseudoResiduals.Add(uinternal.Multiply(-alpha), pseudoResiduals);
+                uinternal.Multiply(-alpha, temp1);
+                pseudoResiduals.Add(temp1, temp2);
+                temp2.CopyTo(pseudoResiduals);
 
                 // d = yOdd + theta * theta * eta / alpha * d
                 d.Multiply(theta * theta * eta / alpha, temp);
@@ -352,7 +362,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 eta = c * c * alpha;
 
                 // x = x + eta * d
-                x.Add(d.Multiply(eta), x);
+                d.Multiply(eta, temp1);
+                x.Add(temp1, temp2);
+                temp2.CopyTo(x);
 
                 // Check convergence and see if we can bail
                 if (!ShouldContinue(iterationNumber, result, input, pseudoResiduals))
@@ -390,7 +402,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                     rho = rhoNew;
 
                     // yOdd = pseudoResiduals + beta * yOdd
-                    pseudoResiduals.Add(yodd.Multiply(beta), yeven);
+                    yodd.Multiply(beta, temp1);
+                    pseudoResiduals.Add(temp1, yeven);
 
                     // Solve M temp = yOdd
                     _preconditioner.Approximate(yeven, temp);
@@ -399,8 +412,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                     matrix.Multiply(temp, ueven);
 
                     // v = uEven + beta * (uOdd + beta * v)
-                    uodd.Add(v.Multiply(beta), temp);
-                    ueven.Add(temp.Multiply(beta), v);
+                    v.Multiply(beta, temp1);
+                    uodd.Add(temp1, temp);
+
+                    temp.Multiply(beta, temp1);
+                    ueven.Add(temp1, v);
                 }
 
                 // Calculate the real values

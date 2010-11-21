@@ -87,7 +87,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             Matrix<Complex> matrix = SparseMatrix.Identity(100);
 
             // Scale it with a funny number
-            matrix.Multiply(System.Math.PI);
+            matrix.Multiply(System.Math.PI, matrix);
 
             // Create the y vector
             Vector<Complex> y = new DenseVector(matrix.RowCount, 1);

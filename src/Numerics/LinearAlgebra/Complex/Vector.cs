@@ -111,7 +111,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </param>
         protected override void DoSubtract(Vector<Complex> other, Vector<Complex> result)
         {
-                CopyTo(result);
                 CommonParallel.For(
                     0,
                     Count,
