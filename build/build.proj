@@ -18,7 +18,7 @@
   
   <Target Name="Test" DependsOnTargets="Compile">
     <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="./bin/MathNet.Numerics.UnitTests.dll" />
-    <Exec Command="$(MSBuildProjectDirectory)/bin/FSharpUnitTests.exe" IgnoreExitCode="false" />
+    <Exec Command="$(MSBuildProjectDirectory)/bin/MathNet.Numerics.FSharp.UnitTests.exe" IgnoreExitCode="false" />
   </Target>
 
   <Target Name="StyleCop">

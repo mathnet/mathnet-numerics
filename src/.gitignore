@@ -5,4 +5,5 @@ obj
 *.suo
 *.vsdoc
 TestResults
+*.sdf
 Version.cs
