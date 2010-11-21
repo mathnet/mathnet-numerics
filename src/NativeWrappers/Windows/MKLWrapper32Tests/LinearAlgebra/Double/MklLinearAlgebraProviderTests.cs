@@ -40,13 +40,11 @@ namespace MathNet.Numerics.MklWrapperTests.LinearAlgebra.Double
     public class MklLinearAlgebraProviderTests : LinearAlgebraProviderTests
     {
         /// <summary>
-        /// Sets the linear algebra provider to the managed one.
+        /// Initializes a new instance of the <see cref="MklLinearAlgebraProviderTests"/> class.
         /// </summary>
-        /// <param name="context">The test context to use.</param>
-        [ClassInitialize]
-        public static void SetProvider(TestContext context)
-        {
-            Provider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
-        }
+        public MklLinearAlgebraProviderTests()
+         {
+             Provider = new Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+         }
     }
 }
