@@ -49,8 +49,8 @@
     <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\src\Numerics\bin\Debug\MathNet.Numerics.dll"/>
   </Target>
   
-  <Target Name="CSharpCompile">
-    <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize)" />
+  <Target Name="CSharpCompile" DependsOnTargets="UpdateTemplates">
+    <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" />
   </Target>
   
   <Target Name="CSharpTest" DependsOnTargets="CSharpCompile">
