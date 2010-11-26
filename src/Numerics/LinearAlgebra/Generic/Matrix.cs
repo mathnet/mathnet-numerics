@@ -1002,7 +1002,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             result.SetRow(rowIndex, row);
 
-            for (var i = rowIndex + 1; i < RowCount; i++)
+            for (var i = rowIndex + 1; i < RowCount + 1; i++)
             {
                 result.SetRow(i, Row(i - 1));
             }
