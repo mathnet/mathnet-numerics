@@ -32,7 +32,7 @@ namespace MathNet.Numerics.Random
 {
     using System;
 
-	/// <summary>
+    /// <summary>
     /// This class implements extension methods for the System.Random class. The extension methods generate
     /// pseudo-random distributed numbers for types other than double and int32.
     /// </summary>
@@ -41,16 +41,20 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a nonnegative random number less than <see cref="Int64.MaxValue"/>.
         /// </summary>
+        /// <param name="rnd">
+        /// The random object to extend.
+        /// </param>
         /// <returns>
         /// A 64-bit signed integer greater than or equal to 0, and less than <see cref="Int64.MaxValue"/>; that is, 
-        /// the range of return values includes 0 but not <paramref name="Int64.MaxValue"/>.
+        /// the range of return values includes 0 but not <see cref="Int64.MaxValue"/>.
         /// </returns>
         /// <seealso cref="NextFullRangeInt64"/>
-        public static long NextInt64(this System.Random rnd)
+        public static long NextInt64(this Random rnd)
         {
-            byte[] buffer = new byte[sizeof(Int64)];
+            var buffer = new byte[sizeof(long)];
+
             rnd.NextBytes(buffer);
-            long candidate = BitConverter.ToInt64(buffer, 0);
+            var candidate = BitConverter.ToInt64(buffer, 0);
 
             // wrap negative numbers around, mapping every negative number to a distinct nonnegative number
             // MinValue -> 0, -1 -> MaxValue
@@ -63,14 +67,17 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random number of the full Int32 range.
         /// </summary>
+        /// <param name="rnd">
+        /// The random object to extend.
+        /// </param>
         /// <returns>
         /// A 32-bit signed integer of the full range, including 0, negative numbers,
         /// <see cref="Int32.MaxValue"/> and <see cref="Int32.MinValue"/>.
         /// </returns>
         /// <seealso cref="System.Random.Next()"/>
-        public static int NextFullRangeInt32(this System.Random rnd)
+        public static int NextFullRangeInt32(this Random rnd)
         {
-            byte[] buffer = new byte[sizeof(Int32)];
+            var buffer = new byte[sizeof(int)];
             rnd.NextBytes(buffer);
             return BitConverter.ToInt32(buffer, 0);
         }
@@ -78,14 +85,17 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random number of the full Int64 range.
         /// </summary>
+        /// <param name="rnd">
+        /// The random object to extend.
+        /// </param>
         /// <returns>
         /// A 64-bit signed integer of the full range, including 0, negative numbers,
         /// <see cref="Int64.MaxValue"/> and <see cref="Int64.MinValue"/>.
         /// </returns>
         /// <seealso cref="NextInt64"/>
-        public static long NextFullRangeInt64(this System.Random rnd)
+        public static long NextFullRangeInt64(this Random rnd)
         {
-            byte[] buffer = new byte[sizeof(Int64)];
+            var buffer = new byte[sizeof(long)];
             rnd.NextBytes(buffer);
             return BitConverter.ToInt64(buffer, 0);
         }
@@ -93,11 +103,14 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a nonnegative decimal floating point random number less than 1.0.
         /// </summary>
+        /// <param name="rnd">
+        /// The random object to extend.
+        /// </param>
         /// <returns>
         /// A decimal floating point number greater than or equal to 0.0, and less than 1.0; that is, 
         /// the range of return values includes 0.0 but not 1.0.
         /// </returns>
-        public static decimal NextDecimal(this System.Random rnd)
+        public static decimal NextDecimal(this Random rnd)
         {
             decimal candidate;
 
@@ -106,7 +119,7 @@ namespace MathNet.Numerics.Random
             // indeed be reached, with uniform probability.
             do
             {
-                candidate = new Decimal(
+                candidate = new decimal(
                     rnd.NextFullRangeInt32(),
                     rnd.NextFullRangeInt32(),
                     rnd.NextFullRangeInt32(),

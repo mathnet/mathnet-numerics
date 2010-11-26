@@ -519,6 +519,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="ir">The row indices.</param>
         /// <param name="jc">The column indices.</param>
         /// <param name="reader">The reader to read from.</param>
+        /// <param name="dataSize">The length of the stored data.</param>
         private static void PopulateComplexSparseMatrix(Matrix<Complex> matrix, DataType type, bool isComplex, IList<int> ir, IList<int> jc, BinaryReader reader, int dataSize)
         {
             var col = 0;
@@ -635,6 +636,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="ir">The row indices.</param>
         /// <param name="jc">The column indices.</param>
         /// <param name="reader">The reader to read from.</param>
+        /// <param name="dataSize">The length of the stored data.</param>
         private static void PopulateComplex32SparseMatrix(Matrix<Complex32> matrix, DataType type, bool isComplex, IList<int> ir, IList<int> jc, BinaryReader reader, int dataSize)
         {
             var col = 0;
@@ -751,6 +753,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="isComplex">if set to <c>true</c> if the Matlab complex flag is set.</param>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
+        /// <param name="size">The length of the stored data.</param>
         /// <returns>Returns a populated dense matrix.</returns>
         private static Matrix<TDataType> PopulateDenseMatrix(DataType type, BinaryReader reader, bool isComplex, int rows, int columns, int size)
         {
@@ -918,6 +921,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="reader">The reader to read from.</param>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
+        /// <param name="dataSize">The length of the stored data.</param>
         public static void PopulateComplexDenseMatrix(Matrix<Complex> matrix, DataType type, bool isComplex, BinaryReader reader, int rows, int columns, int dataSize)
         {
             switch (type)
@@ -1154,6 +1158,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO.Matlab
         /// <param name="reader">The reader to read from.</param>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
+        /// <param name="dataSize">The length of the stored data.</param>
         public static void PopulateComplex32DenseMatrix(Matrix<Complex32> matrix, DataType type, bool isComplex, BinaryReader reader, int rows, int columns, int dataSize)
         {
             switch (type)

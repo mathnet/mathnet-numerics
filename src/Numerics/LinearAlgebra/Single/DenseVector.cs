@@ -1194,7 +1194,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
-        /// <seealso cref="OuterProduct"/>
+        /// <seealso cref="OuterProduct(DenseVector, DenseVector)"/>
         public Matrix<float> OuterProduct(DenseVector v)
         {
             return OuterProduct(this, v);

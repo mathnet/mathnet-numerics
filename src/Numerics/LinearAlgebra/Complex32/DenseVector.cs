@@ -1154,7 +1154,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
-        /// <seealso cref="OuterProduct"/>
+        /// <seealso cref="OuterProduct(DenseVector, DenseVector)"/>
         public Matrix<Complex32> OuterProduct(DenseVector v)
         {
             return OuterProduct(this, v);

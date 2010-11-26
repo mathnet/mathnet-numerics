@@ -46,8 +46,7 @@ namespace MathNet.Numerics
     /// The class <c>Complex32</c> provides all elementary operations
     /// on complex numbers. All the operators <c>+</c>, <c>-</c>,
     /// <c>*</c>, <c>/</c>, <c>==</c>, <c>!=</c> are defined in the
-    /// canonical way. Additional complex trigonometric functions such 
-    /// as <see cref="Trig.Cosine(Complex32)"/>, ... 
+    /// canonical way. Additional complex trigonometric functions 
     /// are also provided. Note that the <c>Complex32</c> structures 
     /// has two special constant values <see cref="Complex32.NaN"/> and 
     /// <see cref="Complex32.Infinity"/>.
