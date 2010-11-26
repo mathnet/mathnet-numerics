@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         protected int mSamples;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="McmcSampler"/> class.
+        /// Initializes a new instance of the <see cref="McmcSampler{T}"/> class.
         /// </summary>
         /// <remarks>Thread safe instances are two and half times slower than non-thread
         /// safe classes.</remarks>

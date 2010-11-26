@@ -445,7 +445,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="cdf">The cumulative distribution of the probability distribution.</param>
-        /// <returns>One sample from the categorical distribution implied by <see cref="cdf"/>.</returns>
+        /// <returns>One sample from the categorical distribution implied by <paramref name="cdf"/>.</returns>
         internal static int DoSample(Random rnd, double[] cdf)
         {
             // TODO : use binary search to speed up this procedure.

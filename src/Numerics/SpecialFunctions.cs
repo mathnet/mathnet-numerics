@@ -329,7 +329,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Computes the logit function. <seealso cref="http://en.wikipedia.org/wiki/Logit"/>
+        /// Computes the logit function. see: http://en.wikipedia.org/wiki/Logit
         /// </summary>
         /// <param name="p">The parameter for which to compute the logit function. This number should be
         /// between 0 and 1.</param>
@@ -345,7 +345,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Computes the logistic function. <seealso cref="http://en.wikipedia.org/wiki/Logistic"/>
+        /// Computes the logistic function. see: http://en.wikipedia.org/wiki/Logistic
         /// </summary>
         /// <param name="p">The parameter for which to compute the logistic function.</param>
         /// <returns>The logistic function of <paramref name="p"/>.</returns>

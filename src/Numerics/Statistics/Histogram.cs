@@ -187,7 +187,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Checks whether two Buckets are equal; this method tolerates a difference in lowerbound, upperbound
-        /// and count given by <seealso cref="Precsion.AlmostEqual"/>. 
+        /// and count given by <seealso cref="Precision.AlmostEqual(double,double)"/>. 
         /// </summary>
         public override bool Equals(object obj)
         {

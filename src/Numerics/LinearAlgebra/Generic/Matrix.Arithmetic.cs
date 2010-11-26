@@ -27,7 +27,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
-    using System.Numerics;
     using Distributions;
     using Factorization;
     using Properties;
@@ -36,7 +35,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract partial class Matrix<T>
     {
         /// <summary>

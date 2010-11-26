@@ -540,7 +540,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The nu parameter.</param>
         /// <param name="z">The z parameter.</param>
         /// <returns>
-        /// One sample from the distribution implied by <see cref="cdf"/>.
+        /// One sample from the distribution implied by <paramref name="lambda"/>, <paramref name="nu"/>, and <paramref name="z"/>.
         /// </returns>
         private static int DoSample(Random rnd, double lambda, double nu, double z)
         {

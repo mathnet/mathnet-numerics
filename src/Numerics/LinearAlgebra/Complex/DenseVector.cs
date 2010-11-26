@@ -30,7 +30,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using System.Collections.Generic;
     using System.Linq;
     using System.Numerics;
-    using Distributions;
     using Generic;
     using NumberTheory;
     using Properties;
@@ -1102,7 +1101,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>
         /// Matrix M[i,j] = this[i] * v[j].
         /// </returns>
-        /// <seealso cref="OuterProduct"/>
+        /// <seealso cref="OuterProduct(DenseVector, DenseVector)"/>
         public Matrix<Complex> OuterProduct(DenseVector v)
         {
             return OuterProduct(this, v);

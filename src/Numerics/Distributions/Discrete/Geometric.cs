@@ -195,8 +195,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                return ((2.0 - _p) / Math.Sqrt(1.0 - _p));
-
+                return (2.0 - _p) / Math.Sqrt(1.0 - _p);
             }
         }
 
@@ -321,7 +320,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="p">The p parameter</param>
         /// <returns>
-        /// One sample from the distribution implied by <param name="p"/>.
+        /// One sample from the distribution implied by <paramref name="p"/>.
         /// </returns>
         private static int DoSample(Random rnd, double p)
         {
