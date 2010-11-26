@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Examples</RootNamespace>
     <AssemblyName>Examples</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,6 +57,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -66,6 +68,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IExample.cs" />
+    <Compile Include="LinearAlgebra\DirectSolvers.cs" />
+    <Compile Include="LinearAlgebra\Factorization\Cholesky.cs" />
+    <Compile Include="LinearAlgebra\Factorization\Evd.cs" />
+    <Compile Include="LinearAlgebra\Factorization\LU.cs" />
+    <Compile Include="LinearAlgebra\MatrixNorms.cs" />
+    <Compile Include="LinearAlgebra\Factorization\QR.cs" />
+    <Compile Include="LinearAlgebra\Factorization\Svd.cs" />
+    <Compile Include="LinearAlgebra\MatrixArithmeticOperations.cs" />
+    <Compile Include="LinearAlgebra\MatrixDataAccessor.cs" />
+    <Compile Include="LinearAlgebra\MatrixInitialization.cs" />
+    <Compile Include="LinearAlgebra\MatrixRowColumnOperations.cs" />
+    <Compile Include="LinearAlgebra\MatrixSpecialNumbers.cs" />
+    <Compile Include="LinearAlgebra\MatrixTransposeAndInverse.cs" />
+    <Compile Include="LinearAlgebra\MatrixTriangular.cs" />
+    <Compile Include="LinearAlgebra\VectorArithmeticOperations.cs" />
+    <Compile Include="LinearAlgebra\VectorDataAccessor.cs" />
+    <Compile Include="LinearAlgebra\VectorInitialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +104,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics.csproj">
+      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
