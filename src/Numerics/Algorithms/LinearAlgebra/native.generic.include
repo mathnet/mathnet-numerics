@@ -154,7 +154,27 @@
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
         public override void LUFactor(<#=dataType#>[] data, int order, int[] ipiv)
         {
-            throw new NotImplementedException();
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (data.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "data");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+            
+            SafeNativeMethods.<#=prefix#>_lu_factor(order, data, ipiv);
         }
 
         /// <summary>
@@ -282,6 +302,11 @@
             if (order < 1)
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
             SafeNativeMethods.<#=prefix#>_cholesky_factor(order, a);

@@ -110,7 +110,7 @@ namespace MathNet.Numerics
         /// From wikipedia: the permutation 12043 has the inversions (0,2), (1,2) and (3,4). This would be
         /// encoded using the array [22244].
         /// </example>
-        /// <param name="inv">The set of inversions to contruct the permutation from.</param>
+        /// <param name="inv">The set of inversions to construct the permutation from.</param>
         /// <returns>A permutation generated from a sequence of inversions.</returns>
         public static Permutation FromInversions(int[] inv)
         {
@@ -176,7 +176,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="indices">An array which represents where each integer is permuted too: indices[i] represents that integer i
         /// is permuted to location indices[i].</param>
-        /// <returns>True if <paramref name="indices"/> represents a proper permutation, false otherwise.</returns>
+        /// <returns>True if <paramref name="indices"/> represents a proper permutation, <c>false</c> otherwise.</returns>
         static private bool CheckForProperPermutation(int[] indices)
         {
             var idxCheck = new bool[indices.Length];
