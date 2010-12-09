@@ -15,23 +15,11 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests", "FSharpUn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight", "Silverlight\Silverlight.csproj", "{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSUnitTests", "MSUnitTests\MSUnitTests.csproj", "{624FB757-A724-4B0D-85EB-F0563CE43A33}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5A0CD103-0739-4E4D-B9E9-6DD5EE137C3B}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		MathNet.Numerics.vsmdi = MathNet.Numerics.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4D50FB34-10BC-495A-8B2F-482E34B4D771}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{49EE74BD-301F-4C3B-B76A-07F90CC88CE7}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = MathNet.Numerics.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -65,10 +53,6 @@ Global
 		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Release|Any CPU.Build.0 = Release|Any CPU
-		{624FB757-A724-4B0D-85EB-F0563CE43A33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{624FB757-A724-4B0D-85EB-F0563CE43A33}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{624FB757-A724-4B0D-85EB-F0563CE43A33}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{624FB757-A724-4B0D-85EB-F0563CE43A33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,7 +61,6 @@ Global
 		{BC81EA37-8EE6-4BF9-B8A9-B30497AEF8B1} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
 		{8239A6FF-1EF3-4DA4-A860-95C392DD6899} = {49EE74BD-301F-4C3B-B76A-07F90CC88CE7}
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D} = {4D50FB34-10BC-495A-8B2F-482E34B4D771}
-		{624FB757-A724-4B0D-85EB-F0563CE43A33} = {4D50FB34-10BC-495A-8B2F-482E34B4D771}
 		{8C9A5D3F-A20C-4D24-A09C-98E187A8D720} = {4D50FB34-10BC-495A-8B2F-482E34B4D771}
 	EndGlobalSection
 EndGlobal
