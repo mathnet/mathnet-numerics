@@ -168,7 +168,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                     double ho = (_points[i] - t) * d[i] / hp;
 
                     double den = ho - c[i + 1];
-                    if (den == 0.0)
+                    if (den.AlmostEqual(0.0))
                     {
                         return double.NaN; // zero-div, singularity
                     }

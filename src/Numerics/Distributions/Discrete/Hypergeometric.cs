@@ -366,8 +366,9 @@ namespace MathNet.Numerics.Distributions
                 }
 
                 size--;
+                n--;
             } 
-            while (1 < n);
+            while (0 < n);
 
             return x;
         }

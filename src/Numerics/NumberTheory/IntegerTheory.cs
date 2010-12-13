@@ -193,7 +193,7 @@ namespace MathNet.Numerics.NumberTheory
         /// </summary>
         /// <param name="number">The number to very whether it's a perfect square.</param>
         /// <returns>True if and only if it is a perfect square.</returns>
-        public static bool IsPerfectSquare(int number)
+        public static bool IsPerfectSquare(this int number)
         {
             if (number < 0)
             {
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.NumberTheory
         /// </summary>
         /// <param name="number">The number to very whether it's a perfect square.</param>
         /// <returns>True if and only if it is a perfect square.</returns>
-        public static bool IsPerfectSquare(long number)
+        public static bool IsPerfectSquare(this long number)
         {
             if (number < 0)
             {
