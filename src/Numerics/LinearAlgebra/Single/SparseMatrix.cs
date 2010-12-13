@@ -1224,7 +1224,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return;
             }
 
-            if (scalar == 0.0)
+            if (scalar == 0.0 || NonZerosCount == 0)
             {
                 result.Clear();
                 return;

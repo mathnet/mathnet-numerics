@@ -1225,7 +1225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            if (scalar == 0.0)
+            if (scalar == 0.0 || NonZerosCount == 0)
             {
                 result.Clear();
                 return;
