@@ -317,7 +317,7 @@ namespace MathNet.Numerics.Distributions
             var n = (int)_dof;
             for (var i = 0; i < n; i++)
             {
-                sum += Normal.Sample(rnd, 0.0, 1.0);
+                sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
             }
 
             return Math.Sqrt(sum);

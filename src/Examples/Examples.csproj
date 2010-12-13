@@ -68,11 +68,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleHelper.cs" />
+    <Compile Include="ContinuousDistributions\CauchyDistribution.cs" />
+    <Compile Include="ContinuousDistributions\ChiDistribution.cs" />
+    <Compile Include="ContinuousDistributions\ChiSquareDistribution.cs" />
+    <Compile Include="ContinuousDistributions\ContinuousUniformDistribution.cs" />
+    <Compile Include="ContinuousDistributions\WeibullDistribution.cs" />
+    <Compile Include="ContinuousDistributions\StudentTDistribution.cs" />
+    <Compile Include="ContinuousDistributions\StableDistribution.cs" />
+    <Compile Include="ContinuousDistributions\RayleighDistribution.cs" />
+    <Compile Include="ContinuousDistributions\ParetoDistribution.cs" />
+    <Compile Include="ContinuousDistributions\NormalDistribution.cs" />
+    <Compile Include="ContinuousDistributions\LogNormalDistribution.cs" />
+    <Compile Include="ContinuousDistributions\LaplaceDistribution.cs" />
+    <Compile Include="ContinuousDistributions\InverseGammaDistribution.cs" />
+    <Compile Include="ContinuousDistributions\GammaDistribution.cs" />
+    <Compile Include="ContinuousDistributions\FisherSnedecorDistribution.cs" />
+    <Compile Include="ContinuousDistributions\ExponentialDistribution.cs" />
+    <Compile Include="ContinuousDistributions\ErlangDistribution.cs" />
+    <Compile Include="Statistics.cs" />
+    <Compile Include="NumberTheory.cs" />
+    <Compile Include="Interpolation\AkimaSpline.cs" />
+    <Compile Include="Interpolation\RationalWithPoles.cs" />
+    <Compile Include="Interpolation\LinearBetweenPoints.cs" />
+    <Compile Include="Interpolation\RationalWithoutPoles.cs" />
+    <Compile Include="DiscreteDistributions\BernoulliDistribution.cs" />
+    <Compile Include="DiscreteDistributions\BinomialDistribution.cs" />
+    <Compile Include="DiscreteDistributions\CategoricalDistribution.cs" />
+    <Compile Include="DiscreteDistributions\ConwayMaxwellPoissonDistribution.cs" />
+    <Compile Include="DiscreteDistributions\ZipfDistribution.cs" />
+    <Compile Include="DiscreteDistributions\PoissonDistribution.cs" />
+    <Compile Include="DiscreteDistributions\NegativeBinomialDistribution.cs" />
+    <Compile Include="DiscreteDistributions\HypergeometricDistribution.cs" />
+    <Compile Include="DiscreteDistributions\GeometricDistribution.cs" />
+    <Compile Include="DiscreteDistributions\DiscreteUniformDistribution.cs" />
     <Compile Include="IExample.cs" />
+    <Compile Include="ContinuousDistributions\BetaDistribution.cs" />
     <Compile Include="LinearAlgebra\DirectSolvers.cs" />
     <Compile Include="LinearAlgebra\Factorization\Cholesky.cs" />
     <Compile Include="LinearAlgebra\Factorization\Evd.cs" />
     <Compile Include="LinearAlgebra\Factorization\LU.cs" />
+    <Compile Include="LinearAlgebra\IterativeSolvers\BiCgStabSolver.cs" />
+    <Compile Include="LinearAlgebra\IterativeSolvers\CompositeSolverExample.cs" />
+    <Compile Include="LinearAlgebra\IterativeSolvers\GpBiCgSolver.cs" />
+    <Compile Include="LinearAlgebra\IterativeSolvers\MlkBiCgStabSolver.cs" />
+    <Compile Include="LinearAlgebra\IterativeSolvers\TFQMRSolver.cs" />
     <Compile Include="LinearAlgebra\MatrixNorms.cs" />
     <Compile Include="LinearAlgebra\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Factorization\Svd.cs" />
@@ -87,6 +127,17 @@
     <Compile Include="LinearAlgebra\VectorDataAccessor.cs" />
     <Compile Include="LinearAlgebra\VectorInitialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomNumberGeneration.cs" />
+    <Compile Include="Integration.cs" />
+    <Compile Include="Sampling\Chebyshev.cs" />
+    <Compile Include="Sampling\Random.cs" />
+    <Compile Include="Sampling\Equidistant.cs" />
+    <Compile Include="SpecialFunctions\Common.cs" />
+    <Compile Include="SpecialFunctions\Beta.cs" />
+    <Compile Include="SpecialFunctions\ErrorFunction.cs" />
+    <Compile Include="SpecialFunctions\Stability.cs" />
+    <Compile Include="SpecialFunctions\Factorial.cs" />
+    <Compile Include="SpecialFunctions\Gamma.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -111,6 +162,7 @@
       <Name>Numerics</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

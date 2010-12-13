@@ -264,6 +264,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
             var interfaceTypes = new List<Type>();
             foreach (var type in assembly.GetTypes().Where(type => (!type.IsAbstract && !type.IsEnum && !type.IsInterface && type.IsVisible)))
             {
+                interfaceTypes.Clear();
                 interfaceTypes.AddRange(type.GetInterfaces());
                 if (!interfaceTypes.Any(match => typeof(IIterativeSolverSetup<Complex>).IsAssignableFrom(match)))
                 {
@@ -512,6 +513,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 if (_iterator.Status is CalculationConverged)
                 {
                     // We're done
+                    internalResult.CopyTo(result);
                     break;
                 }
 
@@ -522,7 +524,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 {
                     // Copy the internal result to the result vector and
                     // continue with the calculation.
-                    internalInput.CopyTo(input);
+                    internalResult.CopyTo(result);
                 }
                 else
                 {
