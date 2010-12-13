@@ -238,7 +238,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             CommonParallel.For(
                 0,
-                RowCount,
+                ColumnCount,
                 j =>
                 {
                     var s = new Complex32();

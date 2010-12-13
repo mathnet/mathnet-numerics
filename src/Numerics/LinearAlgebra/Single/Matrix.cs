@@ -218,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             CommonParallel.For(
                 0,
-                RowCount,
+                ColumnCount,
                 j =>
                 {
                     var s = 0.0f;

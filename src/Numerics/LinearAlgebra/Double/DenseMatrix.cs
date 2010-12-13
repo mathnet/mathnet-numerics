@@ -386,7 +386,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     1.0,
                     denseLeft.Data,
                     1,
-                    denseResult.Count,
+                    denseLeft.Count,
                     Data,
                     RowCount,
                     ColumnCount,
