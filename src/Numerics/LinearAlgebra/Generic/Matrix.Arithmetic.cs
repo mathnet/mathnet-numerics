@@ -218,7 +218,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 return;
             }
 
-            CopyTo(result);
+            //CopyTo(result);
             DoMultiply(scalar, result);
         }
 
