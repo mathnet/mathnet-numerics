@@ -1238,6 +1238,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
             else
             {
+                CopyTo(result);
                 Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._nonZeroValues);
             }
         }

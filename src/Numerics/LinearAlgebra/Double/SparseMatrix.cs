@@ -1237,6 +1237,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
+                CopyTo(result);
                 Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._nonZeroValues);
             }
         }

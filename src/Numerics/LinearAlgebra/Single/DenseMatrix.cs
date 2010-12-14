@@ -329,6 +329,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
+                CopyTo(result);
                 Control.LinearAlgebraProvider.ScaleArray(scalar, denseResult.Data);
             }
         }
@@ -386,7 +387,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     1.0f,
                     denseLeft.Data,
                     1,
-                    denseResult.Count,
+                    denseLeft.Count,
                     Data,
                     RowCount,
                     ColumnCount,
