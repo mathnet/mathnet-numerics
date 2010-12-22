@@ -329,8 +329,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                CopyTo(result);
-                Control.LinearAlgebraProvider.ScaleArray(scalar, denseResult.Data);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, Data, denseResult.Data);
             }
         }
      
@@ -472,8 +471,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Buffer.BlockCopy(Data, 0, denseResult.Data, 0, Data.Length * Constants.SizeOfDouble);
-                Control.LinearAlgebraProvider.ScaleArray(-1, denseResult.Data);
+                Control.LinearAlgebraProvider.ScaleArray(-1, Data, denseResult.Data);
             }
         }
 

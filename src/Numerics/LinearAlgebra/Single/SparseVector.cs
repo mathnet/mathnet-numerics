@@ -797,16 +797,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (scalar == 0)
             {
-                var copy = Clone();
-                copy.Clear(); // Set array empty
-                return copy;
+                return new SparseVector(Count);
             }
-            else
-            {
-                var copy = (SparseVector)Clone();
-                Control.LinearAlgebraProvider.ScaleArray(scalar, copy._nonZeroValues);
-                return copy;
-            }
+
+            var copy = new SparseVector(this);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, copy._nonZeroValues, copy._nonZeroValues);
+            return copy;
         }
 
         /// <summary>

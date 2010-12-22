@@ -88,23 +88,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         public void CanAddVectorToScaledVectorDouble()
         {
             var result = new double[_y.Length];
-            Array.Copy(_y, result, _y.Length);
 
-            Provider.AddVectorToScaledVector(result, 0, _x);
+            Provider.AddVectorToScaledVector(_y, 0, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i], result[i]);
             }
 
-            Array.Copy(_y, result, _y.Length);
-            Provider.AddVectorToScaledVector(result, 1, _x);
+            Provider.AddVectorToScaledVector(_y, 1, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i] + _x[i], result[i]);
             }
 
-            Array.Copy(_y, result, _y.Length);
-            Provider.AddVectorToScaledVector(result, Math.PI, _x);
+            Provider.AddVectorToScaledVector(_y, Math.PI, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i] + (Math.PI * _x[i]), result[i]);
@@ -119,15 +116,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         {
             var result = new double[_y.Length];
 
-            Array.Copy(_y, result, _y.Length);
-            Provider.ScaleArray(1, result);
+            Provider.ScaleArray(1, _y, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i], result[i]);
             }
 
-            Array.Copy(_y, result, _y.Length);
-            Provider.ScaleArray(Math.PI, result);
+            Provider.ScaleArray(Math.PI, _y, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i] * Math.PI, result[i]);

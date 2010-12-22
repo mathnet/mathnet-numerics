@@ -1238,8 +1238,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
             else
             {
-                CopyTo(result);
-                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._nonZeroValues);
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(sparseResult);
+                }
+
+                CommonParallel.For(0, NonZerosCount, index => sparseResult._nonZeroValues[index] *= scalar);
             }
         }
 
