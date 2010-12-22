@@ -10,35 +10,7 @@
             <CustomDictionary>
               <Name>en-US</Name>
               <CaseSensitive>false</CaseSensitive>
-              <UserWords>Wishart
-Wikipedia
-Marsaglia
-Xorshift
-λ
-Matlab
-Matlab
-Matlab
-Endian
-indices
-&amp;lt
-&amp;gt
-Frobenius
-Pointwise
-multipcation
-kronecker
-Cholesky
-Eigen
-mxn
-nxn
-Nist
-NIST's
-Excel's
-ipiv
-blocksize
-Dont
-dll
-Criterium
-inline</UserWords>
+              <UserWords />
             </CustomDictionary>
           </Dictionaries>
         </CustomDictionaries>
@@ -56,6 +28,7 @@ inline</UserWords>
               <ParamDirection>Any</ParamDirection>
             </Match>
           </CommentMatch>
+          <CommentNotMatch />
           <SuppressIfBaseHasComment>false</SuppressIfBaseHasComment>
           <MaxLineLength>80</MaxLineLength>
         </CommentsSettings>
@@ -139,7 +112,7 @@ inline</UserWords>
               <MustNotHaveSuffixes />
             </NamingConventionRule>
             <NamingConventionRule>
-              <IsDisabled>false</IsDisabled>
+              <IsDisabled>true</IsDisabled>
               <Matches>
                 <Match>
                   <AccessLevel>Private</AccessLevel>
@@ -363,7 +336,7 @@ inline</UserWords>
               <Regex>(?&lt;remove&gt;_)</Regex>
             </NamingConventionRule>
             <NamingConventionRule>
-              <IsDisabled>false</IsDisabled>
+              <IsDisabled>true</IsDisabled>
               <Matches>
                 <Match>
                   <AccessLevel>Any</AccessLevel>
@@ -386,7 +359,7 @@ inline</UserWords>
               <MustNotHaveSuffixes />
             </NamingConventionRule>
             <NamingConventionRule>
-              <IsDisabled>false</IsDisabled>
+              <IsDisabled>true</IsDisabled>
               <Matches>
                 <Match>
                   <AccessLevel>Any</AccessLevel>

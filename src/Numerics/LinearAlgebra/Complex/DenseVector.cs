@@ -322,8 +322,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return base.Add(other);
             }
 
-            var copy = (DenseVector)Clone();
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, Complex.One, denseVector.Data);
+            var copy = new DenseVector(Count);
+            Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, Complex.One, denseVector.Data, copy.Data);
             return copy;
         }
 
@@ -353,27 +353,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            var rdense = result as DenseVector;
+            var odense = other as DenseVector;
+            if (rdense != null && odense != null)
             {
-                var tmp = Add(other);
-                tmp.CopyTo(result);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, Complex.One, odense.Data, rdense.Data);
             }
             else
             {
-                var rdense = result as DenseVector;
-                var odense = other as DenseVector;
-                if (rdense != null && odense != null)
-                {
-                    CopyTo(result);
-                    Control.LinearAlgebraProvider.AddVectorToScaledVector(rdense.Data, Complex.One, odense.Data);
-                }
-                else
-                {
-                    CommonParallel.For(
-                        0,
-                        Data.Length,
-                        index => result[index] = Data[index] + other[index]);
-                }
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => result[index] = Data[index] + other[index]);
             }
         }
 
@@ -501,8 +492,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return base.Subtract(other);
             }
 
-            var copy = (DenseVector)Clone();
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, -Complex.One, denseVector.Data);
+            var copy = new DenseVector(Count);
+            Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -Complex.One, denseVector.Data, copy.Data);
             return copy;
         }
 
@@ -532,27 +523,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            var rdense = result as DenseVector;
+            var odense = other as DenseVector;
+            if (rdense != null && odense != null)
             {
-                var tmp = Subtract(other);
-                tmp.CopyTo(result);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -Complex.One, odense.Data, rdense.Data);
             }
             else
             {
-                var rdense = result as DenseVector;
-                var odense = other as DenseVector;
-                if (rdense != null && odense != null)
-                {
-                    CopyTo(result);
-                    Control.LinearAlgebraProvider.AddVectorToScaledVector(rdense.Data, -Complex.One, odense.Data);
-                }
-                else
-                {
-                    CommonParallel.For(
-                        0,
-                        Data.Length,
-                        index => result[index] = Data[index] - other[index]);
-                }
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => result[index] = Data[index] - other[index]);
             }
         }
 
@@ -628,8 +610,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return Clone();
             }
 
-            var copy = (DenseVector)Clone();
-            Control.LinearAlgebraProvider.ScaleArray(complex, copy.Data);
+            var copy = new DenseVector(Count);
+            Control.LinearAlgebraProvider.ScaleArray(complex, Data, copy.Data);
             return copy;
         }
 

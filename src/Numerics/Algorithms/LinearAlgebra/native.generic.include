@@ -1,11 +1,12 @@
 ﻿        /// <summary>
-        /// Adds a scaled vector to another: <c>y += alpha*x</c>.
+        /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
         /// <param name="y">The vector to update.</param>
         /// <param name="alpha">The value to scale <paramref name="x"/> by.</param>
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
-        /// <remarks>This equivalent to the AXPY BLAS routine.</remarks>
-        public override void AddVectorToScaledVector(<#=dataType#>[] y, <#=dataType#> alpha, <#=dataType#>[] x)
+        /// <param name="result">The result of the addition.</param>
+        /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
+        public override void AddVectorToScaledVector(<#=dataType#>[] y, <#=dataType#> alpha, <#=dataType#>[] x, <#=dataType#>[] result)
         {
             if (y == null)
             {
@@ -27,7 +28,11 @@
                 return;
             }
 
-            SafeNativeMethods.<#=prefix#>_axpy(y.Length, <#=reff#>alpha, x, y);
+			if (!ReferenceEquals(y, result)){
+				Array.Copy(y, 0, result, 0, y.Length * 8);
+			}
+
+            SafeNativeMethods.<#=prefix#>_axpy(y.Length, <#=reff#>alpha, x, result);
         }
 
         /// <summary>
@@ -35,8 +40,9 @@
         /// </summary>
         /// <param name="alpha">The scalar.</param>
         /// <param name="x">The values to scale.</param>
-        /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
-        public override void ScaleArray(<#=dataType#> alpha, <#=dataType#>[] x)
+        /// <param name="result">This result of the scaling.</param>
+        /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
+        public override void ScaleArray(<#=dataType#> alpha, <#=dataType#>[] x, <#=dataType#>[] result)
         {
             if (x == null)
             {
@@ -48,7 +54,11 @@
                 return;
             }
 
-            SafeNativeMethods.<#=prefix#>_scale(x.Length, <#=reff#>alpha, x);
+			if (!ReferenceEquals(x, result)){
+				Array.Copy(x, 0, result, 0, x.Length * 8);
+			}
+
+            SafeNativeMethods.<#=prefix#>_scale(x.Length, <#=reff#>alpha, result);
         }
 
         /// <summary>

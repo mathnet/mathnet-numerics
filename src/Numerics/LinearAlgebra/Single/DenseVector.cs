@@ -30,7 +30,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Distributions;
     using Generic;
     using NumberTheory;
     using Properties;
@@ -375,8 +374,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return base.Add(other);
             }
 
-            var copy = (DenseVector)Clone();
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, 1.0f, denseVector.Data);
+            var copy = new DenseVector(Count);
+            Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, 1.0f, denseVector.Data, copy.Data);
             return copy;
         }
 
@@ -406,27 +405,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            var rdense = result as DenseVector;
+            var odense = other as DenseVector;
+            if (rdense != null && odense != null)
             {
-                var tmp = Add(other);
-                tmp.CopyTo(result);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, 1.0f, odense.Data, rdense.Data);
             }
             else
             {
-                var rdense = result as DenseVector;
-                var odense = other as DenseVector;
-                if (rdense != null && odense != null)
-                {
-                    CopyTo(result);
-                    Control.LinearAlgebraProvider.AddVectorToScaledVector(rdense.Data, 1.0f, odense.Data);
-                }
-                else
-                {
-                    CommonParallel.For(
-                        0,
-                        Data.Length,
-                        index => result[index] = Data[index] + other[index]);
-                }
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => result[index] = Data[index] + other[index]);
             }
         }
 
@@ -554,8 +544,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return base.Subtract(other);
             }
 
-            var copy = (DenseVector)Clone();
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(copy.Data, -1.0f, denseVector.Data);
+            var copy = new DenseVector(Count);
+            Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0f, denseVector.Data, copy.Data);
             return copy;
         }
 
@@ -585,27 +575,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            var rdense = result as DenseVector;
+            var odense = other as DenseVector;
+            if (rdense != null && odense != null)
             {
-                var tmp = Subtract(other);
-                tmp.CopyTo(result);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0f, odense.Data, rdense.Data);
             }
             else
             {
-                var rdense = result as DenseVector;
-                var odense = other as DenseVector;
-                if (rdense != null && odense != null)
-                {
-                    CopyTo(result);
-                    Control.LinearAlgebraProvider.AddVectorToScaledVector(rdense.Data, -1.0f, odense.Data);
-                }
-                else
-                {
-                    CommonParallel.For(
-                        0,
-                        Data.Length,
-                        index => result[index] = Data[index] - other[index]);
-                }
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => result[index] = Data[index] - other[index]);
             }
         }
 
@@ -681,8 +662,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return Clone();
             }
 
-            var copy = (DenseVector)Clone();
-            Control.LinearAlgebraProvider.ScaleArray(scalar, copy.Data);
+            var copy = new DenseVector(Count);
+            Control.LinearAlgebraProvider.ScaleArray(scalar, Data, copy.Data);
             return copy;
         }
 

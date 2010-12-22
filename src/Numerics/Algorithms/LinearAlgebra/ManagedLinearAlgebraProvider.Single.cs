@@ -35,13 +35,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
     public partial class ManagedLinearAlgebraProvider
     {
         /// <summary>
-        /// Adds a scaled vector to another: <c>y += alpha*x</c>.
+        /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
         /// <param name="y">The vector to update.</param>
         /// <param name="alpha">The value to scale <paramref name="x"/> by.</param>
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
-        /// <remarks>This equivalent to the AXPY BLAS routine.</remarks>
-        public virtual void AddVectorToScaledVector(float[] y, float alpha, float[] x)
+        /// <param name="result">The result of the addition.</param>
+        /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
+        public virtual void AddVectorToScaledVector(float[] y, float alpha, float[] x, float[] result)
         {
             if (y == null)
             {
@@ -63,13 +64,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 return;
             }
 
-            if (alpha == 1.0)
+            if (alpha == 0.0)
             {
-                CommonParallel.For(0, y.Length, i => y[i] += x[i]);
+                CommonParallel.For(0, y.Length, index => result[index] = y[index]);
+            }
+            else if (alpha == 1.0)
+            {
+                CommonParallel.For(0, y.Length, index => result[index] = y[index] + x[index]);
             }
             else
             {
-                CommonParallel.For(0, y.Length, i => y[i] += alpha * x[i]);
+                CommonParallel.For(0, y.Length, index => result[index] = y[index] + (alpha * x[index]));
             }
         }
 
@@ -78,20 +83,27 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="alpha">The scalar.</param>
         /// <param name="x">The values to scale.</param>
-        /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
-        public virtual void ScaleArray(float alpha, float[] x)
+        /// <param name="result">This result of the scaling.</param>
+        /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
+        public virtual void ScaleArray(float alpha, float[] x, float[] result)
         {
             if (x == null)
             {
                 throw new ArgumentNullException("x");
             }
 
-            if (alpha == 1.0)
+            if (alpha == 0.0)
             {
-                return;
+                CommonParallel.For(0, x.Length, index => result[index] = 0.0f);
             }
-
-            CommonParallel.For(0, x.Length, i => x[i] = alpha * x[i]);
+            else if (alpha == 1.0)
+            {
+                CommonParallel.For(0, x.Length, index => result[index] = x[index]);
+            }
+            else
+            {
+                CommonParallel.For(0, x.Length, index => { result[index] = alpha * x[index]; });
+            }
         }
 
         /// <summary>

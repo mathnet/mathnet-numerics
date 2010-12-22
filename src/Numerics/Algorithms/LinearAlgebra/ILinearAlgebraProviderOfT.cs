@@ -94,21 +94,23 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         int QueryWorkspaceBlockSize(string methodName);*/
 
         /// <summary>
-        /// Adds a scaled vector to another: <c>y += alpha*x</c>.
+        /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
         /// <param name="y">The vector to update.</param>
         /// <param name="alpha">The value to scale <paramref name="x"/> by.</param>
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
-        /// <remarks>This is equivalent to the AXPY BLAS routine.</remarks>
-        void AddVectorToScaledVector(T[] y, T alpha, T[] x);
+        /// <param name="result">The result of the addition.</param>
+        /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
+        void AddVectorToScaledVector(T[] y, T alpha, T[] x, T[] result);
 
         /// <summary>
         /// Scales an array. Can be used to scale a vector and a matrix.
         /// </summary>
         /// <param name="alpha">The scalar.</param>
         /// <param name="x">The values to scale.</param>
-        /// <remarks>This is equivalent to the SCAL BLAS routine.</remarks>
-        void ScaleArray(T alpha, T[] x);
+        /// <param name="result">This result of the scaling.</param>
+        /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
+        void ScaleArray(T alpha, T[] x, T[] result);
 
         /// <summary>
         /// Computes the dot product of x and y.

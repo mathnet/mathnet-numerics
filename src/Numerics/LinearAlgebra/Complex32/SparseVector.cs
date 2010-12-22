@@ -848,16 +848,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (complex == Complex32.Zero)
             {
-                var copy = Clone();
-                copy.Clear(); // Set array empty
-                return copy;
+                return new SparseVector(Count);
             }
-            else
-            {
-                var copy = (SparseVector)Clone();
-                Control.LinearAlgebraProvider.ScaleArray(complex, copy._nonZeroValues);
-                return copy;
-            }
+
+            var copy = new SparseVector(this);
+            Control.LinearAlgebraProvider.ScaleArray(complex, copy._nonZeroValues, copy._nonZeroValues);
+            return copy;
         }
 
         /// <summary>

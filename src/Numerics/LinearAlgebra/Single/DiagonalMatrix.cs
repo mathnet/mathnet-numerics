@@ -487,13 +487,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The matrix to store the result of the multiplication.</param>
         /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
-        public override void Multiply(float scalar, Matrix<float> result)
+        protected override void DoMultiply(float scalar, Matrix<float> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
             if (scalar == 0.0)
             {
                 result.Clear();
@@ -513,8 +508,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                CopyTo(diagResult);
-                Control.LinearAlgebraProvider.ScaleArray(scalar, diagResult.Data);
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(diagResult);
+                }
+
+                Control.LinearAlgebraProvider.ScaleArray(scalar, Data, diagResult.Data);
             }
         }
 
