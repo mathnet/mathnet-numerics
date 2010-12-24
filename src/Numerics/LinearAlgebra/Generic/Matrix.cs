@@ -1788,5 +1788,20 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>   
         public abstract T InfinityNorm();
+
+        /// <summary>
+        /// Iterates throw each element in the matrix (row-wise).
+        /// </summary>
+        /// <returns>The value at the current iteration along with its position (row, column, value).</returns>
+        public virtual IEnumerable<Tuple<int, int, T>> IndexedEnumerator()
+        {
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    yield return new Tuple<int, int, T>(row, column, At(row, column));
+                }
+            }
+        }
     }
 }

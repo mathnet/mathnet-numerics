@@ -31,6 +31,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
     using System;
+    using System.Collections.Generic;
     using Generic;
     using Properties;
     using Threading;
@@ -1466,6 +1467,39 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                             sparseResult.SetValueAt(i, _columnIndices[j], resVal);
                         }
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Iterates throw each element in the matrix (row-wise).
+        /// </summary>
+        /// <returns>The value at the current iteration along with its position (row, column, value).</returns>
+        public override IEnumerable<Tuple<int, int, float>> IndexedEnumerator()
+        {
+            for (var row = 0; row < RowCount - 1; row++)
+            {
+                var start = _rowIndex[row];
+                var end = _rowIndex[row + 1];
+
+                if (start == end)
+                {
+                    continue;
+                }
+
+                for (var index = start; index < end; index++)
+                {
+                    yield return new Tuple<int, int, float>(row, _columnIndices[index], _nonZeroValues[index]);
+                }
+            }
+
+            var lastRow = _rowIndex.Length - 1;
+
+            if (_rowIndex[lastRow] < NonZerosCount)
+            {
+                for (var index = _rowIndex[lastRow]; index < NonZerosCount; index++)
+                {
+                    yield return new Tuple<int, int, float>(lastRow, _columnIndices[index], _nonZeroValues[index]);
                 }
             }
         }

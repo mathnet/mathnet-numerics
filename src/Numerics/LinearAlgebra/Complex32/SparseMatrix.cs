@@ -31,6 +31,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     using System;
+    using System.Collections.Generic;
     using Generic;
     using Numerics;
     using Properties;
@@ -1467,6 +1468,39 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                             sparseResult.SetValueAt(i, _columnIndices[j], resVal);
                         }
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Iterates throw each element in the matrix (row-wise).
+        /// </summary>
+        /// <returns>The value at the current iteration along with its position (row, column, value).</returns>
+        public override IEnumerable<Tuple<int, int, Complex32>> IndexedEnumerator()
+        {
+            for (var row = 0; row < RowCount - 1; row++)
+            {
+                var start = _rowIndex[row];
+                var end = _rowIndex[row + 1];
+
+                if (start == end)
+                {
+                    continue;
+                }
+
+                for (var index = start; index < end; index++)
+                {
+                    yield return new Tuple<int, int, Complex32>(row, _columnIndices[index], _nonZeroValues[index]);
+                }
+            }
+
+            var lastRow = _rowIndex.Length - 1;
+
+            if (_rowIndex[lastRow] < NonZerosCount)
+            {
+                for (var index = _rowIndex[lastRow]; index < NonZerosCount; index++)
+                {
+                    yield return new Tuple<int, int, Complex32>(lastRow, _columnIndices[index], _nonZeroValues[index]);
                 }
             }
         }
