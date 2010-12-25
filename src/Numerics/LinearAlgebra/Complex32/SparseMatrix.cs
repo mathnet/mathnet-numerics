@@ -184,6 +184,42 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SparseMatrix"/> class, copying
+        /// the values from the given matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix  to copy.</param>
+        public SparseMatrix(Matrix<Complex32> matrix)
+            : base(matrix.RowCount, matrix.ColumnCount)
+        {
+            var sparseMatrix = matrix as SparseMatrix;
+
+            var rows = matrix.RowCount;
+            var columns = matrix.ColumnCount;
+
+            if (sparseMatrix == null)
+            {
+                for (var i = 0; i < rows; i++)
+                {
+                    for (var j = 0; j < columns; j++)
+                    {
+                        SetValueAt(i, j, matrix.At(i, j));
+                    }
+                }
+            }
+            else
+            {
+                NonZerosCount = sparseMatrix.NonZerosCount;
+                _rowIndex = new int[rows];
+                _columnIndices = new int[NonZerosCount];
+                _nonZeroValues = new Complex32[NonZerosCount];
+
+                Array.Copy(sparseMatrix._nonZeroValues, _nonZeroValues, NonZerosCount);
+                Array.Copy(sparseMatrix._columnIndices, _columnIndices, NonZerosCount);
+                Array.Copy(sparseMatrix._rowIndex, _rowIndex, rows);
+            }
+        }
+
+        /// <summary>
         /// Creates a <c>SparseMatrix</c> for the given number of rows and columns.
         /// </summary>
         /// <param name="numberOfRows">
