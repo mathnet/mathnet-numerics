@@ -114,7 +114,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
             }
 
-            _decompositionLU = new SparseMatrix(matrix.ToArray());
+            _decompositionLU = new SparseMatrix(matrix);
 
             // M == A
             // for i = 2, ... , n do
