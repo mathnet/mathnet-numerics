@@ -31,8 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
 {
     using System;
-    using Generic;
-    using Generic.Solvers.Preconditioners;
     using Numerics;
     using Properties;
 
@@ -40,7 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
     /// A diagonal preconditioner. The preconditioner uses the inverse
     /// of the matrix diagonal as preconditioning values.
     /// </summary>
-    public sealed class Diagonal : IPreConditioner<Complex32>
+    public sealed class Diagonal : IPreConditioner
     {
         /// <summary>
         /// The inverse of the matrix diagonal.
@@ -66,10 +64,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// Initializes the preconditioner and loads the internal data structures.
         /// </summary>
         /// <param name="matrix">
-        /// The <see cref="Matrix{T}"/> upon which this preconditioner is based.</param>
+        /// The <see cref="Matrix"/> upon which this preconditioner is based.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<Complex32> matrix)
+        public void Initialize(Matrix matrix)
         {
             if (matrix == null)
             {
@@ -93,7 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <returns>The left hand side vector.</returns>
-        public Vector<Complex32> Approximate(Vector<Complex32> rhs)
+        public Vector Approximate(Vector rhs)
         {
             if (rhs == null)
             {
@@ -110,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
             }
 
-            Vector<Complex32> result = new DenseVector(rhs.Count);
+            Vector result = new DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }
@@ -120,7 +118,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<Complex32> rhs, Vector<Complex32> lhs)
+        public void Approximate(Vector rhs, Vector lhs)
         {
             if (rhs == null)
             {

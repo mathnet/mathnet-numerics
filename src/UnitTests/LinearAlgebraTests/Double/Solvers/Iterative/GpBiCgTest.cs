@@ -20,7 +20,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolveWideMatrix()
         {
             var matrix = new SparseMatrix(2, 3);
-            Vector<double> input = new DenseVector(2);
+            Vector input = new DenseVector(2);
 
             var solver = new GpBiCg();
             solver.Solve(matrix, input);
@@ -31,7 +31,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolveLongMatrix()
         {
             var matrix = new SparseMatrix(3, 2);
-            Vector<double> input = new DenseVector(3);
+            Vector input = new DenseVector(3);
 
             var solver = new GpBiCg();
             solver.Solve(matrix, input);
@@ -42,13 +42,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolveUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            Matrix<double> matrix = SparseMatrix.Identity(100);
+            Matrix matrix = SparseMatrix.Identity(100);
 
             // Create the y vector
-            Vector<double> y = new DenseVector(matrix.RowCount, 1);
+            Vector y = new DenseVector(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<double>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(MaximumIterations),
                                            new ResidualStopCriterium(ConvergenceBoundary),
@@ -82,16 +82,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         public void SolveScaledUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            Matrix<double> matrix = SparseMatrix.Identity(100);
+            Matrix matrix = SparseMatrix.Identity(100);
 
             // Scale it with a funny number
             matrix.Multiply(System.Math.PI, matrix);
 
             // Create the y vector
-            Vector<double> y = new DenseVector(matrix.RowCount, 1);
+            Vector y = new DenseVector(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<double>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(MaximumIterations),
                                            new ResidualStopCriterium(ConvergenceBoundary),
@@ -165,10 +165,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             }
 
             // Create the y vector
-            Vector<double> y = new DenseVector(matrix.RowCount, 1);
+            Vector y = new DenseVector(matrix.RowCount, 1);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<double>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(MaximumIterations),
                                            new ResidualStopCriterium(ConvergenceBoundary),
@@ -205,10 +205,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         [MultipleAsserts]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixA = (Matrix)MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var vectorb = (Vector)MatrixLoader.GenerateRandomDenseVector(order);
 
-            var monitor = new Iterator(new IIterationStopCriterium<double>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(1000),
                                            new ResidualStopCriterium(1e-10),
@@ -237,7 +237,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
-            var monitor = new Iterator(new IIterationStopCriterium<double>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(1000),
                                            new ResidualStopCriterium(1e-10)

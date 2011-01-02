@@ -7,7 +7,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
     using LinearAlgebra.Complex.Solvers.StopCriterium;
     using LinearAlgebra.Generic;
     using LinearAlgebra.Generic.Solvers.Status;
-    using LinearAlgebra.Generic.Solvers.StopCriterium;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -21,7 +20,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         public void SolveWideMatrix()
         {
             var matrix = new SparseMatrix(2, 3);
-            Vector<Complex> input = new DenseVector(2);
+            Vector input = new DenseVector(2);
 
             var solver = new BiCgStab();
             solver.Solve(matrix, input);
@@ -32,7 +31,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         public void SolveLongMatrix()
         {
             var matrix = new SparseMatrix(3, 2);
-            Vector<Complex> input = new DenseVector(3);
+            Vector input = new DenseVector(3);
 
             var solver = new BiCgStab();
             solver.Solve(matrix, input);
@@ -43,13 +42,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         public void SolveUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            Matrix<Complex> matrix = SparseMatrix.Identity(100);
+            Matrix matrix = SparseMatrix.Identity(100);
 
             // Create the y vector
-            Vector<Complex> y = new DenseVector(matrix.RowCount, Complex.One);
+            Vector y = new DenseVector(matrix.RowCount, Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(MaximumIterations),
                                            new ResidualStopCriterium(ConvergenceBoundary),
@@ -83,16 +82,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         public void SolveScaledUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
-            Matrix<Complex> matrix = SparseMatrix.Identity(100);
+            Matrix matrix = SparseMatrix.Identity(100);
 
             // Scale it with a funny number
             matrix.Multiply(new Complex(System.Math.PI, System.Math.PI), matrix);
 
             // Create the y vector
-            Vector<Complex> y = new DenseVector(matrix.RowCount, Complex.One);
+            Vector y = new DenseVector(matrix.RowCount, Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(MaximumIterations),
                                            new ResidualStopCriterium(ConvergenceBoundary),
@@ -165,10 +164,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             }
 
             // Create the y vector
-            Vector<Complex> y = new DenseVector(matrix.RowCount, Complex.One);
+            Vector y = new DenseVector(matrix.RowCount, Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
-            var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(MaximumIterations),
                                            new ResidualStopCriterium(ConvergenceBoundary),
@@ -205,10 +204,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         [MultipleAsserts]
         public void CanSolveForRandomVector(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
+            var matrixA = (Matrix)MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var vectorb = (Vector)MatrixLoader.GenerateRandomDenseVector(order);
 
-            var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(1000),
                                            new ResidualStopCriterium(1e-10),
@@ -236,10 +235,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         [MultipleAsserts]
         public void CanSolveForRandomMatrix(int order)
         {
-            var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
-            var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixA = (Matrix)MatrixLoader.GenerateRandomDenseMatrix(order, order);
+            var matrixB = (Matrix)MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
-            var monitor = new Iterator(new IIterationStopCriterium<Complex>[]
+            var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
                                            new IterationCountStopCriterium(1000),
                                            new ResidualStopCriterium(1e-10),

@@ -142,7 +142,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         public void HeapSortWithIncreasingDoubleArray()
         {
             var sortedIndices = new int[10];
-            Vector<Complex32> values = new DenseVector(10);
+            Vector values = new DenseVector(10);
             values[0] = 0;
             values[1] = 1;
             values[2] = 2;
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         public void HeapSortWithDecreasingDoubleArray()
         {
             var sortedIndices = new int[10];
-            Vector<Complex32> values = new DenseVector(10);
+            Vector values = new DenseVector(10);
             values[0] = 9;
             values[1] = 8;
             values[2] = 7;
@@ -198,7 +198,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         public void HeapSortWithRandomDoubleArray()
         {
             var sortedIndices = new int[10];
-            Vector<Complex32> values = new DenseVector(10);
+            Vector values = new DenseVector(10);
             values[0] = 5;
             values[1] = 2;
             values[2] = 8;
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         public void HeapSortWithDuplicateDoubleEntries()
         {
             var sortedIndices = new int[10];
-            Vector<Complex32> values = new DenseVector(10);
+            Vector values = new DenseVector(10);
             values[0] = 1;
             values[1] = 1;
             values[2] = 1;
@@ -319,7 +319,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         public void HeapSortWithSpecialConstructedDoubleArray()
         {
             var sortedIndices = new int[10];
-            Vector<Complex32> values = new DenseVector(10);
+            Vector values = new DenseVector(10);
             values[0] = 0;
             values[1] = 0;
             values[2] = 0;
@@ -422,7 +422,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         public void HeapSortWithIncreasingDoubleArrayWithLowerBound()
         {
             var sortedIndices = new int[10];
-            Vector<Complex32> values = new DenseVector(10);
+            Vector values = new DenseVector(10);
             values[0] = 0;
             values[1] = 1;
             values[2] = 2;
@@ -450,7 +450,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         public void HeapSortWithIncreasingDoubleArrayWithUpperBound()
         {
             var sortedIndices = new int[10];
-            Vector<Complex32> values = new DenseVector(10);
+            Vector values = new DenseVector(10);
             values[0] = 0;
             values[1] = 1;
             values[2] = 2;
@@ -478,7 +478,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
         public void HeapSortWithIncreasingDoubleArrayWithLowerAndUpperBound()
         {
             var sortedIndices = new int[10];
-            Vector<Complex32> values = new DenseVector(10);
+            Vector values = new DenseVector(10);
             values[0] = 0;
             values[1] = 1;
             values[2] = 2;

@@ -1,12 +1,9 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Preconditioners
 {
     using System;
-    using System.Numerics;
     using System.Reflection;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Complex.Solvers.Preconditioners;
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Generic.Solvers.Preconditioners;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -25,28 +22,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             return (T)obj;
         }
 
-        private static Matrix<Complex> GetUpperTriangle(IncompleteLU ilu)
+        private static Matrix GetUpperTriangle(IncompleteLU ilu)
         {
-            return GetMethod<Matrix<Complex>>(ilu, "UpperTriangle");
+            return GetMethod<Matrix>(ilu, "UpperTriangle");
         }
 
-        private static Matrix<Complex> GetLowerTriangle(IncompleteLU ilu)
+        private static Matrix GetLowerTriangle(IncompleteLU ilu)
         {
-            return GetMethod<Matrix<Complex>>(ilu, "LowerTriangle");
+            return GetMethod<Matrix>(ilu, "LowerTriangle");
         }
 
-        internal override IPreConditioner<Complex> CreatePreconditioner()
+        internal override IPreConditioner CreatePreconditioner()
         {
             return new IncompleteLU();
         }
 
-        protected override void CheckResult(IPreConditioner<Complex> preconditioner, SparseMatrix matrix, Vector<Complex> vector, Vector<Complex> result)
+        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
         {
             Assert.AreEqual(typeof(IncompleteLU), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal
-            Vector<Complex> product = new DenseVector(result.Count);
+            Vector product = new DenseVector(result.Count);
             matrix.Multiply(result, product);
 
             for (var i = 0; i < product.Count; i++)

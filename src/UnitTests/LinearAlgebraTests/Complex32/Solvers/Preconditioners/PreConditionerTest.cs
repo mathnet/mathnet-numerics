@@ -1,9 +1,7 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Preconditioners
 {
-    using Numerics;
     using LinearAlgebra.Complex32;
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Generic.Solvers.Preconditioners;
+    using LinearAlgebra.Complex32.Solvers.Preconditioners;
     using MbUnit.Framework;
 
     public abstract class PreconditionerTest
@@ -21,9 +19,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             return matrix;
         }
 
-        protected Vector<Complex32> CreateStandardBcVector(int size)
+        protected Vector CreateStandardBcVector(int size)
         {
-            Vector<Complex32> vector = new DenseVector(size);
+            Vector vector = new DenseVector(size);
             for (var i = 0; i < size; i++)
             {
                 vector[i] = i + 1;
@@ -32,9 +30,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             return vector;
         }
 
-        internal abstract IPreConditioner<Complex32> CreatePreconditioner();
+        internal abstract IPreConditioner CreatePreconditioner();
 
-        protected abstract void CheckResult(IPreConditioner<Complex32> preconditioner, SparseMatrix matrix, Vector<Complex32> vector, Vector<Complex32> result);
+        protected abstract void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result);
 
         [Test]
         [MultipleAsserts]
@@ -64,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector<Complex32> result = new DenseVector(vector.Count);
+            Vector result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
 
             CheckResult(preconditioner, newMatrix, vector, result);
@@ -81,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector<Complex32> result = new DenseVector(vector.Count + 10);
+            Vector result = new DenseVector(vector.Count + 10);
             preconditioner.Approximate(vector, result);
         }
 
@@ -96,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector<Complex32> result = new DenseVector(vector.Count + 10);
+            Vector result = new DenseVector(vector.Count + 10);
             preconditioner.Approximate(null, result);
         }
 
@@ -111,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Precon
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
 
-            Vector<Complex32> result = null;
+            Vector result = null;
             preconditioner.Approximate(vector, result);
         }
 

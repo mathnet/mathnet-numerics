@@ -32,8 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
 {
     using System;
     using System.Collections.Generic;
-    using Generic;
-    using Generic.Solvers.Preconditioners;
     using Properties;
 
     /// <summary>
@@ -53,7 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
     /// pp. 20 - 28 <br/>
     /// Algorithm is described in Section 2, page 22
     /// </remarks>
-    public sealed class Ilutp : IPreConditioner<float>
+    public sealed class Ilutp : IPreConditioner
     {
         /// <summary>
         /// The default fill level.
@@ -257,9 +255,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// This method is used for debugging purposes only and should normally not be used.
         /// </remarks>
         /// <returns>A new matrix containing the upper triagonal elements.</returns>
-        internal Matrix<float> UpperTriangle()
+        internal Matrix UpperTriangle()
         {
-            return _upper.Clone();
+            return (Matrix)_upper.Clone();
         }
 
         /// <summary>
@@ -269,9 +267,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// This method is used for debugging purposes only and should normally not be used.
         /// </remarks>
         /// <returns>A new matrix containing the lower triagonal elements.</returns>
-        internal Matrix<float> LowerTriangle()
+        internal Matrix LowerTriangle()
         {
-            return _lower.Clone();
+            return (Matrix)_lower.Clone();
         }
 
         /// <summary>
@@ -297,13 +295,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// Initializes the preconditioner and loads the internal data structures.
         /// </summary>
         /// <param name="matrix">
-        /// The <see cref="Matrix{T}"/> upon which this preconditioner is based. Note that the 
+        /// The <see cref="Matrix"/> upon which this preconditioner is based. Note that the 
         /// method takes a general matrix type. However internally the data is stored 
         /// as a sparse matrix. Therefore it is not recommended to pass a dense matrix.
         /// </param>
         /// <exception cref="ArgumentNullException"> If <paramref name="matrix"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<float> matrix)
+        public void Initialize(Matrix matrix)
         {
             if (matrix == null)
             {
@@ -375,8 +373,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
                 _pivots[i] = i;
             }
 
-            Vector<float> workVector = new DenseVector(sparseMatrix.RowCount);
-            Vector<float> rowVector = new DenseVector(sparseMatrix.ColumnCount);
+            Vector workVector = new DenseVector(sparseMatrix.RowCount);
+            Vector rowVector = new DenseVector(sparseMatrix.ColumnCount);
             var indexSorting = new int[sparseMatrix.RowCount];
             
             // spaceLeft = lfilNnz * nnz(A)
@@ -531,8 +529,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// <summary>
         /// Pivot elements in the <paramref name="row"/> according to internal pivot array
         /// </summary>
-        /// <param name="row">Row <see cref="Vector{T}"/> to pivot in</param>
-        private void PivotRow(Vector<float> row)
+        /// <param name="row">Row <see cref="Vector"/> to pivot in</param>
+        private void PivotRow(Vector row)
         {
             var knownPivots = new Dictionary<int, int>();
             
@@ -579,12 +577,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         }
 
         /// <summary>
-        /// Swap columns in the <see cref="Matrix{T}"/>
+        /// Swap columns in the <see cref="Matrix"/>
         /// </summary>
-        /// <param name="matrix">Source <see cref="Matrix{T}"/>.</param>
+        /// <param name="matrix">Source <see cref="Matrix"/>.</param>
         /// <param name="firstColumn">First column index to swap</param>
         /// <param name="secondColumn">Second column index to swap</param>
-        private static void SwapColumns(Matrix<float> matrix, int firstColumn, int secondColumn)
+        private static void SwapColumns(Matrix matrix, int firstColumn, int secondColumn)
         {
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -600,8 +598,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// <param name="lowerBound">Start sort form</param>
         /// <param name="upperBound">Sort till upper bound</param>
         /// <param name="sortedIndices">Array with sorted vector indicies</param>
-        /// <param name="values">Source <see cref="Vector{T}"/></param>
-        private static void FindLargestItems(int lowerBound, int upperBound, int[] sortedIndices, Vector<float> values)
+        /// <param name="values">Source <see cref="Vector"/></param>
+        private static void FindLargestItems(int lowerBound, int upperBound, int[] sortedIndices, Vector values)
         {
             // Copy the indices for the values into the array
             for (var i = 0; i < upperBound + 1 - lowerBound; i++)
@@ -626,7 +624,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <returns>The left hand side vector.</returns>
-        public Vector<float> Approximate(Vector<float> rhs)
+        public Vector Approximate(Vector rhs)
         {
             if (rhs == null)
             {
@@ -643,7 +641,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
             }
 
-            Vector<float> result = new DenseVector(rhs.Count);
+            Vector result = new DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }
@@ -653,7 +651,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// </summary>
         /// <param name="rhs">The right hand side vector.</param>
         /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
-        public void Approximate(Vector<float> rhs, Vector<float> lhs)
+        public void Approximate(Vector rhs, Vector lhs)
         {
             if (rhs == null)
             {
@@ -678,7 +676,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
             // Solve equation here
             // Pivot(vector, result);
             // Solve L*Y = B(piv,:)
-            Vector<float> rowValues = new DenseVector(_lower.RowCount);
+            Vector rowValues = new DenseVector(_lower.RowCount);
             for (var i = 0; i < _lower.RowCount; i++)
             {
                 _lower.Row(i, rowValues);
@@ -708,17 +706,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
 
             // We have a column pivot so we only need to pivot the
             // end result not the incoming right hand side vector
-            var temp = lhs.Clone();
+            var temp = (Vector)lhs.Clone();
             
             Pivot(temp, lhs);
         }
 
         /// <summary>
-        /// Pivot elements in <see cref="Vector{T}"/> accoring to internal pivot array
+        /// Pivot elements in <see cref="Vector"/> according to internal pivot array
         /// </summary>
-        /// <param name="vector">Source <see cref="Vector{T}"/>.</param>
-        /// <param name="result">Result <see cref="Vector{T}"/> after pivoting.</param>
-        private void Pivot(Vector<float> vector, Vector<float> result)
+        /// <param name="vector">Source <see cref="Vector"/>.</param>
+        /// <param name="result">Result <see cref="Vector"/> after pivoting.</param>
+        private void Pivot(Vector vector, Vector result)
         {
             for (var i = 0; i < _pivots.Length; i++)
             {

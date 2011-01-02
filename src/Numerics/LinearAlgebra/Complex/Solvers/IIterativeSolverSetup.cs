@@ -28,18 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers
+namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
     using System;
-    using System.Numerics;
 
     /// <summary>
     /// Defines the interface for objects that can create an iterative solver with
     /// specific settings. This interface is used to pass iterative solver creation 
     /// setup information around.
     /// </summary>
-    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
-    public interface IIterativeSolverSetup<T> where T : struct, IEquatable<T>, IFormattable
+    public interface IIterativeSolverSetup
     {
         /// <summary>
         /// Gets the type of the solver that will be created by this setup object.
@@ -55,8 +53,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers
         /// Creates a fully functional iterative solver with the default settings
         /// given by this setup.
         /// </summary>
-        /// <returns>A new <see cref="IIterativeSolver{T}"/>.</returns>
-        IIterativeSolver<T> CreateNew();
+        /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
+        IIterativeSolver CreateNew();
 
         /// <summary>
         /// Gets the relative speed of the solver. 

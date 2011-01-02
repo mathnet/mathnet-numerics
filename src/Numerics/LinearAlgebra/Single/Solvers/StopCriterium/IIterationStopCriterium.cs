@@ -24,36 +24,34 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.StopCriterium
+namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
 {
     using System;
-    using System.Numerics;
-    using Status;
+    using Generic.Solvers.Status;
+    using Generic.Solvers.StopCriterium;
 
     /// <summary>
     /// The base interface for classes that provide stop criteria for iterative calculations. 
     /// </summary>
-    /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
-    public interface IIterationStopCriterium<T>
+    public interface IIterationStopCriterium
 #if !SILVERLIGHT
-    : ICloneable
+ : ICloneable
 #endif
- where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <see cref="IIterationStopCriterium{T}"/>. Status is set to <c>Status</c> field of current object.
+        /// by the current <see cref="IIterationStopCriterium"/>. Status is set to <c>Status</c> field of current object.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
         /// <param name="sourceVector">The right hand side vector.</param>
         /// <param name="residualVector">The vector containing the current residual vectors.</param>
-         /// <remarks>
+        /// <remarks>
         /// The individual stop criteria may internally track the progress of the calculation based
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        void DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector);
+        void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector);
 
         /// <summary>
         /// Gets the current calculation status.
@@ -62,7 +60,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.StopCriterium
         ICalculationStatus Status { get; }
 
         /// <summary>
-        /// Resets the <see cref="IIterationStopCriterium{T}"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterationStopCriterium"/> to the pre-calculation state.
         /// </summary>
         /// <remarks>To implementers: Invoking this method should not clear the user defined
         /// property values, only the state that is used to track the progress of the 
@@ -71,12 +69,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.StopCriterium
 
         /// <summary>
         /// Gets the <see cref="StopLevel"/> which indicates what sort of stop criterium this
-        /// <see cref="IIterationStopCriterium{T}"/> monitors.
+        /// <see cref="IIterationStopCriterium"/> monitors.
         /// </summary>
         StopLevel StopLevel { get; }
 
 #if SILVERLIGHT
-        IIterationStopCriterium<T> Clone();
+        IIterationStopCriterium Clone();
 #endif
     }
 }

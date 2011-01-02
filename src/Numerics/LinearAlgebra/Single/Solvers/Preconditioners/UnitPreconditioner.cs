@@ -31,17 +31,14 @@
 namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
 {
     using System;
-    using Generic;
-    using Generic.Solvers;
-    using Generic.Solvers.Preconditioners;
     using Properties;
 
     /// <summary>
     /// A unit preconditioner. This preconditioner does not actually do anything
-    /// it is only used when running an <see cref="IIterativeSolver{T}"/> without
+    /// it is only used when running an <see cref="IIterativeSolver"/> without
     /// a preconditioner.
     /// </summary>
-    internal sealed class UnitPreconditioner : IPreConditioner<float>
+    internal sealed class UnitPreconditioner : IPreConditioner
     {
         /// <summary>
         /// The coefficient matrix on which this preconditioner operates.
@@ -57,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// </param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null"/>. </exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        public void Initialize(Matrix<float> matrix)
+        public void Initialize(Matrix matrix)
         {
             if (matrix == null)
             {
@@ -90,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         ///     If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         ///   </para>
         /// </exception>
-        public void Approximate(Vector<float> rhs, Vector<float> lhs)
+        public void Approximate(Vector rhs, Vector lhs)
         {
             if (rhs == null)
             {
@@ -119,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
         /// <exception cref="ArgumentException">
         /// If the size of <paramref name="rhs"/> is different the number of rows of the coefficient matrix.
         /// </exception>
-        public Vector<float> Approximate(Vector<float> rhs)
+        public Vector Approximate(Vector rhs)
         {
             if (rhs == null)
             {
@@ -131,7 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Preconditioners
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            Vector<float> result = new DenseVector(rhs.Count);
+            Vector result = new DenseVector(rhs.Count);
             Approximate(rhs, result);
             return result;
         }

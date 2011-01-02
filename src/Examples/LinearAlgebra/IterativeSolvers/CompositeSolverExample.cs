@@ -33,11 +33,9 @@ namespace Examples.LinearAlgebra.IterativeSolvers
     using MathNet.Numerics.LinearAlgebra.Double.Solvers;
     using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
     using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
-    using MathNet.Numerics.LinearAlgebra.Generic.Solvers;
-    using MathNet.Numerics.LinearAlgebra.Generic.Solvers.StopCriterium;
 
     /// <summary>
-    /// Сomposite matrix solver
+    /// Composite matrix solver
     /// </summary>
     public class CompositeSolverExample : IExample
     {
@@ -102,7 +100,7 @@ namespace Examples.LinearAlgebra.IterativeSolvers
             var residualStopCriterium = new ResidualStopCriterium(1e-10);
 
             // Create monitor with defined stop criteriums
-            var monitor = new Iterator(new IIterationStopCriterium<double>[] { iterationCountStopCriterium, residualStopCriterium });
+            var monitor = new Iterator(new IIterationStopCriterium[] { iterationCountStopCriterium, residualStopCriterium });
 
             // Load all suitable solvers from current assembly. Below in this example, there is user-defined solver
             // "class UserBiCgStab : IIterativeSolverSetup<double>" which uses regular BiCgStab solver. But user may create any other solver 
@@ -147,7 +145,7 @@ namespace Examples.LinearAlgebra.IterativeSolvers
     /// <summary>
     /// Sample of user-defined solver setup
     /// </summary>
-    public class UserBiCgStab : IIterativeSolverSetup<double>
+    public class UserBiCgStab : IIterativeSolverSetup
     {
         /// <summary>
         /// Gets the type of the solver that will be created by this setup object.
@@ -175,8 +173,8 @@ namespace Examples.LinearAlgebra.IterativeSolvers
         /// Creates a fully functional iterative solver with the default settings
         /// given by this setup.
         /// </summary>
-        /// <returns>A new <see cref="IIterativeSolver{T}"/>.</returns>
-        public IIterativeSolver<double> CreateNew()
+        /// <returns>A new <see cref="IIterativeSolver"/>.</returns>
+        public IIterativeSolver CreateNew()
         {
             return new BiCgStab();
         }
