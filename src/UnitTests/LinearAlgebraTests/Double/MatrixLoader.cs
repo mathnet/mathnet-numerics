@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        public static Matrix<double> GenerateRandomDenseMatrix(int row, int col)
+        public static Matrix GenerateRandomDenseMatrix(int row, int col)
         {
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             return v;
         }
 
-        public static Matrix<double> GenerateRandomUserDefinedMatrix(int row, int col)
+        public static Matrix GenerateRandomUserDefinedMatrix(int row, int col)
         {
             // Fill a matrix with standard random numbers.
             var normal = new Distributions.Normal();

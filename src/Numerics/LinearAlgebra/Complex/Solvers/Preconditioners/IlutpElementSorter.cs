@@ -95,7 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// Build heap for double indicies
         /// </summary>
         /// <param name="start">Root position</param>
-        /// <param name="count">Lenght of <paramref name="values"/></param>
+        /// <param name="count">Length of <paramref name="values"/></param>
         /// <param name="sortedIndices">Indicies of <paramref name="values"/></param>
         /// <param name="values">Target <see cref="Vector{T}"/></param>
         private static void BuildDoubleIndexHeap(int start, int count, int[] sortedIndices, Vector<Complex> values)
@@ -113,15 +113,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// <param name="sortedIndices">Indicies of <paramref name="values"/></param>
         /// <param name="values">Target <see cref="Vector{T}"/></param>
         /// <param name="begin">Root position</param>
-        /// <param name="count">Lenght of <paramref name="values"/></param>
+        /// <param name="count">Length of <paramref name="values"/></param>
         private static void SiftDoubleIndices(int[] sortedIndices, Vector<Complex> values, int begin, int count)
         {
             var root = begin;
-            int child;
 
             while (root * 2 < count)
             {
-                child = root * 2;
+                var child = root * 2;
                 if ((child < count - 1) && (values[sortedIndices[child]].Magnitude > values[sortedIndices[child + 1]].Magnitude))
                 {
                     child += 1;
@@ -171,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </summary>
         /// <param name="values">Target values array</param>
         /// <param name="start">Root position</param>
-        /// <param name="count">Lenght of <paramref name="values"/></param>
+        /// <param name="count">Length of <paramref name="values"/></param>
         private static void BuildHeap(int[] values, int start, int count)
         {
             while (start >= 0)
@@ -186,15 +185,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// </summary>
         /// <param name="values">Target value array</param>
         /// <param name="start">Root position</param>
-        /// <param name="count">Lenght of <paramref name="values"/></param>
+        /// <param name="count">Length of <paramref name="values"/></param>
         private static void Sift(int[] values, int start, int count)
         {
             var root = start;
-            int child;
 
             while (root * 2 < count)
             {
-                child = root * 2;
+                var child = root * 2;
                 if ((child < count - 1) && (values[child] > values[child + 1]))
                 {
                     child += 1;
@@ -216,8 +214,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Preconditioners
         /// Exchange values in array
         /// </summary>
         /// <param name="values">Target values array</param>
-        /// <param name="first">First value to exchanghe</param>
-        /// <param name="second">Second value to exchanghe</param>
+        /// <param name="first">First value to exchange</param>
+        /// <param name="second">Second value to exchange</param>
         private static void Exchange(int[] values, int first, int second)
         {
             var t = values[first];

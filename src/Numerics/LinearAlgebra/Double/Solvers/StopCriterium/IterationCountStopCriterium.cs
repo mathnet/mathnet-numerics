@@ -32,15 +32,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
 {
     using System;
     using System.Diagnostics;
-    using Generic;
     using Generic.Solvers.Status;
     using Generic.Solvers.StopCriterium;
 
     /// <summary>
-    /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors the numbers of iteration 
+    /// Defines an <see cref="IIterationStopCriterium"/> that monitors the numbers of iteration 
     /// steps as stop criterium.
     /// </summary>
-    public sealed class IterationCountStopCriterium : IIterationStopCriterium<double>
+    public sealed class IterationCountStopCriterium : IIterationStopCriterium
     {
         /// <summary>
         /// The default value for the maximum number of iterations the process is allowed
@@ -131,7 +130,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector<double> solutionVector, Vector<double> sourceVector, Vector<double> residualVector)
+        public void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -208,7 +207,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// Clones the current <see cref="IterationCountStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="IterationCountStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<double> Clone()
+        public IIterationStopCriterium Clone()
         {
             return new IterationCountStopCriterium(_maximumNumberOfIterations);
         }

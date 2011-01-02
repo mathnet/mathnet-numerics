@@ -32,15 +32,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
 {
     using System;
     using System.Diagnostics;
-    using Generic;
     using Generic.Solvers.Status;
     using Generic.Solvers.StopCriterium;
     using Properties;
 
     /// <summary>
-    /// Defines an <see cref="IIterationStopCriterium{T}"/> that monitors residuals as stop criterium.
+    /// Defines an <see cref="IIterationStopCriterium"/> that monitors residuals as stop criterium.
     /// </summary>
-    public sealed class ResidualStopCriterium : IIterationStopCriterium<float>
+    public sealed class ResidualStopCriterium : IIterationStopCriterium
     {
         /// <summary>
         /// The default value for the maximum value of the residual.
@@ -212,7 +211,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored
-        /// by the current <see cref="IIterationStopCriterium{T}"/>. Result is set into <c>Status</c> field.
+        /// by the current <see cref="IIterationStopCriterium"/>. Result is set into <c>Status</c> field.
         /// </summary>
         /// <param name="iterationNumber">The number of iterations that have passed so far.</param>
         /// <param name="solutionVector">The vector containing the current solution values.</param>
@@ -223,7 +222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// on the invocation of this method. Therefore this method should only be called if the 
         /// calculation has moved forwards at least one step.
         /// </remarks>
-        public void DetermineStatus(int iterationNumber, Vector<float> solutionVector, Vector<float> sourceVector, Vector<float> residualVector)
+        public void DetermineStatus(int iterationNumber, Vector solutionVector, Vector sourceVector, Vector residualVector)
         {
             if (iterationNumber < 0)
             {
@@ -363,7 +362,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         }
 
         /// <summary>
-        /// Resets the <see cref="IIterationStopCriterium{T}"/> to the pre-calculation state.
+        /// Resets the <see cref="IIterationStopCriterium"/> to the pre-calculation state.
         /// </summary>
         public void ResetToPrecalculationState()
         {
@@ -374,7 +373,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
 
         /// <summary>
         /// Gets the <see cref="StopLevel"/> which indicates what sort of stop criterium this
-        /// <see cref="IIterationStopCriterium{T}"/> monitors.
+        /// <see cref="IIterationStopCriterium"/> monitors.
         /// </summary>
         /// <value>Returns <see cref="StopLevel"/>.</value>
         public StopLevel StopLevel
@@ -390,7 +389,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
         /// Clones the current <see cref="ResidualStopCriterium"/> and its settings.
         /// </summary>
         /// <returns>A new instance of the <see cref="ResidualStopCriterium"/> class.</returns>
-        public IIterationStopCriterium<float> Clone()
+        public IIterationStopCriterium Clone()
         {
             return new ResidualStopCriterium(_maximum, _minimumIterationsBelowMaximum);
         }

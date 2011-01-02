@@ -27,29 +27,28 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic.Solvers.StopCriterium
 {
     /// <summary>
-    /// Indicates what an <see cref="IIterationStopCriterium{T}"/> monitors for stop criteria. 
+    /// Iteration stop criteria. 
     /// </summary>
     public enum StopLevel
     {
         /// <summary>
-        /// The <see cref="IIterationStopCriterium{T}"/> monitors calculation failures in the
-        /// iterative calculation.
+        /// Monitor calculation failures in the iterative calculation.
         /// </summary>
         CalculationFailure,
 
         /// <summary>
-        /// The <see cref="IIterationStopCriterium{T}"/> monitors the calculation for signs of divergence.
+        /// Monitor the calculation for signs of divergence.
         /// </summary>
         Divergence,
 
         /// <summary>
-        /// The <see cref="IIterationStopCriterium{T}"/> guards the calculation against unlimited continuation
+        /// Guard the calculation against unlimited continuation
         /// by monitoring user specified limits, e.g. the maximum number of iterations.
         /// </summary>
         StoppedWithoutConvergence,
 
         /// <summary>
-        /// The <see cref="IIterationStopCriterium{T}"/> monitors the calculation for convergence, usually
+        /// Monitor the calculation for convergence, usually
         /// based on the residuals of the calculation.
         /// </summary>
         Convergence

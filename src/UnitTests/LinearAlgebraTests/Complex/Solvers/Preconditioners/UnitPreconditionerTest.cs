@@ -1,21 +1,18 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Preconditioners
 {
-    using System.Numerics;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Complex.Solvers.Preconditioners;
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Generic.Solvers.Preconditioners;
     using MbUnit.Framework;
 
     [TestFixture]
     public sealed class UnitPreconditionerTest : PreconditionerTest
     {
-        internal override IPreConditioner<Complex> CreatePreconditioner()
+        internal override IPreConditioner CreatePreconditioner()
         {
             return new UnitPreconditioner();
         }
 
-        protected override void CheckResult(IPreConditioner<Complex> preconditioner, SparseMatrix matrix, Vector<Complex> vector, Vector<Complex> result)
+        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
         {
             Assert.AreEqual(typeof(UnitPreconditioner), preconditioner.GetType(), "#01");
 

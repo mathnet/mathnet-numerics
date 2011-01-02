@@ -35,8 +35,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using Generic;
-    using Generic.Solvers;
     using Generic.Solvers.Status;
     using Properties;
 
@@ -55,7 +53,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
     /// Note that if an iterator is passed to this solver it will be used for all the sub-solvers.
     /// </para>
     /// </remarks>
-    public sealed class CompositeSolver : IIterativeSolver<float>
+    public sealed class CompositeSolver : IIterativeSolver
     {
         #region Internal class - DoubleComparer
         /// <summary>
@@ -96,19 +94,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         private static readonly ICalculationStatus RunningStatus = new CalculationRunning();
         
 #if SILVERLIGHT
-        private static readonly Dictionary<double, List<IIterativeSolverSetup<float>>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup<float>>>();        
+        private static readonly Dictionary<double, List<IIterativeSolverSetup>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup>>();        
 #else
         /// <summary>
         /// The collection of iterative solver setups. Stored based on the
         /// ratio between the relative speed and relative accuracy.
         /// </summary>
-        private static readonly SortedList<double, List<IIterativeSolverSetup<float>>> SolverSetups = new SortedList<double, List<IIterativeSolverSetup<float>>>(new DoubleComparer());
+        private static readonly SortedList<double, List<IIterativeSolverSetup>> SolverSetups = new SortedList<double, List<IIterativeSolverSetup>>(new DoubleComparer());
 #endif
 
         #region Solver information loading methods
 
         /// <summary>
-        /// Loads all the available <see cref="IIterativeSolverSetup{T}"/> objects from the MathNet.Numerics assembly.
+        /// Loads all the available <see cref="IIterativeSolverSetup"/> objects from the MathNet.Numerics assembly.
         /// </summary>
         public static void LoadSolverInformation()
         {
@@ -116,16 +114,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the MathNet.Numerics assembly.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the MathNet.Numerics assembly.
         /// </summary>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded.</param>
         public static void LoadSolverInformation(Type[] typesToExclude)
         {
             LoadSolverInformationFromAssembly(Assembly.GetExecutingAssembly(), typesToExclude);
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the file location.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the file location.
         /// </summary>
         /// <param name="assemblyLocation">The fully qualified path to the assembly.</param>
         public static void LoadSolverInformationFromAssembly(string assemblyLocation)
@@ -134,10 +132,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the file location.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the file location.
         /// </summary>
         /// <param name="assemblyLocation">The fully qualified path to the assembly.</param>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded. </param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded. </param>
         public static void LoadSolverInformationFromAssembly(string assemblyLocation, params Type[] typesToExclude)
         {
             if (assemblyLocation == null)
@@ -172,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the assembly name.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the assembly name.
         /// </summary>
         /// <param name="assemblyName">The <see cref="AssemblyName"/> of the assembly that should be searched for setup objects. </param>
         public static void LoadSolverInformationFromAssembly(AssemblyName assemblyName)
@@ -181,10 +179,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the assembly name.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the assembly name.
         /// </summary>
         /// <param name="assemblyName">The <see cref="AssemblyName"/> of the assembly that should be searched for setup objects.</param>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded.</param>
         public static void LoadSolverInformationFromAssembly(AssemblyName assemblyName, params Type[] typesToExclude)
         {
             if (assemblyName == null)
@@ -204,7 +202,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the type.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the type.
         /// </summary>
         /// <param name="typeInAssembly">The type in the assembly which should be searched for setup objects.</param>
         public static void LoadSolverInformationFromAssembly(Type typeInAssembly)
@@ -213,10 +211,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the assembly specified by the type.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the type.
         /// </summary>
         /// <param name="typeInAssembly">The type in the assembly which should be searched for setup objects.</param>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded.</param>
         public static void LoadSolverInformationFromAssembly(Type typeInAssembly, params Type[] typesToExclude)
         {
             if (typeInAssembly == null)
@@ -228,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly which will be searched for setup objects.</param>
         public static void LoadSolverInformationFromAssembly(Assembly assembly)
@@ -237,10 +235,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         }
 
         /// <summary>
-        /// Loads the available <see cref="IIterativeSolverSetup{T}"/> objects from the specified assembly.
+        /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the specified assembly.
         /// </summary>
         /// <param name="assembly">The assembly which will be searched for setup objects.</param>
-        /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
+        /// <param name="typesToExclude">The <see cref="IIterativeSolver"/> types that should not be loaded.</param>
         public static void LoadSolverInformationFromAssembly(Assembly assembly, params Type[] typesToExclude)
         {
             if (assembly == null)
@@ -265,18 +263,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
             {
                 interfaceTypes.Clear();
                 interfaceTypes.AddRange(type.GetInterfaces());
-                if (!interfaceTypes.Any(match => typeof(IIterativeSolverSetup<double>).IsAssignableFrom(match)))
+                if (!interfaceTypes.Any(match => typeof(IIterativeSolverSetup).IsAssignableFrom(match)))
                 {
                     continue;
                 }
 
                 // See if we actually want this type of iterative solver
-                IIterativeSolverSetup<float> setup;
+                IIterativeSolverSetup setup;
                 try
                 {
                     // If something goes wrong we just ignore it and move on with the next type.
                     // There should probably be a log somewhere indicating that something went wrong?
-                    setup = (IIterativeSolverSetup<float>)Activator.CreateInstance(type);
+                    setup = (IIterativeSolverSetup)Activator.CreateInstance(type);
                 }
                 catch (ArgumentException)
                 {
@@ -317,7 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 var ratio = setup.SolutionSpeed / setup.Reliability;
                 if (!SolverSetups.ContainsKey(ratio))
                 {
-                    SolverSetups.Add(ratio, new List<IIterativeSolverSetup<float>>());
+                    SolverSetups.Add(ratio, new List<IIterativeSolverSetup>());
                 }
 
                 var list = SolverSetups[ratio];
@@ -330,7 +328,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <summary>
         /// The collection of solvers that will be used to 
         /// </summary>
-        private readonly List<IIterativeSolver<float>> _solvers = new List<IIterativeSolver<float>>();
+        private readonly List<IIterativeSolver> _solvers = new List<IIterativeSolver>();
 
         /// <summary>
         /// The status of the calculation.
@@ -340,7 +338,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <summary>
         /// The iterator that is used to control the iteration process.
         /// </summary>
-        private IIterator<float> _iterator;
+        private IIterator _iterator;
 
         /// <summary>
         /// A flag indicating if the solver has been stopped or not.
@@ -351,7 +349,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// The solver that is currently running. Reference is used to be able to stop the
         /// solver if the user cancels the solve process.
         /// </summary>
-        private IIterativeSolver<float> _currentSolver;
+        private IIterativeSolver _currentSolver;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the default iterator.
@@ -364,16 +362,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// Initializes a new instance of the <see cref="CompositeSolver"/> class with the specified iterator.
         /// </summary>
         /// <param name="iterator">The iterator that will be used to control the iteration process. </param>
-        public CompositeSolver(IIterator<float> iterator)
+        public CompositeSolver(IIterator iterator)
         {
             _iterator = iterator;
         }
 
         /// <summary>
-        /// Sets the <see cref="IIterator{T}"/> that will be used to track the iterative process.
+        /// Sets the <see cref="IIterator"/> that will be used to track the iterative process.
         /// </summary>
         /// <param name="iterator">The iterator.</param>
-        public void SetIterator(IIterator<float> iterator)
+        public void SetIterator(IIterator iterator)
         {
             _iterator = iterator;
         }
@@ -411,14 +409,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="vector">The solution vector, <c>b</c>.</param>
         /// <returns>The result vector, <c>x</c>.</returns>
-        public Vector<float> Solve(Matrix<float> matrix, Vector<float> vector)
+        public Vector Solve(Matrix matrix, Vector vector)
         {
             if (vector == null)
             {
                 throw new ArgumentNullException();
             }
 
-            Vector<float> result = new DenseVector(matrix.RowCount);
+            Vector result = new DenseVector(matrix.RowCount);
             Solve(matrix, vector, result);
             return result;
         }
@@ -430,7 +428,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution vector, <c>b</c></param>
         /// <param name="result">The result vector, <c>x</c></param>
-        public void Solve(Matrix<float> matrix, Vector<float> input, Vector<float> result)
+        public void Solve(Matrix matrix, Vector input, Vector result)
         {
             // If we were stopped before, we are no longer
             // We're doing this at the start of the method to ensure
@@ -480,8 +478,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             // Create a copy of the solution and result vectors so we can use them
             // later on
-            var internalInput = input.Clone();
-            var internalResult = result.Clone();
+            var internalInput = (Vector)input.Clone();
+            var internalResult = (Vector)result.Clone();
 
             foreach (var solver in _solvers.TakeWhile(solver => !_hasBeenStopped))
             {
@@ -572,7 +570,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <returns>The result matrix, <c>X</c>.</returns>
-        public Matrix<float> Solve(Matrix<float> matrix, Matrix<float> input)
+        public Matrix Solve(Matrix matrix, Matrix input)
         {
             if (matrix == null)
             {
@@ -584,7 +582,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 throw new ArgumentNullException("input");
             }
 
-            var result = matrix.CreateMatrix(input.RowCount, input.ColumnCount);
+            var result = (Matrix)matrix.CreateMatrix(input.RowCount, input.ColumnCount);
             Solve(matrix, input, result);
             return result;
         }
@@ -596,7 +594,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         /// <param name="matrix">The coefficient matrix, <c>A</c>.</param>
         /// <param name="input">The solution matrix, <c>B</c>.</param>
         /// <param name="result">The result matrix, <c>X</c></param>
-        public void Solve(Matrix<float> matrix, Matrix<float> input, Matrix<float> result)
+        public void Solve(Matrix matrix, Matrix input, Matrix result)
         {
             if (matrix == null)
             {
@@ -620,7 +618,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             for (var column = 0; column < input.ColumnCount; column++)
             {
-                var solution = Solve(matrix, input.Column(column));
+                var solution = Solve(matrix, (Vector)input.Column(column));
                 foreach (var element in solution.GetIndexedEnumerator())
                 {
                     result.At(element.Key, column, element.Value);

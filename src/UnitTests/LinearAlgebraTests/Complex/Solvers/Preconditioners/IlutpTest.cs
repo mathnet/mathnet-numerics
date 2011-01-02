@@ -1,12 +1,9 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Preconditioners
 {
     using System;
-    using System.Numerics;
     using System.Reflection;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Complex.Solvers.Preconditioners;
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Generic.Solvers.Preconditioners;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -74,7 +71,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             return result;
         }
 
-        internal override IPreConditioner<Complex> CreatePreconditioner()
+        internal override IPreConditioner CreatePreconditioner()
         {
             _pivotTolerance = 0;
             _dropTolerance = 0.0;
@@ -82,13 +79,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             return InternalCreatePreconditioner();
         }
 
-        protected override void CheckResult(IPreConditioner<Complex> preconditioner, SparseMatrix matrix, Vector<Complex> vector, Vector<Complex> result)
+        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
         {
             Assert.AreEqual(typeof(Ilutp), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal
-            Vector<Complex> product = new DenseVector(result.Count);
+            Vector product = new DenseVector(result.Count);
             matrix.Multiply(result, product);
             for (var i = 0; i < product.Count; i++)
             {
@@ -112,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             _fillLevel = 100;
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
-            Vector<Complex> result = new DenseVector(vector.Count);
+            Vector result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
             CheckResult(preconditioner, newMatrix, vector, result);
         }
@@ -131,7 +128,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             _fillLevel = 100;
             var preconditioner = CreatePreconditioner();
             preconditioner.Initialize(newMatrix);
-            Vector<Complex> result = new DenseVector(vector.Count);
+            Vector result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
             CheckResult(preconditioner, newMatrix, vector, result);
         }
@@ -246,7 +243,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
                                      FillLevel = 10
                                  };
             preconditioner.Initialize(newMatrix);
-            Vector<Complex> result = new DenseVector(vector.Count);
+            Vector result = new DenseVector(vector.Count);
             preconditioner.Approximate(vector, result);
             CheckResult(preconditioner, newMatrix, vector, result);
         }

@@ -348,6 +348,15 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Matrix.cs">
       <Link>LinearAlgebra\Complex32\Matrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\IIterativeSolver.cs">
+      <Link>LinearAlgebra\Complex32\Solvers\IIterativeSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\IIterativeSolverSetup.cs">
+      <Link>LinearAlgebra\Complex32\Solvers\IIterativeSolverSetup.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\IIterator.cs">
+      <Link>LinearAlgebra\Complex32\Solvers\IIterator.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
@@ -378,6 +387,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\IncompleteLU.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\IncompleteLU.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\IPreConditioner.cs">
+      <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\IPreConditioner.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\UnitPreconditioner.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
     </Compile>
@@ -386,6 +398,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\StopCriterium\FailureStopCriterium.cs">
       <Link>LinearAlgebra\Complex32\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\StopCriterium\IIterationStopCriterium.cs">
+      <Link>LinearAlgebra\Complex32\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\StopCriterium\IterationCountStopCriterium.cs">
       <Link>LinearAlgebra\Complex32\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
@@ -468,6 +483,15 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Matrix.cs">
       <Link>LinearAlgebra\Complex\Matrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\IIterativeSolver.cs">
+      <Link>LinearAlgebra\Complex\Solvers\IIterativeSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\IIterativeSolverSetup.cs">
+      <Link>LinearAlgebra\Complex\Solvers\IIterativeSolverSetup.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\IIterator.cs">
+      <Link>LinearAlgebra\Complex\Solvers\IIterator.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
@@ -498,6 +522,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\IncompleteLU.cs">
       <Link>LinearAlgebra\Complex\Solvers\Preconditioners\IncompleteLU.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\IPreConditioner.cs">
+      <Link>LinearAlgebra\Complex\Solvers\Preconditioners\IPreConditioner.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\UnitPreconditioner.cs">
       <Link>LinearAlgebra\Complex\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
     </Compile>
@@ -506,6 +533,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\FailureStopCriterium.cs">
       <Link>LinearAlgebra\Complex\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\IIterationStopCriterium.cs">
+      <Link>LinearAlgebra\Complex\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\IterationCountStopCriterium.cs">
       <Link>LinearAlgebra\Complex\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
@@ -588,6 +618,15 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.cs">
       <Link>LinearAlgebra\Double\Matrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterativeSolver.cs">
+      <Link>LinearAlgebra\Double\Solvers\IIterativeSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterativeSolverSetup.cs">
+      <Link>LinearAlgebra\Double\Solvers\IIterativeSolverSetup.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterator.cs">
+      <Link>LinearAlgebra\Double\Solvers\IIterator.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
@@ -618,6 +657,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\IncompleteLU.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\IncompleteLU.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\IPreConditioner.cs">
+      <Link>LinearAlgebra\Double\Solvers\Preconditioners\IPreConditioner.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\UnitPreconditioner.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
     </Compile>
@@ -626,6 +668,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\IIterationStopCriterium.cs">
+      <Link>LinearAlgebra\Double\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
@@ -717,6 +762,15 @@
     <Compile Include="..\Numerics\LinearAlgebra\Single\Matrix.cs">
       <Link>LinearAlgebra\Single\Matrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\IIterativeSolver.cs">
+      <Link>LinearAlgebra\Single\Solvers\IIterativeSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\IIterativeSolverSetup.cs">
+      <Link>LinearAlgebra\Single\Solvers\IIterativeSolverSetup.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\IIterator.cs">
+      <Link>LinearAlgebra\Single\Solvers\IIterator.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
@@ -747,6 +801,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\IncompleteLU.cs">
       <Link>LinearAlgebra\Single\Solvers\Preconditioners\IncompleteLU.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\IPreConditioner.cs">
+      <Link>LinearAlgebra\Single\Solvers\Preconditioners\IPreConditioner.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\UnitPreconditioner.cs">
       <Link>LinearAlgebra\Single\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
     </Compile>
@@ -755,6 +812,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs">
       <Link>LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\StopCriterium\IIterationStopCriterium.cs">
+      <Link>LinearAlgebra\Single\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\StopCriterium\IterationCountStopCriterium.cs">
       <Link>LinearAlgebra\Single\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
@@ -792,18 +852,6 @@
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Matrix.cs">
       <Link>LinearAlgebra\Generic\Matrix.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\IIterativeSolver.cs">
-      <Link>LinearAlgebra\Generic\Solvers\IIterativeSolver.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\IIterativeSolverSetup.cs">
-      <Link>LinearAlgebra\Generic\Solvers\IIterativeSolverSetup.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\IIterator.cs">
-      <Link>LinearAlgebra\Generic\Solvers\IIterator.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Preconditioners\IPreConditioner.cs">
-      <Link>LinearAlgebra\Generic\Solvers\Preconditioners\IPreConditioner.cs</Link>
-    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\CalculationCancelled.cs">
       <Link>LinearAlgebra\Generic\Solvers\Status\CalculationCancelled.cs</Link>
     </Compile>
@@ -827,9 +875,6 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\Status\ICalculationStatus.cs">
       <Link>LinearAlgebra\Generic\Solvers\Status\ICalculationStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\StopCriterium\IIterationStopCriterium.cs">
-      <Link>LinearAlgebra\Generic\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Solvers\StopCriterium\StopLevel.cs">
       <Link>LinearAlgebra\Generic\Solvers\StopCriterium\StopLevel.cs</Link>

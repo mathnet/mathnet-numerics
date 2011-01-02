@@ -4,8 +4,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
     using System.Reflection;
     using LinearAlgebra.Double;
     using LinearAlgebra.Double.Solvers.Preconditioners;
-    using LinearAlgebra.Generic;
-    using LinearAlgebra.Generic.Solvers.Preconditioners;
     using MbUnit.Framework;
 
     [TestFixture]
@@ -24,28 +22,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             return (T)obj;
         }
 
-        private static Matrix<double> GetUpperTriangle(IncompleteLU ilu)
+        private static Matrix GetUpperTriangle(IncompleteLU ilu)
         {
-            return GetMethod<Matrix<double>>(ilu, "UpperTriangle");
+            return GetMethod<Matrix>(ilu, "UpperTriangle");
         }
 
-        private static Matrix<double> GetLowerTriangle(IncompleteLU ilu)
+        private static Matrix GetLowerTriangle(IncompleteLU ilu)
         {
-            return GetMethod<Matrix<double>>(ilu, "LowerTriangle");
+            return GetMethod<Matrix>(ilu, "LowerTriangle");
         }
 
-        internal override IPreConditioner<double> CreatePreconditioner()
+        internal override IPreConditioner CreatePreconditioner()
         {
             return new IncompleteLU();
         }
 
-        protected override void CheckResult(IPreConditioner<double> preconditioner, SparseMatrix matrix, Vector<double> vector, Vector<double> result)
+        protected override void CheckResult(IPreConditioner preconditioner, SparseMatrix matrix, Vector vector, Vector result)
         {
             Assert.AreEqual(typeof(IncompleteLU), preconditioner.GetType(), "#01");
 
             // Compute M * result = product
             // compare vector and product. Should be equal
-            Vector<double> product = new DenseVector(result.Count);
+            Vector product = new DenseVector(result.Count);
             matrix.Multiply(result, product);
 
             for (var i = 0; i < product.Count; i++)

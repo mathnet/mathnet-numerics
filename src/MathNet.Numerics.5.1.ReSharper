@@ -10,7 +10,12 @@
             <CustomDictionary>
               <Name>en-US</Name>
               <CaseSensitive>false</CaseSensitive>
-              <UserWords />
+              <UserWords>Criterium
+cancelled
+pre
+preconditioner
+Preconditioners
+indetermined</UserWords>
             </CustomDictionary>
           </Dictionaries>
         </CustomDictionaries>
@@ -238,7 +243,7 @@
               <MustNotHaveSuffixes />
             </NamingConventionRule>
             <NamingConventionRule>
-              <IsDisabled>false</IsDisabled>
+              <IsDisabled>true</IsDisabled>
               <Matches>
                 <Match>
                   <AccessLevel>Any</AccessLevel>
