@@ -1393,5 +1393,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             Array.Clear(Data, 0, Data.Length);
         }
+
+        /// <summary>Gets the value at the given <paramref name="index"/>.</summary>
+        /// <param name="index">The index of the value to get or set.</param>
+        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
+        internal protected override double At(int index)
+        {
+            return Data[index];
+        }
+
+        /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/>.</summary>
+        /// <param name="index">The index of the value to get or set.</param>
+        /// <param name="value">The value to set.</param>
+        internal protected override void At(int index, double value)
+        {
+            Data[index] = value;
+        }
     }
 }

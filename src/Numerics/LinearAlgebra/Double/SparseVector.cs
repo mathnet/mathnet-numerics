@@ -38,13 +38,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// A vector with sparse storage.
     /// </summary>
+    /// <remarks>The sparse vector is not thread safe.</remarks>
     public class SparseVector : Vector
     {
-        /// <summary>
-        /// Lock object for the indexer.
-        /// </summary>
-        private readonly object _lockObject = new object();
-
         /// <summary>
         ///  Gets the vector's internal data. The array containing the actual values; only the non-zero values are stored.
         /// </summary>
@@ -130,7 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var i = 0; i < other.Count; i++)
                 {
-                    this[i] = other[i];
+                    this[i] = other.At(i);
                 }
             }
             else
@@ -168,9 +164,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="array">The array to create this vector from.</param>
         /// <remarks>The vector copy the array. Any changes to the vector will NOT change the array.</remarks>
-        public SparseVector(double[] array) : this(array.Length)
+        public SparseVector(IList<double> array) : this(array.Count)
         {
-            for (var i = 0; i < array.Length; i++)
+            for (var i = 0; i < array.Count; i++)
             {
                 this[i] = array[i];
             }
@@ -187,7 +183,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var matrix = new SparseMatrix(Count, 1);
             for (var i = 0; i < NonZerosCount; i++)
             {
-                matrix[_nonZeroIndices[i], 0] = _nonZeroValues[i];
+                matrix.At(_nonZeroIndices[i], 0, _nonZeroValues[i]);
             }
 
             return matrix;
@@ -202,53 +198,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var matrix = new SparseMatrix(1, Count);
             for (var i = 0; i < NonZerosCount; i++)
             {
-                matrix[0, _nonZeroIndices[i]] = _nonZeroValues[i];
+                matrix.At(0, _nonZeroIndices[i], _nonZeroValues[i]);
             }
 
             return matrix;
-        }
-
-        /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
-        /// <param name="index">The index of the value to get or set.</param>
-        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        /// <exception cref="IndexOutOfRangeException">If <paramref name="index"/> is negative or 
-        /// greater than the size of the vector.</exception>
-        public override double this[int index]
-        {
-            get
-            {
-                // If index is out of bounds
-                if ((index < 0) || (index >= Count))
-                {
-                    throw new IndexOutOfRangeException();
-                }
-
-                lock (_lockObject)
-                {
-                    // Search if item idex exists in NonZeroIndices array in range "0 - real nonzero values count"
-                    var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
-                    if (itemIndex >= 0)
-                    {
-                        return _nonZeroValues[itemIndex];
-                    }
-                }
-
-                return 0.0;
-            }
-
-            set
-            {
-                // If index is out of bounds
-                if ((index < 0) || (index >= Count))
-                {
-                    throw new IndexOutOfRangeException();
-                }
-
-                lock (_lockObject)
-                {
-                    SetValue(index, value);
-                }
-            }
         }
 
         /// <summary>
@@ -324,10 +277,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var otherVector = target as SparseVector;
             if (otherVector == null)
             {
-                CommonParallel.For(
-                    0, 
-                    Count, 
-                    index => target[index] = this[index]);
+                target.Clear();
+
+                for (var index = 0; index < NonZerosCount; index++)
+                {
+                    target.At(_nonZeroIndices[index], _nonZeroValues[index]);
+                }
             }
             else
             {
@@ -344,144 +299,38 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #region Operators and supplementary functions
 
         /// <summary>
-        /// Adds a scalar to each element of the vector.
+        /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to add.</param>
-        /// <returns>A copy of the vector with the scalar added.</returns>
-        public override Vector<double> Add(double scalar)
+        /// <param name="scalar">
+        /// The scalar to add.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the addition.
+        /// </param>
+        protected override void DoAdd(double scalar, Vector<double> result)
         {
             if (scalar == 0.0)
             {
-                return Clone();
-            }
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result); 
+                }
 
-            var copy = (SparseVector)Clone();
-            for (var i = 0; i < Count; i++)
-            {
-                copy[i] += scalar;
-            }
-
-            return copy;
-        }
-
-        /// <summary>
-        /// Adds a scalar to each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to add.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(double scalar, Vector<double> result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            base.Add(scalar, result);
-        }
-
-        /// <summary>
-        /// Adds another vector to this vector.
-        /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <returns>A new vector containing the sum of both vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<double> Add(Vector<double> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var sparseVector = other as SparseVector;
-
-            if (sparseVector == null)
-            {
-                return base.Add(other);
-            }
-
-            var copy = (SparseVector)Clone();
-            copy.AddScaledSparseVector(1.0, sparseVector);
-            return copy;
-        }
-
-        /// <summary>
-        /// Adds the scaled sparse vector.
-        /// </summary>
-        /// <param name="alpha">The alpha.</param>
-        /// <param name="other">The other.</param>
-        private void AddScaledSparseVector(double alpha, SparseVector other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (alpha == 0.0)
-            {
                 return;
             }
 
-            // I don't use ILinearAlgebraProvider because we will get no benefit due to "lock" in this[index]
-            // Possible fucniton in ILinearAlgebraProvider may be AddSparseVectorToScaledSparseVector(T[] y, int[] yIndices, T alpha, T[] x, int[] xIndices); 
-            // But it require to develop value setting algorithm and due to "lock" it will be even more greedy then implemented below
-            if (ReferenceEquals(this, other))
+            if (ReferenceEquals(this, result))
             {
-                // Adding the same instance of sparse vector. That means if we modify "this" then "other" will be modified too.
-                // To avoid such problem lets change values in internal storage of "this"
-                if (alpha == 1.0)
-                {
-                    for (var i = 0; i < NonZerosCount; i++)
-                    {
-                        _nonZeroValues[i] += _nonZeroValues[i];
-                    }
-                }
-                else if (alpha == -1.0)
-                {
-                    Clear(); // Vector is subtracted from itself
-                    return;
-                }
-                else
-                {
-                    for (var i = 0; i < NonZerosCount; i++)
-                    {
-                        _nonZeroValues[i] += alpha * _nonZeroValues[i];
-                    }
-                }
+                CommonParallel.For(
+                    0,
+                    NonZerosCount,
+                    index => _nonZeroValues[index] += scalar);                
             }
             else
             {
-                // "this" and "other" are different objects, so by modifying "this" the "other" object will not be changed
-                if (alpha == 1.0)
+                for (var index = 0; index < Count; index++)
                 {
-                    for (var i = 0; i < other.NonZerosCount; i++)
-                    {
-                        this[other._nonZeroIndices[i]] += other._nonZeroValues[i];
-                    }
-                }
-                else
-                {
-                    for (var i = 0; i < other.NonZerosCount; i++)
-                    {
-                        this[other._nonZeroIndices[i]] += alpha * other._nonZeroValues[i];
-                    }
+                    result.At(index, At(index) + scalar);
                 }
             }
         }
@@ -489,53 +338,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Adds another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(Vector<double> other, Vector<double> result)
+        /// <param name="other">
+        /// The vector to add to this one.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the addition.
+        /// </param>
+        protected override void DoAdd(Vector<double> other, Vector<double> result)
         {
-            if (result == null)
+            if (ReferenceEquals(this, result))
             {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = Add(other);
-                tmp.CopyTo(result);
+                CommonParallel.For(
+                    0,
+                    NonZerosCount,
+                    index => _nonZeroValues[index] += _nonZeroValues[index]);
             }
             else
             {
-                var sparse = result as SparseVector;
-                if (sparse == null)
+                for (var index = 0; index < Count; index++)
                 {
-                    base.Add(other, result);
-                }
-                else
-                {
-                    var sparseother = other as SparseVector;
-                    if (sparseother == null)
-                    {
-                        base.Add(other, result);
-                    }
-                    else
-                    {
-                        CopyTo(result);
-                        sparse.AddScaledSparseVector(1.0, sparseother);
-                    }
+                    result.At(index, At(index) + other.At(index));
                 }
             }
         }
@@ -586,130 +408,39 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Subtracts a scalar from each element of the vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to subtract.</param>
-        /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
-        public override Vector<double> Subtract(double scalar)
-        {
-            if (scalar == 0.0)
-            {
-                return Clone();
-            }
-
-            var copy = (SparseVector)Clone();
-            for (var i = 0; i < Count; i++)
-            {
-                copy[i] -= scalar;
-            }
-
-            return copy;
-        }
-
-        /// <summary>
         /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="scalar">The scalar to subtract.</param>
-        /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(double scalar, Vector<double> result)
+        /// <param name="scalar">
+        /// The scalar to subtract.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the subtraction.
+        /// </param>
+        protected override void DoSubtract(double scalar, Vector<double> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            base.Subtract(scalar, result);
-        }
-
-        /// <summary>
-        /// Subtracts another vector from this vector.
-        /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<double> Subtract(Vector<double> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var sparseVector = other as SparseVector;
-
-            if (sparseVector == null)
-            {
-                return base.Subtract(other);
-            }
-
-            var copy = (SparseVector)Clone();
-            copy.AddScaledSparseVector(-1.0, sparseVector);
-            return copy;
+            DoAdd(-scalar, result);
         }
 
         /// <summary>
         /// Subtracts another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(Vector<double> other, Vector<double> result)
+        /// <param name="other">
+        /// The vector to subtract from this one.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the subtraction.
+        /// </param>
+        protected override void DoSubtract(Vector<double> other, Vector<double> result)
         {
-            if (result == null)
+            if (ReferenceEquals(this, other))
             {
-                throw new ArgumentNullException("result");
+                result.Clear();
+                return;
             }
 
-            if (Count != other.Count)
+            for (var index = 0; index < Count; index++)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = Subtract(other);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                var sparse = result as SparseVector;
-                if (sparse == null)
-                {
-                    base.Subtract(other, result);
-                }
-                else
-                {
-                    var sparseother = other as SparseVector;
-                    if (sparseother == null)
-                    {
-                        base.Subtract(other, result);
-                    }
-                    else
-                    {
-                        CopyTo(result);
-                        sparse.AddScaledSparseVector(-1.0, sparseother);
-                    }
-                }
+                result.At(index, At(index) - other.At(index));
             }
         }
 
@@ -777,6 +508,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     0,
                     NonZerosCount,
                     index => result._nonZeroValues[index] = -_nonZeroValues[index]);
+                    
                 Buffer.BlockCopy(_nonZeroIndices, 0, result._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
             }
 
@@ -806,30 +538,81 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
+        /// </summary>
+        /// <param name="scalar">
+        /// The scalar to multiply.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the multiplication.
+        /// </param>
+        protected override void DoMultiply(double scalar, Vector<double> result)
+        {
+            if (scalar == 1.0)
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result);
+                }
+                
+                return;
+            }
+
+            if (scalar == 0)
+            {
+                result.Clear();
+                return;
+            }
+
+            var sparseResult = result as SparseVector;
+            if (sparseResult == null)
+            {
+                result.Clear();
+                for (var index = 0; index < NonZerosCount; index++)
+                {
+                    result.At(_nonZeroIndices[index], scalar * _nonZeroValues[index]);
+                }
+            }
+            else
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    sparseResult.NonZerosCount = NonZerosCount;
+                    sparseResult._nonZeroIndices = new int[NonZerosCount];
+                    Buffer.BlockCopy(_nonZeroIndices, 0, sparseResult._nonZeroIndices, 0, _nonZeroIndices.Length * Constants.SizeOfInt);
+                    sparseResult._nonZeroValues = new double[_nonZeroValues.Length];
+                }
+
+                Control.LinearAlgebraProvider.ScaleArray(scalar, _nonZeroValues, sparseResult._nonZeroValues);
+            }
+        }
+
+        /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null" />.</exception>
-        public override double DotProduct(Vector<double> other)
+        /// <param name="other">
+        /// The other vector to add.
+        /// </param>
+        /// <returns>s
+        /// The result of the addition.
+        /// </returns>
+        protected override double DoDotProduct(Vector<double> other)
         {
-            if (other == null)
+            var result = 0.0;
+
+            if (ReferenceEquals(this, other))
             {
-                throw new ArgumentNullException("other");
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    result += _nonZeroValues[i] * _nonZeroValues[i];
+                }
             }
-
-            if (Count != other.Count)
+            else
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            double result = 0;
-
-            // base implementation iterates though all elements, but we need only take non-zeros 
-            for (var i = 0; i < NonZerosCount; i++)
-            {
-                result += _nonZeroValues[i] * other[_nonZeroIndices[i]];
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    result += _nonZeroValues[i] * other.At(_nonZeroIndices[i]);
+                }
             }
 
             return result;
@@ -972,7 +755,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var result = new SparseVector(length);
             for (var i = index; i < index + length; i++)
             {
-                result[i - index] = this[i];
+                result.At(i - index, At(i));
             }
 
             return result;
@@ -998,7 +781,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             for (var i = 0; i < values.Length; i++)
             {
-                this[i] = values[i];
+                At(i, values[i]);
             }
         }
 
@@ -1083,35 +866,51 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Pointwise multiplies this vector with another vector.
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
-        /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<double> PointwiseMultiply(Vector<double> other)
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        protected override void DoPointwiseMultiply(Vector<double> other, Vector<double> result)
         {
-            if (other == null)
+            if (ReferenceEquals(this, other))
             {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var copy = new SparseVector(Count);
-            for (var i = 0; i < _nonZeroIndices.Length; i++)
-            {
-                var d = _nonZeroValues[i] * other[_nonZeroIndices[i]];
-                if (d != 0.0)
+                for (var i = 0; i < NonZerosCount; i++)
                 {
-                    copy[_nonZeroIndices[i]] = d;
+                    _nonZeroValues[i] *= _nonZeroValues[i]; 
                 }
             }
+            else
+            {
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    var index = _nonZeroIndices[i];
+                    result.At(index, other.At(index) * _nonZeroValues[i]);
+                }
+            }
+        }
 
-            return copy;
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        protected override void DoPointwiseDivide(Vector<double> other, Vector<double> result)
+        {
+            if (ReferenceEquals(this, other))
+            {
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    _nonZeroValues[i] /= _nonZeroValues[i];
+                }
+            }
+            else
+            {
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    var index = _nonZeroIndices[i];
+                    result.At(index, _nonZeroValues[i] / other.At(index));
+                }
+            }
         }
 
         /// <summary>
@@ -1122,7 +921,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>Matrix M[i,j] = u[i]*v[j] </returns>
         /// <exception cref="ArgumentNullException">If the u vector is <see langword="null" />.</exception> 
         /// <exception cref="ArgumentNullException">If the v vector is <see langword="null" />.</exception> 
-        public static Matrix<double> /*SparseMatrix*/ OuterProduct(SparseVector u, SparseVector v)
+        public static Matrix<double> OuterProduct(SparseVector u, SparseVector v)
         {
             if (u == null)
             {
@@ -1362,12 +1161,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         #endregion
 
         /// <summary>
+        /// Gets the value at the given index.
+        /// </summary>
+        /// <param name="index">Value real index in array</param>
+        /// <returns>The value at the given index.</returns>
+        internal protected override double At(int index)
+        {
+            // Search if item idex exists in NonZeroIndices array in range "0 - real nonzero values count"
+            var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
+            return itemIndex >= 0 ? _nonZeroValues[itemIndex] : 0.0;
+        }
+        
+        /// <summary>
         /// Delete, Add or Update the value in NonZeroValues and NonZeroIndices
         /// </summary>
         /// <param name="index">Value real index in array</param>
         /// <param name="value">The value to set.</param>
         /// <remarks>This method assume that index is between 0 and Array Size</remarks>
-        private void SetValue(int index, double value)
+        internal protected override void At(int index, double value)
         {
             // Search if "index" already exists in range "0 - real nonzero values count"
             var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
@@ -1561,6 +1372,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 yield return new KeyValuePair<int, double>(_nonZeroIndices[i], _nonZeroValues[i]);
             }
+        }
+
+        /// <summary>
+        /// Returns the data contained in the vector as an array.
+        /// </summary>
+        /// <returns>
+        /// The vector's data as an array.
+        /// </returns>
+        public override double[] ToArray()
+        {
+            var ret = new double[Count];
+            for (var i = 0; i < NonZerosCount; i++)
+            {
+                ret[_nonZeroIndices[i]] = _nonZeroValues[i];
+            }
+
+            return ret;
         }
     }
 }

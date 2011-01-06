@@ -55,19 +55,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             _data = (float[])data.Clone();
         }
 
-        public override float this[int index]
-        {
-            get
-            {
-                return _data[index];
-            }
-
-            set
-            {
-                _data[index] = value;
-            }
-        }
-
         public override Matrix<float> CreateMatrix(int rows, int columns)
         {
             return new UserDefinedMatrix(rows, columns);
@@ -76,6 +63,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public override Vector<float> CreateVector(int size)
         {
             return new UserDefinedVector(size);
+        }
+
+        protected internal override float At(int index)
+        {
+            return _data[index];
+        }
+
+        protected internal override void At(int index, float value)
+        {
+            _data[index] = value;
         }
     }
 

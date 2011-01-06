@@ -46,19 +46,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             _data = (double[])data.Clone();
         }
 
-        public override double this[int index]
-        {
-            get
-            {
-                return _data[index];
-            }
-
-            set
-            {
-                _data[index] = value;
-            }
-        }
-
         public override Matrix<double> CreateMatrix(int rows, int columns)
         {
             return new UserDefinedMatrix(rows, columns);
@@ -67,6 +54,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public override Vector<double> CreateVector(int size)
         {
             return new UserDefinedVector(size);
+        }
+
+        protected internal override double At(int index)
+        {
+            return _data[index];
+        }
+
+        protected internal override void At(int index, double value)
+        {
+            _data[index] = value;
         }
     }
 

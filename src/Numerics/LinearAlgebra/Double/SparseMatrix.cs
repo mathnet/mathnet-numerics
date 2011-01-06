@@ -187,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// the values from the given matrix.
         /// </summary>
         /// <param name="matrix">The matrix to copy.</param>
-        public SparseMatrix(Matrix<double> matrix) : base(matrix.RowCount, matrix.ColumnCount)
+        public SparseMatrix(Matrix<double> matrix) : this(matrix.RowCount, matrix.ColumnCount)
         {
             var sparseMatrix = matrix as SparseMatrix;
 
@@ -608,8 +608,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             lock (_lockObject)
             {
-                var index = FindItem(row, column);
-                return index >= 0 ? _nonZeroValues[index] : 0.0;
+                return GetValueAt(row, column);
             }
         }
         
@@ -634,6 +633,25 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         #region Internal methods - CRS storage implementation
+
+        /// <summary>
+        /// Retrieves the requested element without range checking.
+        /// </summary>
+        /// <param name="row">
+        /// The row of the element.
+        /// </param>
+        /// <param name="column">
+        /// The column of the element.
+        /// </param>
+        /// <returns>
+        /// The requested element.
+        /// </returns>
+        private double GetValueAt(int row, int column)
+        {
+                var index = FindItem(row, column);
+                return index >= 0 ? _nonZeroValues[index] : 0.0;
+        }
+        
         /// <summary>
         /// Created this method because we cannot call "virtual At" in constructor of the class, but we need to do it
         /// </summary>

@@ -63,10 +63,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </param>
         protected override void DoAdd(Complex scalar, Vector<Complex> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] + scalar);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) + scalar);
+            }
         }
 
         /// <summary>
@@ -80,10 +80,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </param>
         protected override void DoAdd(Vector<Complex> other, Vector<Complex> result)
         {
-            CommonParallel.For(
-                0,
-                    Count,
-                    index => result[index] = this[index] + other[index]);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) + other.At(index));
+            }
         }
 
         /// <summary>
@@ -111,10 +111,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </param>
         protected override void DoSubtract(Vector<Complex> other, Vector<Complex> result)
         {
-                CommonParallel.For(
-                    0,
-                    Count,
-                    index => result[index] = this[index] - other[index]);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) - other.At(index));
+            }
         }
 
         /// <summary>
@@ -128,10 +128,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </param>
         protected override void DoMultiply(Complex scalar, Vector<Complex> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] * scalar);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) * scalar);
+            }
         }
 
         /// <summary>
@@ -145,10 +145,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </param>
         protected override void DoDivide(Complex scalar, Vector<Complex> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] / scalar);
+            DoMultiply(1 / scalar, result);
         }
 
         /// <summary>
@@ -158,10 +155,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Vector<Complex> other, Vector<Complex> result)
         {
-                CommonParallel.For(
-                    0,
-                    Count,
-                    index => result[index] = this[index] * other[index]);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) * other.At(index));
+            }
         }
 
         /// <summary>
@@ -171,10 +168,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The vector to store the result of the pointwise division.</param>
         protected override void DoPointwiseDivide(Vector<Complex> other, Vector<Complex> result)
         {
-                CommonParallel.For(
-                    0,
-                    Count,
-                    index => result[index] = this[index] / other[index]);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) / other.At(index));
+            }
         }
 
         /// <summary>
@@ -183,7 +180,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="other">
         /// The other vector to add.
         /// </param>
-        /// <returns>s
+        /// <returns>
         /// The result of the addition.
         /// </returns>
         protected override Complex DoDotProduct(Vector<Complex> other)
@@ -191,7 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return CommonParallel.Aggregate(
                 0, 
                 Count,
-                i => this[i] * other[i]);
+                i => At(i) * other.At(i));
         }
 
         /// <summary>
@@ -200,7 +197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The value of the absolute minimum element.</returns>
         public override Complex AbsoluteMinimum()
         {
-            return this[AbsoluteMinimumIndex()].Magnitude;
+            return At(AbsoluteMinimumIndex()).Magnitude;
         }
 
         /// <summary>
@@ -210,10 +207,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override int AbsoluteMinimumIndex()
         {
             var index = 0;
-            var min = this[index].Magnitude;
+            var min = At(index).Magnitude;
             for (var i = 1; i < Count; i++)
             {
-                var test = this[i].Magnitude;
+                var test = At(i).Magnitude;
                 if (test < min)
                 {
                     index = i;
@@ -230,7 +227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The value of the absolute maximum element.</returns>
         public override Complex AbsoluteMaximum()
         {
-            return this[AbsoluteMaximumIndex()].Magnitude;
+            return At(AbsoluteMaximumIndex()).Magnitude;
         }
 
         /// <summary>
@@ -240,10 +237,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override int AbsoluteMaximumIndex()
         {
             var index = 0;
-            var max = this[index].Magnitude;
+            var max = At(index).Magnitude;
             for (var i = 1; i < Count; i++)
             {
-                var test = this[i].Magnitude;
+                var test = At(i).Magnitude;
                 if (test > max)
                 {
                     index = i;
@@ -263,7 +260,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return CommonParallel.Aggregate(
                 0,
                 Count,
-                i => this[i]);
+                i => At(i));
         }
 
         /// <summary>
@@ -275,7 +272,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return CommonParallel.Aggregate(
                 0,
                 Count,
-                i => this[i].Magnitude);
+                i => At(i).Magnitude);
         }
 
         /// <summary>
@@ -285,7 +282,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// The p value.
         /// </param>
         /// <returns>
-        /// <c>Scalar ret = (sum(abs(this[i])^p))^(1/p)</c>
+        /// <c>Scalar ret = (sum(abs(At(i))^p))^(1/p)</c>
         /// </returns>
         public override Complex Norm(double p)
         {
@@ -299,14 +296,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return CommonParallel.Select(
                     0,
                     Count,
-                    (index, localData) => Math.Max(localData, this[index].Magnitude),
+                    (index, localData) => Math.Max(localData, At(index).Magnitude),
                     Math.Max);
             }
 
             var sum = CommonParallel.Aggregate(
                 0,
                 Count,
-                index => Math.Pow(this[index].Magnitude, p));
+                index => Math.Pow(At(index).Magnitude, p));
 
             return Math.Pow(sum, 1.0 / p);
         }
@@ -317,11 +314,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="target">Target vector</param>
         protected override void DoConjugate(Vector<Complex> target)
         {
-            CopyTo(target);
-            CommonParallel.For(
-                0,
-                Count,
-                index => target[index] = this[index].Conjugate());
+            for (var index = 0; index < Count; index++)
+            {
+                target.At(index, At(index).Conjugate());
+            }
         }
 
         /// <summary>
@@ -336,10 +332,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override Vector<Complex> Negate()
         {
             var result = CreateVector(Count);
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = -this[index]);
+
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, -At(index));
+            }
 
             return result;
         }
@@ -364,7 +361,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var vector = CreateVector(length);
             for (var index = 0; index < length; index++)
             {
-                vector[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
+                vector.At(index, new Complex(randomDistribution.Sample(), randomDistribution.Sample()));
             }
 
             return vector;
@@ -390,7 +387,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var vector = CreateVector(length);
             for (var index = 0; index < length; index++)
             {
-                vector[index] = new Complex(randomDistribution.Sample(), randomDistribution.Sample());
+                vector.At(index, new Complex(randomDistribution.Sample(), randomDistribution.Sample()));
             }
 
             return vector;

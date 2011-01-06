@@ -189,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="matrix">The matrix  to copy.</param>
         public SparseMatrix(Matrix<Complex32> matrix)
-            : base(matrix.RowCount, matrix.ColumnCount)
+            : this(matrix.RowCount, matrix.ColumnCount)
         {
             var sparseMatrix = matrix as SparseMatrix;
 

@@ -38,13 +38,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// <summary>
     /// A vector with sparse storage.
     /// </summary>
+    /// <remarks>The sparse vector is not thread safe.</remarks>
     public class SparseVector : Vector
     {
-        /// <summary>
-        /// Lock object for the indexer.
-        /// </summary>
-        private readonly object _lockObject = new object();
-
         /// <summary>
         ///  Gets the vector's internal data. The array containing the actual values; only the non-zero values are stored.
         /// </summary>
@@ -130,7 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var i = 0; i < other.Count; i++)
                 {
-                    this[i] = other[i];
+                    this[i] = other.At(i);
                 }
             }
             else
@@ -174,9 +170,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="array">The array to create this vector from.</param>
         /// <remarks>The vector copy the array. Any changes to the vector will NOT change the array.</remarks>
-        public SparseVector(Complex32[] array) : this(array.Length)
+        public SparseVector(IList<Complex32> array) : this(array.Count)
         {
-            for (var i = 0; i < array.Length; i++)
+            for (var i = 0; i < array.Count; i++)
             {
                 this[i] = array[i];
             }
@@ -193,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var matrix = new SparseMatrix(Count, 1);
             for (var i = 0; i < NonZerosCount; i++)
             {
-                matrix[_nonZeroIndices[i], 0] = _nonZeroValues[i];
+                matrix.At(_nonZeroIndices[i], 0, _nonZeroValues[i]);
             }
 
             return matrix;
@@ -208,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var matrix = new SparseMatrix(1, Count);
             for (var i = 0; i < NonZerosCount; i++)
             {
-                matrix[0, _nonZeroIndices[i]] = _nonZeroValues[i];
+                matrix.At(0, _nonZeroIndices[i], _nonZeroValues[i]);
             }
 
             return matrix;
@@ -229,17 +225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     throw new IndexOutOfRangeException();
                 }
 
-                lock (_lockObject)
-                {
-                    // Search if item idex exists in NonZeroIndices array in range "0 - complex nonzero values count"
-                    var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
-                    if (itemIndex >= 0)
-                    {
-                        return _nonZeroValues[itemIndex];
-                    }
-                }
-
-                return Complex32.Zero;
+                return At(index);
             }
 
             set
@@ -250,10 +236,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     throw new IndexOutOfRangeException();
                 }
 
-                lock (_lockObject)
-                {
-                    SetValue(index, value);
-                }
+                At(index, value);
             }
         }
 
@@ -330,10 +313,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var otherVector = target as SparseVector;
             if (otherVector == null)
             {
-                CommonParallel.For(
-                    0, 
-                    Count, 
-                    index => target[index] = this[index]);
+                target.Clear();
+
+                for (var index = 0; index < NonZerosCount; index++)
+                {
+                    target.At(_nonZeroIndices[index], _nonZeroValues[index]);
+                }
             }
             else
             {
@@ -392,147 +377,42 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 }
             }
         }
+       
         #region Operators and supplementary functions
 
         /// <summary>
-        /// Adds a complex to each element of the vector.
+        /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="complex">The complex to add.</param>
-        /// <returns>A copy of the vector with the complex added.</returns>
-        public override Vector<Complex32> Add(Complex32 complex)
+        /// <param name="scalar">
+        /// The scalar to add.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the addition.
+        /// </param>
+        protected override void DoAdd(Complex32 scalar, Vector<Complex32> result)
         {
-            if (complex == Complex32.Zero)
+            if (scalar == Complex32.Zero)
             {
-                return Clone();
-            }
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result);
+                }
 
-            var copy = (SparseVector)Clone();
-            for (var i = 0; i < Count; i++)
-            {
-                copy[i] += complex;
-            }
-
-            return copy;
-        }
-
-        /// <summary>
-        /// Adds a complex to each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="complex">The complex to add.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(Complex32 complex, Vector<Complex32> result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            base.Add(complex, result);
-        }
-
-        /// <summary>
-        /// Adds another vector to this vector.
-        /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <returns>A new vector containing the sum of both vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<Complex32> Add(Vector<Complex32> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var sparseVector = other as SparseVector;
-
-            if (sparseVector == null)
-            {
-                return base.Add(other);
-            }
-
-            var copy = (SparseVector)Clone();
-            copy.AddScaledSparseVector(Complex32.One, sparseVector);
-            return copy;
-        }
-
-        /// <summary>
-        /// Adds the scaled sparse vector.
-        /// </summary>
-        /// <param name="alpha">The alpha.</param>
-        /// <param name="other">The other.</param>
-        private void AddScaledSparseVector(Complex32 alpha, SparseVector other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (alpha == Complex32.Zero)
-            {
                 return;
             }
 
-            // I don't use ILinearAlgebraProvider because we will get no benefit due to "lock" in this[index]
-            // Possible fucniton in ILinearAlgebraProvider may be AddSparseVectorToScaledSparseVector(T[] y, int[] yIndices, T alpha, T[] x, int[] xIndices); 
-            // But it require to develop value setting algorithm and due to "lock" it will be even more greedy then implemented below
-            if (ReferenceEquals(this, other))
+            if (ReferenceEquals(this, result))
             {
-                // Adding the same instance of sparse vector. That means if we modify "this" then "other" will be modified too.
-                // To avoid such problem lets change values in internal storage of "this"
-                if (alpha == Complex32.One)
-                {
-                    for (var i = 0; i < NonZerosCount; i++)
-                    {
-                        _nonZeroValues[i] += _nonZeroValues[i];
-                    }
-                }
-                else if (alpha == -Complex32.One)
-                {
-                    Clear(); // Vector is subtracted from itself
-                    return;
-                }
-                else
-                {
-                    for (var i = 0; i < NonZerosCount; i++)
-                    {
-                        _nonZeroValues[i] += alpha * _nonZeroValues[i];
-                    }
-                }
+                CommonParallel.For(
+                    0,
+                    NonZerosCount,
+                    index => _nonZeroValues[index] += scalar);
             }
             else
             {
-                // "this" and "other" are different objects, so by modifying "this" the "other" object will not be changed
-                if (alpha == Complex32.One)
+                for (var index = 0; index < Count; index++)
                 {
-                    for (var i = 0; i < other.NonZerosCount; i++)
-                    {
-                        this[other._nonZeroIndices[i]] += other._nonZeroValues[i];
-                    }
-                }
-                else
-                {
-                    for (var i = 0; i < other.NonZerosCount; i++)
-                    {
-                        this[other._nonZeroIndices[i]] += alpha * other._nonZeroValues[i];
-                    }
+                    result.At(index, At(index) + scalar);
                 }
             }
         }
@@ -540,53 +420,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <summary>
         /// Adds another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(Vector<Complex32> other, Vector<Complex32> result)
+        /// <param name="other">
+        /// The vector to add to this one.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the addition.
+        /// </param>
+        protected override void DoAdd(Vector<Complex32> other, Vector<Complex32> result)
         {
-            if (result == null)
+            if (ReferenceEquals(this, result))
             {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = Add(other);
-                tmp.CopyTo(result);
+                CommonParallel.For(
+                    0,
+                    NonZerosCount,
+                    index => _nonZeroValues[index] += _nonZeroValues[index]);
             }
             else
             {
-                var sparse = result as SparseVector;
-                if (sparse == null)
+                for (var index = 0; index < Count; index++)
                 {
-                    base.Add(other, result);
-                }
-                else
-                {
-                    var sparseother = other as SparseVector;
-                    if (sparseother == null)
-                    {
-                        base.Add(other, result);
-                    }
-                    else
-                    {
-                        CopyTo(result); 
-                        sparse.AddScaledSparseVector(Complex32.One, sparseother);
-                    }
+                    result.At(index, At(index) + other.At(index));
                 }
             }
         }
@@ -637,130 +490,39 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Subtracts a complex from each element of the vector.
+        /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="complex">The complex to subtract.</param>
-        /// <returns>A new vector containing the subtraction of this vector and the complex.</returns>
-        public override Vector<Complex32> Subtract(Complex32 complex)
+        /// <param name="scalar">
+        /// The scalar to subtract.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the subtraction.
+        /// </param>
+        protected override void DoSubtract(Complex32 scalar, Vector<Complex32> result)
         {
-            if (complex == Complex32.Zero)
-            {
-                return Clone();
-            }
-
-            var copy = (SparseVector)Clone();
-            for (var i = 0; i < Count; i++)
-            {
-                copy[i] -= complex;
-            }
-
-            return copy;
-        }
-
-        /// <summary>
-        /// Subtracts a complex from each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="complex">The complex to subtract.</param>
-        /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(Complex32 complex, Vector<Complex32> result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            base.Subtract(complex, result);
-        }
-
-        /// <summary>
-        /// Subtracts another vector from this vector.
-        /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<Complex32> Subtract(Vector<Complex32> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var sparseVector = other as SparseVector;
-
-            if (sparseVector == null)
-            {
-                return base.Subtract(other);
-            }
-
-            var copy = (SparseVector)Clone();
-            copy.AddScaledSparseVector(-Complex32.One, sparseVector);
-            return copy;
+            DoAdd(-scalar, result);
         }
 
         /// <summary>
         /// Subtracts another vector to this vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(Vector<Complex32> other, Vector<Complex32> result)
+        /// <param name="other">
+        /// The vector to subtract from this one.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the subtraction.
+        /// </param>
+        protected override void DoSubtract(Vector<Complex32> other, Vector<Complex32> result)
         {
-            if (result == null)
+            if (ReferenceEquals(this, other))
             {
-                throw new ArgumentNullException("result");
+                result.Clear();
+                return;
             }
 
-            if (Count != other.Count)
+            for (var index = 0; index < Count; index++)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = Subtract(other);
-                tmp.CopyTo(result);
-            }
-            else
-            {
-                var sparse = result as SparseVector;
-                if (sparse == null)
-                {
-                    base.Subtract(other, result);
-                }
-                else
-                {
-                    var sparseother = other as SparseVector;
-                    if (sparseother == null)
-                    {
-                        base.Subtract(other, result);
-                    }
-                    else
-                    {
-                        CopyTo(result);
-                        sparse.AddScaledSparseVector(-Complex32.One, sparseother);
-                    }
-                }
+                result.At(index, At(index) - other.At(index));
             }
         }
 
@@ -835,52 +597,81 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Multiplies a complex to each element of the vector.
+        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="complex">The complex to multiply.</param>
-        /// <returns>A new vector that is the multiplication of the vector and the complex.</returns>
-        public override Vector<Complex32> Multiply(Complex32 complex)
+        /// <param name="scalar">
+        /// The scalar to multiply.
+        /// </param>
+        /// <param name="result">
+        /// The vector to store the result of the multiplication.
+        /// </param>
+        protected override void DoMultiply(Complex32 scalar, Vector<Complex32> result)
         {
-            if (complex == Complex32.One)
+            if (scalar == Complex32.One)
             {
-                return Clone();
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result);
+                }
+
+                return;
             }
 
-            if (complex == Complex32.Zero)
+            if (scalar == Complex32.Zero)
             {
-                return new SparseVector(Count);
+                result.Clear();
+                return;
             }
 
-            var copy = new SparseVector(this);
-            Control.LinearAlgebraProvider.ScaleArray(complex, copy._nonZeroValues, copy._nonZeroValues);
-            return copy;
+            var sparseResult = result as SparseVector;
+            if (sparseResult == null)
+            {
+                result.Clear();
+                for (var index = 0; index < NonZerosCount; index++)
+                {
+                    result.At(_nonZeroIndices[index], scalar * _nonZeroValues[index]);
+                }
+            }
+            else
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    sparseResult.NonZerosCount = NonZerosCount;
+                    sparseResult._nonZeroIndices = new int[NonZerosCount];
+                    Buffer.BlockCopy(_nonZeroIndices, 0, sparseResult._nonZeroIndices, 0, _nonZeroIndices.Length * Constants.SizeOfInt);
+                    sparseResult._nonZeroValues = new Complex32[_nonZeroValues.Length];
+                }
+
+                Control.LinearAlgebraProvider.ScaleArray(scalar, _nonZeroValues, sparseResult._nonZeroValues);
+            }
         }
 
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
-        /// <param name="other">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null" />.</exception>
-        public override Complex32 DotProduct(Vector<Complex32> other)
+        /// <param name="other">
+        /// The other vector to add.
+        /// </param>
+        /// <returns>s
+        /// The result of the addition.
+        /// </returns>
+        protected override Complex32 DoDotProduct(Vector<Complex32> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
             var result = Complex32.Zero;
 
-            // base implementation iterates though all elements, but we need only take non-zeros 
-            for (var i = 0; i < NonZerosCount; i++)
+            if (ReferenceEquals(this, other))
             {
-                result += _nonZeroValues[i] * other[_nonZeroIndices[i]];
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    result += _nonZeroValues[i] * _nonZeroValues[i];
+                }
+            }
+            else
+            {
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    result += _nonZeroValues[i] * other.At(_nonZeroIndices[i]);
+                }
             }
 
             return result;
@@ -1023,7 +814,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var result = new SparseVector(length);
             for (var i = index; i < index + length; i++)
             {
-                result[i - index] = this[i];
+                result.At(i - index, At(i));
             }
 
             return result;
@@ -1049,7 +840,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             for (var i = 0; i < values.Length; i++)
             {
-                this[i] = values[i];
+                At(i, values[i]);
             }
         }
 
@@ -1084,35 +875,51 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Pointwise multiplies this vector with another vector.
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
         /// </summary>
         /// <param name="other">The vector to pointwise multiply with this one.</param>
-        /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<Complex32> PointwiseMultiply(Vector<Complex32> other)
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        protected override void DoPointwiseMultiply(Vector<Complex32> other, Vector<Complex32> result)
         {
-            if (other == null)
+            if (ReferenceEquals(this, other))
             {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var copy = new SparseVector(Count);
-            for (var i = 0; i < _nonZeroIndices.Length; i++)
-            {
-                var d = _nonZeroValues[i] * other[_nonZeroIndices[i]];
-                if (d != Complex32.Zero)
+                for (var i = 0; i < NonZerosCount; i++)
                 {
-                    copy[_nonZeroIndices[i]] = d;
+                    _nonZeroValues[i] *= _nonZeroValues[i];
                 }
             }
+            else
+            {
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    var index = _nonZeroIndices[i];
+                    result.At(index, other.At(index) * _nonZeroValues[i]);
+                }
+            }
+        }
 
-            return copy;
+        /// <summary>
+        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
+        /// </summary>
+        /// <param name="other">The vector to pointwise multiply with this one.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
+        protected override void DoPointwiseDivide(Vector<Complex32> other, Vector<Complex32> result)
+        {
+            if (ReferenceEquals(this, other))
+            {
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    _nonZeroValues[i] /= _nonZeroValues[i];
+                }
+            }
+            else
+            {
+                for (var i = 0; i < NonZerosCount; i++)
+                {
+                    var index = _nonZeroIndices[i];
+                    result.At(index, _nonZeroValues[i] / other.At(index));
+                }
+            }
         }
 
         /// <summary>
@@ -1362,12 +1169,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         #endregion
 
         /// <summary>
+        /// Gets the value at the given index.
+        /// </summary>
+        /// <param name="index">Value real index in array</param>
+        /// <returns>The value at the given index.</returns>
+        internal protected override Complex32 At(int index)
+        {
+            // Search if item idex exists in NonZeroIndices array in range "0 - real nonzero values count"
+            var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
+            return itemIndex >= 0 ? _nonZeroValues[itemIndex] : Complex32.Zero;
+        }
+
+        /// <summary>
         /// Delete, Add or Update the value in NonZeroValues and NonZeroIndices
         /// </summary>
         /// <param name="index">Value real index in array</param>
         /// <param name="value">The value to set.</param>
         /// <remarks>This method assume that index is between 0 and Array Size</remarks>
-        private void SetValue(int index, Complex32 value)
+        internal protected override void At(int index, Complex32 value)
         {
             // Search if "index" already exists in range "0 - complex nonzero values count"
             var itemIndex = Array.BinarySearch(_nonZeroIndices, 0, NonZerosCount, index);
@@ -1548,6 +1367,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 yield return new KeyValuePair<int, Complex32>(_nonZeroIndices[i], _nonZeroValues[i]);
             }
+        }
+
+        /// <summary>
+        /// Returns the data contained in the vector as an array.
+        /// </summary>
+        /// <returns>
+        /// The vector's data as an array.
+        /// </returns>
+        public override Complex32[] ToArray()
+        {
+            var ret = new Complex32[Count];
+            for (var i = 0; i < NonZerosCount; i++)
+            {
+                ret[_nonZeroIndices[i]] = _nonZeroValues[i];
+            }
+
+            return ret;
         }
     }
 }
