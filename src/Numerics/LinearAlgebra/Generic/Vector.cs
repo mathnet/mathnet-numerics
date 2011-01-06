@@ -93,10 +93,27 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
         /// <exception cref="IndexOutOfRangeException">If <paramref name="index"/> is negative or 
         /// greater than the size of the vector.</exception>
-        public abstract T this[int index]
+        public virtual T this[int index]
         {
-            get;
-            set;
+            get
+            {
+                if (index < 0 || index >= Count)
+                {
+                    throw new ArgumentOutOfRangeException("index");
+                }
+
+                return At(index);
+            }
+
+            set
+            {
+                if (index < 0 || index >= Count)
+                {
+                    throw new ArgumentOutOfRangeException("index");
+                }
+
+                At(index, value);
+            }
         }
 
         /// <summary>
@@ -715,7 +732,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Pointwise divide this vector with another vector and stores the result into the result vector.
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
-        /// <param name="result">The vector to store the result of the pointwise division.</param>
         protected abstract void DoPointwiseDivide(Vector<T> other, Vector<T> result);
 
         /// <summary>
@@ -1207,7 +1223,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             var ret = new T[Count];
             for (var i = 0; i < ret.Length; i++)
             {
-                ret[i] = this[i];
+                ret[i] = At(i);
             }
 
             return ret;
@@ -1534,5 +1550,15 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             CommonParallel.For(0, Count, index => this[index] = default(T));
         }
+
+        /// <summary>Gets the value at the given <paramref name="index"/>.</summary>
+        /// <param name="index">The index of the value to get or set.</param>
+        /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
+        internal protected abstract T At(int index);
+
+        /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/>.</summary>
+        /// <param name="index">The index of the value to get or set.</param>
+        /// <param name="value">The value to set.</param>
+        internal protected abstract void At(int index, T value);
     }
 }

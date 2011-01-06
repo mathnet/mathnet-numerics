@@ -15,7 +15,10 @@ cancelled
 pre
 preconditioner
 Preconditioners
-indetermined</UserWords>
+indetermined
+indices
+Pointwise
+Frobenius</UserWords>
             </CustomDictionary>
           </Dictionaries>
         </CustomDictionaries>
@@ -561,7 +564,7 @@ indetermined</UserWords>
               <MustNotHaveSuffixes />
             </NamingConventionRule>
             <NamingConventionRule>
-              <IsDisabled>false</IsDisabled>
+              <IsDisabled>true</IsDisabled>
               <Matches>
                 <Match>
                   <AccessLevel>Any</AccessLevel>
@@ -593,7 +596,7 @@ indetermined</UserWords>
               <MustNotHaveSuffixes />
             </NamingConventionRule>
             <NamingConventionRule>
-              <IsDisabled>false</IsDisabled>
+              <IsDisabled>true</IsDisabled>
               <Matches>
                 <Match>
                   <AccessLevel>Any</AccessLevel>
@@ -657,7 +660,7 @@ indetermined</UserWords>
               <MustNotHaveSuffixes />
             </NamingConventionRule>
             <NamingConventionRule>
-              <IsDisabled>false</IsDisabled>
+              <IsDisabled>true</IsDisabled>
               <Matches>
                 <Match>
                   <AccessLevel>Any</AccessLevel>
@@ -686,7 +689,7 @@ indetermined</UserWords>
               <MustNotHaveSuffixes />
             </NamingConventionRule>
             <NamingConventionRule>
-              <IsDisabled>false</IsDisabled>
+              <IsDisabled>true</IsDisabled>
               <Matches>
                 <Match>
                   <AccessLevel>Any</AccessLevel>

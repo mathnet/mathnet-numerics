@@ -47,19 +47,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             _data = (Complex32[])data.Clone();
         }
 
-        public override Complex32 this[int index]
-        {
-            get
-            {
-                return _data[index];
-            }
-
-            set
-            {
-                _data[index] = value;
-            }
-        }
-
         public override Matrix<Complex32> CreateMatrix(int rows, int columns)
         {
             return new UserDefinedMatrix(rows, columns);
@@ -68,6 +55,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public override Vector<Complex32> CreateVector(int size)
         {
             return new UserDefinedVector(size);
+        }
+
+        protected internal override Complex32 At(int index)
+        {
+            return _data[index];
+        }
+
+        protected internal override void At(int index, Complex32 value)
+        {
+            _data[index] = value;
         }
     }
 

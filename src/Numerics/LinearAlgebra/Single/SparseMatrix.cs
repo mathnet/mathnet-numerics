@@ -188,7 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="matrix">The matrix to copy.</param>
         public SparseMatrix(Matrix<float> matrix)
-            : base(matrix.RowCount, matrix.ColumnCount)
+            : this(matrix.RowCount, matrix.ColumnCount)
         {
             var sparseMatrix = matrix as SparseMatrix;
 

@@ -63,10 +63,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         protected override void DoAdd(float scalar, Vector<float> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] + scalar);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) + scalar);
+            }
         }
 
         /// <summary>
@@ -80,10 +80,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         protected override void DoAdd(Vector<float> other, Vector<float> result)
         {
-            CommonParallel.For(
-                0,
-                    Count,
-                    index => result[index] = this[index] + other[index]);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) + other.At(index));
+            }
         }
 
         /// <summary>
@@ -111,10 +111,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         protected override void DoSubtract(Vector<float> other, Vector<float> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] - other[index]);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) - other.At(index));
+            }
         }
 
         /// <summary>
@@ -128,10 +128,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         protected override void DoMultiply(float scalar, Vector<float> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] * scalar);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) * scalar);
+            }
         }
 
         /// <summary>
@@ -145,10 +145,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         protected override void DoDivide(float scalar, Vector<float> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] / scalar);
+            DoMultiply(1 / scalar, result);
         }
 
         /// <summary>
@@ -158,10 +155,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] * other[index]);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) * other.At(index));
+            }
         }
 
         /// <summary>
@@ -171,10 +168,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The vector to store the result of the pointwise division.</param>
         protected override void DoPointwiseDivide(Vector<float> other, Vector<float> result)
         {
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = this[index] / other[index]);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) / other.At(index));
+            }
         }
 
         /// <summary>
@@ -191,7 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return CommonParallel.Aggregate(
                 0,
                 Count,
-                i => this[i] * other[i]);
+                i => At(i) * other.At(i));
         }
 
         /// <summary>
@@ -200,7 +197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The value of the absolute minimum element.</returns>
         public override float AbsoluteMinimum()
         {
-            return Math.Abs(this[AbsoluteMinimumIndex()]);
+            return Math.Abs(At(AbsoluteMinimumIndex()));
         }
 
         /// <summary>
@@ -210,10 +207,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override int AbsoluteMinimumIndex()
         {
             var index = 0;
-            var min = Math.Abs(this[index]);
+            var min = Math.Abs(At(index));
             for (var i = 1; i < Count; i++)
             {
-                var test = Math.Abs(this[i]);
+                var test = Math.Abs(At(i));
                 if (test < min)
                 {
                     index = i;
@@ -230,7 +227,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The value of the absolute maximum element.</returns>
         public override float AbsoluteMaximum()
         {
-            return Math.Abs(this[AbsoluteMaximumIndex()]);
+            return Math.Abs(At(AbsoluteMaximumIndex()));
         }
 
         /// <summary>
@@ -240,10 +237,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override int AbsoluteMaximumIndex()
         {
             var index = 0;
-            var max = Math.Abs(this[index]);
+            var max = Math.Abs(At(index));
             for (var i = 1; i < Count; i++)
             {
-                var test = Math.Abs(this[i]);
+                var test = Math.Abs(At(i));
                 if (test > max)
                 {
                     index = i;
@@ -263,7 +260,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return CommonParallel.Aggregate(
                 0,
                 Count,
-                i => this[i]);
+                i => At(i));
         }
 
         /// <summary>
@@ -275,7 +272,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return CommonParallel.Aggregate(
                 0,
                 Count,
-                i => Math.Abs(this[i]));
+                i => Math.Abs(At(i)));
         }
 
         /// <summary>
@@ -285,7 +282,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// The p value.
         /// </param>
         /// <returns>
-        /// <c>Scalar ret = (sum(abs(this[i])^p))^(1/p)</c>
+        /// <c>Scalar ret = (sum(abs(At(i))^p))^(1/p)</c>
         /// </returns>
         public override float Norm(double p)
         {
@@ -299,14 +296,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return CommonParallel.Select(
                     0,
                     Count,
-                    (index, localData) => Math.Max(localData, Math.Abs(this[index])),
+                    (index, localData) => Math.Max(localData, Math.Abs(At(index))),
                     Common.Max);
             }
 
             var sum = CommonParallel.Aggregate(
                 0,
                 Count,
-                index => Math.Pow(Math.Abs(this[index]), p));
+                index => Math.Pow(Math.Abs(At(index)), p));
 
             return (float)Math.Pow(sum, 1.0 / p);
         }
@@ -337,10 +334,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override Vector<float> Negate()
         {
             var result = CreateVector(Count);
-            CommonParallel.For(
-                0,
-                Count,
-                index => result[index] = -this[index]);
+
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, -At(index));
+            }
 
             return result;
         }
@@ -352,10 +350,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override int MaximumIndex()
         {
             var index = 0;
-            var max = this[index];
+            var max = At(index);
             for (var i = 1; i < Count; i++)
             {
-                var test = this[i];
+                var test = At(i);
                 if (test > max)
                 {
                     index = i;
@@ -373,10 +371,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override int MinimumIndex()
         {
             var index = 0;
-            var min = this[index];
+            var min = At(index);
             for (var i = 1; i < Count; i++)
             {
-                var test = this[i];
+                var test = At(i);
                 if (test < min)
                 {
                     index = i;
@@ -435,7 +433,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var v = CreateVector(length);
             for (var index = 0; index < Count; index++)
             {
-                v[index] = Convert.ToSingle(randomDistribution.Sample());
+                v.At(index, Convert.ToSingle(randomDistribution.Sample()));
             }
 
             return v;
@@ -461,7 +459,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var v = CreateVector(length);
             for (var index = 0; index < Count; index++)
             {
-                v[index] = Convert.ToSingle(randomDistribution.Sample());
+                v.At(index, Convert.ToSingle(randomDistribution.Sample()));
             }
 
             return v;
