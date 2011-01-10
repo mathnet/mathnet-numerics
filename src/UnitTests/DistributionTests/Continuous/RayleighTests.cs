@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,252 +28,234 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 {
     using System;
     using System.Linq;
-    using MbUnit.Framework;
     using Distributions;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Rayleigh distribution tests.
+    /// </summary>
     [TestFixture]
     public class RayleighTests
     {
+        /// <summary>
+        /// Set-up parameters.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             Control.CheckDistributionParameters = true;
         }
 
-        [Test, MultipleAsserts]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanCreateRayleigh(double scale)
-        {
-            var n = new Rayleigh(scale);
-            Assert.AreEqual<double>(scale, n.Scale);
-        }
-
+        /// <summary>
+        /// Can create Rayleigh
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN)]
-        [Row(Double.NegativeInfinity)]
-        [Row(-1.0)]
-        [Row(0.0)]
-        public void RayleighCreateFailsWithBadParameters(double scale)
+        public void CanCreateRayleigh([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(scale);
+            Assert.AreEqual(scale, n.Scale);
         }
 
+        /// <summary>
+        /// Rayleigh create fails with bad parameters.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        [Test]
+        public void RayleighCreateFailsWithBadParameters([Values(Double.NaN, Double.NegativeInfinity, -1.0, 0.0)] double scale)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Rayleigh(scale));
+        }
+
+        /// <summary>
+        /// Validate ToString.
+        /// </summary>
         [Test]
         public void ValidateToString()
         {
             var n = new Rayleigh(2.0);
-            Assert.AreEqual<string>("Rayleigh(Scale = 2)", n.ToString());
+            Assert.AreEqual("Rayleigh(Scale = 2)", n.ToString());
         }
 
+        /// <summary>
+        /// Can set scale.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetScale(double scale)
+        public void CanSetScale([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
+        {
+            new Rayleigh(1.0)
+            {
+                Scale = scale
+            };
+        }
+
+        /// <summary>
+        /// Set scale fails with negative scale.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        [Test]
+        public void SetScaleFailsWithNegativeScale([Values(-0.0, 0.0, -1.0, Double.NegativeInfinity, Double.NaN)] double scale)
         {
             var n = new Rayleigh(1.0);
-            n.Scale = scale;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = scale);
         }
 
+        /// <summary>
+        /// Validate mean.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(-1.0)]
-        [Row(Double.NegativeInfinity)]
-        [Row(Double.NaN)]
-        public void SetScaleFailsWithNegativeScale(double scale)
-        {
-            var n = new Rayleigh(scale);
-            n.Scale = scale;
-        }
-
-        [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMean(double scale)
+        public void ValidateMean([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(scale);
             Assert.AreEqual(scale * Math.Sqrt(Constants.PiOver2), n.Mean);
         }
 
+        /// <summary>
+        /// Validate variance.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateVariance(double scale)
+        public void ValidateVariance([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>((2.0 - Constants.PiOver2) * scale * scale, n.Variance);
+            Assert.AreEqual((2.0 - Constants.PiOver2) * scale * scale, n.Variance);
         }
 
+        /// <summary>
+        /// Validate standard deviation.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateStdDev(double scale)
+        public void ValidateStdDev([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>(Math.Sqrt(2.0 - Constants.PiOver2) * scale, n.StdDev);
+            Assert.AreEqual(Math.Sqrt(2.0 - Constants.PiOver2) * scale, n.StdDev);
         }
 
+        /// <summary>
+        /// Validate entropy.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateEntropy(double scale)
+        public void ValidateEntropy([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>(1.0 + Math.Log(scale / Math.Sqrt(2)) + Constants.EulerMascheroni / 2.0, n.Entropy);
+            Assert.AreEqual(1.0 + Math.Log(scale / Math.Sqrt(2)) + (Constants.EulerMascheroni / 2.0), n.Entropy);
         }
 
-        [Test]
-        [Row(0.1, 0.63111065781893638)]
-        [Row(1.0, 0.63111065781893638)]
-        [Row(10.0, 0.63111065781893638)]
-        [Row(Double.PositiveInfinity, 0.63111065781893638)]
-        public void ValidateSkewness(double scale, double skn)
+        /// <summary>
+        /// Validate skewness.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="skn">Expected value.</param>
+        [Test, Combinatorial]
+        public void ValidateSkewness([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.63111065781893638)] double skn)
         {
             var n = new Rayleigh(scale);
             AssertHelpers.AlmostEqual(skn, n.Skewness, 17);
         }
 
+        /// <summary>
+        /// Validate mode.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMode(double scale)
+        public void ValidateMode([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>(scale, n.Mode);
+            Assert.AreEqual(scale, n.Mode);
         }
 
+        /// <summary>
+        /// Validate median.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMedian(double scale)
+        public void ValidateMedian([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>(scale * Math.Sqrt(Math.Log(4.0)), n.Median);
+            Assert.AreEqual(scale * Math.Sqrt(Math.Log(4.0)), n.Median);
         }
 
+        /// <summary>
+        /// Validate minimum.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMinimum(double scale)
+        public void ValidateMinimum([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>(0.0, n.Minimum);
+            Assert.AreEqual(0.0, n.Minimum);
         }
 
+        /// <summary>
+        /// Validate maximum.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMaximum(double scale)
+        public void ValidateMaximum([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Rayleigh(1.0);
-            Assert.AreEqual<double>(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(1.0, 0.1)]
-        [Row(10.0, 0.1)]
-        [Row(Double.PositiveInfinity, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(1.0, 1.0)]
-        [Row(10.0, 1.0)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 10.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(0.1, Double.PositiveInfinity)]
-        [Row(1.0, Double.PositiveInfinity)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateDensity(double scale, double x)
+        /// <summary>
+        /// Validate density.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="x">Input X value.</param>
+        [Test, Combinatorial]
+        public void ValidateDensity([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double x)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>((x / (scale * scale)) * Math.Exp(-x * x / (2.0 * scale * scale)), n.Density(x));
+            Assert.AreEqual((x / (scale * scale)) * Math.Exp(-x * x / (2.0 * scale * scale)), n.Density(x));
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(1.0, 0.1)]
-        [Row(10.0, 0.1)]
-        [Row(Double.PositiveInfinity, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(1.0, 1.0)]
-        [Row(10.0, 1.0)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 10.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(0.1, Double.PositiveInfinity)]
-        [Row(1.0, Double.PositiveInfinity)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateDensityLn(double scale, double x)
+        /// <summary>
+        /// Validate density log.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="x">Input X value.</param>
+        [Test, Combinatorial]
+        public void ValidateDensityLn([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double x)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>(Math.Log(x / (scale * scale)) - x * x / (2.0 * scale * scale), n.DensityLn(x));
+            Assert.AreEqual(Math.Log(x / (scale * scale)) - (x * (x / (2.0 * (scale * scale)))), n.DensityLn(x));
         }
 
+        /// <summary>
+        /// Can sample.
+        /// </summary>
         [Test]
         public void CanSample()
         {
             var n = new Rayleigh(1.0);
-            var d = n.Sample();
+            n.Sample();
         }
 
+        /// <summary>
+        /// Can sample sequence.
+        /// </summary>
         [Test]
         public void CanSampleSequence()
         {
             var n = new Rayleigh(1.0);
             var ied = n.Samples();
-            var e = ied.Take(5).ToArray();
+            ied.Take(5).ToArray();
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(1.0, 0.1)]
-        [Row(10.0, 0.1)]
-        [Row(Double.PositiveInfinity, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(1.0, 1.0)]
-        [Row(10.0, 1.0)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 10.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(0.1, Double.PositiveInfinity)]
-        [Row(1.0, Double.PositiveInfinity)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateCumulativeDistribution(double scale, double x)
+        /// <summary>
+        /// Validate cumulative distribution.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="x">Input X value.</param>
+        [Test, Combinatorial]
+        public void ValidateCumulativeDistribution([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double x)
         {
             var n = new Rayleigh(scale);
-            Assert.AreEqual<double>(1.0 - Math.Exp(-x * x / (2.0 * scale * scale)), n.CumulativeDistribution(x));
+            Assert.AreEqual(1.0 - Math.Exp(-x * x / (2.0 * scale * scale)), n.CumulativeDistribution(x));
         }
     }
 }

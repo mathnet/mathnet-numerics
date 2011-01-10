@@ -27,22 +27,25 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using System;
-    using Numerics;
     using Distributions;
     using LinearAlgebra.Complex32;
     using LinearAlgebra.Generic;
-    using MbUnit.Framework;
+    using NUnit.Framework;
+    using Complex32 = Numerics.Complex32;
 
+    /// <summary>
+    /// Abstract class with the common set of matrix tests
+    /// </summary>
     public abstract partial class MatrixTests
     {
+        /// <summary>
+        /// Can multiply with a complex number.
+        /// </summary>
+        /// <param name="real">Complex32 real part value.</param>
         [Test]
-        [Row(1.0f, 1.0f)]
-        [Row(2.0f, 1.0f)]
-        [Row(2.2f, 1.0f)]
-        [MultipleAsserts]
-        public void CanMultiplyWithComplex(float real, float imaginary)
+        public void CanMultiplyWithComplex([Values(0, 1, 2.2f)] float real)
         {
-            var value = new Complex32(real, imaginary);
+            var value = new Complex32(real, 1.0f);
             var matrix = TestMatrices["Singular3x3"];
             var clone = matrix.Clone();
             clone = clone.Multiply(value);
@@ -51,91 +54,124 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j] * value, clone[i, j]);
+                    Assert.AreEqual(matrix[i, j] * value, clone[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Can multiply with a vector.
+        /// </summary>
         [Test]
         public void CanMultiplyWithVector()
         {
-            var matrixA = TestMatrices["Singular3x3"];
+            var matrix = TestMatrices["Singular3x3"];
             var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
-            var y = matrixA * x;
+            var y = matrix * x;
 
-            Assert.AreEqual(matrixA.RowCount, y.Count);
+            Assert.AreEqual(matrix.RowCount, y.Count);
 
-            for (var i = 0; i < matrixA.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                var ar = matrixA.Row(i);
+                var ar = matrix.Row(i);
                 var dot = ar * x;
-                AssertHelpers.AreEqual(dot, y[i]);
+                Assert.AreEqual(dot, y[i]);
             }
         }
 
+        /// <summary>
+        /// Can multiply with a vector into a result.
+        /// </summary>
         [Test]
         public void CanMultiplyWithVectorIntoResult()
         {
-            var matrixA = TestMatrices["Singular3x3"];
+            var matrix = TestMatrices["Singular3x3"];
             var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             var y = new DenseVector(3);
-            matrixA.Multiply(x, y);
+            matrix.Multiply(x, y);
 
-            for (var i = 0; i < matrixA.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                var ar = matrixA.Row(i);
+                var ar = matrix.Row(i);
                 var dot = ar * x;
-                AssertHelpers.AreEqual(dot, y[i]);
+                Assert.AreEqual(dot, y[i]);
             }
         }
 
+        /// <summary>
+        /// Can multiply with a vector into result when updating input argument.
+        /// </summary>
         [Test]
         public void CanMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
         {
-            var matrixA = TestMatrices["Singular3x3"];
+            var matrix = TestMatrices["Singular3x3"];
             var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             var y = x;
-            matrixA.Multiply(x, x);
+            matrix.Multiply(x, x);
 
             Assert.AreSame(y, x);
 
             y = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
-            for (var i = 0; i < matrixA.RowCount; i++)
+            for (var i = 0; i < matrix.RowCount; i++)
             {
-                var ar = matrixA.Row(i);
+                var ar = matrix.Row(i);
                 var dot = ar * y;
-                AssertHelpers.AreEqual(dot, x[i]);
+                Assert.AreEqual(dot, x[i]);
             }
         }
 
+        /// <summary>
+        /// Multiply with vector into result fails when result is <c>null</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void MultiplyWithVectorIntoResultFailsWhenResultIsNull()
+        public void MultiplyWithVectorIntoNullResultThrowsArgumentNullException()
         {
-            var matrixA = TestMatrices["Singular3x3"];
+            var matrix = TestMatrices["Singular3x3"];
             var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             Vector<Complex32> y = null;
-            matrixA.Multiply(x, y);
+            Assert.Throws<ArgumentNullException>(() => matrix.Multiply(x, y));
         }
 
+        /// <summary>
+        /// Multiply with a vector into too large result throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void MultiplyWithVectorIntoResultFailsWhenResultIsTooLarge()
+        public void MultiplyWithVectorIntoLargerResultThrowsArgumentException()
         {
-            var matrixA = TestMatrices["Singular3x3"];
+            var matrix = TestMatrices["Singular3x3"];
             var x = new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1) });
             Vector<Complex32> y = new DenseVector(4);
-            matrixA.Multiply(x, y);
+            Assert.Throws<ArgumentException>(() => matrix.Multiply(x, y));
         }
 
-        [Test]
-        [Row(1.0, 1.0)]
-        [Row(2.0, 1.0)]
-        [Row(2.2, 1.0)]
-        [MultipleAsserts]
-        public void CanOperatorLeftMultiplyWithComplex(float real, float imaginary)
+        /// <summary>
+        /// Can left multiply with a complex.
+        /// </summary>
+        /// <param name="real">Complex32 real value.</param>
+        [Test, Sequential]
+        public void CanOperatorLeftMultiplyWithComplex([Values(0, 1, 2.2f)] float real)
         {
-            var value = new Complex32(real, imaginary);
+            var value = new Complex32(real, 1.0f);
+            var matrix = TestMatrices["Singular3x3"];
+            var clone = value * matrix;
+
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(value * matrix[i, j], clone[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can right multiply with a Complex.
+        /// </summary>
+        /// <param name="real">Complex32 real value.</param>
+        [Test, Sequential]
+        public void CanOperatorRightMultiplyWithComplex([Values(0, 1, 2.2f)] float real)
+        {
+            var value = new Complex32(real, 1.0f);
             var matrix = TestMatrices["Singular3x3"];
             var clone = matrix * value;
 
@@ -143,39 +179,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j] * value, clone[i, j]);
+                    Assert.AreEqual(matrix[i, j] * value, clone[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Can multiply with a Complex into result.
+        /// </summary>
+        /// <param name="real">Complex32 real value.</param>
         [Test]
-        [Row(1.0, 1.0)]
-        [Row(2.0, 1.0)]
-        [Row(2.2, 1.0)]
-        [MultipleAsserts]
-        public void CanOperatorRightMultiplyWithComplex(float real, float imaginary)
+        public void CanMultiplyWithComplexIntoResult([Values(0, 1, 2.2f)] float real)
         {
-            var value = new Complex32(real, imaginary);
-            var matrix = TestMatrices["Singular3x3"];
-            var clone = matrix * value;
-
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    AssertHelpers.AreEqual(matrix[i, j] * value, clone[i, j]);
-                }
-            }
-        }
-
-        [Test]
-        [Row(1.0, 1.0)]
-        [Row(2.0, 1.0)]
-        [Row(2.2, 1.0)]
-        [MultipleAsserts]
-        public void CanMultiplyWithComplexIntoResult(float real, float imaginary)
-        {
-            var value = new Complex32(real, imaginary);
+            var value = new Complex32(real, 1.0f);
             var matrix = TestMatrices["Singular3x3"];
             var result = matrix.Clone();
             matrix.Multiply(value, result);
@@ -184,58 +200,71 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j] * value, result[i, j]);
+                    Assert.AreEqual(matrix[i, j] * value, result[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Multiply with a scalar into <c>null</c> result throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void MultiplyWithComplexIntoResultFailsWhenResultIsNull()
+        public void MultiplyWithScalarIntoNullResultThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular3x3"];
             Matrix<Complex32> result = null;
-            matrix.Multiply(2.3f, result);
+            Assert.Throws<ArgumentNullException>(() => matrix.Multiply(2.3f, result));
         }
 
+        /// <summary>
+        /// Multiply with a scalar when result has more rows throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void MultiplyWithComplexFailsWhenResultHasMoreRows()
+        public void MultiplyWithScalarWhenResultHasMoreRowsThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var result = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
-            matrix.Multiply(2.3f, result);
+            Assert.Throws<ArgumentException>(() => matrix.Multiply(2.3f, result));
         }
 
+        /// <summary>
+        /// Multiply with a scalar when result has more columns throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void MultiplyWithComplexFailsWhenResultHasMoreColumns()
+        public void MultiplyWithScalarWhenResultHasMoreColumnsThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var result = CreateMatrix(matrix.RowCount, matrix.ColumnCount + 1);
-            matrix.Multiply(2.3f, result);
+            Assert.Throws<ArgumentException>(() => matrix.Multiply(2.3f, result));
         }
 
+        /// <summary>
+        /// Operator left multiply with a scalar when matrix is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void OperatorLeftMultiplyWithComplexFailsWhenMatrixIsNull()
+        public void OperatorLeftMultiplyWithScalarWhenMatrixIsNullThrowsArgumentNullException()
         {
             Matrix<Complex32> matrix = null;
-            var result = 2.3f * matrix;
+            Assert.Throws<ArgumentNullException>(() => { var result = 2.3f * matrix; });
         }
 
+        /// <summary>
+        /// Operator right multiply with a scalar when matrix is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void OperatorRightMultiplyWithComplexFailsWhenMatrixIsNull()
+        public void OperatorRightMultiplyWithScalarWhenMatrixIsNullThrowsArgumentNullException()
         {
             Matrix<Complex32> matrix = null;
-            var result = matrix * 2.3f;
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix * 2.3f; });
         }
 
-        [Test]
-        [Row("Singular3x3", "Square3x3")]
-        [Row("Singular4x4", "Square4x4")]
-        public void CanAddMatrix(string mtxA, string mtxB)
+        /// <summary>
+        /// Can add a matrix.
+        /// </summary>
+        /// <param name="mtxA">Matrix A name.</param>
+        /// <param name="mtxB">Matrix B name.</param>
+        [Test, Sequential]
+        public void CanAddMatrix([Values("Singular3x3", "Singular4x4")] string mtxA, [Values("Square3x3", "Square4x4")] string mtxB)
         {
             var matrixA = TestMatrices[mtxA];
             var matrixB = TestMatrices[mtxB];
@@ -246,42 +275,51 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], matrixA[i, j] + matrixB[i, j]);
+                    Assert.AreEqual(matrix[i, j], matrixA[i, j] + matrixB[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Adding a matrix when argument is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddMatrixThrowsExceptionWhenArgumentIsNull()
+        public void AddNullMatrixThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular4x4"];
             Matrix<Complex32> other = null;
-            matrix.Add(other);
+            Assert.Throws<ArgumentNullException>(() => matrix.Add(other));
         }
 
+        /// <summary>
+        /// Adding a matrix with fewer columns throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void AddMatrixThrowsExceptionArgumentHasTooFewColumns()
+        public void AddMatrixWithFewerColumnsThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Tall3x2"];
-            matrix.Add(other);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Add(other));
         }
 
+        /// <summary>
+        /// Adding a matrix with fewer rows throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void AddMatrixThrowsExceptionArgumentHasTooFewRows()
+        public void AddMatrixWithFewerRowsThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Wide2x3"];
-            matrix.Add(other);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Add(other));
         }
 
-        [Test]
-        [Row("Singular3x3", "Square3x3")]
-        [Row("Singular4x4", "Square4x4")]
-        public void AddOperator(string mtxA, string mtxB)
+        /// <summary>
+        /// Add matrices using "+" operator.
+        /// </summary>
+        /// <param name="mtxA">Matrix A name.</param>
+        /// <param name="mtxB">Matrix B name.</param>
+        [Test, Sequential]
+        public void CanAddUsingOperator([Values("Singular3x3", "Singular4x4")] string mtxA, [Values("Square3x3", "Square4x4")] string mtxB)
         {
             var matrixA = TestMatrices[mtxA];
             var matrixB = TestMatrices[mtxB];
@@ -291,51 +329,62 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixA.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(result[i, j], matrixA[i, j] + matrixB[i, j]);
+                    Assert.AreEqual(result[i, j], matrixA[i, j] + matrixB[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Add operator when left side is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddOperatorThrowsExceptionWhenLeftsideIsNull()
+        public void AddOperatorWhenLeftSideIsNullThrowsArgumentNullException()
         {
             Matrix<Complex32> matrix = null;
             var other = TestMatrices["Singular3x3"];
-            var result = matrix + other;
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix + other; });
         }
 
+        /// <summary>
+        /// Add operator when right side is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void AddOperatorThrowsExceptionWhenRightsideIsNull()
+        public void AddOperatorWhenRightSideIsNullThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular3x3"];
             Matrix<Complex32> other = null;
-            var result = matrix + other;
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix + other; });
         }
 
+        /// <summary>
+        /// Add operator when right side has fewer columns throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void AddOperatorThrowsExceptionWhenRightsideHasTooFewColumns()
+        public void AddOperatorWhenRightSideHasFewerColumnsThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Tall3x2"];
-            var result = matrix + other;
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var result = matrix + other; });
         }
 
+        /// <summary>
+        /// Add operator when right side has fewer rows throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void AddOperatorThrowsExceptionWhenRightsideHasTooFewRows()
+        public void AddOperatorWhenRightSideHasFewerRowsThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Wide2x3"];
-            var result = matrix + other;
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var result = matrix + other; });
         }
 
-        [Test]
-        [Row("Singular3x3", "Square3x3")]
-        [Row("Singular4x4", "Square4x4")]
-        public void CanSubtractMatrix(string mtxA, string mtxB)
+        /// <summary>
+        /// Can subtract a matrix.
+        /// </summary>
+        /// <param name="mtxA">Matrix A name.</param>
+        /// <param name="mtxB">Matrix B name.</param>
+        [Test, Sequential]
+        public void CanSubtractMatrix([Values("Singular3x3", "Singular4x4")] string mtxA, [Values("Square3x3", "Square4x4")] string mtxB)
         {
             var matrixA = TestMatrices[mtxA];
             var matrixB = TestMatrices[mtxB];
@@ -346,42 +395,51 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], matrixA[i, j] - matrixB[i, j]);
+                    Assert.AreEqual(matrix[i, j], matrixA[i, j] - matrixB[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Subtract <c>null</c> matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void SubtractMatrixThrowsExceptionWhenRightSideIsNull()
+        public void SubtractNullMatrixThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular4x4"];
             Matrix<Complex32> other = null;
-            matrix.Subtract(other);
+            Assert.Throws<ArgumentNullException>(() => matrix.Subtract(other));
         }
 
+        /// <summary>
+        /// Subtract a matrix when right side has fewer columns throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SubtractMatrixThrowsExceptionWhenRightSideHasTooFewColumns()
+        public void SubtractMatrixWithFewerColumnsThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Tall3x2"];
-            matrix.Subtract(other);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Subtract(other));
         }
 
+        /// <summary>
+        /// Subtract a matrix when right side has fewer rows throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SubtractMatrixThrowsExceptionWhenRightSideHasTooFewRows()
+        public void SubtractMatrixWithFewerRowsThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Wide2x3"];
-            matrix.Subtract(other);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Subtract(other));
         }
 
-        [Test]
-        [Row("Singular3x3", "Square3x3")]
-        [Row("Singular4x4", "Square4x4")]
-        public void SubtractOperator(string mtxA, string mtxB)
+        /// <summary>
+        /// Can subtract a matrix using "-" operator.
+        /// </summary>
+        /// <param name="mtxA">Matrix A name.</param>
+        /// <param name="mtxB">Matrix B name.</param>
+        [Test, Sequential]
+        public void CanSubtractUsingOperator([Values("Singular3x3", "Singular4x4")] string mtxA, [Values("Square3x3", "Square4x4")] string mtxB)
         {
             var matrixA = TestMatrices[mtxA];
             var matrixB = TestMatrices[mtxB];
@@ -391,55 +449,62 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixA.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(result[i, j], matrixA[i, j] - matrixB[i, j]);
+                    Assert.AreEqual(result[i, j], matrixA[i, j] - matrixB[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Subtract operator when left side is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void SubtractOperatorThrowsExceptionWhenLeftsideIsNull()
+        public void SubtractOperatorWhenLeftSideIsNullThrowsArgumentNullException()
         {
             Matrix<Complex32> matrix = null;
             var other = TestMatrices["Singular3x3"];
-            var result = matrix - other;
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix - other; });
         }
 
+        /// <summary>
+        /// Subtract operator when right side is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void SubtractOperatorThrowsExceptionWhenRightsideIsNull()
+        public void SubtractOperatorWhenRightSideIsNullThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular3x3"];
             Matrix<Complex32> other = null;
-            var result = matrix - other;
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix - other; });
         }
 
+        /// <summary>
+        /// Subtract operator when right side has fewer columns throws ArgumentOutOfRangeException
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SubtractOperatorThrowsExceptionWhenRightsideHasTooFewColumns()
+        public void SubtractOperatorWhenRightSideHasFewerColumnsThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Tall3x2"];
-            var result = matrix - other;
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var result = matrix - other; });
         }
 
+        /// <summary>
+        /// Subtract operator when right side has fewer rows throws ArgumentOutOfRangeException
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SubtractOperatorThrowsExceptionWhenRightsideHasTooFewRows()
+        public void SubtractOperatorWhenRightSideHasFewerRowsThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Wide2x3"];
-            var result = matrix - other;
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var result = matrix - other; });
         }
 
-        [Test]
-        [Row("Singular3x3", "Square3x3")]
-        [Row("Singular4x4", "Square4x4")]
-        [Row("Wide2x3", "Square3x3")]
-        [Row("Wide2x3", "Tall3x2")]
-        [Row("Tall3x2", "Wide2x3")]
-        [MultipleAsserts]
-        public void CanMultiplyMatrixWithMatrix(string nameA, string nameB)
+        /// <summary>
+        /// Can multiply a matrix with matrix.
+        /// </summary>
+        /// <param name="nameA">Matrix A name.</param>
+        /// <param name="nameB">Matrix B name.</param>
+        [Test, Sequential]
+        public void CanMultiplyMatrixWithMatrix([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string nameA, [Values("Square3x3", "Square4x4", "Square3x3", "Tall3x2", "Wide2x3")] string nameB)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameB];
@@ -452,18 +517,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 15);
+                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 7);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Singular4x4")]
-        [Row("Wide2x3")]
-        [Row("Tall3x2")]
-        [MultipleAsserts]
-        public void CanTransposeAndMultiplyMatrixWithMatrix(string nameA)
+        /// <summary>
+        /// Can transpose and multiply a matrix with matrix.
+        /// </summary>
+        /// <param name="nameA">Matrix name.</param>
+        [Test, Sequential]
+        public void CanTransposeAndMultiplyMatrixWithMatrix([Values("Singular3x3", "Singular4x4", "Wide2x3", "Tall3x2")] string nameA)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameA];
@@ -476,37 +540,39 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 15);
+                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 7);
                 }
             }
         }
 
+        /// <summary>
+        /// Transpose and multiply a matrix with matrix of incompatible size throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void TransposeAndMultiplyMatrixMatrixFailsWhenSizesAreIncompatible()
+        public void TransposeAndMultiplyMatrixMatrixWithIncompatibleSizesThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Tall3x2"];
-            var result = matrix.TransposeAndMultiply(other);
+            Assert.Throws<ArgumentException>(() => matrix.TransposeAndMultiply(other));
         }
 
+        /// <summary>
+        /// Transpose and multiply a matrix with <c>null</c> matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void TransposeAndMultiplyMatrixMatrixFailsWhenRightArgumentIsNull()
+        public void TransposeAndMultiplyMatrixWithNullMatrixThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Wide2x3"];
             Matrix<Complex32> other = null;
-            var result = matrix.TransposeAndMultiply(other);
+            Assert.Throws<ArgumentNullException>(() => matrix.TransposeAndMultiply(other));
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Singular4x4")]
-        [Row("Wide2x3")]
-        [Row("Wide2x3")]
-        [Row("Tall3x2")]
-        [MultipleAsserts]
-        public void CanTransposeAndMultiplyMatrixWithMatrixIntoResult(string nameA)
+        /// <summary>
+        /// Can transpose and multiply a matrix with matrix into a result matrix.
+        /// </summary>
+        /// <param name="nameA">Matrix name.</param>
+        [Test, Sequential]
+        public void CanTransposeAndMultiplyMatrixWithMatrixIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Tall3x2")] string nameA)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameA];
@@ -520,46 +586,51 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 15);
+                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 7);
                 }
             }
         }
 
+        /// <summary>
+        /// Multiply a matrix with incompatible size matrix throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void MultiplyMatrixMatrixFailsWhenSizesAreIncompatible()
+        public void MultiplyMatrixMatrixWithIncompatibleSizesThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var other = TestMatrices["Wide2x3"];
-            var result = matrix * other;
+            Assert.Throws<ArgumentException>(() => { var result = matrix * other; });
         }
 
+        /// <summary>
+        /// Multiply <c>null</c> matrix with matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void MultiplyMatrixMatrixFailsWhenLeftArgumentIsNull()
+        public void MultiplyNullMatrixWithMatrixThrowsArgumentNullException()
         {
             Matrix<Complex32> matrix = null;
             var other = TestMatrices["Wide2x3"];
-            var result = matrix * other;
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix * other; });
         }
 
+        /// <summary>
+        /// Multiply a matrix with <c>null</c> matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void MultiplyMatrixMatrixFailsWhenRightArgumentIsNull()
+        public void MultiplyMatrixWithNullMatrixThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Wide2x3"];
             Matrix<Complex32> other = null;
-            var result = matrix * other;
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix * other; });
         }
 
-        [Test]
-        [Row("Singular3x3", "Square3x3")]
-        [Row("Singular4x4", "Square4x4")]
-        [Row("Wide2x3", "Square3x3")]
-        [Row("Wide2x3", "Tall3x2")]
-        [Row("Tall3x2", "Wide2x3")]
-        [MultipleAsserts]
-        public virtual void CanMultiplyMatrixWithMatrixIntoResult(string nameA, string nameB)
+        /// <summary>
+        /// Can multiply a matrix with matrix into a result matrix.
+        /// </summary>
+        /// <param name="nameA">Matrix A name.</param>
+        /// <param name="nameB">Matrix B name.</param>
+        [Test, Sequential]
+        public virtual void CanMultiplyMatrixWithMatrixIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string nameA, [Values("Square3x3", "Square4x4", "Square3x3", "Tall3x2", "Wide2x3")] string nameB)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameB];
@@ -573,19 +644,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 15);
+                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 7);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void CanNegate(string name)
+        /// <summary>
+        /// Can negate a matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanNegate([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string name)
         {
             var matrix = TestMatrices[name];
             var copy = matrix.Clone();
@@ -596,19 +665,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(-matrix[i, j], copy[i, j]);
+                    Assert.AreEqual(-matrix[i, j], copy[i, j]);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void CanNegateIntoResult(string name)
+        /// <summary>
+        /// Can negate a matrix into a result matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanNegateIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string name)
         {
             var matrix = TestMatrices[name];
             var copy = matrix.Clone();
@@ -619,41 +686,49 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(-matrix[i, j], copy[i, j]);
+                    Assert.AreEqual(-matrix[i, j], copy[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Negate into <c>null</c> result throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void NegateIntoResultFailsWhenResultIsNull()
+        public void NegateIntoNullResultThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular3x3"];
             Matrix<Complex32> copy = null;
-            matrix.Negate(copy);
+            Assert.Throws<ArgumentNullException>(() => matrix.Negate(copy));
         }
 
+        /// <summary>
+        /// Negate into a result matrix with more rows throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void NegateIntoResultFailsWhenResultHasMoreRows()
+        public void NegateIntoResultWithMoreRowsThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
-            matrix.Negate(target);
+            Assert.Throws<ArgumentException>(() => matrix.Negate(target));
         }
 
+        /// <summary>
+        /// Negate into a result matrix with more rows throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void NegateIntoResultFailsWhenResultHasMoreColumns()
+        public void NegateIntoResultWithMoreColumnsThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
-            matrix.Negate(target);
+            Assert.Throws<ArgumentException>(() => matrix.Negate(target));
         }
 
-
+        /// <summary>
+        /// Can calculate Kronecker product.
+        /// </summary>
         [Test]
-        public void KroneckerProduct()
+        public void CanKroneckerProduct()
         {
             var matrixA = TestMatrices["Wide2x3"];
             var matrixB = TestMatrices["Square3x3"];
@@ -667,15 +742,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                     {
                         for (var jj = 0; jj < matrixB.ColumnCount; jj++)
                         {
-                            AssertHelpers.AreEqual(result[i * matrixB.RowCount + ii, j * matrixB.ColumnCount + jj], matrixA[i, j] * matrixB[ii, jj]);
+                            Assert.AreEqual(result[(i * matrixB.RowCount) + ii, (j * matrixB.ColumnCount) + jj], matrixA[i, j] * matrixB[ii, jj]);
                         }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Can calculate Kronecker product into a result matrix.
+        /// </summary>
         [Test]
-        public void KroneckerProductResult()
+        public void CanKroneckerProductIntoResult()
         {
             var matrixA = TestMatrices["Wide2x3"];
             var matrixB = TestMatrices["Square3x3"];
@@ -688,47 +766,69 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                     {
                         for (var jj = 0; jj < matrixB.ColumnCount; jj++)
                         {
-                            AssertHelpers.AreEqual(result[i * matrixB.RowCount + ii, j * matrixB.ColumnCount + jj], matrixA[i, j] * matrixB[ii, jj]);
+                            Assert.AreEqual(result[(i * matrixB.RowCount) + ii, (j * matrixB.ColumnCount) + jj], matrixA[i, j] * matrixB[ii, jj]);
                         }
                     }
                 }
             }
         }
 
-        [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(-4, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void NormalizeColumns(int pValue)
+        /// <summary>
+        /// Can nomalize columns of a matrix.
+        /// </summary>
+        /// <param name="p">The norm under which to normalize the columns under.</param>
+        [Test, Sequential]
+        public void CanNormalizeColumns([Values(1, 2)] int p)
         {
             var matrix = TestMatrices["Square4x4"];
-
-            var result = matrix.NormalizeColumns(pValue);
+            var result = matrix.NormalizeColumns(p);
             for (var j = 0; j < result.ColumnCount; j++)
             {
                 var col = result.Column(j);
-                AssertHelpers.AlmostEqual(Complex32.One, col.Norm(pValue).Real, 6);
+                AssertHelpers.AlmostEqual(Complex32.One, col.Norm(p), 6);
             }
         }
 
+        /// <summary>
+        /// Normalize columns with wrong parameter throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(-3, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void NormalizeRows(int pValue)
+        public void NormalizeColumnsWithWrongParameterThrowsArgumentOutOfRangeException()
         {
-            var matrix = TestMatrices["Square4x4"].NormalizeRows(pValue);
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestMatrices["Square4x4"].NormalizeColumns(-4));
+        }
+
+        /// <summary>
+        /// Can nomalize rows of a matrix.
+        /// </summary>
+        /// <param name="p">The norm under which to normalize the rows under.</param>
+        [Test, Sequential]
+        public void CanNormalizeRows([Values(1, 2)] int p)
+        {
+            var matrix = TestMatrices["Square4x4"].NormalizeRows(p);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var row = matrix.Row(i);
-                AssertHelpers.AlmostEqual(Complex32.One, row.Norm(pValue).Real, 6);
+                AssertHelpers.AlmostEqual(Complex32.One, row.Norm(p), 6);
             }
         }
 
+        /// <summary>
+        /// Normalize rows with wrong parameter throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        public void PointwiseMultiplyResult()
+        public void NormalizeRowsWithWrongParameterThrowsArgumentOutOfRangeException()
         {
-            foreach (var  data in TestMatrices.Values)
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestMatrices["Square4x4"].NormalizeRows(-4));
+        }
+
+        /// <summary>
+        /// Can pointwise multiply matrices into a result matrix.
+        /// </summary>
+        [Test]
+        public void CanPointwiseMultiplyIntoResult()
+        {
+            foreach (var data in TestMatrices.Values)
             {
                 var other = data.Clone();
                 var result = data.Clone();
@@ -737,7 +837,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(data[i, j] * other[i, j], result[i, j]);
+                        Assert.AreEqual(data[i, j] * other[i, j], result[i, j]);
                     }
                 }
 
@@ -746,53 +846,64 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(data[i, j] * other[i, j], result[i, j]);
+                        Assert.AreEqual(data[i, j] * other[i, j], result[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Pointwise multiply <c>null</c> matrices into a result throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PointwiseMultiplyWithNullOtherShouldThrowException()
+        public void PointwiseMultiplyNullIntoResultThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Wide2x3"];
             Matrix<Complex32> other = null;
             var result = matrix.Clone();
-            matrix.PointwiseMultiply(other, result);
+            Assert.Throws<ArgumentNullException>(() => matrix.PointwiseMultiply(other, result));
         }
 
+        /// <summary>
+        /// Pointwise multiply matrices into <c>null</c> result throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PointwiseMultiplyWithResultNullShouldThrowException()
+        public void PointwiseMultiplyIntoNullResultThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Wide2x3"];
             var other = matrix.Clone();
-            matrix.PointwiseMultiply(other, null);
+            Assert.Throws<ArgumentNullException>(() => matrix.PointwiseMultiply(other, null));
         }
 
+        /// <summary>
+        /// Pointwise multiply matrices with invalid dimensions into a result throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void PointwiseMultiplyWithInvalidOtherMatrixDimensionsShouldThrowException()
+        public void PointwiseMultiplyWithInvalidDimensionsIntoResultThrowsArgumentException()
         {
             var matrix = TestMatrices["Wide2x3"];
             var other = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
             var result = matrix.Clone();
-            matrix.PointwiseMultiply(other, result);
+            Assert.Throws<ArgumentException>(() => matrix.PointwiseMultiply(other, result));
         }
 
+        /// <summary>
+        /// Pointwise multiply matrices with invalid result dimensions throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void PointwiseMultiplyWithInvalidResultMatrixDimensionsShouldThrowException()
+        public void PointwiseMultiplyWithInvalidResultDimensionsThrowsArgumentException()
         {
             var matrix = TestMatrices["Wide2x3"];
             var other = matrix.Clone();
             var result = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
-            matrix.PointwiseMultiply(other, result);
+            Assert.Throws<ArgumentException>(() => matrix.PointwiseMultiply(other, result));
         }
 
+        /// <summary>
+        /// Can pointwise divide matrices into a result matrix.
+        /// </summary>
         [Test]
-        public virtual void PointwiseDivideResult()
+        public virtual void CanPointwiseDivideIntoResult()
         {
             var data = TestMatrices["Singular3x3"];
             var other = data.Clone();
@@ -802,7 +913,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < data.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(data[i, j] / other[i, j], result[i, j]);
+                    Assert.AreEqual(data[i, j] / other[i, j], result[i, j]);
                 }
             }
 
@@ -811,82 +922,89 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < data.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(data[i, j] / other[i, j], result[i, j]);
+                    Assert.AreEqual(data[i, j] / other[i, j], result[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Pointwise divide <c>null</c> matrices into a result throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PointwiseDivideWithNullOtherShouldThrowException()
+        public void PointwiseDivideNullIntoResultThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Wide2x3"];
             Matrix<Complex32> other = null;
             var result = matrix.Clone();
-            matrix.PointwiseDivide(other, result);
+            Assert.Throws<ArgumentNullException>(() => matrix.PointwiseDivide(other, result));
         }
 
+        /// <summary>
+        /// Pointwise divide matrices into <c>null</c> result throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PointwiseDivideWithResultNullShouldThrowException()
+        public void PointwiseDivideIntoNullResultThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Wide2x3"];
             var other = matrix.Clone();
-            matrix.PointwiseDivide(other, null);
+            Assert.Throws<ArgumentNullException>(() => matrix.PointwiseDivide(other, null));
         }
 
+        /// <summary>
+        /// Pointwise divide matrices with invalid dimensions into a result throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void PointwiseDivideWithInvalidOtherMatrixDimensionsShouldThrowException()
+        public void PointwiseDivideWithInvalidDimensionsIntoResultThrowsArgumentException()
         {
             var matrix = TestMatrices["Wide2x3"];
             var other = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
             var result = matrix.Clone();
-            matrix.PointwiseDivide(other, result);
+            Assert.Throws<ArgumentException>(() => matrix.PointwiseDivide(other, result));
         }
 
+        /// <summary>
+        /// Pointwise divide matrices with invalid result dimensions throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void PointwiseDivideWithInvalidResultMatrixDimensionsShouldThrowException()
+        public void PointwiseDivideWithInvalidResultDimensionsThrowsArgumentException()
         {
             var matrix = TestMatrices["Wide2x3"];
             var other = matrix.Clone();
             var result = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
-            matrix.PointwiseDivide(other, result);
+            Assert.Throws<ArgumentException>(() => matrix.PointwiseDivide(other, result));
         }
 
-        [Test]
-        [Row(0, ExpectedException = typeof(ArgumentException))]
-        [Row(-2, ExpectedException = typeof(ArgumentException))]
-        public void RandomWithNonPositiveNumberOfRowsShouldThrowException(int numberOfRows)
+        /// <summary>
+        /// Create random matrix with non-positive number of rows throw <c>ArgumentException</c>.
+        /// </summary>
+        /// <param name="numberOfRows">Number of rows.</param>
+        [Test, Sequential]
+        public void RandomWithNonPositiveNumberOfRowsThrowsArgumentException([Values(0, -2)] int numberOfRows)
         {
             var matrix = CreateMatrix(2, 3);
-            matrix = matrix.Random(numberOfRows, 4, new ContinuousUniform());
+            Assert.Throws<ArgumentException>(() => matrix.Random(numberOfRows, 4, new ContinuousUniform()));
+            Assert.Throws<ArgumentException>(() => matrix.Random(numberOfRows, 4, new DiscreteUniform(0, 2)));
         }
 
+        /// <summary>
+        /// Can trace.
+        /// </summary>
         [Test]
-        [Row(0, ExpectedException = typeof(ArgumentException))]
-        [Row(-2, ExpectedException = typeof(ArgumentException))]
-        public void RandomWithNonPositiveNumberOfRowsShouldThrowException2(int numberOfRows)
-        {
-            var matrix = CreateMatrix(2, 3);
-            matrix = matrix.Random(numberOfRows, 4, new DiscreteUniform(0, 2));
-        }
-
-        [Test]
-        public void Trace()
+        public void CanTrace()
         {
             var matrix = TestMatrices["Square3x3"];
             var trace = matrix.Trace();
-            AssertHelpers.AreEqual(new Complex32(6.6f, 3), trace);
+            Assert.AreEqual(new Complex32(6.6f, 3), trace);
         }
 
+        /// <summary>
+        /// Trace of non-square matrix throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void TraceOfNonSquareMatrixShouldThrowException()
+        public void TraceOfNonSquareMatrixThrowsArgumentException()
         {
             var matrix = TestMatrices["Wide2x3"];
-            var trace = matrix.Trace();
+            Assert.Throws<ArgumentException>(() => matrix.Trace());
         }
     }
 }

@@ -28,44 +28,50 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
     using System;
     using LinearAlgebra.Generic;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Abstract class with the common arithmetic set of vector tests.
+    /// </summary>
     public abstract partial class VectorTests
     {
+        /// <summary>
+        /// Can call Plus.
+        /// </summary>
         [Test]
         public void CanCallPlus()
         {
             var vector = CreateVector(Data);
             var other = vector.Plus();
-
-            for (var i = 0; i < Data.Length; i++)
-            {
-                Assert.AreEqual(vector[i], other[i]);
-            }
+            CollectionAssert.AreEqual(vector, other);
         }
 
+        /// <summary>
+        /// Operator "+" throws <c>ArgumentNullException</c> when call on <c>null</c> vector.
+        /// </summary>
         [Test]
-        public void OperatorPlusThrowsArgumentNullExceptionWhenCallOnNullVector()
+        public void OperatorPlusWhenVectorIsNullThrowsArgumentNullException()
         {
             Vector<float> vector = null;
             Vector<float> other = null;
             Assert.Throws<ArgumentNullException>(() => other = +vector);
         }
 
+        /// <summary>
+        /// Can call unary "+" operator.
+        /// </summary>
         [Test]
         public void CanCallUnaryPlusOperator()
         {
             var vector = CreateVector(Data);
             var other = +vector;
-
-            for (var i = 0; i < Data.Length; i++)
-            {
-                Assert.AreEqual(vector[i], other[i]);
-            }
+            CollectionAssert.AreEqual(vector, other);
         }
 
+        /// <summary>
+        /// Can add a scalar to a vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanAddScalarToVector()
         {
             var copy = CreateVector(Data);
@@ -73,77 +79,94 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] + 2.0, vector[i]);
+                Assert.AreEqual(Data[i] + 2.0f, vector[i]);
             }
 
             vector.Add(0.0f);
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] + 2.0, vector[i]);
+                Assert.AreEqual(Data[i] + 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can add a scalar to a vector using result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanAddScalarToVectorUsingResultVector()
+        public void CanAddScalarToVectorIntoResultVector()
         {
             var vector = CreateVector(Data);
             var result = CreateVector(Data.Length);
             vector.Add(2.0f, result);
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i] + 2.0, result[i]);
+                Assert.AreEqual(Data[i] + 2.0f, result[i]);
             }
 
             vector.Add(0.0f, result);
-            for (var i = 0; i < Data.Length; i++)
-            {
-                Assert.AreEqual(Data[i], result[i]);
-            }
+            CollectionAssert.AreEqual(Data, result);
         }
 
+        /// <summary>
+        /// Adding scalar to a vector when result vector is <c>null</c> throws an exception.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentNullExceptionWhenAddingScalarWithNullResultVector()
+        public void AddingScalarWithNullResultVectorThrowsArgumentNullException()
         {
             var vector = CreateVector(Data.Length);
             Assert.Throws<ArgumentNullException>(() => vector.Add(0.0f, null));
         }
 
+        /// <summary>
+        /// Adding scalar to a vector using result vector with wrong size throws an exception.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentExceptionWhenAddingScalarWithWrongSizeResultVector()
+        public void AddingScalarWithWrongSizeResultVectorThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Add(0.0f, result));
         }
 
+        /// <summary>
+        /// Adding two vectors when one is <c>null</c> throws an exception.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentNullExceptionWhenAddingTwoVectorsAndOneIsNull()
+        public void AddingTwoVectorsAndOneIsNullThrowsArgumentNullException()
         {
             var vector = CreateVector(Data);
             Assert.Throws<ArgumentNullException>(() => vector.Add(null));
         }
 
+        /// <summary>
+        /// Adding two vectors of different size throws an exception.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentExceptionWhenAddingTwoVectorsOfDifferingSize()
+        public void AddingTwoVectorsOfDifferentSizeThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Add(other));
         }
 
+        /// <summary>
+        /// Adding two vectors when a result vector is <c>null</c> throws an exception.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentNullExceptionWhenAddingTwoVectorsAndResultIsNull()
+        public void AddingTwoVectorsAndResultIsNullThrowsArgumentNullException()
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentNullException>(() => vector.Add(other, null));
         }
 
+        /// <summary>
+        /// Adding two vectors when a result vector is different size throws an exception.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentExceptionWhenAddingTwoVectorsAndResultIsDifferentSize()
+        public void AddingTwoVectorsAndResultIsDifferentSizeThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length);
@@ -151,8 +174,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.Throws<ArgumentException>(() => vector.Add(other, result));
         }
 
+        /// <summary>
+        /// Addition operator throws <c>ArgumentNullException</c> if a vector is <c>null</c>.
+        /// </summary>
         [Test]
-        public void AdditionOperatorThrowsArgumentNullExpectionIfAVectorIsNull()
+        public void AdditionOperatorIfAVectorIsNullThrowsArgumentNullException()
         {
             Vector<float> a = null;
             var b = CreateVector(Data.Length);
@@ -163,14 +189,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.Throws<ArgumentNullException>(() => a += b);
         }
 
+        /// <summary>
+        /// Addition operator throws <c>ArgumentException</c> if vectors are different size.
+        /// </summary>
         [Test]
-        public void AdditionOperatorThrowsArgumentExpectionIfVectorsAreDifferentSize()
+        public void AdditionOperatorIfVectorsAreDifferentSizeThrowsArgumentException()
         {
             var a = CreateVector(Data.Length);
             var b = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentException>(() => a += b);
         }
 
+        /// <summary>
+        /// Can add two vectors.
+        /// </summary>
         [Test]
         public void CanAddTwoVectors()
         {
@@ -180,43 +212,50 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can add two vectors using a result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanAddTwoVectorsUsingResultVector()
+        public void CanAddTwoVectorsIntoResultVector()
         {
             var vector = CreateVector(Data);
             var other = CreateVector(Data);
             var result = CreateVector(Data.Length);
             vector.Add(other, result);
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
+            CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i] * 2.0, result[i]);
+                Assert.AreEqual(Data[i] * 2.0f, result[i]);
             }
         }
 
+        /// <summary>
+        /// Can add two vectors using "+" operator.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanAddTwoVectorsUsingOperator()
         {
             var vector = CreateVector(Data);
             var other = CreateVector(Data);
             var result = vector + other;
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
+            CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i] * 2.0, result[i]);
+                Assert.AreEqual(Data[i] * 2.0f, result[i]);
             }
         }
 
+        /// <summary>
+        /// Can add a vector to itself.
+        /// </summary>
         [Test]
         public void CanAddVectorToItself()
         {
@@ -225,40 +264,47 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can add a vector to itself using a result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanAddVectorToItselfUsingResultVector()
+        public void CanAddVectorToItselfIntoResultVector()
         {
             var vector = CreateVector(Data);
             var result = CreateVector(Data.Length);
             vector.Add(vector, result);
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i] * 2.0, result[i]);
+                Assert.AreEqual(Data[i] * 2.0f, result[i]);
             }
         }
 
+        /// <summary>
+        /// Can add a vector to itself as result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanAddTwoVectorsUsingItselfAsResultVector()
         {
             var vector = CreateVector(Data);
             var other = CreateVector(Data);
             vector.Add(other, vector);
 
+            CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can negate a vector.
+        /// </summary>
         [Test]
         public void CanCallNegate()
         {
@@ -270,14 +316,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Negate operator throws <c>ArgumentNullException</c> when call on <c>null</c> vector.
+        /// </summary>
         [Test]
-        public void OperatorNegateThrowsArgumentNullExceptionWhenCallOnNullVector()
+        public void OperatorNegateWhenVectorIsNullThrowsArgumentNullException()
         {
             Vector<float> vector = null;
             Vector<float> other = null;
             Assert.Throws<ArgumentNullException>(() => other = -vector);
         }
 
+        /// <summary>
+        /// Can call unary negation operator.
+        /// </summary>
         [Test]
         public void CanCallUnaryNegationOperator()
         {
@@ -289,8 +341,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Can subtract a scalar from a vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanSubtractScalarFromVector()
         {
             var copy = CreateVector(Data);
@@ -298,28 +352,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] - 2.0, vector[i]);
+                Assert.AreEqual(Data[i] - 2.0f, vector[i]);
             }
 
             vector.Subtract(0.0f);
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] - 2.0, vector[i]);
+                Assert.AreEqual(Data[i] - 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can subtract a scalar from a vector using a result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanSubtractScalarFromVectorUsingResultVector()
+        public void CanSubtractScalarFromVectorIntoResultVector()
         {
             var vector = CreateVector(Data);
             var result = CreateVector(Data.Length);
             vector.Subtract(2.0f, result);
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
                 Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i] - 2.0, result[i]);
+                Assert.AreEqual(Data[i] - 2.0f, result[i]);
             }
 
             vector.Subtract(0.0f, result);
@@ -329,46 +386,64 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Subtracting a scalar with <c>null</c> result vector throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentNullExceptionWhenSubtractingScalarWithNullResultVector()
+        public void SubtractingScalarWithNullResultVectorThrowsArgumentNullException()
         {
             var vector = CreateVector(Data.Length);
             Assert.Throws<ArgumentNullException>(() => vector.Subtract(0.0f, null));
         }
 
+        /// <summary>
+        /// Subtracting a scalar with wrong size result vector throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentExceptionWhenSubtractingScalarWithWrongSizeResultVector()
+        public void SubtractingScalarWithWrongSizeResultVectorThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Subtract(0.0f, result));
         }
 
+        /// <summary>
+        /// Subtracting two vectors when one is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentNullExceptionWhenSubtractingTwoVectorsAndOneIsNull()
+        public void SubtractingTwoVectorsAndOneIsNullThrowsArgumentNullException()
         {
             var vector = CreateVector(Data);
             Assert.Throws<ArgumentNullException>(() => vector.Subtract(null));
         }
 
+        /// <summary>
+        /// Subtracting two vectors of differing size throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentExceptionWhenSubtractingTwoVectorsOfDifferingSize()
+        public void SubtractingTwoVectorsOfDifferingSizeThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Subtract(other));
         }
 
+        /// <summary>
+        /// Subtracting two vectors when a result vector is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentNullExceptionWhenSubtractingTwoVectorsAndResultIsNull()
+        public void SubtractingTwoVectorsAndResultIsNullThrowsArgumentNullException()
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentNullException>(() => vector.Subtract(other, null));
         }
 
+        /// <summary>
+        /// Subtracting two vectors when a result vector is different size throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentExceptionWhenSubtractingTwoVectorsAndResultIsDifferentSize()
+        public void SubtractingTwoVectorsAndResultIsDifferentSizeThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length);
             var other = CreateVector(Data.Length);
@@ -376,8 +451,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.Throws<ArgumentException>(() => vector.Subtract(other, result));
         }
 
+        /// <summary>
+        /// Subtraction operator throws <c>ArgumentNullException</c> if a vector is <c>null</c>.
+        /// </summary>
         [Test]
-        public void SubtractionOperatorThrowsArgumentNullExpectionIfAVectorIsNull()
+        public void SubtractionOperatorIfAVectorIsNullThrowsArgumentNullException()
         {
             Vector<float> a = null;
             var b = CreateVector(Data.Length);
@@ -388,14 +466,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.Throws<ArgumentNullException>(() => a -= b);
         }
 
+        /// <summary>
+        /// Subtraction operator throws <c>ArgumentException</c> if vectors are different size.
+        /// </summary>
         [Test]
-        public void SubtractionOperatorThrowsArgumentExpectionIfVectorsAreDifferentSize()
+        public void SubtractionOperatorIfVectorsAreDifferentSizeThrowsArgumentException()
         {
             var a = CreateVector(Data.Length);
             var b = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentException>(() => a -= b);
         }
 
+        /// <summary>
+        /// Can subtract two vectors.
+        /// </summary>
         [Test]
         public void CanSubtractTwoVectors()
         {
@@ -405,43 +489,50 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(0.0, vector[i]);
+                Assert.AreEqual(0.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can subtract two vectors using a result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanSubtractTwoVectorsUsingResultVector()
+        public void CanSubtractTwoVectorsIntoResultVector()
         {
             var vector = CreateVector(Data);
             var other = CreateVector(Data);
             var result = CreateVector(Data.Length);
             vector.Subtract(other, result);
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
+            CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(0.0, result[i]);
+                Assert.AreEqual(0.0f, result[i]);
             }
         }
 
+        /// <summary>
+        /// Can subtract two vectors using "-" operator.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanSubtractTwoVectorsUsingOperator()
         {
             var vector = CreateVector(Data);
             var other = CreateVector(Data);
             var result = vector - other;
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
+            CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(0.0, result[i]);
+                Assert.AreEqual(0.0f, result[i]);
             }
         }
 
+        /// <summary>
+        /// Can subtract a vector from itself.
+        /// </summary>
         [Test]
         public void CanSubtractVectorFromItself()
         {
@@ -450,42 +541,48 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(0.0, vector[i]);
+                Assert.AreEqual(0.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can subtract a vector from itself using a result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanSubtractVectorFromItselfUsingResultVector()
+        public void CanSubtractVectorFromItselfIntoResultVector()
         {
             var vector = CreateVector(Data);
             var result = CreateVector(Data.Length);
             vector.Subtract(vector, result);
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(0.0, result[i]);
+                Assert.AreEqual(0.0f, result[i]);
             }
         }
 
+        /// <summary>
+        /// Can subtract two vectors using itself as result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanSubtractTwoVectorsUsingItselfAsResultVector()
         {
             var vector = CreateVector(Data);
             var other = CreateVector(Data);
             vector.Subtract(other, vector);
 
+            CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], other[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(0.0, vector[i]);
+                Assert.AreEqual(0.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can divide a vector by a scalar.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanDivideVectorByScalar()
         {
             var copy = CreateVector(Data);
@@ -493,28 +590,30 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] / 2.0, vector[i]);
+                Assert.AreEqual(Data[i] / 2.0f, vector[i]);
             }
 
             vector.Divide(1.0f);
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] / 2.0, vector[i]);
+                Assert.AreEqual(Data[i] / 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can divide a vector by a scalar using a result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanDivideVectorByScalarUsingResultVector()
+        public void CanDivideVectorByScalarIntoResultVector()
         {
             var vector = CreateVector(Data);
             var result = CreateVector(Data.Length);
             vector.Divide(2.0f, result);
 
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i] / 2.0, result[i]);
+                Assert.AreEqual(Data[i] / 2.0f, result[i]);
             }
 
             vector.Divide(1.0f, result);
@@ -524,8 +623,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Can multiply a vector by a scalar.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanMultiplyVectorByScalar()
         {
             var copy = CreateVector(Data);
@@ -533,19 +634,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
 
             vector.Multiply(1.0f);
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can multiply a vector by a scalar using a result vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanMultiplyVectorByScalarUsingResultVector()
+        public void CanMultiplyVectorByScalarIntoResultVector()
         {
             var vector = CreateVector(Data);
             var result = CreateVector(Data.Length);
@@ -554,7 +657,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             for (var i = 0; i < Data.Length; i++)
             {
                 Assert.AreEqual(Data[i], vector[i], "Making sure the original vector wasn't modified.");
-                Assert.AreEqual(Data[i] * 2.0, result[i]);
+                Assert.AreEqual(Data[i] * 2.0f, result[i]);
             }
 
             vector.Multiply(1.0f, result);
@@ -564,38 +667,52 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Multiplying by scalar with <c>null</c> result vector throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentNullExceptionWhenMultiplyingScalarWithNullResultVector()
+        public void MultiplyingScalarWithNullResultVectorThrowsArgumentNullException()
         {
             var vector = CreateVector(Data.Length);
             Assert.Throws<ArgumentNullException>(() => vector.Multiply(1.0f, null));
         }
 
+        /// <summary>
+        /// Dividing by scalar with <c>null</c> result vector throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentNullExceptionWhenDividingScalarWithNullResultVector()
+        public void DividingScalarWithNullResultVectorThrowsArgumentNullException()
         {
             var vector = CreateVector(Data.Length);
             Assert.Throws<ArgumentNullException>(() => vector.Divide(1.0f, null));
         }
 
+        /// <summary>
+        /// Multiplying by scalar with wrong result vector size throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentExceptionWhenMultiplyingScalarWithWrongSizeResultVector()
+        public void MultiplyingScalarWithWrongSizeResultVectorThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Multiply(0.0f, result));
         }
 
+        /// <summary>
+        /// Dividing by scalar with wrong result vector size throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void ThrowsArgumentExceptionWhenDividingScalarWithWrongSizeResultVector()
+        public void DividingScalarWithWrongSizeResultVectorThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length);
             var result = CreateVector(Data.Length + 1);
             Assert.Throws<ArgumentException>(() => vector.Divide(0.0f, result));
         }
 
+        /// <summary>
+        /// Can multiply a vector by scalar using operators.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanMultiplyVectorByScalarUsingOperators()
         {
             var vector = CreateVector(Data);
@@ -603,13 +720,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
 
             vector = vector * 1.0f;
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
 
             vector = CreateVector(Data);
@@ -617,18 +734,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
 
             vector = 1.0f * vector;
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] * 2.0, vector[i]);
+                Assert.AreEqual(Data[i] * 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can divide a vector by scalar using operators.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanDivideVectorByScalarUsingOperators()
         {
             var vector = CreateVector(Data);
@@ -636,19 +755,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] / 2.0, vector[i]);
+                Assert.AreEqual(Data[i] / 2.0f, vector[i]);
             }
 
             vector = vector / 1.0f;
             for (var i = 0; i < Data.Length; i++)
             {
-                Assert.AreEqual(Data[i] / 2.0, vector[i]);
+                Assert.AreEqual(Data[i] / 2.0f, vector[i]);
             }
         }
 
+        /// <summary>
+        /// Operator multiply throws <c>ArgumentNullException</c> when a vector is <c>null</c>.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void OperatorMultiplyThrowsArgumentNullExceptionWhenVectorIsNull()
+        public void OperatorMultiplyWhenVectorIsNullThrowsArgumentNullException()
         {
             Vector<float> vector = null;
             Vector<float> result = null;
@@ -656,83 +777,105 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.Throws<ArgumentNullException>(() => result = 2.0f * vector);
         }
 
+        /// <summary>
+        /// Operator divide throws <c>ArgumentNullException</c> when a vector is <c>null</c>.
+        /// </summary>
         [Test]
-        public void OperatorDivideThrowsArgumentNullExceptionWhenVectorIsNull()
+        public void OperatorDivideWhenVectorIsNullThrowsArgumentNullException()
         {
             Vector<float> vector = null;
             Assert.Throws<ArgumentNullException>(() => vector = vector / 2.0f);
         }
 
+        /// <summary>
+        /// Can calculate the dot product
+        /// </summary>
         [Test]
         public void CanDotProduct()
         {
             var dataA = CreateVector(Data);
             var dataB = CreateVector(Data);
 
-            Assert.AreEqual(55.0, dataA.DotProduct(dataB));
+            Assert.AreEqual(55.0f, dataA.DotProduct(dataB));
         }
 
+        /// <summary>
+        /// Dot product throws <c>ArgumentNullException</c> when an argument is <c>null</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void DotProductThrowsExceptionWhenArgumentIsNull()
+        public void DotProductWhenArgumentIsNullThrowsArgumentNullException()
         {
             var dataA = CreateVector(Data);
             Vector<float> dataB = null;
 
-            dataA.DotProduct(dataB);
+            Assert.Throws<ArgumentNullException>(() => dataA.DotProduct(dataB));
         }
 
+        /// <summary>
+        /// Dot product throws <c>ArgumentException</c> when an argument has different size
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void DotProductThrowsExceptionWhenArgumentHasDifferentSize()
+        public void DotProductWhenDifferentSizeThrowsArgumentException()
         {
             var dataA = CreateVector(Data);
             var dataB = CreateVector(new float[] { 1, 2, 3, 4, 5, 6 });
 
-            dataA.DotProduct(dataB);
+            Assert.Throws<ArgumentException>(() => dataA.DotProduct(dataB));
         }
 
+        /// <summary>
+        /// Can calculate the dot product using "*" operator.
+        /// </summary>
         [Test]
         public void CanDotProductUsingOperator()
         {
             var dataA = CreateVector(Data);
             var dataB = CreateVector(Data);
 
-            Assert.AreEqual(55.0, dataA * dataB);
+            Assert.AreEqual(55.0f, dataA * dataB);
         }
 
+        /// <summary>
+        /// Operator "*" throws <c>ArgumentNullException</c> when the left argument is <c>null</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void OperatorDotProductThrowsExceptionWhenLeftArgumentIsNull()
+        public void OperatorDotProductWhenLeftArgumentIsNullThrowsArgumentNullException()
         {
             var dataA = CreateVector(Data);
             Vector<float> dataB = null;
 
-            var d = dataA * dataB;
+            Assert.Throws<ArgumentNullException>(() => { var d = dataA * dataB; });
         }
 
+        /// <summary>
+        /// Operator "*" throws <c>ArgumentNullException</c> when the right argument is <c>null</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void OperatorDotProductThrowsExceptionWhenRightArgumentIsNull()
+        public void OperatorDotProductWhenRightArgumentIsNullThrowsArgumentNullException()
         {
             Vector<float> dataA = null;
             var dataB = CreateVector(Data);
 
-            var d = dataA * dataB;
+            Assert.Throws<ArgumentNullException>(() => { var d = dataA * dataB; });
         }
 
+        /// <summary>
+        /// Operator "*" throws <c>ArgumentException</c> when the argument has different size.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void OperatorDotProductThrowsExceptionWhenArgumentHasDifferentSize()
+        public void OperatorDotProductWhenDifferentSizeThrowsArgumentException()
         {
             var dataA = CreateVector(Data);
             var dataB = CreateVector(new float[] { 1, 2, 3, 4, 5, 6 });
 
-            var d = dataA * dataB;
+            Assert.Throws<ArgumentException>(() => { var d = dataA * dataB; });
         }
 
+        /// <summary>
+        /// Can pointwise multiply two vectors.
+        /// </summary>
         [Test]
-        public void PointwiseMultiply()
+        public void CanPointwiseMultiply()
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
@@ -743,8 +886,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Can pointwise multiply two vectors using a result vector.
+        /// </summary>
         [Test]
-        public void PointwiseMultiplyUsingResultVector()
+        public void CanPointwiseMultiplyIntoResultVector()
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
@@ -756,38 +902,47 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Pointwise multiply with <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void PointwiseMultiplyWithOtherNullShouldThrowException()
+        public void PointwiseMultiplyWithNullThrowsArgumentNullException()
         {
             var vector1 = CreateVector(Data);
             Vector<float> vector2 = null;
             var result = CreateVector(vector1.Count);
-            vector1.PointwiseMultiply(vector2, result);
+            Assert.Throws<ArgumentNullException>(() => vector1.PointwiseMultiply(vector2, result));
         }
 
+        /// <summary>
+        /// Pointwise multiply with a result vector is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void PointwiseMultiplyWithResultNullShouldThrowException()
+        public void PointwiseMultiplyWithResultNullThrowsArgumentNullException()
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
             Vector<float> result = null;
-            vector1.PointwiseMultiply(vector2, result);
+            Assert.Throws<ArgumentNullException>(() => vector1.PointwiseMultiply(vector2, result));
         }
 
+        /// <summary>
+        /// Pointwise multiply with a result vector wrong size throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void PointwiseMultiplyWithInvalidResultLengthShouldThrowException()
+        public void PointwiseMultiplyWithInvalidResultLengthThrowsArgumentException()
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
             var result = CreateVector(vector1.Count + 1);
-            vector1.PointwiseMultiply(vector2, result);
+            Assert.Throws<ArgumentException>(() => vector1.PointwiseMultiply(vector2, result));
         }
 
+        /// <summary>
+        /// Can pointwise divide two vectors using a result vector.
+        /// </summary>
         [Test]
-        public void PointWiseDivide()
+        public void CanPointWiseDivide()
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
@@ -797,9 +952,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
                 Assert.AreEqual(Data[i] / Data[i], result[i]);
             }
         }
-       
+
+        /// <summary>
+        /// Can pointwise divide two vectors using a result vector.
+        /// </summary>
         [Test]
-        public void PointWiseDivideUsingResultVector()
+        public void CanPointWiseDivideIntoResultVector()
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
@@ -811,42 +969,51 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Pointwise divide with <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void PointwiseDivideWithOtherNullShouldThrowException()
+        public void PointwiseDivideWithNullThrowsArgumentNullException()
         {
             var vector1 = CreateVector(Data);
             Vector<float> vector2 = null;
             var result = CreateVector(vector1.Count);
-            vector1.PointwiseDivide(vector2, result);
+            Assert.Throws<ArgumentNullException>(() => vector1.PointwiseDivide(vector2, result));
         }
 
+        /// <summary>
+        /// Pointwise divide with a result vector is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void PointwiseDivideWithResultNullShouldThrowException()
+        public void PointwiseDivideWithResultNullThrowsArgumentNullException()
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
             Vector<float> result = null;
-            vector1.PointwiseDivide(vector2, result);
+            Assert.Throws<ArgumentNullException>(() => vector1.PointwiseDivide(vector2, result));
         }
 
+        /// <summary>
+        /// Pointwise divide with a result vector wrong size throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void PointwiseDivideWithInvalidResultLengthShouldThrowException()
+        public void PointwiseDivideWithInvalidResultLengthThrowsArgumentException()
         {
             var vector1 = CreateVector(Data);
             var vector2 = vector1.Clone();
             var result = CreateVector(vector1.Count + 1);
-            vector1.PointwiseDivide(vector2, result);
+            Assert.Throws<ArgumentException>(() => vector1.PointwiseDivide(vector2, result));
         }
 
+        /// <summary>
+        /// Can calculate the outer product of two vectors.
+        /// </summary>
         [Test]
         public void CanCalculateOuterProduct()
         {
             var vector1 = CreateVector(Data);
             var vector2 = CreateVector(Data);
-            Matrix<float> m = Vector<float>.OuterProduct(vector1, vector2);
+            var m = Vector<float>.OuterProduct(vector1, vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
                 for (var j = 0; j < vector2.Count; j++)
@@ -856,24 +1023,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Outer product with <c>null</c> first parameter throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void OuterProductWithFirstParameterNullShouldThrowException()
+        public void OuterProductWhenFirstIsNullThrowsArgumentNullException()
         {
             Vector<float> vector1 = null;
             var vector2 = CreateVector(Data);
-            Vector<float>.OuterProduct(vector1, vector2);
+            Assert.Throws<ArgumentNullException>(() => Vector<float>.OuterProduct(vector1, vector2));
         }
 
+        /// <summary>
+        /// Outer product with <c>null</c> second parameter throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void OutercProductWithSecondParameterNullShouldThrowException()
+        public void OuterProductWhenSecondIsNullThrowsArgumentNullException()
         {
             var vector1 = CreateVector(Data);
             Vector<float> vector2 = null;
-            Vector<float>.OuterProduct(vector1, vector2);
+            Assert.Throws<ArgumentNullException>(() => Vector<float>.OuterProduct(vector1, vector2));
         }
 
+        /// <summary>
+        /// Can calculate the tensor multiply.
+        /// </summary>
         [Test]
         public void CanCalculateTensorMultiply()
         {
@@ -889,13 +1063,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
+        /// <summary>
+        /// Tensor multiply with <c>null</c> parameter throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void TensorMultiplyWithNullParameterNullShouldThrowException()
+        public void TensorMultiplyWithNullThrowsArgumentNullException()
         {
             var vector1 = CreateVector(Data);
             Vector<float> vector2 = null;
-            vector1.OuterProduct(vector2);
+            Assert.Throws<ArgumentNullException>(() => vector1.OuterProduct(vector2));
         }
     }
 }

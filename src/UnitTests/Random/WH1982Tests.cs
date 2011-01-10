@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,14 +26,20 @@
 
 namespace MathNet.Numerics.UnitTests.Random
 {
-    using MbUnit.Framework;
     using Numerics.Random;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Tests for a Wichmann-Hill’s 1982 combined multiplicative congruential generator. 
+    /// </summary>
     [TestFixture]
-    public class WH1982Tests : RandomTests
+    public class Wh1982Tests : RandomTests
     {
-        public WH1982Tests()
-            : base(typeof (WH1982))
+        /// <summary>
+        /// Initializes a new instance of the Wh1982Tests class.
+        /// </summary>
+        public Wh1982Tests()
+            : base(typeof(WH1982))
         {
         }
     }

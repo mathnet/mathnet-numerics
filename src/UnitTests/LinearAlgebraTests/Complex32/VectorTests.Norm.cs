@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,11 +27,17 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using System;
-    using Numerics;
-    using MbUnit.Framework;
+    using NUnit.Framework;
+    using Complex32 = Numerics.Complex32;
 
+    /// <summary>
+    /// Abstract class with the norms set of vector tests.
+    /// </summary>
     public abstract partial class VectorTests
     {
+        /// <summary>
+        /// Can compute 2nd norm.
+        /// </summary>
         [Test]
         public void CanComputeNorm()
         {
@@ -43,6 +45,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             AssertHelpers.AlmostEqual(7.7459666f, vector.Norm(2).Real, 7);
         }
 
+        /// <summary>
+        /// Can compute 1st norm.
+        /// </summary>
         [Test]
         public void CanComputeNorm1()
         {
@@ -50,6 +55,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             AssertHelpers.AlmostEqual(16.0346843f, vector.Norm(1).Real, 7);
         }
 
+        /// <summary>
+        /// Can compute square norm.
+        /// </summary>
         [Test]
         public void CanComputeSquareNorm()
         {
@@ -57,26 +65,32 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             AssertHelpers.AlmostEqual(60f, vector.Norm(2).Real * vector.Norm(2).Real, 6);
         }
 
-        [Test]
-        [Row(1, 16.0346843)]
-        [Row(2, 7.7459666)]
-        [Row(3, 6.2852839)]
-        [Row(10, 5.1608912)]
-        public void CanComputeNormP(int p, float expected)
+        /// <summary>
+        /// Can compute a norm.
+        /// </summary>
+        /// <param name="p">The norm index.</param>
+        /// <param name="expected">The expected <c>P</c>-norm value.</param>
+        [Test, Sequential]
+        public void CanComputeNormP([Values(1, 2, 3, 10)] int p, [Values(16.0346843392517f, 7.74596669241483f, 6.28528392332871f, 5.1608912235454f)] float expected)
         {
             var vector = CreateVector(Data);
             AssertHelpers.AlmostEqual(expected, vector.Norm(p).Real, 7);
         }
-        
+
+        /// <summary>
+        /// Can compute infinity norm.
+        /// </summary>
         [Test]
         public void CanComputeNormInfinity()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(5.0990195, vector.Norm(Double.PositiveInfinity).Real, 7);
+            AssertHelpers.AlmostEqual(5.0990195, vector.Norm(Single.PositiveInfinity).Real, 7);
         }
 
+        /// <summary>
+        /// Can normalize a vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanNormalizeVector()
         {
             var vector = CreateVector(Data);

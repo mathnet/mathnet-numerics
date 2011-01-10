@@ -1,16 +1,44 @@
-﻿
+﻿// <copyright file="MatlabReaderTests.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+// Copyright (c) 2009-2010 Math.NET
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
 {
-    using System;
-    using System.Diagnostics;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Complex.IO;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Matlab matrix reader test.
+    /// </summary>
     [TestFixture]
-    public class MatlabMatrixReaderTest
+    public class MatlabMatrixReaderTests
     {
-
+        /// <summary>
+        /// Can read all complex matrices.
+        /// </summary>
         [Test]
         public void CanReadComplexAllMatrices()
         {
@@ -29,6 +57,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             AssertHelpers.AlmostEqual(27.232498979698409, a.L2Norm(), 15);
         }
 
+        /// <summary>
+        /// Can read sparse complex matrices.
+        /// </summary>
         [Test]
         public void CanReadSparseComplexAllMatrices()
         {
@@ -47,6 +78,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             AssertHelpers.AlmostEqual(13.223654390985379, a.L2Norm(), 15);
         }
 
+        /// <summary>
+        /// Can read non-complex matrices.
+        /// </summary>
         [Test]
         public void CanReadNonComplexAllMatrices()
         {
@@ -59,6 +93,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             }
         }
 
+        /// <summary>
+        /// Can read non-complex first matrix.
+        /// </summary>
         [Test]
         public void CanReadNonComplexFirstMatrix()
         {
@@ -70,7 +107,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             AssertHelpers.AlmostEqual(100.108979553704, matrix.FrobeniusNorm(), 13);
         }
 
-
+        /// <summary>
+        /// Can read non-complex named matrices.
+        /// </summary>
         [Test]
         public void CanReadNonComplexNamedMatrices()
         {
@@ -83,6 +122,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             }
         }
 
+        /// <summary>
+        /// Can read non-complex named matrix.
+        /// </summary>
         [Test]
         public void CanReadNonComplexNamedMatrix()
         {
@@ -96,6 +138,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.IO
             Assert.AreEqual(typeof(DenseMatrix), ad.GetType());
         }
 
+        /// <summary>
+        /// Can read non-complex named sparse matrix.
+        /// </summary>
         [Test]
         public void CanReadNonComplexNamedSparseMatrix()
         {

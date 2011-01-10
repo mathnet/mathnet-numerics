@@ -27,53 +27,30 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using System.Collections.Generic;
-    using LinearAlgebra.Double;
     using LinearAlgebra.Generic;
+    using NUnit.Framework;
 
-    internal class UserDefinedVector : Vector
-    {
-        private readonly double[] _data;
-
-        public UserDefinedVector(int size)
-            : base(size)
-        {
-            _data = new double[size];
-        }
-
-        public UserDefinedVector(double[] data)
-            : base(data.Length)
-        {
-            _data = (double[])data.Clone();
-        }
-
-        public override Matrix<double> CreateMatrix(int rows, int columns)
-        {
-            return new UserDefinedMatrix(rows, columns);
-        }
-
-        public override Vector<double> CreateVector(int size)
-        {
-            return new UserDefinedVector(size);
-        }
-
-        protected internal override double At(int index)
-        {
-            return _data[index];
-        }
-
-        protected internal override void At(int index, double value)
-        {
-            _data[index] = value;
-        }
-    }
-
+    /// <summary>
+    /// Test class for user-defined vector.
+    /// </summary>
+    [TestFixture]
     public class UserDefinedVectorTests : VectorTests
     {
+        /// <summary>
+        /// Creates a <strong>Vector</strong> of the given size using the same storage type as this vector.
+        /// </summary>
+        /// <param name="size">The size of the <strong>Vector</strong> to create.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<double> CreateVector(int size)
         {
             return new UserDefinedVector(size);
         }
 
+        /// <summary>
+        /// Creates a new instance of the Vector class.
+        /// </summary>
+        /// <param name="data">The array to create this vector from.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<double> CreateVector(IList<double> data)
         {
             var vector = new UserDefinedVector(data.Count);

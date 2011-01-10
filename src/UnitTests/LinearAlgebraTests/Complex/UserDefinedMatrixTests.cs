@@ -28,77 +28,50 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
     using System.Numerics;
     using LinearAlgebra.Complex;
-    using LinearAlgebra.Generic;
 
-    internal class UserDefinedMatrix : Matrix
-    {
-        private readonly Complex[,] _data;
-
-        public UserDefinedMatrix(int order) : base(order, order)
-        {
-            _data = new Complex[order, order];
-        }
-
-        public UserDefinedMatrix(int rows, int columns) : base(rows, columns)
-        {
-            _data = new Complex[rows, columns];
-        }
-
-        public UserDefinedMatrix(Complex[,] data) : base(data.GetLength(0), data.GetLength(1))
-        {
-            _data = (Complex[,])data.Clone();
-        }
-
-        public override Complex At(int row, int column)
-        {
-            return _data[row, column];
-        }
-
-        public override void At(int row, int column, Complex value)
-        {
-            _data[row, column] = value;
-        }
-
-        public override Matrix<Complex> CreateMatrix(int numberOfRows, int numberOfColumns)
-        {
-            return new UserDefinedMatrix(numberOfRows, numberOfColumns);
-        }
-
-        public override Vector<Complex> CreateVector(int size)
-        {
-            return new UserDefinedVector(size);
-        }
-
-        public static UserDefinedMatrix Identity(int order)
-        {
-            var m = new UserDefinedMatrix(order, order);
-            for (var i = 0; i < order; i++)
-            {
-                m[i, i] = 1.0;
-            }
-
-            return m;
-        }
-    }
-
+    /// <summary>
+    /// Test class for user-defined matrix.
+    /// </summary>
     public class UserDefinedMatrixTests : MatrixTests
     {
-        protected override Matrix<Complex> CreateMatrix(int rows, int columns)
+        /// <summary>
+        /// Creates a matrix for the given number of rows and columns.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <returns>A matrix with the given dimensions.</returns>
+        protected override Matrix CreateMatrix(int rows, int columns)
         {
             return new UserDefinedMatrix(rows, columns);
         }
 
-        protected override Matrix<Complex> CreateMatrix(Complex[,] data)
+        /// <summary>
+        /// Creates a matrix from a 2D array.
+        /// </summary>
+        /// <param name="data">The 2D array to create this matrix from.</param>
+        /// <returns>A matrix with the given values.</returns>
+        protected override Matrix CreateMatrix(Complex[,] data)
         {
             return new UserDefinedMatrix(data);
         }
 
-        protected override Vector<Complex> CreateVector(int size)
+        /// <summary>
+        /// Creates a vector of the given size.
+        /// </summary>
+        /// <param name="size">The size of the vector to create.
+        /// </param>
+        /// <returns>The new vector. </returns>
+        protected override Vector CreateVector(int size)
         {
             return new UserDefinedVector(size);
         }
 
-        protected override Vector<Complex> CreateVector(Complex[] data)
+        /// <summary>
+        /// Creates a vector from an array.
+        /// </summary>
+        /// <param name="data">The array to create this vector from.</param>
+        /// <returns>The new vector. </returns>
+        protected override Vector CreateVector(Complex[] data)
         {
             return new UserDefinedVector(data);
         }

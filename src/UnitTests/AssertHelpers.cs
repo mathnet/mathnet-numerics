@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,7 +28,7 @@ namespace MathNet.Numerics.UnitTests
 {
     using System.Collections.Generic;
     using System.Numerics;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
     /// <summary>
     /// A class which includes some assertion helper methods particularly for numerical code.
@@ -56,7 +52,7 @@ namespace MathNet.Numerics.UnitTests
                 return;
             }
 
-            bool pass = expected.Real.AlmostEqual(actual.Real);
+            var pass = expected.Real.AlmostEqual(actual.Real);
             if (!pass)
             {
                 Assert.Fail("Real components are not equal. Expected:{0}; Actual:{1}", expected.Real, actual.Real);
@@ -86,7 +82,7 @@ namespace MathNet.Numerics.UnitTests
                 return;
             }
 
-            bool pass = expected.Real.AlmostEqual(actual.Real);
+            var pass = expected.Real.AlmostEqual(actual.Real);
             if (!pass)
             {
                 Assert.Fail("Real components are not equal. Expected:{0}; Actual:{1}", expected.Real, actual.Real);
@@ -113,7 +109,7 @@ namespace MathNet.Numerics.UnitTests
                 return;
             }
 
-            bool pass = expected.AlmostEqualInDecimalPlaces(actual, decimalPlaces);
+            var pass = expected.AlmostEqualInDecimalPlaces(actual, decimalPlaces);
             if (!pass)
             {
                 // signals Gallio that the test failed.
@@ -135,7 +131,7 @@ namespace MathNet.Numerics.UnitTests
                 return;
             }
 
-            bool pass = expected.AlmostEqualInDecimalPlaces(actual, decimalPlaces);
+            var pass = expected.AlmostEqualInDecimalPlaces(actual, decimalPlaces);
             if (!pass)
             {
                 // signals Gallio that the test failed.
@@ -151,7 +147,7 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="decimalPlaces">The number of decimal places to agree on.</param>
         public static void AlmostEqual(Complex expected, Complex actual, int decimalPlaces)
         {
-            bool pass = expected.Real.AlmostEqualInDecimalPlaces(actual.Real, decimalPlaces);
+            var pass = expected.Real.AlmostEqualInDecimalPlaces(actual.Real, decimalPlaces);
             if (!pass)
             {
                 Assert.Fail("Real components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Real, actual.Real);
@@ -172,7 +168,7 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="decimalPlaces">The number of decimal places to agree on.</param>
         public static void AlmostEqual(Complex32 expected, Complex32 actual, int decimalPlaces)
         {
-            bool pass = expected.Real.AlmostEqualInDecimalPlaces(actual.Real, decimalPlaces);
+            var pass = expected.Real.AlmostEqualInDecimalPlaces(actual.Real, decimalPlaces);
             if (!pass)
             {
                 Assert.Fail("Real components are not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.Real, actual.Real);
@@ -212,7 +208,7 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         public static void AlmostEqualList(IList<double> expected, IList<double> actual, double maximumError)
         {
-            for (int i = 0; i < expected.Count; i++)
+            for (var i = 0; i < expected.Count; i++)
             {
                 if (!actual[i].AlmostEqualWithError(expected[i], maximumError))
                 {
@@ -230,7 +226,7 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         public static void AlmostEqualList(IList<float> expected, IList<float> actual, double maximumError)
         {
-            for (int i = 0; i < expected.Count; i++)
+            for (var i = 0; i < expected.Count; i++)
             {
                 if (!actual[i].AlmostEqualWithError(expected[i], maximumError))
                 {
@@ -251,7 +247,7 @@ namespace MathNet.Numerics.UnitTests
         public static void AlmostEqualList<T>(IList<T> expected, IList<T> actual, double maximumError)
             where T : IPrecisionSupport<T>
         {
-            for (int i = 0; i < expected.Count; i++)
+            for (var i = 0; i < expected.Count; i++)
             {
                 if (!actual[i].AlmostEqualWithError(expected[i], maximumError))
                 {
@@ -269,7 +265,7 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="maximumError">The accuracy required for being almost equal.</param>
         public static void AlmostEqualList(IList<Complex> expected, IList<Complex> actual, double maximumError)
         {
-            for (int i = 0; i < expected.Count; i++)
+            for (var i = 0; i < expected.Count; i++)
             {
                 if (!actual[i].AlmostEqualWithError(expected[i], maximumError))
                 {

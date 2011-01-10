@@ -1,46 +1,85 @@
+// <copyright file="GpBiCgTest.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+// Copyright (c) 2009-2010 Math.NET
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterative
 {
     using System;
-    using Numerics;
     using LinearAlgebra.Complex32;
     using LinearAlgebra.Complex32.Solvers;
     using LinearAlgebra.Complex32.Solvers.Iterative;
     using LinearAlgebra.Complex32.Solvers.StopCriterium;
-    using LinearAlgebra.Generic;
     using LinearAlgebra.Generic.Solvers.Status;
-    using LinearAlgebra.Generic.Solvers.StopCriterium;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Tests for Generalized Product Bi-Conjugate Gradient iterative matrix solver.
+    /// </summary>
     [TestFixture]
     public class GpBiCgTest
     {
+        /// <summary>
+        /// Convergence boundary.
+        /// </summary>
         private const float ConvergenceBoundary = 1e-5f;
+
+        /// <summary>
+        /// Maximum iterations.
+        /// </summary>
         private const int MaximumIterations = 1000;
 
+        /// <summary>
+        /// Solve wide matrix throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void SolveWideMatrix()
+        public void SolveWideMatrixThrowsArgumentException()
         {
             var matrix = new SparseMatrix(2, 3);
             Vector input = new DenseVector(2);
 
             var solver = new GpBiCg();
-            solver.Solve(matrix, input);
+            Assert.Throws<ArgumentException>(() => solver.Solve(matrix, input));
         }
 
+        /// <summary>
+        /// Solve long matrix throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void SolveLongMatrix()
+        public void SolveLongMatrixThrowsArgumentException()
         {
             var matrix = new SparseMatrix(3, 2);
             Vector input = new DenseVector(3);
 
             var solver = new GpBiCg();
-            solver.Solve(matrix, input);
+            Assert.Throws<ArgumentException>(() => solver.Solve(matrix, input));
         }
 
+        /// <summary>
+        /// Solve unit matrix and back multiply.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void SolveUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
@@ -52,9 +91,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
+                                           new IterationCountStopCriterium(MaximumIterations), 
+                                           new ResidualStopCriterium(ConvergenceBoundary), 
+                                           new DivergenceStopCriterium(), 
                                            new FailureStopCriterium()
                                        });
             var solver = new GpBiCg(monitor);
@@ -79,8 +118,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             }
         }
 
+        /// <summary>
+        /// Solve scaled unit matrix and back multiply.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void SolveScaledUnitMatrixAndBackMultiply()
         {
             // Create the identity matrix
@@ -95,12 +136,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
+                                           new IterationCountStopCriterium(MaximumIterations), 
+                                           new ResidualStopCriterium(ConvergenceBoundary), 
+                                           new DivergenceStopCriterium(), 
                                            new FailureStopCriterium()
                                        });
-            
+
             var solver = new GpBiCg(monitor);
 
             // Solve equation Ax = y
@@ -123,8 +164,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             }
         }
 
+        /// <summary>
+        /// Solve poisson matrix and back multiply.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void SolvePoissonMatrixAndBackMultiply()
         {
             // Create the matrix
@@ -172,12 +215,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations),
-                                           new ResidualStopCriterium(ConvergenceBoundary),
-                                           new DivergenceStopCriterium(),
+                                           new IterationCountStopCriterium(MaximumIterations), 
+                                           new ResidualStopCriterium(ConvergenceBoundary), 
+                                           new DivergenceStopCriterium(), 
                                            new FailureStopCriterium()
                                        });
-            
+
             var solver = new GpBiCg(monitor);
 
             // Solve equation Ax = y
@@ -200,20 +243,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             }
         }
 
+        /// <summary>
+        /// Can solve for a random vector.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(5)]
-        [MultipleAsserts]
-        public void CanSolveForRandomVector(int order)
+        public void CanSolveForRandomVector([Values(4)] int order)
         {
             for (var iteration = 5; iteration > 3; iteration--)
             {
-                var matrixA = (Matrix)MatrixLoader.GenerateRandomDenseMatrix(order, order);
-                var vectorb = (Vector)MatrixLoader.GenerateRandomDenseVector(order);
+                var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
+                var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
                 var monitor = new Iterator(new IIterationStopCriterium[]
                                            {
-                                               new IterationCountStopCriterium(1000),
-                                               new ResidualStopCriterium((float)Math.Pow(1.0/10.0, iteration)),
+                                               new IterationCountStopCriterium(1000), 
+                                               new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration)), 
                                            });
                 var solver = new GpBiCg(monitor);
 
@@ -226,60 +271,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
                 }
 
                 Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
-                var bReconstruct = matrixA * resultx;
+                var matrixBReconstruct = matrixA * resultx;
 
                 // Check the reconstruction.
                 for (var i = 0; i < order; i++)
                 {
-                    Assert.AreApproximatelyEqual(vectorb[i].Real, bReconstruct[i].Real, (float)Math.Pow(1.0 / 10.0, iteration - 3));
-                    Assert.AreApproximatelyEqual(vectorb[i].Imaginary, bReconstruct[i].Imaginary, (float)Math.Pow(1.0 / 10.0, iteration - 3));
-                }
-                return;
-            }
-
-            Assert.Fail("Solution was not found in 3 tries");
-        }
-
-        [Test]
-        [Row(5)]
-        [MultipleAsserts]
-        public void CanSolveForRandomMatrix(int order)
-        {
-            for (var iteration = 5; iteration > 3; iteration--)
-            {
-                var matrixA = (Matrix)MatrixLoader.GenerateRandomDenseMatrix(order, order);
-                var matrixB = (Matrix)MatrixLoader.GenerateRandomDenseMatrix(order, order);
-
-                var monitor = new Iterator(new IIterationStopCriterium[]
-                                           {
-                                               new IterationCountStopCriterium(1000),
-                                               new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration))
-                                           });
-                var solver = new GpBiCg(monitor);
-                var matrixX = solver.Solve(matrixA, matrixB);
-
-                if (!(monitor.Status is CalculationConverged))
-                {
-                    // Solution was not found, try again downgrading convergence boundary
-                    continue;
+                    Assert.AreEqual(vectorb[i].Real, matrixBReconstruct[i].Real, (float)Math.Pow(1.0 / 10.0, iteration - 3));
+                    Assert.AreEqual(vectorb[i].Imaginary, matrixBReconstruct[i].Imaginary, (float)Math.Pow(1.0 / 10.0, iteration - 3));
                 }
 
-                // The solution X row dimension is equal to the column dimension of A
-                Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
-                // The solution X has the same number of columns as B
-                Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
-
-                var matrixBReconstruct = matrixA * matrixX;
-
-                // Check the reconstruction.
-                for (var i = 0; i < matrixB.RowCount; i++)
-                {
-                    for (var j = 0; j < matrixB.ColumnCount; j++)
-                    {
-                        Assert.AreApproximatelyEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, (float)Math.Pow(1.0 / 10.0, iteration - 3));
-                        Assert.AreApproximatelyEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, (float)Math.Pow(1.0 / 10.0, iteration - 3));
-                    }
-                }
                 return;
             }
 

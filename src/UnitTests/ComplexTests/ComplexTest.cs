@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,40 +26,49 @@
 
 namespace MathNet.Numerics.UnitTests.ComplexTests
 {
-	using System.Numerics;
-	using MbUnit.Framework;
+    using System.Numerics;
+    using NUnit.Framework;
 
-	[TestFixture]
+    /// <summary>
+    /// Complex extension methods tests.
+    /// </summary>
+    [TestFixture]
     public class ComplexExtensionTest
     {
-
-        [Test]
-        [Row(0.0, 0.0, 1.0, 0.0)]
-        [Row(0.0, 1.0, 0.54030230586813977, 0.8414709848078965)]
-        [Row(-1.0, 1.0, 0.19876611034641295, 0.30955987565311222)]
-        [Row(-111.1, 111.1, -2.3259065941590448e-49, -5.1181940185795617e-49)]
-        public void CanComputeExponential(double real, double imag, double expectedReal, double expectedImag)
+        /// <summary>
+        /// Can compute exponential.
+        /// </summary>
+        /// <param name="real">Real part.</param>
+        /// <param name="imag">Imaginary part.</param>
+        /// <param name="expectedReal">Expected real part.</param>
+        /// <param name="expectedImag">Expected imaginary part.</param>
+        [Test, Sequential]
+        public void CanComputeExponential([Values(0.0, 0.0, -1.0, -111.1)] double real, [Values(0.0, 1.0, 1.0, 111.1)] double imag, [Values(1.0, 0.54030230586813977, 0.19876611034641295, -2.3259065941590448e-49)] double expectedReal, [Values(0.0, 0.8414709848078965, 0.30955987565311222, -5.1181940185795617e-49)] double expectedImag)
         {
             var value = new Complex(real, imag);
             var expected = new Complex(expectedReal, expectedImag);
             AssertHelpers.AlmostEqual(expected, value.Exponential(), 15);
         }
 
-        [Test]
-        [Row(0.0, 0.0, double.NegativeInfinity, 0.0)]
-        [Row(0.0, 1.0, 0.0, 1.5707963267948966)]
-        [Row(-1.0, 1.0, 0.34657359027997264, 2.3561944901923448)]
-        [Row(-111.1, 111.1, 5.0570042869255571, 2.3561944901923448)]
-        [Row(111.1, -111.1, 5.0570042869255571, -0.78539816339744828)]
-        public void CanComputeNaturalLogarithm(double real, double imag, double expectedReal, double expectedImag)
+        /// <summary>
+        /// Can compute natural logarithm.
+        /// </summary>
+        /// <param name="real">Real part.</param>
+        /// <param name="imag">Imaginary part.</param>
+        /// <param name="expectedReal">Expected real part.</param>
+        /// <param name="expectedImag">Expected imaginary part.</param>
+        [Test, Sequential]
+        public void CanComputeNaturalLogarithm([Values(0.0, 0.0, -1.0, -111.1, 111.1)] double real, [Values(0.0, 1.0, 1.0, 111.1, -111.1)] double imag, [Values(double.NegativeInfinity, 0.0, 0.34657359027997264, 5.0570042869255571, 5.0570042869255571)] double expectedReal, [Values(0.0, 1.5707963267948966, 2.3561944901923448, 2.3561944901923448, -0.78539816339744828)] double expectedImag)
         {
             var value = new Complex(real, imag);
             var expected = new Complex(expectedReal, expectedImag);
             AssertHelpers.AlmostEqual(expected, value.NaturalLogarithm(), 15);
         }
 
+        /// <summary>
+        /// Can compute power.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanComputePower()
         {
             var a = new Complex(1.19209289550780998537e-7, 1.19209289550780998537e-7);
@@ -102,11 +107,13 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             AssertHelpers.AlmostEqual(new Complex(double.PositiveInfinity, double.PositiveInfinity), a.Power(b), 15);
             a = new Complex(0.0, 0.0);
             b = new Complex(0.0, 1.0);
-            AssertEx.That(() => a.Power(b).IsNaN());
+            Assert.That(a.Power(b).IsNaN());
         }
 
+        /// <summary>
+        /// Can compute root.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanComputeRoot()
         {
             var a = new Complex(1.19209289550780998537e-7, 1.19209289550780998537e-7);
@@ -129,8 +136,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             AssertHelpers.AlmostEqual(new Complex(double.PositiveInfinity, double.NegativeInfinity), a.Root(b), 15);
         }
 
+        /// <summary>
+        /// Can compute square.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanComputeSquare()
         {
             var complex = new Complex(1.19209289550780998537e-7, 1.19209289550780998537e-7);
@@ -147,8 +156,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             AssertHelpers.AlmostEqual(new Complex(-70368744177664.0, 0.0), complex.Square(), 15);
         }
 
+        /// <summary>
+        /// Can compute square root.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanComputeSquareRoot()
         {
             var complex = new Complex(1.19209289550780998537e-7, 1.19209289550780998537e-7);
@@ -172,6 +183,9 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             AssertHelpers.AlmostEqual(Complex.Zero, complex.SquareRoot(), 15);
         }
 
+        /// <summary>
+        /// Can determine if imaginary is unit.
+        /// </summary>
         [Test]
         public void CanDetermineIfImaginaryUnit()
         {
@@ -179,8 +193,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.IsTrue(complex.IsImaginaryOne(), "Imaginary unit");
         }
 
+        /// <summary>
+        /// Can determine if a complex is infinity.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanDetermineIfInfinity()
         {
             var complex = new Complex(double.PositiveInfinity, 1);
@@ -191,8 +207,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.IsTrue(complex.IsInfinity(), "Both parts are infinity.");
         }
 
+        /// <summary>
+        /// Can determine if a complex is not a number.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanDetermineIfNaN()
         {
             var complex = new Complex(double.NaN, 1);
@@ -203,6 +221,9 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.IsTrue(complex.IsNaN(), "Both parts are NaN.");
         }
 
+        /// <summary>
+        /// Can determine Complex number with a value of one.
+        /// </summary>
         [Test]
         public void CanDetermineIfOneValueComplexNumber()
         {
@@ -210,6 +231,9 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.IsTrue(complex.IsOne(), "Complex number with a value of one.");
         }
 
+        /// <summary>
+        /// Can determine if a complex is a real non-negative number.
+        /// </summary>
         [Test]
         public void CanDetermineIfRealNonNegativeNumber()
         {
@@ -217,6 +241,9 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.IsTrue(complex.IsReal(), "Is a real non-negative number.");
         }
 
+        /// <summary>
+        /// Can determine if a complex is a real number.
+        /// </summary>
         [Test]
         public void CanDetermineIfRealNumber()
         {
@@ -224,11 +251,14 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.IsTrue(complex.IsReal(), "Is a real number.");
         }
 
+        /// <summary>
+        /// Can determine if a complex is a zero number.
+        /// </summary>
         [Test]
         public void CanDetermineIfZeroValueComplexNumber()
         {
             var complex = new Complex(0, 0);
             Assert.IsTrue(complex.IsZero(), "Zero complex number.");
         }
-  }
+    }
 }

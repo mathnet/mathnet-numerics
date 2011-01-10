@@ -1,11 +1,9 @@
-﻿// <copyright file="SparseVector.TextHandling.cs" company="Math.NET">
+﻿// <copyright file="SparseVectorTest.TextHandling.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -33,69 +29,81 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System;
     using System.Globalization;
     using LinearAlgebra.Double;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Sparse vector text handling tests.
+    /// </summary>
     public class SparseVectorTextHandlingTest
     {
-        [Test]
-        [Row("2", "2")]
-        [Row("(3)", "3")]
-        [Row("[1,2,3]", "1,2,3")]
-        [Row(" [ 1 , 2 , 3 ] ", "1,2,3")]
-        [Row(" [ -1 , 2 , +3 ] ", "-1,2,3")]
-        [Row(" [1.2,3.4 , 5.6] ", "1.2,3.4,5.6")]
-        public void CanParseDoubleSparseVectorsWithInvariant(string stringToParse, string expectedToString)
+        /// <summary>
+        /// Can parse a double sparse vectors with invariant culture.
+        /// </summary>
+        /// <param name="stringToParse">String to parse.</param>
+        /// <param name="expectedToString">Expected result.</param>
+        [Test, Sequential]
+        public void CanParseDoubleSparseVectorsWithInvariant([Values("2", "(3)", "[1,2,3]", " [ 1 , 2 , 3 ] ", " [ -1 , 2 , +3 ] ", " [1.2,3.4 , 5.6] ")] string stringToParse, [Values("2", "3", "1,2,3", "1,2,3", "-1,2,3", "1.2,3.4,5.6")] string expectedToString)
         {
             var formatProvider = CultureInfo.InvariantCulture;
-            SparseVector vector = SparseVector.Parse(stringToParse, formatProvider);
+            var vector = SparseVector.Parse(stringToParse, formatProvider);
 
             Assert.AreEqual(expectedToString, vector.ToString(formatProvider));
         }
 
-        [Test]
-        [Row(" 1.2,3.4 , 5.6 ", "1.2,3.4,5.6", "en-US")]
-        [Row(" 1.2;3.4 ; 5.6 ", "1.2;3.4;5.6", "de-CH")]
-        [Row(" 1,2;3,4 ; 5,6 ", "1,2;3,4;5,6", "de-DE")]
-        public void CanParseDoubleSparseVectorsWithCulture(string stringToParse, string expectedToString, string culture)
+        /// <summary>
+        /// Can parse a double sparse vectors with culture.
+        /// </summary>
+        /// <param name="stringToParse">String to parse.</param>
+        /// <param name="expectedToString">Expected result.</param>
+        /// <param name="culture">Culture name.</param>
+        [Test, Sequential]
+        public void CanParseDoubleSparseVectorsWithCulture([Values(" 1.2,3.4 , 5.6 ", " 1.2;3.4 ; 5.6 ", " 1,2;3,4 ; 5,6 ")] string stringToParse, [Values("1.2,3.4,5.6", "1.2;3.4;5.6", "1,2;3,4;5,6")] string expectedToString, [Values("en-US", "de-CH", "de-DE")] string culture)
         {
             var formatProvider = CultureInfo.GetCultureInfo(culture);
-            SparseVector vector = SparseVector.Parse(stringToParse, formatProvider);
+            var vector = SparseVector.Parse(stringToParse, formatProvider);
 
             Assert.AreEqual(expectedToString, vector.ToString(formatProvider));
         }
 
+        /// <summary>
+        /// Can parse double sparse vectors.
+        /// </summary>
+        /// <param name="vectorAsString">Vector as string.</param>
         [Test]
-        [Row("15")]
-        [Row("1{0}2{1}3{0}4{1}5{0}6")]
-        public void CanParseDoubleSparseVectors(string vectorAsString)
+        public void CanParseDoubleSparseVectors([Values("15", "1{0}2{1}3{0}4{1}5{0}6")] string vectorAsString)
         {
             var mappedString = String.Format(
-                vectorAsString,
-                CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator,
+                vectorAsString, 
+                CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, 
                 CultureInfo.CurrentCulture.TextInfo.ListSeparator);
 
-            SparseVector vector = SparseVector.Parse(mappedString);
+            var vector = SparseVector.Parse(mappedString);
 
             Assert.AreEqual(mappedString, vector.ToString());
         }
 
+        /// <summary>
+        /// Parse if missing closing paren throws <c>FormatException</c>.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void ParseThrowsFormatExceptionIfMissingClosingParen()
+        public void ParseIfMissingClosingParenThrowsFormatException()
         {
             Assert.Throws<FormatException>(() => SparseVector.Parse("(1"));
             Assert.Throws<FormatException>(() => SparseVector.Parse("[1"));
         }
 
+        /// <summary>
+        /// Can try parse a double sparse vector.
+        /// </summary>
         [Test]
         public void CanTryParseDoubleSparseVector()
         {
             var data = new[] { 1.2, 3.4, 5.6e-78 };
             var text = String.Format(
-                "{1}{0}{2}{0}{3}",
-                CultureInfo.CurrentCulture.TextInfo.ListSeparator,
-                data[0],
-                data[1],
+                "{1}{0}{2}{0}{3}", 
+                CultureInfo.CurrentCulture.TextInfo.ListSeparator, 
+                data[0], 
+                data[1], 
                 data[2]);
 
             SparseVector vector;
@@ -108,20 +116,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             AssertHelpers.AlmostEqualList(data, vector.ToArray(), 1e-15);
         }
 
+        /// <summary>
+        /// Try parse a bad value with invariant returns <c>false</c>.
+        /// </summary>
+        /// <param name="str">Input string.</param>
         [Test]
-        [Row(null)]
-        [Row("")]
-        [Row(",")]
-        [Row("1,")]
-        [Row(",1")]
-        [Row("1,2,")]
-        [Row(",1,2,")]
-        [Row("1,,2,,3")]
-        [Row("1e+")]
-        [Row("1e")]
-        [Row("()")]
-        [Row("[  ]")]
-        public void TryParseReturnsFalseWhenGivenBadValueWithInvariant(string str)
+        public void TryParseBadValueWithInvariantReturnsFalse([Values(null, "", ",", "1,", ",1", "1,2,", ",1,2,", "1,,2,,3", "1e+", "1e", "()", "[  ]")] string str)
         {
             SparseVector vector;
             var ret = SparseVector.TryParse(str, CultureInfo.InvariantCulture, out vector);

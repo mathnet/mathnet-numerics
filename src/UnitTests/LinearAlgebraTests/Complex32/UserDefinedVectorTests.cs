@@ -27,54 +27,31 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using System.Collections.Generic;
-    using LinearAlgebra.Complex32;
     using LinearAlgebra.Generic;
+    using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 
-    internal class UserDefinedVector : Vector
-    {
-        private readonly Complex32[] _data;
-
-        public UserDefinedVector(int size)
-            : base(size)
-        {
-            _data = new Complex32[size];
-        }
-
-        public UserDefinedVector(Complex32[] data)
-            : base(data.Length)
-        {
-            _data = (Complex32[])data.Clone();
-        }
-
-        public override Matrix<Complex32> CreateMatrix(int rows, int columns)
-        {
-            return new UserDefinedMatrix(rows, columns);
-        }
-
-        public override Vector<Complex32> CreateVector(int size)
-        {
-            return new UserDefinedVector(size);
-        }
-
-        protected internal override Complex32 At(int index)
-        {
-            return _data[index];
-        }
-
-        protected internal override void At(int index, Complex32 value)
-        {
-            _data[index] = value;
-        }
-    }
-
+    /// <summary>
+    /// Test class for user-defined vector.
+    /// </summary>
+    [TestFixture]
     public class UserDefinedVectorTests : VectorTests
     {
+        /// <summary>
+        /// Creates a <strong>Vector</strong> of the given size using the same storage type as this vector.
+        /// </summary>
+        /// <param name="size">The size of the <strong>Vector</strong> to create.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<Complex32> CreateVector(int size)
         {
             return new UserDefinedVector(size);
         }
 
+        /// <summary>
+        /// Creates a new instance of the Vector class.
+        /// </summary>
+        /// <param name="data">The array to create this vector from.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<Complex32> CreateVector(IList<Complex32> data)
         {
             var vector = new UserDefinedVector(data.Count);

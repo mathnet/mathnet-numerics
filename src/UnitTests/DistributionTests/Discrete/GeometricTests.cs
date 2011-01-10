@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,113 +28,136 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 {
     using System;
     using System.Linq;
-    using MbUnit.Framework;
     using Distributions;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Geometric distribution tests.
+    /// </summary>
     [TestFixture]
     public class GeometricTests
     {
+        /// <summary>
+        /// Set-up parameters.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             Control.CheckDistributionParameters = true;
         }
 
+        /// <summary>
+        /// Can create Geometric.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
         [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void CanCreateGeometric(double p)
+        public void CanCreateGeometric([Values(0.0, 0.3, 1.0)] double p)
         {
             var d = new Geometric(p);
-            Assert.AreEqual<double>(p, d.P);
+            Assert.AreEqual(p, d.P);
         }
 
+        /// <summary>
+        /// Geometric create fails with bad parameters.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN)]
-        [Row(-1.0)]
-        [Row(2.0)]
-        public void BernoulliCreateFailsWithBadParameters(double p)
+        public void GeometricCreateFailsWithBadParameters([Values(Double.NaN, -1.0, 2.0)] double p)
         {
-            var d = new Geometric(p);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Geometric(p));
         }
 
+        /// <summary>
+        /// Validate ToString.
+        /// </summary>
         [Test]
         public void ValidateToString()
         {
             var d = new Geometric(0.3);
-            Assert.AreEqual(String.Format("Geometric(P = {0})",d.P), d.ToString());
+            Assert.AreEqual(String.Format("Geometric(P = {0})", d.P), d.ToString());
         }
 
+        /// <summary>
+        /// Can set probability of one.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
         [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void CanSetProbabilityOfOne(double p)
+        public void CanSetProbabilityOfOne([Values(0.0, 0.3, 1.0)] double p)
+        {
+            new Geometric(0.3)
+            {
+                P = p
+            };
+        }
+
+        /// <summary>
+        /// Set probability of one with a bad value fails.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
+        [Test]
+        public void SetProbabilityOfOneFails([Values(Double.NaN, -1.0, 2.0)] double p)
         {
             var d = new Geometric(0.3);
-            d.P = p;
+            Assert.Throws<ArgumentOutOfRangeException>(() => d.P = p);
         }
 
+        /// <summary>
+        /// Validate entropy.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN)]
-        [Row(-1.0)]
-        [Row(2.0)]
-        public void SetProbabilityOfOneFails(double p)
-        {
-            var d = new Geometric(0.3);
-            d.P = p;
-        }
-
-        [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void ValidateEntropy(double p)
+        public void ValidateEntropy([Values(0.0, 0.3, 1.0)] double p)
         {
             var d = new Geometric(p);
-            Assert.AreEqual<double>((-p * System.Math.Log(p, 2.0) - (1.0 - p) * System.Math.Log(1.0 - p, 2.0)) / p, d.Entropy);
+            Assert.AreEqual(((-p * Math.Log(p, 2.0)) - ((1.0 - p) * Math.Log(1.0 - p, 2.0))) / p, d.Entropy);
         }
 
+        /// <summary>
+        /// Validate skewness.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
         [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void ValidateSkewness(double p)
+        public void ValidateSkewness([Values(0.0, 0.3, 1.0)] double p)
         {
             var d = new Geometric(p);
             Assert.AreEqual((2.0 - p) / Math.Sqrt(1.0 - p), d.Skewness);
         }
 
+        /// <summary>
+        /// Validate mode.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
         [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void ValidateMode(double p)
+        public void ValidateMode([Values(0.0, 0.3, 1.0)] double p)
         {
             var d = new Geometric(p);
-            Assert.AreEqual<double>(1, d.Mode);
+            Assert.AreEqual(1, d.Mode);
         }
 
+        /// <summary>
+        /// Validate median.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
         [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void ValidateMedian(double p)
+        public void ValidateMedian([Values(0.0, 0.3, 1.0)] double p)
         {
             var d = new Geometric(p);
-            Assert.AreEqual<double>((int)Math.Ceiling(-Math.Log(2.0) / System.Math.Log(1 - p)), d.Median);
+            Assert.AreEqual((int)Math.Ceiling(-Math.Log(2.0) / Math.Log(1 - p)), d.Median);
         }
 
+        /// <summary>
+        /// Validate minimum.
+        /// </summary>
         [Test]
         public void ValidateMinimum()
         {
             var d = new Geometric(0.3);
-            Assert.AreEqual<double>(1.0, d.Minimum);
+            Assert.AreEqual(1.0, d.Minimum);
         }
 
+        /// <summary>
+        /// Validate maximum.
+        /// </summary>
         [Test]
         public void ValidateMaximum()
         {
@@ -146,51 +165,41 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
             Assert.AreEqual(int.MaxValue, d.Maximum);
         }
 
-        [Test]
-        [Row(0.0, -1)]
-        [Row(0.0, 0)]
-        [Row(0.0, 1)]
-        [Row(0.0, 2)]
-        [Row(0.3, -1)]
-        [Row(0.3, 0)]
-        [Row(0.3, 1)]
-        [Row(0.3, 2)]
-        [Row(1.0, -1)]
-        [Row(1.0, 0)]
-        [Row(1.0, 1)]
-        [Row(1.0, 2)]
-        public void ValidateProbability(double p, int x)
+        /// <summary>
+        /// Validate probability.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
+        /// <param name="x">Input X value.</param>
+        [Test, Combinatorial]
+        public void ValidateProbability([Values(0.0, 0.3, 1.0)] double p, [Values(-1, 0, 1, 2)] int x)
         {
             var d = new Geometric(p);
             if (x > 0)
             {
-                Assert.AreEqual<double>(Math.Pow(1.0 - p, x - 1) * p, d.Probability(x));
+                Assert.AreEqual(Math.Pow(1.0 - p, x - 1) * p, d.Probability(x));
             }
             else
             {
-                Assert.AreEqual<double>(0.0, d.Probability(x));
+                Assert.AreEqual(0.0, d.Probability(x));
             }
         }
 
-        [Test]
-        [Row(0.0, -1, Double.NegativeInfinity)]
-        [Row(0.0, 0, 0.0)]
-        [Row(0.0, 1, Double.NegativeInfinity)]
-        [Row(0.0, 2, Double.NegativeInfinity)]
-        [Row(0.3, -1, Double.NegativeInfinity)]
-        [Row(0.3, 0, -0.35667494393873244235395440410727451457180907089949815)]
-        [Row(0.3, 1, -1.2039728043259360296301803719337238685164245381839102)]
-        [Row(0.3, 2, Double.NegativeInfinity)]
-        [Row(1.0, -1, Double.NegativeInfinity)]
-        [Row(1.0, 0, Double.NegativeInfinity)]
-        [Row(1.0, 1, 0.0)]
-        [Row(1.0, 2, Double.NegativeInfinity)]
-        public void ValidateProbabilityLn(double p, int x, double pln)
+        /// <summary>
+        /// Validate probability log.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
+        /// <param name="x">Input X value.</param>
+        /// <param name="pln">Expected value.</param>
+        [Test, Sequential]
+        public void ValidateProbabilityLn(
+            [Values(0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0.3, 1.0, 1.0, 1.0, 1.0)] double p, 
+            [Values(-1, 0, 1, 2, -1, 0, 1, 2, -1, 0, 1, 2)] int x, 
+            [Values(Double.NegativeInfinity, 0.0, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, -0.35667494393873244235395440410727451457180907089949815, -1.2039728043259360296301803719337238685164245381839102, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, 0.0, Double.NegativeInfinity)] double pln)
         {
             var d = new Geometric(p);
             if (x > 0)
             {
-                Assert.AreEqual((x - 1) * Math.Log(1.0 - p) + Math.Log(p), d.ProbabilityLn(x));
+                Assert.AreEqual(((x - 1) * Math.Log(1.0 - p)) + Math.Log(p), d.ProbabilityLn(x));
             }
             else
             {
@@ -198,38 +207,34 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
             }
         }
 
+        /// <summary>
+        /// Can sample.
+        /// </summary>
         [Test]
         public void CanSample()
         {
             var d = new Geometric(0.3);
-            var s = d.Sample();
+            d.Sample();
         }
 
+        /// <summary>
+        /// Can sample sequence.
+        /// </summary>
         [Test]
         public void CanSampleSequence()
         {
             var d = new Geometric(0.3);
             var ied = d.Samples();
-            var e = ied.Take(5).ToArray();
+            ied.Take(5).ToArray();
         }
 
-        [Test]
-        [Row(0.0, -1.0)]
-        [Row(0.0, 0.0)]
-        [Row(0.0, 0.5)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 2.0)]
-        [Row(0.3, -1.0)]
-        [Row(0.3, 0.0)]
-        [Row(0.3, 0.5)]
-        [Row(0.3, 1.0)]
-        [Row(0.3, 2.0)]
-        [Row(1.0, -1.0)]
-        [Row(1.0, 0.0)]
-        [Row(1.0, 0.5)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 2.0)]
-        public void ValidateCumulativeDistribution(double p, double x)
+        /// <summary>
+        /// Validate cumulative distribution.
+        /// </summary>
+        /// <param name="p">Probability of generating a one.</param>
+        /// <param name="x">Input X value.</param>
+        [Test, Combinatorial]
+        public void ValidateCumulativeDistribution([Values(0.0, 0.3, 1.0)] double p, [Values(-1, 0, 1, 2)] int x)
         {
             var d = new Geometric(p);
             Assert.AreEqual(1.0 - Math.Pow(1.0 - p, x), d.CumulativeDistribution(x));

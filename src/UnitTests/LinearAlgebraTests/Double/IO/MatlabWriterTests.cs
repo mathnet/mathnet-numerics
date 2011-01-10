@@ -1,24 +1,59 @@
-﻿namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
+﻿// <copyright file="MatlabWriterTests.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+// Copyright (c) 2009-2010 Math.NET
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.IO
 {
     using System;
     using System.IO;
     using LinearAlgebra.Double;
     using LinearAlgebra.Double.IO;
     using LinearAlgebra.IO;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Matlab matrix writer tests.
+    /// </summary>
     [TestFixture]
     public class MatlabMatrixWriterTests
     {
+        /// <summary>
+        /// Invalid constructor throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void Constructor_ThrowsArgumentException()
+        public void InvalidConstructorThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => new MatlabMatrixWriter(string.Empty));
             Assert.Throws<ArgumentException>(() => new MatlabMatrixWriter(null));
         }
 
+        /// <summary>
+        /// Write bad matrices throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void WriteMatrices_ThrowsArgumentException()
+        public void WriteBadMatricesThrowsArgumentException()
         {
             Matrix matrix = new DenseMatrix(1, 1);
             var writer = new MatlabMatrixWriter("somefile3");
@@ -29,8 +64,11 @@
             writer.Dispose();
         }
 
+        /// <summary>
+        /// Write <c>null</c> matrices throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        public void WriteMatrices_ThrowsArgumentNullException()
+        public void WriteNullMatricesThrowsArgumentNullException()
         {
             var writer = new MatlabMatrixWriter("somefile4");
             Assert.Throws<ArgumentNullException>(() => writer.WriteMatrices(new Matrix[] { null }, new[] { "matrix" }));
@@ -39,8 +77,11 @@
             writer.Dispose();
         }
 
+        /// <summary>
+        /// Can write matrices.
+        /// </summary>
         [Test]
-        public void WriteMatricesTest()
+        public void CanWriteMatrices()
         {
             Matrix mat1 = new DenseMatrix(5, 3);
             for (var i = 0; i < mat1.ColumnCount; i++)
@@ -83,7 +124,7 @@
 
             Assert.AreEqual(write.Length, read.Count);
 
-            for (var i = 0; i < write.Length; i++ )
+            for (var i = 0; i < write.Length; i++)
             {
                 var w = write[i];
                 var r = read[names[i]];
@@ -94,8 +135,11 @@
             }
         }
 
+        /// <summary>
+        /// Write bad matrix throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void WriteMatrix_ThrowsArgumentException()
+        public void WriteBadMatrixThrowsArgumentException()
         {
             Matrix matrix = new DenseMatrix(1, 1);
             var writer = new MatlabMatrixWriter("somefile1");
@@ -104,8 +148,11 @@
             writer.Dispose();
         }
 
+        /// <summary>
+        /// Write <c>null</c> matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        public void WriteMatrix_ThrowsArgumentNullException()
+        public void WriteNullMatrixThrowsArgumentNullException()
         {
             var writer = new MatlabMatrixWriter("somefile2");
             Assert.Throws<ArgumentNullException>(() => writer.WriteMatrix<double>(null, "matrix"));

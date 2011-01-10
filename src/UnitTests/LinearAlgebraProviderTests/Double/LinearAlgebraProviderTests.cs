@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -27,6 +23,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 {
     using System;
@@ -72,14 +69,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         /// Test matrix to use.
         /// </summary>
         private readonly IDictionary<string, DenseMatrix> _matrices = new Dictionary<string, DenseMatrix>
-                                                          {
-                                                              { "Singular3x3", new DenseMatrix(new[,] { { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 } }) }, 
-                                                              { "Square3x3",  new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } }) }, 
-                                                              { "Square4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } }) }, 
-                                                              { "Singular4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } }) }, 
-                                                              { "Tall3x2", new DenseMatrix(new[,] { { -1.1, -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } }) }, 
-                                                              { "Wide2x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) }
-                                                          };
+                                                                      {
+                                                                          { "Singular3x3", new DenseMatrix(new[,] { { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 } }) }, 
+                                                                          { "Square3x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } }) }, 
+                                                                          { "Square4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } }) }, 
+                                                                          { "Singular4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } }) }, 
+                                                                          { "Tall3x2", new DenseMatrix(new[,] { { -1.1, -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } }) }, 
+                                                                          { "Wide2x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) }
+                                                                      };
 
         /// <summary>
         /// Can add a vector to scaled vector
@@ -95,13 +92,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 Assert.AreEqual(_y[i], result[i]);
             }
 
-            Provider.AddVectorToScaledVector(_y, 1, _x, result);
+            Array.Copy(_y, result, _y.Length);
+            Provider.AddVectorToScaledVector(result, 1, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i] + _x[i], result[i]);
             }
 
-            Provider.AddVectorToScaledVector(_y, Math.PI, _x, result);
+            Array.Copy(_y, result, _y.Length);
+            Provider.AddVectorToScaledVector(result, Math.PI, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i] + (Math.PI * _x[i]), result[i]);
@@ -122,7 +121,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 Assert.AreEqual(_y[i], result[i]);
             }
 
-            Provider.ScaleArray(Math.PI, _y, result);
+            Array.Copy(_y, result, _y.Length);
+            Provider.ScaleArray(Math.PI, result, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i] * Math.PI, result[i]);
@@ -377,7 +377,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         }
 
         /// <summary>
-        /// Can compute the Cholesky factorization.
+        /// Can compute the <c>Cholesky</c> factorization.
         /// </summary>
         [Test]
         public void CanComputeCholeskyFactor()
@@ -425,7 +425,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             AssertHelpers.AlmostEqual(a[6], 6.6, 15);
             AssertHelpers.AlmostEqual(a[7], -4.95, 15);
             AssertHelpers.AlmostEqual(a[8], 0.676923076923077, 15);
-
             Assert.AreEqual(ipiv[0], 2);
             Assert.AreEqual(ipiv[1], 2);
             Assert.AreEqual(ipiv[2], 2);

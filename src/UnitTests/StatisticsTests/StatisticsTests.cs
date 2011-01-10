@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,108 +28,111 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using System;
     using System.Collections.Generic;
-    using MbUnit.Framework;
+    using NUnit.Framework;
     using Statistics;
 
+    /// <summary>
+    /// Statistics tests.
+    /// </summary>
     [TestFixture]
     public class StatisticsTests
     {
-        private readonly IDictionary<string, StatTestData> mData = new Dictionary<string, StatTestData>();
+        /// <summary>
+        /// Statistics data.
+        /// </summary>
+        private readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>();
+
+        /// <summary>
+        /// Initializes a new instance of the StatisticsTests class.
+        /// </summary>
         public StatisticsTests()
         {
-            StatTestData lottery = new StatTestData("./data/NIST/Lottery.dat");
-            mData.Add("lottery", lottery);
-            StatTestData lew = new StatTestData("./data/NIST/Lew.dat");
-            mData.Add("lew", lew);
-            StatTestData mavro = new StatTestData("./data/NIST/Mavro.dat");
-            mData.Add("mavro", mavro);
-            StatTestData michelso = new StatTestData("./data/NIST/Michelso.dat");
-            mData.Add("michelso", michelso);
-            StatTestData numacc1 = new StatTestData("./data/NIST/NumAcc1.dat");
-            mData.Add("numacc1", numacc1);
-            StatTestData numacc2 = new StatTestData("./data/NIST/NumAcc2.dat");
-            mData.Add("numacc2", numacc2);
-            StatTestData numacc3 = new StatTestData("./data/NIST/NumAcc3.dat");
-            mData.Add("numacc3", numacc3);
-            StatTestData numacc4 = new StatTestData("./data/NIST/NumAcc4.dat");
-            mData.Add("numacc4", numacc4);
+            var lottery = new StatTestData("./data/NIST/Lottery.dat");
+            _data.Add("lottery", lottery);
+            var lew = new StatTestData("./data/NIST/Lew.dat");
+            _data.Add("lew", lew);
+            var mavro = new StatTestData("./data/NIST/Mavro.dat");
+            _data.Add("mavro", mavro);
+            var michelso = new StatTestData("./data/NIST/Michelso.dat");
+            _data.Add("michelso", michelso);
+            var numacc1 = new StatTestData("./data/NIST/NumAcc1.dat");
+            _data.Add("numacc1", numacc1);
+            var numacc2 = new StatTestData("./data/NIST/NumAcc2.dat");
+            _data.Add("numacc2", numacc2);
+            var numacc3 = new StatTestData("./data/NIST/NumAcc3.dat");
+            _data.Add("numacc3", numacc3);
+            var numacc4 = new StatTestData("./data/NIST/NumAcc4.dat");
+            _data.Add("numacc4", numacc4);
         }
-        
+
+        /// <summary>
+        /// Validate mean.
+        /// </summary>
+        /// <param name="dataSet">Dataset name.</param>
         [Test]
-        [Row("lottery")]
-        [Row("lew")]
-        [Row("mavro")]
-        [Row("michelso")]
-        [Row("numacc1")]
-        [Row("numacc2")]
-        [Row("numacc3")]
-        [Row("numacc4")]
-        public void Mean(string dataSet)
+        public void Mean([Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet)
         {
-            StatTestData data = mData[dataSet];
+            var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.Mean, data.Data.Mean(), 15);
         }
 
+        /// <summary>
+        /// <c>Nullable</c> mean.
+        /// </summary>
+        /// <param name="dataSet">Dataset name.</param>
         [Test]
-        [Row("lottery")]
-        [Row("lew")]
-        [Row("mavro")]
-        [Row("michelso")]
-        [Row("numacc1")]
-        [Row("numacc2")]
-        [Row("numacc3")]
-        [Row("numacc4")]
-        public void NullableMean(string dataSet)
+        public void NullableMean([Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet)
         {
-            StatTestData data = mData[dataSet];
+            var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.Mean, data.DataWithNulls.Mean(), 15);
         }
-        
+
+        /// <summary>
+        /// Mean with <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Mean_ThrowsArgumentNullException()
+        public void MeanThrowsArgumentNullException()
         {
             double[] data = null;
-            MathNet.Numerics.Statistics.Statistics.Mean(data);
+            Assert.Throws<ArgumentNullException>(() => data.Mean());
         }
 
-
-        [Test]
-        [Row("lottery", 15)]
-        [Row("lew", 15)]
-        [Row("mavro", 12)]
-        [Row("michelso", 12)]
-        [Row("numacc1", 15)]
-        [Row("numacc2", 14)]
-        [Row("numacc3", 9)]
-        [Row("numacc4", 8)]
-        public void StandardDeviation(string dataSet, int digits)
+        /// <summary>
+        /// Standard Deviation.
+        /// </summary>
+        /// <param name="dataSet">Dataset name.</param>
+        /// <param name="digits">Digits count.</param>
+        [Test, Sequential]
+        public void StandardDeviation(
+            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
+            [Values(15, 15, 12, 12, 15, 13, 9, 8)] int digits)
         {
-            StatTestData data = mData[dataSet];
+            var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.StandardDeviation, data.Data.StandardDeviation(), digits);
         }
 
-        [Test]
-        [Row("lottery", 15)]
-        [Row("lew", 15)]
-        [Row("mavro", 12)]
-        [Row("michelso", 12)]
-        [Row("numacc1", 15)]
-        [Row("numacc2", 14)]
-        [Row("numacc3", 9)]
-        [Row("numacc4", 8)]
-        public void NullableStandardDeviation(string dataSet, int digits)
+        /// <summary>
+        /// <c>Nullable</c> Standard Deviation.
+        /// </summary>
+        /// <param name="dataSet">Dataset name.</param>
+        /// <param name="digits">Digits count.</param>
+        [Test, Sequential]
+        public void NullableStandardDeviation(
+            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
+            [Values(15, 15, 12, 12, 15, 13, 9, 8)] int digits)
         {
-            StatTestData data = mData[dataSet];
+            var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.StandardDeviation, data.DataWithNulls.StandardDeviation(), digits);
         }
 
+        /// <summary>
+        /// Standard Deviation with <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void StandardDeviation_ThrowsArgumentNullException()
+        public void StandardDeviationThrowsArgumentNullException()
         {
             double[] data = null;
-            MathNet.Numerics.Statistics.Statistics.StandardDeviation(data);
+            Assert.Throws<ArgumentNullException>(() => data.StandardDeviation());
         }
     }
 }

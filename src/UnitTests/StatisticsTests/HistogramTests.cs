@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,41 +28,59 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using System;
     using System.Collections.Generic;
-    using MbUnit.Framework;
+    using NUnit.Framework;
     using Statistics;
 
+    /// <summary>
+    /// Histogram tests.
+    /// </summary>
     [TestFixture]
     public class HistogramTests
     {
-        private double[] smallDataset = { 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5 };
+        /// <summary>
+        /// Datatset array.
+        /// </summary>
+        private readonly double[] _smallDataset = { 0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5 };
 
-        #region BucketTests
+        /// <summary>
+        /// Can create empty bucket.
+        /// </summary>
         [Test]
         public void CanCreateEmptyBucket()
         {
-            var b = new Bucket(0.0, 1.0);
+            new Bucket(0.0, 1.0);
         }
 
+        /// <summary>
+        /// Can create filled bucket.
+        /// </summary>
         [Test]
         public void CanCreateFilledBucket()
         {
-            var b = new Bucket(0.0, 1.0, 10.0);
+            new Bucket(0.0, 1.0, 10.0);
         }
 
+        /// <summary>
+        /// Empty bucket with bad bounds fails.
+        /// </summary>
         [Test]
-        [ExpectedArgumentOutOfRangeException]
         public void EmptyBucketWithBadBoundsFails()
         {
-            var b = new Bucket(1.0, 0.5);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Bucket(1.0, 0.5));
         }
 
+        /// <summary>
+        /// Empty bucket with bad count fails.
+        /// </summary>
         [Test]
-        [ExpectedArgumentOutOfRangeException]
         public void EmptyBucketWithBadCountFails()
         {
-            var b = new Bucket(1.0, 0.5, -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Bucket(1.0, 0.5, -1.0));
         }
 
+        /// <summary>
+        /// Can get bucket width.
+        /// </summary>
         [Test]
         public void CanGetBucketWidth()
         {
@@ -74,6 +88,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(1.0, b.Width);
         }
 
+        /// <summary>
+        /// Can get bucket count.
+        /// </summary>
         [Test]
         public void CanGetBucketCount()
         {
@@ -81,6 +98,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(10.0, b.Count);
         }
 
+        /// <summary>
+        /// Can get bucket lower bound.
+        /// </summary>
         [Test]
         public void CanGetBucketLowerBound()
         {
@@ -88,6 +108,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(0.0, b.LowerBound);
         }
 
+        /// <summary>
+        /// Can get bucket upper bound.
+        /// </summary>
         [Test]
         public void CanGetBucketUpperBound()
         {
@@ -95,28 +118,30 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(1.0, b.UpperBound);
         }
 
-        [Test]
-        [Row(0.0, -1)]
-        [Row(1.0, 0)]
-        [Row(1.5, 0)]
-        [Row(2.0, 1)]
-        [Row(-1.0, -1)]
-        public void ValidateContains(double x, int r)
+        /// <summary>
+        /// Validate contains.
+        /// </summary>
+        /// <param name="x">Point values.</param>
+        /// <param name="r">Expected result.</param>
+        [Test, Sequential]
+        public void ValidateContains([Values(0.0, 1.0, 1.05, 2.0, -1.0)] double x, [Values(-1, 0, 0, 1, 0 - 1)] int r)
         {
             var b = new Bucket(0.0, 1.5, 10.0);
             Assert.AreEqual(r, b.Contains(x));
         }
 
-        #endregion
-
-        #region Histogram Tests
-
+        /// <summary>
+        /// Can create empty histogram.
+        /// </summary>
         [Test]
         public void CanCreateEmptyHistogram()
         {
-            var h = new Histogram();
+            new Histogram();
         }
 
+        /// <summary>
+        /// Can add bucket.
+        /// </summary>
         [Test]
         public void CanAddBucket()
         {
@@ -124,12 +149,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             h.AddBucket(new Bucket(0.0, 1.0));
         }
 
-        [Test]
-        [Row(0.5, 0)]
-        [Row(1.0, 0)]
-        [Row(10.0, 3)]
-        [Row(10000.0, 4)]
-        public void CanGetBucketIndexOf(double x, double i)
+        /// <summary>
+        /// Can get bucket index of.
+        /// </summary>
+        /// <param name="x">Point to check.</param>
+        /// <param name="i">Bucket index.</param>
+        [Test, Sequential]
+        public void CanGetBucketIndexOf([Values(0.5, 1.0, 10.0, 10000.0)] double x, [Values(0, 0, 3, 4)] double i)
         {
             var h = new Histogram();
             h.AddBucket(new Bucket(0.0, 1.0));
@@ -140,11 +166,11 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(i, h.GetBucketIndexOf(x));
         }
 
+        /// <summary>
+        /// Can get bucket index of fails when bucket doesn't exist.
+        /// </summary>
         [Test]
-        [Row(0.0)]
-        [Row(-1.0)]
-        [ExpectedArgumentException]
-        public void CanGetBucketIndexOfFailsWhenBucketDoesntExist(double x)
+        public void CanGetBucketIndexOfFailsWhenBucketDoesNotExist()
         {
             var h = new Histogram();
             h.AddBucket(new Bucket(0.0, 1.0));
@@ -152,9 +178,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             h.AddBucket(new Bucket(2.0, 3.0));
             h.AddBucket(new Bucket(3.0, 20.0));
             h.AddBucket(new Bucket(20.0, Double.PositiveInfinity));
-            int i = h.GetBucketIndexOf(x);
+            Assert.Throws<ArgumentException>(() => { var i = h.GetBucketIndexOf(0.0); });
+            Assert.Throws<ArgumentException>(() => { var i = h.GetBucketIndexOf(-1.0); });
         }
 
+        /// <summary>
+        /// Can get bucket of.
+        /// </summary>
         [Test]
         public void CanGetBucketOf()
         {
@@ -169,8 +199,10 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(b, h.GetBucketOf(0.1));
         }
 
+        /// <summary>
+        /// Validate item.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void ValidateItem()
         {
             var h = new Histogram();
@@ -186,6 +218,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(c, h[3]);
         }
 
+        /// <summary>
+        /// Can get bucket count in histogram.
+        /// </summary>
         [Test]
         public void CanGetBucketCountInHistogram()
         {
@@ -199,6 +234,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(5, h.BucketCount);
         }
 
+        /// <summary>
+        /// Can get total count.
+        /// </summary>
         [Test]
         public void CanGetTotalCount()
         {
@@ -212,83 +250,109 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(5, h.DataCount);
         }
 
+        /// <summary>
+        /// Can create equal spaced histogram.
+        /// </summary>
         [Test]
         public void CanCreateEqualSpacedHistogram()
         {
-            var h = new Histogram(new double[] { 1.0, 5.0, 10.0 }, 2);
+            new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
         }
 
+        /// <summary>
+        /// Fail create equal spaced histogram with no data.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
         public void FailCreateEqualSpacedHistogramWithNoData()
         {
-            var h = new Histogram(new List<double>(), 10);
+            Assert.Throws<ArgumentException>(() => new Histogram(new List<double>(), 10));
         }
 
+        /// <summary>
+        /// Can create equal spaced histogram with given lower and upper bounds.
+        /// </summary>
         [Test]
         public void CanCreateEqualSpacedHistogramWithGivenLowerAndUpperBound()
         {
-            var h = new Histogram(new double[] { 1.0, 5.0, 10.0 }, 2, 0.0, 20.0);
+            new Histogram(new[] { 1.0, 5.0, 10.0 }, 2, 0.0, 20.0);
         }
 
+        /// <summary>
+        /// Can add data single.
+        /// </summary>
         [Test]
         public void CanAddDataSingle()
         {
-            var h = new Histogram(new double[] { 1.0, 5.0, 10.0 }, 2);
+            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
             h.AddData(7.0);
             Assert.AreEqual(2, h[1].Count);
         }
 
+        /// <summary>
+        /// Can add data list.
+        /// </summary>
         [Test]
         public void CanAddDataList()
         {
-            var h = new Histogram(new double[] { 1.0, 5.0, 10.0 }, 2);
-            h.AddData(new double[] { 7.0, 8.0} );
+            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
+            h.AddData(new[] { 7.0, 8.0 });
             Assert.AreEqual(3, h[1].Count);
         }
 
+        /// <summary>
+        /// Add data increase upper bound.
+        /// </summary>
         [Test]
         public void AddDataIncreasesUpperBound()
         {
-            var h = new Histogram(new double[] { 1.0, 5.0, 10.0 }, 2);
+            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
             h.AddData(20.0);
             Assert.AreEqual(2, h[1].Count);
         }
 
+        /// <summary>
+        /// Add data decrease lower bound.
+        /// </summary>
         [Test]
         public void AddDataDecreasesLowerBound()
         {
-            var h = new Histogram(new double[] { 1.0, 5.0, 10.0 }, 2);
+            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 2);
             h.AddData(0.0);
             Assert.AreEqual(3, h[0].Count);
         }
 
+        /// <summary>
+        /// Small dataset histogram without bounds.
+        /// </summary>
         [Test]
         public void SmallDatasetHistogramWithoutBounds()
         {
-            Histogram hist = new Histogram(smallDataset, 9);
+            var hist = new Histogram(_smallDataset, 9);
 
             Assert.AreEqual(9, hist.BucketCount);
 
-            for (int i = 1; i < 9; i++)
+            for (var i = 1; i < 9; i++)
             {
                 Assert.AreEqual(1.0, hist[i].Count);
             }
+
             Assert.AreEqual(2.0, hist[0].Count);
 
             Assert.AreEqual(0.5.Decrement(), hist.LowerBound);
             Assert.AreEqual(9.5, hist.UpperBound);
         }
 
+        /// <summary>
+        /// Small dataset histogram with bounds.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void SmallDatasetHistogramWithBounds()
         {
-            Histogram hist = new Histogram(smallDataset, 10, 0.0, 10.0);
+            var hist = new Histogram(_smallDataset, 10, 0.0, 10.0);
 
             Assert.AreEqual(10, hist.BucketCount);
 
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 Assert.AreEqual(1.0, hist[i].Count);
             }
@@ -296,7 +360,5 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(0.0, hist.LowerBound);
             Assert.AreEqual(10.0, hist.UpperBound);
         }
-
-        #endregion
     }
 }

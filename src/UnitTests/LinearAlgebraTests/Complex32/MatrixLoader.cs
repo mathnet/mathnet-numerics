@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,51 +24,104 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
-	using System.Collections.Generic;
-    using Numerics;
-	using LinearAlgebra.Complex32;
-	using LinearAlgebra.Generic;
-	using MbUnit.Framework;
+    using System.Collections.Generic;
+    using Distributions;
+    using LinearAlgebra.Complex32;
+    using LinearAlgebra.Generic;
+    using Numerics.Random;
+    using NUnit.Framework;
+    using Complex32 = Numerics.Complex32;
 
+    /// <summary>
+    /// Base class for matrix tests.
+    /// </summary>
     public abstract class MatrixLoader
     {
-        protected Dictionary<string, Complex32[,]> TestData2D;
-        protected Dictionary<string, Matrix<Complex32>> TestMatrices;
+        /// <summary>
+        /// Gets or sets test matrices values to use.
+        /// </summary>
+        protected Dictionary<string, Complex32[,]> TestData2D
+        {
+            get;
+            set;
+        }
 
-        protected abstract Matrix<Complex32> CreateMatrix(int rows, int columns);
-        protected abstract Matrix<Complex32> CreateMatrix(Complex32[,] data);
-        protected abstract Vector<Complex32> CreateVector(int size);
-        protected abstract Vector<Complex32> CreateVector(Complex32[] data);
+        /// <summary>
+        /// Gets or sets test matrices instances to use.
+        /// </summary>
+        protected Dictionary<string, Matrix> TestMatrices
+        {
+            get;
+            set;
+        }
 
+        /// <summary>
+        /// Creates a matrix for the given number of rows and columns.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <returns>A matrix with the given dimensions.</returns>
+        protected abstract Matrix CreateMatrix(int rows, int columns);
+
+        /// <summary>
+        /// Creates a matrix from a 2D array.
+        /// </summary>
+        /// <param name="data">The 2D array to create this matrix from.</param>
+        /// <returns>A matrix with the given values.</returns>
+        protected abstract Matrix CreateMatrix(Complex32[,] data);
+
+        /// <summary>
+        /// Creates a vector of the given size.
+        /// </summary>
+        /// <param name="size">The size of the vector to create.
+        /// </param>
+        /// <returns>The new vector. </returns>
+        protected abstract Vector CreateVector(int size);
+
+        /// <summary>
+        /// Creates a vector from an array.
+        /// </summary>
+        /// <param name="data">The array to create this vector from.</param>
+        /// <returns>The new vector. </returns>
+        protected abstract Vector CreateVector(Complex32[] data);
+
+        /// <summary>
+        /// Setup test matrices.
+        /// </summary>
         [SetUp]
         public virtual void SetupMatrices()
         {
             TestData2D = new Dictionary<string, Complex32[,]>
                          {
-                             { "Singular3x3", new[,] { { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) }, { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) }, { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) } } },
-                             { "Square3x3",   new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1), new Complex32(6.6f, 1) } } },
-                             { "Square4x4",   new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1), new Complex32(3.3f, 1) }, { new Complex32(1.0f, 1), new Complex32(2.1f, 1), new Complex32(6.2f, 1), new Complex32(4.3f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1), new Complex32(6.6f, 1), new Complex32(-7.7f, 1) } } },
-                             { "Singular4x4", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) } } },
-                             { "Tall3x2",     new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1) } } },
-                             { "Wide2x3",     new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1) } } },
+                             { "Singular3x3", new[,] { { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) }, { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) }, { new Complex32(1.0f, 1), new Complex32(1.0f, 1), new Complex32(2.0f, 1) } } }, 
+                             { "Square3x3", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1), new Complex32(6.6f, 1) } } }, 
+                             { "Square4x4", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1), new Complex32(3.3f, 1) }, { new Complex32(1.0f, 1), new Complex32(2.1f, 1), new Complex32(6.2f, 1), new Complex32(4.3f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1), new Complex32(6.6f, 1), new Complex32(-7.7f, 1) } } }, 
+                             { "Singular4x4", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) }, { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1), new Complex32(-4.4f, 1) } } }, 
+                             { "Tall3x2", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1) }, { new Complex32(-4.4f, 1), new Complex32(5.5f, 1) } } }, 
+                             { "Wide2x3", new[,] { { new Complex32(-1.1f, 1), new Complex32(-2.2f, 1), new Complex32(-3.3f, 1) }, { Complex32.Zero, new Complex32(1.1f, 1), new Complex32(2.2f, 1) } } }, 
                          };
 
-            TestMatrices = new Dictionary<string, Matrix<Complex32>>();
+            TestMatrices = new Dictionary<string, Matrix>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
         }
 
-        public static Matrix<Complex32> GenerateRandomDenseMatrix(int row, int col)
+        /// <summary>
+        /// Creates a <c>DenseMatrix</c> with random values.
+        /// </summary>
+        /// <param name="row">The number of rows.</param>
+        /// <param name="col">The number of columns.</param>
+        /// <returns>A <c>DenseMatrix</c> with the given dimensions and random values.</returns>
+        public static Matrix GenerateRandomDenseMatrix(int row, int col)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Distributions.Normal
+            var normal = new Normal
                          {
-                             RandomSource = new Numerics.Random.MersenneTwister(1)
+                             RandomSource = new MersenneTwister(1)
                          };
             var matrixA = new DenseMatrix(row, col);
             for (var i = 0; i < row; i++)
@@ -83,16 +132,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 }
             }
 
-            // Generate a matrix which is positive definite.
             return matrixA;
         }
 
+        /// <summary>
+        /// Creates a positive definite <c>DenseMatrix</c> with random values.
+        /// </summary>
+        /// <param name="order">The order of the matrix.</param>
+        /// <returns>A positive definite <c>DenseMatrix</c> with the given order and random values.</returns>
         public static Matrix<Complex32> GenerateRandomPositiveDefiniteHermitianDenseMatrix(int order)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Distributions.Normal
+            var normal = new Normal
                          {
-                             RandomSource = new Numerics.Random.MersenneTwister(1)
+                             RandomSource = new MersenneTwister(1)
                          };
             var matrixA = new DenseMatrix(order);
             for (var i = 0; i < order; i++)
@@ -107,12 +160,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             return matrixA.ConjugateTranspose() * matrixA;
         }
 
-        public static Vector<Complex32> GenerateRandomDenseVector(int order)
+        /// <summary>
+        /// Creates a <c>DenseVector</c> with random values.
+        /// </summary>
+        /// <param name="order">The size of the vector.</param>
+        /// <returns>A <c>DenseVector</c> with the given dimension and random values.</returns>
+        public static Vector GenerateRandomDenseVector(int order)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Distributions.Normal
+            var normal = new Normal
                          {
-                             RandomSource = new Numerics.Random.MersenneTwister(1)
+                             RandomSource = new MersenneTwister(1)
                          };
             var v = new DenseVector(order);
             for (var i = 0; i < order; i++)
@@ -120,16 +178,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 v[i] = new Complex32((float)normal.Sample(), (float)normal.Sample());
             }
 
-            // Generate a matrix which is positive definite.
             return v;
         }
 
-        public static Matrix<Complex32> GenerateRandomUserDefinedMatrix(int row, int col)
+        /// <summary>
+        /// Creates a <c>UserDefinedMatrix</c> with random values.
+        /// </summary>
+        /// <param name="row">The number of rows.</param>
+        /// <param name="col">The number of columns.</param>
+        /// <returns>A <c>UserDefinedMatrix</c> with the given dimensions and random values.</returns>
+        public static Matrix GenerateRandomUserDefinedMatrix(int row, int col)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Distributions.Normal
+            var normal = new Normal
                          {
-                             RandomSource = new Numerics.Random.MersenneTwister(1)
+                             RandomSource = new MersenneTwister(1)
                          };
             var matrixA = new UserDefinedMatrix(row, col);
             for (var i = 0; i < row; i++)
@@ -140,16 +203,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 }
             }
 
-            // Generate a matrix which is positive definite.
             return matrixA;
         }
 
+        /// <summary>
+        /// Creates a positive definite <c>UserDefinedMatrix</c> with random values.
+        /// </summary>
+        /// <param name="order">The order of the matrix.</param>
+        /// <returns>A positive definite <c>UserDefinedMatrix</c> with the given order and random values.</returns>
         public static Matrix<Complex32> GenerateRandomPositiveDefiniteHermitianUserDefinedMatrix(int order)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Distributions.Normal
+            var normal = new Normal
                          {
-                             RandomSource = new Numerics.Random.MersenneTwister(1)
+                             RandomSource = new MersenneTwister(1)
                          };
             var matrixA = new UserDefinedMatrix(order);
             for (var i = 0; i < order; i++)
@@ -164,12 +231,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             return matrixA.ConjugateTranspose() * matrixA;
         }
 
-        public static Vector<Complex32> GenerateRandomUserDefinedVector(int order)
+        /// <summary>
+        /// Creates a <c>UserDefinedVector</c> with random values.
+        /// </summary>
+        /// <param name="order">The size of the vector.</param>
+        /// <returns>A <c>UserDefinedVector</c> with the given dimension and random values.</returns>
+        public static Vector GenerateRandomUserDefinedVector(int order)
         {
             // Fill a matrix with standard random numbers.
-            var normal = new Distributions.Normal
+            var normal = new Normal
                          {
-                             RandomSource = new Numerics.Random.MersenneTwister(1)
+                             RandomSource = new MersenneTwister(1)
                          };
             var v = new UserDefinedVector(order);
             for (var i = 0; i < order; i++)
