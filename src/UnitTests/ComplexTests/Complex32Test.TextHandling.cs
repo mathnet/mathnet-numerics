@@ -1,11 +1,9 @@
-﻿// <copyright file="ComplexTest.TextHandling.cs" company="Math.NET">
+﻿// <copyright file="Complex32Test.TextHandling.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,49 +28,50 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
 {
     using System;
     using System.Globalization;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Complex32 text handling tests.
+    /// </summary>
     [TestFixture]
     public class Complex32TextHandlingTest
     {
-        [Test]
-        [Row(1, -2, "(1, -2)")]
-        [Row(1, 2, "(1, 2)")]
-        [Row(1, 0, "(1, 0)")]
-        [Row(0, -2, "(0, -2)")]
-        [Row(0, 2, "(0, 2)")]
-        [Row(0, 0, "(0, 0)")]
-        [Row(Double.NaN, Double.NaN, "({1}, {1})")]
-        [Row(Double.NaN, 0, "({1}, 0)")]
-        [Row(0, Double.NaN, "(0, {1})")]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity, "({2}, {2})")]
-        [Row(1.1, 0, "(1{0}1, 0)")]
-        [Row(-1.1, 0, "(-1{0}1, 0)")]
-        [Row(0, 1.1, "(0, 1{0}1)")]
-        [Row(0, -1.1, "(0, -1{0}1)")]
-        [Row(1.1, 1.1, "(1{0}1, 1{0}1)")]
-        public void CanFormatComplexToString(float real, float imag, string expected)
+        /// <summary>
+        /// Can format complex to string.
+        /// </summary>
+        /// <param name="real">Real part.</param>
+        /// <param name="imag">Imaginary part.</param>
+        /// <param name="expected">Expected value.</param>
+        [Test, Sequential]
+        public void CanFormatComplexToString(
+            [Values(1, 1, 1, 0, 0, 0, Single.NaN, Single.NaN, 0, Single.PositiveInfinity, 1.1f, -1.1f, 0, 0, 1.1f)] float real, 
+            [Values(-2, 2, 0, -2, 2, 0, Single.NaN, 0, Single.NaN, Single.PositiveInfinity, 0, 0, 1.1f, -1.1f, 1.1f)] float imag, 
+            [Values("(1, -2)", "(1, 2)", "(1, 0)", "(0, -2)", "(0, 2)", "(0, 0)", "({1}, {1})", "({1}, 0)", "(0, {1})", "({2}, {2})", "(1{0}1, 0)", "(-1{0}1, 0)", "(0, 1{0}1)", "(0, -1{0}1)", "(1{0}1, 1{0}1)")] string expected)
         {
             var numberFormat = NumberFormatInfo.CurrentInfo;
             var a = new Complex32(real, imag);
             Assert.AreEqual(
                 String.Format(
-                    expected,
-                    numberFormat.NumberDecimalSeparator,
-                    numberFormat.NaNSymbol,
-                    numberFormat.PositiveInfinitySymbol),
+                    expected, 
+                    numberFormat.NumberDecimalSeparator, 
+                    numberFormat.NaNSymbol, 
+                    numberFormat.PositiveInfinitySymbol), 
                 a.ToString());
         }
 
-        [Test]
-        [MultipleAsserts]
-        [Row("en-US", "NaN", "Infinity", "1.1")]
-        [Row("tr-TR", "NaN", "Infinity", "1,1")]
-        [Row("de-DE", "n. def.", "+unendlich", "1,1")]
-        [Row("de-CH", "n. def.", "+unendlich", "1.1")]
-        [Row("he-IL", "לא מספר", "אינסוף חיובי", "1.1")]
+        /// <summary>
+        /// Can format complex to string with culture.
+        /// </summary>
+        /// <param name="cultureName">Culture ID.</param>
+        /// <param name="nan">Not a number name.</param>
+        /// <param name="infinity">Infinity name.</param>
+        /// <param name="number">Complex Number.</param>
+        [Test, Sequential]
         public void CanFormatComplexToStringWithCulture(
-            string cultureName, string nan, string infinity, string number)
+            [Values("en-US", "tr-TR", "de-DE", "de-CH", "he-IL")] string cultureName, 
+            [Values("NaN", "NaN", "n. def.", "n. def.", "לא מספר")] string nan, 
+            [Values("Infinity", "Infinity", "+unendlich", "+unendlich", "אינסוף חיובי")] string infinity, 
+            [Values("1.1", "1,1", "1,1", "1.1", "1.1")] string number)
         {
             var provider = CultureInfo.GetCultureInfo(cultureName);
             Assert.AreEqual("(" + nan + ", " + nan + ")", Complex32.NaN.ToString(provider));
@@ -87,8 +84,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual("(" + String.Format("{0}", number) + ", " + String.Format("{0}", number) + ")", new Complex32(1.1f, 1.1f).ToString(provider));
         }
 
+        /// <summary>
+        /// Can format complex to string with format.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanFormatComplexToStringWithFormat()
         {
             Assert.AreEqual("(0, 0)", String.Format("{0:G}", Complex32.Zero));
@@ -104,8 +103,10 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual("(zero, zero)", Complex32.Zero.ToString("#000;minus 000;zero"));
         }
 
+        /// <summary>
+        /// Can format complex to string with format invariant.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanFormatComplexToStringWithFormatInvariant()
         {
             var culture = CultureInfo.InvariantCulture;
@@ -124,47 +125,36 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual("(1.100, 1.100)", new Complex32(1.1f, 1.1f).ToString("#.000", culture));
         }
 
-        [Test]
-        [Row("-1 -2i", -1, -2, "en-US")]
-        [Row("-1 - 2i ", -1, -2, "de-CH")]
+        /// <summary>
+        /// Can parse string to complex with a culture.
+        /// </summary>
+        /// <param name="text">Text to parse.</param>
+        /// <param name="expectedReal">Expected real part.</param>
+        /// <param name="expectedImaginary">Expected imaginary part.</param>
+        /// <param name="cultureName">Culture ID.</param>
+        [Test, Sequential]
         public void CanParseStringToComplexWithCulture(
-            string text, float expectedReal, float expectedImaginary, string cultureName)
+            [Values("-1 -2i", "-1 - 2i ")] string text, 
+            [Values(-1, -1)] float expectedReal, 
+            [Values(-2, -2)] float expectedImaginary, 
+            [Values("en-US", "de-CH")] string cultureName)
         {
-            Complex32 parsed = Complex32.Parse(text, CultureInfo.GetCultureInfo(cultureName));
+            var parsed = Complex32.Parse(text, CultureInfo.GetCultureInfo(cultureName));
             Assert.AreEqual(expectedReal, parsed.Real);
             Assert.AreEqual(expectedImaginary, parsed.Imaginary);
         }
 
-        [Test]
-        [Row("1", 1, 0)]
-        [Row("-1", -1, 0)]
-        [Row("-i", 0, -1)]
-        [Row("i", 0, 1)]
-        [Row("2i", 0, 2)]
-        [Row("1 + 2i", 1, 2)]
-        [Row("1+2i", 1, 2)]
-        [Row("1 - 2i", 1, -2)]
-        [Row("1-2i", 1, -2)]
-        [Row("1,2 ", 1, 2)]
-        [Row("1 , 2", 1, 2)]
-        [Row("1,2i", 1, 2)]
-        [Row("-1, -2i", -1, -2)]
-        [Row(" - 1 , - 2 i ", -1, -2)]
-        [Row("(+1,2i)", 1, 2)]
-        [Row("(-1 , -2)", -1, -2)]
-        [Row("(-1 , -2i)", -1, -2)]
-        [Row("(+1e1 , -2e-2i)", 10, -0.02)]
-        [Row("(-1E1 -2e2i)", -10, -200)]
-        [Row("(-1e+1 -2e2i)", -10, -200)]
-        [Row("(-1e1 -2e+2i)", -10, -200)]
-        [Row("(-1e-1  -2E2i)", -0.1, -200)]
-        [Row("(-1e1  -2e-2i)", -10, -0.02)]
-        [Row("(-1E+1 -2e+2i)", -10, -200)]
-        [Row("(-1e-1,-2e-2i)", -0.1, -0.02)]
-        [Row("(+1 +2i)", 1, 2)]
-        [Row("(-1E+1 -2e+2i)", -10, -200)]
-        [Row("(-1e-1,-2e-2i)", -0.1, -0.02)]
-        public void CanTryParseStringToComplexWithInvariant(string str, float expectedReal, float expectedImaginary)
+        /// <summary>
+        /// Can try parse string to complex with invariant.
+        /// </summary>
+        /// <param name="str">String to parse.</param>
+        /// <param name="expectedReal">Expected real part.</param>
+        /// <param name="expectedImaginary">Expected imaginary part.</param>
+        [Test, Sequential]
+        public void CanTryParseStringToComplexWithInvariant(
+            [Values("1", "-1", "-i", "i", "2i", "1 + 2i", "1+2i", "1 - 2i", "1-2i", "1,2 ", "1 , 2", "1,2i", "-1, -2i", " - 1 , - 2 i ", "(+1,2i)", "(-1 , -2)", "(-1 , -2i)", "(+1e1 , -2e-2i)", "(-1E1 -2e2i)", "(-1e+1 -2e2i)", "(-1e1 -2e+2i)", "(-1e-1  -2E2i)", "(-1e1  -2e-2i)", "(-1E+1 -2e+2i)", "(-1e-1,-2e-2i)", "(+1 +2i)", "(-1E+1 -2e+2i)", "(-1e-1,-2e-2i)")] string str, 
+            [Values(1, -1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, -1, -1, 1, -1, -1, 10, -10, -10, -10, -0.1f, -10, -10, -0.1f, 1, -10, -0.1f)] float expectedReal, 
+            [Values(0, 0, -1, 1, 2, 2, 2, -2, -2, 2, 2, 2, -2, -2, 2, -2, -2, -0.02f, -200, -200, -200, -200, -0.02f, -200, -0.02f, 2, -200, -0.02f)] float expectedImaginary)
         {
             var invariantCulture = CultureInfo.InvariantCulture;
             Complex32 z;
@@ -174,12 +164,18 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(expectedImaginary, z.Imaginary);
         }
 
+        /// <summary>
+        /// If missing closing paren parse throws <c>FormatException</c>.
+        /// </summary>
         [Test]
-        public void ParseThrowsFormatExceptionIfMissingClosingParen()
+        public void IfMissingClosingParenParseThrowsFormatException()
         {
             Assert.Throws<FormatException>(() => Complex32.Parse("(1,2"));
         }
 
+        /// <summary>
+        /// Try parse can handle symbols.
+        /// </summary>
         [Test]
         public void TryParseCanHandleSymbols()
         {
@@ -208,20 +204,19 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(float.NaN, z.Imaginary, "D3");
 
             ret = Complex32.TryParse(
-                float.MaxValue.ToString("R") + " " + float.MinValue.ToString("R") + "i",
+                float.MaxValue.ToString("R") + " " + float.MinValue.ToString("R") + "i", 
                 out z);
             Assert.IsTrue(ret, "E1");
             Assert.AreEqual(float.MaxValue, z.Real, "E2");
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
 
+        /// <summary>
+        /// Try parse can handle symbols with a culture.
+        /// </summary>
+        /// <param name="cultureName">Culture ID.</param>
         [Test]
-        [Row("en-US")]
-        [Row("tr-TR")]
-        [Row("de-DE")]
-        [Row("de-CH")]
-        [Row("he-IL")]
-        public void TryParseCanHandleSymbolsWithCulture(string cultureName)
+        public void TryParseCanHandleSymbolsWithCulture([Values("en-US", "tr-TR", "de-DE", "de-CH", "he-IL")] string cultureName)
         {
             Complex32 z;
             var culture = CultureInfo.GetCultureInfo(cultureName);
@@ -249,31 +244,20 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(float.NaN, z.Imaginary, "D3");
 
             ret = Complex32.TryParse(
-                float.MaxValue.ToString("R", culture) + " " + float.MinValue.ToString("R", culture) + "i",
-                culture,
+                float.MaxValue.ToString("R", culture) + " " + float.MinValue.ToString("R", culture) + "i", 
+                culture, 
                 out z);
             Assert.IsTrue(ret, "E1");
             Assert.AreEqual(float.MaxValue, z.Real, "E2");
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
 
+        /// <summary>
+        /// Try parse returns false when given bad value with invariant.
+        /// </summary>
+        /// <param name="str">String to parse.</param>
         [Test]
-        [Row("")]
-        [Row("+")]
-        [Row("1-")]
-        [Row("i+")]
-        [Row("1/2i")]
-        [Row("1i+2i")]
-        [Row("i1i")]
-        [Row("(1i,2)")]
-        [Row("1e+")]
-        [Row("1e")]
-        [Row("1,")]
-        [Row(",1")]
-        [Row(null)]
-        [Row("()")]
-        [Row("(  )")]
-        public void TryParseReturnsFalseWhenGivenBadValueWithInvariant(string str)
+        public void TryParseReturnsFalseWhenGivenBadValueWithInvariant([Values("", "+", "1-", "i+", "1/2i", "1i+2i", "i1i", "(1i,2)", "1e+", "1e", "1,", ",1", null, "()", "(  )")] string str)
         {
             Complex32 z;
             var ret = Complex32.TryParse(str, CultureInfo.InvariantCulture, out z);

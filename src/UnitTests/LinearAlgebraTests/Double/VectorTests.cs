@@ -32,15 +32,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System.Globalization;
     using Distributions;
     using LinearAlgebra.Generic;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Abstract class with the common set of vector tests.
+    /// </summary>
     [TestFixture]
     public abstract partial class VectorTests
     {
+        /// <summary>
+        /// Test vector values.
+        /// </summary>
         protected readonly double[] Data = { 1, 2, 3, 4, 5 };
 
+        /// <summary>
+        /// Can clone a vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCloneVector()
         {
             var vector = CreateVector(Data);
@@ -48,14 +56,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             Assert.AreNotSame(vector, clone);
             Assert.AreEqual(vector.Count, clone.Count);
-            for (var index = 0; index < Data.Length; index++)
-            {
-                Assert.AreEqual(vector[index], clone[index]);
-            }
+            CollectionAssert.AreEqual(vector, clone);
         }
 
+        /// <summary>
+        /// Can clone a vector using <c>IClonable</c> interface method.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCloneVectorUsingICloneable()
         {
             var vector = CreateVector(Data);
@@ -63,12 +70,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             Assert.AreNotSame(vector, clone);
             Assert.AreEqual(vector.Count, clone.Count);
-            for (var index = 0; index < Data.Length; index++)
-            {
-                Assert.AreEqual(vector[index], clone[index]);
-            }
+            CollectionAssert.AreEqual(vector, clone);
         }
 
+        /// <summary>
+        /// Can convert vector to string.
+        /// </summary>
         [Test]
         public void CanConvertVectorToString()
         {
@@ -78,8 +85,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(string.Format("1{0}2{0}3{0}4{0}5", sep), str);
         }
 
+        /// <summary>
+        /// Can copy part of a vector to another vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCopyPartialVectorToAnother()
         {
             var vector = CreateVector(Data);
@@ -94,8 +103,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(0.0, other[4]);
         }
 
+        /// <summary>
+        /// Can copy part of a vector to the same vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCopyPartialVectorToSelf()
         {
             var vector = CreateVector(Data);
@@ -108,27 +119,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(5.0, vector[4]);
         }
 
+        /// <summary>
+        /// Can copy a vector to another vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCopyVectorToAnother()
         {
             var vector = CreateVector(Data);
             var other = CreateVector(Data.Length);
 
             vector.CopyTo(other);
-
-            for (var index = 0; index < Data.Length; index++)
-            {
-                Assert.AreEqual(vector[index], other[index]);
-            }
+            CollectionAssert.AreEqual(vector, other);
         }
 
+        /// <summary>
+        /// Can create a matrix using instance of a vector.
+        /// </summary>
         [Test]
-        [Ignore]
         public void CanCreateMatrix()
         {
+            var vector = CreateVector(Data);
+            var matrix = vector.CreateMatrix(10, 10);
+            Assert.AreEqual(matrix.RowCount, 10);
+            Assert.AreEqual(matrix.ColumnCount, 10);
         }
 
+        /// <summary>
+        /// Can create a vector using the instance of vector.
+        /// </summary>
         [Test]
         public void CanCreateVector()
         {
@@ -137,15 +155,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(expected.GetType(), actual.GetType(), "vectors are same type.");
         }
 
+        /// <summary>
+        /// Can enumerate over a vector.
+        /// </summary>
         [Test]
         public void CanEnumerateOverVector()
         {
             var vector = CreateVector(Data);
-            Assert.AreElementsEqual(Data, vector);
+            for (var i = 0; i < Data.Length; i++)
+            {
+                Assert.AreEqual(Data[i], vector[i]);
+            }
         }
 
+        /// <summary>
+        /// Can enumerate over a vector using <c>IEnumerable</c> interface.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanEnumerateOverVectorUsingIEnumerable()
         {
             var enumerable = (IEnumerable)CreateVector(Data);
@@ -156,8 +182,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Can equate vectors.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanEquateVectors()
         {
             var vector1 = CreateVector(Data);
@@ -167,40 +195,45 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.IsTrue(vector1.Equals(vector2));
             Assert.IsFalse(vector1.Equals(vector3));
             Assert.IsFalse(vector1.Equals(null));
+            Assert.IsFalse(vector1.Equals(2));
         }
 
+        /// <summary>
+        /// <c>CreateVector</c> throws <c>ArgumentException</c> if size is not positive.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void ThrowsArgumentExceptionIfSizeIsNotPositive()
+        public void SizeIsNotPositiveThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => CreateVector(-1));
             Assert.Throws<ArgumentException>(() => CreateVector(0));
         }
 
+        /// <summary>
+        /// Can equate vectors using Object.Equals.
+        /// </summary>
         [Test]
-        public void TestingForEqualityWithNonVectorReturnsFalse()
-        {
-            var vector = CreateVector(Data);
-            Assert.IsFalse(vector.Equals(2));
-        }
-
-        [Test]
-        public void CanTestForEqualityUsingObjectEquals()
+        public void CanEquateVectorsUsingObjectEquals()
         {
             var vector1 = CreateVector(Data);
             var vector2 = CreateVector(Data);
             Assert.IsTrue(vector1.Equals((object)vector2));
         }
 
+        /// <summary>
+        /// Can get hash code of a vector.
+        /// </summary>
         [Test]
-        public void VectorGetHashCode()
+        public void CanGetHashCode()
         {
             var vector = CreateVector(new double[] { 1, 2, 3, 4 });
             Assert.AreEqual(2096640, vector.GetHashCode());
         }
 
+        /// <summary>
+        /// Can enumerate over a vector using indexed enumerator.
+        /// </summary>
         [Test]
-        public void GetIndexedEnumerator()
+        public void CanEnumerateOverVectorUsingIndexedEnumerator()
         {
             var vector = CreateVector(Data);
             foreach (var pair in vector.GetIndexedEnumerator())
@@ -209,16 +242,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Can convert a vector to array.
+        /// </summary>
         [Test]
         public void CanConvertVectorToArray()
         {
             var vector = CreateVector(Data);
             var array = vector.ToArray();
-            Assert.AreElementsEqual(vector, array);
+            CollectionAssert.AreEqual(array, vector);
         }
 
+        /// <summary>
+        /// Can convert a vector to column matrix.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanConvertVectorToColumnMatrix()
         {
             var vector = CreateVector(Data);
@@ -233,8 +271,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Can convert a vector to row matrix.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanConvertVectorToRowMatrix()
         {
             var vector = CreateVector(Data);
@@ -249,25 +289,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Can set values in vector.
+        /// </summary>
         [Test]
         public void CanSetValues()
         {
             var vector = CreateVector(Data);
             vector.SetValues(Data);
-            for (var i = 0; i < Data.Length; i++)
-            {
-                Assert.AreEqual(vector[i], Data[i]);
-            }
+            CollectionAssert.AreEqual(vector, Data);
         }
 
-        [Test]
-        [Row(0, 5)]
-        [Row(2, 2)]
-        [Row(1, 4)]
-        [Row(6, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(1, -10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void CanCalculateSubVector(int index, int length)
+        /// <summary>
+        /// Can get subvector from a vector.
+        /// </summary>
+        /// <param name="index">The first element to begin copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        [Test, Sequential]
+        public void CanGetSubVector([Values(0, 2, 1)] int index, [Values(5, 2, 4)] int length)
         {
             var vector = CreateVector(Data);
             var sub = vector.SubVector(index, length);
@@ -278,6 +317,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Getting subvector using wrong parameters throw an exception.
+        /// </summary>
+        /// <param name="index">The first element to begin copying from.</param>
+        /// <param name="length">The number of elements to copy.</param>
+        [Test, Combinatorial]
+        public void CanGetSubVectorWithWrongValuesShouldThrowException([Values(6, 1)] int index, [Values(10, -10)] int length)
+        {
+            var vector = CreateVector(Data);
+            Assert.Throws<ArgumentOutOfRangeException>(() => vector.SubVector(index, length));
+        }
+
+        /// <summary>
+        /// Can find absolute minimum value index.
+        /// </summary>
         [Test]
         public void CanFindAbsoluteMinimumIndex()
         {
@@ -287,6 +341,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Can find absolute minimum value of a vector.
+        /// </summary>
         [Test]
         public void CanFindAbsoluteMinimum()
         {
@@ -296,6 +353,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Can find absolute maximum value index.
+        /// </summary>
         [Test]
         public void CanFindAbsoluteMaximumIndex()
         {
@@ -305,6 +365,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Can find absolute maximum value of a vector.
+        /// </summary>
         [Test]
         public void CanFindAbsoluteMaximum()
         {
@@ -314,6 +377,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Can find maximum value index.
+        /// </summary>
         [Test]
         public void CanFindMaximumIndex()
         {
@@ -325,6 +391,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Can find maximum value of a vector.
+        /// </summary>
         [Test]
         public void CanFindMaximum()
         {
@@ -336,6 +405,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Can find minimum value index.
+        /// </summary>
         [Test]
         public void CanFindMinimumIndex()
         {
@@ -347,6 +419,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Can find minimum value of a vector.
+        /// </summary>
         [Test]
         public void CanFindMinimum()
         {
@@ -358,24 +433,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
-        [Test]
-        [Row(0, 5)]
-        [Row(2, 2)]
-        [Row(1, 4)]
-        [Row(6, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(1, 10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(1, -10, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void CanGetSubVector(int index, int length)
-        {
-            var vector = CreateVector(Data);
-            var sub = vector.SubVector(index, length);
-            Assert.AreEqual(length, sub.Count);
-            for (var i = 0; i < length; i++)
-            {
-                Assert.AreEqual(vector[i + index], sub[i]);
-            }
-        }
-
+        /// <summary>
+        /// Can compute the sum of a vector elements.
+        /// </summary>
         [Test]
         public void CanSum()
         {
@@ -386,6 +446,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Can compute the sum of the absolute value a vector elements.
+        /// </summary>
         [Test]
         public void CanSumMagnitudes()
         {
@@ -396,33 +459,41 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(Expected, actual);
         }
 
+        /// <summary>
+        /// Set values with <c>null</c> parameter throw exception.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void CanSetValuesWithNullParameterShouldThrowException()
+        public void SetValuesWithNullParameterThrowsArgumentException()
         {
             var vector = CreateVector(Data);
-            vector.SetValues(null);
+            Assert.Throws<ArgumentNullException>(() => vector.SetValues(null));
         }
 
+        /// <summary>
+        /// Set values with non-equal data length throw exception.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void CanSetValuesWithNonEqualDataLengthShouldThrowException()
+        public void SetValuesWithNonEqualDataLengthThrowsArgumentException()
         {
             var vector = CreateVector(Data.Length + 2);
-            vector.SetValues(Data);
+            Assert.Throws<ArgumentException>(() => vector.SetValues(Data));
         }
 
-
+        /// <summary>
+        /// Generate a vector with number of elements less than zero throw an exception.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void RandomWithNumberOfElementsLessThanZeroShouldThrowException()
+        public void RandomWithNumberOfElementsLessThanZeroThrowsArgumentException()
         {
             var vector = CreateVector(4);
-            vector.Random(-2, new ContinuousUniform());
+            Assert.Throws<ArgumentException>(() => vector.Random(-2, new ContinuousUniform()));
         }
 
+        /// <summary>
+        /// Can clear a vector.
+        /// </summary>
         [Test]
-        public  void CanClearVector()
+        public void CanClearVector()
         {
             double[] testData = { -20, -10, 10, 20, 30, };
             var vector = CreateVector(testData);
@@ -433,7 +504,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Creates a new instance of the Vector class.
+        /// </summary>
+        /// <param name="size">The size of the <strong>Vector</strong> to construct.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         protected abstract Vector<double> CreateVector(int size);
+
+        /// <summary>
+        /// Creates a new instance of the Vector class.
+        /// </summary>
+        /// <param name="data">The array to create this vector from.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         protected abstract Vector<double> CreateVector(IList<double> data);
     }
 }

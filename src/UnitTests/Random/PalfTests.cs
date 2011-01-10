@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,29 +26,40 @@
 
 namespace MathNet.Numerics.UnitTests.Random
 {
-    using MbUnit.Framework;
+    using System;
     using Numerics.Random;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Tests for a Parallel Additive Lagged Fibonacci pseudo-random number generator.
+    /// </summary>
     [TestFixture]
     public class PalfTests : RandomTests
     {
+        /// <summary>
+        /// Initializes a new instance of the PalfTests class.
+        /// </summary>
         public PalfTests()
             : base(typeof(Palf))
         {
         }
 
+        /// <summary>
+        /// Throws <c>ArgumentException</c> when short lag is non-positive.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
         public void ThrowsArgumentExceptionWhenShortLagIsNonPositive()
         {
-            var random = new Palf(1, true, 0, 10);
+            Assert.Throws<ArgumentException>(() => new Palf(1, true, 0, 10));
         }
 
+        /// <summary>
+        /// Throws <c>ArgumentException</c> when long lag is less than short lag.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
         public void ThrowsArgumentExceptionWhenLongLagIsNotGreaterThanShortLag()
         {
-            var random = new Palf(1, true, 10, 10);
+            Assert.Throws<ArgumentException>(() => new Palf(1, true, 10, 10));
         }
     }
 }

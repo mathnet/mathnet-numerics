@@ -1,22 +1,48 @@
-// NOTE: This class file Build Action is not set to Compile by default. Because IlutpElementSorter class is internal. If you want 
-// NOTE: to test IlutpElementSorter you should make it public, set Build Action=Compile of this file (in properties) and run tets.
-// NOTE: After all tests passed please do all actions vice versa. IlutpElementSorter class is only for internal usage.
+// <copyright file="IluptElementSorterTest.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+// Copyright (c) 2009-2010 Math.NET
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Preconditioners
 {
     using LinearAlgebra.Double;
     using LinearAlgebra.Double.Solvers.Preconditioners;
-    using LinearAlgebra.Generic;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Test for element sort algorithm of Ilupt class.
+    /// </summary>
     [TestFixture]
     public sealed class IluptElementSorterTest
     {
+        /// <summary>
+        /// Heap sort with increasing integer array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void HeapSortWithIncreasingIntergerArray()
+        public void HeapSortWithIncreasingIntegerArray()
         {
-            var sortedIndices = new [] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var sortedIndices = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             IlutpElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -24,11 +50,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with decreasing integer array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithDecreasingIntegerArray()
         {
-            var sortedIndices = new [] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+            var sortedIndices = new[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
             IlutpElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -36,11 +64,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with random integer array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithRandomIntegerArray()
         {
-            var sortedIndices = new []{ 5, 2, 8, 6, 0, 4, 1, 7, 3, 9 };
+            var sortedIndices = new[] { 5, 2, 8, 6, 0, 4, 1, 7, 3, 9 };
             IlutpElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -48,11 +78,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with duplicate entries.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithDuplicateEntries()
         {
-            var sortedIndices = new []{ 1, 1, 1, 1, 2, 2, 2, 2, 3, 4 };
+            var sortedIndices = new[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 4 };
             IlutpElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -87,11 +119,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with special constructed integer array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithSpecialConstructedIntegerArray()
         {
-            var sortedIndices = new []{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 };
+            var sortedIndices = new[] { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 };
             IlutpElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -102,7 +136,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
                 }
             }
 
-            sortedIndices = new []{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            sortedIndices = new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             IlutpElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -113,7 +147,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
                 }
             }
 
-            sortedIndices = new []{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+            sortedIndices = new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
             IlutpElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -124,7 +158,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
                 }
             }
 
-            sortedIndices = new []{ 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 };
+            sortedIndices = new[] { 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 };
             IlutpElementSorter.SortIntegersDecreasing(sortedIndices);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -136,8 +170,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with increasing double array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithIncreasingDoubleArray()
         {
             var sortedIndices = new int[10];
@@ -164,8 +200,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with decreasing doubleArray
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithDecreasingDoubleArray()
         {
             var sortedIndices = new int[10];
@@ -192,8 +230,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with random double array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithRandomDoubleArray()
         {
             var sortedIndices = new int[10];
@@ -252,8 +292,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with duplicate double entries.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithDuplicateDoubleEntries()
         {
             var sortedIndices = new int[10];
@@ -273,6 +315,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             {
                 sortedIndices[i] = i;
             }
+
             IlutpElementSorter.SortDoubleIndicesDecreasing(0, sortedIndices.Length - 1, sortedIndices, values);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -313,8 +356,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with special constructed double array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithSpecialConstructedDoubleArray()
         {
             var sortedIndices = new int[10];
@@ -333,6 +378,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             {
                 sortedIndices[i] = i;
             }
+
             IlutpElementSorter.SortDoubleIndicesDecreasing(0, sortedIndices.Length - 1, sortedIndices, values);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -357,6 +403,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             {
                 sortedIndices[i] = i;
             }
+
             IlutpElementSorter.SortDoubleIndicesDecreasing(0, sortedIndices.Length - 1, sortedIndices, values);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -381,6 +428,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             {
                 sortedIndices[i] = i;
             }
+
             IlutpElementSorter.SortDoubleIndicesDecreasing(0, sortedIndices.Length - 1, sortedIndices, values);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -405,6 +453,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             {
                 sortedIndices[i] = i;
             }
+
             IlutpElementSorter.SortDoubleIndicesDecreasing(0, sortedIndices.Length - 1, sortedIndices, values);
             for (var i = 0; i < sortedIndices.Length; i++)
             {
@@ -416,8 +465,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with increasing double array with lower bound
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithIncreasingDoubleArrayWithLowerBound()
         {
             var sortedIndices = new int[10];
@@ -444,8 +495,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with increasing double array with upper bound.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithIncreasingDoubleArrayWithUpperBound()
         {
             var sortedIndices = new int[10];
@@ -472,8 +525,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
             }
         }
 
+        /// <summary>
+        /// Heap sort with increasing double array with lower and upper bound.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void HeapSortWithIncreasingDoubleArrayWithLowerAndUpperBound()
         {
             var sortedIndices = new int[10];

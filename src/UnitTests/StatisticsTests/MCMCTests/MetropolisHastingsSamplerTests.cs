@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,63 +27,79 @@
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
     using System;
-    using Numerics.Random;
     using Distributions;
+    using Numerics.Random;
+    using NUnit.Framework;
     using Statistics.Mcmc;
-    using MbUnit.Framework;
 
+    /// <summary>
+    /// Metropolis hastings sampler tests.
+    /// </summary>
     [TestFixture]
     public class MetropolisHastingsSamplerTests
     {
+        /// <summary>
+        /// Metropolis hastings constructor.
+        /// </summary>
         [Test]
         public void MetropolisHastingsConstructor()
         {
             var normal = new Normal(0.0, 1.0);
             var rnd = new MersenneTwister();
 
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x,y) => (new Normal(x,0.1)).Density(y),
-                x => Normal.Sample(rnd, x, 0.1), 10);
-            ms.RandomSource = rnd;
+            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y), x => Normal.Sample(rnd, x, 0.1), 10)
+                     {
+                         RandomSource = rnd
+                     };
             Assert.IsNotNull(ms.RandomSource);
 
-            ms.RandomSource = new System.Random();
+            ms.RandomSource = new Random();
             Assert.IsNotNull(ms.RandomSource);
         }
 
+        /// <summary>
+        /// Sample test.
+        /// </summary>
         [Test]
         public void SampleTest()
         {
             var normal = new Normal(0.0, 1.0);
             var rnd = new MersenneTwister();
 
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y),
-                x => Normal.Sample(rnd, x, 0.1), 10);
-            ms.RandomSource = rnd;
+            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y), x => Normal.Sample(rnd, x, 0.1), 10)
+                     {
+                         RandomSource = rnd
+                     };
 
-            double sample = ms.Sample();
+            ms.Sample();
         }
 
+        /// <summary>
+        /// Sample array test.
+        /// </summary>
         [Test]
         public void SampleArrayTest()
         {
             var normal = new Normal(0.0, 1.0);
             var rnd = new MersenneTwister();
 
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y),
-                x => Normal.Sample(rnd, x, 0.1), 10);
-            ms.RandomSource = rnd;
+            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y), x => Normal.Sample(rnd, x, 0.1), 10)
+                     {
+                         RandomSource = rnd
+                     };
 
-            double[] sample = ms.Sample(5);
+            ms.Sample(5);
         }
 
+        /// <summary>
+        /// Set <c>null</c> RNG throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullRandomNumberGenerator()
         {
             var normal = new Normal(0.0, 1.0);
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y),
-                x => Normal.Sample(new System.Random(), x, 0.1), 10);
-            ms.RandomSource = null;
+            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => (new Normal(x, 0.1)).Density(y), x => Normal.Sample(new Random(), x, 0.1), 10);
+            Assert.Throws<ArgumentNullException>(() => ms.RandomSource = null);
         }
     }
 }

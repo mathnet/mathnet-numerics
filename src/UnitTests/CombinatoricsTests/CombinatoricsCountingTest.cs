@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,150 +26,141 @@
 
 namespace MathNet.Numerics.UnitTests.CombinatoricsTests
 {
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Combinatorics counting tests.
+    /// </summary>
     [TestFixture]
     public class CombinatoricsCountingTest
     {
-        [Test]
-        [Row(0, 0, 1)]
-        [Row(1, 0, 1)]
-        [Row(10, 0, 1)]
-        [Row(10, 2, 90)]
-        [Row(10, 4, 5040)]
-        [Row(10, 6, 151200)]
-        [Row(10, 9, 3628800)]
-        [Row(10, 10, 3628800)]
-        public void CanCountVariations(int n, int k, long expected)
+        /// <summary>
+        /// Can count variations.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="k">K parameter.</param>
+        /// <param name="expected">Expected value.</param>
+        [Test, Sequential]
+        public void CanCountVariations([Values(0, 1, 10, 10, 10, 10, 10, 10)] int n, [Values(0, 0, 0, 2, 4, 6, 9, 10)] int k, [Values(1, 1, 1, 90, 5040, 151200, 3628800, 3628800)] long expected)
         {
             Assert.AreEqual(
-                expected,
-                Combinatorics.Variations(n, k),
+                expected, 
+                Combinatorics.Variations(n, k), 
                 "Count the number of variations without repetition");
         }
 
-        [Test]
-        [Row(0, 1)]
-        [Row(10, 11)]
-        [Row(0, -1)]
-        [Row(1, -1)]
-        [Row(-1, 0)]
-        [Row(-1, 1)]
-        public void OutOfRangeVariationsMustCountToZero(int n, int k)
+        /// <summary>
+        /// Out of range variations count to zero.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="k">K parameter.</param>
+        [Test, Sequential]
+        public void OutOfRangeVariationsCountToZero([Values(0, 10, 0, 1, -1, -1)] int n, [Values(1, 11, -1, -1, 0, 1)] int k)
         {
             Assert.AreEqual(
-                0,
-                Combinatorics.Variations(n, k),
+                0, 
+                Combinatorics.Variations(n, k), 
                 "The number of variations without repetition but out of the range must be 0.");
         }
 
-        [Test]
-        [Row(0, 0, 1)]
-        [Row(1, 0, 1)]
-        [Row(10, 0, 1)]
-        [Row(10, 2, 100)]
-        [Row(10, 4, 10000)]
-        [Row(10, 6, 1000000)]
-        [Row(10, 9, 1000000000)]
-        [Row(10, 10, 10000000000)]
-        [Row(10, 11, 100000000000)]
-        public void CanCountVariationsWithRepetition(int n, int k, long expected)
+        /// <summary>
+        /// Can count variations with repetition.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="k">K parameter.</param>
+        /// <param name="expected">Expected value.</param>
+        [Test, Sequential]
+        public void CanCountVariationsWithRepetition([Values(0, 1, 10, 10, 10, 10, 10, 10, 10)] int n, [Values(0, 0, 0, 2, 4, 6, 9, 10, 11)] int k, [Values(1, 1, 1, 100, 10000, 1000000, 1000000000, 10000000000, 100000000000)] long expected)
         {
             Assert.AreEqual(
-                expected,
-                Combinatorics.VariationsWithRepetition(n, k),
+                expected, 
+                Combinatorics.VariationsWithRepetition(n, k), 
                 "Count the number of variations with repetition");
         }
 
-        [Test]
-        [Row(0, 1)]
-        [Row(0, -1)]
-        [Row(1, -1)]
-        [Row(-1, 0)]
-        [Row(-1, 1)]
-        public void OutOfRangeVariationsWithRepetitionMustCountToZero(int n, int k)
+        /// <summary>
+        /// Out of range variations withR repetition count to zero.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="k">K parameter.</param>
+        [Test, Sequential]
+        public void OutOfRangeVariationsWithRepetitionCountToZero([Values(0, 0, 1, -1, -1)] int n, [Values(1, -1, -1, 0, 1)] int k)
         {
             Assert.AreEqual(
-                0,
-                Combinatorics.VariationsWithRepetition(n, k),
+                0, 
+                Combinatorics.VariationsWithRepetition(n, k), 
                 "The number of variations with repetition but out of the range must be 0.");
         }
 
-        [Test]
-        [Row(0, 0, 1)]
-        [Row(1, 0, 1)]
-        [Row(10, 0, 1)]
-        [Row(10, 2, 45)]
-        [Row(10, 4, 210)]
-        [Row(10, 6, 210)]
-        [Row(10, 9, 10)]
-        [Row(10, 10, 1)]
-        public void CanCountCombinations(int n, int k, long expected)
+        /// <summary>
+        /// Can count combinations.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="k">K parameter.</param>
+        /// <param name="expected">Expected value.</param>
+        [Test, Sequential]
+        public void CanCountCombinations([Values(0, 1, 10, 10, 10, 10, 10, 10)] int n, [Values(0, 0, 0, 2, 4, 6, 9, 10)] int k, [Values(1, 1, 1, 45, 210, 210, 10, 1)] long expected)
         {
             Assert.AreEqual(
-                expected,
-                Combinatorics.Combinations(n, k),
+                expected, 
+                Combinatorics.Combinations(n, k), 
                 "Count the number of combinations without repetition");
         }
 
-        [Test]
-        [Row(0, 1)]
-        [Row(10, 11)]
-        [Row(0, -1)]
-        [Row(1, -1)]
-        [Row(-1, 0)]
-        [Row(-1, 1)]
-        public void OutOfRangeCombinationsMustCountToZero(int n, int k)
+        /// <summary>
+        /// Out of range combinations count to zero.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="k">K parameter.</param>
+        [Test, Sequential]
+        public void OutOfRangeCombinationsCountToZero([Values(0, 10, 0, 1, -1, -1)] int n, [Values(1, 11, -1, -1, 0, 1)] int k)
         {
             Assert.AreEqual(
-                0,
-                Combinatorics.Combinations(n, k),
+                0, 
+                Combinatorics.Combinations(n, k), 
                 "The number of combinations without repetition but out of the range must be 0.");
         }
 
-        [Test]
-        [Row(0, 0, 1)]
-        [Row(1, 0, 1)]
-        [Row(10, 0, 1)]
-        [Row(10, 2, 55)]
-        [Row(10, 4, 715)]
-        [Row(10, 6, 5005)]
-        [Row(10, 9, 48620)]
-        [Row(10, 10, 92378)]
-        [Row(10, 11, 167960)]
-        public void CanCountCombinationsWithRepetition(int n, int k, long expected)
+        /// <summary>
+        /// Can count combinations with repetition.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="k">K parameter.</param>
+        /// <param name="expected">Expected value.</param>
+        [Test, Sequential]
+        public void CanCountCombinationsWithRepetition([Values(0, 1, 10, 10, 10, 10, 10, 10, 10)] int n, [Values(0, 0, 0, 2, 4, 6, 9, 10, 11)] int k, [Values(1, 1, 1, 55, 715, 5005, 48620, 92378, 167960)] long expected)
         {
             Assert.AreEqual(
-                expected,
-                Combinatorics.CombinationsWithRepetition(n, k),
+                expected, 
+                Combinatorics.CombinationsWithRepetition(n, k), 
                 "Count the number of combinations with repetition");
         }
 
-        [Test]
-        [Row(0, 1)]
-        [Row(0, -1)]
-        [Row(1, -1)]
-        [Row(-1, 0)]
-        [Row(-1, 1)]
-        public void OutOfRangeCombinationsWithRepetitionMustCountToZero(int n, int k)
+        /// <summary>
+        /// Out of range combinations with repetition count to zero.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="k">K parameter.</param>
+        [Test, Sequential]
+        public void OutOfRangeCombinationsWithRepetitionCountToZero([Values(0, 0, 1, -1, -1)] int n, [Values(1, -1, -1, 0, 1)] int k)
         {
             Assert.AreEqual(
-                0,
-                Combinatorics.CombinationsWithRepetition(n, k),
+                0, 
+                Combinatorics.CombinationsWithRepetition(n, k), 
                 "The number of combinations with repetition but out of the range must be 0.");
         }
 
-        [Test]
-        [Row(0, 1)]
-        [Row(1, 1)]
-        [Row(2, 2)]
-        [Row(8, 40320)]
-        [Row(15, 1307674368000)]
-        public void CanCountPermutations(int n, long expected)
+        /// <summary>
+        /// Can count permutations.
+        /// </summary>
+        /// <param name="n">N parameter.</param>
+        /// <param name="expected">Expected value.</param>
+        [Test, Sequential]
+        public void CanCountPermutations([Values(0, 1, 2, 8, 15)] int n, [Values(1, 1, 2, 40320, 1307674368000)] long expected)
         {
             Assert.AreEqual(
-                expected,
-                Combinatorics.Permutations(n),
+                expected, 
+                Combinatorics.Permutations(n), 
                 "Count the number of permutations");
         }
     }

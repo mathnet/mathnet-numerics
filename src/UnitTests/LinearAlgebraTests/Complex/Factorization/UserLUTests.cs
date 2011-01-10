@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,17 +26,22 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 {
+    using System;
     using System.Numerics;
     using LinearAlgebra.Generic.Factorization;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// LU factorization tests for a user matrix.
+    /// </summary>
     public class UserLUTests
     {
+        /// <summary>
+        /// Can factorize identity matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(10)]
-        [Row(100)]
-        public void CanFactorizeIdentity(int order)
+        public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
         {
             var matrixI = UserDefinedMatrix.Identity(order);
             var factorLU = matrixI.LU();
@@ -70,36 +71,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
+        /// <summary>
+        /// LU factorization fails with a non-square matrix.
+        /// </summary>
         [Test]
-        [Row(3,5)]
-        [Row(5,3)]
-        [ExpectedArgumentException]
-        public void LUFailsWithNonSquareMatrix(int row, int col)
+        public void LUFailsWithNonSquareMatrix()
         {
-            var I = new UserDefinedMatrix(row, col);
-            I.LU();
+            var matrix = new UserDefinedMatrix(3, 2);
+            Assert.Throws<ArgumentException>(() => matrix.LU());
         }
 
+        /// <summary>
+        /// Identity determinant is one.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(10)]
-        [Row(100)]
-        public void IdentityDeterminantIsOne(int order)
+        public void IdentityDeterminantIsOne([Values(1, 10, 100)] int order)
         {
-            var I = UserDefinedMatrix.Identity(order);
-            var lu = I.LU();
+            var matrixI = UserDefinedMatrix.Identity(order);
+            var lu = matrixI.LU();
             Assert.AreEqual(Complex.One, lu.Determinant);
         }
 
+        /// <summary>
+        /// Can factorize a random square matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanFactorizeRandomMatrix(int order)
+        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixX = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var factorLU = matrixX.LU();
@@ -113,10 +112,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             Assert.AreEqual(order, matrixU.ColumnCount);
 
             // Make sure the L factor is lower triangular.
-            for (var i = 0; i < matrixL.RowCount; i++) 
+            for (var i = 0; i < matrixL.RowCount; i++)
             {
-                Assert.AreEqual(1.0, matrixL[i, i]);
-                for (var j = i+1; j < matrixL.ColumnCount; j++)
+                Assert.AreEqual(Complex.One, matrixL[i, i]);
+                for (var j = i + 1; j < matrixL.ColumnCount; j++)
                 {
                     Assert.AreEqual(Complex.Zero, matrixL[i, j]);
                 }
@@ -135,25 +134,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             var matrixXfromLU = matrixL * matrixU;
             var permutationInverse = factorLU.P.Inverse();
             matrixXfromLU.PermuteRows(permutationInverse);
-            for (var i = 0; i < matrixXfromLU.RowCount; i++) 
+            for (var i = 0; i < matrixXfromLU.RowCount; i++)
             {
                 for (var j = 0; j < matrixXfromLU.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixX[i, j].Real, matrixXfromLU[i, j].Real, 1.0e-9);
-                    Assert.AreApproximatelyEqual(matrixX[i, j].Imaginary, matrixXfromLU[i, j].Imaginary, 1.0e-9);
+                    AssertHelpers.AlmostEqual(matrixX[i, j], matrixXfromLU[i, j], 9);
                 }
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random vector (Ax=b).
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomVector(int order)
+        public void CanSolveForRandomVector([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -164,13 +159,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
-            var bReconstruct = matrixA * resultx;
+            var matrixBReconstruct = matrixA * resultx;
 
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i].Real, bReconstruct[i].Real, 1.0e-9);
-                Assert.AreApproximatelyEqual(vectorb[i].Imaginary, bReconstruct[i].Imaginary, 1.0e-9);
+                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 9);
             }
 
             // Make sure A didn't change.
@@ -183,15 +177,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random matrix (AX=B).
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(4)]
-        [Row(8)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomMatrix(int order)
+        public void CanSolveForRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -202,6 +193,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
             // The solution X has the same number of columns as B
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
@@ -212,8 +204,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1.0e-9);
-                    Assert.AreApproximatelyEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1.0e-9);
+                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 9);
                 }
             }
 
@@ -227,15 +218,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve for a random vector into a result vector.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
+        public void CanSolveForRandomVectorWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -247,13 +235,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 
             Assert.AreEqual(vectorb.Count, resultx.Count);
 
-            var bReconstruct = matrixA * resultx;
+            var matrixBReconstruct = matrixA * resultx;
 
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i].Real, bReconstruct[i].Real, 1.0e-9);
-                Assert.AreApproximatelyEqual(vectorb[i].Imaginary, bReconstruct[i].Imaginary, 1.0e-9);
+                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 9);
             }
 
             // Make sure A didn't change.
@@ -272,15 +259,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random matrix (AX=B) into a result matrix.
+        /// </summary>
+        /// <param name="order">Matrix row number.</param>
         [Test]
-        [Row(1)]
-        [Row(4)]
-        [Row(8)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
+        public void CanSolveForRandomMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -294,6 +278,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
             // The solution X has the same number of columns as B
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
@@ -304,8 +289,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1.0e-9);
-                    Assert.AreApproximatelyEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1.0e-9);
+                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 9);
                 }
             }
 
@@ -328,15 +312,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
+        /// <summary>
+        /// Can inverse a matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(4)]
-        [Row(8)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanInverse(int order)
+        public void CanInverse([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -362,8 +343,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             // Check if multiplication of A and AI produced identity matrix.
             for (var i = 0; i < matrixIdentity.RowCount; i++)
             {
-                Assert.AreApproximatelyEqual(matrixIdentity[i, i].Real, Complex.One.Real, 1.0e-9);
-                Assert.AreApproximatelyEqual(matrixIdentity[i, i].Imaginary, Complex.One.Imaginary, 1.0e-9);
+                AssertHelpers.AlmostEqual(matrixIdentity[i, i], Complex.One, 9);
             }
         }
     }

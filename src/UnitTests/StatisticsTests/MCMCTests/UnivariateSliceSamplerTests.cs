@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,54 +27,73 @@
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
     using System;
+    using NUnit.Framework;
     using Statistics.Mcmc;
-    using MbUnit.Framework;
 
+    /// <summary>
+    /// Univariate slice sampler tests.
+    /// </summary>
     [TestFixture]
     public class UnivariateSliceSamplerTests
     {
+        /// <summary>
+        /// Constructor tests.
+        /// </summary>
         [Test]
         public void ConstructorTest()
         {
-            var ss = new UnivariateSliceSampler(0.1, x => -0.5 * x * x, 5, 1.0);
+            new UnivariateSliceSampler(0.1, x => -0.5 * x * x, 5, 1.0);
         }
 
+        /// <summary>
+        /// Sample test.
+        /// </summary>
         [Test]
         public void SampleTest()
         {
             var ss = new UnivariateSliceSampler(0.1, x => -0.5 * x * x, 5, 1.0);
-            double sample = ss.Sample();
+            ss.Sample();
         }
 
+        /// <summary>
+        /// Sample array tests.
+        /// </summary>
         [Test]
         public void SampleArrayTest()
         {
             var ss = new UnivariateSliceSampler(0.1, x => -0.5 * x * x, 5, 1.0);
-            double[] sample = ss.Sample(5);
+            ss.Sample(5);
         }
 
+        /// <summary>
+        /// Random number generator tests.
+        /// </summary>
         [Test]
-        public void RNGTest()
+        public void RandomNumberGeneratorTest()
         {
             var ss = new UnivariateSliceSampler(0.1, x => -0.5 * x * x, 5, 1.0);
 
             Assert.IsNotNull(ss.RandomSource);
-            ss.RandomSource = new System.Random();
+            ss.RandomSource = new Random();
             Assert.IsNotNull(ss.RandomSource);
         }
 
+        /// <summary>
+        /// Constructor with invalid scale throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void InvalidScale()
         {
-            var ss = new UnivariateSliceSampler(0.1, x => -0.5 * x * x, 5, -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new UnivariateSliceSampler(0.1, x => -0.5 * x * x, 5, -1.0));
         }
 
+        /// <summary>
+        /// Constructor with invalid burn throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void InvalidBurn()
         {
-            var ss = new UnivariateSliceSampler(0.1, x => -0.5 * x * x, -5, 1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new UnivariateSliceSampler(0.1, x => -0.5 * x * x, -5, 1.0));
         }
     }
 }

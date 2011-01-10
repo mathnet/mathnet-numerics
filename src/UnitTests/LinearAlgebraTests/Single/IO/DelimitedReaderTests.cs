@@ -1,4 +1,29 @@
-﻿namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
+﻿// <copyright file="DelimitedReaderTests.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+// Copyright (c) 2009-2010 Math.NET
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
 {
     using System;
     using System.Globalization;
@@ -6,13 +31,18 @@
     using System.Text;
     using LinearAlgebra.Single;
     using LinearAlgebra.Single.IO;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Delimited reader tests.
+    /// </summary>
     [TestFixture]
     public class DelimitedReaderTests
     {
+        /// <summary>
+        /// Can parse comma delimited data.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanParseCommaDelimitedData()
         {
             var data = "a,b,c" + Environment.NewLine
@@ -22,7 +52,7 @@
 
             var reader = new DelimitedReader<DenseMatrix>(',')
                          {
-                             HasHeaderRow = true,
+                             HasHeaderRow = true, 
                              CultureInfo = CultureInfo.InvariantCulture
                          };
 
@@ -40,9 +70,11 @@
             Assert.AreEqual(6.0f, matrix[2, 2]);
         }
 
+        /// <summary>
+        /// Can parse tab delimited data.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanParseTabDelimtedData()
+        public void CanParseTabDelimitedData()
         {
             var data = "1" + Environment.NewLine
                        + "\"2.2\"\t\t0.3e1" + Environment.NewLine
@@ -67,15 +99,17 @@
             Assert.AreEqual(6.0f, matrix[2, 2]);
         }
 
+        /// <summary>
+        /// Can parse white space delimited data.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanParseWhiteSpaceDelimitedData()
         {
             var data = "1" + Environment.NewLine
                        + "\"2.2\" 0.3e1" + Environment.NewLine
                        + "'4'   5      6" + Environment.NewLine;
 
-            var reader = new DelimitedReader<UserDefinedMatrix>()
+            var reader = new DelimitedReader<UserDefinedMatrix>
                          {
                              CultureInfo = CultureInfo.InvariantCulture
                          };
@@ -94,8 +128,10 @@
             Assert.AreEqual(6.0f, matrix[2, 2]);
         }
 
+        /// <summary>
+        /// Can parse period delimited data.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanParsePeriodDelimitedData()
         {
             var data = "a.b.c" + Environment.NewLine
@@ -105,7 +141,7 @@
 
             var reader = new DelimitedReader<DenseMatrix>('.')
                          {
-                             HasHeaderRow = true,
+                             HasHeaderRow = true, 
                              CultureInfo = new CultureInfo("tr-TR")
                          };
 

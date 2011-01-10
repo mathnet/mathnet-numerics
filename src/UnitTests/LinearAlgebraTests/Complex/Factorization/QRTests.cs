@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,40 +26,48 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 {
+    using System;
     using System.Numerics;
-    using LinearAlgebra.Generic.Factorization;
-    using MbUnit.Framework;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Complex.Factorization;
+    using LinearAlgebra.Generic.Factorization;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// QR factorization tests for a dense matrix.
+    /// </summary>
     public class QRTests
     {
-
+        /// <summary>
+        /// Constructor with <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
         public void ConstructorNull()
         {
-            new DenseQR(null);
+            Assert.Throws<ArgumentNullException>(() => new DenseQR(null));
         }
 
+        /// <summary>
+        /// Constructor with wide matrix throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void WideMatrixThrowsInvalidMatrixOperationException()
+        public void ConstructorWideMatrixThrowsInvalidMatrixOperationException()
         {
-            new DenseQR(new DenseMatrix(3, 4));
+            Assert.Throws<ArgumentException>(() => new DenseQR(new DenseMatrix(3, 4)));
         }
-        
-        [Test]
-        [Row(1)]
-        [Row(10)]
-        [Row(100)]
-        public void CanFactorizeIdentity(int order)
-        {
-            var I = DenseMatrix.Identity(order);
-            var factorQR = I.QR();
 
-            Assert.AreEqual(I.RowCount, factorQR.R.RowCount);
-            Assert.AreEqual(I.ColumnCount, factorQR.R.ColumnCount);
+        /// <summary>
+        /// Can factorize identity matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [Test]
+        public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
+        {
+            var matrixI = DenseMatrix.Identity(order);
+            var factorQR = matrixI.QR();
+
+            Assert.AreEqual(matrixI.RowCount, factorQR.R.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, factorQR.R.ColumnCount);
 
             for (var i = 0; i < factorQR.R.RowCount; i++)
             {
@@ -81,27 +85,25 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
-      
+        /// <summary>
+        /// Identity determinant is one.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(10)]
-        [Row(100)]
-        public void IdentityDeterminantIsOne(int order)
+        public void IdentityDeterminantIsOne([Values(1, 10, 100)] int order)
         {
-            var I = DenseMatrix.Identity(order);
-            var factorQR = I.QR();
-            Assert.AreEqual(1.0, factorQR.Determinant);
+            var matrixI = DenseMatrix.Identity(order);
+            var factorQR = matrixI.QR();
+            Assert.AreEqual(Complex.One, factorQR.Determinant);
         }
 
-        [Test]
-        [Row(1,1)]
-        [Row(2,2)]
-        [Row(5,5)]
-        [Row(10,6)]
-        [Row(50,48)]
-        [Row(100,98)]
-        [MultipleAsserts]
-        public void CanFactorizeRandomMatrix(int row, int column)
+        /// <summary>
+        /// Can factorize a random matrix.
+        /// </summary>
+        /// <param name="row">Matrix row number.</param>
+        /// <param name="column">Matrix column number.</param>
+        [Test, Sequential]
+        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int row, [Values(1, 2, 5, 6, 48, 98)] int column)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var factorQR = matrixA.QR();
@@ -115,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             Assert.AreEqual(row, factorQR.Q.ColumnCount);
 
             // Make sure the R factor is upper triangular.
-            for (var i = 0; i < factorQR.R.RowCount; i++) 
+            for (var i = 0; i < factorQR.R.RowCount; i++)
             {
                 for (var j = 0; j < factorQR.R.ColumnCount; j++)
                 {
@@ -128,44 +130,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 
             // Make sure the Q*R is the original matrix.
             var matrixQfromR = factorQR.Q * factorQR.R;
-            for (var i = 0; i < matrixQfromR.RowCount; i++) 
+            for (var i = 0; i < matrixQfromR.RowCount; i++)
             {
                 for (var j = 0; j < matrixQfromR.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixA[i, j].Real, matrixQfromR[i, j].Real, 1.0e-9);
-                    Assert.AreApproximatelyEqual(matrixA[i, j].Imaginary, matrixQfromR[i, j].Imaginary, 1.0e-9);
-                }
-            }
-
-            // Make sure the Q is unitary --> (Q*)x(Q) = I
-            var matrixQсtQ = factorQR.Q.ConjugateTranspose() * factorQR.Q;
-            for (var i = 0; i < matrixQсtQ.RowCount; i++)
-            {
-                for (var j = 0; j < matrixQсtQ.ColumnCount; j++)
-                {
-                    if (i == j)
-                    {
-                        Assert.AreApproximatelyEqual(matrixQсtQ[i, j].Real, 1.0, 1.0e-9);
-                        Assert.AreApproximatelyEqual(matrixQсtQ[i, j].Imaginary, 0.0, 1.0e-9);
-                    }
-                    else
-                    {
-                        Assert.AreApproximatelyEqual(matrixQсtQ[i, j].Real, 0.0, 1.0e-9);
-                        Assert.AreApproximatelyEqual(matrixQсtQ[i, j].Imaginary, 0.0, 1.0e-9);
-                    }
+                    AssertHelpers.AlmostEqual(matrixA[i, j], matrixQfromR[i, j], 9);
                 }
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random vector (Ax=b).
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomVector(int order)
+        public void CanSolveForRandomVector([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -176,13 +155,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
-            var bReconstruct = matrixA * resultx;
+            var matrixBReconstruct = matrixA * resultx;
 
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i].Real, bReconstruct[i].Real, 1.0e-9);
-                Assert.AreApproximatelyEqual(vectorb[i].Imaginary, bReconstruct[i].Imaginary, 1.0e-9);
+                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 9);
             }
 
             // Make sure A didn't change.
@@ -195,15 +173,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random matrix (AX=B).
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(4)]
-        [Row(8)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomMatrix(int order)
+        public void CanSolveForRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -214,6 +189,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
             // The solution X has the same number of columns as B
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
@@ -224,8 +200,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1.0e-9);
-                    Assert.AreApproximatelyEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1.0e-9);
+                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 9);
                 }
             }
 
@@ -239,15 +214,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve for a random vector into a result vector.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
+        public void CanSolveForRandomVectorWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -255,17 +227,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
             var vectorbCopy = vectorb.Clone();
             var resultx = new DenseVector(order);
-            factorQR.Solve(vectorb,resultx);
+            factorQR.Solve(vectorb, resultx);
 
             Assert.AreEqual(vectorb.Count, resultx.Count);
 
-            var bReconstruct = matrixA * resultx;
+            var matrixBReconstruct = matrixA * resultx;
 
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i].Real, bReconstruct[i].Real, 1.0e-9);
-                Assert.AreApproximatelyEqual(vectorb[i].Imaginary, bReconstruct[i].Imaginary, 1.0e-9);
+                AssertHelpers.AlmostEqual(vectorb[i], matrixBReconstruct[i], 9);
             }
 
             // Make sure A didn't change.
@@ -284,15 +255,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random matrix (AX=B) into a result matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(4)]
-        [Row(8)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
+        public void CanSolveForRandomMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -302,10 +270,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             var matrixBCopy = matrixB.Clone();
 
             var matrixX = new DenseMatrix(order, order);
-            factorQR.Solve(matrixB,matrixX);
+            factorQR.Solve(matrixB, matrixX);
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
             // The solution X has the same number of columns as B
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
@@ -316,8 +285,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j].Real, matrixBReconstruct[i, j].Real, 1.0e-9);
-                    Assert.AreApproximatelyEqual(matrixB[i, j].Imaginary, matrixBReconstruct[i, j].Imaginary, 1.0e-9);
+                    AssertHelpers.AlmostEqual(matrixB[i, j], matrixBReconstruct[i, j], 9);
                 }
             }
 

@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,12 +27,18 @@
 namespace MathNet.Numerics.UnitTests.NumberTheoryTests
 {
     using System;
-    using MbUnit.Framework;
     using NumberTheory;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// GreatestCommonDivisor related test.
+    /// </summary>
     [TestFixture]
     public class GcdRelatedTest
     {
+        /// <summary>
+        /// GreatestCommonDivisor handles normal input correctly.
+        /// </summary>
         [Test]
         public void GcdHandlesNormalInputCorrectly()
         {
@@ -48,6 +50,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(3, IntegerTheory.GreatestCommonDivisor(6, 15), "Gcd(6,15)");
         }
 
+        /// <summary>
+        /// GreatestCommonDivisor handles negative input correctly.
+        /// </summary>
         [Test]
         public void GcdHandlesNegativeInputCorrectly()
         {
@@ -57,6 +62,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(1, IntegerTheory.GreatestCommonDivisor(-7, -15), "Gcd(-7,-15)");
         }
 
+        /// <summary>
+        /// GreatestCommonDivisor supports large input.
+        /// </summary>
         [Test]
         public void GcdSupportsLargeInput()
         {
@@ -66,21 +74,27 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(1 << 18, IntegerTheory.GreatestCommonDivisor(1 << 18, 1 << 20), "Gcd(1>>18,1<<20)");
         }
 
+        /// <summary>
+        /// Extended GreatestCommonDivisor handles normal input correctly
+        /// </summary>
         [Test]
         public void ExtendedGcdHandlesNormalInputCorrectly()
         {
             long x, y;
 
             Assert.AreEqual(3, IntegerTheory.ExtendedGreatestCommonDivisor(6, 15, out x, out y), "Egcd(6,15)");
-            Assert.AreEqual(3, 6 * x + 15 * y, "Egcd(6,15) -> a*x+b*y");
+            Assert.AreEqual(3, (6 * x) + (15 * y), "Egcd(6,15) -> a*x+b*y");
 
             Assert.AreEqual(3, IntegerTheory.ExtendedGreatestCommonDivisor(-6, 15, out x, out y), "Egcd(-6,15)");
-            Assert.AreEqual(3, -6 * x + 15 * y, "Egcd(-6,15) -> a*x+b*y");
+            Assert.AreEqual(3, (-6 * x) + (15 * y), "Egcd(-6,15) -> a*x+b*y");
 
             Assert.AreEqual(3, IntegerTheory.ExtendedGreatestCommonDivisor(-6, -15, out x, out y), "Egcd(-6,-15)");
-            Assert.AreEqual(3, -6 * x + -15 * y, "Egcd(-6,-15) -> a*x+b*y");
+            Assert.AreEqual(3, (-6 * x) + (-15 * y), "Egcd(-6,-15) -> a*x+b*y");
         }
 
+        /// <summary>
+        /// List GreatestCommonDivisor handles normal input Correctly
+        /// </summary>
         [Test]
         public void ListGcdHandlesNormalInputCorrectly()
         {
@@ -91,6 +105,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(123, IntegerTheory.GreatestCommonDivisor(492, -2 * 492, 492 / 4), "Gcd(492, -984, 123)");
         }
 
+        /// <summary>
+        /// List GreatestCommonDivisor handles special input correctly.
+        /// </summary>
         [Test]
         public void ListGcdHandlesSpecialInputCorrectly()
         {
@@ -98,14 +115,20 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(100, IntegerTheory.GreatestCommonDivisor(-100), "Gcd(-100)");
         }
 
+        /// <summary>
+        /// List GreatestCommonDivisor checks for <c>null</c> all arguments.
+        /// </summary>
         [Test]
         public void ListGcdChecksForNullArguments()
         {
             Assert.Throws(
-                typeof (ArgumentNullException),
+                typeof(ArgumentNullException), 
                 () => IntegerTheory.GreatestCommonDivisor((long[])null));
         }
 
+        /// <summary>
+        /// LeastCommonMultiple handles normal input correctly.
+        /// </summary>
         [Test]
         public void LcmHandlesNormalInputCorrectly()
         {
@@ -119,6 +142,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(374, IntegerTheory.LeastCommonMultiple(11, 34), "Lcm(11,34)");
         }
 
+        /// <summary>
+        /// LeastCommonMultiple handles negative input correctly.
+        /// </summary>
         [Test]
         public void LcmHandlesNegativeInputCorrectly()
         {
@@ -127,6 +153,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(352, IntegerTheory.LeastCommonMultiple(-11, -32), "Lcm(-11,-32)");
         }
 
+        /// <summary>
+        /// LeastCommonMultiple supports large input.
+        /// </summary>
         [Test]
         public void LcmSupportsLargeInput()
         {
@@ -136,6 +165,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(Int64.MaxValue, IntegerTheory.LeastCommonMultiple(-Int64.MaxValue, Int64.MaxValue), "Lcm(-Int64Max,Int64Max)");
         }
 
+        /// <summary>
+        /// List LeastCommonMultiple handles normal input correctly.
+        /// </summary>
         [Test]
         public void ListLcmHandlesNormalInputCorrectly()
         {
@@ -146,6 +178,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(2016, IntegerTheory.LeastCommonMultiple(32, 42, 36, 18), "Lcm(32,42,36,18)");
         }
 
+        /// <summary>
+        /// List LeastCommonMultiple handles special input correctly.
+        /// </summary>
         [Test]
         public void ListLcmHandlesSpecialInputCorrectly()
         {
@@ -153,11 +188,14 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual(100, IntegerTheory.LeastCommonMultiple(-100), "Lcm(-100)");
         }
 
+        /// <summary>
+        /// List LeastCommonMultiple checks for <c>null</c> arguments.
+        /// </summary>
         [Test]
         public void ListLcmChecksForNullArguments()
         {
             Assert.Throws(
-                typeof(ArgumentNullException),
+                typeof(ArgumentNullException), 
                 () => IntegerTheory.LeastCommonMultiple((long[])null));
         }
     }

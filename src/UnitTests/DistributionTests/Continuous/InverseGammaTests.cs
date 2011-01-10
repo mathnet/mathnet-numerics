@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,52 +28,51 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 {
     using System;
     using System.Linq;
-    using MbUnit.Framework;
     using Distributions;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Inverse gamma distribution tests.
+    /// </summary>
     [TestFixture]
     public class InverseGammaTests
     {
+        /// <summary>
+        /// Set-up parameters.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             Control.CheckDistributionParameters = true;
         }
 
-        [Test, MultipleAsserts]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, Double.PositiveInfinity)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 0.1)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void CanCreateInverseGamma(double a, double b)
+        /// <summary>
+        /// Can create inverse gamma.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        [Test, Combinatorial]
+        public void CanCreateInverseGamma([Values(0.1, 1.0, Double.PositiveInfinity)] double a, [Values(0.1, 1.0, Double.PositiveInfinity)] double b)
         {
             var n = new InverseGamma(a, b);
-            Assert.AreEqual<double>(a, n.Shape);
-            Assert.AreEqual<double>(b, n.Scale);
+            Assert.AreEqual(a, n.Shape);
+            Assert.AreEqual(b, n.Scale);
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(0.0, 1.0)]
-        [Row(-1.0, 1.0)]
-        [Row(-100.0, 1.0)]
-        [Row(Double.NegativeInfinity, 1.0)]
-        [Row(Double.NaN, 1.0)]
-        [Row(1.0, 0.0)]
-        [Row(1.0, -1.0)]
-        [Row(1.0, -100.0)]
-        [Row(1.0, Double.NegativeInfinity)]
-        [Row(1.0, Double.NaN)]
-        public void InverseGammaCreateFailsWithBadParameters(double a, double b)
+        /// <summary>
+        /// Inverse gamma create fails with bad parameters.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        [Test, Sequential]
+        public void InverseGammaCreateFailsWithBadParameters([Values(0.0, -1.0, -100.0, Double.NegativeInfinity, Double.NaN, 1.0, 1.0, 1.0, 1.0, 1.0)] double a, [Values(1.0, 1.0, 1.0, 1.0, 1.0, 0.0, -1.0, -100.0, Double.NegativeInfinity, Double.NaN)] double b)
         {
-            var n = new InverseGamma(a, b);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new InverseGamma(a, b));
         }
 
+        /// <summary>
+        /// Validate ToString.
+        /// </summary>
         [Test]
         public void ValidateToString()
         {
@@ -85,213 +80,215 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             Assert.AreEqual(String.Format("InverseGamma(Shape = {0}, Inverse Scale = {1})", n.Shape, n.Scale), n.ToString());
         }
 
+        /// <summary>
+        /// Can set A.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetA(double a)
+        public void CanSetA([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double a)
         {
-            var n = new InverseGamma(1.0, 1.0);
-            n.Shape = a;
+            new InverseGamma(1.0, 1.0)
+            {
+                Shape = a
+            };
         }
 
+        /// <summary>
+        /// Set A fails with non-positive value.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(-1.0)]
-        [Row(-0.0)]
-        [Row(0.0)]
-        public void SetAFailsWithNonPositiveA(double a)
+        public void SetAFailsWithNonPositiveA([Values(-1.0, -0.0, 0.0)] double a)
         {
             var n = new InverseGamma(1.0, 1.0);
-            n.Shape = a;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Shape = a);
         }
 
+        /// <summary>
+        /// Can set B.
+        /// </summary>
+        /// <param name="b">B parameter.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetB(double b)
+        public void CanSetB([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double b)
+        {
+            new InverseGamma(1.0, 1.0)
+            {
+                Scale = b
+            };
+        }
+
+        /// <summary>
+        /// Set B fails with non-positive value.
+        /// </summary>
+        /// <param name="b">B parameter.</param>
+        [Test]
+        public void SetBFailsWithNonPositiveB([Values(-1.0, -0.0, 0.0)] double b)
         {
             var n = new InverseGamma(1.0, 1.0);
-            n.Scale = b;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = b);
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(-1.0)]
-        [Row(-0.0)]
-        [Row(0.0)]
-        public void SetBFailsWithNonPositiveB(double b)
-        {
-            var n = new InverseGamma(1.0, 1.0);
-            n.Scale = b;
-        }
-
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, Double.PositiveInfinity)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 0.1)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateMean(double a, double b)
+        /// <summary>
+        /// Validate mean.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        [Test, Combinatorial]
+        public void ValidateMean([Values(0.1, 1.0, Double.PositiveInfinity)] double a, [Values(0.1, 1.0, Double.PositiveInfinity)] double b)
         {
             var n = new InverseGamma(a, b);
             if (a > 1)
             {
-                Assert.AreEqual<double>(b / (a - 1.0), n.Mean);
+                Assert.AreEqual(b / (a - 1.0), n.Mean);
             }
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, Double.PositiveInfinity)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 0.1)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateVariance(double a, double b)
+        /// <summary>
+        /// Validate variance.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        [Test, Combinatorial]
+        public void ValidateVariance([Values(0.1, 1.0, Double.PositiveInfinity)] double a, [Values(0.1, 1.0, Double.PositiveInfinity)] double b)
         {
             var n = new InverseGamma(a, b);
             if (a > 2)
             {
-                Assert.AreEqual<double>(b * b / ((a - 1.0) * (a - 1.0) * (a - 2.0)), n.Variance);
+                Assert.AreEqual(b * b / ((a - 1.0) * (a - 1.0) * (a - 2.0)), n.Variance);
             }
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, Double.PositiveInfinity)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 0.1)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateStdDev(double a, double b)
+        /// <summary>
+        /// Validate standard deviation.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        [Test, Combinatorial]
+        public void ValidateStdDev([Values(0.1, 1.0, Double.PositiveInfinity)] double a, [Values(0.1, 1.0, Double.PositiveInfinity)] double b)
         {
             var n = new InverseGamma(a, b);
             if (a > 2)
             {
-                Assert.AreEqual<double>(b / ((a - 1.0) * Math.Sqrt(a - 2.0)), n.StdDev);
+                Assert.AreEqual(b / ((a - 1.0) * Math.Sqrt(a - 2.0)), n.StdDev);
             }
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, Double.PositiveInfinity)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 0.1)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateMode(double a, double b)
+        /// <summary>
+        /// Validate mode.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        [Test, Combinatorial]
+        public void ValidateMode([Values(0.1, 1.0, Double.PositiveInfinity)] double a, [Values(0.1, 1.0, Double.PositiveInfinity)] double b)
         {
             var n = new InverseGamma(a, b);
-            Assert.AreEqual<double>(b / (a + 1.0), n.Mode);
+            Assert.AreEqual(b / (a + 1.0), n.Mode);
         }
 
+        /// <summary>
+        /// Validate median throws <c>NotSupportedException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void ValidateMedian()
+        public void ValidateMedianThrowsNotSupportedException()
         {
             var n = new InverseGamma(1.0, 1.0);
-            var median = n.Median;
+            Assert.Throws<NotSupportedException>(() => { var median = n.Median; });
         }
 
+        /// <summary>
+        /// Validate minimum.
+        /// </summary>
         [Test]
         public void ValidateMinimum()
         {
             var n = new InverseGamma(1.0, 1.0);
-            Assert.AreEqual<double>(0.0, n.Minimum);
+            Assert.AreEqual(0.0, n.Minimum);
         }
 
+        /// <summary>
+        /// Validate maximum.
+        /// </summary>
         [Test]
         public void ValidateMaximum()
         {
             var n = new InverseGamma(1.0, 1.0);
-            Assert.AreEqual<double>(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
         }
 
-        [Test]
-        [Row(0.1, 0.1, 1.2)]
-        [Row(0.1, 1.0, 2.0)]
-        [Row(0.1, Double.PositiveInfinity, 1.1)]
-        [Row(1.0, 0.1, 1.5)]
-        [Row(1.0, 1.0, 1.2)]
-        [Row(1.0, Double.PositiveInfinity, 1.5)]
-        [Row(Double.PositiveInfinity, 0.1, 5.0)]
-        [Row(Double.PositiveInfinity, 1.0, 2.5)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity, 1.0)]
-        public void ValidateDensity(double a, double b, double x)
+        /// <summary>
+        /// Validate density.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        /// <param name="x">Input X valuer.</param>
+        [Test, Sequential]
+        public void ValidateDensity(
+            [Values(0.1, 0.1, 0.1, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double a, 
+            [Values(0.1, 1.0, Double.PositiveInfinity, 0.1, 1.0, Double.PositiveInfinity, 0.1, 1.0, Double.PositiveInfinity)] double b, 
+            [Values(1.2, 2.0, 1.1, 1.5, 1.2, 1.5, 5.0, 2.5, 1.0)] double x)
         {
             var n = new InverseGamma(a, b);
             if (x >= 0)
             {
-                Assert.AreEqual<double>(Math.Pow(b, a) * Math.Pow(x, -a - 1.0) * Math.Exp(-b / x) / SpecialFunctions.Gamma(a), n.Density(x));
+                Assert.AreEqual(Math.Pow(b, a) * Math.Pow(x, -a - 1.0) * Math.Exp(-b / x) / SpecialFunctions.Gamma(a), n.Density(x));
             }
             else
             {
-                Assert.AreEqual<double>(0.0, n.Density(x));
+                Assert.AreEqual(0.0, n.Density(x));
             }
         }
 
-        [Test]
-        [Row(0.1, 0.1, 1.2)]
-        [Row(0.1, 1.0, 2.0)]
-        [Row(0.1, Double.PositiveInfinity, 1.1)]
-        [Row(1.0, 0.1, 1.5)]
-        [Row(1.0, 1.0, 1.2)]
-        [Row(1.0, Double.PositiveInfinity, 1.5)]
-        [Row(Double.PositiveInfinity, 0.1, 5.0)]
-        [Row(Double.PositiveInfinity, 1.0, 2.5)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity, 1.0)]
-        public void ValidateDensityLn(double a, double b, double x)
+        /// <summary>
+        /// Validate density log.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        /// <param name="x">Input X valuer.</param>
+        [Test, Sequential]
+        public void ValidateDensityLn(
+            [Values(0.1, 0.1, 0.1, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double a, 
+            [Values(0.1, 1.0, Double.PositiveInfinity, 0.1, 1.0, Double.PositiveInfinity, 0.1, 1.0, Double.PositiveInfinity)] double b, 
+            [Values(1.2, 2.0, 1.1, 1.5, 1.2, 1.5, 5.0, 2.5, 1.0)] double x)
         {
             var n = new InverseGamma(a, b);
-            Assert.AreEqual<double>(Math.Log(n.Density(x)), n.DensityLn(x));
+            Assert.AreEqual(Math.Log(n.Density(x)), n.DensityLn(x));
         }
 
+        /// <summary>
+        /// Can sample.
+        /// </summary>
         [Test]
         public void CanSample()
         {
             var n = new InverseGamma(1.0, 1.0);
-            var d = n.Sample();
+            n.Sample();
         }
 
+        /// <summary>
+        /// Can sample sequence.
+        /// </summary>
         [Test]
         public void CanSampleSequence()
         {
             var n = new InverseGamma(1.0, 1.0);
             var ied = n.Samples();
-            var e = ied.Take(5).ToArray();
+            ied.Take(5).ToArray();
         }
 
-        [Test]
-        [Row(0.1, 0.1, 1.2)]
-        [Row(0.1, 1.0, 2.0)]
-        [Row(0.1, Double.PositiveInfinity, 1.1)]
-        [Row(1.0, 0.1, 1.5)]
-        [Row(1.0, 1.0, 1.2)]
-        [Row(1.0, Double.PositiveInfinity, 1.5)]
-        [Row(Double.PositiveInfinity, 0.1, 5.0)]
-        [Row(Double.PositiveInfinity, 1.0, 2.5)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity, 1.0)]
-        public void ValidateCumulativeDistribution(double a, double b, double x)
+        /// <summary>
+        /// Validate cumulative distribution.
+        /// </summary>
+        /// <param name="a">A parameter.</param>
+        /// <param name="b">B parameter.</param>
+        /// <param name="x">Input X valuer.</param>
+        [Test, Sequential]
+        public void ValidateCumulativeDistribution(
+            [Values(0.1, 0.1, 0.1, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double a, 
+            [Values(0.1, 1.0, Double.PositiveInfinity, 0.1, 1.0, Double.PositiveInfinity, 0.1, 1.0, Double.PositiveInfinity)] double b, 
+            [Values(1.2, 2.0, 1.1, 1.5, 1.2, 1.5, 5.0, 2.5, 1.0)] double x)
         {
             var n = new InverseGamma(a, b);
-            Assert.AreEqual<double>(SpecialFunctions.GammaUpperRegularized(a, b / x), n.CumulativeDistribution(x));
+            Assert.AreEqual(SpecialFunctions.GammaUpperRegularized(a, b / x), n.CumulativeDistribution(x));
         }
     }
 }

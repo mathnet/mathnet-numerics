@@ -27,21 +27,22 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using System;
-    using Numerics;
     using LinearAlgebra.Generic;
-    using MbUnit.Framework;
+    using NUnit.Framework;
+    using Complex32 = Numerics.Complex32;
 
+    /// <summary>
+    /// Abstract class with the common set of matrix tests
+    /// </summary>
     [TestFixture]
     public abstract partial class MatrixTests : MatrixLoader
     {
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void CanCloneMatrix(string name)
+        /// <summary>
+        /// Can clone a matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanCloneMatrix([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var clone = matrix.Clone();
@@ -53,19 +54,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], clone[i, j]);
+                    Assert.AreEqual(matrix[i, j], clone[i, j]);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void CanCloneMatrixUsingICloneable(string name)
+        /// <summary>
+        /// Can clone a matrix using <c>ICloneable</c> interface.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanCloneMatrixUsingICloneable([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix = TestMatrices[name];
             var clone = (Matrix<Complex32>)((ICloneable)matrix).Clone();
@@ -77,19 +76,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], clone[i, j]);
+                    Assert.AreEqual(matrix[i, j], clone[i, j]);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void CanCopyTo(string name)
+        /// <summary>
+        /// Can copy a matrix to another matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanCopyTo([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix = TestMatrices[name];
             var copy = CreateMatrix(matrix.RowCount, matrix.ColumnCount);
@@ -100,44 +97,47 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], copy[i, j]);
+                    Assert.AreEqual(matrix[i, j], copy[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Copy a matrix to another matrix fails when target is <c>null</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void CopyToFailsWhenTargetIsNull()
+        public void CopyToWhenTargetIsNullThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular3x3"];
             Matrix<Complex32> target = null;
-            matrix.CopyTo(target);
+            Assert.Throws<ArgumentNullException>(() => matrix.CopyTo(target));
         }
 
+        /// <summary>
+        /// Copy a matrix to another matrix fails when target has more rows.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void CopyToFailsWhenTargetHasMoreRows()
+        public void CopyToWhenTargetHasMoreRowsThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
-            matrix.CopyTo(target);
+            Assert.Throws<ArgumentException>(() => matrix.CopyTo(target));
         }
 
+        /// <summary>
+        /// Copy a matrix to another matrix fails when target has more columns.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void CopyToFailsWhenTargetHasMoreColumns()
+        public void CopyToWhenTargetHasMoreColumnsThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var target = CreateMatrix(matrix.RowCount + 1, matrix.ColumnCount);
-            matrix.CopyTo(target);
+            Assert.Throws<ArgumentException>(() => matrix.CopyTo(target));
         }
 
-        [Test]
-        [Ignore]
-        public void CanConvertVectorToString()
-        {
-        }
-
+        /// <summary>
+        /// Can create a matrix.
+        /// </summary>
         [Test]
         public void CanCreateMatrix()
         {
@@ -146,14 +146,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.AreEqual(expected.GetType(), actual.GetType(), "Matrices are same type.");
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void CanEquateMatrices(string name)
+        /// <summary>
+        /// Can equate matrices.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanEquateMatrices([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix1 = CreateMatrix(TestData2D[name]);
             var matrix2 = CreateMatrix(TestData2D[name]);
@@ -164,59 +162,64 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.IsFalse(matrix1.Equals(null));
         }
 
-        [Test]
-        [Row(0, 2)]
-        [Row(2, 0)]
-        [Row(0, 0)]
-        [Row(-1, 1)]
-        [Row(1, -1)]
-        [ExpectedArgumentOutOfRangeException]
-        public void ThrowsArgumentExceptionIfSizeIsNotPositive(int rows, int columns)
+        /// <summary>
+        /// Create a matrix throws <c>ArgumentOutOfRangeException</c> if size is not positive.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        [Test, Sequential]
+        public void IfSizeIsNotPositiveThrowsArgumentException([Values(0, 2, 0, -1, 1)] int rows, [Values(2, 0, 0, 1, -1)] int columns)
         {
-            CreateMatrix(rows, columns);
+            Assert.Throws<ArgumentOutOfRangeException>(() => CreateMatrix(rows, columns));
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        public void TestingForEqualityWithNonMatrixReturnsFalse(string name)
+        /// <summary>
+        /// Testing for equality with non-matrix returns <c>false</c>.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void TestingForEqualityWithNonMatrixReturnsFalse([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             Assert.IsFalse(matrix.Equals(2));
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        public void CanTestForEqualityUsingObjectEquals(string name)
+        /// <summary>
+        /// Can test for equality using Object.Equals.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanTestForEqualityUsingObjectEquals([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix1 = CreateMatrix(TestData2D[name]);
             var matrix2 = CreateMatrix(TestData2D[name]);
             Assert.IsTrue(matrix1.Equals((object)matrix2));
         }
 
-        [Test]
-        [Row(-1, 1, "Singular3x3")]
-        [Row(1, -1, "Singular3x3")]
-        [Row(4, 2, "Square3x3")]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void RangeCheckFails(int i, int j, string name)
+        /// <summary>
+        /// Range check fails with wrong parameters.
+        /// </summary>
+        /// <param name="i">Row index.</param>
+        /// <param name="j">Column index.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void RangeCheckWithInvalidIndicesThrowsArgumentOutOfRangeException([Values(-1, 1, 4)] int i, [Values(1, -1, 2)] int j, [Values("Singular3x3", "Singular3x3", "Square3x3")] string name)
         {
-            var x = TestMatrices[name][i, j];
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var x = TestMatrices[name][i, j]; });
         }
 
+        /// <summary>
+        /// Can get matrix hash code.
+        /// </summary>
         [Test]
-        [Ignore]
-        public void MatrixGetHashCode()
+        public void CanMatrixGetHashCode()
         {
+            var hash = TestMatrices["Singular3x3"].GetHashCode();
         }
 
+        /// <summary>
+        /// Can clear matrix.
+        /// </summary>
         [Test]
         public void CanClearMatrix()
         {
@@ -226,17 +229,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(0, matrix[i, j]);
+                    Assert.AreEqual(Complex32.Zero, matrix[i, j]);
                 }
             }
         }
 
-        [Test]
-        [Row(0, "Singular3x3")]
-        [Row(1, "Singular3x3")]
-        [Row(2, "Singular3x3")]
-        [Row(2, "Square3x3")]
-        public void CanGetRow(int rowIndex, string name)
+        /// <summary>
+        /// Can get a row of a matrix.
+        /// </summary>
+        /// <param name="rowIndex">Row index.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Combinatorial]
+        public void CanGetRow([Values(0, 1, 2)] int rowIndex, [Values("Singular3x3", "Square3x3")] string name)
         {
             var matrix = TestMatrices[name];
             var row = matrix.Row(rowIndex);
@@ -244,32 +248,37 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.AreEqual(matrix.ColumnCount, row.Count);
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
-                AssertHelpers.AreEqual(matrix[rowIndex, j], row[j]);
+                Assert.AreEqual(matrix[rowIndex, j], row[j]);
             }
         }
 
+        /// <summary>
+        /// Get row throws ArgumentOutOfRange with negative index.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetRowThrowsArgumentOutOfRangeWithNegativeIndex()
+        public void GetRowWithNegativeIndexThrowsArgumentOutOfRange()
         {
             var matrix = TestMatrices["Singular3x3"];
-            matrix.Row(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Row(-1));
         }
 
+        /// <summary>
+        /// Get row throws <c>ArgumentOutOfRangeException</c> with overflowing row index.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetRowThrowsArgumentOutOfRangeWithOverflowingRowIndex()
+        public void GetRowWithOverflowingRowIndexThrowsArgumentOutOfRange()
         {
             var matrix = TestMatrices["Singular3x3"];
-            matrix.Row(matrix.RowCount);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Row(matrix.RowCount));
         }
 
-        [Test]
-        [Row(0, "Singular3x3")]
-        [Row(1, "Singular3x3")]
-        [Row(2, "Singular3x3")]
-        [Row(2, "Square3x3")]
-        public void CanGetRowWithResult(int rowIndex, string name)
+        /// <summary>
+        /// Can get row of a matrix into a result vector.
+        /// </summary>
+        /// <param name="rowIndex">Row index.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Combinatorial]
+        public void CanGetRowIntoResult([Values(0, 1, 2)] int rowIndex, [Values("Singular3x3", "Square3x3")] string name)
         {
             var matrix = TestMatrices[name];
             var row = CreateVector(matrix.ColumnCount);
@@ -278,42 +287,51 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.AreEqual(matrix.ColumnCount, row.Count);
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
-                AssertHelpers.AreEqual(matrix[rowIndex, j], row[j]);
+                Assert.AreEqual(matrix[rowIndex, j], row[j]);
             }
         }
 
+        /// <summary>
+        /// Get row of a matrix into <c>null</c> result vector throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void GetRowWithResultFailsWhenResultIsNull()
+        public void GetRowWhenResultIsNullThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular3x3"];
-            matrix.Row(0, null);
+            Assert.Throws<ArgumentNullException>(() => matrix.Row(0, null));
         }
 
+        /// <summary>
+        /// Get row into a result with the negative row index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetRowWithResultThrowsArgumentOutOfRangeWithNegativeIndex()
-        {
-            var matrix = TestMatrices["Singular3x3"];
-            var row = CreateVector(matrix.ColumnCount);
-            matrix.Row(-1, row);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetRowWithResultThrowsArgumentOutOfRangeWithOverflowingRowIndex()
+        public void GetRowIntoResultWithNegativeRowIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var row = CreateVector(matrix.ColumnCount);
-            matrix.Row(matrix.RowCount, row);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Row(-1, row));
         }
 
+        /// <summary>
+        /// Get row into a vector with overflowing row index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [Row(0, 0, 1, "Singular3x3")]
-        [Row(1, 1, 2, "Singular3x3")]
-        [Row(2, 0, 3, "Singular3x3")]
-        [Row(2, 0, 3, "Square3x3")]
-        public void CanGetRowWithRange(int rowIndex, int start, int length, string name)
+        public void GetRowIntoResultWithOverflowingRowIndexThrowsArgumentOutOfRangeException()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var row = CreateVector(matrix.ColumnCount);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Row(matrix.RowCount, row));
+        }
+
+        /// <summary>
+        /// Can get a row at specific start position and length of a matrix into a vector.
+        /// </summary>
+        /// <param name="rowIndex">Row index.</param>
+        /// <param name="start">Column start.</param>
+        /// <param name="length">Row length.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanGetRowWithRange([Values(0, 1, 2, 2)] int rowIndex, [Values(0, 1, 0, 0)] int start, [Values(1, 2, 3, 3)] int length, [Values("Singular3x3", "Singular3x3", "Singular3x3", "Square3x3")] string name)
         {
             var matrix = TestMatrices[name];
             var row = matrix.Row(rowIndex, start, length);
@@ -321,34 +339,39 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.AreEqual(length, row.Count);
             for (var j = start; j < start + length; j++)
             {
-                AssertHelpers.AreEqual(matrix[rowIndex, j], row[j - start]);
+                Assert.AreEqual(matrix[rowIndex, j], row[j - start]);
             }
         }
 
+        /// <summary>
+        /// Get a row of a matrix at specific start position and zero length throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetRowWithRangeResultArgumentExeptionWhenLengthIsZero()
+        public void GetRowWithRangeIntoResultWhenLengthIsZeroThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var result = CreateVector(matrix.ColumnCount);
-            matrix.Row(0, 0, 0, result);
+            Assert.Throws<ArgumentException>(() => matrix.Row(0, 0, 0, result));
         }
 
+        /// <summary>
+        /// Get a row at specific start position and length of a matrix into a too small vector throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetRowWithRangeFailsWithTooSmallResultVector()
+        public void GetRowWithRangeIntoTooSmallResultVectorThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var result = CreateVector(matrix.ColumnCount - 1);
-            matrix.Row(0, 0, 0, result);
+            Assert.Throws<ArgumentException>(() => matrix.Row(0, 0, 0, result));
         }
 
-        [Test]
-        [Row(0, "Singular3x3")]
-        [Row(1, "Singular3x3")]
-        [Row(2, "Singular3x3")]
-        [Row(2, "Square3x3")]
-        public void CanGetColumn(int colIndex, string name)
+        /// <summary>
+        /// Can get a column of a matrix.
+        /// </summary>
+        /// <param name="colIndex">Row index.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Combinatorial]
+        public void CanGetColumn([Values(0, 1, 2)] int colIndex, [Values("Singular3x3", "Square3x3")] string name)
         {
             var matrix = TestMatrices[name];
             var col = matrix.Column(colIndex);
@@ -356,32 +379,37 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.AreEqual(matrix.RowCount, col.Count);
             for (var j = 0; j < matrix.RowCount; j++)
             {
-                AssertHelpers.AreEqual(matrix[j, colIndex], col[j]);
+                Assert.AreEqual(matrix[j, colIndex], col[j]);
             }
         }
 
+        /// <summary>
+        /// Get a column with negative index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetColumnThrowsArgumentOutOfRangeWithNegativeIndex()
+        public void GetColumnWithNegativeIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
-            matrix.Column(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Column(-1));
         }
 
+        /// <summary>
+        /// Get column with overflowing row index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetColumnThrowsArgumentOutOfRangeWithOverflowingRowIndex()
+        public void GetColumnWithOverflowingRowIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
-            matrix.Column(matrix.ColumnCount);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Column(matrix.ColumnCount));
         }
 
-        [Test]
-        [Row(0, "Singular3x3")]
-        [Row(1, "Singular3x3")]
-        [Row(2, "Singular3x3")]
-        [Row(2, "Square3x3")]
-        public void CanGetColumnWithResult(int colIndex, string name)
+        /// <summary>
+        /// Can get a column into a result vector.
+        /// </summary>
+        /// <param name="colIndex">Column index.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Combinatorial]
+        public void CanGetColumnIntoResult([Values(0, 1, 2)] int colIndex, [Values("Singular3x3", "Square3x3")] string name)
         {
             var matrix = TestMatrices[name];
             var col = CreateVector(matrix.RowCount);
@@ -390,42 +418,51 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.AreEqual(matrix.RowCount, col.Count);
             for (var j = 0; j < matrix.RowCount; j++)
             {
-                AssertHelpers.AreEqual(matrix[j, colIndex], col[j]);
+                Assert.AreEqual(matrix[j, colIndex], col[j]);
             }
         }
 
+        /// <summary>
+        /// Get a column when result vector is <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void GetColumnFailsWhenResultIsNull()
+        public void GetColumnWhenResultIsNullThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Singular3x3"];
-            matrix.Column(0, null);
+            Assert.Throws<ArgumentNullException>(() => matrix.Column(0, null));
         }
 
+        /// <summary>
+        /// Get a column into result vector with negative index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetColumnWithResultThrowsArgumentOutOfRangeWithNegativeIndex()
+        public void GetColumnIntoResultWithNegativeIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var column = CreateVector(matrix.ColumnCount);
-            matrix.Column(-1, column);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Column(-1, column));
         }
 
+        /// <summary>
+        /// Get a column into result with overflowing row index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void GetColumnWithResultThrowsArgumentOutOfRangeWithOverflowingRowIndex()
+        public void GetColumnIntoResultWithOverflowingRowIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var column = CreateVector(matrix.RowCount);
-            matrix.Row(matrix.ColumnCount, column);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.Row(matrix.ColumnCount, column));
         }
 
-        [Test]
-        [Row(0, 0, 1, "Singular3x3")]
-        [Row(1, 1, 2, "Singular3x3")]
-        [Row(2, 0, 3, "Singular3x3")]
-        [Row(2, 0, 3, "Square3x3")]
-        public void CanGetColumnWithRange(int colIndex, int start, int length, string name)
+        /// <summary>
+        /// Can get a column with range.
+        /// </summary>
+        /// <param name="colIndex">Column index.</param>
+        /// <param name="start">Start index.</param>
+        /// <param name="length">Column length.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanGetColumnWithRange([Values(0, 1, 2, 2)] int colIndex, [Values(0, 1, 0, 0)] int start, [Values(1, 2, 3, 3)] int length, [Values("Singular3x3", "Singular3x3", "Singular3x3", "Square3x3")] string name)
         {
             var matrix = TestMatrices[name];
             var col = matrix.Column(colIndex, start, length);
@@ -433,34 +470,39 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             Assert.AreEqual(length, col.Count);
             for (var j = start; j < start + length; j++)
             {
-                AssertHelpers.AreEqual(matrix[j, colIndex], col[j - start]);
+                Assert.AreEqual(matrix[j, colIndex], col[j - start]);
             }
         }
 
+        /// <summary>
+        /// Get a column range into a result vector when length is zero throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetColumnWithRangeResultArgumentExeptionWhenLengthIsZero()
+        public void GetColumnRangeIntoResultWhenLengthIsZeroThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var col = CreateVector(matrix.RowCount);
-            matrix.Column(0, 0, 0, col);
+            Assert.Throws<ArgumentException>(() => matrix.Column(0, 0, 0, col));
         }
 
+        /// <summary>
+        /// Get a column range into too small result vector throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetColumnWithRangeFailsWithTooSmallResultVector()
+        public void GetColumnRangeIntoTooSmallResultVectorThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
             var result = CreateVector(matrix.RowCount - 1);
-            matrix.Column(0, 0, matrix.RowCount, result);
+            Assert.Throws<ArgumentException>(() => matrix.Column(0, 0, matrix.RowCount, result));
         }
 
-        [Test]
-        [Row(0, "Singular3x3")]
-        [Row(1, "Singular3x3")]
-        [Row(2, "Singular3x3")]
-        [Row(2, "Square3x3")]
-        public void CanSetRow(int rowIndex, string name)
+        /// <summary>
+        /// Can set a row.
+        /// </summary>
+        /// <param name="rowIndex">Row index.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Combinatorial]
+        public void CanSetRow([Values(0, 1, 2)] int rowIndex, [Values("Singular3x3", "Square3x3")] string name)
         {
             var matrix = TestMatrices[name].Clone();
             matrix.SetRow(rowIndex, CreateVector(matrix.ColumnCount));
@@ -469,17 +511,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(i == rowIndex ? 0.0f : TestMatrices[name][i, j], matrix[i, j]);
+                    Assert.AreEqual(i == rowIndex ? Complex32.Zero : TestMatrices[name][i, j], matrix[i, j]);
                 }
             }
         }
 
-        [Test]
-        [Row(0, "Singular3x3")]
-        [Row(1, "Singular3x3")]
-        [Row(2, "Singular3x3")]
-        [Row(2, "Square3x3")]
-        public void CanSetColumn(int colIndex, string name)
+        /// <summary>
+        /// Can set a column.
+        /// </summary>
+        /// <param name="colIndex">Column index.</param>
+        /// <param name="name">Matrix name.</param>
+        [Test, Combinatorial]
+        public void CanSetColumn([Values(0, 1, 2)] int colIndex, [Values("Singular3x3", "Square3x3")] string name)
         {
             var matrix = TestMatrices[name].Clone();
             matrix.SetColumn(colIndex, CreateVector(matrix.ColumnCount));
@@ -488,19 +531,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(j == colIndex ? 0.0f : TestMatrices[name][i, j], matrix[i, j]);
+                    Assert.AreEqual(j == colIndex ? Complex32.Zero : TestMatrices[name][i, j], matrix[i, j]);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void UpperTriangle(string name)
+        /// <summary>
+        /// Get an upper triangle matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanUpperTriangle([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var data = TestMatrices[name];
             var upper = data.UpperTriangle();
@@ -508,61 +549,138 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < data.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(i <= j ? data[i, j] : 0, upper[i, j]);
+                    Assert.AreEqual(i <= j ? data[i, j] : Complex32.Zero, upper[i, j]);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void UpperTriangleResult(string name)
+        /// <summary>
+        /// Get an upper triangle matrix into a result matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanUpperTriangleIntoResult([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var data = TestMatrices[name];
-            var upper = CreateMatrix(data.RowCount, data.ColumnCount);
-            data.UpperTriangle(upper);
+            var result = CreateMatrix(data.RowCount, data.ColumnCount);
+            data.UpperTriangle(result);
             for (var i = 0; i < data.RowCount; i++)
             {
                 for (var j = 0; j < data.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(i <= j ? data[i, j] : 0, upper[i, j]);
+                    Assert.AreEqual(i <= j ? data[i, j] : Complex32.Zero, result[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Get an upper triangle matrix into <c>null</c> result matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void UpperTriangleWithResultNullShouldThrowException()
+        public void UpperTriangleIntoResultNullThrowsArgumentNullException()
         {
             var data = TestMatrices["Square3x3"];
             Matrix<Complex32> result = null;
-            data.UpperTriangle(result);
+            Assert.Throws<ArgumentNullException>(() => data.UpperTriangle(result));
         }
 
+        /// <summary>
+        /// Get an upper triangle into a result matrix with unequal rows throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void UpperTriangleWithUnEqualRowsShouldThrowException()
+        public void UpperTriangleIntoResultWithUnEqualRowsThrowsArgumentException()
         {
             var data = TestMatrices["Square3x3"];
             var result = CreateMatrix(data.RowCount + 1, data.ColumnCount);
-            data.UpperTriangle(result);
+            Assert.Throws<ArgumentException>(() => data.UpperTriangle(result));
         }
 
+        /// <summary>
+        /// Get an upper triangle into a result matrix with unequal columns throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void UpperTriangleWithUnEqualColumnsShouldThrowException()
+        public void UpperTriangleIntoResultWithUnEqualColumnsThrowsArgumentException()
         {
             var data = TestMatrices["Square3x3"];
             var result = CreateMatrix(data.RowCount, data.ColumnCount + 1);
-            data.UpperTriangle(result);
+            Assert.Throws<ArgumentException>(() => data.UpperTriangle(result));
         }
 
+        /// <summary>
+        /// Get a lower triangle matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanLowerTriangle([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        {
+            var data = TestMatrices[name];
+            var lower = data.LowerTriangle();
+            for (var i = 0; i < data.RowCount; i++)
+            {
+                for (var j = 0; j < data.ColumnCount; j++)
+                {
+                    Assert.AreEqual(i >= j ? data[i, j] : Complex32.Zero, lower[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get a lower triangle matrix into a result matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanLowerTriangleIntoResult([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        {
+            var data = TestMatrices[name];
+            var result = CreateMatrix(data.RowCount, data.ColumnCount);
+            data.LowerTriangle(result);
+            for (var i = 0; i < data.RowCount; i++)
+            {
+                for (var j = 0; j < data.ColumnCount; j++)
+                {
+                    Assert.AreEqual(i >= j ? data[i, j] : Complex32.Zero, result[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get a lower triangle matrix into <c>null</c> result matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        public void StrictlyLowerTriangle()
+        public void LowerTriangleIntoResultNullThrowsArgumentNullException()
+        {
+            var data = TestMatrices["Square3x3"];
+            Matrix<Complex32> result = null;
+            Assert.Throws<ArgumentNullException>(() => data.LowerTriangle(result));
+        }
+
+        /// <summary>
+        /// Get a lower triangle into a result matrix with unequal rows throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void LowerTriangleIntoResultWithUnEqualRowsThrowsArgumentException()
+        {
+            var data = TestMatrices["Square3x3"];
+            var result = CreateMatrix(data.RowCount + 1, data.ColumnCount);
+            Assert.Throws<ArgumentException>(() => data.LowerTriangle(result));
+        }
+
+        /// <summary>
+        /// Get a lower triangle into a result matrix with unequal columns throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void LowerTriangleIntoResultWithUnEqualColumnsThrowsArgumentException()
+        {
+            var data = TestMatrices["Square3x3"];
+            var result = CreateMatrix(data.RowCount, data.ColumnCount + 1);
+            Assert.Throws<ArgumentException>(() => data.LowerTriangle(result));
+        }
+
+        /// <summary>
+        /// Get a strictly lower triangle.
+        /// </summary>
+        [Test]
+        public void CanStrictlyLowerTriangle()
         {
             foreach (var data in TestMatrices.Values)
             {
@@ -571,14 +689,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(i > j ? data[i, j] : 0, lower[i, j]);
+                        Assert.AreEqual(i > j ? data[i, j] : Complex32.Zero, lower[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Get a strictly lower triangle into a result matrix.
+        /// </summary>
         [Test]
-        public void StrictlyLowerTriangleResult()
+        public void CanStrictlyLowerTriangleIntoResult()
         {
             foreach (var data in TestMatrices.Values)
             {
@@ -588,108 +709,123 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(i > j ? data[i, j] : 0, lower[i, j]);
+                        Assert.AreEqual(i > j ? data[i, j] : Complex32.Zero, lower[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Get a strictly lower triangle with <c>null</c> parameter throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void StrictlyLowerTriangleWithNullParameterShouldThrowException()
+        public void StrictlyLowerTriangleWithNullParameterThrowsArgumentNullException()
         {
             var data = TestMatrices["Square3x3"];
             Matrix<Complex32> lower = null;
-            data.StrictlyLowerTriangle(lower);
+            Assert.Throws<ArgumentNullException>(() => data.StrictlyLowerTriangle(lower));
         }
 
+        /// <summary>
+        /// Get a strictly lower triangle into result with unequal column number throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void StrictlyLowerTriangleWithInvalidColumnNumberShouldThrowException()
+        public void StrictlyLowerTriangleIntoResultWithUnequalColumnNumberThrowsArgumentException()
         {
             var data = TestMatrices["Square3x3"];
             var lower = CreateMatrix(data.RowCount, data.ColumnCount + 1);
-            data.StrictlyLowerTriangle(lower);
+            Assert.Throws<ArgumentException>(() => data.StrictlyLowerTriangle(lower));
         }
 
+        /// <summary>
+        /// Get a strictly lower triangle into result with unequal row number throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void StrictlyLowerTriangleWithInvalidRowNumberShouldThrowException()
+        public void StrictlyLowerTriangleIntoResultWithUnequalRowNumberThrowsArgumentException()
         {
             var data = TestMatrices["Square3x3"];
             var lower = CreateMatrix(data.RowCount + 1, data.ColumnCount);
-            data.StrictlyLowerTriangle(lower);
+            Assert.Throws<ArgumentException>(() => data.StrictlyLowerTriangle(lower));
         }
 
-
+        /// <summary>
+        /// Get a strictly upper triangle.
+        /// </summary>
         [Test]
-        public void StrictlyUpperTriangle()
+        public void CanStrictlyUpperTriangle()
         {
             foreach (var data in TestMatrices.Values)
             {
-                var upper = data.StrictlyUpperTriangle();
+                var lower = data.StrictlyUpperTriangle();
                 for (var i = 0; i < data.RowCount; i++)
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(i < j ? data[i, j] : 0, upper[i, j]);
+                        Assert.AreEqual(i < j ? data[i, j] : Complex32.Zero, lower[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Get a strictly upper triangle into a result matrix.
+        /// </summary>
         [Test]
-        public void StrictlyUpperTriangleResult()
+        public void CanStrictlyUpperTriangleIntoResult()
         {
             foreach (var data in TestMatrices.Values)
             {
-                var upper = CreateMatrix(data.RowCount, data.ColumnCount);
-                data.StrictlyUpperTriangle(upper);
+                var lower = CreateMatrix(data.RowCount, data.ColumnCount);
+                data.StrictlyUpperTriangle(lower);
                 for (var i = 0; i < data.RowCount; i++)
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(i < j ? data[i, j] : 0, upper[i, j]);
+                        Assert.AreEqual(i < j ? data[i, j] : Complex32.Zero, lower[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Get a strictly upper triangle with <c>null</c> parameter throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void StrictlyUpperTriangleWithNullParameterShouldThrowException()
+        public void StrictlyUpperTriangleWithNullParameterThrowsArgumentNullException()
         {
             var data = TestMatrices["Square3x3"];
             Matrix<Complex32> lower = null;
-            data.StrictlyUpperTriangle(lower);
+            Assert.Throws<ArgumentNullException>(() => data.StrictlyUpperTriangle(lower));
         }
 
+        /// <summary>
+        /// Get a strictly upper triangle into a result matrix with unequal column number throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void StrictlyUpperTriangleWithInvalidColumnNumberShouldThrowException()
+        public void StrictlyUpperTriangleIntoResultWithUnequalColumnNumberThrowsArgumentException()
         {
             var data = TestMatrices["Square3x3"];
             var lower = CreateMatrix(data.RowCount, data.ColumnCount + 1);
-            data.StrictlyUpperTriangle(lower);
+            Assert.Throws<ArgumentException>(() => data.StrictlyUpperTriangle(lower));
         }
 
+        /// <summary>
+        /// Get a strictly upper triangle into a result matrix with unequal row number throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void StrictlyUpperTriangleWithInvalidRowNumberShouldThrowException()
+        public void StrictlyUpperTriangleIntoResultWithUnequalRowNumberThrowsArgumentException()
         {
             var data = TestMatrices["Square3x3"];
             var lower = CreateMatrix(data.RowCount + 1, data.ColumnCount);
-            data.StrictlyUpperTriangle(lower);
+            Assert.Throws<ArgumentException>(() => data.StrictlyUpperTriangle(lower));
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void CanTransposeMatrix(string name)
+        /// <summary>
+        /// Can transpose a matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanTransposeMatrix([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var transpose = matrix.Transpose();
@@ -701,19 +837,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], transpose[j, i]);
+                    Assert.AreEqual(matrix[i, j], transpose[j, i]);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public void CanConjugateTransposeMatrix(string name)
+        /// <summary>
+        /// Can conjugate transpose a matrix.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public void CanConjugateTransposeMatrix([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var transpose = matrix.ConjugateTranspose();
@@ -725,28 +859,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], transpose[j, i].Conjugate());
+                    Assert.AreEqual(matrix[i, j], transpose[j, i].Conjugate());
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3", new float[] { 1, 2, 3 })]
-        [Row("Square3x3", new float[] { 1, 2, 3 })]
-        [Row("Tall3x2", new float[] { 1, 2, 3 })]
-        [Row("Wide2x3", new float[] { 1, 2 })]
-        [Row("Singular3x3", null, ExpectedException = typeof(ArgumentNullException))]
-        [Row("Singular3x3", new float[] { 1, 2, 3, 4, 5 }, ExpectedException = typeof(ArgumentException))]
-        public virtual void SetColumnWithArray(string name, float[] real)
+        /// <summary>
+        /// Can set a column with an array.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="real">Column real values array.</param>
+        [Test, Sequential]
+        public virtual void CanSetColumnWithArray([Values("Singular3x3", "Square3x3", "Tall3x2", "Wide2x3")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2 })] float[] real)
         {
-            Complex32[] column = null;
-            if (real != null)
+            var column = new Complex32[real.Length];
+            for (var i = 0; i < real.Length; i++)
             {
-                column = new Complex32[real.Length];
-                for (int i = 0; i < real.Length; i++)
-                {
-                    column[i] = new Complex32(real[i], 1);
-                }
+                column[i] = new Complex32(real[i], 1);
             }
 
             var matrix = TestMatrices[name];
@@ -755,39 +884,53 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 matrix.SetColumn(i, column);
                 for (var j = 0; j < matrix.RowCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[j, i], column[j]);
+                    Assert.AreEqual(matrix[j, i], column[j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Set a column with <c>null</c> array throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentOutOfRangeException]
-        public void SetColumnArrayWithInvalidColumnIndexShouldThrowException()
+        public virtual void SetColumnWithNullArrayThrowsArgumentNullException()
+        {
+            Complex32[] vec = null;
+            Assert.Throws<ArgumentNullException>(() => TestMatrices["Singular3x3"].SetColumn(1, vec));
+        }
+
+        /// <summary>
+        /// Set a column with unequal array length throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public virtual void SetColumnWithArrayUnequalLengthThrowsArgumentException()
+        {
+            var array = new Complex32[] { 1, 2, 3, 4, 5 };
+            Assert.Throws<ArgumentException>(() => TestMatrices["Singular3x3"].SetColumn(1, array));
+        }
+
+        /// <summary>
+        /// Set a column array with invalid column index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
+        [Test]
+        public void SetColumnWithArrayWithInvalidColumnIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Square3x3"];
             Complex32[] column = { 1, 2, 3 };
-            matrix.SetColumn(-1, column);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.SetColumn(matrix.ColumnCount + 1, column));
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.SetColumn(-1, column));
         }
 
-        [Test]
-        [ExpectedArgumentOutOfRangeException]
-        public void SetColumnArrayWithInvalidColumnIndexShouldThrowException2()
-        {
-            var matrix = TestMatrices["Square3x3"];
-            Complex32[] column = { 1, 2, 3 };
-            matrix.SetColumn(matrix.ColumnCount + 1, column);
-        }
-
-        [Test]
-        [Row("Singular3x3", new float[] { 1, 2, 3 })]
-        [Row("Square3x3", new float[] { 1, 2, 3 })]
-        [Row("Tall3x2", new float[] { 1, 2, 3 })]
-        [Row("Wide2x3", new float[] { 1, 2 })]
-        [Row("Singular3x3", new float[] { 1, 2, 3, 4, 5 }, ExpectedException = typeof(ArgumentException))]
-        public virtual void SetColumnWithVector(string name, float[] real)
+        /// <summary>
+        /// Can set a column with a vector.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="real">Column real values.</param>
+        [Test, Sequential]
+        public virtual void CanSetColumnWithVector([Values("Singular3x3", "Square3x3", "Tall3x2", "Wide2x3")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2 })] float[] real)
         {
             var column = new Complex32[real.Length];
-            for (int i = 0; i < real.Length; i++)
+            for (var i = 0; i < real.Length; i++)
             {
                 column[i] = new Complex32(real[i], 1);
             }
@@ -799,40 +942,50 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 matrix.SetColumn(i, column);
                 for (var j = 0; j < matrix.RowCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[j, i], columnVector[j]);
+                    Assert.AreEqual(matrix[j, i], columnVector[j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Set a column with vector with wrong length throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void SetColumnWithNullVectorShouldThrowException()
+        public virtual void SetColumnWithVectorWithUnequalLengthThrowsArgumentException()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var columnVector = CreateVector(new Complex32[] { 1, 2, 3, 4, 5 });
+            Assert.Throws<ArgumentException>(() => matrix.SetColumn(1, columnVector));
+        }
+
+        /// <summary>
+        /// Set a column with <c>null</c> vector throw <c>ArgumentNullException</c>.
+        /// </summary>
+        [Test]
+        public void SetColumnWithNullVectorThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Square3x3"];
             Vector<Complex32> columnVector = null;
-            matrix.SetColumn(1, columnVector);
+            Assert.Throws<ArgumentNullException>(() => matrix.SetColumn(1, columnVector));
         }
 
+        /// <summary>
+        /// Set column vector with invalid column index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentOutOfRangeException]
-        public void SetColumnVectorWithInvalidColumnIndexShouldThrowException()
+        public void SetColumnWithVectorWithInvalidColumnIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Square3x3"];
             var column = CreateVector(new Complex32[] { 1, 2, 3 });
-            matrix.SetColumn(-1, column);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.SetColumn(-1, column));
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.SetColumn(matrix.ColumnCount + 1, column));
         }
 
+        /// <summary>
+        /// Can insert a column.
+        /// </summary>
         [Test]
-        [ExpectedArgumentOutOfRangeException]
-        public void SetColumnVectorWithInvalidColumnIndexShouldThrowException2()
-        {
-            var matrix = TestMatrices["Square3x3"];
-            var column = CreateVector(new Complex32[] { 1, 2, 3 });
-            matrix.SetColumn(matrix.ColumnCount + 1, column);
-        }
-
-        [Test]
-        public void InsertColumn()
+        public void CanInsertColumn()
         {
             var matrix = CreateMatrix(3, 3);
             var column = CreateVector(matrix.RowCount);
@@ -849,54 +1002,57 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var row = 0; row < result.RowCount; row++)
                     {
-                        AssertHelpers.AreEqual(col == k ? row : 0, result[row, col]);
+                        AssertHelpers.AreEqual(col == k ? column[row] : 0, result[row, col]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Insert <c>null</c> column throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void InsertNullColumnShouldThrowExecption()
+        public void InsertNullColumnThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Square3x3"];
-            matrix.InsertColumn(0, null);
+            Assert.Throws<ArgumentNullException>(() => matrix.InsertColumn(0, null));
         }
 
+        /// <summary>
+        /// Insert a column with invalid column index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [Row(-1, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(5, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void InsertColumnWithInvalidColumnIndexShouldThrowExceptiopn(int columnIndex)
+        public void InsertColumnWithInvalidColumnIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = CreateMatrix(3, 3);
             var column = CreateVector(matrix.RowCount);
-            matrix.InsertColumn(columnIndex, column);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.InsertColumn(-1, column));
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.InsertColumn(5, column));
         }
 
-        public void InsertColumnWithInvalidNumberOfElementsShouldThrowException()
+        /// <summary>
+        /// Insert a column with invalid number of elements throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void InsertColumnWithUnequalNumberOfElementsThrowsArgumentException()
         {
             var matrix = CreateMatrix(3, 3);
             var column = CreateVector(matrix.RowCount + 1);
-            matrix.InsertColumn(0, column);
+            Assert.Throws<ArgumentException>(() => matrix.InsertColumn(0, column));
         }
 
-        [Test]
-        [Row("Singular3x3", new float[] { 1, 2, 3 })]
-        [Row("Square3x3", new float[] { 1, 2, 3 })]
-        [Row("Tall3x2", new float[] { 1, 2 })]
-        [Row("Wide2x3", new float[] { 1, 2, 3 })]
-        [Row("Singular3x3", null, ExpectedException = typeof(ArgumentNullException))]
-        [Row("Singular3x3", new float[] { 1, 2, 3, 4, 5 }, ExpectedException = typeof(ArgumentException))]
-        public virtual void SetRowWithArray(string name, float[] real)
+        /// <summary>
+        /// Can set a row with an array.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="real">Row index.</param>
+        [Test, Sequential]
+        public virtual void CanSetRowWithArray([Values("Singular3x3", "Square3x3", "Tall3x2", "Wide2x3")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2 }, new float[] { 1, 2, 3 })] float[] real)
         {
-            Complex32[] row = null;
-            if (real != null)
+            var row = new Complex32[real.Length];
+            for (var i = 0; i < real.Length; i++)
             {
-                row = new Complex32[real.Length];
-                for (var i = 0; i < real.Length; i++)
-                {
-                    row[i] = new Complex32(real[i], 1);
-                }
+                row[i] = new Complex32(real[i], 1);
             }
 
             var matrix = TestMatrices[name];
@@ -905,36 +1061,40 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 matrix.SetRow(i, row);
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], row[j]);
+                    Assert.AreEqual(matrix[i, j], row[j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Set a row with <c>null</c> array throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentOutOfRangeException]
-        public void SetRowArrayWithInvalidRowIndexShouldThrowException()
+        public virtual void SetRowWithNullArrayThrowsArgumentNullException()
+        {
+            Complex32[] arr = null;
+            Assert.Throws<ArgumentNullException>(() => TestMatrices["Square3x3"].SetRow(1, arr));
+        }
+
+        /// <summary>
+        /// Set a row with an array with invalid row index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
+        [Test]
+        public void SetRowWithArrayWithInvalidRowIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Square3x3"];
             Complex32[] row = { 1, 2, 3 };
-            matrix.SetRow(-1, row);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.SetRow(-1, row));
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.SetRow(matrix.RowCount + 1, row));
         }
 
-        [Test]
-        [ExpectedArgumentOutOfRangeException]
-        public void SetRowArrayWithInvalidRowIndexShouldThrowException2()
-        {
-            var matrix = TestMatrices["Square3x3"];
-            Complex32[] row = { 1, 2, 3 };
-            matrix.SetRow(matrix.RowCount + 1, row);
-        }
-
-        [Test]
-        [Row("Singular3x3", new float[] { 1, 2, 3 })]
-        [Row("Square3x3", new float[] { 1, 2, 3 })]
-        [Row("Tall3x2", new float[] { 1, 2 })]
-        [Row("Wide2x3", new float[] { 1, 2, 3 })]
-        [Row("Singular3x3", new float[] { 1, 2, 3, 4, 5 }, ExpectedException = typeof(ArgumentException))]
-        public virtual void SetRowWithVector(string name, float[] real)
+        /// <summary>
+        /// Can set a row with a vector.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="real">Row real values.</param>
+        [Test, Sequential]
+        public virtual void CanSetRowWithVector([Values("Singular3x3", "Square3x3", "Tall3x2", "Wide2x3")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2 }, new float[] { 1, 2, 3 })] float[] real)
         {
             var row = new Complex32[real.Length];
             for (var i = 0; i < real.Length; i++)
@@ -949,50 +1109,53 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 matrix.SetRow(i, row);
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], rowVector[j]);
+                    Assert.AreEqual(matrix[i, j], rowVector[j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Set a row with a vector of unequal length throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void SetRowWithNullVectorShouldThrowException()
+        public virtual void SetRowWithVectorWithUnequalLengthThrowsArgumentException()
+        {
+            var vec = CreateVector(new Complex32[] { 1, 2, 3, 4, 5 });
+            Assert.Throws<ArgumentException>(() => TestMatrices["Square3x3"].SetRow(1, vec));
+        }
+
+        /// <summary>
+        /// Set a row with a <c>null</c> vector throws <c>ArgumentNullException</c>.
+        /// </summary>
+        [Test]
+        public void SetRowWithNullVectorThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Square3x3"];
             Vector<Complex32> rowVector = null;
-            matrix.SetRow(1, rowVector);
+            Assert.Throws<ArgumentNullException>(() => matrix.SetRow(1, rowVector));
         }
 
+        /// <summary>
+        /// Set a row with a vector with invalid row index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentOutOfRangeException]
-        public void SetRowVectorWithInvalidRowIndexShouldThrowException()
+        public void SetRowWithVectorWithInvalidRowIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = TestMatrices["Square3x3"];
             var row = CreateVector(new Complex32[] { 1, 2, 3 });
-            matrix.SetRow(-1, row);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.SetRow(-1, row));
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.SetRow(matrix.RowCount + 1, row));
         }
 
-        [Test]
-        [ExpectedArgumentOutOfRangeException]
-        public void SetRowVectorWithInvalidRowIndexShouldThrowException2()
-        {
-            var matrix = TestMatrices["Square3x3"];
-            var row = CreateVector(new Complex32[] { 1, 2, 3 });
-            matrix.SetRow(matrix.RowCount + 1, row);
-        }
-
-        [Test]
-        [Row(0, 2, 0, 2)]
-        [Row(1, 1, 1, 1)]
-        [Row(0, 4, 0, 2, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(0, 2, 0, 4, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(4, 2, 0, 2, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(0, 2, 4, 2, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(-1, 2, 0, 2, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(0, 2, -1, 2, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(0, -1, 0, 2, ExpectedException = typeof(ArgumentException))]
-        [Row(0, 2, 0, -1, ExpectedException = typeof(ArgumentException))]
-        public virtual void SetSubMatrix(int rowStart, int rowLength, int colStart, int colLength)
+        /// <summary>
+        /// Can set a submatrix.
+        /// </summary>
+        /// <param name="rowStart">The row to start copying to.</param>
+        /// <param name="rowLength">The number of rows to copy.</param>
+        /// <param name="colStart">The column to start copying to.</param>
+        /// <param name="colLength">The number of columns to copy.</param>
+        [Test, Sequential]
+        public virtual void CanSetSubMatrix([Values(0, 1)] int rowStart, [Values(2, 1)] int rowLength, [Values(0, 1)] int colStart, [Values(2, 1)] int colLength)
         {
             foreach (var matrix in TestMatrices.Values)
             {
@@ -1007,34 +1170,71 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (int j = colStart, jj = 0; j < colLength; j++, jj++)
                     {
-                        AssertHelpers.AreEqual(matrix[i, j], subMatrix[ii, jj]);
+                        Assert.AreEqual(matrix[i, j], subMatrix[ii, jj]);
                     }
                 }
             }
         }
 
-        [Test]
-        [ExpectedArgumentNullException]
-        public void SetSubMatrixWithNullSubMatrixShouldThrowException()
+        /// <summary>
+        /// Set submatrix with invalid ranges throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
+        /// <param name="rowStart">The row to start copying to.</param>
+        /// <param name="rowLength">The number of rows to copy.</param>
+        /// <param name="colStart">The column to start copying to.</param>
+        /// <param name="colLength">The number of columns to copy.</param>
+        [Test, Sequential]
+        public virtual void SetSubMatrixWithInvalidRangesThrowsArgumentOutOfRangeException([Values(0, 0, 4, 0, -1, 0)] int rowStart, [Values(4, 2, 2, 2, 2, 2)] int rowLength, [Values(0, 0, 0, 4, 0, -1)] int colStart, [Values(2, 4, 2, 2, 2, 2)] int colLength)
         {
-            var data = TestMatrices["Square3x3"];
-            Matrix<Complex32> subMatrix = null;
-            data.SetSubMatrix(0, 2, 0, 2, subMatrix);
+            var subMatrix = TestMatrices["Square3x3"].SubMatrix(0, 2, 0, 2);
+            subMatrix[0, 0] = 10.0f;
+            subMatrix[0, 1] = -1.0f;
+            subMatrix[1, 0] = 3.0f;
+            subMatrix[1, 1] = 4.0f;
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestMatrices["Square3x3"].SetSubMatrix(rowStart, rowLength, colStart, colLength, subMatrix));
         }
 
+        /// <summary>
+        /// Set submatrix with invalid length throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
+        /// <param name="rowStart">The row to start copying to.</param>
+        /// <param name="rowLength">The number of rows to copy.</param>
+        /// <param name="colStart">The column to start copying to.</param>
+        /// <param name="colLength">The number of columns to copy.</param>
+        [Test, Sequential]
+        public virtual void SetSubMatrixWithInvalidLengthsThrowsArgumentException([Values(0, 0)] int rowStart, [Values(-1, 2)] int rowLength, [Values(0, 0)] int colStart, [Values(2, -1)] int colLength)
+        {
+            var subMatrix = TestMatrices["Square3x3"].SubMatrix(0, 2, 0, 2);
+            subMatrix[0, 0] = 10.0f;
+            subMatrix[0, 1] = -1.0f;
+            subMatrix[1, 0] = 3.0f;
+            subMatrix[1, 1] = 4.0f;
+            Assert.Throws<ArgumentException>(() => TestMatrices["Square3x3"].SetSubMatrix(rowStart, rowLength, colStart, colLength, subMatrix));
+        }
+
+        /// <summary>
+        /// Set a submatrix with <c>null</c> submatrix throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [Row("Square3x3", new float[] { 1, 2, 3 })]
-        [Row("Wide2x3", new float[] { 1, 2 })]
-        [Row("Wide2x3", new float[] { 1, 2, 3 }, ExpectedException = typeof(ArgumentException))]
-        [Row("Tall3x2", new float[] { 1, 2 })]
-        public void SetDiagonalVector(string name, float[] real)
+        public void SetSubMatrixWithNullSubMatrixThrowsArgumentNullException()
+        {
+            Matrix<Complex32> subMatrix = null;
+            Assert.Throws<ArgumentNullException>(() => TestMatrices["Square3x3"].SetSubMatrix(0, 2, 0, 2, subMatrix));
+        }
+
+        /// <summary>
+        /// Can set a diagonal vector.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="real">Diagonal real values.</param>
+        [Test, Sequential]
+        public void CanSetDiagonalVector([Values("Square3x3", "Wide2x3", "Tall3x2")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2 }, new float[] { 1, 2 })] float[] real)
         {
             var diagonal = new Complex32[real.Length];
             for (var i = 0; i < real.Length; i++)
             {
                 diagonal[i] = new Complex32(real[i], 1);
             }
-
 
             var matrix = TestMatrices[name];
             var vector = CreateVector(diagonal);
@@ -1045,49 +1245,81 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 
             for (var i = 0; i < vector.Count; i++)
             {
-                AssertHelpers.AreEqual(vector[i], matrix[i, i]);
+                Assert.AreEqual(vector[i], matrix[i, i]);
             }
         }
 
+        /// <summary>
+        /// Set a diagonal vector with unequal length throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void SetDiagonalWithNullVectorParameterShouldThrowException()
+        public void SetDiagonalVectorWithUnequalLengthThrowsArgumentException()
         {
-            var matrix = TestMatrices["Square3x3"];
-            Vector<Complex32> vector = null;
-            matrix.SetDiagonal(vector);
+            var vector = CreateVector(new Complex32[] { 1, 2, 3 });
+            Assert.Throws<ArgumentException>(() => TestMatrices["Wide2x3"].SetDiagonal(vector));
         }
 
+        /// <summary>
+        /// Set a diagonal with <c>null</c> vector throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [Row("Square3x3", new float[] { 1, 2, 3 })]
-        [Row("Wide2x3", new float[] { 1, 2 })]
-        [Row("Wide2x3", new float[] { 1, 2, 3 }, ExpectedException = typeof(ArgumentException))]
-        [Row("Tall3x2", new float[] { 1, 2 })]
-        [Row("Square3x3", null, ExpectedException = typeof(ArgumentNullException))]
-        public void SetDiagonalArray(string name, float[] real)
+        public void SetDiagonalWithNullVectorThrowsArgumentNullException()
         {
-            Complex32[] diagonal = null;
-            if (real != null)
+            Vector<Complex32> vector = null;
+            Assert.Throws<ArgumentNullException>(() => TestMatrices["Square3x3"].SetDiagonal(vector));
+        }
+
+        /// <summary>
+        /// Can set a diagonal array.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="real">Diagonal real values.</param>
+        [Test, Sequential]
+        public void CanSetDiagonalArray([Values("Square3x3", "Wide2x3", "Tall3x2")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2 }, new float[] { 1, 2 })] float[] real)
+        {
+            var diagonal = new Complex32[real.Length];
+            for (var i = 0; i < real.Length; i++)
             {
-                diagonal  = new Complex32[real.Length];
-                for (var i = 0; i < real.Length; i++)
-                {
-                    diagonal[i] = new Complex32(real[i], 1);
-                }
+                diagonal[i] = new Complex32(real[i], 1);
             }
 
             var matrix = TestMatrices[name];
             matrix.SetDiagonal(diagonal);
+
             var min = Math.Min(matrix.ColumnCount, matrix.RowCount);
             Assert.AreEqual(diagonal.Length, min);
+
             for (var i = 0; i < diagonal.Length; i++)
             {
-                AssertHelpers.AreEqual(diagonal[i], matrix[i, i]);
+                Assert.AreEqual(diagonal[i], matrix[i, i]);
             }
         }
 
+        /// <summary>
+        /// Set a diagonal array with unequal length throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        public void InsertRow()
+        public void SetDiagonalArrayWithUnequalLengthThrowsArgumentException()
+        {
+            var array = new Complex32[] { 1, 2, 3 };
+            Assert.Throws<ArgumentException>(() => TestMatrices["Wide2x3"].SetDiagonal(array));
+        }
+
+        /// <summary>
+        /// Set a diagonal with <c>null</c> array throws <c>ArgumentNullException</c>.
+        /// </summary>
+        [Test]
+        public void SetDiagonalWithNullArrayThrowsArgumentNullException()
+        {
+            Complex32[] array = null;
+            Assert.Throws<ArgumentNullException>(() => TestMatrices["Square3x3"].SetDiagonal(array));
+        }
+
+        /// <summary>
+        /// Can insert a row.
+        /// </summary>
+        [Test]
+        public void CanInsertRow()
         {
             var matrix = CreateMatrix(3, 3);
             var row = CreateVector(matrix.ColumnCount);
@@ -1104,39 +1336,50 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var j = 0; j < result.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(i == insertedRowIndex ? row[j] : 0, result[i, j]);
+                        Assert.AreEqual(i == insertedRowIndex ? row[j] : Complex32.Zero, result[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Insert <c>null</c> row throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void InsertNullRowShouldThrowExecption()
+        public void InsertNullRowThrowsArgumentNullException()
         {
             var matrix = TestMatrices["Square3x3"];
-            matrix.InsertRow(0, null);
+            Assert.Throws<ArgumentNullException>(() => matrix.InsertRow(0, null));
         }
 
+        /// <summary>
+        /// Insert a row with invalid row index throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [Row(-1, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        [Row(5, ExpectedException = typeof(ArgumentOutOfRangeException))]
-        public void InsertRowWithInvalidRowIndexShouldThrowExceptiopn(int rowIndex)
+        public void InsertRowWithInvalidRowIndexThrowsArgumentOutOfRangeException()
         {
             var matrix = CreateMatrix(3, 3);
             var row = CreateVector(matrix.ColumnCount);
-            matrix.InsertRow(rowIndex, row);
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.InsertRow(-1, row));
+            Assert.Throws<ArgumentOutOfRangeException>(() => matrix.InsertRow(5, row));
         }
 
-        public void InsertRowWithInvalidNumberOfElementsShouldThrowException()
+        /// <summary>
+        /// Insert a row with invalid number of elements throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void InsertRowWithInvalidNumberOfElementsThrowsArgumentException()
         {
             var matrix = CreateMatrix(3, 3);
             var row = CreateVector(matrix.ColumnCount + 1);
-            matrix.InsertRow(0, row);
+            Assert.Throws<ArgumentException>(() => matrix.InsertRow(0, row));
         }
 
+        /// <summary>
+        /// Can convert a matrix to a multidimensional array.
+        /// </summary>
         [Test]
-        public void ToArray()
+        public void CanToArray()
         {
             foreach (var data in TestMatrices.Values)
             {
@@ -1148,14 +1391,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(data[i, j], array[i, j]);
+                        Assert.AreEqual(data[i, j], array[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Can convert a matrix to a column-wise array.
+        /// </summary>
         [Test]
-        public void ToColumnWiseArray()
+        public void CanToColumnWiseArray()
         {
             foreach (var data in TestMatrices.Values)
             {
@@ -1166,14 +1412,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(data[i, j], array[j * data.RowCount + i]);
+                        Assert.AreEqual(data[i, j], array[(j * data.RowCount) + i]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Can convert a matrix to a row-wise array.
+        /// </summary>
         [Test]
-        public void ToRowWiseArray()
+        public void CanToRowWiseArray()
         {
             foreach (var data in TestMatrices.Values)
             {
@@ -1184,19 +1433,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     for (var j = 0; j < data.ColumnCount; j++)
                     {
-                        AssertHelpers.AreEqual(data[i, j], array[i * data.ColumnCount + j]);
+                        Assert.AreEqual(data[i, j], array[(i * data.ColumnCount) + j]);
                     }
                 }
             }
         }
 
-
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Tall3x2")]
-        [MultipleAsserts]
-        public virtual void CanPermuteMatrixRows(string name)
+        /// <summary>
+        /// Can permute matrix rows.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public virtual void CanPermuteMatrixRows([Values("Singular3x3", "Square3x3", "Tall3x2")] string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var matrixp = CreateMatrix(TestData2D[name]);
@@ -1211,17 +1459,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], matrixp[permutation[i], j]);
+                    Assert.AreEqual(matrix[i, j], matrixp[permutation[i], j]);
                 }
             }
         }
 
-        [Test]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Wide2x3")]
-        [MultipleAsserts]
-        public virtual void CanPermuteMatrixColumns(string name)
+        /// <summary>
+        /// Can permute matrix columns.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [Test, Sequential]
+        public virtual void CanPermuteMatrixColumns([Values("Singular3x3", "Square3x3", "Wide2x3")] string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var matrixp = CreateMatrix(TestData2D[name]);
@@ -1236,11 +1484,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(matrix[i, j], matrixp[i, permutation[j]]);
+                    Assert.AreEqual(matrix[i, j], matrixp[i, permutation[j]]);
                 }
             }
         }
 
+        /// <summary>
+        /// Can append matrices.
+        /// </summary>
         [Test]
         public void CanAppendMatrices()
         {
@@ -1254,49 +1505,60 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < result.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(j < left.ColumnCount ? left[i, j] : right[i, j - left.ColumnCount], result[i, j]);
+                    Assert.AreEqual(j < left.ColumnCount ? left[i, j] : right[i, j - left.ColumnCount], result[i, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Append with right <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void CanAppendWithRightParameterNullShouldThrowException()
+        public void AppendWithRightNullThrowsArgumentNullException()
         {
             var left = TestMatrices["Square3x3"];
             Matrix<Complex32> right = null;
-            left.Append(right);
+            Assert.Throws<ArgumentNullException>(() => left.Append(right));
         }
 
+        /// <summary>
+        /// Append with result <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void CanAppendWithResultParameterNullShouldThrowException()
+        public void AppendWithResultNullThrowsArgumentNullException()
         {
             var left = TestMatrices["Square3x3"];
             var right = TestMatrices["Tall3x2"];
             Matrix<Complex32> result = null;
-            left.Append(right, result);
+            Assert.Throws<ArgumentNullException>(() => left.Append(right, result));
         }
 
+        /// <summary>
+        /// Appending two matrices with different row count throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void AppendingTwoMatricesWithDifferentRowCountShouldThrowException()
+        public void AppendWithDifferentRowCountThrowsArgumentException()
         {
             var left = TestMatrices["Square3x3"];
             var right = TestMatrices["Wide2x3"];
-            var result = left.Append(right);
+            Assert.Throws<ArgumentException>(() => { var result = left.Append(right); });
         }
 
+        /// <summary>
+        /// Appending with invalid result matrix columns throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void AppendingWithInvalidResultMatrixColumnsShouldThrowException()
+        public void AppendWithInvalidResultMatrixColumnsThrowsArgumentException()
         {
             var left = TestMatrices["Square3x3"];
             var right = TestMatrices["Tall3x2"];
             var result = CreateMatrix(3, 2);
-            left.Append(right, result);
+            Assert.Throws<ArgumentException>(() => left.Append(right, result));
         }
 
+        /// <summary>
+        /// Can stack matrices.
+        /// </summary>
         [Test]
         public void CanStackMatrices()
         {
@@ -1310,53 +1572,64 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             {
                 for (var j = 0; j < result.ColumnCount; j++)
                 {
-                    AssertHelpers.AreEqual(result[i, j], i < top.RowCount ? top[i, j] : bottom[i - top.RowCount, j]);
+                    Assert.AreEqual(result[i, j], i < top.RowCount ? top[i, j] : bottom[i - top.RowCount, j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Stacking with a bottom <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void StackingWithBottomParameterNullShouldThrowException()
+        public void StackWithBottomNullThrowsArgumentNullException()
         {
             var top = TestMatrices["Square3x3"];
             Matrix<Complex32> bottom = null;
             var result = CreateMatrix(top.RowCount + top.RowCount, top.ColumnCount);
-            top.Stack(bottom, result);
+            Assert.Throws<ArgumentNullException>(() => top.Stack(bottom, result));
         }
 
+        /// <summary>
+        /// Stacking with a result <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void StackingWithResultParameterNullShouldThrowException()
+        public void StackWithResultNullThrowsArgumentNullException()
         {
             var top = TestMatrices["Square3x3"];
             var bottom = TestMatrices["Square3x3"];
             Matrix<Complex32> result = null;
-            top.Stack(bottom, result);
+            Assert.Throws<ArgumentNullException>(() => top.Stack(bottom, result));
         }
 
+        /// <summary>
+        /// Stacking matrices with different columns throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void StackingTwoMatricesWithDifferentColumnsShouldThrowException()
+        public void StackMatricesWithDifferentColumnsThrowsArgumentException()
         {
             var top = TestMatrices["Square3x3"];
             var lower = TestMatrices["Tall3x2"];
             var result = CreateMatrix(top.RowCount + lower.RowCount, top.ColumnCount);
-            top.Stack(lower, result);
+            Assert.Throws<ArgumentException>(() => top.Stack(lower, result));
         }
 
+        /// <summary>
+        /// Stacking with invalid result matrix rows throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void StackingWithInvalidResultMatrixRowsShouldThrowException()
+        public void StackWithInvalidResultMatrixRowsThrowsArgumentException()
         {
             var top = TestMatrices["Square3x3"];
             var bottom = TestMatrices["Wide2x3"];
             var result = CreateMatrix(1, 3);
-            top.Stack(bottom, result);
+            Assert.Throws<ArgumentException>(() => top.Stack(bottom, result));
         }
 
+        /// <summary>
+        /// Can diagonally stack matrices.
+        /// </summary>
         [Test]
-        public void CanDiagonallyStackMatrics()
+        public void CanDiagonallyStackMatrices()
         {
             var top = TestMatrices["Tall3x2"];
             var bottom = TestMatrices["Wide2x3"];
@@ -1370,31 +1643,36 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     if (i < top.RowCount && j < top.ColumnCount)
                     {
-                        AssertHelpers.AreEqual(top[i, j], result[i, j]);
+                        Assert.AreEqual(top[i, j], result[i, j]);
                     }
                     else if (i >= top.RowCount && j >= top.ColumnCount)
                     {
-                        AssertHelpers.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
+                        Assert.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
                     }
                     else
                     {
-                        AssertHelpers.AreEqual(0, result[i, j]);
+                        Assert.AreEqual(Complex32.Zero, result[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Diagonal stack with lower <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void DiagonalStackWithLowerNullShouldThrowException()
+        public void DiagonalStackWithLowerNullThrowsArgumentNullException()
         {
             var top = TestMatrices["Square3x3"];
             Matrix<Complex32> lower = null;
-            top.DiagonalStack(lower);
+            Assert.Throws<ArgumentNullException>(() => top.DiagonalStack(lower));
         }
 
+        /// <summary>
+        /// Can diagonally stack matrices into a result matrix.
+        /// </summary>
         [Test]
-        public virtual void CanDiagonallyStackMatricesWithPassingResult()
+        public virtual void CanDiagonallyStackMatricesIntoResult()
         {
             var top = TestMatrices["Tall3x2"];
             var bottom = TestMatrices["Wide2x3"];
@@ -1409,42 +1687,49 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 {
                     if (i < top.RowCount && j < top.ColumnCount)
                     {
-                        AssertHelpers.AreEqual(top[i, j], result[i, j]);
+                        Assert.AreEqual(top[i, j], result[i, j]);
                     }
                     else if (i >= top.RowCount && j >= top.ColumnCount)
                     {
-                        AssertHelpers.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
+                        Assert.AreEqual(bottom[i - top.RowCount, j - top.ColumnCount], result[i, j]);
                     }
                     else
                     {
-                        AssertHelpers.AreEqual(0, result[i, j]);
+                        Assert.AreEqual(Complex32.Zero, result[i, j]);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Diagonal stack into <c>null</c> result throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void DiagonalStackWithResultNullShouldThrowException()
+        public void DiagonalStackIntoResultNullThrowsArgumentNullException()
         {
             var top = TestMatrices["Square3x3"];
             var lower = TestMatrices["Wide2x3"];
             Matrix<Complex32> result = null;
-            top.DiagonalStack(lower, result);
+            Assert.Throws<ArgumentNullException>(() => top.DiagonalStack(lower, result));
         }
 
+        /// <summary>
+        /// Diagonal stack into invalid result matrix throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void DiagonalStackWithInvalidResultMatrixShouldThrowException()
+        public void DiagonalStackIntoInvalidResultMatrixThrowsArgumentException()
         {
             var top = TestMatrices["Square3x3"];
             var lower = TestMatrices["Wide2x3"];
             var result = CreateMatrix(top.RowCount + lower.RowCount + 2, top.ColumnCount + lower.ColumnCount);
-            top.DiagonalStack(lower, result);
+            Assert.Throws<ArgumentException>(() => top.DiagonalStack(lower, result));
         }
 
+        /// <summary>
+        /// Can compute Frobenius norm.
+        /// </summary>
         [Test]
-        public virtual void FrobeniusNorm()
+        public virtual void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
             AssertHelpers.AlmostEqual(10.8819655f, matrix.FrobeniusNorm().Real, 7);
@@ -1456,10 +1741,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             AssertHelpers.AlmostEqual(7.5904115f, matrix.FrobeniusNorm().Real, 7);
         }
 
+        /// <summary>
+        /// Can compute Infinity norm.
+        /// </summary>
         [Test]
-        public virtual void InfinityNorm()
+        public virtual void CanComputeInfinityNorm()
         {
-            Matrix<Complex32> matrix = TestMatrices["Square3x3"];
+            var matrix = TestMatrices["Square3x3"];
             AssertHelpers.AlmostEqual(16.7777033f, matrix.InfinityNorm().Real, 6);
 
             matrix = TestMatrices["Wide2x3"];
@@ -1469,8 +1757,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             AssertHelpers.AlmostEqual(10.1023756f, matrix.InfinityNorm().Real, 6);
         }
 
+        /// <summary>
+        /// Can compute L1 norm.
+        /// </summary>
         [Test]
-        public virtual void L1Norm()
+        public virtual void CanComputeL1Norm()
         {
             var matrix = TestMatrices["Square3x3"];
             AssertHelpers.AlmostEqual(12.5401248f, matrix.L1Norm().Real, 7);
@@ -1482,15 +1773,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             AssertHelpers.AlmostEqual(9.4933860f, matrix.L1Norm().Real, 7);
         }
 
+        /// <summary>
+        /// Can compute L2 norm.
+        /// </summary>
         [Test]
-        public virtual void L2Norm()
+        public virtual void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
             AssertHelpers.AlmostEqual(10.6381752f, matrix.L2Norm().Real, 6);
 
             matrix = TestMatrices["Wide2x3"];
             AssertHelpers.AlmostEqual(5.2058554f, matrix.L2Norm().Real, 6);
-
             matrix = TestMatrices["Tall3x2"];
             AssertHelpers.AlmostEqual(7.3582664f, matrix.L2Norm().Real, 6);
         }

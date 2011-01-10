@@ -31,15 +31,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     using System.Numerics;
     using LinearAlgebra.Complex;
     using LinearAlgebra.Generic;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Dense vector tests.
+    /// </summary>
     public class DenseVectorTests : VectorTests
     {
+        /// <summary>
+        /// Creates a new instance of the Vector class.
+        /// </summary>
+        /// <param name="size">The size of the <strong>Vector</strong> to construct.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<Complex> CreateVector(int size)
         {
             return new DenseVector(size);
         }
 
+        /// <summary>
+        /// Creates a new instance of the Vector class.
+        /// </summary>
+        /// <param name="data">The array to create this vector from.</param>
+        /// <returns>The new <c>Vector</c>.</returns>
         protected override Vector<Complex> CreateVector(IList<Complex> data)
         {
             var vector = new DenseVector(data.Count);
@@ -51,26 +64,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             return vector;
         }
 
+        /// <summary>
+        /// Can create a dense vector form array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCreateDenseVectorFromArray()
         {
             var data = new Complex[Data.Length];
             Array.Copy(Data, data, Data.Length);
             var vector = new DenseVector(data);
 
-            Assert.AreSame(data, vector.Data);
             for (var i = 0; i < data.Length; i++)
             {
-                AssertHelpers.AreEqual(data[i], vector[i]);
+                Assert.AreEqual(data[i], vector[i]);
             }
 
-            vector[0] = 100.0;
-            AssertHelpers.AreEqual(100.0, data[0]);
+            vector[0] = new Complex(10.0, 1);
+            Assert.AreEqual(new Complex(10.0, 1), data[0]);
         }
 
+        /// <summary>
+        /// Can create a dense vector from another dense vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCreateDenseVectorFromAnotherDenseVector()
         {
             var vector = new DenseVector(Data);
@@ -79,12 +95,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             Assert.AreNotSame(vector, other);
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(vector[i], other[i]);
+                Assert.AreEqual(vector[i], other[i]);
             }
         }
 
+        /// <summary>
+        /// Can create a dense vector from another vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCreateDenseVectorFromAnotherVector()
         {
             var vector = (Vector<Complex>)new DenseVector(Data);
@@ -93,12 +111,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             Assert.AreNotSame(vector, other);
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(vector[i], other[i]);
+                Assert.AreEqual(vector[i], other[i]);
             }
         }
 
+        /// <summary>
+        /// Can create a dense vector from user defined vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCreateDenseVectorFromUserDefinedVector()
         {
             var vector = new UserDefinedVector(Data);
@@ -110,15 +130,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             }
         }
 
+        /// <summary>
+        /// Can create a dense vector with constant values.
+        /// </summary>
         [Test]
         public void CanCreateDenseVectorWithConstantValues()
         {
             var vector = new DenseVector(5, 5);
-            Assert.ForAll(vector, value => value == 5);
+            foreach (var t in vector)
+            {
+                Assert.AreEqual(t, new Complex(5.0, 0));
+            }
         }
 
+        /// <summary>
+        /// Can create a dense matrix.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanCreateDenseMatrix()
         {
             var vector = new DenseVector(3);
@@ -127,28 +155,33 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             Assert.AreEqual(3, matrix.ColumnCount);
         }
 
-
+        /// <summary>
+        /// Can convert a dense vector to an array.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanConvertDenseVectorToArray()
         {
             var vector = new DenseVector(Data);
             var array = (Complex[])vector;
-            Assert.IsInstanceOfType(typeof(Complex[]), array);
-            Assert.AreSame(vector.Data, array);
-            Assert.AreElementsEqual(vector, array);
+            Assert.IsInstanceOf(typeof(Complex[]), array);
+            CollectionAssert.AreEqual(vector, array);
         }
 
+        /// <summary>
+        /// Can convert an array to a dense vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanConvertArrayToDenseVector()
         {
             var array = new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1), new Complex(4, 1) };
             var vector = (DenseVector)array;
-            Assert.IsInstanceOfType(typeof(DenseVector), vector);
-            Assert.AreElementsEqual(array, array);
+            Assert.IsInstanceOf(typeof(DenseVector), vector);
+            CollectionAssert.AreEqual(array, array);
         }
 
+        /// <summary>
+        /// Can call unary plus operator on a vector.
+        /// </summary>
         [Test]
         public void CanCallUnaryPlusOperatorOnDenseVector()
         {
@@ -156,26 +189,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             var other = +vector;
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(vector[i], other[i]);
+                Assert.AreEqual(vector[i], other[i]);
             }
         }
 
+        /// <summary>
+        /// Can add two dense vectors using "+" operator.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanAddTwoDenseVectorsUsingOperator()
         {
             var vector = new DenseVector(Data);
             var other = new DenseVector(Data);
             var result = vector + other;
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
+            CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
 
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(Data[i], vector[i]);
-                AssertHelpers.AreEqual(Data[i], other[i]);
-                AssertHelpers.AreEqual(Data[i] * 2.0, result[i]);
+                Assert.AreEqual(Data[i] * 2.0, result[i]);
             }
         }
 
+        /// <summary>
+        /// Can call unary negate operator on a dense vector.
+        /// </summary>
         [Test]
         public void CanCallUnaryNegationOperatorOnDenseVector()
         {
@@ -183,42 +221,46 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             var other = -vector;
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(-Data[i], other[i]);
+                Assert.AreEqual(-Data[i], other[i]);
             }
         }
 
+        /// <summary>
+        /// Can subtract two dense vectors using "-" operator.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanSubtractTwoDenseVectorsUsingOperator()
         {
             var vector = new DenseVector(Data);
             var other = new DenseVector(Data);
             var result = vector - other;
+            CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
+            CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
 
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(Data[i], vector[i]);
-                AssertHelpers.AreEqual(Data[i], other[i]);
-                AssertHelpers.AreEqual(0.0, result[i]);
+                Assert.AreEqual(Complex.Zero, result[i]);
             }
         }
 
+        /// <summary>
+        /// Can multiply a dense vector by a scalar using "*" operator.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void CanMultiplyDenseVectorByComplexUsingOperators()
+        public void CanMultiplyDenseVectorByScalarUsingOperators()
         {
             var vector = new DenseVector(Data);
             vector = vector * new Complex(2.0, 1);
 
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(Data[i] * new Complex(2.0, 1), vector[i]);
+                Assert.AreEqual(Data[i] * new Complex(2.0, 1), vector[i]);
             }
 
             vector = vector * 1.0;
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(Data[i] * new Complex(2.0, 1), vector[i]);
+                Assert.AreEqual(Data[i] * new Complex(2.0, 1), vector[i]);
             }
 
             vector = new DenseVector(Data);
@@ -226,18 +268,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(Data[i] * new Complex(2.0, 1), vector[i]);
+                Assert.AreEqual(Data[i] * new Complex(2.0, 1), vector[i]);
             }
 
             vector = 1.0 * vector;
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(Data[i] * new Complex(2.0, 1), vector[i]);
+                Assert.AreEqual(Data[i] * new Complex(2.0, 1), vector[i]);
             }
         }
 
+        /// <summary>
+        /// Can divide a dense vector by a scalar using "/" operator.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanDivideDenseVectorByComplexUsingOperators()
         {
             var vector = new DenseVector(Data);
@@ -245,47 +289,44 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(Data[i] / new Complex(2.0, 1), vector[i]);
+                AssertHelpers.AlmostEqual(Data[i] / new Complex(2.0, 1), vector[i], 14);
             }
 
             vector = vector / 1.0;
             for (var i = 0; i < Data.Length; i++)
             {
-                AssertHelpers.AreEqual(Data[i] / new Complex(2.0, 1), vector[i]);
+                AssertHelpers.AlmostEqual(Data[i] / new Complex(2.0, 1), vector[i], 14);
             }
         }
 
+        /// <summary>
+        /// Can calculate an outer product for a dense vector.
+        /// </summary>
         [Test]
         public void CanCalculateOuterProductForDenseVector()
         {
             var vector1 = CreateVector(Data);
             var vector2 = CreateVector(Data);
-            Matrix<Complex> m = Vector<Complex>.OuterProduct(vector1, vector2);
+            var m = Vector<Complex>.OuterProduct(vector1, vector2);
             for (var i = 0; i < vector1.Count; i++)
             {
                 for (var j = 0; j < vector2.Count; j++)
                 {
-                    AssertHelpers.AreEqual(m[i, j], vector1[i] * vector2[j]);
+                    Assert.AreEqual(m[i, j], vector1[i] * vector2[j]);
                 }
             }
         }
 
+        /// <summary>
+        /// Outer product for <c>null</c> dense vectors throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void OuterProducForDenseVectortWithFirstParameterNullShouldThrowException()
+        public void OuterProductForNullDenseVectorsThrowsArgumentNullException()
         {
             DenseVector vector1 = null;
             var vector2 = CreateVector(Data);
-            Vector<Complex>.OuterProduct(vector1, vector2);
-        }
-
-        [Test]
-        [ExpectedArgumentNullException]
-        public void OuterProductForDenseVectorWithSecondParameterNullShouldThrowException()
-        {
-            var vector1 = CreateVector(Data);
-            DenseVector vector2 = null;
-            Vector<Complex>.OuterProduct(vector1, vector2);
+            Assert.Throws<ArgumentNullException>(() => Vector<Complex>.OuterProduct(vector1, vector2));
+            Assert.Throws<ArgumentNullException>(() => Vector<Complex>.OuterProduct(vector2, vector1));
         }
     }
 }

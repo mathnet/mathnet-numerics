@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,35 +26,41 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 {
+    using System;
     using System.Numerics;
     using LinearAlgebra.Generic.Factorization;
-    using MbUnit.Framework;
     using LinearAlgebra.Single.Factorization;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Eigenvalues factorization tests for an user matrix.
+    /// </summary>
     public class UserEvdTests
     {
-
+        /// <summary>
+        /// Constructor <c>null</c> throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
         public void ConstructorNull()
         {
-            new UserEvd(null);
+            Assert.Throws<ArgumentNullException>(() => new UserEvd(null));
         }
 
+        /// <summary>
+        /// Can factorize identity matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(10)]
-        [Row(100)]
-        public void CanFactorizeIdentity(int order)
+        public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
         {
-            var I = UserDefinedMatrix.Identity(order);
-            var factorEvd = I.Evd();
+            var matrixI = UserDefinedMatrix.Identity(order);
+            var factorEvd = matrixI.Evd();
 
-            Assert.AreEqual(I.RowCount, factorEvd.EigenVectors().RowCount);
-            Assert.AreEqual(I.RowCount, factorEvd.EigenVectors().ColumnCount);
+            Assert.AreEqual(matrixI.RowCount, factorEvd.EigenVectors().RowCount);
+            Assert.AreEqual(matrixI.RowCount, factorEvd.EigenVectors().ColumnCount);
 
-            Assert.AreEqual(I.ColumnCount, factorEvd.D().RowCount);
-            Assert.AreEqual(I.ColumnCount, factorEvd.D().ColumnCount);
+            Assert.AreEqual(matrixI.ColumnCount, factorEvd.D().RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, factorEvd.D().ColumnCount);
 
             for (var i = 0; i < factorEvd.EigenValues().Count; i++)
             {
@@ -66,15 +68,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             }
         }
 
+        /// <summary>
+        /// Can factorize a random square matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanFactorizeRandomMatrix(int order)
+        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var factorEvd = matrixA.Evd();
@@ -89,25 +88,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var matrixAv = matrixA * factorEvd.EigenVectors();
             var matrixLv = factorEvd.EigenVectors() * factorEvd.D();
 
-            for (var i = 0; i < matrixAv.RowCount; i++) 
+            for (var i = 0; i < matrixAv.RowCount; i++)
             {
                 for (var j = 0; j < matrixAv.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixAv[i, j], matrixLv[i, j], 1e-3f);
+                    Assert.AreEqual(matrixAv[i, j], matrixLv[i, j], 1e-3);
                 }
             }
         }
 
-        [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [Ignore]
-        [MultipleAsserts]
-        public void CanFactorizeRandomSymmetricMatrix(int order)
+        /// <summary>
+        /// Can factorize a symmetric random square matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
+        [Test, Ignore]
+        public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var factorEvd = matrixA.Evd();
@@ -125,17 +120,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrix[i, j], matrixA[i, j], 1e-3f);
+                    Assert.AreEqual(matrix[i, j], matrixA[i, j], 1e-3);
                 }
             }
         }
 
+        /// <summary>
+        /// Can check rank of square matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CheckRankSquare(int order)
+        public void CanCheckRankSquare([Values(10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var factorEvd = matrixA.Evd();
@@ -143,13 +138,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             Assert.AreEqual(factorEvd.Rank, order);
         }
 
- 
+        /// <summary>
+        /// Can check rank of square singular matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CheckRankOfSquareSingular(int order)
+        public void CanCheckRankOfSquareSingular([Values(10, 50, 100)] int order)
         {
             var matrixA = new UserDefinedMatrix(order, order);
             matrixA[0, 0] = 1;
@@ -161,32 +155,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                 matrixA[i - 1, i] = 1;
                 matrixA[i + 1, i] = 1;
             }
+
             var factorEvd = matrixA.Evd();
 
             Assert.AreEqual(factorEvd.Determinant, 0);
             Assert.AreEqual(factorEvd.Rank, order - 1);
         }
 
+        /// <summary>
+        /// Identity determinant is one.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(10)]
-        [Row(100)]
-        public void IdentityDeterminantIsOne(int order)
+        public void IdentityDeterminantIsOne([Values(1, 10, 100)] int order)
         {
-            var I = UserDefinedMatrix.Identity(order);
-            var factorEvd = I.Evd();
+            var matrixI = UserDefinedMatrix.Identity(order);
+            var factorEvd = matrixI.Evd();
             Assert.AreEqual(1.0, factorEvd.Determinant);
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b).
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
+        public void CanSolveForRandomVectorAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -197,12 +190,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 
             Assert.AreEqual(matrixA.ColumnCount, resultx.Count);
 
-            var bReconstruct = matrixA * resultx;
+            var matrixBReconstruct = matrixA * resultx;
 
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1e-3f);
+                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-3);
             }
 
             // Make sure A didn't change.
@@ -215,15 +208,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random matrix and symmetric matrix (AX=B).
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
+        public void CanSolveForRandomMatrixAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -234,6 +224,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
             // The solution X has the same number of columns as B
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
@@ -244,7 +235,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-2f);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-2);
                 }
             }
 
@@ -258,15 +249,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b) into a result matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
+        public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -276,12 +264,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             var resultx = new UserDefinedVector(order);
             factorEvd.Solve(vectorb, resultx);
 
-            var bReconstruct = matrixA * resultx;
+            var matrixBReconstruct = matrixA * resultx;
 
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                Assert.AreApproximatelyEqual(vectorb[i], bReconstruct[i], 1e-3f);
+                Assert.AreEqual(vectorb[i], matrixBReconstruct[i], 1e-3);
             }
 
             // Make sure A didn't change.
@@ -300,15 +288,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             }
         }
 
+        /// <summary>
+        /// Can solve a system of linear equations for a random matrix and symmetric matrix (AX=B) into result matrix.
+        /// </summary>
+        /// <param name="order">Matrix order.</param>
         [Test]
-        [Row(1)]
-        [Row(2)]
-        [Row(5)]
-        [Row(10)]
-        [Row(50)]
-        [Row(100)]
-        [MultipleAsserts]
-        public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
+        public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -322,6 +307,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 
             // The solution X row dimension is equal to the column dimension of A
             Assert.AreEqual(matrixA.ColumnCount, matrixX.RowCount);
+
             // The solution X has the same number of columns as B
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
@@ -332,7 +318,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreApproximatelyEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-2f);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-2);
                 }
             }
 

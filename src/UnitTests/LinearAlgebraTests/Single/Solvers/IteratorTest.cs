@@ -1,19 +1,48 @@
-﻿namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
+﻿// <copyright file="IteratorTest.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+// Copyright (c) 2009-2010 Math.NET
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
 {
     using System;
     using System.Collections.Generic;
+    using LinearAlgebra.Generic.Solvers.Status;
     using LinearAlgebra.Single;
     using LinearAlgebra.Single.Solvers;
     using LinearAlgebra.Single.Solvers.StopCriterium;
-    using LinearAlgebra.Generic.Solvers.Status;
-    using LinearAlgebra.Generic.Solvers.StopCriterium;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Iterator tests
+    /// </summary>
     [TestFixture]
     public class IteratorTest
     {
+        /// <summary>
+        /// Can create with <c>null</c> collection.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CreateWithNullCollection()
         {
             var iterator = new Iterator(null);
@@ -21,8 +50,10 @@
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
 
+        /// <summary>
+        /// Can create with empty collection.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CreateWithEmptyCollection()
         {
             var iterator = new Iterator(new IIterationStopCriterium[] { });
@@ -30,8 +61,10 @@
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
 
+        /// <summary>
+        /// Can create with collection with <c>nulls</c>.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CreateWithCollectionWithNulls()
         {
             var iterator = new Iterator(new IIterationStopCriterium[] { null, null });
@@ -39,26 +72,30 @@
             Assert.AreEqual(0, iterator.NumberOfCriteria, "There shouldn't be any criteria");
         }
 
+        /// <summary>
+        /// Create with duplicates throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void CreateWithDuplicates()
+        public void CreateWithDuplicatesThrowsArgumentException()
         {
-            new Iterator(new IIterationStopCriterium[]
-                         {
-                             new FailureStopCriterium(),
-                             new FailureStopCriterium()
-                         });
+            Assert.Throws<ArgumentException>(() => new Iterator(new IIterationStopCriterium[]
+                                                                {
+                                                                    new FailureStopCriterium(), 
+                                                                    new FailureStopCriterium()
+                                                                }));
         }
 
+        /// <summary>
+        /// Can create with collection.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CreateWithCollection()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
@@ -70,38 +107,44 @@
             while (enumerator.MoveNext())
             {
                 var criterium = enumerator.Current;
-                Assert.IsTrue(criteria.Exists( c => ReferenceEquals(c, criterium)), "Criterium missing");
+                Assert.IsTrue(criteria.Exists(c => ReferenceEquals(c, criterium)), "Criterium missing");
             }
         }
 
+        /// <summary>
+        /// Add with <c>null</c> stop criterium throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void AddWithNullStopCriterium()
+        public void AddWithNullStopCriteriumThrowsArgumentNullException()
         {
             var iterator = new Iterator();
-            iterator.Add(null);
+            Assert.Throws<ArgumentNullException>(() => iterator.Add(null));
         }
 
+        /// <summary>
+        /// Add with existing stop criterium throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void AddWithExistingStopCriterium()
+        public void AddWithExistingStopCriteriumThrowsArgumentException()
         {
             var iterator = new Iterator();
             iterator.Add(new FailureStopCriterium());
             Assert.AreEqual(1, iterator.NumberOfCriteria, "Incorrect criterium count");
 
-            iterator.Add(new FailureStopCriterium());
+            Assert.Throws<ArgumentException>(() => iterator.Add(new FailureStopCriterium()));
         }
 
+        /// <summary>
+        /// Can add criterium.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void Add()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator();
@@ -119,36 +162,40 @@
             while (enumerator.MoveNext())
             {
                 var criterium = enumerator.Current;
-                Assert.IsTrue(criteria.Exists( c => ReferenceEquals(c, criterium)), "Criterium missing");
+                Assert.IsTrue(criteria.Exists(c => ReferenceEquals(c, criterium)), "Criterium missing");
             }
         }
 
+        /// <summary>
+        /// Remove with <c>null</c> stop criterium throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void RemoveWithNullStopCriterium()
+        public void RemoveWithNullStopCriteriumThrowsArgumentNullException()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
 
-            iterator.Remove(null);
+            Assert.Throws<ArgumentNullException>(() => iterator.Remove(null));
         }
 
+        /// <summary>
+        /// Can remove with non-existing stop criterium.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void RemoveWithNonExistingStopCriterium()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                            };
             var iterator = new Iterator(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
@@ -157,15 +204,17 @@
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
         }
 
+        /// <summary>
+        /// Can remove.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void Remove()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
@@ -178,171 +227,196 @@
             }
         }
 
+        /// <summary>
+        /// Determine status without stop criteria throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void DetermineStatusWithoutStopCriteria()
+        public void DetermineStatusWithoutStopCriteriaThrowsArgumentException()
         {
             var iterator = new Iterator();
-            iterator.DetermineStatus(0,
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 5),
-                                     new DenseVector(3, 6));
+            Assert.Throws<ArgumentException>(() => iterator.DetermineStatus(
+                0, 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 5), 
+                new DenseVector(3, 6)));
         }
 
+        /// <summary>
+        /// Determine status with negative iteration number throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void DetermineStatusWithNegativeIterationNumber()
+        public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
 
-            iterator.DetermineStatus(-1,
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 5),
-                                     new DenseVector(3, 6));
+            Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
+                -1, 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 5), 
+                new DenseVector(3, 6)));
         }
 
+        /// <summary>
+        /// Determine status with <c>null</c> solution vector throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void DetermineStatusWithNullSolutionVector()
+        public void DetermineStatusWithNullSolutionVectorThrowsArgumentNullException()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
 
-            iterator.DetermineStatus(1,
-                                     null,
-                                     new DenseVector(3, 5),
-                                     new DenseVector(3, 6));
+            Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
+                1, 
+                null, 
+                new DenseVector(3, 5), 
+                new DenseVector(3, 6)));
         }
 
+        /// <summary>
+        /// Determine status with <c>null</c> source vector throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void DetermineStatusWithNullSourceVector()
+        public void DetermineStatusWithNullSourceVectorThrowsArgumentNullException()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
 
-            iterator.DetermineStatus(1,
-                                     new DenseVector(3, 5),
-                                     null,
-                                     new DenseVector(3, 6));
+            Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
+                1, 
+                new DenseVector(3, 5), 
+                null, 
+                new DenseVector(3, 6)));
         }
 
+        /// <summary>
+        /// Determine status with <c>null</c> residual vector throws <c>ArgumentNullException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentNullException]
-        public void DetermineStatusWithNullResidualVector()
+        public void DetermineStatusWithNullResidualVectorThrowsArgumentNullException()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
 
-            iterator.DetermineStatus(1,
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 5),
-                                     null);
+            Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
+                1, 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 5), 
+                null));
         }
 
+        /// <summary>
+        /// Can determine status.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void DetermineStatus()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
                                new IterationCountStopCriterium(1)
                            };
 
             var iterator = new Iterator(criteria);
 
             // First step, nothing should happen.
-            iterator.DetermineStatus(0,
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 4));
-            Assert.IsInstanceOfType(typeof(CalculationRunning), iterator.Status, "Incorrect status");
+            iterator.DetermineStatus(
+                0, 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 4));
+            Assert.IsInstanceOf(typeof(CalculationRunning), iterator.Status, "Incorrect status");
 
             // Second step, should run out of iterations.
-            iterator.DetermineStatus(1,
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 4));
-            Assert.IsInstanceOfType(typeof(CalculationStoppedWithoutConvergence), iterator.Status, "Incorrect status");
+            iterator.DetermineStatus(
+                1, 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 4));
+            Assert.IsInstanceOf(typeof(CalculationStoppedWithoutConvergence), iterator.Status, "Incorrect status");
         }
 
+        /// <summary>
+        /// Can reset to precalculation state.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void ResetToPrecalculationState()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
                                new IterationCountStopCriterium(1)
                            };
 
             var iterator = new Iterator(criteria);
 
             // First step, nothing should happen.
-            iterator.DetermineStatus(0,
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 4),
-                                     new DenseVector(3, 4));
-            Assert.IsInstanceOfType(typeof(CalculationRunning), iterator.Status, "Incorrect status");
+            iterator.DetermineStatus(
+                0, 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 4), 
+                new DenseVector(3, 4));
+            Assert.IsInstanceOf(typeof(CalculationRunning), iterator.Status, "Incorrect status");
 
             iterator.ResetToPrecalculationState();
-            Assert.IsInstanceOfType(typeof(CalculationIndetermined), iterator.Status, "Incorrect status");
-            Assert.IsInstanceOfType(typeof(CalculationIndetermined), criteria[0].Status, "Incorrect status");
-            Assert.IsInstanceOfType(typeof(CalculationIndetermined), criteria[1].Status, "Incorrect status");
-            Assert.IsInstanceOfType(typeof(CalculationIndetermined), criteria[2].Status, "Incorrect status");
+            Assert.IsInstanceOf(typeof(CalculationIndetermined), iterator.Status, "Incorrect status");
+            Assert.IsInstanceOf(typeof(CalculationIndetermined), criteria[0].Status, "Incorrect status");
+            Assert.IsInstanceOf(typeof(CalculationIndetermined), criteria[1].Status, "Incorrect status");
+            Assert.IsInstanceOf(typeof(CalculationIndetermined), criteria[2].Status, "Incorrect status");
         }
 
+        /// <summary>
+        /// Can clone.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void Clone()
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(),
-                               new DivergenceStopCriterium(),
-                               new IterationCountStopCriterium(),
+                               new FailureStopCriterium(), 
+                               new DivergenceStopCriterium(), 
+                               new IterationCountStopCriterium(), 
                                new ResidualStopCriterium()
                            };
-            
+
             var iterator = new Iterator(criteria);
 
             var clonedIterator = iterator.Clone();
-            Assert.IsInstanceOfType(typeof(Iterator), clonedIterator, "Incorrect type");
+            Assert.IsInstanceOf(typeof(Iterator), clonedIterator, "Incorrect type");
 
             var clone = clonedIterator as Iterator;
             Assert.IsNotNull(clone);
+
             // ReSharper disable PossibleNullReferenceException
             Assert.AreEqual(iterator.NumberOfCriteria, clone.NumberOfCriteria, "Incorrect criterium count");
-            // ReSharper restore PossibleNullReferenceException
 
+            // ReSharper restore PossibleNullReferenceException
             var enumerator = clone.StoredStopCriteria;
             while (enumerator.MoveNext())
             {

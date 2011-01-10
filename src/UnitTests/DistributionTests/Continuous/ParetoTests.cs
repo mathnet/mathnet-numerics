@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,119 +28,113 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 {
     using System;
     using System.Linq;
-    using MbUnit.Framework;
     using Distributions;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Pareto distribution tests.
+    /// </summary>
     [TestFixture]
     public class ParetoTests
     {
+        /// <summary>
+        /// Set-up parameters.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             Control.CheckDistributionParameters = true;
         }
 
-        [Test, MultipleAsserts]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void CanCreatePareto(double scale, double shape)
+        /// <summary>
+        /// Can create Pareto distribution.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Combinatorial]
+        public void CanCreatePareto([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>(scale, n.Scale);
-            Assert.AreEqual<double>(shape, n.Shape);
+            Assert.AreEqual(scale, n.Scale);
+            Assert.AreEqual(shape, n.Shape);
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN, 1.0)]
-        [Row(1.0, Double.NaN)]
-        [Row(Double.NaN, Double.NaN)]
-        [Row(1.0, -1.0)]
-        [Row(-1.0, 1.0)]
-        [Row(-1.0, -1.0)]
-        [Row(0.0, 0.0)]
-        [Row(0.0, 1.0)]
-        [Row(1.0, 0.0)]
-        public void ParetoCreateFailsWithBadParameters(double scale, double shape)
+        /// <summary>
+        /// Pareto create fails with bad parameters.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Sequential]
+        public void ParetoCreateFailsWithBadParameters(
+            [Values(Double.NaN, 1.0, Double.NaN, 1.0, -1.0, -1.0, 0.0, 0.0, 1.0)] double scale, 
+            [Values(1.0, Double.NaN, Double.NaN, -1.0, 1.0, -1.0, 0.0, 1.0, 0.0)] double shape)
         {
-            var n = new Pareto(scale, shape);
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var n = new Pareto(scale, shape); });
         }
 
+        /// <summary>
+        /// Validate ToString.
+        /// </summary>
         [Test]
         public void ValidateToString()
         {
             var n = new Pareto(1.0, 2.0);
-            Assert.AreEqual<string>("Pareto(Scale = 1, Shape = 2)", n.ToString());
+            Assert.AreEqual("Pareto(Scale = 1, Shape = 2)", n.ToString());
         }
 
+        /// <summary>
+        /// Can set scale.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetScale(double scale)
+        public void CanSetScale([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
+        {
+            new Pareto(1.0, 1.0)
+            {
+                Scale = scale
+            };
+        }
+
+        /// <summary>
+        /// Set scale fails with negative scale.
+        /// </summary>
+        [Test]
+        public void SetScaleFailsWithNegativeScale()
         {
             var n = new Pareto(1.0, 1.0);
-            n.Scale = scale;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = -1.0);
         }
 
+        /// <summary>
+        /// Can set shape.
+        /// </summary>
+        /// <param name="shape">Shape value.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(-1.0)]
-        public void SetScaleFailsWithNegativeScale(double scale)
+        public void CanSetShape([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
+        {
+            new Pareto(1.0, 1.0)
+            {
+                Shape = shape
+            };
+        }
+
+        /// <summary>
+        /// Set shape fails with negative shape.
+        /// </summary>
+        [Test]
+        public void SetShapeFailsWithNegativeShape()
         {
             var n = new Pareto(1.0, 1.0);
-            n.Scale = scale;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Shape = -1.0);
         }
 
-        [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetShape(double shape)
-        {
-            var n = new Pareto(1.0, 1.0);
-            n.Shape = shape;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(-1.0)]
-        public void SetShapeFailsWithNegativeShape(double shape)
-        {
-            var n = new Pareto(1.0, 1.0);
-            n.Shape = shape;
-        }
-
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateMean(double scale, double shape)
+        /// <summary>
+        /// Validate mean.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Combinatorial]
+        public void ValidateMean([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
         {
             var n = new Pareto(scale, shape);
             if (shape > 1)
@@ -153,20 +143,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             }
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateVariance(double scale, double shape)
+        /// <summary>
+        /// Validate variance.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Combinatorial]
+        public void ValidateVariance([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
         {
             var n = new Pareto(scale, shape);
             if (shape <= 2.0)
@@ -179,216 +162,156 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             }
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateStdDev(double scale, double shape)
+        /// <summary>
+        /// Validate standard deviation.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Combinatorial]
+        public void ValidateStdDev([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>((scale * Math.Sqrt(shape)) / ((shape - 1.0) * Math.Sqrt(shape - 2.0)), n.StdDev);
+            Assert.AreEqual((scale * Math.Sqrt(shape)) / ((shape - 1.0) * Math.Sqrt(shape - 2.0)), n.StdDev);
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateEntropy(double scale, double shape)
+        /// <summary>
+        /// Validate entropy.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Combinatorial]
+        public void ValidateEntropy([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>(Math.Log(shape / scale) - 1.0 / shape - 1.0, n.Entropy);
+            Assert.AreEqual(Math.Log(shape / scale) - (1.0 / shape) - 1.0, n.Entropy);
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateSkewness(double scale, double shape)
+        /// <summary>
+        /// Validate skewness.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Combinatorial]
+        public void ValidateSkewness([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>((2.0 * (shape + 1.0) / (shape - 3.0)) * Math.Sqrt((shape - 2.0) / shape), n.Skewness);
+            Assert.AreEqual((2.0 * (shape + 1.0) / (shape - 3.0)) * Math.Sqrt((shape - 2.0) / shape), n.Skewness);
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateMode(double scale, double shape)
+        /// <summary>
+        /// Validate mode.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Combinatorial]
+        public void ValidateMode([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>(scale, n.Mode);
+            Assert.AreEqual(scale, n.Mode);
         }
 
-        [Test]
-        [Row(0.1, 0.1)]
-        [Row(0.1, 1.0)]
-        [Row(0.1, 10.0)]
-        [Row(1.0, 0.1)]
-        [Row(1.0, 1.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 1.0)]
-        [Row(10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        [Row(Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateMedian(double scale, double shape)
+        /// <summary>
+        /// Validate median.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        [Test, Combinatorial]
+        public void ValidateMedian(
+            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, 
+            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>(scale * Math.Pow(2.0, 1.0 / shape), n.Median);
+            Assert.AreEqual(scale * Math.Pow(2.0, 1.0 / shape), n.Median);
         }
 
+        /// <summary>
+        /// Validate minimum.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMinimum(double scale)
+        public void ValidateMinimum([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Pareto(scale, 1.0);
-            Assert.AreEqual<double>(scale, n.Minimum);
+            Assert.AreEqual(scale, n.Minimum);
         }
 
+        /// <summary>
+        /// Validate maximum.
+        /// </summary>
         [Test]
         public void ValidateMaximum()
         {
             var n = new Pareto(1.0, 1.0);
-            Assert.AreEqual<double>(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
         }
 
-        [Test]
-        [Row(0.1, 0.1, 0.1)]
-        [Row(0.1, 1.0, 0.1)]
-        [Row(0.1, 10.0, 0.1)]
-        [Row(1.0, 0.1, 1.0)]
-        [Row(1.0, 1.0, 1.0)]
-        [Row(1.0, 10.0, 1.0)]
-        [Row(10.0, 1.0, 10.0)]
-        [Row(10.0, 10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, 1.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)]
-        [Row(0.1, 0.1, 2.1)]
-        [Row(0.1, 1.0, 2.1)]
-        [Row(0.1, 10.0, 2.1)]
-        [Row(1.0, 0.1, 2.0)]
-        [Row(1.0, 1.0, 2.0)]
-        [Row(1.0, 10.0, 2.0)]
-        [Row(10.0, 1.0, 12.0)]
-        [Row(10.0, 10.0, 12.0)]
-        [Row(10.0, Double.PositiveInfinity, 12.0)]
-        public void ValidateDensity(double scale, double shape, double x)
+        /// <summary>
+        /// Validate density.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        /// <param name="x">Input X value.</param>
+        [Test, Combinatorial]
+        public void ValidateDensity(
+            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, 
+            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape, 
+            [Values(0.1, 1.0, 2.0, 2.1, 10.0, 12.0, Double.PositiveInfinity)] double x)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>(shape * Math.Pow(scale, shape) / Math.Pow(x, shape + 1.0), n.Density(x));
+            Assert.AreEqual(shape * Math.Pow(scale, shape) / Math.Pow(x, shape + 1.0), n.Density(x));
         }
 
-        [Test]
-        [Row(0.1, 0.1, 0.1)]
-        [Row(0.1, 1.0, 0.1)]
-        [Row(0.1, 10.0, 0.1)]
-        [Row(1.0, 0.1, 1.0)]
-        [Row(1.0, 1.0, 1.0)]
-        [Row(1.0, 10.0, 1.0)]
-        [Row(10.0, 1.0, 10.0)]
-        [Row(10.0, 10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, 1.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)]
-        [Row(0.1, 0.1, 2.1)]
-        [Row(0.1, 1.0, 2.1)]
-        [Row(0.1, 10.0, 2.1)]
-        [Row(1.0, 0.1, 2.0)]
-        [Row(1.0, 1.0, 2.0)]
-        [Row(1.0, 10.0, 2.0)]
-        [Row(10.0, 1.0, 12.0)]
-        [Row(10.0, 10.0, 12.0)]
-        [Row(10.0, Double.PositiveInfinity, 12.0)]
-        public void ValidateDensityLn(double scale, double shape, double x)
+        /// <summary>
+        /// Validate density log.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        /// <param name="x">Input X value.</param>
+        [Test, Combinatorial]
+        public void ValidateDensityLn(
+            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, 
+            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape, 
+            [Values(0.1, 1.0, 2.0, 2.1, 10.0, 12.0, Double.PositiveInfinity)] double x)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>(Math.Log(n.Density(x)), n.DensityLn(x));
+            Assert.AreEqual(Math.Log(n.Density(x)), n.DensityLn(x));
         }
 
+        /// <summary>
+        /// Can sample.
+        /// </summary>
         [Test]
         public void CanSample()
         {
             var n = new Pareto(1.0, 1.0);
-            var d = n.Sample();
+            n.Sample();
         }
 
+        /// <summary>
+        /// Can sample sequence.
+        /// </summary>
         [Test]
         public void CanSampleSequence()
         {
             var n = new Pareto(1.0, 1.0);
             var ied = n.Samples();
-            var e = ied.Take(5).ToArray();
+            ied.Take(5).ToArray();
         }
 
-        [Test]
-        [Row(0.1, 0.1, 0.1)]
-        [Row(0.1, 1.0, 0.1)]
-        [Row(0.1, 10.0, 0.1)]
-        [Row(1.0, 0.1, 1.0)]
-        [Row(1.0, 1.0, 1.0)]
-        [Row(1.0, 10.0, 1.0)]
-        [Row(10.0, 1.0, 10.0)]
-        [Row(10.0, 10.0, 10.0)]
-        [Row(10.0, Double.PositiveInfinity, 10.0)]
-        [Row(Double.PositiveInfinity, 1.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 10.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)]
-        [Row(0.1, 0.1, 2.1)]
-        [Row(0.1, 1.0, 2.1)]
-        [Row(0.1, 10.0, 2.1)]
-        [Row(1.0, 0.1, 2.0)]
-        [Row(1.0, 1.0, 2.0)]
-        [Row(1.0, 10.0, 2.0)]
-        [Row(10.0, 1.0, 12.0)]
-        [Row(10.0, 10.0, 12.0)]
-        [Row(10.0, Double.PositiveInfinity, 12.0)]
-        public void ValidateCumulativeDistribution(double scale, double shape, double x)
+        /// <summary>
+        /// Validate cumulative distribution.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="shape">Shape value.</param>
+        /// <param name="x">Input X value.</param>
+        [Test, Combinatorial]
+        public void ValidateCumulativeDistribution(
+            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale, 
+            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape, 
+            [Values(0.1, 1.0, 2.0, 2.1, 10.0, 12.0, Double.PositiveInfinity)] double x)
         {
             var n = new Pareto(scale, shape);
-            Assert.AreEqual<double>(1.0 - Math.Pow(scale / x, shape), n.CumulativeDistribution(x));
+            Assert.AreEqual(1.0 - Math.Pow(scale / x, shape), n.CumulativeDistribution(x));
         }
     }
 }

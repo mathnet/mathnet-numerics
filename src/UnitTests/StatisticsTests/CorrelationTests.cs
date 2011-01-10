@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,40 +27,54 @@
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
-    using MbUnit.Framework;
+    using System.Linq;
+    using NUnit.Framework;
     using Statistics;
 
-	[TestFixture]
+    /// <summary>
+    /// Correlation tests
+    /// </summary>
+    [TestFixture]
     public class CorrelationTests
     {
-        private readonly IDictionary<string, StatTestData> mData = new Dictionary<string, StatTestData>();
+        /// <summary>
+        /// Statistics data.
+        /// </summary>
+        private readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>();
 
+        /// <summary>
+        /// Initializes a new instance of the CorrelationTests class.
+        /// </summary>
         public CorrelationTests()
         {
-            StatTestData lottery = new StatTestData("./data/NIST/Lottery.dat");
-            mData.Add("lottery", lottery);
-            StatTestData lew = new StatTestData("./data/NIST/Lew.dat");
-            mData.Add("lew", lew);
+            var lottery = new StatTestData("./data/NIST/Lottery.dat");
+            _data.Add("lottery", lottery);
+            var lew = new StatTestData("./data/NIST/Lew.dat");
+            _data.Add("lew", lew);
         }
 
+        /// <summary>
+        /// Pearson correlation test.
+        /// </summary>
         [Test]
         public void PearsonCorrelationTest()
         {
-            var dataA = mData["lottery"].Data.Take(200);
-            var dataB = mData["lew"].Data.Take(200);
+            var dataA = _data["lottery"].Data.Take(200);
+            var dataB = _data["lew"].Data.Take(200);
 
-            double corr = Correlation.Pearson(dataA, dataB);
+            var corr = Correlation.Pearson(dataA, dataB);
             AssertHelpers.AlmostEqual(corr, -0.029470861580726, 13);
         }
 
+        /// <summary>
+        /// Pearson correlation test fail.
+        /// </summary>
         [Test]
-        public void PearsonCorrelationTest_Fail()
+        public void PearsonCorrelationTestFail()
         {
-            var dataA = mData["lottery"].Data;
-            var dataB = mData["lew"].Data;
-
+            var dataA = _data["lottery"].Data;
+            var dataB = _data["lew"].Data;
             Assert.Throws<ArgumentOutOfRangeException>(() => Correlation.Pearson(dataA, dataB));
         }
     }

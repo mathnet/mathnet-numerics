@@ -1,11 +1,9 @@
-﻿// <copyright file="SystemRandomExtensionTests.cs" company="Math.NET">
+﻿// <copyright file="RandomTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,58 +28,83 @@ namespace MathNet.Numerics.UnitTests.Random
 {
     using System;
     using System.Threading;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Abstract class fro RNG tests.
+    /// </summary>
     public abstract class RandomTests
     {
-        private const int _n = 10000;
+        /// <summary>
+        /// Number of samples.
+        /// </summary>
+        private const int N = 10000;
+
+        /// <summary>
+        /// Random generator type.
+        /// </summary>
         private readonly Type _randomType;
 
+        /// <summary>
+        /// Initializes a new instance of the RandomTests class.
+        /// </summary>
+        /// <param name="randomType">Random generator type</param>
         protected RandomTests(Type randomType)
         {
             _randomType = randomType;
         }
 
+        /// <summary>
+        /// Can sample.
+        /// </summary>
         [Test]
         public void Sample()
         {
-            System.Random random = (System.Random) Activator.CreateInstance(_randomType, new object[] {false});
+            var random = (Random)Activator.CreateInstance(_randomType, new object[] { false });
             double sum = 0;
-            for (int i = 0; i < _n; i++)
+            for (var i = 0; i < N; i++)
             {
-                double next = random.NextDouble();
+                var next = random.NextDouble();
                 sum += next;
                 Assert.IsTrue(next >= 0);
                 Assert.IsTrue(next <= 1);
             }
-            //make sure are within 10% of the expected sum.
-            Assert.IsTrue(sum >= _n / 2.0 - .05 * _n);
-            Assert.IsTrue(sum <= _n / 2.0 + .05 * _n);
+
+            // make sure are within 10% of the expected sum.
+            Assert.IsTrue(sum >= (N / 2.0) - (.05 * N));
+            Assert.IsTrue(sum <= (N / 2.0) + (.05 * N));
             if (random is IDisposable)
             {
-                ((IDisposable) random).Dispose();
+                ((IDisposable)random).Dispose();
             }
         }
 
+        /// <summary>
+        /// Can thread-safe sample
+        /// </summary>
         [Test]
         public void ThreadSafeSample()
         {
-            System.Random random = (System.Random) Activator.CreateInstance(_randomType, new object[] {true});
+            var random = (Random)Activator.CreateInstance(_randomType, new object[] { true });
 
-            Thread t1 = new Thread(runTest);
-            Thread t2 = new Thread(runTest);
+            var t1 = new Thread(RunTest);
+            var t2 = new Thread(RunTest);
             t1.Start(random);
             t2.Start(random);
             t1.Join();
             t2.Join();
         }
 
-        public void runTest(object random)
+        /// <summary>
+        /// Test runner function.
+        /// </summary>
+        /// <param name="random">RNG object.</param>
+        public void RunTest(object random)
         {
-            System.Random rng = (System.Random) random;
-            for (int i = 0; i < _n; i++)
+            var rng = (Random)random;
+            for (var i = 0; i < N; i++)
             {
-                double next = rng.NextDouble();
+                var next = rng.NextDouble();
                 Assert.IsTrue(next >= 0);
                 Assert.IsTrue(next <= 1);
             }

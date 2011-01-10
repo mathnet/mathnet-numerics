@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,236 +28,251 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 {
     using System;
     using System.Linq;
-    using MbUnit.Framework;
     using Distributions;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Cauchy distribution tests.
+    /// </summary>
     [TestFixture]
     public class CauchyTests
     {
+        /// <summary>
+        /// Set-up parameters.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             Control.CheckDistributionParameters = true;
         }
 
-        [Test, MultipleAsserts]
+        /// <summary>
+        /// Can create Cauchy.
+        /// </summary>
+        [Test]
         public void CanCreateCauchy()
         {
             var n = new Cauchy();
-            Assert.AreEqual<double>(0.0, n.Location);
-            Assert.AreEqual<double>(1.0, n.Scale);
+            Assert.AreEqual(0.0, n.Location);
+            Assert.AreEqual(1.0, n.Scale);
         }
 
-        [Test, MultipleAsserts]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(10.0, 11.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void CanCreateCauchy(double location, double scale)
+        /// <summary>
+        /// Can create Cauchy.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void CanCreateCauchy([Values(0.0, 0.0, 0.0, 10.0, -5.0, 0.0)] double location, [Values(0.1, 1.0, 10.0, 11.0, 100.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Cauchy(location, scale);
-            Assert.AreEqual<double>(location, n.Location);
-            Assert.AreEqual<double>(scale, n.Scale);
+            Assert.AreEqual(location, n.Location);
+            Assert.AreEqual(scale, n.Scale);
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN, 1.0)]
-        [Row(1.0, Double.NaN)]
-        [Row(Double.NaN, Double.NaN)]
-        [Row(1.0, 0.0)]
-        public void CauchyCreateFailsWithBadParameters(double location, double scale)
+        /// <summary>
+        /// Cauchy create fails with bad parameters.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void CauchyCreateFailsWithBadParameters([Values(Double.NaN, 1.0, Double.NaN, 1.0)] double location, [Values(1.0, Double.NaN, Double.NaN, 0.0)] double scale)
         {
-            var n = new Cauchy(location, scale);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Cauchy(location, scale));
         }
 
+        /// <summary>
+        /// Validate ToString.
+        /// </summary>
         [Test]
         public void ValidateToString()
         {
             var n = new Cauchy(1.0, 2.0);
-            Assert.AreEqual<string>("Cauchy(Location = 1, Scale = 2)", n.ToString());
+            Assert.AreEqual("Cauchy(Location = 1, Scale = 2)", n.ToString());
         }
 
+        /// <summary>
+        /// Can set location.
+        /// </summary>
+        /// <param name="location">Location value.</param>
         [Test]
-        [Row(-10.0)]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        public void CanSetLocation(double location)
+        public void CanSetLocation([Values(-10.0, -0.0, 0.0, 0.1, 1.0)] double location)
         {
-            var n = new Cauchy();
-            n.Location = location;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SetLocationFail()
-        {
-            var n = new Cauchy();
-            n.Location = Double.NaN;
-        }
-
-        [Test]
-        [Row(1.0)]
-        [Row(2.0)]
-        [Row(12.0)]
-        public void CanSetScale(double scale)
-        {
-            var n = new Cauchy();
-            n.Scale = scale;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SetScaleFail()
-        {
-            var n = new Cauchy();
-            n.Scale = -1.0;
-        }
-
-        [Test]
-        [Row(-0.0, 2.0)]
-        [Row(0.0, 2.0)]
-        [Row(0.1, 4.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 11.0)]
-        public void ValidateEntropy(double location, double scale)
-        {
-            var n = new Cauchy(location, scale);
-            Assert.AreEqual<double>(Math.Log(4.0 * Constants.Pi * scale), n.Entropy);
-        }
-
-        [Test]
-        [ExpectedException(typeof(NotSupportedException))]
-        [Row(-0.0, 2.0)]
-        [Row(0.0, 2.0)]
-        [Row(0.1, 4.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 11.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void ValidateSkewness(double location, double scale)
-        {
-            var n = new Cauchy(location, scale);
-            Assert.AreEqual<double>(0.0, n.Skewness);
-        }
-
-        [Test]
-        [Row(-0.0, 2.0)]
-        [Row(0.0, 2.0)]
-        [Row(0.1, 4.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 11.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void ValidateMode(double location, double scale)
-        {
-            var n = new Cauchy(location, scale);
-            Assert.AreEqual<double>(location, n.Mode);
-        }
-
-        [Test]
-        [Row(-0.0, 2.0)]
-        [Row(0.0, 2.0)]
-        [Row(0.1, 4.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 11.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void ValidateMedian(double location, double scale)
-        {
-            var n = new Cauchy(location, scale);
-            Assert.AreEqual<double>(location, n.Median);
-        }
-
-        [Test]
-        [Row(-0.0, 2.0)]
-        [Row(0.0, 2.0)]
-        [Row(0.1, 4.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 11.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void ValidateMinimum(double location, double scale)
-        {
-            var n = new Cauchy(location, scale);
-            Assert.AreEqual<double>(Double.NegativeInfinity, n.Minimum);
-        }
-
-        [Test]
-        [Row(-0.0, 2.0)]
-        [Row(0.0, 2.0)]
-        [Row(0.1, 4.0)]
-        [Row(1.0, 10.0)]
-        [Row(10.0, 11.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void ValidateMaximum(double location, double scale)
-        {
-            var n = new Cauchy(location, scale);
-            Assert.AreEqual<double>(Double.PositiveInfinity, n.Maximum);
-        }
-
-        [Test]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        public void ValidateDensity(double location, double scale)
-        {
-            var n = new Cauchy(location, scale);
-            for (int i = 0; i < 11; i++)
+            new Cauchy
             {
-                double x = i - 5.0;
-                Assert.AreEqual<double>(1.0 / (Constants.Pi * scale * (1.0 + ((x - location) / scale) * ((x - location) / scale))), n.Density(x));
+                Location = location
+            };
+        }
+
+        /// <summary>
+        /// Set bad location fails.
+        /// </summary>
+        [Test]
+        public void SetBadLocationFail()
+        {
+            var n = new Cauchy();
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Location = Double.NaN);
+        }
+
+        /// <summary>
+        /// Can set scale.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        [Test]
+        public void CanSetScale([Values(1.0, 2.0, 12.0)] double scale)
+        {
+            new Cauchy
+            {
+                Scale = scale
+            };
+        }
+
+        /// <summary>
+        /// Set bad scale fails.
+        /// </summary>
+        [Test]
+        public void SetBadScaleFail()
+        {
+            var n = new Cauchy();
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = -1.0);
+        }
+
+        /// <summary>
+        /// Validate entropy.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void ValidateEntropy([Values(-0.0, 0.0, 0.1, 1.0, 10.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0)] double scale)
+        {
+            var n = new Cauchy(location, scale);
+            Assert.AreEqual(Math.Log(4.0 * Constants.Pi * scale), n.Entropy);
+        }
+
+        /// <summary>
+        /// Validate skewness throws <c>NotSupportedException</c>.
+        /// </summary>
+        [Test]
+        public void ValidateSkewnessThrowsNotSupportedException()
+        {
+            var n = new Cauchy(-0.0, 2.0);
+            Assert.Throws<NotSupportedException>(() => { var s = n.Skewness; });
+        }
+
+        /// <summary>
+        /// Validate mode.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void ValidateMode([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double scale)
+        {
+            var n = new Cauchy(location, scale);
+            Assert.AreEqual(location, n.Mode);
+        }
+
+        /// <summary>
+        /// Validate median.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void ValidateMedian([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double scale)
+        {
+            var n = new Cauchy(location, scale);
+            Assert.AreEqual(location, n.Median);
+        }
+
+        /// <summary>
+        /// Validate minimum.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void ValidateMinimum([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double scale)
+        {
+            var n = new Cauchy(location, scale);
+            Assert.AreEqual(Double.NegativeInfinity, n.Minimum);
+        }
+
+        /// <summary>
+        /// Validate maximum.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void ValidateMaximum([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double scale)
+        {
+            var n = new Cauchy(location, scale);
+            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
+        }
+
+        /// <summary>
+        /// Validate density.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void ValidateDensity([Values(0.0, 0.0, 0.0, -5.0, 0.0, Double.PositiveInfinity)] double location, [Values(0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity, 1.0)] double scale)
+        {
+            var n = new Cauchy(location, scale);
+            for (var i = 0; i < 11; i++)
+            {
+                var x = i - 5.0;
+                Assert.AreEqual(1.0 / ((Constants.Pi * scale) * (1.0 + (((x - location) / scale) * ((x - location) / scale)))), n.Density(x));
             }
         }
 
-        [Test]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        [Row(Double.PositiveInfinity, 1.0)]
-        public void ValidateDensityLn(double location, double scale)
+        /// <summary>
+        /// Validate density log.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void ValidateDensityLn([Values(0.0, 0.0, 0.0, -5.0, 0.0, Double.PositiveInfinity)] double location, [Values(0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity, 1.0)] double scale)
         {
             var n = new Cauchy(location, scale);
-            for (int i = 0; i < 11; i++)
+            for (var i = 0; i < 11; i++)
             {
-                double x = i - 5.0;
-                Assert.AreEqual<double>(-Math.Log(Constants.Pi * scale * (1.0 + ((x - location) / scale) * ((x - location) / scale))), n.DensityLn(x));
-           }
+                var x = i - 5.0;
+                Assert.AreEqual(-Math.Log((Constants.Pi * scale) * (1.0 + (((x - location) / scale) * ((x - location) / scale)))), n.DensityLn(x));
+            }
         }
 
+        /// <summary>
+        /// Can sample.
+        /// </summary>
         [Test]
         public void CanSample()
         {
             var n = new Cauchy();
-            var d = n.Sample();
+            n.Sample();
         }
 
+        /// <summary>
+        /// Can sample sequence.
+        /// </summary>
         [Test]
         public void CanSampleSequence()
         {
             var n = new Cauchy();
             var ied = n.Samples();
-            var e = ied.Take(5).ToArray();
+            ied.Take(5).ToArray();
         }
 
-        [Test]
-        [Row(0.0, 0.1)]
-        [Row(0.0, 1.0)]
-        [Row(0.0, 10.0)]
-        [Row(-5.0, 100.0)]
-        [Row(0.0, Double.PositiveInfinity)]
-        public void ValidateCumulativeDistribution(double location, double scale)
+        /// <summary>
+        /// Validate cumulative distribution.
+        /// </summary>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void ValidateCumulativeDistribution([Values(0.0, 0.0, 0.0, -5.0, 0.0)] double location, [Values(0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double scale)
         {
             var n = new Cauchy(location, scale);
-            for (int i = 0; i < 11; i++)
+            for (var i = 0; i < 11; i++)
             {
-                double x = i - 5.0;
-                Assert.AreEqual<double>((1.0 / Constants.Pi) * Math.Atan((x - location) / scale) + 0.5, n.CumulativeDistribution(x));
+                var x = i - 5.0;
+                Assert.AreEqual(((1.0 / Constants.Pi) * Math.Atan((x - location) / scale)) + 0.5, n.CumulativeDistribution(x));
             }
         }
     }

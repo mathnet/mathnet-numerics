@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,23 +26,44 @@
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Collections.Generic;
 
+    /// <summary>
+    /// Statistics data.
+    /// </summary>
     internal class StatTestData
     {
+        /// <summary>
+        /// Data array.
+        /// </summary>
         public readonly double[] Data;
+
+        /// <summary>
+        /// Data with nulls.
+        /// </summary>
         public readonly double?[] DataWithNulls;
 
+        /// <summary>
+        /// Mean value.
+        /// </summary>
         public readonly double Mean;
+
+        /// <summary>
+        /// Standard Deviation.
+        /// </summary>
         public readonly double StandardDeviation;
 
+        /// <summary>
+        /// Initializes a new instance of the StatTestData class.
+        /// </summary>
+        /// <param name="file">Path to the file.</param>
         public StatTestData(string file)
         {
-            using (StreamReader reader = new StreamReader(file))
+            using (var reader = new StreamReader(file))
             {
-                string line = reader.ReadLine().Trim();
+                var line = reader.ReadLine().Trim();
 
                 while (!line.StartsWith("--"))
                 {
@@ -58,11 +75,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                     {
                         StandardDeviation = GetValue(line);
                     }
+
                     line = reader.ReadLine().Trim();
                 }
 
                 line = reader.ReadLine();
-                
+
                 IList<double> list = new List<double>();
                 while (line != null)
                 {
@@ -71,6 +89,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
                     {
                         list.Add(double.Parse(line));
                     }
+
                     line = reader.ReadLine();
                 }
 
@@ -78,20 +97,26 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             }
 
             DataWithNulls = new double?[Data.Length + 2];
-            for (int i = 0; i < Data.Length; i++)
+            for (var i = 0; i < Data.Length; i++)
             {
                 DataWithNulls[i + 1] = Data[i];
             }
         }
 
+        /// <summary>
+        /// Get value.
+        /// </summary>
+        /// <param name="str">Parameter name.</param>
+        /// <returns>Parameter value.</returns>
         private static double GetValue(string str)
         {
-            int start = str.IndexOf(":");
-            string value = str.Substring(start + 1).Trim();
+            var start = str.IndexOf(":");
+            var value = str.Substring(start + 1).Trim();
             if (value.Equals("NaN"))
             {
                 return 0;
             }
+
             return double.Parse(str.Substring(start + 1).Trim());
         }
     }

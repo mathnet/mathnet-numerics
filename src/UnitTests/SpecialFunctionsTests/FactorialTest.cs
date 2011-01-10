@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,17 +27,23 @@
 namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
 {
     using System;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Factorial tests.
+    /// </summary>
     [TestFixture]
     public class FactorialTest
     {
+        /// <summary>
+        /// Can compute factorial.
+        /// </summary>
         [Test]
         public void CanComputeFactorial()
         {
             // exact
-            double factorial = 1.0;
-            for (int i = 1; i < 23; i++)
+            var factorial = 1.0;
+            for (var i = 1; i < 23; i++)
             {
                 factorial *= i;
                 AssertHelpers.AlmostEqual(factorial, SpecialFunctions.Factorial(i), 14);
@@ -49,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             }
 
             // approximation
-            for (int i = 23; i < 171; i++)
+            for (var i = 23; i < 171; i++)
             {
                 factorial *= i;
                 AssertHelpers.AlmostEqual(factorial, SpecialFunctions.Factorial(i), 14);
@@ -57,6 +59,9 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             }
         }
 
+        /// <summary>
+        /// Throws <c>ArgumentOutOfRangeException</c> on a negative argument.
+        /// </summary>
         [Test]
         public void ThrowsOnNegativeArgument()
         {
@@ -65,6 +70,9 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             Assert.Throws<ArgumentOutOfRangeException>(() => SpecialFunctions.FactorialLn(-1));
         }
 
+        /// <summary>
+        /// Factorial overflows to infinity.
+        /// </summary>
         [Test]
         public void FactorialOverflowsToInfinity()
         {
@@ -72,6 +80,9 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             Assert.AreEqual(Double.PositiveInfinity, SpecialFunctions.Factorial(Int32.MaxValue));
         }
 
+        /// <summary>
+        /// Log factorial does not overflows.
+        /// </summary>
         [Test]
         public void FactorialLnDoesNotOverflow()
         {
@@ -81,6 +92,9 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             AssertHelpers.AlmostEqual(1413421.9939462073242, SpecialFunctions.FactorialLn(1 << 17), 14);
         }
 
+        /// <summary>
+        /// Can compute binomial.
+        /// </summary>
         [Test]
         public void CanComputeBinomial()
         {
@@ -93,6 +107,9 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             AssertHelpers.AlmostEqual(0, SpecialFunctions.Binomial(5, -7), 14);
         }
 
+        /// <summary>
+        /// Can compute log binomial.
+        /// </summary>
         [Test]
         public void CanComputeBinomialLn()
         {
@@ -105,13 +122,16 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
             AssertHelpers.AlmostEqual(Math.Log(0), SpecialFunctions.BinomialLn(5, -7), 14);
         }
 
+        /// <summary>
+        /// Can compute multinomial.
+        /// </summary>
         [Test]
         public void CanComputeMultinomial()
         {
-            AssertHelpers.AlmostEqual(1, SpecialFunctions.Multinomial(1, new int[] { 1, 0 }), 14);
-            AssertHelpers.AlmostEqual(10, SpecialFunctions.Multinomial(5, new int[] { 3, 2 }), 14);
-            AssertHelpers.AlmostEqual(10, SpecialFunctions.Multinomial(5, new int[] { 2, 3 }), 14);
-            AssertHelpers.AlmostEqual(35, SpecialFunctions.Multinomial(7, new int[] { 3, 4 }), 14);
+            AssertHelpers.AlmostEqual(1, SpecialFunctions.Multinomial(1, new[] { 1, 0 }), 14);
+            AssertHelpers.AlmostEqual(10, SpecialFunctions.Multinomial(5, new[] { 3, 2 }), 14);
+            AssertHelpers.AlmostEqual(10, SpecialFunctions.Multinomial(5, new[] { 2, 3 }), 14);
+            AssertHelpers.AlmostEqual(35, SpecialFunctions.Multinomial(7, new[] { 3, 4 }), 14);
         }
     }
 }

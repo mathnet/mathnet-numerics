@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,38 +26,54 @@
 
 namespace MathNet.Numerics.UnitTests.Random
 {
-    using MbUnit.Framework;
+    using System;
     using Numerics.Random;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Tests for extension methods of the System.Random.
+    /// </summary>
     [TestFixture]
     public class SystemRandomExtensionTests
     {
+        /// <summary>
+        /// Can sample int64.
+        /// </summary>
         [Test]
         public void CanSampleInt64()
         {
-            var rnd = new System.Random();
-            long l = rnd.NextInt64();
+            var rnd = new Random();
+            rnd.NextInt64();
         }
 
+        /// <summary>
+        /// Can sample full range int32.
+        /// </summary>
         [Test]
         public void CanSampleFullRangeInt32()
         {
-            var rnd = new System.Random();
-            int l = rnd.NextFullRangeInt32();
+            var rnd = new Random();
+            rnd.NextFullRangeInt32();
         }
 
+        /// <summary>
+        /// Can sample full range int64.
+        /// </summary>
         [Test]
         public void CanSampleFullRangeInt64()
         {
-            var rnd = new System.Random();
-            long l = rnd.NextFullRangeInt64();
+            var rnd = new Random();
+            rnd.NextFullRangeInt64();
         }
 
+        /// <summary>
+        /// Can sample decimal.
+        /// </summary>
         [Test]
         public void CanSampleDecimal()
         {
-            var rnd = new System.Random();
-            decimal l = rnd.NextDecimal();
+            var rnd = new Random();
+            rnd.NextDecimal();
         }
     }
 }

@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -32,318 +28,317 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 {
     using System;
     using System.Linq;
-    using MbUnit.Framework;
     using Distributions;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Stable distribution tests.
+    /// </summary>
     [TestFixture]
     public class StableTests
     {
+        /// <summary>
+        /// Set-up parameters.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             Control.CheckDistributionParameters = true;
         }
 
-        [Test, MultipleAsserts]
-        [Row(0.1, -1.0, 0.1, Double.NegativeInfinity)]
-        [Row(0.1, -1.0, 0.1, -1.0)]
-        [Row(0.1, -1.0, 0.1, 0.0)]
-        [Row(0.1, -1.0, 0.1, 1.0)]
-        [Row(0.1, -1.0, 0.1, Double.PositiveInfinity)]
-        [Row(0.1, -1.0, 1.0, Double.NegativeInfinity)]
-        [Row(0.1, -1.0, 1.0, -1.0)]
-        [Row(0.1, -1.0, 1.0, 0.0)]
-        [Row(0.1, -1.0, 1.0, 1.0)]
-        [Row(0.1, -1.0, 1.0, Double.PositiveInfinity)]
-        [Row(0.1, -1.0, Double.PositiveInfinity, Double.NegativeInfinity)]
-        [Row(0.1, -1.0, Double.PositiveInfinity, -1.0)]
-        [Row(0.1, -1.0, Double.PositiveInfinity, 0.0)]
-        [Row(0.1, -1.0, Double.PositiveInfinity, 1.0)]
-        [Row(0.1, -1.0, Double.PositiveInfinity, Double.PositiveInfinity)]
-        [Row(0.1, 1.0, 0.1, Double.NegativeInfinity)]
-        [Row(0.1, 1.0, 0.1, -1.0)]
-        [Row(0.1, 1.0, 0.1, 0.0)]
-        [Row(0.1, 1.0, 0.1, 1.0)]
-        [Row(0.1, 1.0, 0.1, Double.PositiveInfinity)]
-        [Row(2.0, 1.0, 0.1, Double.NegativeInfinity)]
-        [Row(2.0, 1.0, 0.1, -1.0)]
-        [Row(2.0, 1.0, 0.1, 0.0)]
-        [Row(2.0, 1.0, 0.1, 1.0)]
-        [Row(2.0, 1.0, 0.1, Double.PositiveInfinity)]
-        public void CanCreateStable(double alpha, double beta, double scale, double location)
+        /// <summary>
+        /// Can create stable.
+        /// </summary>
+        /// <param name="alpha">Alpha value.</param>
+        /// <param name="beta">Beta value.</param>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="location">Location value.</param>
+        [Test, Combinatorial]
+        public void CanCreateStable([Values(0.1, 2.0)] double alpha, [Values(-1.0, 1.0)] double beta, [Values(0.1, Double.PositiveInfinity)] double scale, [Values(Double.NegativeInfinity, -1.0, 0.0, 1.0, Double.PositiveInfinity)] double location)
         {
             var n = new Stable(alpha, beta, scale, location);
-            Assert.AreEqual<double>(alpha, n.Alpha);
-            Assert.AreEqual<double>(beta, n.Beta);
-            Assert.AreEqual<double>(scale, n.Scale);
-            Assert.AreEqual<double>(location, n.Location);
+            Assert.AreEqual(alpha, n.Alpha);
+            Assert.AreEqual(beta, n.Beta);
+            Assert.AreEqual(scale, n.Scale);
+            Assert.AreEqual(location, n.Location);
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN, Double.NaN, Double.NaN, Double.NaN)]
-        [Row(1.0, Double.NaN, Double.NaN, Double.NaN)]
-        [Row(Double.NaN, 1.0, Double.NaN, Double.NaN)]
-        [Row(Double.NaN, Double.NaN, 1.0, Double.NaN)]
-        [Row(Double.NaN, Double.NaN, Double.NaN, 1.0)]
-        [Row(1.0, 1.0, Double.NaN, Double.NaN)]
-        [Row(1.0, Double.NaN, 1.0, Double.NaN)]
-        [Row(1.0, Double.NaN, Double.NaN, 1.0)]
-        [Row(Double.NaN, 1.0, 1.0, Double.NaN)]
-        [Row(1.0, 1.0, 1.0, Double.NaN)]
-        [Row(1.0, 1.0, Double.NaN, 1.0)]
-        [Row(1.0, Double.NaN, 1.0, 1.0)]
-        [Row(Double.NaN, 1.0, 1.0, 1.0)]
-        [Row(1.0, 1.0, 0.0, 1.0)]
-        [Row(1.0, -1.1, 1.0, 1.0)]
-        [Row(1.0, 1.1, 1.0, 1.0)]
-        [Row(0.0, 1.0, 1.0, 1.0)]
-        [Row(2.1, 1.0, 1.0, 1.0)]
-        public void StableCreateFailsWithBadParameters(double alpha, double beta, double location, double scale)
+        /// <summary>
+        /// Stable create fails with bad parameters.
+        /// </summary>
+        /// <param name="alpha">Alpha value.</param>
+        /// <param name="beta">Beta value.</param>
+        /// <param name="location">Location value.</param>
+        /// <param name="scale">Scale value.</param>
+        [Test, Sequential]
+        public void StableCreateFailsWithBadParameters(
+            [Values(Double.NaN, 1.0, Double.NaN, Double.NaN, Double.NaN, 1.0, 1.0, 1.0, Double.NaN, 1.0, 1.0, 1.0, Double.NaN, 1.0, 1.0, 1.0, 0.0, 2.1)] double alpha, 
+            [Values(Double.NaN, Double.NaN, 1.0, Double.NaN, Double.NaN, 1.0, Double.NaN, Double.NaN, 1.0, 1.0, 1.0, Double.NaN, 1.0, 1.0, -1.1, 1.1, 1.0, 1.0)] double beta, 
+            [Values(Double.NaN, Double.NaN, Double.NaN, 1.0, Double.NaN, Double.NaN, 1.0, Double.NaN, 1.0, 1.0, Double.NaN, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0)] double location, 
+            [Values(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 1.0, Double.NaN, Double.NaN, 1.0, Double.NaN, Double.NaN, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)] double scale)
         {
-            var n = new Stable(alpha, beta, location, scale);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Stable(alpha, beta, location, scale));
         }
 
+        /// <summary>
+        /// Validate ToString.
+        /// </summary>
         [Test]
         public void ValidateToString()
         {
             var n = new Stable(1.2, 0.3, 1.0, 2.0);
-            Assert.AreEqual(String.Format("Stable(Stability = {0}, Skewness = {1}, Scale = {2}, Location = {3})",n.Alpha, n.Beta, n.Scale, n.Location) , n.ToString());
+            Assert.AreEqual(String.Format("Stable(Stability = {0}, Skewness = {1}, Scale = {2}, Location = {3})", n.Alpha, n.Beta, n.Scale, n.Location), n.ToString());
         }
 
+        /// <summary>
+        /// Can set alpha.
+        /// </summary>
+        /// <param name="alpha">Alpha value.</param>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(2.0)]
-        public void CanSetAlpha(double alpha)
+        public void CanSetAlpha([Values(0.1, 1.0, 2.0)] double alpha)
+        {
+            new Stable(1.0, 1.0, 1.0, 1.0)
+            {
+                Alpha = alpha
+            };
+        }
+
+        /// <summary>
+        /// Set alpha fails with bad values.
+        /// </summary>
+        /// <param name="alpha">Alpha value.</param>
+        [Test]
+        public void SetAlphaFail([Values(Double.NaN, -0.0, 0.0, 2.1, Double.NegativeInfinity, Double.PositiveInfinity)] double alpha)
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            n.Alpha = alpha;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Alpha = alpha);
         }
 
+        /// <summary>
+        /// Can set beta.
+        /// </summary>
+        /// <param name="beta">Beta value.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN)]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(2.1)]
-        [Row(Double.NegativeInfinity)]
-        [Row(Double.PositiveInfinity)]
-        public void SetAlphaFail(double alpha)
+        public void CanSetBeta([Values(-1.0, -0.1, -0.0, 0.0, 0.1, 1.0)] double beta)
+        {
+            new Stable(1.0, 1.0, 1.0, 1.0)
+            {
+                Beta = beta
+            };
+        }
+
+        /// <summary>
+        /// Set beta fails with bad values.
+        /// </summary>
+        /// <param name="beta">Beta value.</param>
+        [Test]
+        public void SetBetaFail([Values(Double.NaN, -1.1, 1.1, Double.NegativeInfinity, Double.PositiveInfinity)] double beta)
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            n.Alpha = alpha;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Beta = beta);
         }
 
+        /// <summary>
+        /// Can set scale.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
         [Test]
-        [Row(-1.0)]
-        [Row(-0.1)]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        public void CanSetBeta(double beta)
+        public void CanSetScale([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
+        {
+            new Stable(1.0, 1.0, 1.0, 1.0)
+            {
+                Scale = scale
+            };
+        }
+
+        /// <summary>
+        /// Set scale fails with bad values.
+        /// </summary>
+        /// <param name="scale">Scale value.</param>
+        [Test]
+        public void SetScaleFail([Values(Double.NaN, 0.0)] double scale)
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            n.Beta = beta;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = scale);
         }
 
+        /// <summary>
+        /// Can set location.
+        /// </summary>
+        /// <param name="location">Location value.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN)]
-        [Row(-1.1)]
-        [Row(1.1)]
-        [Row(Double.NegativeInfinity)]
-        [Row(Double.PositiveInfinity)]
-        public void SetBetaFail(double beta)
+        public void CanSetLocation([Values(Double.NegativeInfinity, -10.0, -1.0, -0.1, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double location)
         {
-            var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            n.Beta = beta;
+            new Stable(1.0, 1.0, 1.0, 1.0)
+            {
+                Location = location
+            };
         }
 
+        /// <summary>
+        /// Set location fails with bad values.
+        /// </summary>
         [Test]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetScale(double scale)
-        {
-            var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            n.Scale = scale;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN)]
-        [Row(0.0)]
-        public void SetScaleFail(double scale)
-        {
-            var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            n.Scale = scale;
-        }
-
-        [Test]
-        [Row(Double.NegativeInfinity)]
-        [Row(-10.0)]
-        [Row(-1.0)]
-        [Row(-0.1)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void CanSetLocation(double location)
-        {
-            var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            n.Location = location;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SetLocationFail()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            n.Location = Double.NaN;
+            Assert.Throws<ArgumentOutOfRangeException>(() => n.Location = Double.NaN);
         }
 
+        /// <summary>
+        /// Validate entropy throws <c>NotSupportedException</c>.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void ValidateEntropy()
+        public void ValidateEntropyThrowsNotSupportedException()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            var e = n.Entropy;
+            Assert.Throws<NotSupportedException>(() => { var e = n.Entropy; });
         }
 
+        /// <summary>
+        /// Validate skewness.
+        /// </summary>
         [Test]
         public void ValidateSkewness()
         {
             var n = new Stable(2.0, 1.0, 1.0, 1.0);
             if (n.Alpha == 2)
             {
-                Assert.AreEqual<double>(0.0, n.Skewness);
+                Assert.AreEqual(0.0, n.Skewness);
             }
         }
 
+        /// <summary>
+        /// Validate mode.
+        /// </summary>
+        /// <param name="location">Location value.</param>
         [Test]
-        [Row(Double.NegativeInfinity)]
-        [Row(-10.0)]
-        [Row(-1.0)]
-        [Row(-0.1)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMode(double location)
+        public void ValidateMode([Values(Double.NegativeInfinity, -10.0, -1.0, -0.1, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double location)
         {
             var n = new Stable(1.0, 0.0, 1.0, location);
             if (n.Beta == 0)
             {
-                Assert.AreEqual<double>(location, n.Mode);
+                Assert.AreEqual(location, n.Mode);
             }
         }
 
+        /// <summary>
+        /// Validate mean.
+        /// </summary>
+        /// <param name="location">Location value.</param>
         [Test]
-        [Row(Double.NegativeInfinity)]
-        [Row(-10.0)]
-        [Row(-1.0)]
-        [Row(-0.1)]
-        [Row(0.1)]
-        [Row(1.0)]
-        [Row(10.0)]
-        [Row(Double.PositiveInfinity)]
-        public void ValidateMedian(double location)
+        public void ValidateMedian([Values(Double.NegativeInfinity, -10.0, -1.0, -0.1, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double location)
         {
             var n = new Stable(1.0, 0.0, 1.0, location);
             if (n.Beta == 0)
             {
-                Assert.AreEqual<double>(location, n.Mode);
+                Assert.AreEqual(location, n.Mode);
             }
         }
 
+        /// <summary>
+        /// Validate minimum.
+        /// </summary>
+        /// <param name="beta">Beta value.</param>
         [Test]
-        [Row(-1.0)]
-        [Row(-0.1)]
-        [Row(-0.0)]
-        [Row(0.0)]
-        [Row(0.1)]
-        [Row(1.0)]
-        public void ValidateMinimum(double beta)
+        public void ValidateMinimum([Values(-1.0, -0.1, -0.0, 0.0, 0.1, 1.0)] double beta)
         {
             var n = new Stable(1.0, beta, 1.0, 1.0);
-            if (Math.Abs(beta) != 1)
-            {
-                Assert.AreEqual<double>(Double.NegativeInfinity, n.Minimum);
-            }
-            else
-            {
-                Assert.AreEqual<double>(0.0, n.Minimum);
-            }
+            Assert.AreEqual(Math.Abs(beta) != 1 ? Double.NegativeInfinity : 0.0, n.Minimum);
         }
 
+        /// <summary>
+        /// Validate maximum.
+        /// </summary>
         [Test]
         public void ValidateMaximum()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            Assert.AreEqual<double>(Double.PositiveInfinity, n.Maximum);
+            Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
         }
 
-        [Test]
-        [Row(2.0, -1.0, 1.0, 0.0, 1.5, 0.16073276729880184)]
-        [Row(2.0, -1.0, 1.0, 0.0, 3.0, 0.029732572305907354)]
-        [Row(2.0, -1.0, 1.0, 0.0, 5.0, 0.00054457105758817781)]
-        [Row(1.0, 0.0, 1.0, 0.0, 1.5, 0.097941503441166353)]
-        [Row(1.0, 0.0, 1.0, 0.0, 3.0, 0.031830988618379068)]
-        [Row(1.0, 0.0, 1.0, 0.0, 5.0, 0.012242687930145794)]
-        [Row(0.5, 1.0, 1.0, 0.0, 1.5, 0.15559955475708653)]
-        [Row(0.5, 1.0, 1.0, 0.0, 3.0, 0.064989885240913717)]
-        [Row(0.5, 1.0, 1.0, 0.0, 5.0, 0.032286845174307237)]
-        public void ValidateDensity(double alpha, double beta, double scale, double location, double x, double d)
+        /// <summary>
+        /// Validate density.
+        /// </summary>
+        /// <param name="alpha">Alpha value.</param>
+        /// <param name="beta">Beta value.</param>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="location">Location value.</param>
+        /// <param name="x">Input X value.</param>
+        /// <param name="d">Expected value.</param>
+        [Test, Sequential]
+        public void ValidateDensity(
+            [Values(2.0, 2.0, 2.0, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5)] double alpha, 
+            [Values(-1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)] double beta, 
+            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)] double scale, 
+            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)] double location, 
+            [Values(1.5, 3.0, 5.0, 1.5, 3.0, 5.0, 1.5, 3.0, 5.0)] double x, 
+            [Values(0.16073276729880184, 0.029732572305907354, 0.00054457105758817781, 0.097941503441166353, 0.031830988618379068, 0.012242687930145794, 0.15559955475708653, 0.064989885240913717, 0.032286845174307237)] double d)
         {
             var n = new Stable(alpha, beta, scale, location);
             AssertHelpers.AlmostEqual(d, n.Density(x), 15);
         }
 
-        [Test]
-        [Row(2.0, -1.0, 1.0, 0.0, 1.5, -1.8280121234846454)]
-        [Row(2.0, -1.0, 1.0, 0.0, 3.0, -3.5155121234846449)]
-        [Row(2.0, -1.0, 1.0, 0.0, 5.0, -7.5155121234846449)]
-        [Row(1.0, 0.0, 1.0, 0.0, 1.5, -2.3233848821910463)]
-        [Row(1.0, 0.0, 1.0, 0.0, 3.0, -3.4473149788434458)]
-        [Row(1.0, 0.0, 1.0, 0.0, 5.0, -4.4028264238708825)]
-        [Row(0.5, 1.0, 1.0, 0.0, 1.5, -1.8604695287002526)]
-        [Row(0.5, 1.0, 1.0, 0.0, 3.0, -2.7335236328735038)]
-        [Row(0.5, 1.0, 1.0, 0.0, 5.0, -3.4330954018558235)]
-        public void ValidateDensityLn(double alpha, double beta, double scale, double location, double x, double dln)
+        /// <summary>
+        /// Validate density log.
+        /// </summary>
+        /// <param name="alpha">Alpha value.</param>
+        /// <param name="beta">Beta value.</param>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="location">Location value.</param>
+        /// <param name="x">Input X value.</param>
+        /// <param name="dln">Expected value.</param>
+        [Test, Sequential]
+        public void ValidateDensityLn(
+            [Values(2.0, 2.0, 2.0, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5)] double alpha, 
+            [Values(-1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)] double beta, 
+            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)] double scale, 
+            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)] double location, 
+            [Values(1.5, 3.0, 5.0, 1.5, 3.0, 5.0, 1.5, 3.0, 5.0)] double x, 
+            [Values(-1.8280121234846454, -3.5155121234846449, -7.5155121234846449, -2.3233848821910463, -3.4473149788434458, -4.4028264238708825, -1.8604695287002526, -2.7335236328735038, -3.4330954018558235)] double dln)
         {
             var n = new Stable(alpha, beta, scale, location);
             AssertHelpers.AlmostEqual(dln, n.DensityLn(x), 15);
         }
 
+        /// <summary>
+        /// Can sample.
+        /// </summary>
         [Test]
         public void CanSample()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
-            var d = n.Sample();
+            n.Sample();
         }
 
+        /// <summary>
+        /// Can sample sequence.
+        /// </summary>
         [Test]
         public void CanSampleSequence()
         {
             var n = new Stable(1.0, 1.0, 1.0, 1.0);
             var ied = n.Samples();
-            var e = ied.Take(5).ToArray();
+            ied.Take(5).ToArray();
         }
 
-        [Test]
-        [Row(2.0, -1.0, 1.0, 0.0, 1.5, 0.8555778168267576)]
-        [Row(2.0, -1.0, 1.0, 0.0, 3.0, 0.98305257323765538)]
-        [Row(2.0, -1.0, 1.0, 0.0, 5.0, 0.9997965239912775)]
-        [Row(1.0, 0.0, 1.0, 0.0, 1.5, 0.81283295818900125)]
-        [Row(1.0, 0.0, 1.0, 0.0, 3.0, 0.89758361765043326)]
-        [Row(1.0, 0.0, 1.0, 0.0, 5.0, 0.93716704181099886)]
-        [Row(0.5, 1.0, 1.0, 0.0, 1.5, 0.41421617824252516)]
-        [Row(0.5, 1.0, 1.0, 0.0, 3.0, 0.563702861650773)]
-        [Row(0.5, 1.0, 1.0, 0.0, 5.0, 0.65472084601857694)]
-        public void ValidateCumulativeDistribution(double alpha, double beta, double scale, double location, double x, double cdf)
+        /// <summary>
+        /// Validate cumulative distribution.
+        /// </summary>
+        /// <param name="alpha">Alpha value.</param>
+        /// <param name="beta">Beta value.</param>
+        /// <param name="scale">Scale value.</param>
+        /// <param name="location">Location value.</param>
+        /// <param name="x">Input X value.</param>
+        /// <param name="cdf">Expected value.</param>
+        [Test, Sequential]
+        public void ValidateCumulativeDistribution(
+            [Values(2.0, 2.0, 2.0, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5)] double alpha, 
+            [Values(-1.0, -1.0, -1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0)] double beta, 
+            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)] double scale, 
+            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)] double location, 
+            [Values(1.5, 3.0, 5.0, 1.5, 3.0, 5.0, 1.5, 3.0, 5.0)] double x, 
+            [Values(0.8555778168267576, 0.98305257323765538, 0.9997965239912775, 0.81283295818900125, 0.89758361765043326, 0.93716704181099886, 0.41421617824252516, 0.563702861650773, 0.65472084601857694)] double cdf)
         {
             var n = new Stable(alpha, beta, scale, location);
             AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 15);

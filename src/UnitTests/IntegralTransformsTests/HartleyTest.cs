@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -35,19 +31,33 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using Distributions;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
-    using MbUnit.Framework;
+    using NUnit.Framework;
     using Sampling;
 
+    /// <summary>
+    /// Hartley tests.
+    /// </summary>
     [TestFixture]
     public class HartleyTest
     {
-        private IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+        /// <summary>
+        /// Continuous uniform distribution.
+        /// </summary>
+        private readonly IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
 
-        private static void VerifyMatchesDFT(
-            double[] samples,
-            double maximumError,
-            bool inverse,
-            Action<Complex[]> dft,
+        /// <summary>
+        /// Verify if matches DFT.
+        /// </summary>
+        /// <param name="samples">Samples array.</param>
+        /// <param name="maximumError">Maximum error value.</param>
+        /// <param name="inverse">Is inverse.</param>
+        /// <param name="dft">DFT function delegate.</param>
+        /// <param name="hartley">Hartley transform delegate.</param>
+        private static void VerifyMatchesDft(
+            double[] samples, 
+            double maximumError, 
+            bool inverse, 
+            Action<Complex[]> dft, 
             Func<double[], double[]> hartley)
         {
             var hartleyReal = hartley(samples);
@@ -59,27 +69,28 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             AssertHelpers.AlmostEqualList(fourierReal, hartleyReal, maximumError);
         }
 
-        [Test]
-        [Row(HartleyOptions.Default, FourierOptions.Default)]
-        [Row(HartleyOptions.AsymmetricScaling, FourierOptions.AsymmetricScaling)]
-        [Row(HartleyOptions.NoScaling, FourierOptions.NoScaling)]
-        public void NaiveMatchesDFT(HartleyOptions hartleyOptions, FourierOptions fourierOptions)
+        /// <summary>
+        /// Native matches DFT.
+        /// </summary>
+        /// <param name="hartleyOptions">Hartley transformation options.</param>
+        /// <param name="fourierOptions">Fourier transformation options.</param>
+        [Test, Sequential]
+        public void NaiveMatchesDft([Values(HartleyOptions.Default, HartleyOptions.AsymmetricScaling, HartleyOptions.NoScaling)] HartleyOptions hartleyOptions, [Values(FourierOptions.Default, FourierOptions.AsymmetricScaling, FourierOptions.NoScaling)] FourierOptions fourierOptions)
         {
             var dht = new DiscreteHartleyTransform();
             var samples = Sample.Random(x => x, _uniform, 0x80);
 
-            VerifyMatchesDFT(
-                samples,
-                1e-10,
-                false,
-                s => Transform.FourierForward(s, fourierOptions),
+            VerifyMatchesDft(
+                samples, 
+                1e-5, 
+                false, 
+                s => Transform.FourierForward(s, fourierOptions), 
                 s => dht.NaiveForward(s, hartleyOptions));
-
-            VerifyMatchesDFT(
-                samples,
-                1e-10,
-                true,
-                s => Transform.FourierInverse(s, fourierOptions),
+            VerifyMatchesDft(
+                samples, 
+                1e-5, 
+                true, 
+                s => Transform.FourierInverse(s, fourierOptions), 
                 s => dht.NaiveInverse(s, hartleyOptions));
         }
     }

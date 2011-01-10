@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -33,62 +29,93 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using LinearAlgebra.Generic;
-    using MbUnit.Framework;
     using LinearAlgebra.Double;
+    using LinearAlgebra.Generic;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Diagonal matrix tests.
+    /// </summary>
     public class DiagonalMatrixTests : MatrixTests
     {
+        /// <summary>
+        /// Setup test matrices.
+        /// </summary>
         [SetUp]
         public override void SetupMatrices()
         {
             TestData2D = new Dictionary<string, double[,]>
                          {
-                             { "Singular3x3", new [,] { { 1.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 3.0 } } },
-                             { "Square3x3", new [,] { { -1.1, 0.0, 0.0 }, { 0.0, 1.1, 0.0 }, { 0.0, 0.0, 6.6 } } },
-                             { "Square4x4", new [,] { { -1.1, 0.0, 0.0, 0.0 }, { 0.0, 1.1, 0.0, 0.0 }, { 0.0, 0.0, 6.2, 0.0}, { 0.0, 0.0, 0.0, -7.7 } } },
-                             { "Singular4x4", new [,] { { -1.1, 0.0, 0.0, 0.0 }, { 0.0, -2.2, 0.0, 0.0 }, { 0.0, 0.0, 0.0, 0.0}, { 0.0, 0.0, 0.0, -4.4 } } },
-                             { "Tall3x2", new [,] { { -1.1, 0.0 }, { 0.0, 1.1 }, { 0.0, 0.0 } } },
-                             { "Wide2x3", new [,] { { -1.1, 0.0, 0.0 }, { 0.0, 1.1, 0.0 } } }
+                             { "Singular3x3", new[,] { { 1.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 0.0, 3.0 } } }, 
+                             { "Square3x3", new[,] { { -1.1, 0.0, 0.0 }, { 0.0, 1.1, 0.0 }, { 0.0, 0.0, 6.6 } } }, 
+                             { "Square4x4", new[,] { { -1.1, 0.0, 0.0, 0.0 }, { 0.0, 1.1, 0.0, 0.0 }, { 0.0, 0.0, 6.2, 0.0 }, { 0.0, 0.0, 0.0, -7.7 } } }, 
+                             { "Singular4x4", new[,] { { -1.1, 0.0, 0.0, 0.0 }, { 0.0, -2.2, 0.0, 0.0 }, { 0.0, 0.0, 0.0, 0.0 }, { 0.0, 0.0, 0.0, -4.4 } } }, 
+                             { "Tall3x2", new[,] { { -1.1, 0.0 }, { 0.0, 1.1 }, { 0.0, 0.0 } } }, 
+                             { "Wide2x3", new[,] { { -1.1, 0.0, 0.0 }, { 0.0, 1.1, 0.0 } } }
                          };
 
-            TestMatrices = new Dictionary<string, Matrix<double>>();
+            TestMatrices = new Dictionary<string, Matrix>();
             foreach (var name in TestData2D.Keys)
             {
                 TestMatrices.Add(name, CreateMatrix(TestData2D[name]));
             }
         }
 
-        protected override Matrix<double> CreateMatrix(int rows, int columns)
+        /// <summary>
+        /// Creates a matrix for the given number of rows and columns.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <returns>A matrix with the given dimensions.</returns>
+        protected override Matrix CreateMatrix(int rows, int columns)
         {
             return new DiagonalMatrix(rows, columns);
         }
 
-        protected override Matrix<double> CreateMatrix(double[,] data)
+        /// <summary>
+        /// Creates a matrix from a 2D array.
+        /// </summary>
+        /// <param name="data">The 2D array to create this matrix from.</param>
+        /// <returns>A matrix with the given values.</returns>
+        protected override Matrix CreateMatrix(double[,] data)
         {
             return new DiagonalMatrix(data);
         }
 
-        protected override Vector<double> CreateVector(int size)
+        /// <summary>
+        /// Creates a vector of the given size.
+        /// </summary>
+        /// <param name="size">The size of the vector to create.
+        /// </param>
+        /// <returns>The new vector. </returns>
+        protected override Vector CreateVector(int size)
         {
             return new DenseVector(size);
         }
 
-        protected override Vector<double> CreateVector(double[] data)
+        /// <summary>
+        /// Creates a vector from an array.
+        /// </summary>
+        /// <param name="data">The array to create this vector from.</param>
+        /// <returns>The new vector. </returns>
+        protected override Vector CreateVector(double[] data)
         {
             return new DenseVector(data);
         }
 
+        /// <summary>
+        /// Can create a matrix from a diagonal array.
+        /// </summary>
         [Test]
         public void CanCreateMatrixFromDiagonalArray()
         {
             var testData = new Dictionary<string, Matrix<double>>
                            {
-                               { "Singular3x3", new DiagonalMatrix(3, 3, new[] { 1.0, 0.0, 3.0}) },
-                               { "Square3x3", new DiagonalMatrix(4, 4, new[] { -1.1, 1.1, 6.6 }) },
-                               { "Square4x4", new DiagonalMatrix(4, 4, new[] { -1.1, 1.1, 6.2, -7.7 }) },
-                               { "Tall3x2", new DiagonalMatrix(3, 2, new[] { -1.1, 1.1 }) },
-                               { "Wide2x3", new DiagonalMatrix(2, 3, new[] { -1.1, 1.1 }) },
+                               { "Singular3x3", new DiagonalMatrix(3, 3, new[] { 1.0, 0.0, 3.0 }) }, 
+                               { "Square3x3", new DiagonalMatrix(4, 4, new[] { -1.1, 1.1, 6.6 }) }, 
+                               { "Square4x4", new DiagonalMatrix(4, 4, new[] { -1.1, 1.1, 6.2, -7.7 }) }, 
+                               { "Tall3x2", new DiagonalMatrix(3, 2, new[] { -1.1, 1.1 }) }, 
+                               { "Wide2x3", new DiagonalMatrix(2, 3, new[] { -1.1, 1.1 }) }, 
                            };
 
             foreach (var name in testData.Keys)
@@ -97,23 +124,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Matrix from array is a reference.
+        /// </summary>
         [Test]
         public void MatrixFrom1DArrayIsReference()
         {
-            var data = new double[] { 1, 2, 3, 4, 5};
+            var data = new double[] { 1, 2, 3, 4, 5 };
             var matrix = new DiagonalMatrix(5, 5, data);
             matrix[0, 0] = 10.0;
             Assert.AreEqual(10.0, data[0]);
         }
 
+        /// <summary>
+        /// Can create a matrix from two-dimensional array.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
         [Test]
-        [Row("Singular3x3")]
-        [Row("Singular3x3")]
-        [Row("Square3x3")]
-        [Row("Square4x4")]
-        [Row("Tall3x2")]
-        [Row("Wide2x3")]
-        public void CanCreateMatrixFrom2DArray(string name)
+        public void CanCreateMatrixFrom2DArray([Values("Singular3x3", "Singular4x4", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
         {
             var matrix = new DiagonalMatrix(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
@@ -125,6 +153,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Can create a matrix with uniform values.
+        /// </summary>
         [Test]
         public void CanCreateMatrixWithUniformValues()
         {
@@ -135,6 +166,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Can create an identity matrix.
+        /// </summary>
         [Test]
         public void CanCreateIdentity()
         {
@@ -148,17 +182,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Identity with wrong order throws <c>ArgumentOutOfRangeException</c>.
+        /// </summary>
+        /// <param name="order">The size of the square matrix</param>
         [Test]
-        [Row(0)]
-        [Row(-1)]
-        [ExpectedArgumentException]
-        public void IdentityFailsWithZeroOrNegativeOrder(int order)
+        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException([Values(0, -1)] int order)
         {
-            DiagonalMatrix.Identity(order);
+            Assert.Throws<ArgumentOutOfRangeException>(() => DiagonalMatrix.Identity(order));
         }
 
-        [Test]
-        public override void CanDiagonallyStackMatricesWithPassingResult()
+        /// <summary>
+        /// Can diagonally stack matrices into a result matrix.
+        /// </summary>
+        public override void CanDiagonallyStackMatricesIntoResult()
         {
             var top = TestMatrices["Tall3x2"];
             var bottom = TestMatrices["Wide2x3"];
@@ -187,6 +224,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Can multiply a matrix with matrix.
+        /// </summary>
+        /// <param name="nameA">Matrix A name.</param>
+        /// <param name="nameB">Matrix B name.</param>
         public override void CanMultiplyMatrixWithMatrixIntoResult(string nameA, string nameB)
         {
             var matrixA = TestMatrices[nameA];
@@ -206,61 +248,48 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
+        /// <summary>
+        /// Permute matrix rows throws <c>InvalidOperationException</c>.
+        /// </summary>
         [Test]
-        [Row("Singular3x3")]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void CanPermuteMatrixRowsThrowException(string name)
+        public void PermuteMatrixRowsThrowsInvalidOperationException()
         {
-            var matrix = CreateMatrix(TestData2D[name]);
-            var matrixp = CreateMatrix(TestData2D[name]);
-
+            var matrixp = CreateMatrix(TestData2D["Singular3x3"]);
             var permutation = new Permutation(new[] { 2, 0, 1 });
-            matrixp.PermuteRows(permutation);
-
-            Assert.AreNotSame(matrix, matrixp);
-            Assert.AreEqual(matrix.RowCount, matrixp.RowCount);
-            Assert.AreEqual(matrix.ColumnCount, matrixp.ColumnCount);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrix[i, j], matrixp[permutation[i], j]);
-                }
-            }
+            Assert.Throws<InvalidOperationException>(() => matrixp.PermuteRows(permutation));
         }
 
+        /// <summary>
+        /// Permute matrix columns throws <c>InvalidOperationException</c>.
+        /// </summary>
         [Test]
-        [Row("Singular3x3")]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void CanPermuteMatrixColumnsThrowException(string name)
+        public void PermuteMatrixColumnsThrowsInvalidOperationException()
         {
-            var matrix = CreateMatrix(TestData2D[name]);
-            var matrixp = CreateMatrix(TestData2D[name]);
-
+            var matrixp = CreateMatrix(TestData2D["Singular3x3"]);
             var permutation = new Permutation(new[] { 2, 0, 1 });
-            matrixp.PermuteColumns(permutation);
-
-            Assert.AreNotSame(matrix, matrixp);
-            Assert.AreEqual(matrix.RowCount, matrixp.RowCount);
-            Assert.AreEqual(matrix.ColumnCount, matrixp.ColumnCount);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrix[i, j], matrixp[i, permutation[j]]);
-                }
-            }
+            Assert.Throws<InvalidOperationException>(() => matrixp.PermuteColumns(permutation));
         }
 
+        /// <summary>
+        /// Can permute matrix rows.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
         public override void CanPermuteMatrixRows(string name)
         {
         }
 
+        /// <summary>
+        /// Can permute matrix columns.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
         public override void CanPermuteMatrixColumns(string name)
         {
         }
 
-        public override void PointwiseDivideResult()
+        /// <summary>
+        /// Can pointwise divide matrices into a result matrix.
+        /// </summary>
+        public override void CanPointwiseDivideIntoResult()
         {
             foreach (var data in TestMatrices.Values)
             {
@@ -281,29 +310,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        public override void SetColumnWithArray(string name, double[] column)
+        /// <summary>
+        /// Can set a column with an array.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="column">Column array.</param>
+        public override void CanSetColumnWithArray(string name, double[] column)
         {
             try
             {
                 // Pass all invoke to base
-                base.SetColumnWithArray(name, column);
-            }
-            catch(AggregateException ex)
-            {
-                // Supress only IndexOutOfRangeException exceptions due to Diagonal matrix nature
-                if (ex.InnerExceptions.Any(innerException => !(innerException is IndexOutOfRangeException)))
-                {
-                    throw;
-                }
-            }
-        }
-
-        public override void SetColumnWithVector(string name, double[] column)
-        {
-            try
-            {
-                // Pass all invoke to base
-                base.SetColumnWithVector(name, column);
+                base.CanSetColumnWithArray(name, column);
             }
             catch (AggregateException ex)
             {
@@ -315,12 +332,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        public override void SetRowWithArray(string name, double[] row)
+        /// <summary>
+        /// Can set a column with a vector.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="column">Column values.</param>
+        public override void CanSetColumnWithVector(string name, double[] column)
         {
             try
             {
                 // Pass all invoke to base
-                base.SetRowWithArray(name, row);
+                base.CanSetColumnWithVector(name, column);
             }
             catch (AggregateException ex)
             {
@@ -332,12 +354,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        public override void SetRowWithVector(string name, double[] row)
+        /// <summary>
+        /// Can set a row with an array.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="row">Row index.</param>
+        public override void CanSetRowWithArray(string name, double[] row)
         {
             try
             {
                 // Pass all invoke to base
-                base.SetRowWithVector(name, row);
+                base.CanSetRowWithArray(name, row);
             }
             catch (AggregateException ex)
             {
@@ -349,12 +376,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        public override void SetSubMatrix(int rowStart, int rowLength, int colStart, int colLength)
+        /// <summary>
+        /// Can set a row with a vector.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        /// <param name="row">Row index.</param>
+        public override void CanSetRowWithVector(string name, double[] row)
         {
             try
             {
                 // Pass all invoke to base
-                base.SetSubMatrix(rowStart, rowLength, colStart, colLength);
+                base.CanSetRowWithVector(name, row);
             }
             catch (AggregateException ex)
             {
@@ -366,7 +398,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        public override void FrobeniusNorm()
+        /// <summary>
+        /// Can set a submatrix.
+        /// </summary>
+        /// <param name="rowStart">The row to start copying to.</param>
+        /// <param name="rowLength">The number of rows to copy.</param>
+        /// <param name="colStart">The column to start copying to.</param>
+        /// <param name="colLength">The number of columns to copy.</param>
+        public override void CanSetSubMatrix(int rowStart, int rowLength, int colStart, int colLength)
+        {
+            try
+            {
+                // Pass all invoke to base
+                base.CanSetSubMatrix(rowStart, rowLength, colStart, colLength);
+            }
+            catch (AggregateException ex)
+            {
+                // Supress only IndexOutOfRangeException exceptions due to Diagonal matrix nature
+                if (ex.InnerExceptions.Any(innerException => !(innerException is IndexOutOfRangeException)))
+                {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can compute Frobenius norm.
+        /// </summary>
+        public override void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
@@ -381,7 +440,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             AssertHelpers.AlmostEqual(denseMatrix.FrobeniusNorm(), matrix.FrobeniusNorm(), 14);
         }
 
-        public override void InfinityNorm()
+        /// <summary>
+        /// Can compute Infinity norm.
+        /// </summary>
+        public override void CanComputeInfinityNorm()
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
@@ -396,7 +458,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             AssertHelpers.AlmostEqual(denseMatrix.InfinityNorm(), matrix.InfinityNorm(), 14);
         }
 
-        public override void L1Norm()
+        /// <summary>
+        /// Can compute L1 norm.
+        /// </summary>
+        public override void CanComputeL1Norm()
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
@@ -411,7 +476,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             AssertHelpers.AlmostEqual(denseMatrix.L1Norm(), matrix.L1Norm(), 14);
         }
 
-        public override void L2Norm()
+        /// <summary>
+        /// Can compute L2 norm.
+        /// </summary>
+        public override void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
@@ -426,9 +494,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             AssertHelpers.AlmostEqual(denseMatrix.L2Norm(), matrix.L2Norm(), 14);
         }
 
+        /// <summary>
+        /// Can compute determinant.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void Determinant()
+        public void CanComputeDeterminant()
         {
             var matrix = TestMatrices["Square3x3"];
             var denseMatrix = new DenseMatrix(TestData2D["Square3x3"]);
@@ -439,12 +509,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             AssertHelpers.AlmostEqual(denseMatrix.Determinant(), matrix.Determinant(), 14);
         }
 
+        /// <summary>
+        /// Determinant of  non-square matrix throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
-        [ExpectedArgumentException]
-        public void DeterminantNotSquareMatrixThrowException()
+        public void DeterminantNotSquareMatrixThrowsArgumentException()
         {
             var matrix = TestMatrices["Tall3x2"];
-            matrix.Determinant();
+            Assert.Throws<ArgumentException>(() => matrix.Determinant());
         }
     }
 }

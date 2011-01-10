@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,40 +26,50 @@
 
 namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 {
-	using System;
-	using System.Linq;
-	using MbUnit.Framework;
-	using Distributions;
+    using System;
+    using System.Linq;
+    using Distributions;
+    using NUnit.Framework;
 
-	[TestFixture]
+    /// <summary>
+    /// Bernoulli distribution tests.
+    /// </summary>
+    [TestFixture]
     public class BernoulliTests
     {
+        /// <summary>
+        /// Set-up parameters.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
             Control.CheckDistributionParameters = true;
         }
 
+        /// <summary>
+        /// Can create Bernoulli.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
         [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void CanCreateBernoulli(double p)
+        public void CanCreateBernoulli([Values(0.0, 0.3, 1.0)] double p)
         {
             var bernoulli = new Bernoulli(p);
-            Assert.AreEqual<double>(p, bernoulli.P);
+            Assert.AreEqual(p, bernoulli.P);
         }
 
+        /// <summary>
+        /// Bernoulli create fails with bad parameters.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN)]
-        [Row(-1.0)]
-        [Row(2.0)]
-        public void BernoulliCreateFailsWithBadParameters(double p)
+        public void BernoulliCreateFailsWithBadParameters([Values(Double.NaN, -1.0, 2.0)] double p)
         {
-            var bernoulli = new Bernoulli(p);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Bernoulli(p));
         }
 
+        /// <summary>
+        /// Validate ToString.
+        /// </summary>
         [Test]
         public void ValidateToString()
         {
@@ -71,176 +77,195 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
             Assert.AreEqual(String.Format("Bernoulli(P = {0})", b.P), b.ToString());
         }
 
+        /// <summary>
+        /// Can set probability of one.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
         [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void CanSetProbabilityOfOne(double p)
+        public void CanSetProbabilityOfOne([Values(0.0, 0.3, 1.0)] double p)
+        {
+            new Bernoulli(0.3)
+            {
+                P = p
+            };
+        }
+
+        /// <summary>
+        /// Set probability of one fails with bad values.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
+        [Test]
+        public void SetProbabilityOfOneFails([Values(Double.NaN, -1.0, 2.0)] double p)
         {
             var b = new Bernoulli(0.3);
-            b.P = p;
+            Assert.Throws<ArgumentOutOfRangeException>(() => b.P = p);
         }
 
+        /// <summary>
+        /// Validate entropy.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        [Row(Double.NaN)]
-        [Row(-1.0)]
-        [Row(2.0)]
-        public void SetProbabilityOfOneFails(double p)
+        public void ValidateEntropy([Values(0.0, 0.3, 1.0)] double p)
+        {
+            var b = new Bernoulli(p);
+            AssertHelpers.AlmostEqual(-((1.0 - p) * Math.Log(1.0 - p)) - (p * Math.Log(p)), b.Entropy, 14);
+        }
+
+        /// <summary>
+        /// Validate skewness.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
+        [Test]
+        public void ValidateSkewness([Values(0.0, 0.3, 1.0)] double p)
+        {
+            var b = new Bernoulli(p);
+            Assert.AreEqual((1.0 - (2.0 * p)) / Math.Sqrt(p * (1.0 - p)), b.Skewness);
+        }
+
+        /// <summary>
+        /// Validate mode.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
+        /// <param name="m">Expected value.</param>
+        [Test, Sequential]
+        public void ValidateMode([Values(0.0, 0.3, 1.0)] double p, [Values(0.0, 0.0, 1.0)] double m)
+        {
+            var b = new Bernoulli(p);
+            Assert.AreEqual(m, b.Mode);
+        }
+
+        /// <summary>
+        /// Validate median throws <c>NotSupportedException</c>.
+        /// </summary>
+        [Test]
+        public void ValidateMedianThrowsNotSupportedException()
         {
             var b = new Bernoulli(0.3);
-            b.P = p;
+            Assert.Throws<NotSupportedException>(() => { double m = b.Median; });
         }
 
-        [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void ValidateEntropy(double p)
-        {
-            var b = new Bernoulli(p);
-            AssertHelpers.AlmostEqual(-(1.0 - p) * Math.Log(1.0 - p) - p * Math.Log(p), b.Entropy, 14);
-        }
-
-        [Test]
-        [Row(0.0)]
-        [Row(0.3)]
-        [Row(1.0)]
-        public void ValidateSkewness(double p)
-        {
-            var b = new Bernoulli(p);
-            Assert.AreEqual<double>((1.0 - 2.0 * p) / Math.Sqrt(p * (1.0 - p)), b.Skewness);
-        }
-
-        [Test]
-        [Row(0.0, 0)]
-        [Row(0.3, 0)]
-        [Row(1.0, 1)]
-        public void ValidateMode(double p, double m)
-        {
-            var b = new Bernoulli(p);
-            Assert.AreEqual<double>(m, b.Mode);
-        }
-
-        [Test]
-        [ExpectedException(typeof(Exception))]
-        public void ValidateMedian()
-        {
-            var b = new Bernoulli(0.3);
-            double m = b.Median;
-        }
-
+        /// <summary>
+        /// Validate minimum.
+        /// </summary>
         [Test]
         public void ValidateMinimum()
         {
             var b = new Bernoulli(0.3);
-            Assert.AreEqual<double>(0.0, b.Minimum);
+            Assert.AreEqual(0.0, b.Minimum);
         }
 
+        /// <summary>
+        /// Validate maximum.
+        /// </summary>
         [Test]
         public void ValidateMaximum()
         {
             var b = new Bernoulli(0.3);
-            Assert.AreEqual<double>(1.0, b.Maximum);
+            Assert.AreEqual(1.0, b.Maximum);
         }
 
-        [Test]
-        [Row(0.0, -1, 0.0)]
-        [Row(0.0, 0, 1.0)]
-        [Row(0.0, 1, 0.0)]
-        [Row(0.0, 2, 0.0)]
-        [Row(0.3, -1, 0.0)]
-        [Row(0.3, 0, 0.7)]
-        [Row(0.3, 1, 0.3)]
-        [Row(0.3, 2, 0.0)]
-        [Row(1.0, -1, 0.0)]
-        [Row(1.0, 0, 0.0)]
-        [Row(1.0, 1, 1.0)]
-        [Row(1.0, 2, 0.0)]
-        public void ValidateProbability(double p, int x, double d)
+        /// <summary>
+        /// Validate probability.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
+        /// <param name="x">Input X value.</param>
+        /// <param name="d">Expected value.</param>
+        [Test, Sequential]
+        public void ValidateProbability(
+            [Values(0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0.3, 1.0, 1.0, 1.0, 1.0)] double p, 
+            [Values(-1, 0, 1, 2, -1, 0, 1, 2, -1, 0, 1, 2)] int x, 
+            [Values(0.0, 1.0, 0.0, 0.0, 0.0, 0.7, 0.3, 0.0, 0.0, 0.0, 1.0, 0.0)] double d)
         {
             var b = new Bernoulli(p);
             Assert.AreEqual(d, b.Probability(x));
         }
 
-        [Test]
-        [Row(0.0, -1, Double.NegativeInfinity)]
-        [Row(0.0, 0, 0.0)]
-        [Row(0.0, 1, Double.NegativeInfinity)]
-        [Row(0.0, 2, Double.NegativeInfinity)]
-        [Row(0.3, -1, Double.NegativeInfinity)]
-        [Row(0.3, 0, -0.35667494393873244235395440410727451457180907089949815)]
-        [Row(0.3, 1, -1.2039728043259360296301803719337238685164245381839102)]
-        [Row(0.3, 2, Double.NegativeInfinity)]
-        [Row(1.0, -1, Double.NegativeInfinity)]
-        [Row(1.0, 0, Double.NegativeInfinity)]
-        [Row(1.0, 1, 0.0)]
-        [Row(1.0, 2, Double.NegativeInfinity)]
-        public void ValidateProbabilityLn(double p, int x, double dln)
+        /// <summary>
+        /// Validate probability log.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
+        /// <param name="x">Input X value.</param>
+        /// <param name="dln">Expected value.</param>
+        [Test, Sequential]
+        public void ValidateProbabilityLn(
+            [Values(0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0.3, 1.0, 1.0, 1.0, 1.0)] double p, 
+            [Values(-1, 0, 1, 2, -1, 0, 1, 2, -1, 0, 1, 2)] int x, 
+            [Values(Double.NegativeInfinity, 0.0, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, -0.35667494393873244235395440410727451457180907089949815, -1.2039728043259360296301803719337238685164245381839102, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, 0.0, Double.NegativeInfinity)] double dln)
         {
             var b = new Bernoulli(p);
             Assert.AreEqual(dln, b.ProbabilityLn(x));
         }
 
+        /// <summary>
+        /// Can sample static.
+        /// </summary>
         [Test]
         public void CanSampleStatic()
         {
-            var d = Bernoulli.Sample(new Random(), 0.3);
+            Bernoulli.Sample(new Random(), 0.3);
         }
 
+        /// <summary>
+        /// Can sample sequence static.
+        /// </summary>
         [Test]
         public void CanSampleSequenceStatic()
         {
             var ied = Bernoulli.Samples(new Random(), 0.3);
-            var arr = ied.Take(5).ToArray();
+            ied.Take(5).ToArray();
         }
 
+        /// <summary>
+        /// Fail sample static with bad values.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void FailSampleStatic()
         {
-            var d = Bernoulli.Sample(new Random(), -1.0);
+            Assert.Throws<ArgumentOutOfRangeException>(() => Bernoulli.Sample(new Random(), -1.0));
         }
 
+        /// <summary>
+        /// Fail sample sequence static with bad values.
+        /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void FailSampleSequenceStatic()
         {
-            var ied = Bernoulli.Samples(new Random(), -1.0).First();
+            Assert.Throws<ArgumentOutOfRangeException>(() => Bernoulli.Samples(new Random(), -1.0).First());
         }
 
+        /// <summary>
+        /// Can sample.
+        /// </summary>
         [Test]
         public void CanSample()
         {
             var n = new Bernoulli(0.3);
-            var d = n.Sample();
+            n.Sample();
         }
 
+        /// <summary>
+        /// Can sample sequence.
+        /// </summary>
         [Test]
         public void CanSampleSequence()
         {
             var n = new Bernoulli(0.3);
             var ied = n.Samples();
-            var e = ied.Take(5).ToArray();
+            ied.Take(5).ToArray();
         }
 
-        [Test]
-        [Row(0.0, -1.0, 0.0)]
-        [Row(0.0, 0.0, 1.0)]
-        [Row(0.0, 0.5, 1.0)]
-        [Row(0.0, 1.0, 1.0)]
-        [Row(0.0, 2.0, 1.0)]
-        [Row(0.3, -1.0, 0.0)]
-        [Row(0.3, 0.0, 0.7)]
-        [Row(0.3, 0.5, 0.7)]
-        [Row(0.3, 1.0, 1.0)]
-        [Row(0.3, 2.0, 1.0)]
-        [Row(1.0, -1.0, 0.0)]
-        [Row(1.0, 0.0, 0.0)]
-        [Row(1.0, 0.5, 0.0)]
-        [Row(1.0, 1.0, 1.0)]
-        [Row(1.0, 2.0, 1.0)]
-        public void ValidateCumulativeDistribution(double p, double x, double cdf)
+        /// <summary>
+        /// Validate cumulative distribution.
+        /// </summary>
+        /// <param name="p">Probability of one.</param>
+        /// <param name="x">Input X value.</param>
+        /// <param name="cdf">Expected value.</param>
+        [Test, Sequential]
+        public void ValidateCumulativeDistribution(
+            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0.3, 0.3, 1.0, 1.0, 1.0, 1.0, 1.0)] double p, 
+            [Values(-1.0, 0.0, 0.5, 1.0, 2.0, -1.0, 0.0, 0.5, 1.0, 2.0, -1.0, 0.0, 0.5, 1.0, 2.0)] double x, 
+            [Values(0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.7, 0.7, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0)] double cdf)
         {
             var b = new Bernoulli(p);
             Assert.AreEqual(cdf, b.CumulativeDistribution(x));

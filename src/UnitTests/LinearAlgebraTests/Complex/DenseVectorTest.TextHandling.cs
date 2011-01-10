@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -33,63 +29,59 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     using System;
     using System.Globalization;
     using LinearAlgebra.Complex;
-    using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Dense vector text handling tests.
+    /// </summary>
     [TestFixture]
     public class DenseVectorTextHandlingTest
     {
-        [Test]
-        [Row("2", "(2, 0)")]
-        [Row("(3)", "(3, 0)")]
-        [Row("[1,2,3]", "(1, 0),(2, 0),(3, 0)")]
-        [Row(" [ 1.1 , 2.1 , 3.1 ] ", "(1.1, 0),(2.1, 0),(3.1, 0)")]
-        [Row(" [ -1.1 , 2.1 , +3.1 ] ", "(-1.1, 0),(2.1, 0),(3.1, 0)")]
-        [Row(" [1.2,3.4 , 5.6] ", "(1.2, 0),(3.4, 0),(5.6, 0)")]
-        [Row("[1+1i,2+1i,3+1i]", "(1, 1),(2, 1),(3, 1)")]
-        [Row(" [ 1.1 + 1i , 2.1+1i , 3.1+1i ] ", "(1.1, 1),(2.1, 1),(3.1, 1)")]
-        [Row(" [ -1.1 + 1i , 2.1-1i , +3.1+1i ] ", "(-1.1, 1),(2.1, -1),(3.1, 1)")]
-        [Row(" [1.2+2.3i ,3.4+4.5i , 5.6+ 6.7i] ", "(1.2, 2.3),(3.4, 4.5),(5.6, 6.7)")]
-        public void CanParseComplexDenseVectorsWithInvariant(string stringToParse, string expectedToString)
+        /// <summary>
+        /// Can parse a Complex dense vectors with invariant culture.
+        /// </summary>
+        /// <param name="stringToParse">String to parse.</param>
+        /// <param name="expectedToString">Expected result.</param>
+        [Test, Sequential]
+        public void CanParseComplexDenseVectorsWithInvariant([Values("2", "(3)", "[1,2,3]", " [ 1.1 , 2.1 , 3.1 ] ", " [ -1.1 , 2.1 , +3.1 ] ", " [1.2,3.4 , 5.6] ", "[1+1i,2+1i,3+1i]", " [ 1.1 + 1i , 2.1+1i , 3.1+1i ] ", " [ -1.1 + 1i , 2.1-1i , +3.1+1i ] ", " [1.2+2.3i ,3.4+4.5i , 5.6+ 6.7i] ")] string stringToParse, [Values("(2, 0)", "(3, 0)", "(1, 0),(2, 0),(3, 0)", "(1.1, 0),(2.1, 0),(3.1, 0)", "(-1.1, 0),(2.1, 0),(3.1, 0)", "(1.2, 0),(3.4, 0),(5.6, 0)", "(1, 1),(2, 1),(3, 1)", "(1.1, 1),(2.1, 1),(3.1, 1)", "(-1.1, 1),(2.1, -1),(3.1, 1)", "(1.2, 2.3),(3.4, 4.5),(5.6, 6.7)")] string expectedToString)
         {
             var formatProvider = CultureInfo.InvariantCulture;
-            DenseVector vector = DenseVector.Parse(stringToParse, formatProvider);
+            var vector = DenseVector.Parse(stringToParse, formatProvider);
 
             Assert.AreEqual(expectedToString, vector.ToString(formatProvider));
         }
 
-        [Test]
-        [Row(" 1.2 + 1i , 3.4 + 1i , 5.6 + 1i ", "(1.2, 1),(3.4, 1),(5.6, 1)", "en-US")]
-        [Row(" 1.2 + 1i ; 3.4 + 1i ; 5.6 + 1i ", "(1.2, 1);(3.4, 1);(5.6, 1)", "de-CH")]
-        [Row(" 1,2 + 1i ; 3,4 + 1i ; 5,6 + 1i ", "(1,2, 1);(3,4, 1);(5,6, 1)", "de-DE")]
-        public void CanParseComplexDenseVectorsWithCulture(string stringToParse, string expectedToString, string culture)
+        /// <summary>
+        /// Can parse a Complex dense vectors with culture.
+        /// </summary>
+        /// <param name="stringToParse">String to parse.</param>
+        /// <param name="expectedToString">Expected result.</param>
+        /// <param name="culture">Culture name.</param>
+        [Test, Sequential]
+        public void CanParseComplexDenseVectorsWithCulture([Values(" 1.2 + 1i , 3.4 + 1i , 5.6 + 1i ", " 1.2 + 1i ; 3.4 + 1i ; 5.6 + 1i ", " 1,2 + 1i ; 3,4 + 1i ; 5,6 + 1i ")] string stringToParse, [Values("(1.2, 1),(3.4, 1),(5.6, 1)", "(1.2, 1);(3.4, 1);(5.6, 1)", "(1,2, 1);(3,4, 1);(5,6, 1)")] string expectedToString, [Values("en-US", "de-CH", "de-DE")] string culture)
         {
             var formatProvider = CultureInfo.GetCultureInfo(culture);
-            DenseVector vector = DenseVector.Parse(stringToParse, formatProvider);
+            var vector = DenseVector.Parse(stringToParse, formatProvider);
 
             Assert.AreEqual(expectedToString, vector.ToString(formatProvider));
         }
 
+        /// <summary>
+        /// Parse if missing closing paren throws <c>FormatException</c>.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
-        public void ParseThrowsFormatExceptionIfMissingClosingParen()
+        public void ParseIfMissingClosingParenThrowsFormatException()
         {
             Assert.Throws<FormatException>(() => DenseVector.Parse("(1"));
             Assert.Throws<FormatException>(() => DenseVector.Parse("[1"));
         }
 
+        /// <summary>
+        /// Try parse a bad value with invariant returns <c>false</c>.
+        /// </summary>
+        /// <param name="str">Input string.</param>
         [Test]
-        [Row(null)]
-        [Row("")]
-        [Row(",")]
-        [Row("1,")]
-        [Row(",1")]
-        [Row(",1,2,")]
-        [Row("1,,2,,3")]
-        [Row("1e+")]
-        [Row("1e")]
-        [Row("()")]
-        [Row("[  ]")]
-        public void TryParseReturnsFalseWhenGivenBadValueWithInvariant(string str)
+        public void TryParseBadValueWithInvariantReturnsFalse([Values(null, "", ",", "1,", ",1", "1,2,", ",1,2,", "1,,2,,3", "1e+", "1e", "()", "[  ]")] string str)
         {
             DenseVector vector;
             var ret = DenseVector.TryParse(str, CultureInfo.InvariantCulture, out vector);

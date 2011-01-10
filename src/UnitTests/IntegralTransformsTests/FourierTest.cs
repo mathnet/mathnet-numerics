@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,18 +27,27 @@
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
     using System;
+    using System.Numerics;
     using Distributions;
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
-    using MbUnit.Framework;
+    using NUnit.Framework;
     using Sampling;
-    using System.Numerics;
 
+    /// <summary>
+    /// Fourier test.
+    /// </summary>
     [TestFixture]
     public class FourierTest
     {
-        private IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+        /// <summary>
+        /// Continuous uniform distribution.
+        /// </summary>
+        private readonly IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
 
+        /// <summary>
+        /// Naive transforms real sine correctly.
+        /// </summary>
         [Test]
         public void NaiveTransformsRealSineCorrectly()
         {
@@ -55,27 +60,30 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // all real components must be zero
             foreach (var c in spectrum)
             {
-                Assert.AreApproximatelyEqual(0, c.Real, 1e-12, "real");
+                Assert.AreEqual(0, c.Real, 1e-12, "real");
             }
 
             // all imaginary components except second and last musth be zero
-            for (int i = 0; i < spectrum.Length; i++)
+            for (var i = 0; i < spectrum.Length; i++)
             {
                 if (i == 1)
                 {
-                    Assert.AreApproximatelyEqual(-8, spectrum[i].Imaginary, 1e-12, "imag second");
+                    Assert.AreEqual(-8, spectrum[i].Imaginary, 1e-12, "imag second");
                 }
                 else if (i == spectrum.Length - 1)
                 {
-                    Assert.AreApproximatelyEqual(8, spectrum[i].Imaginary, 1e-12, "imag last");
+                    Assert.AreEqual(8, spectrum[i].Imaginary, 1e-12, "imag last");
                 }
                 else
                 {
-                    Assert.AreApproximatelyEqual(0, spectrum[i].Imaginary, 1e-12, "imag");
+                    Assert.AreEqual(0, spectrum[i].Imaginary, 1e-12, "imag");
                 }
             }
         }
 
+        /// <summary>
+        /// Radix2XXX when not power of two throws <c>ArgumentException</c>.
+        /// </summary>
         [Test]
         public void Radix2ThrowsWhenNotPowerOfTwo()
         {
@@ -84,19 +92,18 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var dft = new DiscreteFourierTransform();
 
             Assert.Throws(
-                typeof(ArgumentException),
+                typeof(ArgumentException), 
                 () => dft.Radix2Forward(samples, FourierOptions.Default));
 
             Assert.Throws(
-                typeof(ArgumentException),
+                typeof(ArgumentException), 
                 () => dft.Radix2Inverse(samples, FourierOptions.Default));
 
             Assert.Throws(
-                typeof(ArgumentException),
+                typeof(ArgumentException), 
                 () => DiscreteFourierTransform.Radix2(samples, -1));
-
             Assert.Throws(
-                typeof(ArgumentException),
+                typeof(ArgumentException), 
                 () => DiscreteFourierTransform.Radix2Parallel(samples, -1));
         }
     }

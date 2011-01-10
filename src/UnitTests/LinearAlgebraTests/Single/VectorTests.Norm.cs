@@ -3,9 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-//
 // Copyright (c) 2009-2010 Math.NET
-//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +12,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,60 +27,78 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
     using System;
-	using MbUnit.Framework;
+    using NUnit.Framework;
 
+    /// <summary>
+    /// Abstract class with the norms set of vector tests.
+    /// </summary>
     public abstract partial class VectorTests
     {
+        /// <summary>
+        /// Can compute 2nd norm.
+        /// </summary>
         [Test]
         public void CanComputeNorm()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(7.416198487095663f, (float)vector.Norm(2), 6);
+            AssertHelpers.AlmostEqual(7.416198487095663f, vector.Norm(2), 6);
         }
 
+        /// <summary>
+        /// Can compute 1st norm.
+        /// </summary>
         [Test]
         public void CanComputeNorm1()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(15.0f, (float)vector.Norm(1), 7);
+            AssertHelpers.AlmostEqual(15.0f, vector.Norm(1), 7);
         }
 
+        /// <summary>
+        /// Can compute square norm.
+        /// </summary>
         [Test]
         public void CanComputeSquareNorm()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(55.0f, (float)vector.Norm(2) * (float)vector.Norm(2), 6);
+            AssertHelpers.AlmostEqual(55.0f, vector.Norm(2) * vector.Norm(2), 6);
         }
 
-        [Test]
-        [Row(1, 15.0)]
-        [Row(2, 7.416198487095663)]
-        [Row(3, 6.0822019955734001)]
-        [Row(10, 5.0540557845353753)]
-        public void CanComputeNormP(int p, float expected)
+        /// <summary>
+        /// Can compute a norm.
+        /// </summary>
+        /// <param name="p">The norm index.</param>
+        /// <param name="expected">The expected <c>P</c>-norm value.</param>
+        [Test, Sequential]
+        public void CanComputeNormP([Values(1, 2, 3, 10)] int p, [Values(15.0f, 7.416198487095663f, 6.0822019955734001f, 5.0540557845353753f)] float expected)
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(expected, (float)vector.Norm(p), 6);
+            AssertHelpers.AlmostEqual(expected, vector.Norm(p), 7);
         }
-        
+
+        /// <summary>
+        /// Can compute infinity norm.
+        /// </summary>
         [Test]
         public void CanComputeNormInfinity()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(5.0f, (float)vector.Norm(Double.PositiveInfinity), 7);
+            AssertHelpers.AlmostEqual(5.0f, vector.Norm(Single.PositiveInfinity), 7);
         }
 
+        /// <summary>
+        /// Can normalize a vector.
+        /// </summary>
         [Test]
-        [MultipleAsserts]
         public void CanNormalizeVector()
         {
             var vector = CreateVector(Data);
             var result = vector.Normalize(2);
-            AssertHelpers.AlmostEqual(0.134839967f, result[0], 6);
-            AssertHelpers.AlmostEqual(0.269679934f, result[1], 6);
-            AssertHelpers.AlmostEqual(0.404519916f, result[2], 6);
-            AssertHelpers.AlmostEqual(0.539359868f, result[3], 6);
-            AssertHelpers.AlmostEqual(0.6741998f, result[4], 6);
+            AssertHelpers.AlmostEqual(0.134839972492648f, result[0], 6);
+            AssertHelpers.AlmostEqual(0.269679944985297f, result[1], 6);
+            AssertHelpers.AlmostEqual(0.404519917477945f, result[2], 6);
+            AssertHelpers.AlmostEqual(0.539359889970594f, result[3], 6);
+            AssertHelpers.AlmostEqual(0.674199862463242f, result[4], 6);
         }
     }
 }
