@@ -1,23 +1,24 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Test" ToolsVersion="3.5">
-  <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\StyleCop\MSBuild.ExtensionPack.StyleCop.dll" />
-  <UsingTask TaskName="MSBuild.ExtensionPack.Framework.Assembly" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.dll" />
-  <UsingTask TaskName="MSBuild.ExtensionPack.Communication.Twitter" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MMSBuild.ExtensionPack.Communication.dll" />
-  <UsingTask TaskName="MSBuild.ExtensionPack.Compression.Zip" AssemblyFile=".\MSBuild_Extension_Pack_3.5.5\MSBuild.ExtensionPack.JSharp.dll" />
-  <UsingTask TaskName="Gallio.MSBuildTasks.Gallio" AssemblyFile="..\lib\Gallio_3.3.93.0\Gallio.MSBuildTasks.dll" />
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Test" ToolsVersion="4.0">
+  <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.StyleCop" AssemblyFile=".\MSBuild.ExtensionPack.4.0.2.0\MSBuild.ExtensionPack.StyleCop.dll" />
+  <UsingTask TaskName="MSBuild.ExtensionPack.Framework.Assembly" AssemblyFile=".\MSBuild.ExtensionPack.4.0.2.0\MSBuild.ExtensionPack.dll" />
+  <UsingTask TaskName="MSBuild.ExtensionPack.Communication.Twitter" AssemblyFile=".\MSBuild.ExtensionPack.4.0.2.0\MMSBuild.ExtensionPack.Communication.dll" />
+  <UsingTask TaskName="MSBuild.ExtensionPack.Compression.Zip" AssemblyFile=".\MSBuild.ExtensionPack.4.0.2.0\MSBuild.ExtensionPack.JSharp.dll" />
+  <UsingTask TaskName="MSBuild.ExtensionPack.CodeQuality.NUnit" AssemblyFile=".\MSBuild.ExtensionPack.4.0.2.0\MSBuild.ExtensionPack.dll" />
   <UsingTask TaskName="UploadFiles" AssemblyFile=".\CodePlexApi\CodePlex.WebServices.Client.dll" />
   
   <PropertyGroup>
     <Config Condition="'$(Config)' == ''">Debug</Config>
     <Optimize Condition="'$(Optimize)' == ''">False</Optimize>
+    <NUnitPath>..\lib\NUnit.2.5.9\</NUnitPath>
   </PropertyGroup>
 
-  <Target Name="Compile" DependsOnTargets="UpdateTemplates">
+  <Target Name="Compile" DependsOnTargets="Clean">
     <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" />
     <MSBuild Projects="../src/FSharpUnitTests/FSharpUnitTests.fsproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" />
   </Target>
-  
+
   <Target Name="Test" DependsOnTargets="Compile">
-    <Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="./bin/MathNet.Numerics.UnitTests.dll" />
+    <Exec Command="$(MSBuildProjectDirectory)\..\lib\NUnit.2.5.9\nunit-console.exe /nothread /nologo /nodots $(MSBuildProjectDirectory)\bin\MathNet.Numerics.UnitTests.dll" IgnoreExitCode="false"/>
     <Exec Command="$(MSBuildProjectDirectory)/bin/MathNet.Numerics.FSharp.UnitTests.exe" IgnoreExitCode="false" />
   </Target>
 
@@ -40,25 +41,12 @@
     <MSBuild Projects="./mathnet-numerics.shfbproj" />
   </Target>
 
-  <Target Name="Coverage" DependsOnTargets="Compile">
-    <Exec Command="ncover.console.exe ..\lib\Gallio_3.1.397.0\bin\Gallio.Echo.exe .\bin\MathNet.Numerics.UnitTests.dll //pm gallio.host.exe  //eas zlib.net;MathNet.Numerics.UnitTests //et .*Resources;.*Exception //p &quot;Math.NET Numerics&quot;" />
-    <Exec Command="ncover.reporting.exe coverage.xml //or FullCoverageReport:Html //op NCoverReport" />
-	</Target>
-  
   <Target Name="Gendarme">
-    <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\..\src\Numerics\bin\Debug\MathNet.Numerics.dll"/>
+    <Exec Command="$(MSBuildProjectDirectory)\..\tools\Gendarme-2.4\gendarme.exe $(MSBuildProjectDirectory)\bin\MathNet.Numerics.UnitTests.dll"/>
   </Target>
   
   <Target Name="CSharpCompile" DependsOnTargets="UpdateTemplates">
     <MSBuild Projects="../src/UnitTests/UnitTests.csproj" Properties="Configuration=$(Config);Optimize=$(Optimize);OutputPath=$(MSBuildProjectDirectory)/bin" />
-  </Target>
-  
-  <Target Name="CSharpTest" DependsOnTargets="CSharpCompile">
- 		<Gallio.MSBuildTasks.Gallio ContinueOnError="False" IgnoreFailures="False" Files="../src/UnitTests/bin/Debug/MathNet.Numerics.UnitTests.dll"/>
-  </Target>
-  
-  <Target Name="UpdateTemplates">
-    <Exec Command="$(MSBuildProjectDirectory)\t4.bat"/>
   </Target>
 
   <Target Name="Clean">
@@ -67,7 +55,7 @@
   
   <Target Name="CheckStyle" DependsOnTargets="StyleCop; Gendarme"/>
 
-  <Target Name="Release" DependsOnTargets="UpdateTemplates; Test; BuildDocs">
+  <Target Name="Release" DependsOnTargets="Test; BuildDocs">
      <MSBuild.ExtensionPack.Framework.Assembly TaskAction="GetInfo" NetAssembly="bin\MathNet.Numerics.dll">
    	    <Output TaskParameter="OutputItems" ItemName="Info"/>
      </MSBuild.ExtensionPack.Framework.Assembly>
@@ -93,22 +81,5 @@
 			   <FileType>RuntimeBinary</FileType>
 		  </ReleaseFile>
    </ItemGroup>
-   
-   <Target Name="UploadRelease" DependsOnTargets="Release">
-      <UploadFiles  
-          ProjectName="$mathnetnumerics" 
-		      ReleaseName="$Daily Builds" 
-		      ReleaseFiles="@(ReleaseFile)" 
-		      Password="$(CodeplexPassword)"
-		      Username="$(CodeplexUser)" 
-	    />
-     <MSBuild.ExtensionPack.Communication.Twitter 
-        TaskAction="Tweet" 
-        Message="A new alpha build is up on CodePlex - http://bit.ly/8B5X26" 
-        UserName="$(TwitterUser)" 
-        UserPassword="$(TwitterPass)"/>
-	</Target>
-  
-  <Target Name="Full" DependsOnTargets="Release; Coverage" />
    
 </Project>

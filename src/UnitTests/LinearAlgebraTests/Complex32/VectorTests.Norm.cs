@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         public void CanComputeNormP([Values(1, 2, 3, 10)] int p, [Values(16.0346843392517f, 7.74596669241483f, 6.28528392332871f, 5.1608912235454f)] float expected)
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqual(expected, vector.Norm(p).Real, 7);
+            AssertHelpers.AlmostEqual(expected, vector.Norm(p).Real, 5);
         }
 
         /// <summary>
