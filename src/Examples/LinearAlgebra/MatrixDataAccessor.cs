@@ -139,7 +139,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine(@"9. Get columns using column enumerator");
             foreach (var keyValuePair in matrix.ColumnEnumerator(2, 4))
             {
-                Console.WriteLine(@"Column {0}: {1}", keyValuePair.Key, keyValuePair.Value.ToString("#0.00\t", formatProvider));
+                Console.WriteLine(@"Column {0}: {1}", keyValuePair.Item1, keyValuePair.Item2.ToString("#0.00\t", formatProvider));
             }
 
             Console.WriteLine();
@@ -148,7 +148,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine(@"10. Get rows using row enumerator");
             foreach (var keyValuePair in matrix.RowEnumerator(4, 3))
             {
-                Console.WriteLine(@"Row {0}: {1}", keyValuePair.Key, keyValuePair.Value.ToString("#0.00\t", formatProvider));
+                Console.WriteLine(@"Row {0}: {1}", keyValuePair.Item1, keyValuePair.Item2.ToString("#0.00\t", formatProvider));
             }
 
             Console.WriteLine();

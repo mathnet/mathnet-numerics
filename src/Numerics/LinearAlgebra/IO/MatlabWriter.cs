@@ -481,7 +481,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item1);
                     }
@@ -500,7 +500,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 int count = 0;
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    count += ((Double.SparseVector)column.Value).NonZerosCount;
+                    count += ((Double.SparseVector)column.Item2).NonZerosCount;
                     dataWriter.Write(count);
                 }
                 
@@ -516,7 +516,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item2);
                     }
@@ -549,7 +549,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item1);
                     }
@@ -568,7 +568,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 int count = 0;
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    count += ((Single.SparseVector)column.Value).NonZerosCount;
+                    count += ((Single.SparseVector)column.Item2).NonZerosCount;
                     dataWriter.Write(count);
                 }
 
@@ -584,7 +584,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item2);
                     }
@@ -620,7 +620,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item1);
                     }
@@ -639,7 +639,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 int count = 0;
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    count += ((Complex.SparseVector)column.Value).NonZerosCount;
+                    count += ((Complex.SparseVector)column.Item2).NonZerosCount;
                     dataWriter.Write(count);
                 }
 
@@ -655,7 +655,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item2.Real);
                     }
@@ -666,7 +666,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item2.Real);
                     }
@@ -699,7 +699,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item1);
                     }
@@ -718,7 +718,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 int count = 0;
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    count += ((Complex32.SparseVector)column.Value).NonZerosCount;
+                    count += ((Complex32.SparseVector)column.Item2).NonZerosCount;
                     dataWriter.Write(count);
                 }
 
@@ -734,7 +734,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item2.Real);
                     }
@@ -748,7 +748,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
 
                 foreach (var column in matrix.ColumnEnumerator())
                 {
-                    foreach (var row in column.Value.GetIndexedEnumerator())
+                    foreach (var row in column.Item2.GetIndexedEnumerator())
                     {
                         dataWriter.Write(row.Item2.Real);
                     }

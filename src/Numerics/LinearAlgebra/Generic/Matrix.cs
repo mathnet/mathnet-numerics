@@ -637,11 +637,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <returns>An <see cref="IEnumerator{T}"/> that enumerates over the matrix columns</returns>
         /// <seealso cref="IEnumerator{T}"/>
-        public virtual IEnumerable<KeyValuePair<int, Vector<T>>> ColumnEnumerator()
+        public virtual IEnumerable<Tuple<int, Vector<T>>> ColumnEnumerator()
         {
             for (var i = 0; i < ColumnCount; i++)
             {
-                yield return new KeyValuePair<int, Vector<T>>(i, Column(i));
+                yield return new Tuple<int, Vector<T>>(i, Column(i));
             }
         }
 
@@ -658,7 +658,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <item><c>(index + length) &gt;= Columns.</c></item></list>
         /// </exception>   
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>     
-        public virtual IEnumerable<KeyValuePair<int, Vector<T>>> ColumnEnumerator(int index, int length)
+        public virtual IEnumerable<Tuple<int, Vector<T>>> ColumnEnumerator(int index, int length)
         {
             if (index >= ColumnCount || index < 0)
             {
@@ -678,7 +678,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             var maxIndex = index + length;
             for (var i = index; i < maxIndex; i++)
             {
-                yield return new KeyValuePair<int, Vector<T>>(i, Column(i));
+                yield return new Tuple<int, Vector<T>>(i, Column(i));
             }
         }
 
@@ -694,7 +694,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// or greater than or equal to the number of rows.</item>        
         /// <item><c>(index + length) &gt;= Rows.</c></item></list></exception>        
         /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>     
-        public virtual IEnumerable<KeyValuePair<int, Vector<T>>> RowEnumerator(int index, int length)
+        public virtual IEnumerable<Tuple<int, Vector<T>>> RowEnumerator(int index, int length)
         {
             if (index >= RowCount || index < 0)
             {
@@ -714,7 +714,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             var maxi = index + length;
             for (var i = index; i < maxi; i++)
             {
-                yield return new KeyValuePair<int, Vector<T>>(i, Row(i));
+                yield return new Tuple<int, Vector<T>>(i, Row(i));
             }
         }
 
@@ -723,11 +723,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <returns>An <see cref="IEnumerator{T}"/> that enumerates over the matrix rows</returns>
         /// <seealso cref="IEnumerator{T}"/>        
-        public virtual IEnumerable<KeyValuePair<int, Vector<T>>> RowEnumerator()
+        public virtual IEnumerable<Tuple<int, Vector<T>>> RowEnumerator()
         {
             for (var i = 0; i < RowCount; i++)
             {
-                yield return new KeyValuePair<int, Vector<T>>(i, Row(i));
+                yield return new Tuple<int, Vector<T>>(i, Row(i));
             }
         }
 
@@ -1250,8 +1250,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             var ret = new T[RowCount * ColumnCount];
             foreach (var column in ColumnEnumerator())
             {
-                var columnIndex = column.Key * RowCount;
-                foreach (var element in column.Value.GetIndexedEnumerator())
+                var columnIndex = column.Item1 * RowCount;
+                foreach (var element in column.Item2.GetIndexedEnumerator())
                 {
                     ret[columnIndex + element.Item1] = element.Item2;
                 }
@@ -1275,8 +1275,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             foreach (var row in RowEnumerator())
             {
-                var rowIndex = row.Key * ColumnCount;
-                foreach (var element in row.Value.GetIndexedEnumerator())
+                var rowIndex = row.Item1 * ColumnCount;
+                foreach (var element in row.Item2.GetIndexedEnumerator())
                 {
                     ret[rowIndex + element.Item1] = element.Item2;
                 }
