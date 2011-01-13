@@ -556,7 +556,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             item = enumerator.Current;
             Assert.AreEqual(1, item.Item1);
             Assert.AreEqual(1, item.Item2);
-            Assert.AreEqual(new Complex32(1.0f, 1.0f), item.Item3);
+            Assert.AreEqual(Complex32.Zero, item.Item3);
 
             enumerator.MoveNext();
             item = enumerator.Current;
@@ -580,7 +580,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             item = enumerator.Current;
             Assert.AreEqual(2, item.Item1);
             Assert.AreEqual(2, item.Item2);
-            Assert.AreEqual(new Complex32(2.0f, 1.0f), item.Item3);
+            Assert.AreEqual(new Complex32(3.0f, 1.0f), item.Item3);
         }
     }
 }

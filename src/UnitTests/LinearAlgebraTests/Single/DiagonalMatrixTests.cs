@@ -555,7 +555,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             item = enumerator.Current;
             Assert.AreEqual(1, item.Item1);
             Assert.AreEqual(1, item.Item2);
-            Assert.AreEqual(1.0f, item.Item3);
+            Assert.AreEqual(0.0f, item.Item3);
 
             enumerator.MoveNext();
             item = enumerator.Current;
@@ -579,7 +579,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             item = enumerator.Current;
             Assert.AreEqual(2, item.Item1);
             Assert.AreEqual(2, item.Item2);
-            Assert.AreEqual(2.0f, item.Item3);
+            Assert.AreEqual(3.0f, item.Item3);
         }
     }
 }
