@@ -472,7 +472,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Subtract operator when right side has fewer columns throws ArgumentOutOfRangeException
+        /// Subtract operator when right side has fewer columns throws <c>ArgumentOutOfRangeException</c>
         /// </summary>
         [Test]
         public void SubtractOperatorWhenRightSideHasFewerColumnsThrowsArgumentOutOfRangeException()
@@ -483,7 +483,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Subtract operator when right side has fewer rows throws ArgumentOutOfRangeException
+        /// Subtract operator when right side has fewer rows throws <c>ArgumentOutOfRangeException</c>
         /// </summary>
         [Test]
         public void SubtractOperatorWhenRightSideHasFewerRowsThrowsArgumentOutOfRangeException()
@@ -769,7 +769,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Can nomalize columns of a matrix.
+        /// Can normalize columns of a matrix.
         /// </summary>
         /// <param name="p">The norm under which to normalize the columns under.</param>
         [Test, Sequential]
@@ -794,7 +794,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Can nomalize rows of a matrix.
+        /// Can normalize rows of a matrix.
         /// </summary>
         /// <param name="p">The norm under which to normalize the rows under.</param>
         [Test, Sequential]
