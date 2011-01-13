@@ -1787,5 +1787,69 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             matrix = TestMatrices["Tall3x2"];
             AssertHelpers.AlmostEqual(7.3582664f, matrix.L2Norm().Real, 6);
         }
+
+        /// <summary>
+        /// Test whether the index enumerator returns the correct values.
+        /// </summary>
+        [Test]
+        public virtual void CanUseIndexedEnumerator()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var enumerator = matrix.IndexedEnumerator().GetEnumerator();
+
+            enumerator.MoveNext();
+            var item = enumerator.Current;
+            Assert.AreEqual(0, item.Item1);
+            Assert.AreEqual(0, item.Item2);
+            Assert.AreEqual(new Complex32(1.0f, 1.0f), item.Item3);
+
+            enumerator.MoveNext();
+            item = enumerator.Current;
+            Assert.AreEqual(0, item.Item1);
+            Assert.AreEqual(1, item.Item2);
+            Assert.AreEqual(new Complex32(1.0f, 1.0f), item.Item3);
+
+            enumerator.MoveNext();
+            item = enumerator.Current;
+            Assert.AreEqual(0, item.Item1);
+            Assert.AreEqual(2, item.Item2);
+            Assert.AreEqual(new Complex32(2.0f, 1.0f), item.Item3);
+
+            enumerator.MoveNext();
+            item = enumerator.Current;
+            Assert.AreEqual(1, item.Item1);
+            Assert.AreEqual(0, item.Item2);
+            Assert.AreEqual(new Complex32(1.0f, 1.0f), item.Item3);
+
+            enumerator.MoveNext();
+            item = enumerator.Current;
+            Assert.AreEqual(1, item.Item1);
+            Assert.AreEqual(1, item.Item2);
+            Assert.AreEqual(new Complex32(1.0f, 1.0f), item.Item3);
+
+            enumerator.MoveNext();
+            item = enumerator.Current;
+            Assert.AreEqual(1, item.Item1);
+            Assert.AreEqual(2, item.Item2);
+            Assert.AreEqual(new Complex32(2.0f, 1.0f), item.Item3);
+
+            enumerator.MoveNext();
+            item = enumerator.Current;
+            Assert.AreEqual(2, item.Item1);
+            Assert.AreEqual(0, item.Item2);
+            Assert.AreEqual(new Complex32(1.0f, 1.0f), item.Item3);
+
+            enumerator.MoveNext();
+            item = enumerator.Current;
+            Assert.AreEqual(2, item.Item1);
+            Assert.AreEqual(1, item.Item2);
+            Assert.AreEqual(new Complex32(1.0f, 1.0f), item.Item3);
+
+            enumerator.MoveNext();
+            item = enumerator.Current;
+            Assert.AreEqual(2, item.Item1);
+            Assert.AreEqual(2, item.Item2);
+            Assert.AreEqual(new Complex32(2.0f, 1.0f), item.Item3);
+        }
     }
 }

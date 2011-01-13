@@ -1,0 +1,1653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+// <copyright file="MSBuild.ExtensionPack.Framework.xsd">(c) http://www.codeplex.com/MSBuildExtensionPack. This source is subject to the Microsoft Permissive License. See http://www.microsoft.com/resources/sharedsource/licensingbasics/sharedsourcelicenses.mspx. All other rights reserved.</copyright>
+-->
+<xs:schema xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.microsoft.com/developer/msbuild/2003" elementFormDefault="qualified">
+    <xs:include schemaLocation="Microsoft.Build.Core.xsd"/>
+    <xs:element name="MSBuild.ExtensionPack.CodeQuality.FxCop" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Analyse"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="ConsoleXsl"/>
+                    <xs:attribute name="DependencyDirectories"/>
+                    <xs:attribute name="Files"/>
+                    <xs:attribute name="FxCopPath"/>
+                    <xs:attribute name="Imports"/>
+                    <xs:attribute name="LogToConsole" type="msb:boolean"/>
+                    <xs:attribute name="OutputFile" use="required"/>
+                    <xs:attribute name="Project"/>
+                    <xs:attribute name="ReportXsl"/>
+                    <xs:attribute name="Rules"/>
+                    <xs:attribute name="SearchGac"/>
+                    <xs:attribute name="ShowSummary" type="msb:boolean"/>
+                    <xs:attribute name="Types"/>
+                    <xs:attribute name="UpdateProject" type="msb:boolean"/>
+                    <xs:attribute name="Verbose" type="msb:boolean"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Communication.Email" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Send"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="SmtpServer" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="MailFrom" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="MailTo" use="required"/>
+                    <xs:attribute name="Subject" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Priority"/>
+                    <xs:attribute name="Body"/>
+                    <xs:attribute name="Format"/>
+                    <xs:attribute name="Attachments"/>
+                    <xs:attribute name="UseDefaultCredentials"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Communication.Twitter" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Tweet"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Message" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="ProxyUserName"/>
+                    <xs:attribute name="ProxyUserPassword"/>
+                    <xs:attribute name="TwitterUrl" type="msb:non_empty_string" use="required"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Compression.Cab" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddFile"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Extract"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="ExtractTo"/>
+                    <xs:attribute name="CabFile" use="required"/>
+                    <xs:attribute name="PathToCab"/>
+                    <xs:attribute name="Recursive"/>
+                    <xs:attribute name="FilesToCab"/>
+                    <xs:attribute name="CabExePath"/>
+                    <xs:attribute name="ExtractExePath"/>
+                    <xs:attribute name="ExtractFile"/>
+                    <xs:attribute name="PreservePaths"/>
+                    <xs:attribute name="StripPrefixes"/>
+                    <xs:attribute name="NewFile"/>
+                    <xs:attribute name="NewFileDestination"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.ActiveDirectory" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddUser"/>
+                                <xs:enumeration value="AddGroup"/>
+                                <xs:enumeration value="AddUserToGroup"/>
+                                <xs:enumeration value="CheckGroupExists"/>
+                                <xs:enumeration value="CheckUserExists"/>
+                                <xs:enumeration value="CheckUserPassword"/>
+                                <xs:enumeration value="DeleteUser"/>
+                                <xs:enumeration value="DeleteGroup"/>
+                                <xs:enumeration value="DeleteUserFromGroup"/>
+                                <xs:enumeration value="GetUserPassword"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="User"/>
+                    <xs:attribute name="Group"/>
+                    <xs:attribute name="FullName"/>
+                    <xs:attribute name="Description"/>
+                    <xs:attribute name="Password"/>
+                    <xs:attribute name="PasswordExpired"/>
+                    <xs:attribute name="PasswordNeverExpires"/>
+                    <xs:attribute name="Domain"/>
+                    <xs:attribute name="GroupType"/>
+                    <xs:attribute name="BindingContextOptions"/>
+                    <xs:attribute name="ContextTypeStore"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.ComponentServices" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddComponent"/>
+                                <xs:enumeration value="CheckApplicationExists"/>
+                                <xs:enumeration value="DeleteApplication"/>
+                                <xs:enumeration value="RemoveComponent"/>
+                                <xs:enumeration value="SetConstructor"/>
+                                <xs:enumeration value="SetTransactionSupport"/>
+                                <xs:enumeration value="ShutDownApplication"/>
+                                <xs:enumeration value="UpdateApplication"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Exists"/>
+                    <xs:attribute name="ComponentName"/>
+                    <xs:attribute name="Transaction"/>
+                    <xs:attribute name="ConstructorString"/>
+                    <xs:attribute name="ApplicationName"/>
+                    <xs:attribute name="Path"/>
+                    <xs:attribute name="Identity"/>
+                    <xs:attribute name="Framework"/>
+                    <xs:attribute name="Activation"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.EventLog" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Backup"/>
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Clear"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="Modify"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="MaxSize"/>
+                    <xs:attribute name="Retention"/>
+                    <xs:attribute name="LogName" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Exists"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.EventSource" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="Log"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="EventId"/>
+                    <xs:attribute name="LogType"/>
+                    <xs:attribute name="Description"/>
+                    <xs:attribute name="Source" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="LogName"/>
+                    <xs:attribute name="Force"/>
+                    <xs:attribute name="Exists"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.EnvironmentVariable" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Get"/>
+                                <xs:enumeration value="Set"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Value"/>
+                    <xs:attribute name="Variable" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Target"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.Network" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="GetInternalIP"/>
+                                <xs:enumeration value="GetRemoteIP"/>
+                                <xs:enumeration value="Ping"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="HostName"/>
+                    <xs:attribute name="Exists"/>
+                    <xs:attribute name="PingCount"/>
+                    <xs:attribute name="Timeout"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.PerformanceCounters" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Add"/>
+                                <xs:enumeration value="GetValue"/>
+                                <xs:enumeration value="Remove"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="CategoryName" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="CategoryHelp"/>
+                    <xs:attribute name="Value"/>
+                    <xs:attribute name="CounterName"/>
+                    <xs:attribute name="MultiInstance"/>
+                    <xs:attribute name="CounterList"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.Registry" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckEmpty"/>
+                                <xs:enumeration value="CreateKey"/>
+                                <xs:enumeration value="DeleteKey"/>
+                                <xs:enumeration value="DeleteKeyTree"/>
+                                <xs:enumeration value="Get"/>
+                                <xs:enumeration value="Set"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="DataType"/>
+                    <xs:attribute name="Data"/>
+                    <xs:attribute name="Value"/>
+                    <xs:attribute name="RegistryHive" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="RegistryView"/>
+                    <xs:attribute name="Key" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Empty"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.SystemDrive" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckDriveSpace"/>
+                                <xs:enumeration value="GetDrives"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Unit"/>
+                    <xs:attribute name="Drive"/>
+                    <xs:attribute name="MinSpace"/>
+                    <xs:attribute name="Drives"/>
+                    <xs:attribute name="SkipDrives"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.WindowsService" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Disable"/>
+                                <xs:enumeration value="Install"/>
+                                <xs:enumeration value="SetAutomatic"/>
+                                <xs:enumeration value="SetManual"/>
+                                <xs:enumeration value="Start"/>
+                                <xs:enumeration value="Stop"/>
+                                <xs:enumeration value="Uninstall"/>
+                                <xs:enumeration value="UpdateIdentity"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Exists"/>
+                    <xs:attribute name="User"/>
+                    <xs:attribute name="ServiceDisplayName"/>
+                    <xs:attribute name="ServiceName"/>
+                    <xs:attribute name="ServicePath"/>
+                    <xs:attribute name="Password"/>
+                    <xs:attribute name="ServiceDependencies"/>
+                    <xs:attribute name="RemoteUser"/>
+                    <xs:attribute name="RemoteUserPassword"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Computer.WshShell" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CreateShortcut"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="FilePath" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Name" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Description"/>
+                    <xs:attribute name="Arguments"/>
+                    <xs:attribute name="IconLocation"/>
+                    <xs:attribute name="ShortcutPath"/>
+                    <xs:attribute name="WorkingDirectory"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.Detokenise" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Analyse"/>
+                                <xs:enumeration value="Replace"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="CommandLineValues"/>
+                    <xs:attribute name="DisplayFiles"/>
+                    <xs:attribute name="FilesDetokenised"/>
+                    <xs:attribute name="FilesProcessed"/>
+                    <xs:attribute name="ForceWrite"/>
+                    <xs:attribute name="ProjectFile"/>
+                    <xs:attribute name="ReplacementValues"/>
+                    <xs:attribute name="Separator"/>
+                    <xs:attribute name="TargetFiles"/>
+                    <xs:attribute name="TargetPath"/>
+                    <xs:attribute name="TextEncoding"/>
+                    <xs:attribute name="TokenExtractionPattern"/>
+                    <xs:attribute name="TokenPattern"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.File" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddAttributes"/>
+                                <xs:enumeration value="CountLines"/>
+                                <xs:enumeration value="GetChecksum"/>
+                                <xs:enumeration value="GetTempFileName"/>
+                                <xs:enumeration value="FilterByContent"/>
+                                <xs:enumeration value="Move"/>
+                                <xs:enumeration value="Replace"/>
+                                <xs:enumeration value="SetAttributes"/>
+                                <xs:enumeration value="RemoveAttributes"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Checksum"/>
+                    <xs:attribute name="CodeLinecount"/>
+                    <xs:attribute name="CommentIdentifiers"/>
+                    <xs:attribute name="CommentLinecount"/>
+                    <xs:attribute name="ElapsedTime"/>
+                    <xs:attribute name="EmptyLinecount"/>
+                    <xs:attribute name="ExcludedFilecount"/>
+                    <xs:attribute name="ExcludedFiles"/>
+                    <xs:attribute name="Files"/>
+                    <xs:attribute name="IncludedFilecount"/>
+                    <xs:attribute name="IncludedFiles"/>
+                    <xs:attribute name="MaxSize"/>
+                    <xs:attribute name="MinSize"/>
+                    <xs:attribute name="Path"/>
+                    <xs:attribute name="RegexPattern"/>
+                    <xs:attribute name="Replacement"/>
+                    <xs:attribute name="TargetPath"/>
+                    <xs:attribute name="TextEncoding"/>
+                    <xs:attribute name="TotalFilecount"/>
+                    <xs:attribute name="TotalLinecount"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.FileVersion" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Increment"/>
+                                <xs:enumeration value="Reset"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="File"/>
+                    <xs:attribute name="Increment"/>
+                    <xs:attribute name="Value"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.FindUnder" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="FindFiles"/>
+                                <xs:enumeration value="FindDirectories"/>
+                                <xs:enumeration value="FindFilesAndDirectories"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Path"/>
+                    <xs:attribute name="Recursive"/>
+                    <xs:attribute name="SearchPattern"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.Folder" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddSecurity"/>
+                                <xs:enumeration value="DeleteAll"/>
+                                <xs:enumeration value="Get"/>
+                                <xs:enumeration value="Move"/>
+                                <xs:enumeration value="RemoveContent"/>
+                                <xs:enumeration value="RemoveSecurity"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Path" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Match"/>
+                    <xs:attribute name="TargetPath"/>
+                    <xs:attribute name="Force"/>
+                    <xs:attribute name="Recursive"/>
+                    <xs:attribute name="RetryCount"/>
+                    <xs:attribute name="Users"/>
+                    <xs:attribute name="AccessType"/>
+                    <xs:attribute name="Permission"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.RoboCopy" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="Source" use="required"/>
+                    <xs:attribute name="Destination" use="required"/>
+                    <xs:attribute name="Files" use="required"/>
+                    <xs:attribute name="Options"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.FileSystem.Share" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="SetPermissions"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Description"/>
+                    <xs:attribute name="ShareName" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="SharePath"/>
+                    <xs:attribute name="MaximumAllowed"/>
+                    <xs:attribute name="CreateSharePath"/>
+                    <xs:attribute name="Exists"/>
+                    <xs:attribute name="AllowUsers"/>
+                    <xs:attribute name="DenyUsers"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.Assembly" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="GetInfo"/>
+                                <xs:enumeration value="GetMethodInfo"/>
+                                <xs:enumeration value="Invoke"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="NetAssembly" use="required"/>
+                    <xs:attribute name="NetClass"/>
+                    <xs:attribute name="NetMethod"/>
+                    <xs:attribute name="Result"/>
+                    <xs:attribute name="OutputItems"/>
+                    <xs:attribute name="NetArguments"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.DateAndTime" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddDays"/>
+                                <xs:enumeration value="AddHours"/>
+                                <xs:enumeration value="AddMilliseconds"/>
+                                <xs:enumeration value="AddMinutes"/>
+                                <xs:enumeration value="AddMonths"/>
+                                <xs:enumeration value="AddSeconds"/>
+                                <xs:enumeration value="AddTicks"/>
+                                <xs:enumeration value="AddYears"/>
+                                <xs:enumeration value="CheckBetween"/>
+                                <xs:enumeration value="CheckLater"/>
+                                <xs:enumeration value="Get"/>
+                                <xs:enumeration value="GetElapsed"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Start"/>
+                    <xs:attribute name="End"/>
+                    <xs:attribute name="Format"/>
+                    <xs:attribute name="Result"/>
+                    <xs:attribute name="UseUtc"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.DynamicExecute" substitutionGroup="msb:Task">
+        <xs:annotation>
+            <xs:documentation>Executes .NET code dynamically.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:annotation>
+                            <xs:documentation>Specifies the task action to do.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Run">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Compiles and executes code.
+                                            Required: @Code.
+                                            Optional: @Inputs, @Outputs, @Input1, @Input2, @Input3.
+                                            Outputs: &quot;Output1&quot;, &quot;Output2&quot;, &quot;Output3&quot;, &quot;OutputMethodId&quot;.
+                                            Rare Optional: @References, @UsingNamespaces, @NoDefaultParameters, @NoDefaultReferences, @NoDefaultUsingNamespaces.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Call">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Calls a method. The method must have been previously defined by &quot;Define&quot;.
+                                            Required: @MethodId.
+                                            Optional: @Input1, @Input2, @Input3.
+                                            Outputs: &quot;Output1&quot;, &quot;Output2&quot;, &quot;Output3&quot;.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Define">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Defines a method containing code.
+                                            Required: @Code.
+                                            Optional: @Inputs, @Outputs.
+                                            Outputs: &quot;OutputMethodId&quot;.
+                                            Rare Optional: @References, @UsingNamespaces, @NoDefaultParameters, @NoDefaultReferences, @NoDefaultUsingNamespaces.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Create">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Creates a closure.
+                                            Required: @MethodId.
+                                            Outputs: &quot;OutputClosureId&quot;.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="SetInput">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Sets an argument value for a closure.
+                                            Required: @ClosureId, @Name, @InputValue.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Invoke">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Invokes a closure.
+                                            Required: @ClosureId.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="GetOutput">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Retrieves a result value from a closure.
+                                            Required: @ClosureId, @Name.
+                                            Outputs: &quot;OutputValue&quot;
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="Destroy">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            Destroys a closure.
+                                            Required: @ClosureId.
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Code">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The actual method code.
+                                Required for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Inputs">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The input parameters for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Outputs">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The output parameters for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="References">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Additional assembly references for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="UsingNamespaces">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Additional namespace scope imports for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="NoDefaultParameters">
+                        <xs:annotation>
+                            <xs:documentation>
+                                If true, no default parameters are passed to the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="NoDefaultReferences">
+                        <xs:annotation>
+                            <xs:documentation>
+                                If true, no default assembly references are linked to the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="NoDefaultUsingNamespaces">
+                        <xs:annotation>
+                            <xs:documentation>
+                                If true, no namespace scopes are imported for the method.
+                                Optional for: &quot;Run&quot;, &quot;Define&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="MethodId">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The method on which to perform the task action.
+                                Required for: &quot;Call&quot;, &quot;Create&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="ClosureId">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The closure on which to perform the task action.
+                                Required for: &quot;SetInput&quot;, &quot;Invoke&quot;, &quot;GetOutput&quot;, &quot;Destroy&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Name">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The name of the parameter to set or get.
+                                Required for: &quot;SetInput&quot;, &quot;GetOutput&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="InputValue">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The value to pass for this parameter.
+                                Required for: &quot;SetInput&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Input1">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The value to pass for the first parameter.
+                                Optional for: &quot;Run&quot;, &quot;Call&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Input2">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The value to pass for the second parameter.
+                                Optional for: &quot;Run&quot;, &quot;Call&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="Input3">
+                        <xs:annotation>
+                            <xs:documentation>
+                                The value to pass for the third parameter.
+                                Optional for: &quot;Run&quot;, &quot;Call&quot;.
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.Gac" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddAssembly"/>
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="RemoveAssembly"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="RemoteAssemblyPath"/>
+                    <xs:attribute name="AssemblyPath"/>
+                    <xs:attribute name="AssemblyName"/>
+                    <xs:attribute name="Force"/>
+                    <xs:attribute name="Exists"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.GenericTool" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="Executable" use="required"/>
+                    <xs:attribute name="SuccessExitCodes" use="required"/>
+                    <xs:attribute name="ErrorExitCodes"/>
+                    <xs:attribute name="WarningExitCodes"/>
+                    <xs:attribute name="Parameters"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.Guid" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="CreateCrypto"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="FormattedGuidString"/>
+                    <xs:attribute name="GuidString"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.Metadata" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Add"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Items"/>
+                    <xs:attribute name="NewMetadata"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.MsBuildHelper" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Escape"/>
+                                <xs:enumeration value="FilterItems"/>
+                                <xs:enumeration value="GetCommonItems"/>
+                                <xs:enumeration value="GetCurrentDirectory"/>
+                                <xs:enumeration value="GetDistinctItems"/>
+                                <xs:enumeration value="GetItem"/>
+                                <xs:enumeration value="GetItemCount"/>
+                                <xs:enumeration value="GetLastItem"/>
+                                <xs:enumeration value="ItemColToString"/>
+                                <xs:enumeration value="RemoveDuplicateFiles"/>
+                                <xs:enumeration value="Sort"/>
+                                <xs:enumeration value="StringToItemCol"/>
+                                <xs:enumeration value="UpdateMetadata"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="CurrentDirectory"/>
+                    <xs:attribute name="RegexPattern"/>
+                    <xs:attribute name="MetaData"/>
+                    <xs:attribute name="Position"/>
+                    <xs:attribute name="ItemString"/>
+                    <xs:attribute name="Separator"/>
+                    <xs:attribute name="InString"/>
+                    <xs:attribute name="OutString"/>
+                    <xs:attribute name="InputItems1"/>
+                    <xs:attribute name="InputItems2"/>
+                    <xs:attribute name="OutputItems"/>
+                    <xs:attribute name="ItemCount"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.Signing" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddSkipVerification"/>
+                                <xs:enumeration value="RemoveAllSkipVerification"/>
+                                <xs:enumeration value="Sign"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="KeyFile"/>
+                    <xs:attribute name="ToolPath"/>
+                    <xs:attribute name="PublicKeyToken"/>
+                    <xs:attribute name="Assemblies"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.TextString" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Compare"/>
+                                <xs:enumeration value="EndsWith"/>
+                                <xs:enumeration value="Format"/>
+                                <xs:enumeration value="GetLength"/>
+                                <xs:enumeration value="Insert"/>
+                                <xs:enumeration value="PadLeft"/>
+                                <xs:enumeration value="PadRight"/>
+                                <xs:enumeration value="Remove"/>
+                                <xs:enumeration value="Replace"/>
+                                <xs:enumeration value="Split"/>
+                                <xs:enumeration value="StartsWith"/>
+                                <xs:enumeration value="ToLower"/>
+                                <xs:enumeration value="ToUpper"/>
+                                <xs:enumeration value="Trim"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="StartIndex"/>
+                    <xs:attribute name="Count"/>
+                    <xs:attribute name="Result"/>
+                    <xs:attribute name="String1"/>
+                    <xs:attribute name="String2"/>
+                    <xs:attribute name="Comparison"/>
+                    <xs:attribute name="IgnoreCase"/>
+                    <xs:attribute name="OldString"/>
+                    <xs:attribute name="NewString"/>
+                    <xs:attribute name="OldValue"/>
+                    <xs:attribute name="NewValue"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.Thread" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Abort"/>
+                                <xs:enumeration value="Sleep"/>
+                                <xs:enumeration value="SpinWait"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Timeout"/>
+                    <xs:attribute name="Iterations"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Management.Wmi" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Execute"/>
+                                <xs:enumeration value="Query"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Namespace" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Info"/>
+                    <xs:attribute name="Class" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="ReturnValue"/>
+                    <xs:attribute name="Method"/>
+                    <xs:attribute name="MethodParameters"/>
+                    <xs:attribute name="Instance"/>
+                    <xs:attribute name="Properties"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Multimedia.Sound" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Play"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Interval"/>
+                    <xs:attribute name="Repeat"/>
+                    <xs:attribute name="SoundFile"/>
+                    <xs:attribute name="SystemSound"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Science.Maths" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Add"/>
+                                <xs:enumeration value="Compare"/>
+                                <xs:enumeration value="Divide"/>
+                                <xs:enumeration value="Evaluate"/>
+                                <xs:enumeration value="Multiply"/>
+                                <xs:enumeration value="Subtract"/>
+                                <xs:enumeration value="And"/>
+                                <xs:enumeration value="Or"/>
+                                <xs:enumeration value="Modulus"/>
+                                <xs:enumeration value="LeftShift"/>
+                                <xs:enumeration value="RightShift"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="P1"/>
+                    <xs:attribute name="LogicalResult"/>
+                    <xs:attribute name="P2"/>
+                    <xs:attribute name="Comparison"/>
+                    <xs:attribute name="Numbers"/>
+                    <xs:attribute name="Result"/>
+                    <xs:attribute name="Expression"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Security.Certificate" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Add"/>
+                                <xs:enumeration value="Remove"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="MachineStore"/>
+                    <xs:attribute name="CertPassword"/>
+                    <xs:attribute name="Exportable"/>
+                    <xs:attribute name="Thumbprint"/>
+                    <xs:attribute name="StoreName"/>
+                    <xs:attribute name="FileName"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.SqlServer.SqlCmd" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Execute"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="SqlCmdPath"/>
+                    <xs:attribute name="LogOn"/>
+                    <xs:attribute name="Password"/>
+                    <xs:attribute name="NewPassword"/>
+                    <xs:attribute name="Server"/>
+                    <xs:attribute name="Workstation"/>
+                    <xs:attribute name="Database"/>
+                    <xs:attribute name="LoginTimeout"/>
+                    <xs:attribute name="DedicatedAdminConnection"/>
+                    <xs:attribute name="InputFiles"/>
+                    <xs:attribute name="OutputFile"/>
+                    <xs:attribute name="UnicodeOutput"/>
+                    <xs:attribute name="RedirectStandardError"/>
+                    <xs:attribute name="UseClientRegionalSettings"/>
+                    <xs:attribute name="CommandLineQuery"/>
+                    <xs:attribute name="EchoInput"/>
+                    <xs:attribute name="SeverityLevel"/>
+                    <xs:attribute name="EnableQuotedIdentifiers"/>
+                    <xs:attribute name="QueryTimeout"/>
+                    <xs:attribute name="Variables"/>
+                    <xs:attribute name="DisableVariableSubstitution"/>
+                    <xs:attribute name="Headers"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.SqlServer.SqlExecute" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Execute"/>
+                                <xs:enumeration value="ExecuteRawReader"/>
+                                <xs:enumeration value="ExecuteReader"/>
+                                <xs:enumeration value="ExecuteScalar"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="ConnectionString"/>
+                    <xs:attribute name="Sql"/>
+                    <xs:attribute name="Files"/>
+                    <xs:attribute name="CommandTimeout"/>
+                    <xs:attribute name="Retry"/>
+                    <xs:attribute name="UseTransaction"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.SqlServer.SqlVersion" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="GetVersion"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Delimiter"/>
+                    <xs:attribute name="PaddingCount"/>
+                    <xs:attribute name="PaddingDigit"/>
+                    <xs:attribute name="Version"/>
+                    <xs:attribute name="BuildName" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="FieldToIncrement"/>
+                    <xs:attribute name="DatabaseName" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Major"/>
+                    <xs:attribute name="Minor"/>
+                    <xs:attribute name="Build"/>
+                    <xs:attribute name="Revision"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.UI.Console" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Beep"/>
+                                <xs:enumeration value="ReadLine"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Interval"/>
+                    <xs:attribute name="Duration"/>
+                    <xs:attribute name="Repeat"/>
+                    <xs:attribute name="Frequency"/>
+                    <xs:attribute name="Title"/>
+                    <xs:attribute name="UserPrompt"/>
+                    <xs:attribute name="ToLower"/>
+                    <xs:attribute name="ToUpper"/>
+                    <xs:attribute name="UserResponse"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.UI.Dialog" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Confirm"/>
+                                <xs:enumeration value="Show"/>
+                                <xs:enumeration value="Prompt"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Height"/>
+                    <xs:attribute name="Width"/>
+                    <xs:attribute name="Button1Text"/>
+                    <xs:attribute name="Button2Text"/>
+                    <xs:attribute name="Button3Text"/>
+                    <xs:attribute name="ConfirmText"/>
+                    <xs:attribute name="ErrorText"/>
+                    <xs:attribute name="ErrorTitle"/>
+                    <xs:attribute name="Text" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Title"/>
+                    <xs:attribute name="MessageColour"/>
+                    <xs:attribute name="MessageBold"/>
+                    <xs:attribute name="MaskText"/>
+                    <xs:attribute name="ButtonClickedText"/>
+                    <xs:attribute name="UserText"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.VisualStudio.SourceSafe" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Checkout"/>
+                                <xs:enumeration value="Checkin"/>
+                                <xs:enumeration value="Cloak"/>
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Decloak"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="Destroy"/>
+                                <xs:enumeration value="Get"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="FilePath" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Arguments"/>
+                    <xs:attribute name="SSVersion"/>
+                    <xs:attribute name="Database"/>
+                    <xs:attribute name="SuppressI"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.VisualStudio.TfsSource" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Add"/>
+                                <xs:enumeration value="Checkout"/>
+                                <xs:enumeration value="Checkin"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="Get"/>
+                                <xs:enumeration value="GetProperties"/>
+                                <xs:enumeration value="GetChangeset"/>
+                                <xs:enumeration value="Merge"/>
+                                <xs:enumeration value="GetPendingChanges"/>
+                                <xs:enumeration value="Resolve"/>
+                                <xs:enumeration value="UndoCheckout"/>
+                                <xs:enumeration value="Undelete"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="VersionSpec"/>
+                    <xs:attribute name="All"/>
+                    <xs:attribute name="Overwrite"/>
+                    <xs:attribute name="Force"/>
+                    <xs:attribute name="Baseless"/>
+                    <xs:attribute name="Server"/>
+                    <xs:attribute name="ItemPath"/>
+                    <xs:attribute name="ItemCol"/>
+                    <xs:attribute name="WorkingDirectory"/>
+                    <xs:attribute name="Version"/>
+                    <xs:attribute name="Comments"/>
+                    <xs:attribute name="Destination"/>
+                    <xs:attribute name="Notes"/>
+                    <xs:attribute name="Recursive"/>
+                    <xs:attribute name="PendingChanges"/>
+                    <xs:attribute name="PendingChangesExist"/>
+                    <xs:attribute name="OverrideText"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.VisualStudio.TfsSourceAdmin" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Branch"/>
+                                <xs:enumeration value="Rename"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="VersionSpec"/>
+                    <xs:attribute name="OldItem"/>
+                    <xs:attribute name="NewItem"/>
+                    <xs:attribute name="WorkingDirectory"/>
+                    <xs:attribute name="Version"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.VisualStudio.TfsVersion" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="GetVersion"/>
+                                <xs:enumeration value="SetVersion"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="BuildName"/>
+                    <xs:attribute name="DateFormat"/>
+                    <xs:attribute name="Delimiter"/>
+                    <xs:attribute name="Files"/>
+                    <xs:attribute name="ForceSetVersion"/>
+                    <xs:attribute name="Major"/>
+                    <xs:attribute name="Minor"/>
+                    <xs:attribute name="PaddingCount"/>
+                    <xs:attribute name="PaddingDigit"/>
+                    <xs:attribute name="SetAssemblyVersion"/>
+                    <xs:attribute name="StartDate"/>
+                    <xs:attribute name="TextEncoding"/>
+                    <xs:attribute name="TfsBuildNumber"/>
+                    <xs:attribute name="UseUtcDate"/>
+                    <xs:attribute name="Version"/>
+                    <xs:attribute name="VersionFormat"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.VisualStudio.VB6" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Build"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="VB6Path"/>
+                    <xs:attribute name="Projects" use="required"/>
+                    <xs:attribute name="StopOnError"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.VisualStudio.VSDevEnv" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="FilePath" use="required"/>
+                    <xs:attribute name="Configuration"/>
+                    <xs:attribute name="Version"/>
+                    <xs:attribute name="Rebuild"/>
+                    <xs:attribute name="OutputFile"/>
+                    <xs:attribute name="OutputFolder"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Web.HttpWebRequest" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="GetResponse"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Timeout"/>
+                    <xs:attribute name="SkipSslCertificateValidation"/>
+                    <xs:attribute name="Url" type="msb:non_empty_string" use="required"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Web.Iis6AppPool" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="Modify"/>
+                                <xs:enumeration value="Recycle"/>
+                                <xs:enumeration value="Start"/>
+                                <xs:enumeration value="Stop"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Properties"/>
+                    <xs:attribute name="Name" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Exists"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Web.Iis6ServiceExtensionFile" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Add"/>
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Delete"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Path" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Deletable"/>
+                    <xs:attribute name="Description"/>
+                    <xs:attribute name="GroupId"/>
+                    <xs:attribute name="Permission"/>
+                    <xs:attribute name="Force"/>
+                    <xs:attribute name="Exists"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Web.Iis6Website" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="CheckExists"/>
+                                <xs:enumeration value="Continue"/>
+                                <xs:enumeration value="Delete"/>
+                                <xs:enumeration value="Identifier"/>
+                                <xs:enumeration value="Start"/>
+                                <xs:enumeration value="Stop"/>
+                                <xs:enumeration value="Pause"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Properties"/>
+                    <xs:attribute name="Name" type="msb:non_empty_string" use="required"/>
+                    <xs:attribute name="Force"/>
+                    <xs:attribute name="Sleep"/>
+                    <xs:attribute name="Exists"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Web.Iis6VirtualDirectory" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Create"/>
+                                <xs:enumeration value="Delete"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Parent"/>
+                    <xs:attribute name="RequireApplication"/>
+                    <xs:attribute name="DirectoryType"/>
+                    <xs:attribute name="AppPool"/>
+                    <xs:attribute name="Properties"/>
+                    <xs:attribute name="Name"/>
+                    <xs:attribute name="Website" type="msb:non_empty_string" use="required"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Web.WebClient" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="DownloadFile"/>
+                                <xs:enumeration value="OpenRead"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="FileName"/>
+                    <xs:attribute name="Url" type="msb:non_empty_string" use="required"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Xml.XmlFile" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="AddAttribute"/>
+                                <xs:enumeration value="AddElement"/>
+                                <xs:enumeration value="RemoveAttribute"/>
+                                <xs:enumeration value="RemoveElement"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="Element"/>
+                    <xs:attribute name="InnerText"/>
+                    <xs:attribute name="ParentElement"/>
+                    <xs:attribute name="Key"/>
+                    <xs:attribute name="Value"/>
+                    <xs:attribute name="File"/>
+                    <xs:attribute name="XPath"/>
+                    <xs:attribute name="Namespaces"/>
+                    <xs:attribute name="RetryCount"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Xml.XmlTask" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="TaskAction" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Transform"/>
+                                <xs:enumeration value="Validate"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="XmlFile"/>
+                    <xs:attribute name="XslTransformFile"/>
+                    <xs:attribute name="Xml"/>
+                    <xs:attribute name="Conformance"/>
+                    <xs:attribute name="XslTransform"/>
+                    <xs:attribute name="OutputFile"/>
+                    <xs:attribute name="SchemaFiles"/>
+                    <xs:attribute name="OmitXmlDeclaration"/>
+                    <xs:attribute name="Indent"/>
+                    <xs:attribute name="TextEncoding"/>
+                    <xs:attribute name="IsValid"/>
+                    <xs:attribute name="Output"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MSBuild.ExtensionPack.Framework.AssemblyInfo" substitutionGroup="msb:Task">
+        <xs:complexType>
+            <xs:complexContent mixed="false">
+                <xs:extension base="msb:TaskType">
+                    <xs:attribute name="AssemblyMajorVersion"/>
+                    <xs:attribute name="AssemblyMinorVersion"/>
+                    <xs:attribute name="AssemblyBuildNumber"/>
+                    <xs:attribute name="AssemblyRevision"/>
+                    <xs:attribute name="AssemblyVersion"/>
+                    <xs:attribute name="AssemblyBuildNumberType"/>
+                    <xs:attribute name="AssemblyRevisionType"/>
+                    <xs:attribute name="AssemblyBuildNumberFormat"/>
+                    <xs:attribute name="AssemblyRevisionFormat"/>
+                    <xs:attribute name="MaxAssemblyVersion"/>
+                    <xs:attribute name="AssemblyFileMajorVersion"/>
+                    <xs:attribute name="AssemblyFileMinorVersion"/>
+                    <xs:attribute name="AssemblyFileBuildNumber"/>
+                    <xs:attribute name="AssemblyFileRevision"/>
+                    <xs:attribute name="AssemblyFileVersion"/>
+                    <xs:attribute name="AssemblyFileBuildNumberType"/>
+                    <xs:attribute name="AssemblyFileRevisionType"/>
+                    <xs:attribute name="AssemblyFileBuildNumberFormat"/>
+                    <xs:attribute name="AssemblyFileRevisionFormat"/>
+                    <xs:attribute name="MaxAssemblyFileVersion"/>
+                    <xs:attribute name="AssemblyTitle"/>
+                    <xs:attribute name="AssemblyDescription"/>
+                    <xs:attribute name="AssemblyConfiguration"/>
+                    <xs:attribute name="AssemblyCompany"/>
+                    <xs:attribute name="AssemblyProduct"/>
+                    <xs:attribute name="AssemblyCopyright"/>
+                    <xs:attribute name="AssemblyTrademark"/>
+                    <xs:attribute name="AssemblyCulture"/>
+                    <xs:attribute name="AssemblyGuid"/>
+                    <xs:attribute name="AssemblyIncludeSigningInformation" />
+                    <xs:attribute name="AssemblyDelaySign"/>
+                    <xs:attribute name="AssemblyKeyFile"/>
+                    <xs:attribute name="AssemblyKeyName"/>
+                    <xs:attribute name="ComVisible"/>
+                    <xs:attribute name="AssemblyInfoFiles" use="required" />
+                    <xs:attribute name="SkipVersioning"/>
+                    <xs:attribute name="UseUtc"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
