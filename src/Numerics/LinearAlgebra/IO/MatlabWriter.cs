@@ -483,7 +483,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Key);
+                        dataWriter.Write(row.Item1);
                     }
                 }
 
@@ -518,7 +518,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Value);
+                        dataWriter.Write(row.Item2);
                     }
                 }
 
@@ -551,7 +551,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Key);
+                        dataWriter.Write(row.Item1);
                     }
                 }
 
@@ -586,7 +586,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Value);
+                        dataWriter.Write(row.Item2);
                     }
                 }
 
@@ -622,7 +622,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Key);
+                        dataWriter.Write(row.Item1);
                     }
                 }
 
@@ -657,7 +657,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Value.Real);
+                        dataWriter.Write(row.Item2.Real);
                     }
                 }
 
@@ -668,7 +668,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Value.Real);
+                        dataWriter.Write(row.Item2.Real);
                     }
                 }
 
@@ -701,7 +701,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Key);
+                        dataWriter.Write(row.Item1);
                     }
                 }
 
@@ -736,7 +736,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Value.Real);
+                        dataWriter.Write(row.Item2.Real);
                     }
                 }
 
@@ -750,7 +750,7 @@ namespace MathNet.Numerics.LinearAlgebra.IO
                 {
                     foreach (var row in column.Value.GetIndexedEnumerator())
                     {
-                        dataWriter.Write(row.Value.Real);
+                        dataWriter.Write(row.Item2.Real);
                     }
                 }
 

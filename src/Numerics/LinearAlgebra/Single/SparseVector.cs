@@ -1368,16 +1368,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </returns>
         /// <remarks>
         /// The enumerator returns a 
-        /// <seealso cref="KeyValuePair{T,K}"/>
-        /// with the key being the element index and the value 
+        /// <seealso cref="Tuple{T,K}"/>
+        /// with the first value being the element index and the second value 
         /// being the value of the element at that index. For sparse vectors, the enumerator will exclude all elements
         /// with a zero value.
         /// </remarks>
-        public override IEnumerable<KeyValuePair<int, float>> GetIndexedEnumerator()
+        public override IEnumerable<Tuple<int, float>> GetIndexedEnumerator()
         {
             for (var i = 0; i < NonZerosCount; i++)
             {
-                yield return new KeyValuePair<int, float>(_nonZeroIndices[i], _nonZeroValues[i]);
+                yield return new Tuple<int, float>(_nonZeroIndices[i], _nonZeroValues[i]);
             }
         }
 

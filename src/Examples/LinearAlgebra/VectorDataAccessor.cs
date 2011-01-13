@@ -149,7 +149,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine(@"11. Enumerator usage");
             foreach (var value in vectorA.GetIndexedEnumerator())
             {
-                Console.WriteLine(@"Index = {0}; Value = {1}", value.Key, value.Value.ToString("#0.00\t", formatProvider));
+                Console.WriteLine(@"Index = {0}; Value = {1}", value.Item1, value.Item2.ToString("#0.00\t", formatProvider));
             }
 
             Console.WriteLine();
