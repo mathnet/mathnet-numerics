@@ -619,7 +619,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
                 var solution = Solve(matrix, (Vector)input.Column(column));
                 foreach (var element in solution.GetIndexedEnumerator())
                 {
-                    result.At(element.Key, column, element.Value);
+                    result.At(element.Item1, column, element.Item2);
                 }
             }
         }

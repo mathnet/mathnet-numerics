@@ -240,7 +240,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var vector = CreateVector(Data);
             foreach (var pair in vector.GetIndexedEnumerator())
             {
-                Assert.AreEqual(Data[pair.Key], pair.Value);
+                Assert.AreEqual(Data[pair.Item1], pair.Item2);
             }
         }
 

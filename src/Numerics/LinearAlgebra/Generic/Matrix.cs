@@ -1253,7 +1253,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 var columnIndex = column.Key * RowCount;
                 foreach (var element in column.Value.GetIndexedEnumerator())
                 {
-                    ret[columnIndex + element.Key] = element.Value;
+                    ret[columnIndex + element.Item1] = element.Item2;
                 }
             }
 
@@ -1278,7 +1278,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 var rowIndex = row.Key * ColumnCount;
                 foreach (var element in row.Value.GetIndexedEnumerator())
                 {
-                    ret[rowIndex + element.Key] = element.Value;
+                    ret[rowIndex + element.Item1] = element.Item2;
                 }
             }
 
