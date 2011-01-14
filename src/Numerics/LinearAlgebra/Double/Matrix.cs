@@ -135,18 +135,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoAdd(Matrix<double> other, Matrix<double> result)
         {
-             CommonParallel.For(
-                0,
-                RowCount,
-                i =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        result.At(i, j, At(i, j) + other.At(i, j));
-                    }
-                });
+                    result.At(i, j, At(i, j) + other.At(i, j));
+                }
+            }
         }
-
+    
         /// <summary>
         /// Subtracts another matrix from this matrix.
         /// </summary>
@@ -156,16 +153,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoSubtract(Matrix<double> other, Matrix<double> result)
         {
-             CommonParallel.For(
-                0,
-                RowCount,
-                i =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        result.At(i, j, At(i, j) - other.At(i, j));
-                    }
-                });
+                    result.At(i, j, At(i, j) - other.At(i, j));
+                }
+            }
         }
 
         /// <summary>
@@ -175,16 +169,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The matrix to store the result of the multiplication.</param>
         protected override void DoMultiply(double scalar, Matrix<double> result)
         {
-            CommonParallel.For(
-                0,
-                RowCount,
-                i =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        result.At(i, j, At(i, j) * scalar);
-                    }
-                });
+                    result.At(i, j, At(i, j) * scalar);
+                }
+            }
         }
 
         /// <summary>
@@ -194,19 +185,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<double> rightSide, Vector<double> result)
          {
-             CommonParallel.For(
-                 0,
-                 RowCount,
-                 i =>
+             for (var i = 0; i < RowCount; i++)
+             {
+                 var s = 0.0;
+                 for (var j = 0; j != ColumnCount; j++)
                  {
-                     var s = 0.0;
-                     for (var j = 0; j != ColumnCount; j++)
-                     {
-                         s += At(i, j) * rightSide[j];
-                     }
+                     s += At(i, j) * rightSide[j];
+                 }
 
-                     result[i] = s;
-                 });
+                 result[i] = s;
+             }
          }
 
         /// <summary>
@@ -226,19 +214,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoLeftMultiply(Vector<double> leftSide, Vector<double> result)
         {
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var s = 0.0;
+                for (var i = 0; i != leftSide.Count; i++)
                 {
-                    var s = 0.0;
-                    for (var i = 0; i != leftSide.Count; i++)
-                    {
-                        s += leftSide[i] * At(i, j);
-                    }
+                    s += leftSide[i] * At(i, j);
+                }
 
-                    result[j] = s;
-                });
+                result[j] = s;
+            }
         }
 
         /// <summary>
@@ -248,22 +233,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<double> other, Matrix<double> result)
         {
-            CommonParallel.For(
-                0,
-                RowCount,
-                j =>
+            for (var j = 0; j < RowCount; j++)
+            {
+                for (var i = 0; i != other.ColumnCount; i++)
                 {
-                    for (var i = 0; i != other.ColumnCount; i++)
+                    var s = 0.0;
+                    for (var l = 0; l < ColumnCount; l++)
                     {
-                        var s = 0.0;
-                        for (var l = 0; l < ColumnCount; l++)
-                        {
-                            s += At(j, l) * other.At(l, i);
-                        }
-
-                        result.At(j, i, s);
+                        s += At(j, l) * other.At(l, i);
                     }
-                });
+
+                    result.At(j, i, s);
+                }
+            }
         }
 
         /// <summary>
@@ -273,22 +255,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            CommonParallel.For(
-                0,
-                RowCount,
-                j =>
+            for (var j = 0; j < RowCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
                 {
-                    for (var i = 0; i < RowCount; i++)
+                    var s = 0.0;
+                    for (var l = 0; l < ColumnCount; l++)
                     {
-                        var s = 0.0;
-                        for (var l = 0; l < ColumnCount; l++)
-                        {
-                            s += At(i, l) * other.At(j, l);
-                        }
-
-                        result.At(i, j, s);
+                        s += At(i, l) * other.At(j, l);
                     }
-                });
+
+                    result.At(i, j, s);
+                }
+            }
         }
 
         /// <summary>
@@ -297,16 +276,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the negation.</param>
         protected override void DoNegate(Matrix<double> result)
         {
-            CommonParallel.For(
-                0,
-                RowCount,
-                i =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j != ColumnCount; j++)
                 {
-                    for (var j = 0; j != ColumnCount; j++)
-                    {
-                        result[i, j] = -At(i, j);
-                    }
-                });
+                    result[i, j] = -At(i, j);
+                }
+            }
         }
 
         /// <summary>
@@ -316,16 +292,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Matrix<double> other, Matrix<double> result)
         {
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, At(i, j) * other.At(i, j));
-                    }
-                });
+                    result.At(i, j, At(i, j) * other.At(i, j));
+                }
+            }
         }
 
         /// <summary>
@@ -335,16 +308,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
         protected override void DoPointwiseDivide(Matrix<double> other, Matrix<double> result)
         {
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                j =>
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, At(i, j) / other.At(i, j));
-                    }
-                });
+                    result.At(i, j, At(i, j) / other.At(i, j));
+                }
+            }
         }
 
         /// <summary>
@@ -369,16 +339,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
         protected override void DoRandom(Matrix<double> matrix, IContinuousDistribution distribution)
         {
-            CommonParallel.For(
-                0,
-                matrix.RowCount,
-                i =>
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    for (var j = 0; j < matrix.ColumnCount; j++)
-                    {
-                        matrix.At(i, j, distribution.Sample());
-                    }
-                });
+                    matrix.At(i, j, distribution.Sample());
+                }
+            }
         }
 
         /// <summary>
@@ -388,16 +355,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="distribution">Continuous Random Distribution to generate elements from.</param>
         protected override void DoRandom(Matrix<double> matrix, IDiscreteDistribution distribution)
         {
-            CommonParallel.For(
-                0,
-                matrix.RowCount,
-                i =>
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
                 {
-                    for (var j = 0; j < matrix.ColumnCount; j++)
-                    {
-                        matrix.At(i, j, distribution.Sample());
-                    }
-                });
+                    matrix.At(i, j, distribution.Sample());
+                }
+            }
         }
     }
 }
