@@ -749,10 +749,6 @@
       <Link>data\Matlab\complex.mat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\data\Matlab\matrices.txt.bak">
-      <Link>data\Matlab\matrices.txt.bak</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="..\..\data\Matlab\sparse-large.mat">
       <Link>data\Matlab\sparse-large.mat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
