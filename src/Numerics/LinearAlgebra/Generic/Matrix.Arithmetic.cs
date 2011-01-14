@@ -1096,16 +1096,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        result.SetSubMatrix(i * other.RowCount, other.RowCount, j * other.ColumnCount, other.ColumnCount, At(i, j) * other);
-                    }
-                });
+                    result.SetSubMatrix(i * other.RowCount, other.RowCount, j * other.ColumnCount, other.ColumnCount, At(i, j) * other);
+                }
+            }
         }
 
         /// <summary>
@@ -1122,10 +1119,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var ret = Clone();
-            CommonParallel.For(
-                0,
-                ColumnCount,
-                i => ret.SetColumn(i, Column(i).Normalize(p)));
+
+            for (var index = 0; index < ColumnCount; index++)
+            {
+                ret.SetColumn(index, Column(index).Normalize(p));
+            }
+
             return ret;
         }
 
@@ -1144,10 +1143,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             var ret = Clone();
 
-            CommonParallel.For(
-                0,
-                RowCount,
-                i => ret.SetRow(i, Row(i).Normalize(p)));
+            for (var index = 0; index < RowCount; index++)
+            {
+                ret.SetRow(index, Row(index).Normalize(p));
+            }
+
             return ret;
         }
     }

@@ -470,16 +470,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> LowerTriangle()
         {
             var ret = CreateMatrix(RowCount, ColumnCount);
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
+            for (var j = 0; j < ColumnCount; j++) 
+            {
+                for (var i = j; i < RowCount; i++)
                 {
-                    for (var i = j; i < RowCount; i++)
-                    {
-                        ret.At(i, j, At(i, j));
-                    }
-                });
+                    ret.At(i, j, At(i, j));
+                }
+            }
+
             return ret;
         }
 
@@ -501,16 +499,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, i >= j ? At(i, j) : default(T));
-                    }
-                });
+                    result.At(i, j, i >= j ? At(i, j) : default(T));
+                }
+            }
         }
 
         /// <summary>
@@ -520,10 +515,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> UpperTriangle()
         {
             var ret = CreateMatrix(RowCount, ColumnCount);
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
+
+            for (var j = 0; j < ColumnCount; j++)
+            {
                 {
                     for (var i = 0; i < RowCount; i++)
                     {
@@ -532,7 +526,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                             ret.At(i, j, At(i, j));
                         }
                     }
-                });
+                }
+            }
+
             return ret;
         }
 
@@ -554,16 +550,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                j =>
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                for (var i = 0; i < RowCount; i++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        result.At(i, j, i <= j ? At(i, j) : default(T));
-                    }
-                });
+                    result.At(i, j, i <= j ? At(i, j) : default(T));
+                }
+            }
         }
 
         /// <summary>
@@ -619,16 +612,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             var result = CreateMatrix(rowLength, columnLength);
 
-            CommonParallel.For(
-                columnIndex, 
-                colMax, 
-                j =>
+            for (var j = columnIndex; j < colMax; j++)
+            {
+                for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
                 {
-                    for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
-                    {
-                        result.At(ii, j - columnIndex, At(i, j));
-                    }
-                });
+                    result.At(ii, j - columnIndex, At(i, j));
+                }
+            }
+
             return result;
         }
 
@@ -741,10 +732,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             var min = Math.Min(RowCount, ColumnCount);
             var diagonal = CreateVector(min);
-            CommonParallel.For(
-                0, 
-                min, 
-                i => { diagonal[i] = At(i, i); });
+
+            for (var i = 0; i < min; i++)
+            {
+                diagonal[i] = At(i, i);
+            }
+            
             return diagonal;
         }
 
@@ -756,19 +749,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> StrictlyLowerTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
-            CommonParallel.For(
-                0, 
-                RowCount, 
-                i =>
+
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var j = 0; j < ColumnCount; j++)
+                    if (i > j)
                     {
-                        if (i > j)
-                        {
-                            result.At(i, j, At(i, j));
-                        }
+                        result.At(i, j, At(i, j));
                     }
-                });
+                }
+            }
+
             return result;
         }
 
@@ -790,16 +782,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.For(
-                0, 
-                RowCount, 
-                i =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        result.At(i, j, i > j ? At(i, j) : default(T));
-                    }
-                });
+                    result.At(i, j, i > j ? At(i, j) : default(T));
+                }
+            }
         }
 
         /// <summary>
@@ -810,19 +799,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> StrictlyUpperTriangle()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
-            CommonParallel.For(
-                0, 
-                RowCount, 
-                i =>
+
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var j = 0; j < ColumnCount; j++)
+                    if (i < j)
                     {
-                        if (i < j)
-                        {
-                            result.At(i, j, At(i, j));
-                        }
+                        result.At(i, j, At(i, j));
                     }
-                });
+                }
+            }
+
             return result;
         }
 
@@ -844,16 +832,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.For(
-                0,
-                RowCount,
-                i =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var j = 0; j < ColumnCount; j++)
-                    {
-                        result.At(i, j, i < j ? At(i, j) : default(T));
-                    }
-                });
+                    result.At(i, j, i < j ? At(i, j) : default(T));
+                }
+            }
         }
 
         /// <summary>
@@ -928,10 +913,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
             }
 
-            CommonParallel.For(
-                0, 
-                RowCount, 
-                i => At(i, columnIndex, column[i]));
+            for (var i = 0; i < RowCount; i++)
+            {
+                At(i, columnIndex, column[i]);
+            }
         }
 
         /// <summary>
@@ -961,10 +946,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
             }
 
-            CommonParallel.For(
-                0, 
-                RowCount, 
-                i => At(i, columnIndex, column[i]));
+            for (var i = 0; i < RowCount; i++)
+            {
+                At(i, columnIndex, column[i]);
+            }
         }
 
         /// <summary>
@@ -1037,10 +1022,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
             }
 
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                i => At(rowIndex, i, row[i]));
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                At(rowIndex, i, row[i]);
+            }
         }
 
         /// <summary>
@@ -1070,10 +1055,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
             }
 
-            CommonParallel.For(
-                0, 
-                ColumnCount, 
-                i => At(rowIndex, i, row[i]));
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                At(rowIndex, i, row[i]);
+            }
         }
 
         /// <summary>
@@ -1144,16 +1129,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentOutOfRangeException("columnLength");
             }
 
-            CommonParallel.For(
-                columnIndex, 
-                colMax, 
-                j =>
+            for (var j = columnIndex; j < colMax; j++)
+            {
+                for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
                 {
-                    for (int i = rowIndex, ii = 0; i < rowMax; i++, ii++)
-                    {
-                        At(i, j, subMatrix[ii, j - columnIndex]);
-                    }
-                });
+                    At(i, j, subMatrix[ii, j - columnIndex]);
+                }
+            }
         }
 
         /// <summary>
@@ -1180,10 +1162,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
             }
 
-            CommonParallel.For(
-                0, 
-                min, 
-                i => At(i, i, source[i]));
+            for (var i = 0; i < min; i++)
+            {
+                At(i, i, source[i]);
+            }
         }
 
         /// <summary>
@@ -1210,10 +1192,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
             }
 
-            CommonParallel.For(
-                0, 
-                min, 
-                i => At(i, i, source[i]));
+            for (var i = 0; i < min; i++)
+            {
+                At(i, i, source[i]);
+            }
         }
 
         /// <summary>
@@ -1677,27 +1659,21 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.Invoke(
-                () =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        for (var j = 0; j < ColumnCount; j++)
-                        {
-                            result.At(i, j, At(i, j));
-                        }
-                    }
-                }, 
-                () =>
+                    result.At(i, j, At(i, j));
+                }
+            }
+
+            for (var i = 0; i < lower.RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var i = 0; i < lower.RowCount; i++)
-                    {
-                        for (var j = 0; j < ColumnCount; j++)
-                        {
-                            result.At(i + RowCount, j, lower.At(i, j));
-                        }
-                    }
-                });
+                    result.At(i + RowCount, j, lower.At(i, j));
+                }
+            }
         }
 
         /// <summary>
@@ -1745,27 +1721,21 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            CommonParallel.Invoke(
-                () =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        for (var j = 0; j < ColumnCount; j++)
-                        {
-                            result.At(i, j, At(i, j));
-                        }
-                    }
-                }, 
-                () =>
+                    result.At(i, j, At(i, j));
+                }
+            }
+
+            for (var i = 0; i < lower.RowCount; i++)
+            {
+                for (var j = 0; j < lower.ColumnCount; j++)
                 {
-                    for (var i = 0; i < lower.RowCount; i++)
-                    {
-                        for (var j = 0; j < lower.ColumnCount; j++)
-                        {
-                            result.At(i + RowCount, j + ColumnCount, lower.At(i, j));
-                        }
-                    }
-                });
+                    result.At(i + RowCount, j + ColumnCount, lower.At(i, j));
+                }
+            }
         }
 
         /// <summary>Calculates the L1 norm.</summary>
