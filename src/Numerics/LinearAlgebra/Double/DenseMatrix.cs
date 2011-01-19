@@ -527,7 +527,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            return CommonParallel.Aggregate(0, RowCount, i => Data[(i * RowCount) + i]);
+            var sum = 0.0;
+            for (var i = 0; i < RowCount; i++)
+            {
+                sum += Data[(i * RowCount) + i];
+            }
+
+            return sum;
         }
     }
 }

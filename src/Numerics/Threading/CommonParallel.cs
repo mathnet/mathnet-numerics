@@ -79,7 +79,7 @@ namespace MathNet.Numerics.Threading
 #endif
         }
 
-        /// <summary>
+/*        /// <summary>
         /// Aggregates a function over a loop.
         /// </summary>
         /// <param name="fromInclusive">Starting index of the loop.</param>
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.Threading
             }
 #endif
             return sum;
-        }
+        }*/
 
         /// <summary>
         /// Executes each of the provided actions inside a discrete, asynchronous task. 

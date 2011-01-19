@@ -339,7 +339,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            return CommonParallel.Aggregate(0, RowCount, i => At(i, i));
+            var sum = Complex.Zero;
+            for (var i = 0; i < RowCount; i++)
+            {
+                sum += At(i, i);
+            }
+
+            return sum;
         }
 
         /// <summary>

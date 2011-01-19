@@ -942,10 +942,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The sum of the vector's elements.</returns>
         public override double Sum()
         {
-            return CommonParallel.Aggregate(
-                0,
-                Count,
-                i => Data[i]);
+            var sum = 0.0;
+
+            for (var index = 0; index < Count; index++)
+            {
+                sum += Data[index];
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -954,10 +958,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
         public override double SumMagnitudes()
         {
-            return CommonParallel.Aggregate(
-                0,
-                Count,
-                i => Math.Abs(Data[i]));
+            var sum = 0.0;
+
+            for (var index = 0; index < Count; index++)
+            {
+                sum += Math.Abs(Data[index]);
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -1197,10 +1205,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (1.0 == p)
             {
-                return CommonParallel.Aggregate(
-                    0,
-                    Count,
-                    index => Math.Abs(Data[index]));
+                return SumMagnitudes();
             }
 
             if (2.0 == p)
@@ -1217,10 +1222,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     Math.Max);
             }
 
-            var sum = CommonParallel.Aggregate(
-                0,
-                Count,
-                index => Math.Pow(Math.Abs(Data[index]), p));
+            var sum = 0.0;
+            for (var index = 0; index < Count; index++)
+            {
+                sum += Math.Pow(Math.Abs(Data[index]), p);
+            }
 
             return Math.Pow(sum, 1.0 / p);
         }

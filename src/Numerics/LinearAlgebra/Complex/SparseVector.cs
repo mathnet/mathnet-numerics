@@ -970,10 +970,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return CommonParallel.Select(0, NonZerosCount, (index, localData) => Math.Max(localData, _nonZeroValues[index].Magnitude), Math.Max);
             }
 
-            var sum = CommonParallel.Aggregate(
-                0,
-                NonZerosCount,
-                index => Math.Pow(_nonZeroValues[index].Magnitude, p));
+            var sum = 0.0;
+            for (var index = 0; index < NonZerosCount; index++)
+            {
+                sum += Math.Pow(_nonZeroValues[index].Magnitude, p);
+            }
 
             return Math.Pow(sum, 1.0 / p);
         }

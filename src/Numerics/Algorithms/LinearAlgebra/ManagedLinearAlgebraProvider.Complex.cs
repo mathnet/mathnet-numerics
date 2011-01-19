@@ -131,7 +131,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            return CommonParallel.Aggregate(0, y.Length, index => y[index] * x[index]);
+            var dot = Complex.Zero;
+            for (var index = 0; index < y.Length; index++)
+            {
+                dot += y[index] * x[index];
+            }
+
+            return dot;
         }
 
         /// <summary>
@@ -1839,7 +1845,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     i =>
                     {
                         var im = i * rowsR;
-                        sol[jm + i] = CommonParallel.Aggregate(0, rowsR, k => q[im + k].Conjugate() * column[k]);
+                        var sum = Complex.Zero;
+                        for (var k = 0; k < rowsR; k++)
+                        {
+                            sum += q[im + k].Conjugate() * column[k];
+                        }
+
+                        sol[jm + i] = sum;
                     });
             }
 

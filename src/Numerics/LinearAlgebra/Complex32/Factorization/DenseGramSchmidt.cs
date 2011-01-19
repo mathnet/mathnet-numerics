@@ -34,7 +34,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     using Generic;
     using Numerics;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition Modified Gram-Schmidt Orthogonalization.</para>
@@ -101,9 +100,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                 for (var j = k + 1; j < columnsQ; j++)
                 {
-                    int k1 = k;
-                    int j1 = j;
-                    var dot = CommonParallel.Aggregate(0, rowsQ, index => q[(k1 * rowsQ) + index].Conjugate() * q[(j1 * rowsQ) + index]);
+                    var k1 = k;
+                    var j1 = j;
+
+                    var dot = Complex32.Zero;
+                    for (var index = 0; index < rowsQ; index++)
+                    {
+                        dot += q[(k1 * rowsQ) + index].Conjugate() * q[(j1 * rowsQ) + index];
+                    }
+                    
                     r[(j * columnsQ) + k] = dot;
                     for (var i = 0; i < rowsQ; i++)
                     {

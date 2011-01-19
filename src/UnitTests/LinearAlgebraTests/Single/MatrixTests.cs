@@ -1721,12 +1721,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public virtual void CanComputeL2Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqual(10.391347375312632f, matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(10.391347375312632f, matrix.L2Norm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqual(4.7540849434107635f, matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(4.7540849434107635f, matrix.L2Norm(), 6);
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqual(7.182727033856683f, matrix.L2Norm(), 7);
+            AssertHelpers.AlmostEqual(7.182727033856683f, matrix.L2Norm(), 5);
         }
         
         /// <summary>
