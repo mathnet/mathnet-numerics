@@ -44,11 +44,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     public class SparseMatrix : Matrix 
     {
         /// <summary>
-        /// Object for use in "lock"
-        /// </summary>
-        private readonly object _lockObject = new object();
-
-        /// <summary>
         /// The array containing the row indices of the existing rows. Element "j" of the array gives the index of the 
         /// element in the <see cref="_nonZeroValues"/> array that is first non-zero element in a row "j"
         /// </summary>
@@ -608,13 +603,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </returns>
         public override Complex32 At(int row, int column)
         {
-            lock (_lockObject)
-            {
-                var index = FindItem(row, column);
-                return index >= 0 ? _nonZeroValues[index] : 0.0f;
-            }
+            var index = FindItem(row, column);
+            return index >= 0 ? _nonZeroValues[index] : 0.0f;
         }
-        
+
         /// <summary>
         /// Sets the value of the given element.
         /// </summary>
@@ -629,10 +621,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </param>
         public override void At(int row, int column, Complex32 value)
         {
-            lock (_lockObject)
-            {
-                SetValueAt(row, column, value);
-            }
+            SetValueAt(row, column, value);
         }
 
         #region Internal methods - CRS storage implementation
@@ -1271,7 +1260,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var sparseResult = result as SparseMatrix;
             if (sparseResult == null)
             {
-                base.DoMultiply(scalar, result);
+                result.Clear();
+
+                for (var row = 0; row < RowCount; row++)
+                {
+                    var start = _rowIndex[row];
+                    var end = _rowIndex[row + 1];
+
+                    if (start == end)
+                    {
+                        continue;
+                    }
+
+                    for (var index = start; index < end; index++)
+                    {
+                        var column = _columnIndices[index];
+                        result.At(row, column, _nonZeroValues[index] * scalar);
+                    }
+                }
             }
             else
             {
@@ -1291,16 +1297,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            var otherSparseMatrix = other as SparseMatrix;
-            var resultSparseMatrix = result as SparseMatrix;
-            if (otherSparseMatrix == null || resultSparseMatrix == null)
-            {
-                base.DoMultiply(other, result);
-                return;
-            }
-
-            resultSparseMatrix.Clear();
-            var columnVector = new DenseVector(otherSparseMatrix.RowCount);
+            result.Clear();
+            var columnVector = new DenseVector(other.RowCount);
             for (var row = 0; row < RowCount; row++)
             {
                 // Get the begin / end index for the current row
@@ -1311,15 +1309,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     continue;
                 }
 
-                for (var column = 0; column < otherSparseMatrix.ColumnCount; column++)
+                for (var column = 0; column < other.ColumnCount; column++)
                 {
                     // Multiply row of matrix A on column of matrix B
-                    otherSparseMatrix.Column(column, columnVector);
+                    other.Column(column, columnVector);
                     var sum = CommonParallel.Aggregate(
                         startIndex,
                         endIndex,
                         index => _nonZeroValues[index] * columnVector[_columnIndices[index]]);
-                    resultSparseMatrix.SetValueAt(row, column, sum);
+                    result.At(row, column, sum);
                 }
             }
         }
@@ -1421,40 +1419,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             result.Clear();
 
-            var sparseResult = result as SparseMatrix;
-            if (sparseResult == null)
+            for (var i = 0; i < other.RowCount; i++)
             {
-                for (var i = 0; i < other.RowCount; i++)
-                {
-                    // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                // Get the begin / end index for the current row
+                var startIndex = _rowIndex[i];
+                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
 
-                    for (var j = startIndex; j < endIndex; j++)
-                    {
-                        var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
-                        if (resVal != 0.0f)
-                        {
-                            result.At(i, _columnIndices[j], resVal);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (var i = 0; i < other.RowCount; i++)
+                for (var j = startIndex; j < endIndex; j++)
                 {
-                    // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
-
-                    for (var j = startIndex; j < endIndex; j++)
+                    var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
+                    if (resVal != 0.0f)
                     {
-                        var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
-                        if (resVal != 0.0f)
-                        {
-                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
-                        }
+                        result.At(i, _columnIndices[j], resVal);
                     }
                 }
             }
@@ -1469,40 +1445,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             result.Clear();
 
-            var sparseResult = result as SparseMatrix;
-            if (sparseResult == null)
+            for (var i = 0; i < other.RowCount; i++)
             {
-                for (var i = 0; i < other.RowCount; i++)
-                {
-                    // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                // Get the begin / end index for the current row
+                var startIndex = _rowIndex[i];
+                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
 
-                    for (var j = startIndex; j < endIndex; j++)
-                    {
-                        var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
-                        if (resVal != 0.0f)
-                        {
-                            result.At(i, _columnIndices[j], resVal);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (var i = 0; i < other.RowCount; i++)
+                for (var j = startIndex; j < endIndex; j++)
                 {
-                    // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
-
-                    for (var j = startIndex; j < endIndex; j++)
+                    var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
+                    if (resVal != 0.0f)
                     {
-                        var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
-                        if (resVal != 0.0f)
-                        {
-                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
-                        }
+                        result.At(i, _columnIndices[j], resVal);
                     }
                 }
             }
