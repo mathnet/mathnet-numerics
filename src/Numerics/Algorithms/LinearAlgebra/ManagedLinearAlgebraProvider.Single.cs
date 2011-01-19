@@ -1828,7 +1828,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     i =>
                     {
                         var im = i * rowsR;
-                        sol[jm + i] = CommonParallel.Aggregate(0, rowsR, k => q[im + k] * column[k]);
+
+                        var sum = 0.0f;
+                        for (var k = 0; k < rowsR; k++)
+                        {
+                            sum += q[im + k] * column[k];
+                        }
+
+                        sol[jm + i] = sum;
                     });
             }
 
@@ -2016,7 +2023,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     // Compute the transformation for the l-th column and
                     // place the l-th diagonal in vector s[l].
                     var l1 = l;
-                    stemp[l] = (float)Math.Sqrt(CommonParallel.Aggregate(l, rowsA, i1 => (a[(l1 * rowsA) + i1] * a[(l1 * rowsA) + i1])));
+
+                    var sum = 0.0f;
+                    for (var i1 = l; i1 < rowsA; i1++)
+                    {
+                        sum += a[(l1 * rowsA) + i1] * a[(l1 * rowsA) + i1];
+                    }
+                    
+                    stemp[l] = (float)Math.Sqrt(sum);
 
                     if (stemp[l] != 0.0)
                     {

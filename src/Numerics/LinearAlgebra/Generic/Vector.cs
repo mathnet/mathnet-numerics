@@ -760,10 +760,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var matrix = u.CreateMatrix(u.Count, v.Count);
-            CommonParallel.For(
-                0,
-                u.Count,
-                i => matrix.SetRow(i, v.Multiply(u[i])));
+
+            for (var i = 0; i < u.Count; i++)
+            {
+                matrix.SetRow(i, v.Multiply(u[i]));
+            }
+            
             return matrix;
         }
 

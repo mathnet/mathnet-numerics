@@ -998,10 +998,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return CommonParallel.Select(0, NonZerosCount, (index, localData) => Math.Max(localData, Math.Abs(_nonZeroValues[index])), Common.Max);
             }
 
-            var sum = CommonParallel.Aggregate(
-                0,
-                NonZerosCount,
-                index => Math.Pow(Math.Abs(_nonZeroValues[index]), p));
+            var sum = 0.0;
+            for (var index = 0; index < NonZerosCount; index++)
+            {
+                sum += Math.Pow(Math.Abs(_nonZeroValues[index]), p);
+            }
 
             return (float)Math.Pow(sum, 1.0 / p);
         }

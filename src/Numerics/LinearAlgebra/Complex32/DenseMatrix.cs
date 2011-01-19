@@ -538,7 +538,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            return CommonParallel.Aggregate(0, RowCount, i => Data[(i * RowCount) + i]);
+            var sum = Complex32.Zero;
+            for (var i = 0; i < RowCount; i++)
+            {
+                sum += Data[(i * RowCount) + i];
+            }
+
+            return sum;
         }
     }
 }

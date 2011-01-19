@@ -1296,7 +1296,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<float> other, Matrix<float> result)
         {
-
             result.Clear();
             var columnVector = new DenseVector(other.RowCount);
             for (var row = 0; row < RowCount; row++)
@@ -1313,10 +1312,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 {
                     // Multiply row of matrix A on column of matrix B
                     other.Column(column, columnVector);
-                    var sum = CommonParallel.Aggregate(
-                        startIndex,
-                        endIndex,
-                        index => _nonZeroValues[index] * columnVector[_columnIndices[index]]);
+                    
+                    var sum = 0.0f;
+                    for (var index = startIndex; index < endIndex; index++)
+                    {
+                        sum += _nonZeroValues[index] * columnVector[_columnIndices[index]];
+                    }
+
                     result.At(row, column, sum);
                 }
             }
@@ -1339,10 +1341,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     continue;
                 }
 
-                var sum = CommonParallel.Aggregate(
-                    startIndex,
-                    endIndex,
-                    index => _nonZeroValues[index] * rightSide[_columnIndices[index]]);
+                var sum = 0.0f;
+                for (var index = startIndex; index < endIndex; index++)
+                {
+                    sum += _nonZeroValues[index] * rightSide[_columnIndices[index]];
+                }
+
                 result[row] = sum;
             }
         }
@@ -1385,15 +1389,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                         continue;
                     }
 
-                    var i1 = i;
-                    var sum = CommonParallel.Aggregate(
-                        startIndexOther,
-                        endIndexOther,
-                        index =>
+                    var sum = 0.0f;
+                    for (var index = startIndexOther; index < endIndexOther; index++)
+                    {
+                        var ind = FindItem(i, otherSparse._columnIndices[index]);
+                        if (ind >= 0)
                         {
-                            var ind = FindItem(i1, otherSparse._columnIndices[index]);
-                            return ind >= 0 ? otherSparse._nonZeroValues[index] * _nonZeroValues[ind] : 0.0f;
-                        });
+                            sum += otherSparse._nonZeroValues[index] * _nonZeroValues[ind];
+                        }
+                    }
 
                     resultSparse.SetValueAt(i, j, sum + result.At(i, j));
                 }

@@ -851,10 +851,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The sum of the vector's elements.</returns>
         public override Complex32 Sum()
         {
-            return CommonParallel.Aggregate(
-                0,
-                Count,
-                i => Data[i]);
+            var sum = Complex32.Zero;
+
+            for (var i = 0; i < Count; i++)
+            {
+                sum += Data[i];
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -863,10 +867,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
         public override Complex32 SumMagnitudes()
         {
-            return CommonParallel.Aggregate(
-             0,
-             Count,
-             i => Data[i].Magnitude);
+            var sum = Complex32.Zero;
+
+            for (var i = 0; i < Count; i++)
+            {
+                sum += Data[i].Magnitude;
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -1156,10 +1164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (1.0 == p)
             {
-                return CommonParallel.Aggregate(
-                    0,
-                    Count,
-                    index => Data[index].Magnitude);
+                return SumMagnitudes();
             }
 
             if (2.0 == p)
@@ -1176,10 +1181,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     Common.Max);
             }
 
-            var sum = CommonParallel.Aggregate(
-                0,
-                Count,
-                index => Math.Pow(Data[index].Magnitude, p));
+            var sum = 0.0;
+
+            for (var i = 0; i < Count; i++)
+            {
+                sum += Math.Pow(Data[i].Magnitude, p);
+            }
 
             return (float)Math.Pow(sum, 1.0 / p);
         }

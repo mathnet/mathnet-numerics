@@ -185,10 +185,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </returns>
         protected override Complex DoDotProduct(Vector<Complex> other)
         {
-            return CommonParallel.Aggregate(
-                0, 
-                Count,
-                i => At(i) * other.At(i));
+            var dot = Complex.Zero;
+
+            for (var i = 0; i < Count; i++)
+            {
+                dot += At(i) * other.At(i);
+            }
+
+            return dot;
         }
 
         /// <summary>
@@ -257,10 +261,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The sum of the vector's elements.</returns>
         public override Complex Sum()
         {
-            return CommonParallel.Aggregate(
-                0,
-                Count,
-                i => At(i));
+            var sum = Complex.Zero;
+
+            for (var i = 0; i < Count; i++)
+            {
+                sum += At(i);
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -269,10 +277,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
         public override Complex SumMagnitudes()
         {
-            return CommonParallel.Aggregate(
-                0,
-                Count,
-                i => At(i).Magnitude);
+            var sum = Complex.Zero;
+
+            for (var i = 0; i < Count; i++)
+            {
+                sum += At(i).Magnitude;
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -300,10 +312,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     Math.Max);
             }
 
-            var sum = CommonParallel.Aggregate(
-                0,
-                Count,
-                index => Math.Pow(At(index).Magnitude, p));
+            var sum = 0.0;
+
+            for (var index = 0; index < Count; index++)
+            {
+                sum += Math.Pow(At(index).Magnitude, p);
+            }
 
             return Math.Pow(sum, 1.0 / p);
         }

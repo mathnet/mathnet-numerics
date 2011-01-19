@@ -185,10 +185,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </returns>
         protected override float DoDotProduct(Vector<float> other)
         {
-            return CommonParallel.Aggregate(
-                0,
-                Count,
-                i => At(i) * other.At(i));
+            var dot = 0.0f;
+
+            for (var i = 0; i < Count; i++)
+            {
+                dot += At(i) * other.At(i);
+            }
+
+            return dot;
         }
 
         /// <summary>
@@ -257,10 +261,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The sum of the vector's elements.</returns>
         public override float Sum()
         {
-            return CommonParallel.Aggregate(
-                0,
-                Count,
-                i => At(i));
+            var sum = 0.0f;
+
+            for (var i = 0; i < Count; i++)
+            {
+                sum += At(i);
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -269,10 +277,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
         public override float SumMagnitudes()
         {
-            return CommonParallel.Aggregate(
-                0,
-                Count,
-                i => Math.Abs(At(i)));
+            var sum = 0.0f;
+
+            for (var i = 0; i < Count; i++)
+            {
+                sum += Math.Abs(At(i));
+            }
+
+            return sum;
         }
 
         /// <summary>
@@ -300,10 +312,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     Common.Max);
             }
 
-            var sum = CommonParallel.Aggregate(
-                0,
-                Count,
-                index => Math.Pow(Math.Abs(At(index)), p));
+            var sum = 0.0;
+
+            for (var index = 0; index < Count; index++)
+            {
+                sum += Math.Pow(Math.Abs(At(index)), p);
+            }
 
             return (float)Math.Pow(sum, 1.0 / p);
         }

@@ -1845,7 +1845,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                     i =>
                     {
                         var im = i * rowsR;
-                        sol[jm + i] = CommonParallel.Aggregate(0, rowsR, k => q[im + k].Conjugate() * column[k]);
+                        var sum = Complex32.Zero;
+                        for (var k = 0; k < rowsR; k++)
+                        {
+                            sum += q[im + k].Conjugate() * column[k];
+                        }
+
+                        sol[jm + i] = sum;
                     });
             }
 
