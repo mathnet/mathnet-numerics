@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Threading
     /// <summary>
     /// Used to simplify parallel code, particularly between the .NET 4.0 and Silverlight Code.
     /// </summary>
-    internal static class CommonParallel
+    public static class CommonParallel
     {
         /// <summary>
         /// Executes a for loop in which iterations may run in parallel. 
@@ -49,7 +49,7 @@ namespace MathNet.Numerics.Threading
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The body to be invoked for each iteration.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is null.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
         public static void For(int fromInclusive, int toExclusive, Action<int> body)
         {
