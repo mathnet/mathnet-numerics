@@ -1536,6 +1536,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             throw new InvalidOperationException("Permutations in diagonal matrix are not allowed");
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this matrix is symmetric.
+        /// </summary>
+        public override bool IsSymmetric
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         #region Static constructors for special matrices.
 
         /// <summary>

@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
-    public class SparseMatrix : Matrix 
+    public class SparseMatrix : Matrix
     {
         /// <summary>
         /// The array containing the row indices of the existing rows. Element "j" of the array gives the index of the 
@@ -54,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// array using the row-major storage mapping described in a compressed sparse row (CSR) format.
         /// </summary>
         private Complex32[] _nonZeroValues = new Complex32[0];
-        
+
         /// <summary>
         /// Gets the number of non zero elements in the matrix.
         /// </summary>
@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             get;
             private set;
         }
-        
+
         /// <summary>
         /// An array containing the column indices of the non-zero values. Element "I" of the array 
         /// is the number of the column in matrix that contains the I-th value in the <see cref="_nonZeroValues"/> array.
@@ -80,11 +80,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="columns">
         /// The number of columns.
         /// </param>
-        public SparseMatrix(int rows, int columns) : base(rows, columns)
+        public SparseMatrix(int rows, int columns)
+            : base(rows, columns)
         {
             _rowIndex = new int[rows];
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class. This matrix is square with a given size.
         /// </summary>
@@ -92,7 +93,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <exception cref="ArgumentException">
         /// If <paramref name="order"/> is less than one.
         /// </exception>
-        public SparseMatrix(int order) : this(order, order)
+        public SparseMatrix(int order)
+            : this(order, order)
         {
         }
 
@@ -106,7 +108,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// The number of columns.
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
-        public SparseMatrix(int rows, int columns, Complex32 value) : this(rows, columns)
+        public SparseMatrix(int rows, int columns, Complex32 value)
+            : this(rows, columns)
         {
             if (value == 0.0f)
             {
@@ -128,7 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 _nonZeroValues[i] = value;
                 _columnIndices[i] = j;
             }
-            
+
             // Set proper row pointers
             for (var i = 0; i < _rowIndex.Length; i++)
             {
@@ -144,7 +147,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="array">The one dimensional array to create this matrix from. This array should store the matrix in column-major order. see: http://en.wikipedia.org/wiki/Column-major_order </param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="array"/> length is less than <paramref name="rows"/> * <paramref name="columns"/>.
         /// </exception>
-        public SparseMatrix(int rows, int columns, Complex32[] array) : this(rows, columns)
+        public SparseMatrix(int rows, int columns, Complex32[] array)
+            : this(rows, columns)
         {
             if (rows * columns > array.Length)
             {
@@ -164,7 +168,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array. 
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
-        public SparseMatrix(Complex32[,] array) : this(array.GetLength(0), array.GetLength(1))
+        public SparseMatrix(Complex32[,] array)
+            : this(array.GetLength(0), array.GetLength(1))
         {
             var rows = array.GetLength(0);
             var columns = array.GetLength(1);
@@ -708,7 +713,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 _nonZeroValues[i - 1] = _nonZeroValues[i];
                 _columnIndices[i - 1] = _columnIndices[i];
             }
-            
+
             // Decrease value in Row
             for (var i = row + 1; i < _rowIndex.Length; i++)
             {
@@ -725,7 +730,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 Array.Resize(ref _columnIndices, NonZerosCount);
             }
         }
-        
+
         /// <summary>
         /// Find item Index in nonZeroValues array
         /// </summary>
@@ -740,7 +745,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
             return Array.BinarySearch(_columnIndices, startIndex, endIndex - startIndex, column);
         }
-        
+
         /// <summary>
         /// Calculates the amount with which to grow the storage array's if they need to be
         /// increased in size.
@@ -820,7 +825,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 Array.Copy(_rowIndex, sparseTarget._rowIndex, RowCount);
             }
         }
-        
+
         /// <summary>
         /// Returns a hash code for this instance.
         /// </summary>
@@ -1038,7 +1043,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 resultSparseMatrix.NonZerosCount = NonZerosCount + lowerSparseMatrix.NonZerosCount;
                 resultSparseMatrix._nonZeroValues = new Complex32[resultSparseMatrix.NonZerosCount];
                 resultSparseMatrix._columnIndices = new int[resultSparseMatrix.NonZerosCount];
-                
+
                 Array.Copy(_nonZeroValues, 0, resultSparseMatrix._nonZeroValues, 0, NonZerosCount);
                 Array.Copy(lowerSparseMatrix._nonZeroValues, 0, resultSparseMatrix._nonZeroValues, NonZerosCount, lowerSparseMatrix.NonZerosCount);
 
@@ -1313,7 +1318,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 {
                     // Multiply row of matrix A on column of matrix B
                     other.Column(column, columnVector);
-                    
+
                     var sum = Complex32.Zero;
                     for (var index = startIndex; index < endIndex; index++)
                     {
@@ -1498,6 +1503,71 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     yield return new Tuple<int, int, Complex32>(lastRow, _columnIndices[index], _nonZeroValues[index]);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this matrix is symmetric.
+        /// </summary>
+        public override bool IsSymmetric
+        {
+            get
+            {
+                if (RowCount != ColumnCount)
+                {
+                    return false;
+                }
+
+                // todo: we might be able to speed this up by caching one half of the matrix
+                for (var row = 0; row < RowCount - 1; row++)
+                {
+                    var start = _rowIndex[row];
+                    var end = _rowIndex[row + 1];
+
+                    if (start == end)
+                    {
+                        continue;
+                    }
+
+                    if (!CheckIfOppositesAreEqual(start, end, row))
+                    {
+                        return false;
+                    }
+                }
+
+                var lastRow = _rowIndex.Length - 1;
+
+                if (_rowIndex[lastRow] < NonZerosCount)
+                {
+                    if (!CheckIfOppositesAreEqual(_rowIndex[lastRow], NonZerosCount, lastRow))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Checks if opposites in a range are equal.
+        /// </summary>
+        /// <param name="start">The start of the range.</param>
+        /// <param name="end">The end of the range.</param>
+        /// <param name="row">The row the row to check.</param>
+        /// <returns>If the values are equal or not.</returns>
+        private bool CheckIfOppositesAreEqual(int start, int end, int row)
+        {
+            for (var index = start; index < end; index++)
+            {
+                var column = _columnIndices[index];
+                var opposite = At(column, row);
+                if (!_nonZeroValues[index].Equals(opposite))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -1503,6 +1503,71 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 }
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this matrix is symmetric.
+        /// </summary>
+        public override bool IsSymmetric
+        {
+            get
+            {
+                if (RowCount != ColumnCount)
+                {
+                    return false;
+                }
+
+                // todo: we might be able to speed this up by caching one half of the matrix
+                for (var row = 0; row < RowCount - 1; row++)
+                {
+                    var start = _rowIndex[row];
+                    var end = _rowIndex[row + 1];
+
+                    if (start == end)
+                    {
+                        continue;
+                    }
+
+                    if (!CheckIfOppositesAreEqual(start, end, row))
+                    {
+                        return false;
+                    }
+                }
+
+                var lastRow = _rowIndex.Length - 1;
+
+                if (_rowIndex[lastRow] < NonZerosCount)
+                {
+                    if (!CheckIfOppositesAreEqual(_rowIndex[lastRow], NonZerosCount, lastRow))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Checks if opposites in a range are equal.
+        /// </summary>
+        /// <param name="start">The start of the range.</param>
+        /// <param name="end">The end of the range.</param>
+        /// <param name="row">The row the row to check.</param>
+        /// <returns>If the values are equal or not.</returns>
+        private bool CheckIfOppositesAreEqual(int start, int end, int row)
+        {
+            for (var index = start; index < end; index++)
+            {
+                var column = _columnIndices[index];
+                var opposite = At(column, row);
+                if (!_nonZeroValues[index].Equals(opposite))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
 

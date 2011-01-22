@@ -101,6 +101,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                              { "Singular4x4", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) }, { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1), new Complex(-4.4, 1) } } }, 
                              { "Tall3x2", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1) }, { Complex.Zero, new Complex(1.1, 1) }, { new Complex(-4.4, 1), new Complex(5.5, 1) } } }, 
                              { "Wide2x3", new[,] { { new Complex(-1.1, 1), new Complex(-2.2, 1), new Complex(-3.3, 1) }, { Complex.Zero, new Complex(1.1, 1), new Complex(2.2, 1) } } }, 
+                             { "Symmetric3x3", new[,] { { Complex.One, 2.0, 3.0 }, { 2.0, 2.0, 0.0 }, { 3.0, 0.0, 3.0 } } }
                          };
 
             TestMatrices = new Dictionary<string, Matrix>();
