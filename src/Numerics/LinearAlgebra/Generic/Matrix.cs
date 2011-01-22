@@ -1773,5 +1773,37 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 }
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this matrix is symmetric.
+        /// </summary>
+        public virtual bool IsSymmetric
+        {
+            get
+            {
+                if (RowCount != ColumnCount)
+                {
+                    return false;
+                }
+
+                for (var row = 1; row < RowCount; row++)
+                {
+                    for (var column = 0; column < ColumnCount; column++)
+                    {
+                        if (column >= row)
+                        {
+                            continue;
+                        }
+
+                        if (!At(row, column).Equals(At(column, row)))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+        }
     }
 }

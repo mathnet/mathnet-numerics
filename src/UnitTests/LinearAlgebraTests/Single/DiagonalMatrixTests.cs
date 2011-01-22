@@ -581,5 +581,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.AreEqual(2, item.Item2);
             Assert.AreEqual(3.0f, item.Item3);
         }
+
+        /// <summary>
+        /// Can check if a matrix is symmetric.
+        /// </summary>
+        [Test]
+        public override void CanCheckIfMatrixIsSymmetric()
+        {
+            var matrix = TestMatrices["Square3x3"];
+            Assert.IsTrue(matrix.IsSymmetric);
+        }
     }
 }
