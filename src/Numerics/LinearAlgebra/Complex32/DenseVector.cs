@@ -245,87 +245,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Adds a complex to each element of the vector.
+        /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="complex">The complex to add.</param>
-        /// <returns>A copy of the vector with the complex added.</returns>
-        public override Vector<Complex32> Add(Complex32 complex)
-        {
-            if (complex == Complex32.Zero)
-            {
-                return Clone();
-            }
-
-            var copy = (DenseVector)Clone();
-            CommonParallel.For(
-                0,
-                Data.Length,
-                index => copy.Data[index] += complex);
-            return copy;
-        }
-
-        /// <summary>
-        /// Adds a complex to each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="complex">The complex to add.</param>
+        /// <param name="scalar">The scalar to add.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(Complex32 complex, Vector<Complex32> result)
+        protected override void DoAdd(Complex32 scalar, Vector<Complex32> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
             var dense = result as DenseVector;
             if (dense == null)
             {
-                base.Add(complex, result);
+                base.DoAdd(scalar, result);
             }
             else
             {
                 CommonParallel.For(
                     0,
                     Data.Length,
-                    index => dense.Data[index] = Data[index] + complex);
+                    index => dense.Data[index] = Data[index] + scalar);
             }
-        }
-
-        /// <summary>
-        /// Adds another vector to this vector.
-        /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <returns>A new vector containing the sum of both vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<Complex32> Add(Vector<Complex32> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var denseVector = other as DenseVector;
-
-            if (denseVector == null)
-            {
-                return base.Add(other);
-            }
-
-            var copy = new DenseVector(Count);
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, Complex32.One, denseVector.Data, copy.Data);
-            return copy;
         }
 
         /// <summary>
@@ -333,27 +270,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(Vector<Complex32> other, Vector<Complex32> result)
+        protected override void DoAdd(Vector<Complex32> other, Vector<Complex32> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
             var rdense = result as DenseVector;
             var odense = other as DenseVector;
             if (rdense != null && odense != null)
@@ -362,10 +280,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    Data.Length,
-                    index => result[index] = Data[index] + other[index]);
+                base.DoAdd(other, result);
             }
         }
 
@@ -415,87 +330,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Subtracts a complex from each element of the vector.
+        /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="complex">The complex to subtract.</param>
-        /// <returns>A new vector containing the subtraction of this vector and the complex.</returns>
-        public override Vector<Complex32> Subtract(Complex32 complex)
-        {
-            if (complex == Complex32.Zero)
-            {
-                return Clone();
-            }
-
-            var copy = (DenseVector)Clone();
-            CommonParallel.For(
-                0,
-                Data.Length,
-                index => copy.Data[index] -= complex);
-            return copy;
-        }
-
-        /// <summary>
-        /// Subtracts a complex from each element of the vector and stores the result in the result vector.
-        /// </summary>
-        /// <param name="complex">The complex to subtract.</param>
+        /// <param name="scalar">The scalar to subtract.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(Complex32 complex, Vector<Complex32> result)
+        protected override void DoSubtract(Complex32 scalar, Vector<Complex32> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
             var dense = result as DenseVector;
             if (dense == null)
             {
-                base.Subtract(complex, result);
+                base.DoSubtract(scalar, result);
             }
             else
             {
                 CommonParallel.For(
                     0,
                     Data.Length,
-                    index => dense.Data[index] = Data[index] - complex);
+                    index => dense.Data[index] = Data[index] - scalar);
             }
-        }
-
-        /// <summary>
-        /// Subtracts another vector from this vector.
-        /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<Complex32> Subtract(Vector<Complex32> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var denseVector = other as DenseVector;
-
-            if (denseVector == null)
-            {
-                return base.Subtract(other);
-            }
-
-            var copy = new DenseVector(Count);
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -Complex32.One, denseVector.Data, copy.Data);
-            return copy;
         }
 
         /// <summary>
@@ -503,42 +355,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(Vector<Complex32> other, Vector<Complex32> result)
+        protected override void DoSubtract(Vector<Complex32> other, Vector<Complex32> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
             var rdense = result as DenseVector;
             var odense = other as DenseVector;
             if (rdense != null && odense != null)
             {
-                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -Complex32.One, odense.Data, rdense.Data);
+                Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0f, odense.Data, rdense.Data);
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    Data.Length,
-                    index => result[index] = Data[index] - other[index]);
+                base.DoSubtract(other, result);
             }
         }
-
+        
         /// <summary>
         /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
         /// </summary>
@@ -600,49 +430,35 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Multiplies a complex to each element of the vector.
+        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
-        /// <param name="complex">The complex to multiply.</param>
-        /// <returns>A new vector that is the multiplication of the vector and the complex.</returns>
-        public override Vector<Complex32> Multiply(Complex32 complex)
+        /// <param name="scalar">The scalar to multiply.</param>
+        /// <param name="result">The vector to store the result of the multiplication.</param>
+        /// <remarks></remarks>
+        protected override void DoMultiply(Complex32 scalar, Vector<Complex32> result)
         {
-            if (complex == Complex32.One)
+            var denseResult = result as DenseVector;
+            if (denseResult == null)
             {
-                return Clone();
+                base.DoMultiply(scalar, result);
             }
-
-            var copy = new DenseVector(Count);
-            Control.LinearAlgebraProvider.ScaleArray(complex, Data, copy.Data);
-            return copy;
+            else
+            {
+                Control.LinearAlgebraProvider.ScaleArray(scalar, Data, denseResult.Data);
+            }
         }
 
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
         /// <param name="other">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null" />.</exception>
-        public override Complex32 DotProduct(Vector<Complex32> other)
+        /// <returns>s
+        /// The result of the addition.</returns>
+        protected override Complex32 DoDotProduct(Vector<Complex32> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
             var denseVector = other as DenseVector;
 
-            if (denseVector == null)
-            {
-                return base.DotProduct(other);
-            }
-
-            return Control.LinearAlgebraProvider.DotProduct(Data, denseVector.Data);
+            return denseVector == null ? base.DoDotProduct(other) : Control.LinearAlgebraProvider.DotProduct(Data, denseVector.Data);
         }
 
         /// <summary>
@@ -878,124 +694,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Pointwise multiplies this vector with another vector.
+        /// Pointwise divide this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise multiply with this one.</param>
-        /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<Complex32> PointwiseMultiply(Vector<Complex32> other)
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="result">The vector to store the result of the pointwise division.</param>
+        protected override void DoPointwiseMultiply(Vector<Complex32> other, Vector<Complex32> result)
         {
-            if (other == null)
+            var dense = result as DenseVector;
+            if (dense == null)
             {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var denseVector = other as DenseVector;
-
-            if (denseVector == null)
-            {
-                return base.PointwiseMultiply(other);
-            }
-
-            var copy = (DenseVector)Clone();
-            CommonParallel.For(
-                0,
-                Count,
-                index => copy[index] *= other[index]);
-            return copy;
-        }
-
-        /// <summary>
-        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise multiply with this one.</param>
-        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Vector<Complex32> other, Vector<Complex32> result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = PointwiseMultiply(other);
-                tmp.CopyTo(result);
+                base.DoPointwiseMultiply(other, result);
             }
             else
             {
-                var dense = result as DenseVector;
-                if (dense == null)
-                {
-                    base.PointwiseMultiply(other, result);
-                }
-                else
-                {
-                    CommonParallel.For(
-                        0,
-                        Data.Length,
-                        index => dense.Data[index] = Data[index] * other[index]);
-                }
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => dense.Data[index] = Data[index] * other[index]);
             }
-        }
-
-        /// <summary>
-        /// Pointwise divide this vector with another vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
-        /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<Complex32> PointwiseDivide(Vector<Complex32> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var denseVector = other as DenseVector;
-
-            if (denseVector == null)
-            {
-                return base.PointwiseMultiply(other);
-            }
-
-            var copy = (DenseVector)Clone();
-            CommonParallel.For(
-                0,
-                Count,
-                index => copy[index] /= other[index]);
-            return copy;
         }
 
         /// <summary>
@@ -1003,51 +719,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseDivide(Vector<Complex32> other, Vector<Complex32> result)
+        /// <remarks></remarks>
+        protected override void DoPointwiseDivide(Vector<Complex32> other, Vector<Complex32> result)
         {
-            if (result == null)
+            var dense = result as DenseVector;
+            if (dense == null)
             {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = PointwiseDivide(other);
-                tmp.CopyTo(result);
+                base.DoPointwiseDivide(other, result);
             }
             else
             {
-                var dense = result as DenseVector;
-                if (dense == null)
-                {
-                    base.PointwiseDivide(other, result);
-                }
-                else
-                {
-                    CommonParallel.For(
-                        0,
-                        Data.Length,
-                        index => dense.Data[index] = Data[index] / other[index]);
-                }
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => dense.Data[index] = Data[index] / other[index]);
             }
         }
 
@@ -1362,36 +1047,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Conjugates vector and save result to <paramref name="target"/>
         /// </summary>
         /// <param name="target">Target vector</param>
-        public override void Conjugate(Vector<Complex32> target)
+        protected override void DoConjugate(Vector<Complex32> target)
         {
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
+            var denseTarget = target as DenseVector;
 
-            if (Count != target.Count)
+            if (denseTarget == null)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
-            }
-
-            if (ReferenceEquals(this, target))
-            {
-                var tmp = CreateVector(Count);
-                Conjugate(tmp);
-                tmp.CopyTo(target);
-            }
-
-            var otherVector = target as DenseVector;
-            if (otherVector == null)
-            {
-                base.Conjugate(target);
+                base.DoConjugate(target);
             }
             else
             {
                 CommonParallel.For(
                     0,
                     Count,
-                    index => otherVector.Data[index] = Data[index].Conjugate());
+                    index => denseTarget.Data[index] = Data[index].Conjugate());
             }
         }
 

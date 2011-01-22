@@ -296,48 +296,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Adds a scalar to each element of the vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to add.</param>
-        /// <returns>A copy of the vector with the scalar added.</returns>
-        public override Vector<float> Add(float scalar)
-        {
-            if (scalar == 0.0)
-            {
-                return Clone();
-            }
-
-            var copy = (DenseVector)Clone();
-            CommonParallel.For(
-                0, 
-                Data.Length,
-                index => copy.Data[index] += scalar);
-            return copy;
-        }
-
-        /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(float scalar, Vector<float> result)
+        protected override void DoAdd(float scalar, Vector<float> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
             var dense = result as DenseVector;
             if (dense == null)
             {
-                base.Add(scalar, result);
+                base.DoAdd(scalar, result);
             }
             else
             {
@@ -349,62 +317,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Adds another vector to this vector.
-        /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <returns>A new vector containing the sum of both vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<float> Add(Vector<float> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var denseVector = other as DenseVector;
-
-            if (denseVector == null)
-            {
-                return base.Add(other);
-            }
-
-            var copy = new DenseVector(Count);
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, 1.0f, denseVector.Data, copy.Data);
-            return copy;
-        }
-
-        /// <summary>
         /// Adds another vector to this vector and stores the result into the result vector.
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Add(Vector<float> other, Vector<float> result)
+        protected override void DoAdd(Vector<float> other, Vector<float> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
             var rdense = result as DenseVector;
             var odense = other as DenseVector;
             if (rdense != null && odense != null)
@@ -413,10 +331,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    Data.Length,
-                    index => result[index] = Data[index] + other[index]);
+                base.DoAdd(other, result);
             }
         }
 
@@ -466,48 +381,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Subtracts a scalar from each element of the vector.
-        /// </summary>
-        /// <param name="scalar">The scalar to subtract.</param>
-        /// <returns>A new vector containing the subtraction of this vector and the scalar.</returns>
-        public override Vector<float> Subtract(float scalar)
-        {
-            if (scalar == 0.0)
-            {
-                return Clone();
-            }
-
-            var copy = (DenseVector)Clone();
-            CommonParallel.For(
-                0, 
-                Data.Length, 
-                index => copy.Data[index] -= scalar);
-            return copy;
-        }
-
-        /// <summary>
         /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">The scalar to subtract.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(float scalar, Vector<float> result)
+        protected override void DoSubtract(float scalar, Vector<float> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
             var dense = result as DenseVector;
             if (dense == null)
             {
-                base.Subtract(scalar, result);
+                base.DoSubtract(scalar, result);
             }
             else
             {
@@ -519,62 +402,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Subtracts another vector from this vector.
-        /// </summary>
-        /// <param name="other">The vector to subtract from this one.</param>
-        /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<float> Subtract(Vector<float> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var denseVector = other as DenseVector;
-
-            if (denseVector == null)
-            {
-                return base.Subtract(other);
-            }
-
-            var copy = new DenseVector(Count);
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(Data, -1.0f, denseVector.Data, copy.Data);
-            return copy;
-        }
-
-        /// <summary>
         /// Subtracts another vector to this vector and stores the result into the result vector.
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
         /// <param name="result">The vector to store the result of the subtraction.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void Subtract(Vector<float> other, Vector<float> result)
+        protected override void DoSubtract(Vector<float> other, Vector<float> result)
         {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
             var rdense = result as DenseVector;
             var odense = other as DenseVector;
             if (rdense != null && odense != null)
@@ -583,13 +416,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                CommonParallel.For(
-                    0,
-                    Data.Length,
-                    index => result[index] = Data[index] - other[index]);
+                base.DoSubtract(other, result);
             }
         }
-
+        
         /// <summary>
         /// Returns a <strong>Vector</strong> containing the negated values of <paramref name="rightSide"/>. 
         /// </summary>
@@ -651,49 +481,35 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Multiplies a scalar to each element of the vector.
+        /// Multiplies a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">The scalar to multiply.</param>
-        /// <returns>A new vector that is the multiplication of the vector and the scalar.</returns>
-        public override Vector<float> Multiply(float scalar)
+        /// <param name="result">The vector to store the result of the multiplication.</param>
+        /// <remarks></remarks>
+        protected override void DoMultiply(float scalar, Vector<float> result)
         {
-            if (scalar == 1.0)
+            var denseResult = result as DenseVector;
+            if (denseResult == null)
             {
-                return Clone();
+                base.DoMultiply(scalar, result);
             }
-
-            var copy = new DenseVector(Count);
-            Control.LinearAlgebraProvider.ScaleArray(scalar, Data, copy.Data);
-            return copy;
+            else
+            {
+                Control.LinearAlgebraProvider.ScaleArray(scalar, Data, denseResult.Data);
+            }
         }
 
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
         /// <param name="other">The other vector to add.</param>
-        /// <returns>The result of the addition.</returns>
-        /// <exception cref="ArgumentException">If <paramref name="other"/> is not of the same size.</exception>
-        /// <exception cref="ArgumentNullException">If <paramref name="other"/> is <see langword="null" />.</exception>
-        public override float DotProduct(Vector<float> other)
+        /// <returns>s
+        /// The result of the addition.</returns>
+        protected override float DoDotProduct(Vector<float> other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
             var denseVector = other as DenseVector;
 
-            if (denseVector == null)
-            {
-                return base.DotProduct(other);
-            }
-
-            return Control.LinearAlgebraProvider.DotProduct(Data, denseVector.Data);
+            return denseVector == null ? base.DoDotProduct(other) : Control.LinearAlgebraProvider.DotProduct(Data, denseVector.Data);
         }
 
         /// <summary>
@@ -969,124 +785,24 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Pointwise multiplies this vector with another vector.
+        /// Pointwise divide this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise multiply with this one.</param>
-        /// <returns>A new vector which is the pointwise multiplication of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<float> PointwiseMultiply(Vector<float> other)
+        /// <param name="other">The vector to pointwise divide this one by.</param>
+        /// <param name="result">The vector to store the result of the pointwise division.</param>
+        protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result)
         {
-            if (other == null)
+            var dense = result as DenseVector;
+            if (dense == null)
             {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var denseVector = other as DenseVector;
-
-            if (denseVector == null)
-            {
-                return base.PointwiseMultiply(other);
-            }
-
-            var copy = (DenseVector)Clone();
-            CommonParallel.For(
-                0, 
-                Count,
-                index => copy[index] *= other[index]);
-            return copy;
-        }
-
-        /// <summary>
-        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise multiply with this one.</param>
-        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseMultiply(Vector<float> other, Vector<float> result)
-        {
-            if (result == null)
-            {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = PointwiseMultiply(other);
-                tmp.CopyTo(result);
+                base.DoPointwiseMultiply(other, result);
             }
             else
             {
-                var dense = result as DenseVector;
-                if (dense == null)
-                {
-                    base.PointwiseMultiply(other, result);
-                }
-                else
-                {
-                    CommonParallel.For(
-                        0,
-                        Data.Length,
-                        index => dense.Data[index] = Data[index] * other[index]);
-                }
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => dense.Data[index] = Data[index] * other[index]);
             }
-        }
-
-        /// <summary>
-        /// Pointwise divide this vector with another vector.
-        /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
-        /// <returns>A new vector which is the pointwise division of the two vectors.</returns>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        public override Vector<float> PointwiseDivide(Vector<float> other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            var denseVector = other as DenseVector;
-
-            if (denseVector == null)
-            {
-                return base.PointwiseMultiply(other);
-            }
-
-            var copy = (DenseVector)Clone();
-            CommonParallel.For(
-                0, 
-                Count,
-                index => copy[index] /= other[index]);
-            return copy;
         }
 
         /// <summary>
@@ -1094,51 +810,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The vector to pointwise divide this one by.</param>
         /// <param name="result">The vector to store the result of the pointwise division.</param>
-        /// <exception cref="ArgumentNullException">If the other vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentNullException">If the result vector is <see langword="null" />.</exception> 
-        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
-        public override void PointwiseDivide(Vector<float> other, Vector<float> result)
+        /// <remarks></remarks>
+        protected override void DoPointwiseDivide(Vector<float> other, Vector<float> result)
         {
-            if (result == null)
+            var dense = result as DenseVector;
+            if (dense == null)
             {
-                throw new ArgumentNullException("result");
-            }
-
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            if (Count != other.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
-            }
-
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
-            {
-                var tmp = PointwiseDivide(other);
-                tmp.CopyTo(result);
+                base.DoPointwiseDivide(other, result);
             }
             else
             {
-                var dense = result as DenseVector;
-                if (dense == null)
-                {
-                    base.PointwiseDivide(other, result);
-                }
-                else
-                {
-                    CommonParallel.For(
-                        0,
-                        Data.Length,
-                        index => dense.Data[index] = Data[index] / other[index]);
-                }
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => dense.Data[index] = Data[index] / other[index]);
             }
         }
 
