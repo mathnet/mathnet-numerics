@@ -1583,27 +1583,21 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            CommonParallel.Invoke(
-                () =>
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        for (var j = 0; j < ColumnCount; j++)
-                        {
-                            result.At(i, j, At(i, j));
-                        }
-                    }
-                }, 
-                () =>
+                    result.At(i, j, At(i, j));
+                }
+            }
+
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < right.ColumnCount; j++)
                 {
-                    for (var i = 0; i < RowCount; i++)
-                    {
-                        for (var j = 0; j < right.ColumnCount; j++)
-                        {
-                            result.At(i, j + ColumnCount, right.At(i, j));
-                        }
-                    }
-                });
+                    result.At(i, j + ColumnCount, right.At(i, j));
+                }
+            }
         }
 
         /// <summary>
