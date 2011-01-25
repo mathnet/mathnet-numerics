@@ -1073,5 +1073,62 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Vector<float> vector2 = null;
             Assert.Throws<ArgumentNullException>(() => vector1.OuterProduct(vector2));
         }
+
+        /// <summary>
+        /// Can compute the modules of each element of vector.
+        /// </summary>
+        [Test]
+        public void CanComputeModulus()
+        {
+            var vector = CreateVector(Data);
+            var mod = vector.Modulus(3.2f);
+            for (var index = 0; index < Data.Length; index++)
+            {
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 7);
+            }
+        }
+
+        /// <summary>
+        /// Can compute the modules of each element of vector using a result vector.
+        /// </summary>
+        public void CanComputeModulusUsingResultVector()
+        {
+            var vector = CreateVector(Data);
+            var mod = CreateVector(vector.Count);
+            vector.Modulus(3.2f, mod);
+
+            for (var index = 0; index < Data.Length; index++)
+            {
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 7);
+            }
+        }
+
+        /// <summary>
+        /// Can compute the modules of each element of vector using a result vector.
+        /// </summary>
+        public void CanComputeModulusUsingSameResultVector()
+        {
+            var vector = CreateVector(Data);
+            vector.Modulus(3.2f, vector);
+
+            for (var index = 0; index < Data.Length; index++)
+            {
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, vector[index], 7);
+            }
+        }
+
+        /// <summary>
+        /// Can compute the modules of each element of vector using the operator %.
+        /// </summary>
+        [Test]
+        public void CanComputeModulusUsingOperator()
+        {
+            var vector = CreateVector(Data);
+            var mod = vector % 4.5f;
+            for (var index = 0; index < Data.Length; index++)
+            {
+                AssertHelpers.AlmostEqual(Data[index] % 4.5, mod[index], 7);
+            }
+        }
     }
 }
