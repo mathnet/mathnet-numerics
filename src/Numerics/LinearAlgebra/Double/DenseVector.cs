@@ -592,6 +592,48 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoModulus(double divisor, Vector<double> result)
+        {
+            var denseResult = result as DenseVector;
+            if (denseResult == null)
+            {
+                for (var index = 0; index < Count; index++)
+                {
+                    result.At(index, Data[index] % divisor);
+                }
+            }
+            else
+            {
+                for (var index = 0; index < Count; index++)
+                {
+                    denseResult.Data[index] = Data[index] % divisor;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the modulus of each element of the vector of the given divisor.
+        /// </summary>
+        /// <param name="leftSide">The vector whose elements we want to compute the modulus of.</param>
+        /// <param name="rightSide">The divisor to use,</param>
+        /// <returns>The result of the calculation</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static DenseVector operator %(DenseVector leftSide, float rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return (DenseVector)leftSide.Modulus(rightSide);
+        }
+
+
+        /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>
         /// <returns>The index of absolute minimum element.</returns>   

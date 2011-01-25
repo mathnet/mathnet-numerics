@@ -698,6 +698,47 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoModulus(double divisor, Vector<double> result)
+        {
+            if (ReferenceEquals(this, result))
+            {
+                for (var index = 0; index < NonZerosCount; index++)
+                {
+                    _nonZeroValues[index] %= divisor;
+                }
+            }
+            else
+            {
+                result.Clear();
+                for (var index = 0; index < NonZerosCount; index++)
+                {
+                    result.At(_nonZeroIndices[index], _nonZeroValues[index] % divisor);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the modulus of each element of the vector of the given divisor.
+        /// </summary>
+        /// <param name="leftSide">The vector whose elements we want to compute the modulus of.</param>
+        /// <param name="rightSide">The divisor to use,</param>
+        /// <returns>The result of the calculation</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static SparseVector operator %(SparseVector leftSide, float rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return (SparseVector)leftSide.Modulus(rightSide);
+        }
+
+        /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>
         /// <returns>The index of absolute minimum element.</returns>   

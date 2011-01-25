@@ -872,6 +872,45 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>The sum of the absolute value of the vector's elements.</returns>
         public abstract T SumMagnitudes();
 
+        /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <returns>A vector containing the result.</returns>
+        public virtual Vector<T> Modulus(T divisor)
+        {
+            var result = CreateVector(Count);
+            Modulus(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        public virtual void Modulus(T divisor, Vector<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoModulus(divisor, result);
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected abstract void DoModulus(T divisor, Vector<T> result);
+
         #endregion
 
         #region Arithmetic Operator Overloading
@@ -1042,6 +1081,23 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             return leftSide.Divide(rightSide);
+        }
+
+        /// <summary>
+        /// Computes the modulus of each element of the vector of the given divisor.
+        /// </summary>
+        /// <param name="leftSide">The vector whose elements we want to compute the modulus of.</param>
+        /// <param name="rightSide">The divisor to use,</param>
+        /// <returns>The result of the calculation</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Vector<T> operator %(Vector<T> leftSide, T rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.Modulus(rightSide);
         }
 
         #endregion

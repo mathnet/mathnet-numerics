@@ -195,6 +195,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Computes the modulus for each element of the vector for the given divisor.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoModulus(double divisor, Vector<double> result)
+        {
+            for (var index = 0; index < Count; index++)
+            {
+                result[index] = At(index) % divisor;
+            }
+        }
+
+        /// <summary>
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
