@@ -1484,6 +1484,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulus(double divisor, Matrix<double> result)
+        {
+            var denseResult = result as SparseMatrix;
+
+            if (denseResult == null)
+            {
+                base.DoModulus(divisor, result);
+            }
+            else
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result);
+                }
+
+                for (var index = 0; index < denseResult._nonZeroValues.Length; index++)
+                {
+                    denseResult._nonZeroValues[index] %= divisor;
+                }
+            }
+        }
+
+        /// <summary>
         /// Iterates throw each element in the matrix (row-wise).
         /// </summary>
         /// <returns>The value at the current iteration along with its position (row, column, value).</returns>

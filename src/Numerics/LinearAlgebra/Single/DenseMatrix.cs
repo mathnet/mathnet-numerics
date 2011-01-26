@@ -239,7 +239,28 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, RowCount, ColumnCount, Data);
         }
 
-        #region Elementary operations
+        #region Static constructors for special matrices.
+
+        /// <summary>
+        /// Initializes a square <see cref="DenseMatrix"/> with all zero's except for ones on the diagonal.
+        /// </summary>
+        /// <param name="order">the size of the square matrix.</param>
+        /// <returns>A dense identity matrix.</returns>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="order"/> is less than one.
+        /// </exception>
+        public static DenseMatrix Identity(int order)
+        {
+            var m = new DenseMatrix(order);
+            for (var i = 0; i < order; i++)
+            {
+                m.Data[(i * order) + i] = 1.0f;
+            }
+
+            return m;
+        }
+
+        #endregion
 
         /// <summary>
         /// Adds another matrix to this matrix.
@@ -279,40 +300,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 Control.LinearAlgebraProvider.SubtractArrays(Data, denseOther.Data, denseResult.Data);
             }
-        }
-    
-        #endregion
-
-        #region Static constructors for special matrices.
-
-        /// <summary>
-        /// Initializes a square <see cref="DenseMatrix"/> with all zero's except for ones on the diagonal.
-        /// </summary>
-        /// <param name="order">the size of the square matrix.</param>
-        /// <returns>A dense identity matrix.</returns>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="order"/> is less than one.
-        /// </exception>
-        public static DenseMatrix Identity(int order)
-        {
-            var m = new DenseMatrix(order);
-            for (var i = 0; i < order; i++)
-            {
-                m.Data[(i * order) + i] = 1.0f;
-            }
-
-            return m;
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
-        /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<float> ConjugateTranspose()
-        {
-            return Transpose();
         }
 
         /// <summary>
@@ -513,6 +500,42 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 Control.LinearAlgebraProvider.PointWiseDivideArrays(Data, denseOther.Data, denseResult.Data);
             }
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulus(float divisor, Matrix<float> result)
+        {
+            var denseResult = result as DenseMatrix;
+
+            if (denseResult == null)
+            {
+                base.DoModulus(divisor, result);
+            }
+            else
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result);
+                }
+
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => denseResult.Data[index] %= divisor);
+            }
+        }
+
+        /// <summary>
+        /// Returns the conjugate transpose of this matrix.
+        /// </summary>        
+        /// <returns>The conjugate transpose of this matrix.</returns>
+        public override Matrix<float> ConjugateTranspose()
+        {
+            return Transpose();
         }
 
         /// <summary>

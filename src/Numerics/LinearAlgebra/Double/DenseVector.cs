@@ -632,7 +632,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return (DenseVector)leftSide.Modulus(rightSide);
         }
 
-
         /// <summary>
         /// Returns the index of the absolute minimum element.
         /// </summary>

@@ -30,7 +30,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using Distributions;
     using Generic;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// <c>float</c> version of the <see cref="Matrix{T}"/> class.
@@ -266,6 +265,22 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     }
 
                     result.At(i, j, s);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulus(float divisor, Matrix<float> result)
+        {
+            for (var row = 0; row < RowCount; row++)
+            {
+                for (var column = 0; column < ColumnCount; column++)
+                {
+                    result.At(row, column, At(row, column) % divisor);
                 }
             }
         }
