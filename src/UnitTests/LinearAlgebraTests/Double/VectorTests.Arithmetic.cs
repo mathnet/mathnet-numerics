@@ -1081,39 +1081,41 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeModulus()
         {
             var vector = CreateVector(Data);
-            var mod = vector.Modulus(3.2f);
+            var mod = vector.Modulus(3.2);
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 7);
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 14);
             }
         }
 
         /// <summary>
         /// Can compute the modules of each element of vector using a result vector.
         /// </summary>
+        [Test]
         public void CanComputeModulusUsingResultVector()
         {
             var vector = CreateVector(Data);
             var mod = CreateVector(vector.Count);
-            vector.Modulus(3.2f, mod);
+            vector.Modulus(3.2, mod);
 
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 7);
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, mod[index], 14);
             }
         }
 
         /// <summary>
         /// Can compute the modules of each element of vector using a result vector.
         /// </summary>
+        [Test]
         public void CanComputeModulusUsingSameResultVector()
         {
             var vector = CreateVector(Data);
-            vector.Modulus(3.2f, vector);
+            vector.Modulus(3.2, vector);
 
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 3.2, vector[index], 7);
+                AssertHelpers.AlmostEqual(Data[index] % 3.2, vector[index], 14);
             }
         }
 
@@ -1124,10 +1126,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanComputeModulusUsingOperator()
         {
             var vector = CreateVector(Data);
-            var mod = vector % 4.5f;
+            var mod = vector % 4.5;
             for (var index = 0; index < Data.Length; index++)
             {
-                AssertHelpers.AlmostEqual(Data[index] % 4.5, mod[index], 7);
+                AssertHelpers.AlmostEqual(Data[index] % 4.5, mod[index], 14);
             }
         }
     }

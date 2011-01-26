@@ -1091,6 +1091,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <summary>
         /// Can compute the modules of each element of vector using a result vector.
         /// </summary>
+        [Test]
         public void CanComputeModulusUsingResultVector()
         {
             var vector = CreateVector(Data);
@@ -1106,6 +1107,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <summary>
         /// Can compute the modules of each element of vector using a result vector.
         /// </summary>
+        [Test]
         public void CanComputeModulusUsingSameResultVector()
         {
             var vector = CreateVector(Data);

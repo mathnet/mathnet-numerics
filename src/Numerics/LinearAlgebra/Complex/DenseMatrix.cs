@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using Algorithms.LinearAlgebra;
     using Generic;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
@@ -240,50 +239,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, RowCount, ColumnCount, Data);
         }
 
-        #region Elementary operations
-
-        /// <summary>
-        /// Adds another matrix to this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to add to this matrix.</param>
-        /// <param name="result">The matrix to store the result of add</param>
-        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
-        protected override void DoAdd(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            var denseOther = other as DenseMatrix;
-            var denseResult = result as DenseMatrix;
-            if (denseOther == null || denseResult == null)
-            {
-                base.DoAdd(other, result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.AddArrays(Data, denseOther.Data, denseResult.Data);
-            }
-        }
-
-        /// <summary>
-        /// Subtracts another matrix from this matrix.
-        /// </summary>
-        /// <param name="other">The matrix to subtract.</param>
-        /// <param name="result">The matrix to store the result of the subtraction.</param>
-        protected override void DoSubtract(Matrix<Complex> other, Matrix<Complex> result)
-        {
-            var denseOther = other as DenseMatrix;
-            var denseResult = result as DenseMatrix;
-            if (denseOther == null || denseResult == null)
-            {
-                base.DoSubtract(other, result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.SubtractArrays(Data, denseOther.Data, denseResult.Data);
-            }
-        }
-    
-        #endregion
-
         #region Static constructors for special matrices.
 
         /// <summary>
@@ -306,25 +261,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         #endregion
-
-        /// <summary>
-        /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
-        /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<Complex> ConjugateTranspose()
-        {
-            var ret = new DenseMatrix(ColumnCount, RowCount);
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                var index = j * RowCount;
-                for (var i = 0; i < RowCount; i++)
-                {
-                    ret.Data[(i * ColumnCount) + j] = Data[index + i].Conjugate();
-                }
-            }
-
-            return ret;
-        }
 
         /// <summary>
         /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
@@ -524,6 +460,65 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 Control.LinearAlgebraProvider.PointWiseDivideArrays(Data, denseOther.Data, denseResult.Data);
             }
+        }
+
+        /// <summary>
+        /// Adds another matrix to this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <param name="result">The matrix to store the result of add</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        protected override void DoAdd(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoAdd(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.AddArrays(Data, denseOther.Data, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        protected override void DoSubtract(Matrix<Complex> other, Matrix<Complex> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoSubtract(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.SubtractArrays(Data, denseOther.Data, denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Returns the conjugate transpose of this matrix.
+        /// </summary>        
+        /// <returns>The conjugate transpose of this matrix.</returns>
+        public override Matrix<Complex> ConjugateTranspose()
+        {
+            var ret = new DenseMatrix(ColumnCount, RowCount);
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var index = j * RowCount;
+                for (var i = 0; i < RowCount; i++)
+                {
+                    ret.Data[(i * ColumnCount) + j] = Data[index + i].Conjugate();
+                }
+            }
+
+            return ret;
         }
 
         /// <summary>

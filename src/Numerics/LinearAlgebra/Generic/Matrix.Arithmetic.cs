@@ -30,7 +30,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     using Distributions;
     using Factorization;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
@@ -218,7 +217,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 return;
             }
 
-            //CopyTo(result);
             DoMultiply(scalar, result);
         }
 
@@ -932,6 +930,62 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="other">The matrix to pointwise divide this one by.</param>
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
         protected abstract void DoPointwiseDivide(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <returns>A matrix containing the results.</returns>
+        public Matrix<T> Modulus(T divisor)
+        {
+            var result = CreateMatrix(RowCount, ColumnCount);
+            DoModulus(divisor, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        public void Modulus(T divisor, Matrix<T> result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+            }
+
+            DoModulus(divisor, result);
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected abstract void DoModulus(T divisor, Matrix<T> result);
+
+        /// <summary>
+        /// Multiplies a <strong>Matrix</strong> by a constant and returns the result.
+        /// </summary>
+        /// <param name="leftSide">The matrix to multiply.</param>
+        /// <param name="rightSide">The constant to multiply the matrix by.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static Matrix<T> operator %(Matrix<T> leftSide, T rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return leftSide.Modulus(rightSide);
+        }
 
         /// <summary>
         /// Generates a matrix with random elements.

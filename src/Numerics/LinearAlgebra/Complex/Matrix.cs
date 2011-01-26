@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using Distributions;
     using Generic;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// <c>Complex</c> version of the <see cref="Matrix{T}"/> class.
@@ -188,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Multiplies this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
@@ -325,6 +324,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     result.At(i, j, At(i, j) / other.At(i, j));
                 }
             }
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulus(Complex divisor, Matrix<Complex> result)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

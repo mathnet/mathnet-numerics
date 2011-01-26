@@ -31,7 +31,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     using Generic;
     using Numerics;
     using Properties;
-    using Threading;
 
     /// <summary>
     /// <c>Complex32</c> version of the <see cref="Matrix{T}"/> class.
@@ -325,6 +324,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     result.At(i, j, At(i, j) / other.At(i, j));
                 }
             }
+        }
+
+        /// <summary>
+        /// Computes the modulus for each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The divisor to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulus(Complex32 divisor, Matrix<Complex32> result)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
