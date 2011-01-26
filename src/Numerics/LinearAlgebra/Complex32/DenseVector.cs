@@ -291,14 +291,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing a the same values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<Complex32> operator +(DenseVector rightSide)
+        public static DenseVector operator +(DenseVector rightSide)
         {
             if (rightSide == null)
             {
                 throw new ArgumentNullException("rightSide");
             }
 
-            return rightSide.Plus();
+            return (DenseVector)rightSide.Plus();
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The result of the addition.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<Complex32> operator +(DenseVector leftSide, DenseVector rightSide)
+        public static DenseVector operator +(DenseVector leftSide, DenseVector rightSide)
         {
             if (rightSide == null)
             {
@@ -326,7 +326,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            return leftSide.Add(rightSide);
+            return (DenseVector)leftSide.Add(rightSide);
         }
 
         /// <summary>
@@ -375,14 +375,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="rightSide">The vector to get the values from.</param>
         /// <returns>A vector containing the negated values as <paramref name="rightSide"/>.</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<Complex32> operator -(DenseVector rightSide)
+        public static DenseVector operator -(DenseVector rightSide)
         {
             if (rightSide == null)
             {
                 throw new ArgumentNullException("rightSide");
             }
 
-            return rightSide.Negate();
+            return (DenseVector)rightSide.Negate();
         }
 
         /// <summary>
@@ -393,7 +393,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The result of the subtraction.</returns>
         /// <exception cref="ArgumentException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> are not the same size.</exception>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
-        public static Vector<Complex32> operator -(DenseVector leftSide, DenseVector rightSide)
+        public static DenseVector operator -(DenseVector leftSide, DenseVector rightSide)
         {
             if (rightSide == null)
             {
@@ -410,7 +410,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
-            return leftSide.Subtract(rightSide);
+            return (DenseVector)leftSide.Subtract(rightSide);
         }
 
         /// <summary>
