@@ -558,5 +558,215 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             return sum;
         }
+
+        /// <summary>
+        /// Adds two matrices together and returns the results.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
+        /// is denser.</remarks>
+        /// <param name="leftSide">The left matrix to add.</param>
+        /// <param name="rightSide">The right matrix to add.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator +(DenseMatrix leftSide, DenseMatrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+            }
+
+            return (DenseMatrix)leftSide.Add(rightSide);
+        }
+
+        /// <summary>
+        /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>. 
+        /// </summary>
+        /// <param name="rightSide">The matrix to get the values from.</param>
+        /// <returns>A matrix containing a the same values as <paramref name="rightSide"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator +(DenseMatrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return (DenseMatrix)rightSide.Clone();
+        }
+
+        /// <summary>
+        /// Subtracts two matrices together and returns the results.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
+        /// is denser.</remarks>
+        /// <param name="leftSide">The left matrix to subtract.</param>
+        /// <param name="rightSide">The right matrix to subtract.</param>
+        /// <returns>The result of the addition.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="leftSide"/> and <paramref name="rightSide"/> don't have the same dimensions.</exception>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator -(DenseMatrix leftSide, DenseMatrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+            }
+
+            return (DenseMatrix)leftSide.Subtract(rightSide);
+        }
+
+        /// <summary>
+        /// Negates each element of the matrix.
+        /// </summary>
+        /// <param name="rightSide">The matrix to negate.</param>
+        /// <returns>A matrix containing the negated values.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator -(DenseMatrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return (DenseMatrix)rightSide.Negate();
+        }
+
+        /// <summary>
+        /// Multiplies a <strong>Matrix</strong> by a constant and returns the result.
+        /// </summary>
+        /// <param name="leftSide">The matrix to multiply.</param>
+        /// <param name="rightSide">The constant to multiply the matrix by.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator *(DenseMatrix leftSide, float rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return (DenseMatrix)leftSide.Multiply(rightSide);
+        }
+
+        /// <summary>
+        /// Multiplies a <strong>Matrix</strong> by a constant and returns the result.
+        /// </summary>
+        /// <param name="leftSide">The matrix to multiply.</param>
+        /// <param name="rightSide">The constant to multiply the matrix by.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator *(float leftSide, DenseMatrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return (DenseMatrix)rightSide.Multiply(leftSide);
+        }
+
+        /// <summary>
+        /// Multiplies two matrices.
+        /// </summary>
+        /// <remarks>This operator will allocate new memory for the result. It will
+        /// choose the representation of either <paramref name="leftSide"/> or <paramref name="rightSide"/> depending on which
+        /// is denser.</remarks>
+        /// <param name="leftSide">The left matrix to multiply.</param>
+        /// <param name="rightSide">The right matrix to multiply.</param>
+        /// <returns>The result of multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If the dimensions of <paramref name="leftSide"/> or <paramref name="rightSide"/> don't conform.</exception>
+        public static DenseMatrix operator *(DenseMatrix leftSide, DenseMatrix rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            if (leftSide.ColumnCount != rightSide.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            return (DenseMatrix)leftSide.Multiply(rightSide);
+        }
+
+        /// <summary>
+        /// Multiplies a <strong>Matrix</strong> and a Vector.
+        /// </summary>
+        /// <param name="leftSide">The matrix to multiply.</param>
+        /// <param name="rightSide">The vector to multiply.</param>
+        /// <returns>The result of multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseVector operator *(DenseMatrix leftSide, DenseVector rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return (DenseVector)leftSide.Multiply(rightSide);
+        }
+
+        /// <summary>
+        /// Multiplies a Vector and a <strong>Matrix</strong>.
+        /// </summary>
+        /// <param name="leftSide">The vector to multiply.</param>
+        /// <param name="rightSide">The matrix to multiply.</param>
+        /// <returns>The result of multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
+        public static DenseVector operator *(DenseVector leftSide, DenseMatrix rightSide)
+        {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
+            return (DenseVector)rightSide.LeftMultiply(leftSide);
+        }
+
+        /// <summary>
+        /// Multiplies a <strong>Matrix</strong> by a constant and returns the result.
+        /// </summary>
+        /// <param name="leftSide">The matrix to multiply.</param>
+        /// <param name="rightSide">The constant to multiply the matrix by.</param>
+        /// <returns>The result of the multiplication.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
+        public static DenseMatrix operator %(DenseMatrix leftSide, float rightSide)
+        {
+            if (leftSide == null)
+            {
+                throw new ArgumentNullException("leftSide");
+            }
+
+            return (DenseMatrix)leftSide.Modulus(rightSide);
+        }
     }
 }
