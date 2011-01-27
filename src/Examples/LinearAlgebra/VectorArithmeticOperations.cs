@@ -115,16 +115,16 @@ namespace Examples.LinearAlgebra
             Console.WriteLine(dotProduct.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
-            // Pointwise multiplie vector with another vector
+            // Pointwise multiplies vector with another vector
             // 1. Using PointwiseMultiply method and getting result into different vector instance
             resultV = vectorX.PointwiseMultiply(vectorY);
-            Console.WriteLine(@"Pointwise multiplie vector with another vector using method PointwiseMultiply. (result = X.PointwiseMultiply(Y))");
+            Console.WriteLine(@"Pointwise multiplies vector with another vector using method PointwiseMultiply. (result = X.PointwiseMultiply(Y))");
             Console.WriteLine(resultV.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 2. Using PointwiseMultiply method and updating vector itself
             vectorX.PointwiseMultiply(vectorY, vectorX);
-            Console.WriteLine(@"Pointwise multiplie vector with another vector using method PointwiseMultiply. (X.PointwiseMultiply(Y, X))");
+            Console.WriteLine(@"Pointwise multiplies vector with another vector using method PointwiseMultiply. (X.PointwiseMultiply(Y, X))");
             Console.WriteLine(vectorX.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 

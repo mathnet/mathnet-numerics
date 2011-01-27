@@ -64,7 +64,7 @@ namespace Examples.LinearAlgebra
         /// <seealso cref="http://en.wikipedia.org/wiki/Matrix_multiplication#Scalar_multiplication">Multiply matrix by scalar</seealso>
         /// <seealso cref="http://reference.wolfram.com/mathematica/tutorial/MultiplyingVectorsAndMatrices.html">Multiply matrix by vector</seealso>
         /// <seealso cref="http://en.wikipedia.org/wiki/Matrix_multiplication#Matrix_product">Multiply matrix by matrix</seealso>
-        /// <seealso cref="http://en.wikipedia.org/wiki/Matrix_multiplication#Hadamard_product">Pointwise multiplie matrix with another matrix</seealso>
+        /// <seealso cref="http://en.wikipedia.org/wiki/Matrix_multiplication#Hadamard_product">Pointwise multiplies matrix with another matrix</seealso>
         /// <seealso cref="http://en.wikipedia.org/wiki/Matrix_%28mathematics%29#Basic_operations">Addition and subtraction</seealso>
         public void Run()
         {
@@ -92,7 +92,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine();
 
             // 2. Using Multiply method and getting result into different matrix instance
-            resultM = matrixA.Multiply(3.0);
+            resultM = (DenseMatrix)matrixA.Multiply(3.0);
             Console.WriteLine(@"Multiply matrix by scalar using method Multiply. (result = A.Multiply(3.0))");
             Console.WriteLine(resultM.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -116,7 +116,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine();
 
             // 2. Using Multiply method and getting result into different vector instance
-            resultV = matrixA.Multiply(vector);
+            resultV = (DenseVector)matrixA.Multiply(vector);
             Console.WriteLine(@"Multiply matrix by vector using method Multiply. (result = A.Multiply(vec))");
             Console.WriteLine(resultV.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -135,7 +135,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine();
 
             // 2. Using LeftMultiply method and getting result into different vector instance
-            resultV = matrixA.LeftMultiply(vector);
+            resultV = (DenseVector)matrixA.LeftMultiply(vector);
             Console.WriteLine(@"Multiply vector by matrix using method LeftMultiply. (result = A.LeftMultiply(vec))");
             Console.WriteLine(resultV.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -154,7 +154,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine();
 
             // 2. Using Multiply method and getting result into different matrix instance
-            resultM = matrixA.Multiply(matrixB);
+            resultM = (DenseMatrix)matrixA.Multiply(matrixB);
             Console.WriteLine(@"Multiply matrix by matrix using method Multiply. (result = A.Multiply(B))");
             Console.WriteLine(resultM.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -165,22 +165,22 @@ namespace Examples.LinearAlgebra
             Console.WriteLine(matrixA.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
-            // Pointwise multiplie matrix with another matrix
+            // Pointwise multiplies matrix with another matrix
             // 1. Using PointwiseMultiply method and getting result into different matrix instance
-            resultM = matrixA.PointwiseMultiply(matrixB);
-            Console.WriteLine(@"Pointwise multiplie matrix with another matrix using method PointwiseMultiply. (result = A.PointwiseMultiply(B))");
+            resultM = (DenseMatrix)matrixA.PointwiseMultiply(matrixB);
+            Console.WriteLine(@"Pointwise multiplies matrix with another matrix using method PointwiseMultiply. (result = A.PointwiseMultiply(B))");
             Console.WriteLine(resultM.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 2. Using PointwiseMultiply method and updating matrix itself
             matrixA.PointwiseMultiply(matrixB, matrixA);
-            Console.WriteLine(@"Pointwise multiplie matrix with another matrix using method PointwiseMultiply. (A.PointwiseMultiply(B, A))");
+            Console.WriteLine(@"Pointwise multiplies matrix with another matrix using method PointwiseMultiply. (A.PointwiseMultiply(B, A))");
             Console.WriteLine(matrixA.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // Pointwise divide matrix with another matrix
             // 1. Using PointwiseDivide method and getting result into different matrix instance
-            resultM = matrixA.PointwiseDivide(matrixB);
+            resultM = (DenseMatrix)matrixA.PointwiseDivide(matrixB);
             Console.WriteLine(@"Pointwise divide matrix with another matrix using method PointwiseDivide. (result = A.PointwiseDivide(B))");
             Console.WriteLine(resultM.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -199,7 +199,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine();
 
             // 2. Using Add method and getting result into different matrix instance
-            resultM = matrixA.Add(matrixB);
+            resultM = (DenseMatrix)matrixA.Add(matrixB);
             Console.WriteLine(@"Add matrices using method Add. (result = A.Add(B))");
             Console.WriteLine(resultM.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -218,7 +218,7 @@ namespace Examples.LinearAlgebra
             Console.WriteLine();
 
             // 2. Using Subtract method and getting result into different matrix instance
-            resultM = matrixA.Subtract(matrixB);
+            resultM = (DenseMatrix)matrixA.Subtract(matrixB);
             Console.WriteLine(@"Subtract matrices using method Subtract. (result = A.Subtract(B))");
             Console.WriteLine(resultM.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
@@ -231,7 +231,7 @@ namespace Examples.LinearAlgebra
 
             // Divide by scalar
             // 1. Using Divide method and getting result into different matrix instance
-            resultM = matrixA.Divide(3.0);
+            resultM = (DenseMatrix)matrixA.Divide(3.0);
             Console.WriteLine(@"Divide matrix by scalar using method Divide. (result = A.Divide(3.0))");
             Console.WriteLine(resultM.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
