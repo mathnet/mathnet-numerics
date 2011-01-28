@@ -29,14 +29,15 @@
 // </copyright>
 
 using MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double; 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MathNet.Numerics.MklWrapperTests.LinearAlgebra.Double
 {
+    using NUnit.Framework;
+
     /// <summary>
     /// Unit test container for the MKL linear algebra provider.
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class MklLinearAlgebraProviderTests : LinearAlgebraProviderTests
     {
         /// <summary>
