@@ -59,7 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\out\debug\Net40\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\lib\NUnit.2.5.9\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -75,10 +77,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\MSUnitTests\AssertHelpers.cs">
+    <Compile Include="..\..\..\UnitTests\AssertHelpers.cs">
       <Link>AssertHelpers.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\MSUnitTests\LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
+    <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
       <Link>LinearAlgebra\Double\LinearAlgebraProviderTests.cs</Link>
     </Compile>
     <Compile Include="..\MKLWrapper32Tests\LinearAlgebra\Double\MklLinearAlgebraProviderTests.cs">
@@ -106,11 +108,9 @@
   <ItemGroup>
     <Content Include="..\x64\Debug\libiomp5md.dll">
       <Link>libiomp5md.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\x64\Debug\MathNET.Numerics.MKL.dll">
       <Link>MathNET.Numerics.MKL.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

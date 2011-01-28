@@ -83,7 +83,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Common;..\..\MKL;C:\Program Files\Intel\MKL\10.2.6.037\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\MKL;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -95,12 +95,12 @@
     <Link>
       <AdditionalDependencies>mkl_intel_c.lib;mkl_intel_thread.lib;mkl_core.lib;libiomp5md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)MathNET.Numerics.MKL.dll</OutputFile>
-      <AdditionalLibraryDirectories>C:\Program Files\Intel\MKL\10.2.6.037\ia32\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\lib\ia32;C:\Program Files (x86)\Intel\ComposerXE-2011\compiler\lib\ia32;</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\Program Files\Intel\MKL\10.2.6.037\ia32\bin\libiomp5md.dll" $(OutDir)</Command>
+      <Command>copy "C:\Program Files (x86)\Intel\ComposerXE-2011\redist\ia32\compiler\libiomp5md.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -109,7 +109,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Common;..\..\MKL;C:\Program Files\Intel\MKL\10.2.6.037\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\MKL;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -121,19 +121,19 @@
     <Link>
       <AdditionalDependencies>mkl_intel_lp64.lib;mkl_intel_thread.lib;mkl_core.lib;libiomp5md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)MathNET.Numerics.MKL.dll</OutputFile>
-      <AdditionalLibraryDirectories>C:\Program Files\Intel\MKL\10.2.6.037\em64t\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\lib\intel64;C:\Program Files (x86)\Intel\ComposerXE-2011\compiler\lib\intel64</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\Program Files\Intel\MKL\10.2.6.037\em64t\bin\libiomp5md.dll" $(OutDir)</Command>
+      <Command>copy "C:\Program Files (x86)\Intel\ComposerXE-2011\redist\intel64\compiler\libiomp5md.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\Common;..\..\MKL;C:\Program Files\Intel\MKL\10.2.6.037\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\MKL;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -144,14 +144,14 @@
     <Link>
       <AdditionalDependencies>mkl_intel_c.lib;mkl_intel_thread.lib;mkl_core.lib;libiomp5md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)MathNET.Numerics.MKL.dll</OutputFile>
-      <AdditionalLibraryDirectories>C:\Program Files\Intel\MKL\10.2.6.037\ia32\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\lib\ia32;C:\Program Files (x86)\Intel\ComposerXE-2011\compiler\lib\ia32;</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\Program Files\Intel\MKL\10.2.6.037\ia32\bin\libiomp5md.dll" $(OutDir)</Command>
+      <Command>copy "C:\Program Files (x86)\Intel\ComposerXE-2011\redist\ia32\compiler\libiomp5md.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -161,7 +161,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\Common;..\..\MKL;C:\Program Files\Intel\MKL\10.2.6.037\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\MKL;C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -172,14 +172,14 @@
     <Link>
       <AdditionalDependencies>mkl_intel_lp64.lib;mkl_intel_thread.lib;mkl_core.lib;libiomp5md.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)MathNET.Numerics.MKL.dll</OutputFile>
-      <AdditionalLibraryDirectories>C:\Program Files\Intel\MKL\10.2.6.037\em64t\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Intel\ComposerXE-2011\mkl\lib\intel64;C:\Program Files (x86)\Intel\ComposerXE-2011\compiler\lib\intel64</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "C:\Program Files\Intel\MKL\10.2.6.037\em64t\bin\libiomp5md.dll" $(OutDir)</Command>
+      <Command>copy "C:\Program Files (x86)\Intel\ComposerXE-2011\redist\intel64\compiler\libiomp5md.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

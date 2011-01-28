@@ -59,7 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\out\lib\Net40\MathNet.Numerics.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\lib\NUnit.2.5.9\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -75,10 +77,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\MSUnitTests\AssertHelpers.cs">
+    <Compile Include="..\..\..\UnitTests\AssertHelpers.cs">
       <Link>AssertHelpers.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\MSUnitTests\LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
+    <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
       <Link>LinearAlgebra\Double\LinearAlgebraProviderTests.cs</Link>
     </Compile>
     <Compile Include="LinearAlgebra\Double\MklLinearAlgebraProviderTests.cs" />
