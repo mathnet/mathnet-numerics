@@ -1,4 +1,4 @@
-Math.NET Numerics
+ï»¿Math.NET Numerics
 =================
 
 Math.NET Numerics is an opensource numerical library for the .Net Framework and Mono.
@@ -26,7 +26,7 @@ Team & Contributors
 
 * [Marcus Cuda](http://www.cuda.net/): @cuda
 * [Jurgen Van Gael](http://mlg.eng.cam.ac.uk/jurgen/): @jvangael
-* [Christoph Rüegg](http://christoph.ruegg.name/): @cdrnet
+* [Christoph RÃ¼egg](http://christoph.ruegg.name/): @cdrnet
 
 Other dnAnalytics Contributors:
 
@@ -34,7 +34,7 @@ Other dnAnalytics Contributors:
 
 Other Math.NET Iridium Contributors:
 
-* [Joannès Vermorel](http://www.vermorel.com/)
+* [JoannÃ¨s Vermorel](http://www.vermorel.com/)
 * Matthew Kitchin
 * Rana Ian
 * Andrew Kurochka
