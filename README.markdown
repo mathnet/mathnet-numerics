@@ -1,13 +1,13 @@
 ﻿Math.NET Numerics
 =================
 
-Math.NET Numerics is an opensource numerical library for the .Net Framework and Mono.
+Math.NET Numerics is an opensource **numerical library for .Net, Silverlight and Mono**.
 
 Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Covered topics include special functions, linear algebra, probability models, random numbers, interpolation, integral transforms and more.
 
-Math.NET Numerics is thr result of merging [dnAnalytics](http://dnanalytics.codeplex.com/) with [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx) and is intended to replace both. It targets Microsoft .Net 4.0, Silverlight 4 and Mono, and in addition to purely managed implementations will also support native hardware optimization.
+Math.NET Numerics is the result of merging [dnAnalytics](http://dnanalytics.codeplex.com/) with [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx) and is intended to replace both. It targets Microsoft .Net 4.0, Silverlight 4 and Mono, and in addition to purely managed implementations will also support native hardware optimization (MKL, ATLAS).
 
-Math.NET Numerics is covered under the terms of the [MIT/X11](http://mathnetnumerics.codeplex.com/license). You may therefore link to it and use it in both opensource and proprietary software projects. See also COPYRIGHT.markdown.
+Math.NET Numerics is covered under the terms of the [MIT/X11](http://mathnetnumerics.codeplex.com/license) license. You may therefore link to it and use it in both opensource and proprietary software projects. See also the COPYRIGHT file in the root folder.
 
 Quick Links
 -----------
@@ -24,9 +24,9 @@ Quick Links
 Team & Contributors
 -------------------
 
-* [Marcus Cuda](http://www.cuda.net/): @cuda
-* [Jurgen Van Gael](http://mlg.eng.cam.ac.uk/jurgen/): @jvangael
-* [Christoph Rüegg](http://christoph.ruegg.name/): @cdrnet
+* [Marcus Cuda](http://www.cuda.net/) @cuda
+* [Jurgen Van Gael](http://mlg.eng.cam.ac.uk/jurgen/) @jvangael
+* [Christoph Rüegg](http://christoph.ruegg.name/) @cdrnet
 
 Other dnAnalytics Contributors:
 
@@ -52,5 +52,4 @@ Cephes Math Library Contributors:
 
 * Stephen L. Moshier
 
-See also AUTHORS.markdown
-
+See also the AUTHORS file in the root folder.
