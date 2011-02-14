@@ -55,9 +55,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics, Version=2010.11.21.836, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
+    <Reference Include="MathNet.Numerics, Version=2011.2.14.770, Culture=neutral, PublicKeyToken=cd8b63ad3d691a37, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\out\lib\Net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\..\..\..\out\debug\Net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\..\lib\NUnit.2.5.9\nunit.framework.dll</HintPath>

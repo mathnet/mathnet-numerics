@@ -103,7 +103,7 @@
             SafeNativeMethods.<#=prefix#>_vector_multiply(x.Length, x, y, result);
         }
 
-                /// <summary>
+        /// <summary>
         /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
         /// to divide elements of vectors or matrices.
         /// </summary>
