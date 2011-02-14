@@ -182,6 +182,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         }
 
         /// <summary>
+        /// Can pointwise divide two arrays.
+        /// </summary>
+        [Test]
+        public void CanPointWiseDivideArrays()
+        {
+            var result = new double[_y.Length];
+            Provider.PointWiseDivideArrays(_x, _y, result);
+            for (var i = 0; i < result.Length; i++)
+            {
+                Assert.AreEqual(_x[i] / _y[i], result[i]);
+            }
+        }
+
+        
+        /// <summary>
         /// Can compute L1 norm.
         /// </summary>
         [Test]

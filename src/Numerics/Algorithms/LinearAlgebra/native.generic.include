@@ -23,14 +23,15 @@
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
+			if (!ReferenceEquals(y, result))
+			{
+				Array.Copy(y, 0, result, 0, y.Length);
+			}
+
             if (alpha == <#=zero#>)
             {
                 return;
             }
-
-			if (!ReferenceEquals(y, result)){
-				Array.Copy(y, 0, result, 0, y.Length * 8);
-			}
 
             SafeNativeMethods.<#=prefix#>_axpy(y.Length, <#=reff#>alpha, x, result);
         }
@@ -49,14 +50,15 @@
                 throw new ArgumentNullException("x");
             } 
             
+			if (!ReferenceEquals(x, result))
+			{
+				Array.Copy(x, 0, result, 0, x.Length);
+			}
+
             if (alpha == <#=one#>)
             {
                 return;
             }
-
-			if (!ReferenceEquals(x, result)){
-				Array.Copy(x, 0, result, 0, x.Length * 8);
-			}
 
             SafeNativeMethods.<#=prefix#>_scale(x.Length, <#=reff#>alpha, result);
         }
