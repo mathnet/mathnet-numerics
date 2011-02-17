@@ -126,7 +126,43 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void s_lu_inverse(int n, float a[], int ipiv[], float work[], int lwork)
+    DLLEXPORT void s_lu_inverse(int n, float a[], float work[], int lwork)
+    {
+        int* ipiv = new int[n];
+        int info;
+        SGETRF(&n,&n,a,&n,ipiv,&info);
+        SGETRI(&n,a,&n,ipiv,work,&lwork,&info);
+		delete[] ipiv;
+    }
+
+    DLLEXPORT void d_lu_inverse(int n, double a[], double work[], int lwork)
+    {
+        int* ipiv = new int[n];
+        int info;
+        DGETRF(&n,&n,a,&n,ipiv,&info);
+        DGETRI(&n,a,&n,ipiv,work,&lwork,&info);
+		delete[] ipiv;
+    }
+
+    DLLEXPORT void c_lu_inverse(int n, MKL_Complex8 a[], MKL_Complex8 work[], int lwork)
+    {
+        int* ipiv = new int[n];
+        int info;
+        CGETRF(&n,&n,a,&n,ipiv,&info);
+        CGETRI(&n,a,&n,ipiv,work,&lwork,&info);
+		delete[] ipiv;
+    }
+
+    DLLEXPORT void z_lu_inverse(int n, MKL_Complex16 a[], MKL_Complex16 work[], int lwork)
+    {
+        int* ipiv = new int[n];
+        int info;
+        ZGETRF(&n,&n,a,&n,ipiv,&info);
+        ZGETRI(&n,a,&n,ipiv,work,&lwork,&info);
+		delete[] ipiv;
+    }
+
+	DLLEXPORT void s_lu_inverse_factored(int n, float a[], int ipiv[], float work[], int lwork)
     {
         int i;
         for(i = 0; i < n; ++i ){
@@ -140,7 +176,7 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void d_lu_inverse(int n, double a[], int ipiv[], double work[], int lwork)
+    DLLEXPORT void d_lu_inverse_factored(int n, double a[], int ipiv[], double work[], int lwork)
     {
         int i;
         for(i = 0; i < n; ++i ){
@@ -155,7 +191,7 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void c_lu_inverse(int n, MKL_Complex8 a[], int ipiv[], MKL_Complex8 work[], int lwork)
+    DLLEXPORT void c_lu_inverse_factored(int n, MKL_Complex8 a[], int ipiv[], MKL_Complex8 work[], int lwork)
     {
         int i;
         for(i = 0; i < n; ++i ){
@@ -170,7 +206,7 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void z_lu_inverse(int n, MKL_Complex16 a[], int ipiv[], MKL_Complex16 work[], int lwork)
+    DLLEXPORT void z_lu_inverse_factored(int n, MKL_Complex16 a[], int ipiv[], MKL_Complex16 work[], int lwork)
     {
         int i;
         for(i = 0; i < n; ++i ){

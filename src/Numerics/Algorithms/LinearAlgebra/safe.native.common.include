@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
-// Copyright (c) 2009 Math.NET
+// Copyright (c) 2009-2010 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -137,4 +137,28 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_lu_factor(int n, [In, Out] Complex[] a, [In, Out] int[] ipiv);
 
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_lu_inverse(int n, [In, Out] float[] a, [In, Out] float[] work, int lwork);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_lu_inverse(int n, [In, Out] double[] a, [In, Out] double[] work, int lwork);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_lu_inverse(int n, [In, Out] Complex32[] a, [In, Out] Complex32[] work, int lwork);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_lu_inverse(int n, [In, Out] Complex[] a, [In, Out] Complex[] work, int lwork);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_lu_inverse_factored(int n, [In, Out] float[] a, [In, Out] int[] ipiv, [In, Out] float[] work, int lwork);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_lu_inverse_factored(int n, [In, Out] double[] a, [In, Out] int[] ipiv, [In, Out] double[] work, int lwork);
+    
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_lu_inverse_factored(int n, [In, Out] Complex32[] a, [In, Out] int[] ipiv, [In, Out] Complex32[] work, int lwork);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_lu_inverse_factored(int n, [In, Out] Complex[] a, [In, Out] int[] ipiv, [In, Out] Complex[] work, int lwork);
+        
         #endregion LAPACK

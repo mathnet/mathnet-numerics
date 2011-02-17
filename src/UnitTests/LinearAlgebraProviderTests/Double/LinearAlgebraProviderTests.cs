@@ -194,7 +194,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 Assert.AreEqual(_x[i] / _y[i], result[i]);
             }
         }
-
         
         /// <summary>
         /// Can compute L1 norm.
@@ -444,5 +443,110 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             Assert.AreEqual(ipiv[1], 2);
             Assert.AreEqual(ipiv[2], 2);
         }
+
+        /// <summary>
+        /// Can compute the inverse of a matrix using LU factorization.
+        /// </summary>
+        [Test]
+        public void CanComputeLuInverse()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.RowCount];
+            Array.Copy(matrix.Data, a, a.Length);
+            
+            Provider.LUInverse(a, matrix.RowCount);
+
+            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 14);
+            AssertHelpers.AlmostEqual(a[1],  -0.909090909090908, 14);
+            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 14);
+            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 14);
+            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 14);
+            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 14);
+            AssertHelpers.AlmostEqual(a[6],  -0.113636363636364, 14);
+            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 14);
+            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 14);
+        }
+
+        /// <summary>
+        /// Can compute the inverse of a matrix using LU factorization
+        /// using a previously factored matrix.
+        /// </summary>
+        [Test]
+        public void CanComputeLuInverseOnFactoredMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.RowCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var ipiv = new int[matrix.RowCount];
+
+            Provider.LUFactor(a, matrix.RowCount, ipiv);
+            Provider.LUInverseFactored(a, matrix.RowCount, ipiv);
+
+            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 14);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 14);
+            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 14);
+            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 14);
+            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 14);
+            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 14);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 14);
+            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 14);
+            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 14);
+        }
+
+        /// <summary>
+        /// Can compute the inverse of a matrix using LU factorization
+        /// with a work array.
+        /// </summary>
+        [Test]
+        public void CanComputeLuInverseWithWorkArray()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.RowCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var work = new double[matrix.RowCount];
+            Provider.LUInverse(a, matrix.RowCount, work);
+
+            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 14);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 14);
+            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 14);
+            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 14);
+            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 14);
+            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 14);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 14);
+            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 14);
+            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 14);
+        }
+
+        /// <summary>
+        /// Can compute the inverse of a matrix using LU factorization
+        /// using a previously factored matrix with a work array.
+        /// </summary>
+        [Test]
+        public void CanComputeLuInverseOnFactoredMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.RowCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var ipiv = new int[matrix.RowCount];
+
+            Provider.LUFactor(a, matrix.RowCount, ipiv);
+
+            var work = new double[matrix.RowCount];
+            Provider.LUInverseFactored(a, matrix.RowCount, ipiv, work);
+
+            AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 14);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 14);
+            AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 14);
+            AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 14);
+            AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 14);
+            AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 14);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 14);
+            AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 14);
+            AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 14);
+        }
+
     }
 }

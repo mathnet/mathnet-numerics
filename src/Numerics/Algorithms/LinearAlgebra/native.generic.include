@@ -23,10 +23,10 @@
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-			if (!ReferenceEquals(y, result))
-			{
-				Array.Copy(y, 0, result, 0, y.Length);
-			}
+            if (!ReferenceEquals(y, result))
+            {
+                Array.Copy(y, 0, result, 0, y.Length);
+            }
 
             if (alpha == <#=zero#>)
             {
@@ -50,10 +50,10 @@
                 throw new ArgumentNullException("x");
             } 
             
-			if (!ReferenceEquals(x, result))
-			{
-				Array.Copy(x, 0, result, 0, x.Length);
-			}
+            if (!ReferenceEquals(x, result))
+            {
+                Array.Copy(x, 0, result, 0, x.Length);
+            }
 
             if (alpha == <#=one#>)
             {
@@ -197,7 +197,18 @@
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         public override void LUInverse(<#=dataType#>[] a, int order)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            var work = new <#=dataType#>[order];
+            SafeNativeMethods.<#=prefix#>_lu_inverse(order, a, work, order);        
         }
 
         /// <summary>
@@ -209,7 +220,28 @@
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         public override void LUInverseFactored(<#=dataType#>[] a, int order, int[] ipiv)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            var work = new <#=dataType#>[order];
+            SafeNativeMethods.<#=prefix#>_lu_inverse_factored(order, a, ipiv, work, order);        
         }
 
         /// <summary>
@@ -223,7 +255,27 @@
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         public override void LUInverse(<#=dataType#>[] a, int order, <#=dataType#>[] work)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("work");
+            }
+
+            if (work.Length < order)
+            {
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            SafeNativeMethods.<#=prefix#>_lu_inverse(order, a, work, work.Length);        
         }
 
         /// <summary>
@@ -238,7 +290,37 @@
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         public override void LUInverseFactored(<#=dataType#>[] a, int order, int[] ipiv, <#=dataType#>[] work)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("work");
+            }
+
+            if (work.Length < order)
+            {
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            SafeNativeMethods.<#=prefix#>_lu_inverse_factored(order, a, ipiv, work, order);        
         }
 
         /// <summary>
