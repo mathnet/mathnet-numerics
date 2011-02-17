@@ -79,7 +79,10 @@ Matlab
 &amp;lt
 &amp;gt
 Wikipedia
-kronecker</UserWords>
+kronecker
+blocksize
+ipiv
+dll</UserWords>
             </CustomDictionary>
           </Dictionaries>
         </CustomDictionaries>
