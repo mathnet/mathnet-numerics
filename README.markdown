@@ -27,6 +27,7 @@ Team & Contributors
 * [Marcus Cuda](http://www.cuda.net/) @cuda
 * [Jurgen Van Gael](http://mlg.eng.cam.ac.uk/jurgen/) @jvangael
 * [Christoph Rüegg](http://christoph.ruegg.name/) @cdrnet
+* Andriy Bratiychuk
 
 Other dnAnalytics Contributors:
 
