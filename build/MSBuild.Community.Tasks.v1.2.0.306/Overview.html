@@ -1,0 +1,504 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Language" content="en-us" />
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <title>MSBuild Community Tasks Project</title>
+    <style type="text/css">
+body, input, select {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+
+code, pre {
+	font-family: 'Andale Mono', Courier, monospace;
+}
+
+body, pre, code {
+	font-size: 10pt;
+}
+</style>
+</head>
+<body>
+    <h2>
+        The MSBuild Community Tasks Project</h2>
+    <h3>
+        Mission</h3>
+    <p>
+        The MSBuild Community Tasks Project is an open source project for MSBuild tasks.
+        The goal of the project is to provide a collection of open source tasks for MSBuild.
+    </p>
+    <h3>
+        Join Project</h3>
+    <p>
+        Please join the MSBuild Community Tasks Project and help contribute in building
+        the tasks.&nbsp;
+    </p>
+    <p>
+        <a href="http://msbuildtasks.tigris.org/">http://msbuildtasks.tigris.org/</a></p>
+    <h3>
+        Current Community Tasks</h3>
+    <table border="0" cellpadding="3" cellspacing="0" width="90%" id="tasksTable">
+        <tr>
+            <th align="left" width="190">
+                Task</th>
+            <th align="left">
+                Description</th>
+        </tr>
+        <tr>
+            <td>
+                AppPoolController</td>
+            <td>
+                Allows control for an application pool on a local or remote machine with IIS installed.</td>
+        </tr>
+        <tr>
+            <td>
+                AppPoolCreate</td>
+            <td>
+                Creates a new application pool on a local or remote machine.</td>
+        </tr>
+        <tr>
+            <td>
+                AppPoolDelete</td>
+            <td>
+                Deletes an existing application pool on a local or remote machine.</td>
+        </tr>
+        <tr>
+            <td>
+                AssemblyInfo</td>
+            <td>
+                Generates an AssemblyInfo file using the attributes given.</td>
+        </tr>
+        <tr>
+            <td>
+                Attrib</td>
+            <td>
+                Changes the attributes of files and/or directories</td>
+		</tr>
+		<tr>
+			<td>ExecuteDDL</td>
+			<td>Executes SqlServer batch scripts.</td>
+		</tr>
+		<tr>
+            <td>
+                FileUpdate</td>
+            <td>
+                Replace text in file(s) using a Regular Expression.</td>
+        </tr>
+        <tr>
+            <td>
+                FtpUpload</td>
+            <td>
+                Uploads a file using File Transfer Protocol (FTP).</td>
+        </tr>
+        <tr>
+            <td>
+                FxCop</td>
+            <td>
+                Uses FxCop to analyze managed code assemblies and reports on their design best-practice
+                compliance.</td>
+        </tr>
+        <tr>
+            <td>
+                GetSolutionProjects</td>
+            <td>
+                Returns a list of projects within a solution</td>
+        </tr>
+        <tr>
+            <td>
+                InstallAspNet</td>
+            <td>
+                Installs and register script mappings for ASP.NET</td>
+        </tr>
+        <tr>
+            <td>
+                InstallAssembly</td>
+            <td>
+                Uses InstallUtil.exe to execute the Install method on Installer classes within assemblies.</td>
+        </tr>
+        <tr>
+            <td>
+                JSCompress</td>
+            <td>
+                Compresses JavaScript source files by removing comments and unnecessary whitespace,
+                which typically reduces the size by half and results in faster downloads 
+                and code that is harder to read.</td>
+        </tr>
+        <tr>
+            <td>
+                Mail</td>
+            <td>
+                Sends an email message.</td>
+        </tr>
+        <tr>
+            <td>
+                Math.Add</td>
+            <td>
+                Add numbers.</td>
+        </tr>
+        <tr>
+            <td>
+                Math.Divide</td>
+            <td>
+                Divide numbers.</td>
+        </tr>
+        <tr>
+            <td>
+                Math.Modulo</td>
+            <td>
+                Performs the modulo operation on numbers.</td>
+        </tr>
+        <tr>
+            <td>
+                Math.Multiple</td>
+            <td>
+                Multiple numbers.</td>
+        </tr>
+        <tr>
+            <td>
+                Math.Subtract</td>
+            <td>
+                Subtract numbers.</td>
+        </tr>
+        <tr>
+            <td>
+                Move</td>
+            <td>
+                Moves files on the filesystem to a new location.</td>
+        </tr>
+        <tr>
+            <td>
+                NDoc</td>
+            <td>
+                Runs NDoc to create documentation.</td>
+        </tr>
+        <tr>
+            <td>
+                NUnit</td>
+            <td>
+                Runs tests using the NUnit.</td>
+        </tr>
+        <tr>
+            <td>
+                Prompt</td>
+            <td>
+                Displays a message on the console and waits for user input.</td>
+        </tr>
+        <tr>
+            <td>
+                RegexMatch</td>
+            <td>
+                Filters an item group with a regular expression</td>
+        </tr>
+        <tr>
+            <td>
+                RegexReplace</td>
+            <td>
+                Replaces strings within items from an item group with a regular expression</td>
+        </tr>
+        <tr>
+            <td>
+                RegistryRead</td>
+            <td>
+                Reads a value from the Registry.</td>
+        </tr>
+        <tr>
+            <td>
+                RegistryWrite</td>
+            <td>
+                Writes a value to the Registry.</td>
+        </tr>
+        <tr>
+            <td>
+                Script</td>
+            <td>
+                Executes code contained within the task.</td>
+        </tr>
+        <tr>
+            <td>
+                ServiceController</td>
+            <td>
+                Task that can control a Windows service.</td>
+        </tr>
+        <tr>
+            <td>
+                ServiceQuery</td>
+            <td>
+                Task that can determine the status of a service.</td>
+        </tr>
+        <tr>
+            <td>
+                Sleep</td>
+            <td>
+                A task for sleeping for a specified period of time.</td>
+        </tr>
+        <tr>
+            <td>
+                SqlExecute</td>
+            <td>
+                Executes a SQL command</td>
+        </tr>
+        <tr>
+            <td>
+                SvnCheckout</td>
+            <td>
+                Checkout files from Subversion</td>
+        </tr>
+        <tr>
+            <td>
+                SvnClient</td>
+            <td>
+                Subversion Client</td>
+        </tr>
+        <tr>
+            <td>
+                SvnCommit</td>
+            <td>
+                Commit files to Subversion</td>
+        </tr>
+        <tr>
+            <td>
+                SvnCopy</td>
+            <td>
+                Copies a file or path within Subversion</td>
+        </tr>
+        <tr>
+            <td>
+                SvnExport</td>
+            <td>
+                Export files from Subversion</td>
+        </tr>
+        <tr>
+            <td>
+                SvnInfo</td>
+            <td>
+                Get Subversion information for a file or directory.</td>
+        </tr>
+        <tr>
+            <td>
+                SvnUpdate</td>
+            <td>
+                Update files from Subversion</td>
+        </tr>
+        <tr>
+            <td>
+                SvnVersion</td>
+            <td>
+                Get Subversion revision number of a local copy</td>
+        </tr>
+        <tr>
+            <td>
+                TaskSchema</td>
+            <td>
+                Generates a XSD schema of the MSBuild tasks in an assembly.</td>
+        </tr>
+		<tr>
+			<td>TemplateFile</td>
+			<td>Replaces tokens in a file.</td>
+		</tr>
+
+        <tr>
+            <td>
+                TfsVersion</td>
+            <td>
+                Determines the changeset in a local Team Foundation Server workspace (In progress)</td>
+        </tr>
+		
+        <tr>
+            <td>
+                Time</td>
+            <td>
+                Gets the current date and time.</td>
+        </tr>
+        <tr>
+            <td>
+                UninstallAssembly</td>
+            <td>
+                Uses InstallUtil.exe to execute the Uninstall method on Installer classes within assemblies.</td>
+        </tr>
+        <tr>
+            <td>
+                Unzip</td>
+            <td>
+                Unzip a file to a target directory.</td>
+        </tr>
+        <tr>
+            <td>
+                Version</td>
+            <td>
+                Generates version information based on various algorithms</td>
+        </tr>
+        <tr>
+            <td>
+                VssAdd</td>
+            <td>
+                Adds files to a Visual SourceSafe database.</td>
+        </tr>
+        <tr>
+            <td>
+                VssCheckin</td>
+            <td>
+                Checks in files to a Visual SourceSafe database.</td>
+        </tr>
+        <tr>
+            <td>
+                VssCheckout</td>
+            <td>
+                Checks out files from a Visual SourceSafe database.</td>
+        </tr>
+        <tr>
+            <td>
+                VssClean</td>
+            <td>
+                Removes Visual SourceSafe binding information and status files from a Visual Studio
+                solution tree.</td>
+        </tr>
+        <tr>
+            <td>
+                VssDiff</td>
+            <td>
+                Generates a diff between two versions of an item in a Visual SourceSafe database.</td>
+        </tr>
+        <tr>
+            <td>
+                VssGet</td>
+            <td>
+                Gets the latest version of a file or project from a Visual SourceSafe database.</td>
+        </tr>
+        <tr>
+            <td>
+                VssHistory</td>
+            <td>
+                Generates an XML file containing the history of an item in a Visual SourceSafe database
+                between two dates or labels.</td>
+        </tr>
+        <tr>
+            <td>
+                VssLabel</td>
+            <td>
+                Labels an item in a Visual SourceSafe database.</td>
+        </tr>
+        <tr>
+            <td>
+                VssUndoCheckout</td>
+            <td>
+                Cancels a checkout of an item from a Visual SourceSafe database.</td>
+        </tr>
+        <tr>
+            <td>
+                WebDirectoryCreate</td>
+            <td>
+                Creates a new web directory on a local or remote machine.</td>
+        </tr>
+        <tr>
+            <td>
+                WebDirectoryDelete</td>
+            <td>
+                Deletes a web directory on a local or remote machine</td>
+        </tr>
+        <tr>
+            <td>
+                WebDirectoryScriptMap</td>
+            <td>
+                Sets an application mapping for a filename extension on an existing web directory.</td>
+        </tr>
+        <tr>
+            <td>
+                WebDirectorySetting</td>
+            <td>
+                Reads or modifies a configuration setting on an existing web directory</td>
+        </tr>
+        <tr>
+            <td>
+                WebDownload</td>
+            <td>
+                Downloads a resource with the specified URI to a local file.</td>
+        </tr>
+        <tr>
+            <td>
+                Xml.XmlMassUpdate</td>
+            <td>
+                Performs multiple updates on an XML file</td>
+        </tr>
+        <tr>
+            <td>
+                Xml.XmlQuery</td>
+            <td>
+                Reads a value or values from lines of XML</td>
+        </tr>
+        <tr>
+            <td>
+                XmlRead</td>
+            <td>
+                Reads a value from a XML document using a XPath.</td>
+        </tr>
+        <tr>
+            <td>
+                XmlWrite</td>
+            <td>
+                Updates a XML document using a XPath.</td>
+        </tr>
+        <tr>
+            <td>
+                Xslt</td>
+            <td>
+                Merge and transform a set of xml files.</td>
+        </tr>
+        <tr>
+            <td>
+                Zip</td>
+            <td>
+                Create a zip file with the files specified.
+            </td>
+        </tr>
+    </table>
+    <h3>
+        Getting Started</h3>
+    <p>
+        In order to use the tasks in this project, you need to import the MSBuild.Community.Tasks.Targets
+        files. If you installed the project with the msi installer, you can use the
+        following.<br />
+        <span style="font-size: 10pt; color: blue; font-family: 'Courier New'"></span></p>
+    <p>
+        <span style="font-size: 10pt; color: blue; font-family: 'Courier New'">&lt;</span><span
+            style="font-size: 10pt; color: maroon; font-family: 'Courier New'">Import</span><span
+                style="font-size: 10pt; color: blue; font-family: 'Courier New'"> </span>
+        <span style="font-size: 10pt; color: red; font-family: 'Courier New'">Project</span><span
+            style="font-size: 10pt; color: blue; font-family: 'Courier New'">=</span><span style="font-size: 10pt;
+                font-family: 'Courier New'">"<span style="color: blue">$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets</span>"<span
+                    style="color: blue">/&gt;</span></span></p><h3>
+        Related resources</h3>
+    <ul>
+        <li>MSBuild Community Tasks - <a href="http://msbuildtasks.tigris.org/">http://msbuildtasks.tigris.org/</a></li>
+        <li>MSBuild Tasks - <a href="http://msbuildtasks.com/default.aspx">http://msbuildtasks.com/default.aspx</a></li>
+        <li>MSBuild Team Blog - <a href="http://blogs.msdn.com/msbuild/default.aspx">http://blogs.msdn.com/msbuild/default.aspx</a></li>
+        <li>MSBuild Reference - <a href="http://msdn2.microsoft.com/en-us/library/0k6kkbsd.aspx">
+            http://msdn2.microsoft.com/en-us/library/0k6kkbsd.aspx</a></li>
+    </ul>
+    <h3>
+        License</h3>
+    <pre>Copyright © 2005-2007 Paul Welter. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR &quot;AS IS&quot; AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</pre>
+</body>
+</html>

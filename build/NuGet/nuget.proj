@@ -1,0 +1,42 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildPackages" ToolsVersion="4.0">
+	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)/../MSBuild.Community.Tasks.v1.2.0.306/MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
+	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)/../MSBuild.ExtensionPack.4.0.2.0/MSBuild.ExtensionPack.dll" TaskName="MSBuild.ExtensionPack.FileSystem.RoboCopy" />
+
+	<PropertyGroup>
+		<OutLib>$(MSBuildProjectDirectory)/../../out/lib</OutLib>
+		<OutNuGetPackages>$(MSBuildProjectDirectory)/../../out/packages/NuGet</OutNuGetPackages>
+		<NumericsPack>$(MSBuildProjectDirectory)/Numerics</NumericsPack>
+		<NuGetExe>$(MSBuildProjectDirectory)/../../tools/NuGet-1.2/NuGet.exe</NuGetExe>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<NumericsNet40 Include="
+			$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.xml" />
+		<NumericsSL4 Include="
+			$(OutLib)/SL4/MathNet.Numerics.dll;$(OutLib)/SL4/MathNet.Numerics.pdb;$(OutLib)/SL4/MathNet.Numerics.xml;" />
+	</ItemGroup>
+	
+	<Target Name="CopyContentFiles">
+		<RemoveDir Directories="$(NumericsPack)/lib" />
+		<Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/Net40" />
+		<Copy SourceFiles="@(NumericsSL4)" DestinationFolder="$(NumericsPack)/lib/SL4" />
+		<!-- <RoboCopy Source="$(MSBuildProjectDirectory)/../../out/lib/" Destination="$(MSBuildProjectDirectory)/Numerics/lib" Files="*.*" Options="/MIR" /> -->
+	</Target>
+
+	<Target Name="UpdateNuspec" DependsOnTargets="CopyContentFiles">
+		<GetAssemblyIdentity AssemblyFiles="$(NumericsPack)/lib/Net40/MathNet.Numerics.dll">
+			<Output TaskParameter="Assemblies" ItemName="MathNetNumericsAssemblyInfo"/>
+		</GetAssemblyIdentity>
+		<XmlUpdate
+			Prefix="n"
+			Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
+			XmlFileName="$(NumericsPack)/MathNet.Numerics.nuspec"
+			XPath="//package/n:metadata/n:version"
+			Value="%(MathNetNumericsAssemblyInfo.Version)"/>
+	</Target>
+
+	<Target Name="BuildPackages" DependsOnTargets="UpdateNuspec">
+		<Exec Command="$(NuGetExe) pack $(NumericsPack)/MathNet.Numerics.nuspec /v /o $(OutNuGetPackages)" />
+	</Target>
+
+</Project>
