@@ -11,6 +11,7 @@ GOTO prepare
 :prepare
 "%common%\Microsoft Shared\TextTemplating\10.0\texttransform.exe" -out ..\..\src\Numerics\Version.cs -P "%ProgramFiles%\Reference Assemblies\Microsoft\Framework\v3.5" ..\..\src\Numerics\Version.tt
 "%common%\Microsoft Shared\TextTemplating\10.0\texttransform.exe" -out ..\..\src\Silverlight\Version.cs -P "%ProgramFiles%\Reference Assemblies\Microsoft\Framework\v3.5" ..\..\src\Silverlight\Version.tt
+"%common%\Microsoft Shared\TextTemplating\10.0\texttransform.exe" -out ..\..\src\FSharp\AssemblyInfo.fs -P "%ProgramFiles%\Reference Assemblies\Microsoft\Framework\v3.5" ..\..\src\FSharp\AssemblyInfo.tt
 
 "%common%\Microsoft Shared\TextTemplating\10.0\texttransform.exe" -out ..\..\src\Numerics\Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Common.cs -P "%ProgramFiles%\Reference Assemblies\Microsoft\Framework\v3.5" ..\..\src\Numerics\Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Common.tt
 "%common%\Microsoft Shared\TextTemplating\10.0\texttransform.exe" -out ..\..\src\Numerics\Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.cs -P "%ProgramFiles%\Reference Assemblies\Microsoft\Framework\v3.5" ..\..\src\Numerics\Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.tt
