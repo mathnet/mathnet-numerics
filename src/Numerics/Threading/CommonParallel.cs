@@ -327,11 +327,17 @@ namespace MathNet.Numerics.Threading
         /// Executes each of the provided actions inside a discrete, asynchronous task. 
         /// </summary>
         /// <param name="actions">An array of actions to execute.</param>
-        /// <exception cref="ArgumentException">The actions array contains a null element.</exception>
+        /// <exception cref="ArgumentException">The actions array contains a <c>null</c> element.</exception>
         /// <exception cref="AggregateException">An action threw an exception.</exception>
         public static void Invoke(params Action[] actions)
         {
-            Parallel.Invoke(actions);        
+            var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
+            Parallel.Invoke(
+                new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = maxThreads
+                },
+                actions);
         }
 
         /// <summary>
@@ -361,9 +367,10 @@ namespace MathNet.Numerics.Threading
                     }
                 });
 #else
+            var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(fromInclusive, toExclusive),
-                new ParallelOptions { MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads },
+                new ParallelOptions { MaxDegreeOfParallelism = maxThreads },
                 () => 0.0, 
                 (range, loop, localData) =>
                 {
@@ -413,9 +420,10 @@ namespace MathNet.Numerics.Threading
                     }
                 });
 #else
+            var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
             Parallel.ForEach(
                 Partitioner.Create(fromInclusive, toExclusive),
-                new ParallelOptions { MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads },
+                new ParallelOptions { MaxDegreeOfParallelism = maxThreads },
                 () => 0.0f,
                 (range, loop, localData) =>
                 {
