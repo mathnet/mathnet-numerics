@@ -36,6 +36,7 @@
 	</Target>
 
 	<Target Name="BuildPackages" DependsOnTargets="UpdateNuspec">
+		<MakeDir Directories="$(OutNuGetPackages)" />
 		<Exec Command="$(NuGetExe) pack $(NumericsPack)/MathNet.Numerics.nuspec /v /o $(OutNuGetPackages)" />
 	</Target>
 
