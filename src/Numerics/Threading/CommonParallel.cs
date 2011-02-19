@@ -332,12 +332,16 @@ namespace MathNet.Numerics.Threading
         public static void Invoke(params Action[] actions)
         {
             var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
+#if SILVERLIGHT
+            Parallel.Invoke(actions);
+#else
             Parallel.Invoke(
                 new ParallelOptions
                 {
                     MaxDegreeOfParallelism = maxThreads
                 },
                 actions);
+#endif
         }
 
         /// <summary>
