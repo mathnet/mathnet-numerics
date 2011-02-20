@@ -208,5 +208,93 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             Assert.AreEqual(matrix.NonZerosCount, nonzero);
         }
+
+        /// <summary>
+        /// Test whether order matters when adding sparse matrices.
+        /// </summary>
+        [Test]
+        public void CanAddSparseMatricesBothWays()
+        {
+            var m1 = new SparseMatrix(1, 3);
+            var m2 = new SparseMatrix(new double[,] { { 0, 1, 1 } });
+            var sum1 = m1 + m2;
+            var sum2 = m2 + m1;
+            Assert.IsTrue(sum1.Equals(m2));
+            Assert.IsTrue(sum1.Equals(sum2));
+
+            var sparseResult = new SparseMatrix(1, 3);
+            sparseResult.Add(m2, sparseResult);
+            Assert.IsTrue(sparseResult.Equals(sum1));
+
+            sparseResult = new SparseMatrix(new double[,] { { 0, 1, 1 } });
+            sparseResult.Add(m1, sparseResult);
+            Assert.IsTrue(sparseResult.Equals(sum1));
+
+            sparseResult = new SparseMatrix(new double[,] { { 0, 1, 1 } });
+            m1.Add(sparseResult, sparseResult);
+            Assert.IsTrue(sparseResult.Equals(sum1));
+
+            sparseResult = new SparseMatrix(new double[,] { { 0, 1, 1 } });
+            sparseResult.Add(sparseResult, sparseResult);
+            Assert.IsTrue(sparseResult.Equals(2 * sum1));
+            
+            var denseResult = new DenseMatrix(1, 3);
+            denseResult.Add(m2, denseResult);
+            Assert.IsTrue(denseResult.Equals(sum1));
+
+            denseResult = new DenseMatrix(new double[,] { { 0, 1, 1 } });
+            denseResult.Add(m1, denseResult);
+            Assert.IsTrue(denseResult.Equals(sum1));
+
+            var m3 = new DenseMatrix(new double[,] { { 0, 1, 1 } });
+            var sum3 = m1 + m3;
+            var sum4 = m3 + m1;
+            Assert.IsTrue(sum3.Equals(m3));
+            Assert.IsTrue(sum3.Equals(sum4));
+        }
+
+        /// <summary>
+        /// Test whether order matters when subtracting sparse matrices.
+        /// </summary>
+        [Test]
+        public void CanSubtractSparseMatricesBothWays()
+        {
+            var m1 = new SparseMatrix(1, 3);
+            var m2 = new SparseMatrix(new double[,] { { 0, 1, 1 } });
+            var diff1 = m1 - m2;
+            var diff2 = m2 - m1;
+            Assert.IsTrue(diff1.Equals(m2.Negate()));
+            Assert.IsTrue(diff1.Equals(diff2.Negate()));
+
+            var sparseResult = new SparseMatrix(1, 3);
+            sparseResult.Subtract(m2, sparseResult);
+            Assert.IsTrue(sparseResult.Equals(diff1));
+
+            sparseResult = new SparseMatrix(new double[,] { { 0, 1, 1 } });
+            sparseResult.Subtract(m1, sparseResult);
+            Assert.IsTrue(sparseResult.Equals(diff2));
+
+            sparseResult = new SparseMatrix(new double[,] { { 0, 1, 1 } });
+            m1.Subtract(sparseResult, sparseResult);
+            Assert.IsTrue(sparseResult.Equals(diff1));
+
+            sparseResult = new SparseMatrix(new double[,] { { 0, 1, 1 } });
+            sparseResult.Subtract(sparseResult, sparseResult);
+            Assert.IsTrue(sparseResult.Equals(0 * diff1));
+
+            var denseResult = new DenseMatrix(1, 3);
+            denseResult.Subtract(m2, denseResult);
+            Assert.IsTrue(denseResult.Equals(diff1));
+
+            denseResult = new DenseMatrix(new double[,] { { 0, 1, 1 } });
+            denseResult.Subtract(m1, denseResult);
+            Assert.IsTrue(denseResult.Equals(diff2));
+
+            var m3 = new DenseMatrix(new double[,] { { 0, 1, 1 } });
+            var diff3 = m1 - m3;
+            var diff4 = m3 - m1;
+            Assert.IsTrue(diff3.Equals(m3.Negate()));
+            Assert.IsTrue(diff3.Equals(diff4.Negate()));
+        }
     }
 }
