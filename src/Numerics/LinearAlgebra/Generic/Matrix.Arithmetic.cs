@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateMatrix(RowCount, ColumnCount);
-            Add(other, result);
+            DoAdd(other, result);
             return result;
         }
 
@@ -177,7 +177,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateMatrix(RowCount, ColumnCount);
-            Multiply(scalar, result);
+            DoMultiply(scalar, result);
             return result;
         }
 
@@ -238,7 +238,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             }
 
             var result = CreateMatrix(RowCount, ColumnCount);
-            Divide(scalar, result);
+            DoDivide(scalar, result);
             return result;
         }
 
@@ -577,7 +577,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> Negate()
         {
             var result = CreateMatrix(RowCount, ColumnCount);
-            Negate(result);
+            DoNegate(result);
             return result;
         }
 

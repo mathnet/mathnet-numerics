@@ -1163,43 +1163,52 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoAdd(Matrix<double> other, Matrix<double> result)
         {
-            result.Clear();
-
+            var sparseOther = other as SparseMatrix;
             var sparseResult = result as SparseMatrix;
-            if (sparseResult == null)
+            if (sparseOther == null || sparseResult == null)
             {
-                for (var i = 0; i < other.RowCount; i++)
-                {
-                    // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                base.DoAdd(other, result);
+                return;
+            }
 
-                    for (var j = startIndex; j < endIndex; j++)
-                    {
-                        var resVal = _nonZeroValues[j] + other.At(i, _columnIndices[j]);
-                        if (resVal != 0.0)
-                        {
-                            result.At(i, _columnIndices[j], resVal);
-                        }
-                    }
+            if (ReferenceEquals(this, other))
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result);
                 }
+
+                Control.LinearAlgebraProvider.ScaleArray(2.0, _nonZeroValues, _nonZeroValues);
+                return;
+            }
+
+            SparseMatrix left;
+
+            if (ReferenceEquals(sparseOther, sparseResult))
+            {
+                left = this;
+            }
+            else if (ReferenceEquals(this, sparseResult))
+            {
+                left = sparseOther;
             }
             else
             {
-                for (var i = 0; i < other.RowCount; i++)
-                {
-                    // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                CopyTo(sparseResult);
+                left = sparseOther;
+            }
 
-                    for (var j = startIndex; j < endIndex; j++)
-                    {
-                        var resVal = _nonZeroValues[j] + other.At(i, _columnIndices[j]);
-                        if (resVal != 0.0)
-                        {
-                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
-                        }
-                    }
+            for (var i = 0; i < left.RowCount; i++)
+            {
+                // Get the begin / end index for the current row
+                var startIndex = left._rowIndex[i];
+                var endIndex = i < left._rowIndex.Length - 1 ? left._rowIndex[i + 1] : left.NonZerosCount;
+
+                for (var j = startIndex; j < endIndex; j++)
+                {
+                    var columnIndex = left._columnIndices[j];
+                    var resVal = left._nonZeroValues[j] + result.At(i, columnIndex);
+                    result.At(i, columnIndex, resVal);
                 }
             }
         }
@@ -1213,30 +1222,46 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoSubtract(Matrix<double> other, Matrix<double> result)
         {
-            result.Clear();
-
+            var sparseOther = other as SparseMatrix;
             var sparseResult = result as SparseMatrix;
-            if (sparseResult == null)
+            if (sparseOther == null || sparseResult == null)
             {
-                for (var i = 0; i < other.RowCount; i++)
+                base.DoSubtract(other, result);
+                return;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                result.Clear();
+                return;
+            }
+
+            if (ReferenceEquals(this, sparseResult))
+            {
+                for (var i = 0; i < sparseOther.RowCount; i++)
                 {
                     // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                    var startIndex = sparseOther._rowIndex[i];
+                    var endIndex = i < sparseOther._rowIndex.Length - 1 ? sparseOther._rowIndex[i + 1] : sparseOther.NonZerosCount;
 
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        var resVal = _nonZeroValues[j] - other.At(i, _columnIndices[j]);
-                        if (resVal != 0.0)
-                        {
-                            result.At(i, _columnIndices[j], resVal);
-                        }
+                        var columnIndex = sparseOther._columnIndices[j];
+                        var resVal = sparseResult.At(i, columnIndex) - sparseOther._nonZeroValues[j];
+                        result.At(i, columnIndex, resVal);
                     }
                 }
             }
             else
             {
-                for (var i = 0; i < other.RowCount; i++)
+                if (!ReferenceEquals(sparseOther, sparseResult))
+                {
+                    sparseOther.CopyTo(sparseResult);
+                }
+
+                sparseResult.Negate(sparseResult);
+
+                for (var i = 0; i < RowCount; i++)
                 {
                     // Get the begin / end index for the current row
                     var startIndex = _rowIndex[i];
@@ -1244,11 +1269,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        var resVal = _nonZeroValues[j] - other.At(i, _columnIndices[j]);
-                        if (resVal != 0.0)
-                        {
-                            sparseResult.SetValueAt(i, _columnIndices[j], resVal);
-                        }
+                        var columnIndex = _columnIndices[j];
+                        var resVal = sparseResult.At(i, columnIndex) + _nonZeroValues[j];
+                        result.At(i, columnIndex, resVal);
                     }
                 }
             }
