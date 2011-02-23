@@ -733,6 +733,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\data\Codeplex-5667.csv">
+      <Link>data\Codeplex-5667.csv</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\data\Matlab\A.mat">
       <Link>data\Matlab\A.mat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -525,44 +525,50 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The <paramref name="order"/> order statistic.</returns>
         private static double OrderSelect(IList<double> samples, int left, int right, int order)
         {
-            System.Diagnostics.Debug.Assert(order > 0, "Order must always be positive.");
-            System.Diagnostics.Debug.Assert(left >= 0 && left <= right, "Left side must always be positive and smaller than right side.");
-            System.Diagnostics.Debug.Assert(right < samples.Count, "Right side must always be smaller than number of elements in list.");
-            System.Diagnostics.Debug.Assert(right - left + 1 >= order, "Make sure there are at least order items in the segment [left, right].");
-
-            if (left == right)
+            while (true)
             {
-                return samples[left];
-            }
+                System.Diagnostics.Debug.Assert(order > 0, "Order must always be positive.");
+                System.Diagnostics.Debug.Assert(left >= 0 && left <= right, "Left side must always be positive and smaller than right side.");
+                System.Diagnostics.Debug.Assert(right < samples.Count, "Right side must always be smaller than number of elements in list.");
+                System.Diagnostics.Debug.Assert(right - left + 1 >= order, "Make sure there are at least order items in the segment [left, right].");
 
-            // The pivot point.
-            double pivot = samples[right];
-
-            // The partioning code.
-            int i = left - 1;
-            for (int j = left; j <= right - 1; j++)
-            {
-                if (samples[j] <= pivot)
+                if (left == right)
                 {
-                    i++;
-                    Sorting.Swap(samples, i, j);
+                    return samples[left];
+                }
+
+                // The pivot point.
+                double pivot = samples[right];
+
+                // The partioning code.
+                int i = left - 1;
+                for (int j = left; j <= right - 1; j++)
+                {
+                    if (samples[j] <= pivot)
+                    {
+                        i++;
+                        Sorting.Swap(samples, i, j);
+                    }
+                }
+
+                Sorting.Swap(samples, i + 1, right);
+
+                // Recursive order finding algorithm.
+                if (order == (i - left) + 2)
+                {
+                    return pivot;
+                }
+
+                if (order < (i - left) + 2)
+                {
+                    right = i;
+                }
+                else
+                {
+                    order = order - i + left - 2;
+                    left = i + 2;
                 }
             }
-
-            Sorting.Swap(samples, i + 1, right);
-
-            // Recursive order finding algorithm.
-            if (order == (i - left) + 2)
-            {
-                return pivot;
-            }
-
-            if (order < (i - left) + 2)
-            {
-                return OrderSelect(samples, left, i, order);
-            }
-
-            return OrderSelect(samples, i + 2, right, order - i + left - 2);
         }
     }
 }
