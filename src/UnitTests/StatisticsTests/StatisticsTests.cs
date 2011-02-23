@@ -28,6 +28,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
     using NUnit.Framework;
     using Statistics;
 
@@ -133,6 +135,61 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             double[] data = null;
             Assert.Throws<ArgumentNullException>(() => data.StandardDeviation());
+        }
+
+        /// <summary>
+        /// Validate Min/Max on a short sequence.
+        /// </summary>
+        [Test]
+        public void ShortMinMax()
+        {
+            var samples = new[] { -1.0, 5, 0, -3, 10, -0.5, 4 };
+            Assert.That(samples.Minimum(), Is.EqualTo(-3), "Min");
+            Assert.That(samples.Maximum(), Is.EqualTo(10), "Max");
+        }
+
+        /// <summary>
+        /// Validate Order Statistics & Median on a short sequence.
+        /// </summary>
+        [Test]
+        public void ShortOrderMedian()
+        {
+            // -3 -1 -0.5 0  1  4 5 6 10
+            var samples = new[] { -1, 5, 0, -3, 10, -0.5, 4, 1, 6 };
+            Assert.That(samples.Median(), Is.EqualTo(1), "Median");
+            Assert.That(Statistics.OrderStatistic(samples, 1), Is.EqualTo(-3), "Order-1");
+            Assert.That(Statistics.OrderStatistic(samples, 3), Is.EqualTo(-0.5), "Order-3");
+            Assert.That(Statistics.OrderStatistic(samples, 7), Is.EqualTo(5), "Order-7");
+            Assert.That(Statistics.OrderStatistic(samples, 9), Is.EqualTo(10), "Order-9");
+        }
+
+        /// <summary>
+        /// Validate Median/Variance/StdDev on a longer fixed-random sequence of a,
+        /// large mean but only a very small variance, verifying the numerical stability.
+        /// Naive summation algorithms generally fail this test.
+        /// </summary>
+        [Test]
+        public void StabilityMeanVariance()
+        {
+            // Test around 10^9, potential stability issues
+            var gaussian = new Distributions.Normal(1e+9, 2)
+                {
+                    RandomSource = new Numerics.Random.MersenneTwister(100)
+                };
+
+            AssertHelpers.AlmostEqual(1e+9, gaussian.Samples().Take(10000).Mean(), 11);
+            AssertHelpers.AlmostEqual(4d, gaussian.Samples().Take(10000).Variance(), 1);
+            AssertHelpers.AlmostEqual(2d, gaussian.Samples().Take(10000).StandardDeviation(), 2);
+        }
+
+        /// <summary>
+        /// http://mathnetnumerics.codeplex.com/workitem/5667
+        /// </summary>
+        [Test]
+        public void Median_CodeplexIssue5667()
+        {
+            var seq = File.ReadLines("./data/Codeplex-5667.csv").Select(s => double.Parse(s));
+            Assert.AreEqual(1.0, seq.Median());
         }
     }
 }
