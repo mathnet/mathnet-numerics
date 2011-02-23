@@ -9,7 +9,7 @@
     <authors>Marcus Cuda, Christoph Ruegg, Jurgen Van Gael</authors>
     <owners>Christoph Ruegg</owners>
     <projectUrl>http://numerics.mathdotnet.com/</projectUrl>
-    <iconUrl>http://www.mathdotnet.com/images/MathNet32.png</iconUrl>
+    <iconUrl>http://www.mathdotnet.com/images/MathNet128.png</iconUrl>
     <licenseUrl>http://mathnetnumerics.codeplex.com/license</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>math numeric statistics probability integration interpolation linear algebra matrix fft</tags>
