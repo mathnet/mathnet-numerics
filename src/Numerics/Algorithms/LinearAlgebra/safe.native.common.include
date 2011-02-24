@@ -161,4 +161,27 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_lu_inverse_factored(int n, [In, Out] Complex[] a, [In, Out] int[] ipiv, [In, Out] Complex[] work, int lwork);
         
+       /* [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void s_lu_solve_factored(int n, int nrhs, float a[], int ipiv[], float b[])
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void  d_lu_solve_factored(int n, int nrhs, double a[], int ipiv[], double b[])
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void c_lu_solve_factored(int n, int nrhs, MKL_Complex8 a[], int ipiv[], MKL_Complex8 b[])
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void z_lu_solve_factored(int n, int nrhs, MKL_Complex16 a[], int ipiv[], MKL_Complex16 b[])
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void s_lu_solve(int n, int nrhs, float a[], float b[])
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void  d_lu_solve(int n, int nrhs, double a[], double b[])
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void c_lu_solve(int n, int nrhs, MKL_Complex8 a[], MKL_Complex8 b[])
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void z_lu_solve(int n, int nrhs, MKL_Complex16 a[],  MKL_Complex16 b[])*/
         #endregion LAPACK

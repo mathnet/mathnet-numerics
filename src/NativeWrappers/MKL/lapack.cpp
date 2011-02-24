@@ -221,7 +221,7 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void s_lu_solve(int n, int nrhs, float a[], int ipiv[], float b[])
+    DLLEXPORT void s_lu_solve_factored(int n, int nrhs, float a[], int ipiv[], float b[])
     {
         int info;
         int i;    
@@ -236,7 +236,7 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void  d_lu_solve(int n, int nrhs, double a[], int ipiv[], double b[])
+    DLLEXPORT void  d_lu_solve_factored(int n, int nrhs, double a[], int ipiv[], double b[])
     {
         int info;
         int i;    
@@ -251,7 +251,7 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void c_lu_solve(int n, int nrhs, MKL_Complex8 a[], int ipiv[], MKL_Complex8 b[])
+    DLLEXPORT void c_lu_solve_factored(int n, int nrhs, MKL_Complex8 a[], int ipiv[], MKL_Complex8 b[])
     {
         int info;
         int i;    
@@ -266,7 +266,7 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void z_lu_solve(int n, int nrhs, MKL_Complex16 a[], int ipiv[], MKL_Complex16 b[])
+    DLLEXPORT void z_lu_solve_factored(int n, int nrhs, MKL_Complex16 a[], int ipiv[], MKL_Complex16 b[])
     {
         int info;
         int i;    
@@ -281,7 +281,52 @@ extern "C" {
         }
     }
 
-    DLLEXPORT void s_cholesky_solve(int n, int nrhs, float a[], float b[])
+	DLLEXPORT void s_lu_solve(int n, int nrhs, float a[], float b[])
+    {
+        int* ipiv = new int[n];
+        int info;
+        SGETRF(&n,&n,a,&n,ipiv,&info);
+
+        char trans = 'N';
+        SGETRS(&trans, &n, &nrhs, a, &n, ipiv, b, &n, &info);
+		delete[] ipiv;
+    }
+
+    DLLEXPORT void  d_lu_solve(int n, int nrhs, double a[], double b[])
+    {
+        int* ipiv = new int[n];
+        int info;
+        DGETRF(&n,&n,a,&n,ipiv,&info);
+
+        char trans = 'N';
+        DGETRS(&trans, &n, &nrhs, a, &n, ipiv, b, &n, &info);
+		delete[] ipiv;
+    }
+
+    DLLEXPORT void c_lu_solve(int n, int nrhs, MKL_Complex8 a[], MKL_Complex8 b[])
+    {
+        int* ipiv = new int[n];
+        int info;
+        CGETRF(&n,&n,a,&n,ipiv,&info);
+
+        char trans = 'N';
+        CGETRS(&trans, &n, &nrhs, a, &n, ipiv, b, &n, &info);
+		delete[] ipiv;
+    }
+
+    DLLEXPORT void z_lu_solve(int n, int nrhs, MKL_Complex16 a[],  MKL_Complex16 b[])
+    {
+        int* ipiv = new int[n];
+        int info;
+        ZGETRF(&n,&n,a,&n,ipiv,&info);
+
+        char trans = 'N';
+        ZGETRS(&trans, &n, &nrhs, a, &n, ipiv, b, &n, &info);
+		delete[] ipiv;
+    }
+
+	
+	DLLEXPORT void s_cholesky_solve(int n, int nrhs, float a[], float b[])
     {
         char uplo = 'L';
         int info = 0;
