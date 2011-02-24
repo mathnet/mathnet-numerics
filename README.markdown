@@ -3,7 +3,7 @@
 
 Math.NET Numerics is an opensource **numerical library for .Net, Silverlight and Mono**.
 
-Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Covered topics include special functions, linear algebra, probability models, random numbers, interpolation, integral transforms and more.
+Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Covered topics include special functions, linear algebra, probability models, random numbers, interpolation, integral transforms (FFT) and more.
 
 Math.NET Numerics is the result of merging [dnAnalytics](http://dnanalytics.codeplex.com/) with [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx) and is intended to replace both. It targets Microsoft .Net 4.0, Silverlight 4 and Mono, and in addition to purely managed implementations will also support native hardware optimization (MKL, ATLAS).
 
@@ -17,9 +17,14 @@ Quick Links
 * Source Code: [github.com/mathnet](http://github.com/mathnet/mathnet-numerics)
 * Downloads: [mathnetnumerics.codeplex.com](http://mathnetnumerics.codeplex.com/releases/)
 * Discussions: [mathnetnumerics.codeplex.com](http://mathnetnumerics.codeplex.com/discussions)
-* Issue Tracker: [mathnetnumerics.codeplex.com](http://mathnetnumerics.codeplex.com/workitem/list/advanced)
+* Work Items and Bug Tracker: [mathnetnumerics.codeplex.com](http://mathnetnumerics.codeplex.com/workitem/list/advanced)
 * Ideas & Feedback: [feedback.mathdotnet.com](http://feedback.mathdotnet.com)
 * Twitter: [@MathNetNumerics](http://twitter.com/MathNetNumerics)
+
+Installation Instructions
+-------------------------
+
+Download the *MathNet.Numerics.dll* assembly, add a reference to it to your project and you're done. To make this even simpler we publish binary releases to the [**NuGet Gallery**](http://nuget.org/) as package *MathNet.Numerics* (or *MathNet.Numerics.FSharp* for F# integration). Altenatively we also publish binary releases including documentation on [CodePlex](http://mathnetnumerics.codeplex.com/releases).
 
 Team & Contributors
 -------------------
