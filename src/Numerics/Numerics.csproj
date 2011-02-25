@@ -456,6 +456,7 @@
     <Compile Include="Signals\SignalGenerator.Equidistant.cs" />
     <Compile Include="Sorting.cs" />
     <Compile Include="SpecialFunctions.cs" />
+    <Compile Include="SpecialFunctions\Beta.cs" />
     <Compile Include="SpecialFunctions\Erf.cs" />
     <Compile Include="SpecialFunctions\Factorial.cs" />
     <Compile Include="SpecialFunctions\Gamma.cs" />

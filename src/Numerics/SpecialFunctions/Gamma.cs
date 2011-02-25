@@ -36,7 +36,6 @@
 namespace MathNet.Numerics
 {
     using System;
-    using Properties;
 
     public static partial class SpecialFunctions
     {
