@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
     using NUnit.Framework;
-    using Sampling;
+    using Signals;
 
     /// <summary>
     /// Hartley tests.
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void NaiveMatchesDft([Values(HartleyOptions.Default, HartleyOptions.AsymmetricScaling, HartleyOptions.NoScaling)] HartleyOptions hartleyOptions, [Values(FourierOptions.Default, FourierOptions.AsymmetricScaling, FourierOptions.NoScaling)] FourierOptions fourierOptions)
         {
             var dht = new DiscreteHartleyTransform();
-            var samples = Sample.Random(x => x, _uniform, 0x80);
+            var samples = SignalGenerator.Random(x => x, _uniform, 0x80);
 
             VerifyMatchesDft(
                 samples, 

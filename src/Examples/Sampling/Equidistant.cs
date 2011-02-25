@@ -27,7 +27,7 @@
 namespace Examples.Sampling
 {
     using System;
-    using MathNet.Numerics.Sampling;
+    using MathNet.Numerics.Signals;
 
     /// <summary>
     /// Example of generic function sampling and quantization provider
@@ -62,7 +62,7 @@ namespace Examples.Sampling
         public void Run()
         {
             // 1. Get 11 samples of f(x) = (x * x) / 2 equidistant within interval [-5, 5] 
-            var result = Sample.EquidistantInterval(Function, -5, 5, 11);
+            var result = SignalGenerator.EquidistantInterval(Function, -5, 5, 11);
             Console.WriteLine(@"1. Get 11 samples of f(x) = (x * x) / 2 equidistant within interval [-5, 5]");
             for (var i = 0; i < result.Length; i++)
             {
@@ -74,7 +74,7 @@ namespace Examples.Sampling
 
             // 2. Get 10 samples of f(x) = (x * x) / 2 equidistant starting at x=1 with step = 0.5 and retrieve sample points
             double[] samplePoints;
-            result = Sample.EquidistantStartingAt(Function, 1, 0.5, 10, out samplePoints);
+            result = SignalGenerator.EquidistantStartingAt(Function, 1, 0.5, 10, out samplePoints);
             Console.WriteLine(@"2. Get 10 samples of f(x) = (x * x) / 2 equidistant starting at x=1 with step = 0.5 and retrieve sample points");
             Console.Write(@"Points: ");
             for (var i = 0; i < samplePoints.Length; i++)
@@ -93,7 +93,7 @@ namespace Examples.Sampling
             Console.WriteLine();
 
             // 3. Get 10 samples of f(x) = (x * x) / 2 equidistant within period = 10 and period offset = 5
-            result = Sample.EquidistantPeriodic(Function, 10, 5, 10);
+            result = SignalGenerator.EquidistantPeriodic(Function, 10, 5, 10);
             Console.WriteLine(@"3. Get 10 samples of f(x) = (x * x) / 2 equidistant within period = 10 and period offset = 5");
             for (var i = 0; i < result.Length; i++)
             {
@@ -104,7 +104,7 @@ namespace Examples.Sampling
             Console.WriteLine();
 
             // 4. Sample f(x) = (x * x) / 2 equidistant  to an integer-domain function starting at x = 0 and step = 2
-            var equidistant = Sample.EquidistantToFunction(Function, 0, 2);
+            var equidistant = SignalGenerator.EquidistantToFunction(Function, 0, 2);
             Console.WriteLine(@" 4. Sample f(x) = (x * x) / 2 equidistant  to an integer-domain function starting at x = 0 and step = 2");
             for (var i = 0; i < 10; i++)
             {

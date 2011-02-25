@@ -451,9 +451,9 @@
     <Compile Include="Random\WH1982.cs" />
     <Compile Include="Random\WH2006.cs" />
     <Compile Include="Random\Xorshift.cs" />
-    <Compile Include="Sampling\Sample.Random.cs" />
-    <Compile Include="Sampling\Sample.Chebyshev.cs" />
-    <Compile Include="Sampling\Sample.Equidistant.cs" />
+    <Compile Include="Signals\SignalGenerator.Random.cs" />
+    <Compile Include="Signals\SignalGenerator.Chebyshev.cs" />
+    <Compile Include="Signals\SignalGenerator.Equidistant.cs" />
     <Compile Include="Sorting.cs" />
     <Compile Include="SpecialFunctions.cs" />
     <Compile Include="SpecialFunctions\Erf.cs" />

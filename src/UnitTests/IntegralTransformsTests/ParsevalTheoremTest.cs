@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
     using NUnit.Framework;
-    using Sampling;
+    using Signals;
     using Statistics;
 
     /// <summary>
@@ -53,7 +53,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void FourierDefaultTransformSatisfiesParsevalsTheorem([Values(0x1000, 0x7FF)] int count)
         {
-            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, count);
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, count);
 
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void HartleyDefaultNaiveSatisfiesParsevalsTheorem([Values(0x40, 0x1F)] int count)
         {
-            var samples = Sample.Random(x => x, _uniform, count);
+            var samples = SignalGenerator.Random(x => x, _uniform, count);
 
             var timeSpaceEnergy = (from s in samples select s * s).Mean();
 

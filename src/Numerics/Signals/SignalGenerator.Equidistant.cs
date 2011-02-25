@@ -1,4 +1,4 @@
-// <copyright file="Sample.Equidistant.cs" company="Math.NET">
+// <copyright file="SignalGenerator.Equidistant.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Sampling
+namespace MathNet.Numerics.Signals
 {
     using System;
     using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Sampling
     /// <summary>
     /// Generic Function Sampling and Quantization Provider
     /// </summary>
-    public static partial class Sample
+    public static partial class SignalGenerator
     {
         /// <summary>
         /// Samples a function equidistant within the provided interval.

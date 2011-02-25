@@ -28,7 +28,7 @@ namespace Examples
 {
     using System;
     using MathNet.Numerics.Distributions;
-    using MathNet.Numerics.Sampling;
+    using MathNet.Numerics.Signals;
     using MathNet.Numerics.Statistics;
 
     /// <summary>
@@ -124,8 +124,8 @@ namespace Examples
             Console.WriteLine();
 
             // 6. Correlation coefficient between 1000 samples of f(x) = x * 2 and f(x) = x * x
-            data = Sample.EquidistantInterval(x => x * 2, 0, 100, 1000);
-            dataB = Sample.EquidistantInterval(x => x * x, 0, 100, 1000);
+            data = SignalGenerator.EquidistantInterval(x => x * 2, 0, 100, 1000);
+            dataB = SignalGenerator.EquidistantInterval(x => x * x, 0, 100, 1000);
             Console.WriteLine(@"6. Correlation coefficient between 1000 samples of f(x) = x * 2 and f(x) = x * x is {0}", Correlation.Pearson(data, dataB).ToString("N04"));
             Console.WriteLine();
         }

@@ -28,7 +28,7 @@ namespace Examples.Sampling
 {
     using System;
     using MathNet.Numerics.Distributions;
-    using MathNet.Numerics.Sampling;
+    using MathNet.Numerics.Signals;
 
     /// <summary>
     /// Example of generic function sampling and quantization provider
@@ -64,7 +64,7 @@ namespace Examples.Sampling
         {
             // 1. Get 10 random samples of f(x) = (x * x) / 2 using continuous uniform distribution on [-10, 10]
             var uniform = new ContinuousUniform(-10, 10);
-            var result = Sample.Random(Function, uniform, 10);
+            var result = SignalGenerator.Random(Function, uniform, 10);
             Console.WriteLine(@" 1. Get 10 random samples of f(x) = (x * x) / 2 using continuous uniform distribution on [-10, 10]");
             for (var i = 0; i < result.Length; i++)
             {
@@ -77,7 +77,7 @@ namespace Examples.Sampling
             // 2. Get 10 random samples of f(x) = (x * x) / 2 using Exponential(1) distribution and retrieve sample points
             var exponential = new Exponential(1);
             double[] samplePoints;
-            result = Sample.Random(Function, exponential, 10, out samplePoints);
+            result = SignalGenerator.Random(Function, exponential, 10, out samplePoints);
             Console.WriteLine(@"2. Get 10 random samples of f(x) = (x * x) / 2 using Exponential(1) distribution and retrieve sample points");
             Console.Write(@"Points: ");
             for (var i = 0; i < samplePoints.Length; i++)
@@ -97,7 +97,7 @@ namespace Examples.Sampling
 
             // 3. Get 10 random samples of f(x, y) = (x * y) / 2 using ChiSquare(10) distribution
             var chiSquare = new ChiSquare(10);
-            result = Sample.Random(TwoDomainFunction, chiSquare, 10);
+            result = SignalGenerator.Random(TwoDomainFunction, chiSquare, 10);
             Console.WriteLine(@" 3. Get 10 random samples of f(x, y) = (x * y) / 2 using ChiSquare(10) distribution");
             for (var i = 0; i < result.Length; i++)
             {
