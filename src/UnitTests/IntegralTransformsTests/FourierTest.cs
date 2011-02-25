@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
     using NUnit.Framework;
-    using Sampling;
+    using Signals;
 
     /// <summary>
     /// Fourier test.
@@ -51,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void NaiveTransformsRealSineCorrectly()
         {
-            var samples = Sample.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 16);
+            var samples = SignalGenerator.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 16);
 
             // real-odd transforms to imaginary odd
             var dft = new DiscreteFourierTransform();
@@ -87,7 +87,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void Radix2ThrowsWhenNotPowerOfTwo()
         {
-            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, 0x7F);
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, 0x7F);
 
             var dft = new DiscreteFourierTransform();
 

@@ -27,7 +27,7 @@ namespace Examples.SpecialFunctions
 {
     using System;
     using MathNet.Numerics;
-    using MathNet.Numerics.Sampling;
+    using MathNet.Numerics.Signals;
 
     /// <summary>
     /// Special Functions: error functions
@@ -69,7 +69,7 @@ namespace Examples.SpecialFunctions
 
             // 2. Sample 10 values of the error function in [-1.0; 1.0]
             Console.WriteLine(@"2. Sample 10 values of the error function in [-1.0; 1.0]");
-            var data = Sample.EquidistantInterval(SpecialFunctions.Erf, -1.0, 1.0, 10);
+            var data = SignalGenerator.EquidistantInterval(SpecialFunctions.Erf, -1.0, 1.0, 10);
             for (var i = 0; i < data.Length; i++)
             {
                 Console.Write(data[i].ToString("N") + @" ");
@@ -85,7 +85,7 @@ namespace Examples.SpecialFunctions
 
             // 4. Sample 10 values of the complementary error function in [-1.0; 1.0]
             Console.WriteLine(@"4. Sample 10 values of the complementary error function in [-1.0; 1.0]");
-            data = Sample.EquidistantInterval(SpecialFunctions.Erfc, -1.0, 1.0, 10);
+            data = SignalGenerator.EquidistantInterval(SpecialFunctions.Erfc, -1.0, 1.0, 10);
             for (var i = 0; i < data.Length; i++)
             {
                 Console.Write(data[i].ToString("N") + @" ");
@@ -101,7 +101,7 @@ namespace Examples.SpecialFunctions
 
             // 6. Sample 10 values of the inverse error function in [-1.0; 1.0]
             Console.WriteLine(@"6. Sample 10 values of the inverse error function in [-1.0; 1.0]");
-            data = Sample.EquidistantInterval(SpecialFunctions.ErfInv, -1.0, 1.0, 10);
+            data = SignalGenerator.EquidistantInterval(SpecialFunctions.ErfInv, -1.0, 1.0, 10);
             for (var i = 0; i < data.Length; i++)
             {
                 Console.Write(data[i].ToString("N") + @" ");
@@ -117,7 +117,7 @@ namespace Examples.SpecialFunctions
 
             // 8. Sample 10 values of the complementary inverse error function in [-1.0; 1.0]
             Console.WriteLine(@"8. Sample 10 values of the complementary inverse error function in [-1.0; 1.0]");
-            data = Sample.EquidistantInterval(SpecialFunctions.ErfcInv, -1.0, 1.0, 10);
+            data = SignalGenerator.EquidistantInterval(SpecialFunctions.ErfcInv, -1.0, 1.0, 10);
             for (var i = 0; i < data.Length; i++)
             {
                 Console.Write(data[i].ToString("N") + @" ");

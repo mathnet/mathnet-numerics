@@ -933,14 +933,14 @@
     <Compile Include="..\Numerics\Random\Xorshift.cs">
       <Link>Random\Xorshift.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Sampling\Sample.Chebyshev.cs">
-      <Link>Sampling\Sample.Chebyshev.cs</Link>
+    <Compile Include="..\Numerics\Signals\SignalGenerator.Chebyshev.cs">
+      <Link>Signals\SignalGenerator.Chebyshev.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Sampling\Sample.Equidistant.cs">
-      <Link>Sampling\Sample.Equidistant.cs</Link>
+    <Compile Include="..\Numerics\Signals\SignalGenerator.Equidistant.cs">
+      <Link>Signals\SignalGenerator.Equidistant.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Sampling\Sample.Random.cs">
-      <Link>Sampling\Sample.Random.cs</Link>
+    <Compile Include="..\Numerics\Signals\SignalGenerator.Random.cs">
+      <Link>Signals\SignalGenerator.Random.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Sorting.cs">
       <Link>Sorting.cs</Link>

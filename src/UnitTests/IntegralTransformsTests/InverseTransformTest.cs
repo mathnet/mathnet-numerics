@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     using IntegralTransforms;
     using IntegralTransforms.Algorithms;
     using NUnit.Framework;
-    using Sampling;
+    using Signals;
 
     /// <summary>
     /// Inverse Transform test.
@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Func<Complex[], Complex[]> forward, 
             Func<Complex[], Complex[]> inverse)
         {
-            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, count);
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, count);
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Func<double[], double[]> forward, 
             Func<double[], double[]> inverse)
         {
-            var samples = Sample.Random(x => x, _uniform, count);
+            var samples = SignalGenerator.Random(x => x, _uniform, count);
             var work = new double[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void FourierDefaultTransformIsReversible()
         {
-            var samples = Sample.Random((u, v) => new Complex(u, v), _uniform, 0x7FFF);
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, 0x7FFF);
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 

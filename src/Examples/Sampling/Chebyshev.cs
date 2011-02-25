@@ -27,7 +27,7 @@
 namespace Examples.Sampling
 {
     using System;
-    using MathNet.Numerics.Sampling;
+    using MathNet.Numerics.Signals;
 
     /// <summary>
     /// Example of generic function sampling and quantization provider
@@ -62,7 +62,7 @@ namespace Examples.Sampling
         public void Run()
         {
             // 1. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the first kind within interval [0, 10] 
-            var result = Sample.ChebyshevNodesFirstKind(Function, 0, 10, 20);
+            var result = SignalGenerator.ChebyshevNodesFirstKind(Function, 0, 10, 20);
             Console.WriteLine(@"1. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the first kind within interval [0, 10]");
             for (var i = 0; i < result.Length; i++)
             {
@@ -73,7 +73,7 @@ namespace Examples.Sampling
             Console.WriteLine();
 
             // 2. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the second kind within interval [0, 10]
-            result = Sample.ChebyshevNodesSecondKind(Function, 0, 10, 20);
+            result = SignalGenerator.ChebyshevNodesSecondKind(Function, 0, 10, 20);
             Console.WriteLine(@"2. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the second kind within interval [0, 10]");
             for (var i = 0; i < result.Length; i++)
             {
