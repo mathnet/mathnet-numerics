@@ -948,6 +948,9 @@
     <Compile Include="..\Numerics\SpecialFunctions.cs">
       <Link>SpecialFunctions.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\SpecialFunctions\Beta.cs">
+      <Link>SpecialFunctions\Beta.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\SpecialFunctions\Erf.cs">
       <Link>SpecialFunctions\Erf.cs</Link>
     </Compile>
