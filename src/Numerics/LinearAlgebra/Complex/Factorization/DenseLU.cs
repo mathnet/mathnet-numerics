@@ -32,6 +32,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
     using System;
     using System.Numerics;
+    using Algorithms.LinearAlgebra;
     using Generic;
     using Properties;
     using Threading;
@@ -125,7 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Data, dfactors.RowCount, Pivots,  dresult.Data);
+            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Data, dfactors.RowCount, Pivots, dresult.Data);
         }
 
         /// <summary>

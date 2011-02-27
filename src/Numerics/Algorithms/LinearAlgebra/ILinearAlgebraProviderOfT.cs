@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2011 Math.NET
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -282,29 +282,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         void LUSolveFactored(int columnsOfB, T[] a, int order, int[] ipiv, T[] b);
-
-        /// <summary>
-        /// Solves A*X=B for X using LU factorization.
-        /// </summary>
-        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="a">The square matrix A.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        void LUSolve(Transpose transposeA, int columnsOfB, T[] a, int order, T[] b);
-
-        /// <summary>
-        /// Solves A*X=B for X using a previously factored A matrix.
-        /// </summary>
-        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="a">The factored A matrix.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        void LUSolveFactored(Transpose transposeA, int columnsOfB, T[] a, int order, int[] ipiv, T[] b);
 
         /// <summary>
         /// Computes the Cholesky factorization of A.

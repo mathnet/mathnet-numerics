@@ -30,6 +30,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
     using System.Collections.Generic;
     using Algorithms.LinearAlgebra;
     using LinearAlgebra.Double;
+
+    using MathNet.Numerics.LinearAlgebra.Generic;
+
     using NUnit.Framework;
 
     /// <summary>
@@ -548,5 +551,70 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 14);
         }
 
+        /// <summary>
+        /// Can solve Ax=b using LU factorization.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingLU()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.RowCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            Provider.LUSolve(2, a, matrix.RowCount, b);
+
+            AssertHelpers.AlmostEqual(b[0], -1.477272727272726, 14);
+            AssertHelpers.AlmostEqual(b[1], -4.318181818181815, 14);
+            AssertHelpers.AlmostEqual(b[2], 3.068181818181816, 14);
+            AssertHelpers.AlmostEqual(b[3], -4.204545454545451, 14);
+            AssertHelpers.AlmostEqual(b[4], -12.499999999999989, 14);
+            AssertHelpers.AlmostEqual(b[5], 8.522727272727266, 14);
+
+            NotModified(matrix.RowCount, matrix.ColumnCount, a, matrix);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using LU factorization using a factored matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingLUOnFactoredMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.RowCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var ipiv = new int[matrix.RowCount];
+            Provider.LUFactor(a, matrix.RowCount, ipiv);
+            
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            Provider.LUSolveFactored(2, a, matrix.RowCount, ipiv, b);
+
+            AssertHelpers.AlmostEqual(b[0], -1.477272727272726, 14);
+            AssertHelpers.AlmostEqual(b[1], -4.318181818181815, 14);
+            AssertHelpers.AlmostEqual(b[2], 3.068181818181816, 14);
+            AssertHelpers.AlmostEqual(b[3], -4.204545454545451, 14);
+            AssertHelpers.AlmostEqual(b[4], -12.499999999999989, 14);
+            AssertHelpers.AlmostEqual(b[5], 8.522727272727266, 14);
+        }
+
+        /// <summary>
+        /// Checks to see if a matrix and array contain the same values.
+        /// </summary>
+        /// <param name="rows">number of rows.</param>
+        /// <param name="columns">number of columns.</param>
+        /// <param name="array">array to check.</param>
+        /// <param name="matrix">matrix to check against.</param>
+        private static void NotModified(int rows, int columns, IList<double> array, Matrix<double> matrix)
+        {
+            var index = 0;
+            for (var col = 0; col < columns; col++)
+            {
+                for (var row = 0; row < rows; row++)
+                {
+                    Assert.AreEqual(array[index++], matrix[row, col]);
+                }
+            }
+        }
     }
 }
