@@ -268,7 +268,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         void LUSolve(int columnsOfB, T[] a, int order, T[] b);
 
@@ -279,7 +279,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">The factored A matrix.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         void LUSolveFactored(int columnsOfB, T[] a, int order, int[] ipiv, T[] b);
 
@@ -297,22 +297,20 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="orderA">The number of rows and columns in A.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="rowsB">The number of rows in the B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
-        void CholeskySolve(T[] a, int orderA, T[] b, int rowsB, int columnsB);
+        void CholeskySolve(T[] a, int orderA, T[] b, int columnsB);
 
         /// <summary>
         /// Solves A*X=B for X using a previously factored A matrix.
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="orderA">The number of rows and columns in A.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="rowsB">The number of rows in the B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
-        void CholeskySolveFactored(T[] a, int orderA, T[] b, int rowsB, int columnsB);
+        void CholeskySolveFactored(T[] a, int orderA, T[] b, int columnsB);
 
         /// <summary>
         /// Computes the QR factorization of A.
@@ -364,7 +362,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
@@ -379,7 +377,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         void QRSolveFactored(T[] q, T[] r, int rowsR, int columnsR, T[] b, int columnsB, T[] x);
@@ -427,7 +425,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="s">The singular values of A in ascending value. </param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         void SvdSolve(T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);
@@ -441,7 +439,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="s">The singular values of A in ascending value. </param>
         /// <param name="u">On exit U contains the left singular vectors.</param>
         /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. For real matrices, the work array should be at least
@@ -458,7 +456,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[])"/>.</param>
         /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int, T[],T[],T[])"/>.</param>
         /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[],T[])"/>.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         void SvdSolveFactored(int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);

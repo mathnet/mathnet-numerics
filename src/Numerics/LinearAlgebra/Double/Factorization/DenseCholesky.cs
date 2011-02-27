@@ -122,7 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix)CholeskyFactor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.RowCount, dresult.ColumnCount);
+            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.ColumnCount);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix)CholeskyFactor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, dresult.Count, 1);
+            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Data, dfactor.RowCount, dresult.Data, 1);
         }
     }
 }

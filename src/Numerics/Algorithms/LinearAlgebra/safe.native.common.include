@@ -185,4 +185,29 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_lu_solve(int n, int nrhs, Complex[] a,  [In, Out] Complex[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int s_cholesky_solve(int n, int nrhs, float[] a, [In, Out] float[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int d_cholesky_solve(int n, int nrhs, double[] a, [In, Out] double[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int c_cholesky_solve(int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int z_cholesky_solve(int n, int nrhs, Complex[] a, [In, Out] Complex[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int s_cholesky_solve_factored(int n, int nrhs, float[] a, float[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int d_cholesky_solve_factored(int n, int nrhs, double[] a, double[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int c_cholesky_solve_factored(int n, int nrhs, Complex32[] a, Complex32[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int z_cholesky_solve_factored(int n, int nrhs, Complex[] a, Complex[] b);
+
         #endregion LAPACK

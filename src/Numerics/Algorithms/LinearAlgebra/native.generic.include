@@ -338,7 +338,7 @@
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         [SecuritySafeCritical]
         public override void LUSolve(int columnsOfB, <#=dataType#>[] a, int order, <#=dataType#>[] b)
@@ -357,6 +357,11 @@
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
+            
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+            }
 
             SafeNativeMethods.<#=prefix#>_lu_solve(order, columnsOfB, a, b); 
         }
@@ -368,7 +373,7 @@
         /// <param name="a">The factored A matrix.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
         public override void LUSolveFactored(int columnsOfB, <#=dataType#>[] a, int order, int[] ipiv, <#=dataType#>[] b)
@@ -396,6 +401,11 @@
             if (b.Length != columnsOfB * order)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
             SafeNativeMethods.<#=prefix#>_lu_solve_factored(order, columnsOfB, a, ipiv, b); 
@@ -434,15 +444,34 @@
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="orderA">The number of rows and columns in A.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="rowsB">The number of rows in the B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
         /// </remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolve(<#=dataType#>[] a, int orderA, <#=dataType#>[] b, int rowsB, int columnsB)
+        public override void CholeskySolve(<#=dataType#>[] a, int orderA, <#=dataType#>[] b, int columnsB)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (b.Length != orderA * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+            }
+
+            SafeNativeMethods.<#=prefix#>_cholesky_solve(orderA, columnsB, a, b); 
         }
 
         /// <summary>
@@ -450,14 +479,33 @@
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="orderA">The number of rows and columns in A.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="rowsB">The number of rows in the B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolveFactored(<#=dataType#>[] a, int orderA, <#=dataType#>[] b, int rowsB, int columnsB)
+        public override void CholeskySolveFactored(<#=dataType#>[] a, int orderA, <#=dataType#>[] b, int columnsB)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (b.Length != orderA * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+            }
+
+            SafeNativeMethods.<#=prefix#>_cholesky_solve_factored(orderA, columnsB, a, b); 
         }
 
         /// <summary>
@@ -504,7 +552,7 @@
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         [SecuritySafeCritical]
