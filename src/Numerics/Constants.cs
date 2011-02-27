@@ -177,6 +177,15 @@ namespace MathNet.Numerics
         /// </summary>
         public const int SizeOfFloat = sizeof(float);
 
+        /// <summary>
+        /// The size of a Complex in bytes.
+        /// </summary>
+        public const int SizeOfComplex = 2 * SizeOfDouble;
+
+        /// <summary>
+        /// The size of a Complex in bytes.
+        /// </summary>
+        public const int SizeOfComplex32 = 2 * SizeOfFloat;
         #endregion
 
         #region UNIVERSAL CONSTANTS

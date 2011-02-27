@@ -417,14 +417,14 @@ extern "C" {
 		std::memcpy(clone, a, n*n*sizeof(float));
 		char uplo = 'L';
 		int info = 0;
-		SPOTRF(&uplo, &n, a, &n, &info);
+		SPOTRF(&uplo, &n, clone, &n, &info);
 		
 		if (info != 0){
 			delete[] clone;
 			return info;
 		}
 
-		SPOTRS(&uplo, &n, &nrhs, a, &n, b, &n, &info);
+		SPOTRS(&uplo, &n, &nrhs, clone, &n, b, &n, &info);
 		return info;
 	}
 
@@ -434,14 +434,14 @@ extern "C" {
 		std::memcpy(clone, a, n*n*sizeof(double));
 		char uplo = 'L';
 		int info = 0;
-		DPOTRF(&uplo, &n, a, &n, &info);
+		DPOTRF(&uplo, &n, clone, &n, &info);
 		
 		if (info != 0){
 			delete[] clone;
 			return info;
 		}
 
-		DPOTRS(&uplo, &n, &nrhs, a, &n, b, &n, &info);
+		DPOTRS(&uplo, &n, &nrhs, clone, &n, b, &n, &info);
 		return info;
 	}
 
@@ -451,14 +451,14 @@ extern "C" {
 		std::memcpy(clone, a, n*n*sizeof(MKL_Complex8));
 		char uplo = 'L';
 		int info = 0;
-		CPOTRF(&uplo, &n, a, &n, &info);
+		CPOTRF(&uplo, &n, clone, &n, &info);
 		
 		if (info != 0){
 			delete[] clone;
 			return info;
 		}
 
-		CPOTRS(&uplo, &n, &nrhs, a, &n, b, &n, &info);
+		CPOTRS(&uplo, &n, &nrhs, clone, &n, b, &n, &info);
 		return info;
 	}
 
@@ -468,14 +468,14 @@ extern "C" {
 		std::memcpy(clone, a, n*n*sizeof(MKL_Complex16));
 		char uplo = 'L';
 		int info = 0;
-		ZPOTRF(&uplo, &n, a, &n, &info);
+		ZPOTRF(&uplo, &n, clone, &n, &info);
 		
 		if (info != 0){
 			delete[] clone;
 			return info;
 		}
 
-		ZPOTRS(&uplo, &n, &nrhs, a, &n, b, &n, &info);
+		ZPOTRS(&uplo, &n, &nrhs, clone, &n, b, &n, &info);
 		return info;
 	}
 

@@ -1021,7 +1021,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="b">On input the B matrix; on output the X matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         public virtual void LUSolve(int columnsOfB, float[] a, int order, float[] b)
         {
@@ -1045,6 +1045,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+            }
+
             var ipiv = new int[order];
             var clone = new float[a.Length];
             Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfFloat);
@@ -1059,7 +1064,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">The factored A matrix.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="b">On input the B matrix; on output the X matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         public virtual void LUSolveFactored(int columnsOfB, float[] a, int order, int[] ipiv, float[] b)
         {
@@ -1091,6 +1096,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             if (b.Length != order * columnsOfB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+            
+            if (ReferenceEquals(a, b))
+            {
+                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
             // Compute the column vector  P*B
@@ -1239,11 +1249,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="orderA">The number of rows and columns in A.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="rowsB">The number of rows in the B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
-        public virtual void CholeskySolve(float[] a, int orderA, float[] b, int rowsB, int columnsB)
+        public virtual void CholeskySolve(float[] a, int orderA, float[] b, int columnsB)
         {
             if (a == null)
             {
@@ -1255,9 +1264,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("b");
             }
 
-            if (orderA != rowsB)
+            if (b.Length != orderA * columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
             if (ReferenceEquals(a, b))
@@ -1265,8 +1274,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            CholeskyFactor(a, orderA);
-            CholeskySolveFactored(a, orderA, b, rowsB, columnsB);
+            var clone = new float[a.Length];
+            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfFloat);
+            CholeskyFactor(clone, orderA);
+            CholeskySolveFactored(clone, orderA, b, columnsB);
         }
 
         /// <summary>
@@ -1274,11 +1285,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// </summary>
         /// <param name="a">The square, positive definite matrix A.</param>
         /// <param name="orderA">The number of rows and columns in A.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="rowsB">The number of rows in the B matrix.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
-        public virtual void CholeskySolveFactored(float[] a, int orderA, float[] b, int rowsB, int columnsB)
+        public virtual void CholeskySolveFactored(float[] a, int orderA, float[] b, int columnsB)
         {
             if (a == null)
             {
@@ -1290,9 +1300,9 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("b");
             }
 
-            if (orderA != rowsB)
+            if (b.Length != orderA * columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
             if (ReferenceEquals(a, b))

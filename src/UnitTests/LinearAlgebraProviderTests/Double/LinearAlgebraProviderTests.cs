@@ -394,32 +394,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         }
 
         /// <summary>
-        /// Can compute the <c>Cholesky</c> factorization.
-        /// </summary>
-        [Test]
-        public void CanComputeCholeskyFactor()
-        {
-            var matrix = new double[] { 1, 1, 1, 1, 1, 5, 5, 5, 1, 5, 14, 14, 1, 5, 14, 15 };
-            Provider.CholeskyFactor(matrix, 4);
-            Assert.AreEqual(matrix[0], 1);
-            Assert.AreEqual(matrix[1], 1);
-            Assert.AreEqual(matrix[2], 1);
-            Assert.AreEqual(matrix[3], 1);
-            Assert.AreEqual(matrix[4], 0);
-            Assert.AreEqual(matrix[5], 2);
-            Assert.AreEqual(matrix[6], 2);
-            Assert.AreEqual(matrix[7], 2);
-            Assert.AreEqual(matrix[8], 0);
-            Assert.AreEqual(matrix[9], 0);
-            Assert.AreEqual(matrix[10], 3);
-            Assert.AreEqual(matrix[11], 3);
-            Assert.AreEqual(matrix[12], 0);
-            Assert.AreEqual(matrix[13], 0);
-            Assert.AreEqual(matrix[14], 0);
-            Assert.AreEqual(matrix[15], 1);
-        }
-
-        /// <summary>
         /// Can compute the LU factor of a matrix.
         /// </summary>
         [Test]
@@ -597,6 +571,77 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             AssertHelpers.AlmostEqual(b[4], -12.499999999999989, 14);
             AssertHelpers.AlmostEqual(b[5], 8.522727272727266, 14);
         }
+
+        /// <summary>
+        /// Can compute the <c>Cholesky</c> factorization.
+        /// </summary>
+        [Test]
+        public void CanComputeCholeskyFactor()
+        {
+            var matrix = new double[] { 1, 1, 1, 1, 1, 5, 5, 5, 1, 5, 14, 14, 1, 5, 14, 15 };
+            Provider.CholeskyFactor(matrix, 4);
+            Assert.AreEqual(matrix[0], 1);
+            Assert.AreEqual(matrix[1], 1);
+            Assert.AreEqual(matrix[2], 1);
+            Assert.AreEqual(matrix[3], 1);
+            Assert.AreEqual(matrix[4], 0);
+            Assert.AreEqual(matrix[5], 2);
+            Assert.AreEqual(matrix[6], 2);
+            Assert.AreEqual(matrix[7], 2);
+            Assert.AreEqual(matrix[8], 0);
+            Assert.AreEqual(matrix[9], 0);
+            Assert.AreEqual(matrix[10], 3);
+            Assert.AreEqual(matrix[11], 3);
+            Assert.AreEqual(matrix[12], 0);
+            Assert.AreEqual(matrix[13], 0);
+            Assert.AreEqual(matrix[14], 0);
+            Assert.AreEqual(matrix[15], 1);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using Cholesky factorization.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingCholesky()
+        {
+            var matrix = new DenseMatrix(3, 3, new double[] { 1, 1, 1, 1, 2, 3, 1, 3, 6 });
+            var a = new double[] { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            Provider.CholeskySolve(a, 3, b, 2);
+
+            AssertHelpers.AlmostEqual(b[0], 0, 14);
+            AssertHelpers.AlmostEqual(b[1], 1, 14);
+            AssertHelpers.AlmostEqual(b[2], 0, 14);
+            AssertHelpers.AlmostEqual(b[3], 3, 14);
+            AssertHelpers.AlmostEqual(b[4], 1, 14);
+            AssertHelpers.AlmostEqual(b[5], 0, 14);
+
+            NotModified(3, 3, a, matrix);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using LU factorization using a factored matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingCholeskyOnFactoredMatrix()
+        {
+            var a = new double[] { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
+
+            Provider.CholeskyFactor(a, 3);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            Provider.CholeskySolveFactored(a, 3, b, 2);
+
+            AssertHelpers.AlmostEqual(b[0], 0, 14);
+            AssertHelpers.AlmostEqual(b[1], 1, 14);
+            AssertHelpers.AlmostEqual(b[2], 0, 14);
+            AssertHelpers.AlmostEqual(b[3], 3, 14);
+            AssertHelpers.AlmostEqual(b[4], 1, 14);
+            AssertHelpers.AlmostEqual(b[5], 0, 14);
+        }
+
+
 
         /// <summary>
         /// Checks to see if a matrix and array contain the same values.
