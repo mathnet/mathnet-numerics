@@ -31,6 +31,7 @@
 namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
     using System;
+    using Algorithms.LinearAlgebra;
     using Generic;
     using Properties;
 
@@ -123,7 +124,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix)Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Data, dfactors.RowCount, Pivots,  dresult.Data);
+            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Data, dfactors.RowCount, Pivots, dresult.Data);
         }
 
         /// <summary>

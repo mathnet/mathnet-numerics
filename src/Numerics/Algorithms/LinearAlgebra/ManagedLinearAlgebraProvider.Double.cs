@@ -1020,7 +1020,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsOfB">The number of columns of B.</param>
         /// <param name="a">The square matrix A.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On input the B matrix; on output the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         public virtual void LUSolve(int columnsOfB, double[] a, int order, double[] b)
         {
@@ -1045,8 +1045,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             var ipiv = new int[order];
-            LUFactor(a, order, ipiv);
-            LUSolveFactored(columnsOfB, a, order, ipiv, b);
+            var clone = new double[a.Length];
+            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfDouble);
+            LUFactor(clone, order, ipiv);
+            LUSolveFactored(columnsOfB, clone, order, ipiv, b);
         }
 
         /// <summary>
@@ -1056,7 +1058,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="a">The factored A matrix.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
+        /// <param name="b">On input the B matrix; on output the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         public virtual void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
         {
@@ -1142,103 +1144,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         b[i + index] -= b[k + index] * a[i + korder];
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Solves A*X=B for X using LU factorization.
-        /// </summary>
-        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="a">The square matrix A.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public virtual void LUSolve(Transpose transposeA, int columnsOfB, double[] a, int order, double[] b)
-        {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (b == null)
-            {
-                throw new ArgumentNullException("b");
-            }
-
-            if (a.Length != order * order)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
-            }
-
-            if (b.Length != order * columnsOfB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
-            }
-
-            var ipiv = new int[order];
-            LUFactor(a, order, ipiv);
-            LUSolveFactored(transposeA, columnsOfB, a, order, ipiv, b);
-        }
-
-        /// <summary>
-        /// Solves A*X=B for X using a previously factored A matrix.
-        /// </summary>
-        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="a">The factored A matrix.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public virtual void LUSolveFactored(Transpose transposeA, int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
-        {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (ipiv == null)
-            {
-                throw new ArgumentNullException("ipiv");
-            }
-
-            if (b == null)
-            {
-                throw new ArgumentNullException("b");
-            }
-
-            if (a.Length != order * order)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
-            }
-
-            if (ipiv.Length != order)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
-            }
-
-            if (b.Length != order * columnsOfB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
-            }
-
-            if ((transposeA == Transpose.Transpose) || (transposeA == Transpose.ConjugateTranspose))
-            {
-                var aT = new double[a.Length];
-                for (var i = 0; i < order; i++)
-                {
-                    for (var j = 0; j < order; j++)
-                    {
-                        aT[(j * order) + i] = a[(i * order) + j];
-                    }
-                }
-
-                LUSolveFactored(columnsOfB, aT, order, ipiv, b);
-            }
-            else
-            {
-                LUSolveFactored(columnsOfB, a, order, ipiv, b);
             }
         }
 
@@ -1829,7 +1734,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                         var im = i * rowsR;
 
                         var sum = 0.0;
-                        for (var k = 0; k < rowsR; k++ )
+                        for (var k = 0; k < rowsR; k++)
                         {
                             sum += q[im + k] * column[k];
                         }
@@ -2021,7 +1926,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 {
                     // Compute the transformation for the l-th column and
                     // place the l-th diagonal in vector s[l].
-
                     var sum = 0.0;
                     for (var i1 = l; i1 < rowsA; i1++)
                     {

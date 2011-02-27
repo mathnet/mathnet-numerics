@@ -36,6 +36,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#=library#>
 {
     using System;
     using System.Numerics;
+    using System.Security;
     using Properties;
    
     /// <summary>

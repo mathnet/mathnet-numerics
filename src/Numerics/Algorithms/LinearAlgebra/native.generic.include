@@ -6,6 +6,7 @@
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
+        [SecuritySafeCritical]
         public override void AddVectorToScaledVector(<#=dataType#>[] y, <#=dataType#> alpha, <#=dataType#>[] x, <#=dataType#>[] result)
         {
             if (y == null)
@@ -43,6 +44,7 @@
         /// <param name="x">The values to scale.</param>
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
+        [SecuritySafeCritical]
         public override void ScaleArray(<#=dataType#> alpha, <#=dataType#>[] x, <#=dataType#>[] result)
         {
             if (x == null)
@@ -70,6 +72,7 @@
         /// <param name="y">The vector y.</param>
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
+        [SecuritySafeCritical]
         public override <#=dataType#> DotProduct(<#=dataType#>[] x, <#=dataType#>[] y)
         {
             if (y == null)
@@ -121,6 +124,7 @@
         /// <param name="columnsB">The number of columns in the <paramref name="b"/> matrix.</param>
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
+        [SecuritySafeCritical]
         public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, <#=dataType#> alpha, <#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] b, int rowsB, int columnsB, <#=dataType#> beta, <#=dataType#>[] c)
         {
             if (a == null)
@@ -164,6 +168,7 @@
         /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
+        [SecuritySafeCritical]
         public override void LUFactor(<#=dataType#>[] data, int order, int[] ipiv)
         {
             if (data == null)
@@ -195,6 +200,7 @@
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        [SecuritySafeCritical]
         public override void LUInverse(<#=dataType#>[] a, int order)
         {
             if (a == null)
@@ -218,6 +224,7 @@
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        [SecuritySafeCritical]
         public override void LUInverseFactored(<#=dataType#>[] a, int order, int[] ipiv)
         {
             if (a == null)
@@ -253,6 +260,7 @@
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
+        [SecuritySafeCritical]
         public override void LUInverse(<#=dataType#>[] a, int order, <#=dataType#>[] work)
         {
             if (a == null)
@@ -288,6 +296,7 @@
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
+        [SecuritySafeCritical]
         public override void LUInverseFactored(<#=dataType#>[] a, int order, int[] ipiv, <#=dataType#>[] work)
         {
             if (a == null)
@@ -331,9 +340,25 @@
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
+        [SecuritySafeCritical]
         public override void LUSolve(int columnsOfB, <#=dataType#>[] a, int order, <#=dataType#>[] b)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (b.Length != columnsOfB * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            SafeNativeMethods.<#=prefix#>_lu_solve(order, columnsOfB, a, b); 
         }
 
         /// <summary>
@@ -345,38 +370,35 @@
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">The B matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
+        [SecuritySafeCritical]
         public override void LUSolveFactored(int columnsOfB, <#=dataType#>[] a, int order, int[] ipiv, <#=dataType#>[] b)
         {
-            throw new NotImplementedException();
-        }
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
 
-        /// <summary>
-        /// Solves A*X=B for X using LU factorization.
-        /// </summary>
-        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="a">The square matrix A.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public override void LUSolve(Transpose transposeA, int columnsOfB, <#=dataType#>[] a, int order, <#=dataType#>[] b)
-        {
-            throw new NotImplementedException();
-        }
+            if (ipiv == null)
+            {
+                throw new ArgumentNullException("ipiv");
+            }
 
-        /// <summary>
-        /// Solves A*X=B for X using a previously factored A matrix.
-        /// </summary>
-        /// <param name="transposeA">How to transpose the <paramref name="a"/> matrix.</param>
-        /// <param name="columnsOfB">The number of columns of B.</param>
-        /// <param name="a">The factored A matrix.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public override void LUSolveFactored(Transpose transposeA, int columnsOfB, <#=dataType#>[] a, int order, int[] ipiv, <#=dataType#>[] b)
-        {
-            throw new NotImplementedException();
+            if (a.Length != order * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (ipiv.Length != order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+            }
+
+            if (b.Length != columnsOfB * order)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            SafeNativeMethods.<#=prefix#>_lu_solve_factored(order, columnsOfB, a, ipiv, b); 
         }
 
         /// <summary>
@@ -386,6 +408,7 @@
         /// the Cholesky factorization.</param>
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
+        [SecuritySafeCritical]
         public override void CholeskyFactor(<#=dataType#>[] a, int order)
         {
             if (a == null)
@@ -416,6 +439,7 @@
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
         /// </remarks>
+        [SecuritySafeCritical]
         public override void CholeskySolve(<#=dataType#>[] a, int orderA, <#=dataType#>[] b, int rowsB, int columnsB)
         {
             throw new NotImplementedException();
@@ -430,6 +454,7 @@
         /// <param name="rowsB">The number of rows in the B matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
+        [SecuritySafeCritical]
         public override void CholeskySolveFactored(<#=dataType#>[] a, int orderA, <#=dataType#>[] b, int rowsB, int columnsB)
         {
             throw new NotImplementedException();
@@ -445,6 +470,7 @@
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        [SecuritySafeCritical]
         public override void QRFactor(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q)
         {
             throw new NotImplementedException();
@@ -463,6 +489,7 @@
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
+        [SecuritySafeCritical]
         public override void QRFactor(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] work)
         {
             throw new NotImplementedException();
@@ -480,6 +507,7 @@
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        [SecuritySafeCritical]
         public override void QRSolve(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
         {
             throw new NotImplementedException();
@@ -500,6 +528,7 @@
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
+        [SecuritySafeCritical]
         public override void QRSolve(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x, <#=dataType#>[] work)
         {
             throw new NotImplementedException();
@@ -515,6 +544,7 @@
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        [SecuritySafeCritical]
         public override void QRSolveFactored(<#=dataType#>[] q, <#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
         {
             throw new NotImplementedException();
@@ -533,6 +563,7 @@
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        [SecuritySafeCritical]
         public override void SingularValueDecomposition(bool computeVectors, <#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt)
         {
             throw new NotImplementedException();
@@ -554,6 +585,7 @@
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
+        [SecuritySafeCritical]
         public override void SingularValueDecomposition(bool computeVectors, <#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] work)
         {
             throw new NotImplementedException();
@@ -571,6 +603,7 @@
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        [SecuritySafeCritical]
         public override void SvdSolve(<#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
         {
             throw new NotImplementedException();
@@ -591,6 +624,7 @@
         /// <param name="work">The work array. For real matrices, the work array should be at least
         /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
         /// On exit, work[0] contains the optimal work size value.</param>
+        [SecuritySafeCritical]
         public override void SvdSolve(<#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x, <#=dataType#>[] work)
         {
             throw new NotImplementedException();
@@ -607,6 +641,7 @@
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        [SecuritySafeCritical]
         public override void SvdSolveFactored(int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
         {
             throw new NotImplementedException();
