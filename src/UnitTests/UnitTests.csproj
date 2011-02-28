@@ -113,6 +113,7 @@
     <Compile Include="IntegralTransformsTests\MatchingNaiveTransformTest.cs" />
     <Compile Include="IntegralTransformsTests\ParsevalTheoremTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTest.cs" />
+    <Compile Include="InterpolationTests\BulirschStoerRationalTest.cs" />
     <Compile Include="InterpolationTests\FloaterHormannRationalTest.cs" />
     <Compile Include="InterpolationTests\EquidistantPolynomialTest.cs" />
     <Compile Include="InterpolationTests\NevillePolynomialTest.cs" />
