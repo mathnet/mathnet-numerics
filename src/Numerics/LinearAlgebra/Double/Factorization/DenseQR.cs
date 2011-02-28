@@ -63,6 +63,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
         public DenseQR(DenseMatrix matrix)
         {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix");
+            }
+
             if (matrix.RowCount < matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
