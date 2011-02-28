@@ -47,6 +47,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     public class DenseQR : QR
     {
         /// <summary>
+        ///  Gets or sets Tau vector. Contains additional information on Q - used for native solver.
+        /// </summary>
+        public Complex[] Tau
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DenseQR"/> class. This object will compute the
         /// QR factorization when the constructor is called and cache it's factorization.
         /// </summary>
@@ -67,7 +76,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 
             MatrixR = matrix.Clone();
             MatrixQ = new DenseMatrix(matrix.RowCount);
-            Control.LinearAlgebraProvider.QRFactor(((DenseMatrix)MatrixR).Data, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix)MatrixQ).Data);
+            Tau = new Complex[Math.Min(matrix.RowCount, matrix.ColumnCount)];
+            Control.LinearAlgebraProvider.QRFactor(((DenseMatrix)MatrixR).Data, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix)MatrixQ).Data, Tau);
         }
 
         /// <summary>

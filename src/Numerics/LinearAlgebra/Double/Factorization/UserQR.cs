@@ -91,7 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Generate column from initial matrix to work array
         /// </summary>
         /// <param name="a">Initial matrix</param>
-        /// <param name="row">The firts row</param>
+        /// <param name="row">The first row</param>
         /// <param name="column">Column index</param>
         /// <returns>Generated vector</returns>
         private static double[] GenerateColumn(Matrix<double> a, int row, int column)

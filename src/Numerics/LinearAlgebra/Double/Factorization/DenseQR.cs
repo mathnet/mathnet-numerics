@@ -46,6 +46,15 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     public class DenseQR : QR
     {
         /// <summary>
+        ///  Gets or sets Tau vector. Contains additional information on Q - used for native solver.
+        /// </summary>
+        public double[] Tau
+        {
+            get;
+            set;
+        }
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="DenseQR"/> class. This object will compute the
         /// QR factorization when the constructor is called and cache it's factorization.
         /// </summary>
@@ -54,11 +63,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
         public DenseQR(DenseMatrix matrix)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentNullException("matrix");
-            }
-
             if (matrix.RowCount < matrix.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
@@ -66,7 +70,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             MatrixR = matrix.Clone();
             MatrixQ = new DenseMatrix(matrix.RowCount);
-            Control.LinearAlgebraProvider.QRFactor(((DenseMatrix)MatrixR).Data, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix)MatrixQ).Data);
+            Tau = new double[Math.Min(matrix.RowCount, matrix.ColumnCount)];
+            Control.LinearAlgebraProvider.QRFactor(((DenseMatrix)MatrixR).Data, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix)MatrixQ).Data, Tau);
         }
 
         /// <summary>

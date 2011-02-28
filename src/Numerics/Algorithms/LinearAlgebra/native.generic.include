@@ -517,11 +517,39 @@
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q)
+        public override void QRFactor(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] tau)
         {
-            throw new NotImplementedException();
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rowsR * columnsR)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
+            }
+
+            if (tau.Length < Math.Min(rowsR, columnsR))
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
+            }
+
+            if (q.Length != rowsR * rowsR)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
+            }
+
+            var work = new <#=dataType#>[columnsR * Control.BlockSize];
+            SafeNativeMethods.<#=prefix#>_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
         }
 
         /// <summary>
@@ -533,14 +561,52 @@
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] work)
+        public override void QRFactor(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] tau, <#=dataType#>[] work)
         {
-            throw new NotImplementedException();
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rowsR * columnsR)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
+            }
+
+            if (tau.Length < Math.Min(rowsR, columnsR))
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
+            }
+
+            if (q.Length != rowsR * rowsR)
+            {
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
+            }
+
+            if (work.Length < columnsR * Control.BlockSize)
+            {
+                work[0] = columnsR * Control.BlockSize;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            SafeNativeMethods.<#=prefix#>_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
         }
 
         /// <summary>

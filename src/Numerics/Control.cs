@@ -47,6 +47,11 @@ namespace MathNet.Numerics
 #endif
 
         /// <summary>
+        /// Initial block size for the native linear algebra provider.
+        /// </summary>
+        private static int _blockSize = 512;
+
+        /// <summary>
         /// Initializes static members of the Control class.
         /// </summary>
         static Control()
@@ -60,7 +65,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets or sets a value indicating whether the distribution classes check validate each parameter.
         /// For the multivariate distributions this could involve an expensive matrix factorization.
-        /// The default setting of this property is true.
+        /// The default setting of this property is <c>true</c>.
         /// </summary>
         public static bool CheckDistributionParameters { get; set; }
 
@@ -108,6 +113,27 @@ namespace MathNet.Numerics
                 _numberOfThreads = Math.Max(1, Math.Min(1024, value));
             }
 #endif
+        }
+
+        /// <summary>
+        /// Gets or sets the the block size to use for the native linear
+        /// algebra provider.
+        /// </summary>
+        /// <value>The block size. Must be at least 32.</value>
+        public static int BlockSize
+        {
+            get
+            {
+                return _blockSize;
+            }
+
+            set
+            {
+                if (_blockSize > 31)
+                {
+                    _blockSize = value;
+                }
+            }
         }
     }
 }
