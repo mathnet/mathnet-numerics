@@ -187,27 +187,39 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         internal static extern int z_lu_solve(int n, int nrhs, Complex[] a,  [In, Out] Complex[] b);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int s_cholesky_solve(int n, int nrhs, float[] a, [In, Out] float[] b);
+        internal static extern int s_cholesky_solve(int n, int nrhs, float[] a, [In, Out] float[] b);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int d_cholesky_solve(int n, int nrhs, double[] a, [In, Out] double[] b);
+        internal static extern int d_cholesky_solve(int n, int nrhs, double[] a, [In, Out] double[] b);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int c_cholesky_solve(int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b);
+        internal static extern int c_cholesky_solve(int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int z_cholesky_solve(int n, int nrhs, Complex[] a, [In, Out] Complex[] b);
+        internal static extern int z_cholesky_solve(int n, int nrhs, Complex[] a, [In, Out] Complex[] b);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int s_cholesky_solve_factored(int n, int nrhs, float[] a, float[] b);
+        internal static extern int s_cholesky_solve_factored(int n, int nrhs, float[] a, [In, Out] float[] b);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int d_cholesky_solve_factored(int n, int nrhs, double[] a, double[] b);
+        internal static extern int d_cholesky_solve_factored(int n, int nrhs, double[] a, [In, Out] double[] b);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int c_cholesky_solve_factored(int n, int nrhs, Complex32[] a, Complex32[] b);
+        internal static extern int c_cholesky_solve_factored(int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b);
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern int z_cholesky_solve_factored(int n, int nrhs, Complex[] a, Complex[] b);
+        internal static extern int z_cholesky_solve_factored(int n, int nrhs, Complex[] a, [In, Out] Complex[] b);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int s_qr_factor(int m, int n, [In, Out] float[] r, [In, Out] float[] tau, [In, Out] float[] q, [In, Out] float[] work, int len);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int d_qr_factor(int m, int n, [In, Out] double[] r, [In, Out] double[] tau, [In, Out] double[] q, [In, Out] double[] work, int len);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int c_qr_factor(int m, int n, [In, Out] Complex32[] r, [In, Out] Complex32[] tau, [In, Out] Complex32[] q, [In, Out] Complex32[] work, int len);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int z_qr_factor(int m, int n, [In, Out] Complex[] r, [In, Out] Complex[] tau, [In, Out] Complex[] q, [In, Out] Complex[] work, int len);
 
         #endregion LAPACK

@@ -70,6 +70,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given array is the wrong length. Should be {0}..
+        /// </summary>
+        internal static string ArgumentArrayWrongLength {
+            get {
+                return ResourceManager.GetString("ArgumentArrayWrongLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The argument must be between 0 and 1..
         /// </summary>
         internal static string ArgumentBetween0And1 {

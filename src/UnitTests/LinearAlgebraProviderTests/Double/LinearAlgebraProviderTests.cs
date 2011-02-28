@@ -641,7 +641,152 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             AssertHelpers.AlmostEqual(b[5], 0, 14);
         }
 
+        [Test]
+        public void CanComputeQRFactorSquareMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var r = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, r, r.Length);
 
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.RowCount];
+            Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
+
+            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r);
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);                    
+                }
+            }
+        }
+
+        [Test]
+        public void CanComputeQRFactorTallMatrix()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var r = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, r, r.Length);
+
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.RowCount];
+            Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
+
+            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r);
+            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
+
+        [Test]
+        public void CanComputeQRFactorWideMatrix()
+        {
+            var matrix = _matrices["Wide2x3"];
+            var r = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, r, r.Length);
+
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.RowCount];
+            Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
+
+            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r);
+            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
+
+        [Test]
+        public void CanComputeQRFactorSquareMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Square3x3"];
+            var r = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, r, r.Length);
+
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.RowCount];
+            var work = new double[matrix.ColumnCount * Control.BlockSize];
+            Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work);
+
+            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r);
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
+
+        [Test]
+        public void CanComputeQRFactorTallMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var r = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, r, r.Length);
+
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.RowCount];
+            var work = new double[matrix.ColumnCount * Control.BlockSize];
+            Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work);
+
+            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r);
+            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
+
+        [Test]
+        public void CanComputeQRFactorWideMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Wide2x3"];
+            var r = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, r, r.Length);
+
+            var tau = new double[3];
+            var q = new double[matrix.RowCount * matrix.RowCount];
+            var work = new double[matrix.ColumnCount * Control.BlockSize];
+            Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work);
+
+            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r);
+            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var a = mq * mr;
+
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var col = 0; col < matrix.ColumnCount; col++)
+                {
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
+                }
+            }
+        }
 
         /// <summary>
         /// Checks to see if a matrix and array contain the same values.

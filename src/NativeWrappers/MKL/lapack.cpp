@@ -523,6 +523,7 @@ extern "C" {
 				if (i > j)
 				{
 					q[j * m + i] = r[j * m + i];
+					r[j * m + i] = 0.0f;
 				}
 			}
 		}
@@ -552,6 +553,7 @@ extern "C" {
 				if (i > j)
 				{
 					q[j * m + i] = r[j * m + i];
+					r[j * m + i] = 0.0;
 				}
 			}
 		}
@@ -573,6 +575,10 @@ extern "C" {
 	{
 		int info = 0;
 		CGEQRF(&m, &n, r, &m, tau, work, &len, &info);
+		
+		MKL_Complex8 zero;
+		zero.real = 0.0f;
+		zero.imag = 0.0f;
 
 		for (int i = 0; i < m; ++i)
 		{
@@ -581,6 +587,7 @@ extern "C" {
 				if (i > j)
 				{
 					q[j * m + i] = r[j * m + i];
+					r[j * m + i] = zero;
 				}
 			}
 		}
@@ -603,6 +610,10 @@ extern "C" {
 		int info = 0;
 		ZGEQRF(&m, &n, r, &m, tau, work, &len, &info);
 
+		MKL_Complex16 zero;
+		zero.real = 0.0;
+		zero.imag = 0.0;
+
 		for (int i = 0; i < m; ++i)
 		{
 			for (int j = 0; j < m && j < n; ++j)
@@ -610,6 +621,7 @@ extern "C" {
 				if (i > j)
 				{
 					q[j * m + i] = r[j * m + i];
+					r[j * m + i] = zero;
 				}
 			}
 		}

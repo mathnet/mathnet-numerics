@@ -316,13 +316,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// Computes the QR factorization of A.
         /// </summary>
         /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization. </param>
+        /// it is overwritten with the R matrix of the QR factorization.</param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(T[] r, int rowsR, int columnsR, T[] q);
+        void QRFactor(T[] r, int rowsR, int columnsR, T[] q, T[] tau);
 
         /// <summary>
         /// Computes the QR factorization of A.
@@ -333,11 +335,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(T[] r, int rowsR, int columnsR, T[] q, T[] work);
+        void QRFactor(T[] r, int rowsR, int columnsR, T[] q, T[] tau, T[] work);
 
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.

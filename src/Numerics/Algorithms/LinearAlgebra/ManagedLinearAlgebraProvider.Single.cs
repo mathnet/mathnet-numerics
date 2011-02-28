@@ -1354,8 +1354,10 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public virtual void QRFactor(float[] r, int rowsR, int columnsR, float[] q)
+        public virtual void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] tau)
         {
             if (r == null)
             {
@@ -1369,16 +1371,21 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (r.Length != rowsR * columnsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
+            }
+
+            if (tau.Length < Math.Min(rowsR, columnsR))
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
             if (q.Length != rowsR * rowsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
             var work = new float[rowsR * rowsR];
-            QRFactor(r, rowsR, columnsR, q, work);
+            QRFactor(r, rowsR, columnsR, q, tau, work);
         }
 
         /// <summary>
@@ -1390,11 +1397,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
         /// QR factorization.</param>
+        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
+        /// to be used by the QR solve routine.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public virtual void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] work)
+        public virtual void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] tau, float[] work)
         {
             if (r == null)
             {
@@ -1413,12 +1422,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (r.Length != rowsR * columnsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
+            }
+
+            if (tau.Length < Math.Min(rowsR, columnsR))
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
             }
 
             if (q.Length != rowsR * rowsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
             if (work.Length < rowsR * rowsR)
@@ -1677,8 +1691,8 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(float[],int,int,float[],float[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>

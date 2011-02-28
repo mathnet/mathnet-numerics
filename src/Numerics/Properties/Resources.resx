@@ -351,4 +351,7 @@
   <data name="ArrayTooSmall" xml:space="preserve">
     <value>The given array is too small. It must be at least {0} long.</value>
   </data>
+  <data name="ArgumentArrayWrongLength" xml:space="preserve">
+    <value>The given array is the wrong length. Should be {0}.</value>
+  </data>
 </root>
