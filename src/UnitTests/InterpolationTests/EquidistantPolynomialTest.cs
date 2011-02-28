@@ -1,4 +1,4 @@
-﻿// <copyright file="NevillePolynomialTest.cs" company="Math.NET">
+﻿// <copyright file="EquidistantPolynomialTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -35,10 +35,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using NUnit.Framework;
 
     [TestFixture]
-    public class NevillePolynomialTest
+    public class EquidistantPolynomialTest
     {
-        readonly double[] _t = new[] { 0.0, 1.0, 3.0, 4.0 };
-        readonly double[] _x = new[] { 0.0, 3.0, 1.0, 3.0 };
+        const double _tmin = 0.0, _tmax = 4.0;
+        readonly double[] _x = new[] { 0.0, 3.0, 2.5, 1.0, 3.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -46,16 +46,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [Test]
         public void FitsAtSamplePoints()
         {
-            IInterpolation interpolation = new NevillePolynomialInterpolation(_t, _x);
+            IInterpolation interpolation = new EquidistantPolynomialInterpolation(_tmin, _tmax, _x);
 
             for (int i = 0; i < _x.Length; i++)
             {
-                Assert.AreEqual(_x[i], interpolation.Interpolate(_t[i]), "A Exact Point " + i);
-
-                double interpolatedValue;
-                double secondDerivative;
-                interpolation.Differentiate(_t[i], out interpolatedValue, out secondDerivative);
-                Assert.AreEqual(_x[i], interpolatedValue, "B Exact Point " + i);
+                Assert.AreEqual(_x[i], interpolation.Interpolate(i), "A Exact Point " + i);
             }
         }
 
@@ -65,22 +60,17 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <remarks>
         /// Maple:
         /// with(CurveFitting);
-        /// evalf(subs({x=0.1},PolynomialInterpolation([[0,0],[1,3],[3,1],[4,3]], x)),20);
+        /// evalf(subs({x=0.1},PolynomialInterpolation([[0,0],[1,3],[2,2.5],[3,1],[4,3]], x)),20);
         /// </remarks>
         [Test, Sequential]
         public void FitsAtArbitraryPointsWithMaple(
             [Values(0.1, 0.4, 1.1, 3.2, 4.5, 10.0, -10.0)] double t,
-            [Values(.57225, 1.884, 3.0314166666666666667, 1.034666666666666667, 6.28125, 277.5, -1010.8333333333333333)] double x,
-            [Values(1e-15, 1e-15, 1e-15, 1e-15, 1e-15, 1e-15, 1e-12)] double maxAbsoluteError)
+            [Values(.487425, 1.6968, 3.081925, .9408, 7.265625, 592.5, 657.5)] double x,
+            [Values(1e-15, 1e-15, 1e-15, 1e-15, 1e-14, 1e-10, 1e-9)] double maxAbsoluteError)
         {
-            IInterpolation interpolation  = new NevillePolynomialInterpolation(_t, _x);
+            IInterpolation interpolation = new EquidistantPolynomialInterpolation(_tmin, _tmax, _x);
 
             Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
-
-            double interpolatedValue;
-            double secondDerivative;
-            interpolation.Differentiate(t, out interpolatedValue, out secondDerivative);
-            Assert.AreEqual(x, interpolatedValue, maxAbsoluteError, "Interpolation as by-product of differentiation at {0}", t);
         }
 
         /// <summary>
@@ -91,10 +81,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);
-            IInterpolation interpolation = new NevillePolynomialInterpolation(x, y);
+            IInterpolation interpolation = new EquidistantPolynomialInterpolation(x, y);
             for (int i = 0; i < xtest.Length; i++)
             {
-                Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-13, "Linear with {0} samples, sample {1}", samples, i);
+                Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-12, "Linear with {0} samples, sample {1}", samples, i);
             }
         }
     }
