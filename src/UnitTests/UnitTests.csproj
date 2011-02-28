@@ -114,6 +114,9 @@
     <Compile Include="IntegralTransformsTests\ParsevalTheoremTest.cs" />
     <Compile Include="IntegrationTests\IntegrationTest.cs" />
     <Compile Include="InterpolationTests\BulirschStoerRationalTest.cs" />
+    <Compile Include="InterpolationTests\AkimaSplineTest.cs" />
+    <Compile Include="InterpolationTests\CubicSplineTest.cs" />
+    <Compile Include="InterpolationTests\LinearSplineTest.cs" />
     <Compile Include="InterpolationTests\FloaterHormannRationalTest.cs" />
     <Compile Include="InterpolationTests\EquidistantPolynomialTest.cs" />
     <Compile Include="InterpolationTests\NevillePolynomialTest.cs" />
