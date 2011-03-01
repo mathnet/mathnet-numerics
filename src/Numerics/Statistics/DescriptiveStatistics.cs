@@ -30,6 +30,7 @@
 
 namespace MathNet.Numerics.Statistics
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -80,8 +81,6 @@ namespace MathNet.Numerics.Statistics
             }
 
             Median = data.Median();
-            Maximum = data.Maximum();
-            Minimum = data.Minimum();
         }
 
         /// <summary>
@@ -108,8 +107,6 @@ namespace MathNet.Numerics.Statistics
             }
 
             Median = data.Median();
-            Maximum = data.Maximum();
-            Minimum = data.Minimum();
         }
 
         /// <summary>
@@ -179,6 +176,8 @@ namespace MathNet.Numerics.Statistics
             double correction = 0;
             double skewness = 0;
             double kurtosis = 0;
+            double minimum = Double.PositiveInfinity;
+            double maximum = Double.NegativeInfinity;
             int n = 0;
             foreach (var xi in data)
             {
@@ -190,10 +189,14 @@ namespace MathNet.Numerics.Statistics
                 skewness += tmp;
                 tmp *= diff;
                 kurtosis += tmp;
+                if (minimum > xi) { minimum = xi; }
+                if (maximum < xi) { maximum = xi; }
                 n++;
             }
 
             Count = n;
+            Minimum = minimum;
+            Maximum = maximum;
             Variance = (variance - (correction * correction / n)) / (n - 1);
             StandardDeviation = System.Math.Sqrt(Variance);
             if (Variance != 0)
@@ -224,6 +227,8 @@ namespace MathNet.Numerics.Statistics
             double correction = 0;
             double skewness = 0;
             double kurtosis = 0;
+            double minimum = Double.PositiveInfinity;
+            double maximum = Double.NegativeInfinity;
             int n = 0;
             foreach (var xi in data)
             {
@@ -237,6 +242,8 @@ namespace MathNet.Numerics.Statistics
                     skewness += tmp;
                     tmp *= diff;
                     kurtosis += tmp;
+                    if (minimum > xi) { minimum = xi.Value; }
+                    if (maximum < xi) { maximum = xi.Value; }
                     n++;
                 }
             }
@@ -244,6 +251,8 @@ namespace MathNet.Numerics.Statistics
             Count = n;
             if (n > 0)
             {
+                Minimum = minimum;
+                Maximum = maximum;
                 Variance = (variance - (correction * correction / n)) / (n - 1);
                 StandardDeviation = System.Math.Sqrt(Variance);
                 if (Variance != 0)
@@ -276,6 +285,8 @@ namespace MathNet.Numerics.Statistics
             decimal correction = 0;
             decimal skewness = 0;
             decimal kurtosis = 0;
+            decimal minimum = Decimal.MaxValue;
+            decimal maximum = Decimal.MinValue;
             int n = 0;
             foreach (decimal xi in data)
             {
@@ -287,10 +298,14 @@ namespace MathNet.Numerics.Statistics
                 skewness += tmp;
                 tmp *= diff;
                 kurtosis += tmp;
+                if (minimum > xi) { minimum = xi; }
+                if (maximum < xi) { maximum = xi; }
                 n++;
             }
 
             Count = n;
+            Minimum = (double)minimum;
+            Maximum = (double)maximum;
             Variance = (double)(variance - (correction * correction / n)) / (n - 1);
             StandardDeviation = System.Math.Sqrt(Variance);
             if (Variance != 0)
@@ -322,6 +337,8 @@ namespace MathNet.Numerics.Statistics
             decimal correction = 0;
             decimal skewness = 0;
             decimal kurtosis = 0;
+            decimal minimum = Decimal.MaxValue;
+            decimal maximum = Decimal.MinValue;
             int n = 0;
             foreach (decimal? xi in data)
             {
@@ -335,6 +352,8 @@ namespace MathNet.Numerics.Statistics
                     skewness += tmp;
                     tmp *= diff;
                     kurtosis += tmp;
+                    if (minimum > xi) { minimum = xi.Value; }
+                    if (maximum < xi) { maximum = xi.Value; }
                     n++;
                 }
             }
@@ -342,6 +361,8 @@ namespace MathNet.Numerics.Statistics
             Count = n;
             if (n > 0)
             {
+                Minimum = (double) minimum;
+                Maximum = (double) maximum;
                 Variance = (double)(variance - (correction * correction / n)) / (n - 1);
                 StandardDeviation = System.Math.Sqrt(Variance);
                 if (Variance != 0)
