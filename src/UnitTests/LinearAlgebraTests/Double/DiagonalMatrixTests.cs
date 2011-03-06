@@ -592,5 +592,43 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var matrix = TestMatrices["Square3x3"];
             Assert.IsTrue(matrix.IsSymmetric);
         }
+
+        /// <summary>
+        /// Can get a sub-matrix.
+        /// </summary>
+        [Test]
+        public override void CanGetASubMatrix()
+        {
+            var matrix = CreateMatrix(10, 10);
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var column = 0; column < matrix.ColumnCount; column++)
+                {
+                    if (row == column)
+                    {
+                        matrix[row, column] = 1.0;
+                    }
+                }
+            }
+
+            var submatrix = matrix.SubMatrix(8, 2, 0, 2);
+            Assert.AreEqual(2, submatrix.RowCount);
+            Assert.AreEqual(2, submatrix.ColumnCount);
+
+            for (var row = 0; row < submatrix.RowCount; row++)
+            {
+                for (var column = 0; column < submatrix.ColumnCount; column++)
+                {
+                    if (row == column)
+                    {
+                        Assert.AreEqual(1.0, submatrix[row, column]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(0.0, submatrix[row, column]);
+                    }
+                }
+            }
+        }
     }
 }

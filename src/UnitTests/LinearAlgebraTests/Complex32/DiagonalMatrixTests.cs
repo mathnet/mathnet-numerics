@@ -592,6 +592,42 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var matrix = TestMatrices["Square3x3"];
             Assert.IsTrue(matrix.IsSymmetric);
         }
+        /// <summary>
+        /// Can get a sub-matrix.
+        /// </summary>
+        [Test]
+        public override void CanGetASubMatrix()
+        {
+            var matrix = CreateMatrix(10, 10);
+            for (var row = 0; row < matrix.RowCount; row++)
+            {
+                for (var column = 0; column < matrix.ColumnCount; column++)
+                {
+                    if (row == column)
+                    {
+                        matrix[row, column] = 1.0f;
+                    }
+                }
+            }
 
+            var submatrix = matrix.SubMatrix(8, 2, 0, 2);
+            Assert.AreEqual(2, submatrix.RowCount);
+            Assert.AreEqual(2, submatrix.ColumnCount);
+
+            for (var row = 0; row < submatrix.RowCount; row++)
+            {
+                for (var column = 0; column < submatrix.ColumnCount; column++)
+                {
+                    if (row == column)
+                    {
+                        Assert.AreEqual(Complex32.One, submatrix[row, column]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(Complex32.Zero, submatrix[row, column]);
+                    }
+                }
+            }
+        }
     }
 }
