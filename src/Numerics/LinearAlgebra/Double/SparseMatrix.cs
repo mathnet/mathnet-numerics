@@ -421,7 +421,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             for (int i = rowIndex, row = 0; i < rowMax; i++, row++)
             {
                 var startIndex = _rowIndex[i];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
 
                 for (int j = startIndex; j < endIndex; j++)
                 {
