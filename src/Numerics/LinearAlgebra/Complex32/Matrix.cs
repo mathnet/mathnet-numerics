@@ -280,6 +280,46 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            for (var j = 0; j < other.ColumnCount; j++)
+            {
+                for (var i = 0; i < ColumnCount; i++)
+                {
+                    var s = Complex32.Zero;
+                    for (var l = 0; l < RowCount; l++)
+                    {
+                        s += At(l, i) * other.At(l, j);
+                    }
+
+                    result.At(i, j, s);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
+        {
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                var s = Complex32.Zero;
+                for (var j = 0; j != RowCount; j++)
+                {
+                    s += At(j, i) * rightSide[j];
+                }
+                result[i] = s;
+            }
+        }
+
+        /// <summary>
         /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the negation.</param>
