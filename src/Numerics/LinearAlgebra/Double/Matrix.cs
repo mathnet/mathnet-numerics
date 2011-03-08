@@ -270,6 +270,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Matrix<double> other, Matrix<double> result)
+        {
+            for (var j = 0; j < other.ColumnCount; j++)
+            {
+                for (var i = 0; i < ColumnCount; i++)
+                {
+                    var s = 0.0;
+                    for (var l = 0; l < RowCount; l++)
+                    {
+                        s += At(l, i) * other.At(l, j);
+                    }
+
+                    result.At(i, j, s);
+                }
+            }
+        }
+
+        /// <summary>
         /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
