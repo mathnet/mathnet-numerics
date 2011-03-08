@@ -270,6 +270,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Vector<double> rightSide, Vector<double> result)
+        {
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                var s = 0.0;
+                for (var j = 0; j != RowCount; j++)
+                {
+                    s += At(j, i) * rightSide[j];
+                }
+                result[i] = s;
+            }
+        }
+
+        /// <summary>
         /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the negation.</param>
