@@ -700,6 +700,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The number of rows must greater than or equal to the number of columns..
+        /// </summary>
+        internal static string RowsLessThanColumns {
+            get {
+                return ResourceManager.GetString("RowsLessThanColumns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The singular vectors were not computed..
         /// </summary>
         internal static string SingularVectorsNotComputed {

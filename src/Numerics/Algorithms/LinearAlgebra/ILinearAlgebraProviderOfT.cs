@@ -346,46 +346,65 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
-        /// QR factorization.</param>
+        /// <param name="a">The A matrix.</param>
+        /// <param name="rows">The number of rows in the A matrix.</param>
+        /// <param name="columns">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void QRSolve(T[] r, int rowsR, int columnsR, T[] q, T[] b, int columnsB, T[] x);
+        /// <remarks>Rows must be greater or equal to columns.</remarks>
+        void QRSolve(T[] a, int rows, int columns, T[] b, int columnsB, T[] x);
 
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
-        /// QR factorization.</param>
+        /// <param name="a">The A matrix.</param>
+        /// <param name="rows">The number of rows in the A matrix.</param>
+        /// <param name="columns">The number of columns in the A matrix.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        void QRSolve(T[] r, int rowsR, int columnsR, T[] q, T[] b, int columnsB, T[] x, T[] work);
+        /// <remarks>Rows must be greater or equal to columns.</remarks>
+        void QRSolve(T[] a, int rows, int columns, T[] b, int columnsB, T[] x, T[] work);
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(T[],int,int,T[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
+        /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[],T[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="tau">Contains additional information on Q. Only used for the native solver
+        /// and can be <c>null</c> for the managed provider.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void QRSolveFactored(T[] q, T[] r, int rowsR, int columnsR, T[] b, int columnsB, T[] x);
+        /// <remarks>Rows must be greater or equal to columns.</remarks>
+        void QRSolveFactored(T[] q, T[] r, int rowsR, int columnsR, T[] tau, T[] b, int columnsB, T[] x);
 
+        /// <summary>
+        /// Solves A*X=B for X using a previously QR factored matrix.
+        /// </summary>
+        /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
+        /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[],T[])"/>. </param>
+        /// <param name="rowsR">The number of rows in the A matrix.</param>
+        /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="tau">Contains additional information on Q. Only used for the native solver
+        /// and can be <c>null</c> for the managed provider.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array - only used in the native provider. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>Rows must be greater or equal to columns.</remarks>
+        void QRSolveFactored(T[] q, T[] r, int rowsR, int columnsR, T[] tau, T[] b, int columnsB, T[] x, T[] work);
+        
         /// <summary>
         /// Computes the singular value decomposition of A.
         /// </summary>

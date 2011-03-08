@@ -582,7 +582,7 @@
 
             if (work == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException("work");
             }
 
             if (r.Length != rowsR * columnsR)
@@ -612,56 +612,259 @@
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
-        /// QR factorization.</param>
-        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
+        /// <param name="a">The A matrix.</param>
+        /// <param name="rows">The number of rows in the A matrix.</param>
+        /// <param name="columns">The number of columns in the A matrix.</param>
+        /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        [SecuritySafeCritical]
-        public override void QRSolve(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
+        /// <remarks>Rows must be greater or equal to columns.</remarks>
+        public override void QRSolve(<#=dataType#>[] a, int rows, int columns,  <#=dataType#>[] b, int columnsB,  <#=dataType#>[] x)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (a.Length != rows * columns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (b.Length != rows * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != columns * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            if (rows < columns)
+            {
+                throw new ArgumentException(Resources.RowsLessThanColumns);
+            }
+
+            var work = new <#=dataType#>[columns * Control.BlockSize];
+            QRSolve(a, rows, columns, b, columnsB, x, work);
         }
 
         /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
-        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
-        /// QR factorization.</param>
+        /// <param name="a">The A matrix.</param>
+        /// <param name="rows">The number of rows in the A matrix.</param>
+        /// <param name="columns">The number of columns in the A matrix.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="work">The work array. The array must have a length of at least N,
         /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
         /// work size value.</param>
-        [SecuritySafeCritical]
-        public override void QRSolve(<#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] q, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x, <#=dataType#>[] work)
+        /// <remarks>Rows must be greater or equal to columns.</remarks>
+        public override void QRSolve(<#=dataType#>[] a, int rows, int columns, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x, <#=dataType#>[] work)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("work");
+            }
+
+            if (a.Length != rows * columns)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+            }
+
+            if (b.Length != rows * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != columns * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            if (rows < columns)
+            {
+                throw new ArgumentException(Resources.RowsLessThanColumns);
+            }
+
+            if (work.Length < 1)
+            {
+                work[0] = rows * Control.BlockSize;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            SafeNativeMethods.<#=prefix#>_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
         }
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
         /// </summary>
-        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(<#=dataType#>[],int,int,<#=dataType#>[])"/>.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(<#=dataType#>[],int,int,<#=dataType#>[])"/>. </param>
+        /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[])"/>.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[])"/>. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="tau">Contains additional information on Q. Only used for the native solver
+        /// and can be <c>null</c> for the managed provider.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
+        /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolveFactored(<#=dataType#>[] q, <#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
+        public override void QRSolveFactored(<#=dataType#>[] q, <#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] tau, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
         {
-            throw new NotImplementedException();
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (r.Length != rowsR * columnsR)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rowsR * rowsR)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (b.Length != rowsR * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != columnsR * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            if (rowsR < columnsR)
+            {
+                throw new ArgumentException(Resources.RowsLessThanColumns);
+            }
+            
+            var work = new <#=dataType#>[columnsR * Control.BlockSize];
+            QRSolveFactored(q, r, rowsR, columnsR, tau, b, columnsB, x, work);
+        }
+
+        /// <summary>
+        /// Solves A*X=B for X using a previously QR factored matrix.
+        /// </summary>
+        /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
+        /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
+        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[])"/>. </param>
+        /// <param name="rowsR">The number of rows in the A matrix.</param>
+        /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="tau">Contains additional information on Q. Only used for the native solver
+        /// and can be <c>null</c> for the managed provider.</param>
+        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        /// <param name="work">The work array - only used in the native provider. The array must have a length of at least N,
+        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
+        /// work size value.</param>
+        /// <remarks>Rows must be greater or equal to columns.</remarks>
+        public override void QRSolveFactored(<#=dataType#>[] q, <#=dataType#>[] r, int rowsR, int columnsR, <#=dataType#>[] tau, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x, <#=dataType#>[] work)
+        {
+            if (r == null)
+            {
+                throw new ArgumentNullException("r");
+            }
+
+            if (q == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("q");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("work");
+            }
+
+            if (r.Length != rowsR * columnsR)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+            }
+
+            if (q.Length != rowsR * rowsR)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+            }
+
+            if (b.Length != rowsR * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != columnsR * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+            }
+
+            if (rowsR < columnsR)
+            {
+                throw new ArgumentException(Resources.RowsLessThanColumns);
+            }
+
+            if (work.Length < 1)
+            {
+                work[0] = rowsR * Control.BlockSize;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            SafeNativeMethods.<#=prefix#>_qr_solve_factored(rowsR, columnsR, columnsB, r, b, tau, x, work, work.Length);
         }
 
         /// <summary>
