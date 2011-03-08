@@ -445,6 +445,68 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Vector<float> rightSide, Vector<float> result)
+        {
+            var denseRight = rightSide as DenseVector;
+            var denseResult = result as DenseVector;
+
+            if (denseRight == null || denseResult == null)
+            {
+                base.DoTransposeThisAndMultiply(rightSide, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                    Algorithms.LinearAlgebra.Transpose.Transpose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0f,
+                    Data,
+                    RowCount,
+                    ColumnCount,
+                    denseRight.Data,
+                    denseRight.Count,
+                    1,
+                    0.0f,
+                    denseResult.Data);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Matrix<float> other, Matrix<float> result)
+        {
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoTransposeThisAndMultiply(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                                  Algorithms.LinearAlgebra.Transpose.Transpose,
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  1.0f,
+                                  Data,
+                                  RowCount,
+                                  ColumnCount,
+                                  denseOther.Data,
+                                  denseOther.RowCount,
+                                  denseOther.ColumnCount,
+                                  0.0f,
+                                  denseResult.Data);
+            }
+        }
+
+        /// <summary>
         /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the negation.</param>
