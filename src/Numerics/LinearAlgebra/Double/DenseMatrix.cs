@@ -461,7 +461,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.Transpose,
                     Algorithms.LinearAlgebra.Transpose.DontTranspose,
                     1.0,
                     Data,
@@ -482,7 +482,28 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeThisAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            throw new NotImplementedException();
+            var denseOther = other as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseOther == null || denseResult == null)
+            {
+                base.DoTransposeThisAndMultiply(other, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
+                                  Algorithms.LinearAlgebra.Transpose.Transpose,
+                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                                  1.0,
+                                  Data,
+                                  RowCount,
+                                  ColumnCount,
+                                  denseOther.Data,
+                                  denseOther.RowCount,
+                                  denseOther.ColumnCount,
+                                  0.0,
+                                  denseResult.Data);
+            }
         }
 
         /// <summary>
