@@ -571,6 +571,80 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         protected abstract void DoTransposeAndMultiply(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix. 
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException">If the result matrix is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentException">If <strong>this.Rows != other.RowCount</strong>.</exception>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the this.ColumnCount x other.ColumnCount.</exception>
+        public virtual void TransposeThisAndMultiply(Matrix<T> other, Matrix<T> result)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (RowCount != other.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if ((result.RowCount != ColumnCount) || (result.ColumnCount != other.ColumnCount))
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
+            {
+                var tmp = result.CreateMatrix(result.RowCount, result.ColumnCount);
+                TransposeThisAndMultiply(other, tmp);
+                tmp.CopyTo(result);
+            }
+            else
+            {
+                DoTransposeThisAndMultiply(other, result);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and returns the result.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <exception cref="ArgumentException">If <strong>this.Rows != other.RowCount</strong>.</exception>        
+        /// <exception cref="ArgumentNullException">If the other matrix is <see langword="null" />.</exception>
+        /// <returns>The result of the multiplication.</returns>
+        public virtual Matrix<T> TransposeThisAndMultiply(Matrix<T> other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (RowCount != other.RowCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+            }
+
+            var result = CreateMatrix(ColumnCount, other.ColumnCount);
+            TransposeThisAndMultiply(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected abstract void DoTransposeThisAndMultiply(Matrix<T> other, Matrix<T> result);
+
+        /// <summary>
         /// Negate each element of this matrix.
         /// </summary>
         /// <returns>A matrix containing the negated values.</returns>
