@@ -254,7 +254,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeAndMultiply(Matrix<float> other, Matrix<float> result)
         {
-            for (var j = 0; j < RowCount; j++)
+            for (var j = 0; j < other.RowCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
                 {

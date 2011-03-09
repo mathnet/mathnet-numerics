@@ -541,6 +541,40 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         }
 
         /// <summary>
+        /// Can transpose and multiply a matrix with differing dimensions.
+        /// </summary>
+        [Test]
+        public void CanTransposeAndMultiplyWithDifferingDimensions()
+        {
+            var matrixA = TestMatrices["Tall3x2"];
+            var matrixB = CreateMatrix(5, 2);
+            var count = 1;
+            for (var row = 0; row < matrixB.RowCount; row++)
+            {
+                for (var col = 0; col < matrixB.ColumnCount; col++)
+                {
+                    if (row == col)
+                    {
+                        matrixB[row, col] = count++;
+                    }
+                }
+            }
+
+            var matrixC = matrixA.TransposeAndMultiply(matrixB);
+
+            Assert.AreEqual(matrixC.RowCount, matrixA.RowCount);
+            Assert.AreEqual(matrixC.ColumnCount, matrixB.RowCount);
+
+            for (var i = 0; i < matrixC.RowCount; i++)
+            {
+                for (var j = 0; j < matrixC.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 15);
+                }
+            }
+        }
+
+        /// <summary>
         /// Transpose and multiply a matrix with matrix of incompatible size throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
