@@ -264,7 +264,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeAndMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            for (var j = 0; j < RowCount; j++)
+            for (var j = 0; j < other.RowCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
                 {
