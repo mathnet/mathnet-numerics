@@ -590,6 +590,64 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 }
             }
         }
+        
+        /// <summary>
+        /// Multiply a matrix with incompatible size matrix throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void MultiplyMatrixMatrixWithIncompatibleSizesThrowsArgumentException()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var other = TestMatrices["Wide2x3"];
+            Assert.Throws<ArgumentException>(() => { var result = matrix * other; });
+        }
+
+        /// <summary>
+        /// Multiply <c>null</c> matrix with matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
+        [Test]
+        public void MultiplyNullMatrixWithMatrixThrowsArgumentNullException()
+        {
+            Matrix<Complex> matrix = null;
+            var other = TestMatrices["Wide2x3"];
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix * other; });
+        }
+
+        /// <summary>
+        /// Multiply a matrix with <c>null</c> matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
+        [Test]
+        public void MultiplyMatrixWithNullMatrixThrowsArgumentNullException()
+        {
+            var matrix = TestMatrices["Wide2x3"];
+            Matrix<Complex> other = null;
+            Assert.Throws<ArgumentNullException>(() => { var result = matrix * other; });
+        }
+
+        /// <summary>
+        /// Can multiply a matrix with matrix into a result matrix.
+        /// </summary>
+        /// <param name="nameA">Matrix A name.</param>
+        /// <param name="nameB">Matrix B name.</param>
+        [Test, Sequential]
+        public virtual void CanMultiplyMatrixWithMatrixIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string nameA, [Values("Square3x3", "Square4x4", "Square3x3", "Tall3x2", "Wide2x3")] string nameB)
+        {
+            var matrixA = TestMatrices[nameA];
+            var matrixB = TestMatrices[nameB];
+            var matrixC = CreateMatrix(matrixA.RowCount, matrixB.ColumnCount);
+            matrixA.Multiply(matrixB, matrixC);
+
+            Assert.AreEqual(matrixC.RowCount, matrixA.RowCount);
+            Assert.AreEqual(matrixC.ColumnCount, matrixB.ColumnCount);
+
+            for (var i = 0; i < matrixC.RowCount; i++)
+            {
+                for (var j = 0; j < matrixC.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 15);
+                }
+            }
+        }
 
         /// <summary>
         /// Can multiply transposed matrix with a vector.
@@ -741,64 +799,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
                     AssertHelpers.AlmostEqual(matrixA.Column(i) * matrixB.Column(j), matrixC[i, j], 15);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Multiply a matrix with incompatible size matrix throws <c>ArgumentException</c>.
-        /// </summary>
-        [Test]
-        public void MultiplyMatrixMatrixWithIncompatibleSizesThrowsArgumentException()
-        {
-            var matrix = TestMatrices["Singular3x3"];
-            var other = TestMatrices["Wide2x3"];
-            Assert.Throws<ArgumentException>(() => { var result = matrix * other; });
-        }
-
-        /// <summary>
-        /// Multiply <c>null</c> matrix with matrix throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void MultiplyNullMatrixWithMatrixThrowsArgumentNullException()
-        {
-            Matrix<Complex> matrix = null;
-            var other = TestMatrices["Wide2x3"];
-            Assert.Throws<ArgumentNullException>(() => { var result = matrix * other; });
-        }
-
-        /// <summary>
-        /// Multiply a matrix with <c>null</c> matrix throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void MultiplyMatrixWithNullMatrixThrowsArgumentNullException()
-        {
-            var matrix = TestMatrices["Wide2x3"];
-            Matrix<Complex> other = null;
-            Assert.Throws<ArgumentNullException>(() => { var result = matrix * other; });
-        }
-
-        /// <summary>
-        /// Can multiply a matrix with matrix into a result matrix.
-        /// </summary>
-        /// <param name="nameA">Matrix A name.</param>
-        /// <param name="nameB">Matrix B name.</param>
-        [Test, Sequential]
-        public virtual void CanMultiplyMatrixWithMatrixIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string nameA, [Values("Square3x3", "Square4x4", "Square3x3", "Tall3x2", "Wide2x3")] string nameB)
-        {
-            var matrixA = TestMatrices[nameA];
-            var matrixB = TestMatrices[nameB];
-            var matrixC = CreateMatrix(matrixA.RowCount, matrixB.ColumnCount);
-            matrixA.Multiply(matrixB, matrixC);
-
-            Assert.AreEqual(matrixC.RowCount, matrixA.RowCount);
-            Assert.AreEqual(matrixC.ColumnCount, matrixB.ColumnCount);
-
-            for (var i = 0; i < matrixC.RowCount; i++)
-            {
-                for (var j = 0; j < matrixC.ColumnCount; j++)
-                {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 15);
                 }
             }
         }
