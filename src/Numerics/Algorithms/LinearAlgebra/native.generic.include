@@ -883,7 +883,90 @@
         [SecuritySafeCritical]
         public override void SingularValueDecomposition(bool computeVectors, <#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt)
         {
-            throw new NotImplementedException();
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
+
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
+
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (u.Length != rowsA * rowsA)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != columnsA * columnsA)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(rowsA, columnsA))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            var work = new <#=dataType#>[<#=svd_work#>];
+            SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, work);
+        }
+
+        /// <summary>
+        /// Solves A*X=B for X using the singular value decomposition of A.
+        /// </summary>
+        /// <param name="a">On entry, the M by N matrix to decompose.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public override void SvdSolve(<#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
+        {
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (b.Length != rowsA * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            if (x.Length != columnsA * columnsB)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+            }
+
+            var work = new <#=dataType#>[<#=svd_work#>];
+            var s = new <#=dataType#>[Math.Min(rowsA, columnsA)];
+            var u = new <#=dataType#>[rowsA * rowsA];
+            var vt = new <#=dataType#>[columnsA * columnsA];
+
+            var clone = new <#=dataType#>[a.Length];
+            Buffer.BlockCopy(a, 0, clone, 0, a.Length * <#=data_size#>);
+            SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
+            SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }
 
         /// <summary>
@@ -905,61 +988,56 @@
         [SecuritySafeCritical]
         public override void SingularValueDecomposition(bool computeVectors, <#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] work)
         {
-            throw new NotImplementedException();
-        }
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
 
-        /// <summary>
-        /// Solves A*X=B for X using the singular value decomposition of A.
-        /// </summary>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value.</param>
-        /// <param name="u">On exit U contains the left singular vectors.</param>
-        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        [SecuritySafeCritical]
-        public override void SvdSolve(<#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
-        {
-            throw new NotImplementedException();
-        }
+            if (s == null)
+            {
+                throw new ArgumentNullException("s");
+            }
 
-        /// <summary>
-        /// Solves A*X=B for X using the singular value decomposition of A.
-        /// </summary>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value.</param>
-        /// <param name="u">On exit U contains the left singular vectors.</param>
-        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array. For real matrices, the work array should be at least
-        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
-        /// On exit, work[0] contains the optimal work size value.</param>
-        [SecuritySafeCritical]
-        public override void SvdSolve(<#=dataType#>[] a, int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x, <#=dataType#>[] work)
-        {
-            throw new NotImplementedException();
-        }
+            if (u == null)
+            {
+                throw new ArgumentNullException("u");
+            }
 
-        /// <summary>
-        /// Solves A*X=B for X using a previously SVD decomposed matrix.
-        /// </summary>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[],<#=dataType#>[])"/>.</param>
-        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[],<#=dataType#>[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,<#=dataType#>[],int,int,<#=dataType#>[],<#=dataType#>[],<#=dataType#>[])"/>.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        [SecuritySafeCritical]
-        public override void SvdSolveFactored(int rowsA, int columnsA, <#=dataType#>[] s, <#=dataType#>[] u, <#=dataType#>[] vt, <#=dataType#>[] b, int columnsB, <#=dataType#>[] x)
-        {
-            throw new NotImplementedException();
+            if (vt == null)
+            {
+                throw new ArgumentNullException("vt");
+            }
+
+            if (work == null)
+            {
+                throw new ArgumentNullException("work");
+            }
+
+            if (u.Length != rowsA * rowsA)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+            }
+
+            if (vt.Length != columnsA * columnsA)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+            }
+
+            if (s.Length != Math.Min(rowsA, columnsA))
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+            }
+
+            if (work.Length == 0)
+            {
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
+            }
+
+            if (work.Length < <#=svd_work#>)
+            {
+                work[0] = <#=svd_work#>;
+                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+            }
+
+            SafeNativeMethods.<#=prefix#>_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);
         }

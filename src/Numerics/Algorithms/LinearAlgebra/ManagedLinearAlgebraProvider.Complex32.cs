@@ -1877,8 +1877,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            // Actually "work = new Complex32[aRows]" is acceptable size of work array. I set size proposed in method description
-            var work = new Complex32[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
+            var work = new Complex32[rowsA];
             SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, work);
         }
 
@@ -1894,9 +1893,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
-        /// <param name="work">The work array. For real matrices, the work array should be at least
-        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
-        /// On exit, work[0] contains the optimal work size value.</param>
+        /// <param name="work">The work array. Length should be at least <paramref name="rowsA"/>.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         public virtual void SingularValueDecomposition(bool computeVectors, Complex32[] a, int rowsA, int columnsA, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] work)
         {
@@ -2571,35 +2568,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose.</param>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value.</param>
-        /// <param name="u">On exit U contains the left singular vectors.</param>
-        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public virtual void SvdSolve(Complex32[] a, int rowsA, int columnsA, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int columnsB, Complex32[] x)
+        public virtual void SvdSolve(Complex32[] a, int rowsA, int columnsA, Complex32[] b, int columnsB, Complex32[] x)
         {
             if (a == null)
             {
                 throw new ArgumentNullException("a");
-            }
-
-            if (s == null)
-            {
-                throw new ArgumentNullException("s");
-            }
-
-            if (u == null)
-            {
-                throw new ArgumentNullException("u");
-            }
-
-            if (vt == null)
-            {
-                throw new ArgumentNullException("vt");
             }
 
             if (b == null)
@@ -2612,21 +2591,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentNullException("x");
             }
 
-            if (u.Length != rowsA * rowsA)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
-            }
-
-            if (vt.Length != columnsA * columnsA)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
-            }
-
-            if (s.Length != Math.Min(rowsA, columnsA))
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
-            }
-
             if (b.Length != rowsA * columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
@@ -2637,95 +2601,14 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            // TODO: Actually "work = new double[aRows]" is acceptable size of work array. I set size proposed in method description
-            var work = new Complex32[(2 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)];
-            SvdSolve(a, rowsA, columnsA, s, u, vt, b, columnsB, x, work);   
-        }
+            var work = new Complex32[rowsA];
+            var s = new Complex32[Math.Min(rowsA, columnsA)];
+            var u = new Complex32[rowsA * rowsA];
+            var vt = new Complex32[columnsA * columnsA];
 
-        /// <summary>
-        /// Solves A*X=B for X using the singular value decomposition of A.
-        /// </summary>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value.</param>
-        /// <param name="u">On exit U contains the left singular vectors.</param>
-        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array. For real matrices, the work array should be at least
-        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
-        /// On exit, work[0] contains the optimal work size value.</param>
-        public virtual void SvdSolve(Complex32[] a, int rowsA, int columnsA, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int columnsB, Complex32[] x, Complex32[] work)
-        {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (s == null)
-            {
-                throw new ArgumentNullException("s");
-            }
-
-            if (u == null)
-            {
-                throw new ArgumentNullException("u");
-            }
-
-            if (vt == null)
-            {
-                throw new ArgumentNullException("vt");
-            }
-
-            if (b == null)
-            {
-                throw new ArgumentNullException("b");
-            }
-
-            if (x == null)
-            {
-                throw new ArgumentNullException("x");
-            }
-
-            if (u.Length != rowsA * rowsA)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
-            }
-
-            if (vt.Length != columnsA * columnsA)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
-            }
-
-            if (s.Length != Math.Min(rowsA, columnsA))
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
-            }
-
-            if (b.Length != rowsA * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
-            }
-
-            if (x.Length != columnsA * columnsB)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
-            }
-
-            if (work.Length == 0)
-            {
-                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
-            }
-
-            if (work.Length < rowsA)
-            {
-                work[0] = rowsA;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
-            }
-
-            SingularValueDecomposition(true, a, rowsA, columnsA, s, u, vt, work);
+            var clone = new Complex32[a.Length];
+            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfComplex32);
+            SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }
 

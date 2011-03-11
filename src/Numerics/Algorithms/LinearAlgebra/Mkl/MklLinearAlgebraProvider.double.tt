@@ -7,6 +7,8 @@
 <# string one = "1.0";#>
 <# string prefix = "d";#>
 <# string reff = "";#>
+<# string svd_work = "Math.Max((3 * Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5 * Math.Min(rowsA, columnsA))";#>
+<# string data_size = "Constants.SizeOfDouble";#>
 <#@ include file="..\native.header.include" #>
 <#@ include file="..\native.generic.include" #>
 <#@ include file="..\native.vector.include" #>
