@@ -432,9 +432,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
-        /// <param name="work">The work array. For real matrices, the work array should be at least
-        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
-        /// On exit, work[0] contains the optimal work size value.
+        /// <param name="work">The work array. On exit, work[0] contains the optimal work size value.
         /// </param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         void SingularValueDecomposition(bool computeVectors, T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] work);
@@ -442,34 +440,13 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
+        /// <param name="a">On entry, the M by N matrix to decompose.</param>
         /// <param name="rowsA">The number of rows in the A matrix.</param>
         /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value. </param>
-        /// <param name="u">On exit U contains the left singular vectors.</param>
-        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
-        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
+        /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        void SvdSolve(T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);
-
-        /// <summary>
-        /// Solves A*X=B for X using the singular value decomposition of A.
-        /// </summary>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value. </param>
-        /// <param name="u">On exit U contains the left singular vectors.</param>
-        /// <param name="vt">On exit VT contains the transposed right singular vectors.</param>
-        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array. For real matrices, the work array should be at least
-        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
-        /// On exit, work[0] contains the optimal work size value.
-        /// </param>
-        void SvdSolve(T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x, T[] work);
+        void SvdSolve(T[] a, int rowsA, int columnsA, T[] b, int columnsB, T[] x);
 
         /// <summary>
         /// Solves A*X=B for X using a previously SVD decomposed matrix.
@@ -479,7 +456,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[])"/>.</param>
         /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int, T[],T[],T[])"/>.</param>
         /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[],T[])"/>.</param>
-        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
+        /// <param name="b">The B matrix</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
         void SvdSolveFactored(int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] b, int columnsB, T[] x);

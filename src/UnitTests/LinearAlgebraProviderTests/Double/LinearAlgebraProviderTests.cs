@@ -1033,6 +1033,336 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         }
 
         /// <summary>
+        /// Can compute the SVD factorization of a square matrix.
+        /// </summary>
+        [Test]
+        public void CanComputeSVDFactorizationOfSquareMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var s = new double[matrix.RowCount];
+            var u = new double[matrix.RowCount * matrix.RowCount];
+            var vt = new double[matrix.ColumnCount * matrix.ColumnCount];
+
+            Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+
+            var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
+            for (var index = 0; index < s.Length; index++)
+            {
+                w[index, index] = s[index];
+            }
+
+            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
+            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var result = mU * w * mV;
+
+            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 0], result[2, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 1], result[2, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 2], result[0, 2], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 2], result[1, 2], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 2], result[2, 2], 14);
+        }
+
+        /// <summary>
+        /// Can compute the SVD factorization of a tall matrix.
+        /// </summary>
+        [Test]
+        public void CanComputeSVDFactorizationOfTallMatrix()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var s = new double[matrix.ColumnCount];
+            var u = new double[matrix.RowCount * matrix.RowCount];
+            var vt = new double[matrix.ColumnCount * matrix.ColumnCount];
+
+            Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+
+            var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
+            for (var index = 0; index < s.Length; index++)
+            {
+                w[index, index] = s[index];
+            }
+
+            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
+            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var result = mU * w * mV;
+
+            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 0], result[2, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 1], result[2, 1], 14);
+        }
+
+        /// <summary>
+        /// Can compute the SVD factorization of a wide matrix.
+        /// </summary>
+        [Test]
+        public void CanComputeSVDFactorizationOfWideMatrix()
+        {
+            var matrix = _matrices["Wide2x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var s = new double[matrix.RowCount];
+            var u = new double[matrix.RowCount * matrix.RowCount];
+            var vt = new double[matrix.ColumnCount * matrix.ColumnCount];
+
+            Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+
+            var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
+            for (var index = 0; index < s.Length; index++)
+            {
+                w[index, index] = s[index];
+            }
+
+            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
+            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var result = mU * w * mV;
+
+            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 2], result[0, 2], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 2], result[1, 2], 14);
+        }
+
+        /// <summary>
+        /// Can compute the SVD factorization of a square matrix using
+        /// a work array.
+        /// </summary>
+        [Test]
+        public void CanComputeSVDFactorizationOfSquareMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var s = new double[matrix.RowCount];
+            var u = new double[matrix.RowCount * matrix.RowCount];
+            var vt = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var work = new double[100];
+
+            Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
+
+            var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
+            for (var index = 0; index < s.Length; index++)
+            {
+                w[index, index] = s[index];
+            }
+
+            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
+            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var result = mU * w * mV;
+
+            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 0], result[2, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 1], result[2, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 2], result[0, 2], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 2], result[1, 2], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 2], result[2, 2], 14);
+        }
+
+        /// <summary>
+        /// Can compute the SVD factorization of a tall matrix using
+        /// a work array.
+        /// </summary>
+        [Test]
+        public void CanComputeSVDFactorizationOfTallMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var s = new double[matrix.ColumnCount];
+            var u = new double[matrix.RowCount * matrix.RowCount];
+            var vt = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var work = new double[100];
+
+            Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
+
+            var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
+            for (var index = 0; index < s.Length; index++)
+            {
+                w[index, index] = s[index];
+            }
+
+            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
+            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var result = mU * w * mV;
+
+            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 0], result[2, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[2, 1], result[2, 1], 14);
+        }
+
+        /// <summary>
+        /// Can compute the SVD factorization of a wide matrix using
+        /// a work array.
+        /// </summary>
+        [Test]
+        public void CanComputeSVDFactorizationOfWideMatrixWithWorkArray()
+        {
+            var matrix = _matrices["Wide2x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var s = new double[matrix.RowCount];
+            var u = new double[matrix.RowCount * matrix.RowCount];
+            var vt = new double[matrix.ColumnCount * matrix.ColumnCount];
+            var work = new double[100];
+
+            Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
+
+            var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
+            for (var index = 0; index < s.Length; index++)
+            {
+                w[index, index] = s[index];
+            }
+
+            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
+            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var result = mU * w * mV;
+
+            AssertHelpers.AlmostEqual(matrix[0, 0], result[0, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 0], result[1, 0], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 1], result[0, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 1], result[1, 1], 14);
+            AssertHelpers.AlmostEqual(matrix[0, 2], result[0, 2], 14);
+            AssertHelpers.AlmostEqual(matrix[1, 2], result[1, 2], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using SVD factorization with a square A matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingSVDSquareMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Provider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
+
+            NotModified(3, 3, a, matrix);
+
+            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mb = matrix * mx;
+
+            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 14);
+            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 14);
+            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 14);
+            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 14);
+            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 14);
+            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using SVD factorization with a tall A matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingSVDTallMatrix()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Provider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
+
+            NotModified(3, 2, a, matrix);
+
+            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var test = (matrix.Transpose() * matrix).Inverse() * matrix.Transpose() * mb;
+
+            AssertHelpers.AlmostEqual(test[0, 0], x[0], 14);
+            AssertHelpers.AlmostEqual(test[1, 0], x[1], 14);
+            AssertHelpers.AlmostEqual(test[0, 1], x[2], 14);
+            AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using SVD factorization with a square A matrix
+        /// using a factored matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingSVDSquareMatrixOnFactoredMatrix()
+        {
+            var matrix = _matrices["Square3x3"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var s = new double[matrix.RowCount];
+            var u = new double[matrix.RowCount * matrix.RowCount];
+            var vt = new double[matrix.ColumnCount * matrix.ColumnCount];
+
+            Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Provider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x);
+
+            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mb = matrix * mx;
+
+            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 14);
+            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 14);
+            AssertHelpers.AlmostEqual(mb[2, 0], b[2], 14);
+            AssertHelpers.AlmostEqual(mb[0, 1], b[3], 14);
+            AssertHelpers.AlmostEqual(mb[1, 1], b[4], 14);
+            AssertHelpers.AlmostEqual(mb[2, 1], b[5], 14);
+        }
+
+        /// <summary>
+        /// Can solve Ax=b using SVD factorization with a tall A matrix
+        /// using a factored matrix.
+        /// </summary>
+        [Test]
+        public void CanSolveUsingSVDTallMatrixOnFactoredMatrix()
+        {
+            var matrix = _matrices["Tall3x2"];
+            var a = new double[matrix.RowCount * matrix.ColumnCount];
+            Array.Copy(matrix.Data, a, a.Length);
+
+            var s = new double[matrix.ColumnCount];
+            var u = new double[matrix.RowCount * matrix.RowCount];
+            var vt = new double[matrix.ColumnCount * matrix.ColumnCount];
+
+            Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+
+            var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+            var x = new double[matrix.ColumnCount * 2];
+            Provider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x);
+
+            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var test = (matrix.Transpose() * matrix).Inverse() * matrix.Transpose() * mb;
+
+            AssertHelpers.AlmostEqual(test[0, 0], x[0], 14);
+            AssertHelpers.AlmostEqual(test[1, 0], x[1], 14);
+            AssertHelpers.AlmostEqual(test[0, 1], x[2], 14);
+            AssertHelpers.AlmostEqual(test[1, 1], x[3], 14);
+        }
+
+        /// <summary>
         /// Checks to see if a matrix and array contain the same values.
         /// </summary>
         /// <param name="rows">number of rows.</param>

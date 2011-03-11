@@ -246,4 +246,16 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra.<#= namespaceSuffix #>
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_qr_solve_factored(int m, int n, int bn, Complex[] r, Complex[] b, Complex[] tau, [In, Out] Complex[] x, [In, Out] Complex[] work, int len);
 
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int s_svd_factor(bool compute_vectors, int m, int n, [In, Out] float[] a, [In, Out] float[] s, [In, Out] float[] u, [In, Out] float[] v, [In, Out] float[] work, int len);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int d_svd_factor(bool compute_vectors, int m, int n, [In, Out] double[] a, [In, Out] double[] s, [In, Out] double[] u, [In, Out] double[] v, [In, Out] double[] work, int len);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int c_svd_factor(bool compute_vectors, int m, int n, [In, Out] Complex32[] a, [In, Out] Complex32[] s, [In, Out] Complex32[] u, [In, Out] Complex32[] v, [In, Out] Complex32[] work, int len);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern int z_svd_factor(bool compute_vectors, int m, int n, [In, Out] Complex[] a, [In, Out] Complex[] s, [In, Out] Complex[] u, [In, Out] Complex[] v, [In, Out] Complex[] work, int len);
+
         #endregion LAPACK
