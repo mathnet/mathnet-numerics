@@ -1443,7 +1443,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 }
             }
         }
-
+        
         /// <summary>
         /// Negate each element of this matrix and place the results into the result matrix.
         /// </summary>

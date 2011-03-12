@@ -624,7 +624,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 }
             }
         }
-
+        
         /// <summary>
         /// Multiply a matrix with incompatible size matrix throws <c>ArgumentException</c>.
         /// </summary>
@@ -679,6 +679,160 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
                     AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 15);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can multiply transposed matrix with a vector.
+        /// </summary>
+        [Test]
+        public void CanTransposeThisAndMultiplyWithVector()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1) });
+            var y = matrix.TransposeThisAndMultiply(x);
+
+            Assert.AreEqual(matrix.ColumnCount, y.Count);
+
+            for (var j = 0; j < matrix.ColumnCount; j++)
+            {
+                var ar = matrix.Column(j);
+                var dot = ar * x;
+                Assert.AreEqual(dot, y[j]);
+            }
+        }
+
+        /// <summary>
+        /// Can multiply transposed matrix with a vector into a result.
+        /// </summary>
+        [Test]
+        public void CanTransposeThisAndMultiplyWithVectorIntoResult()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1) });
+            var y = new DenseVector(3);
+            matrix.TransposeThisAndMultiply(x, y);
+
+            for (var j = 0; j < matrix.ColumnCount; j++)
+            {
+                var ar = matrix.Column(j);
+                var dot = ar * x;
+                Assert.AreEqual(dot, y[j]);
+            }
+        }
+
+        /// <summary>
+        /// Can multiply transposed matrix with a vector into result when updating input argument.
+        /// </summary>
+        [Test]
+        public void CanTransposeThisAndMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1) });
+            var y = x;
+            matrix.TransposeThisAndMultiply(x, x);
+
+            Assert.AreSame(y, x);
+
+            y = new DenseVector(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1) });
+            for (var j = 0; j < matrix.ColumnCount; j++)
+            {
+                var ar = matrix.Column(j);
+                var dot = ar * y;
+                Assert.AreEqual(dot, x[j]);
+            }
+        }
+
+        /// <summary>
+        /// Multiply transposed matrix with vector into result fails when result is <c>null</c>.
+        /// </summary>
+        [Test]
+        public void TransposeThisAndMultiplyWithVectorIntoNullResultThrowsArgumentNullException()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1) });
+            Vector<Complex> y = null;
+            Assert.Throws<ArgumentNullException>(() => matrix.TransposeThisAndMultiply(x, y));
+        }
+
+        /// <summary>
+        /// Multiply transposed matrix with a vector into too large result throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void TransposeThisAndMultiplyWithVectorIntoLargerResultThrowsArgumentException()
+        {
+            var matrix = TestMatrices["Singular3x3"];
+            var x = new DenseVector(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1) });
+            Vector<Complex> y = new DenseVector(4);
+            Assert.Throws<ArgumentException>(() => matrix.TransposeThisAndMultiply(x, y));
+        }
+
+        /// <summary>
+        /// Can multiply transposed matrix with another matrix.
+        /// </summary>
+        /// <param name="nameA">Matrix name.</param>
+        [Test, Sequential]
+        public void CanTransposeThisAndMultiplyMatrixWithMatrix([Values("Singular3x3", "Singular4x4", "Wide2x3", "Tall3x2")] string nameA)
+        {
+            var matrixA = TestMatrices[nameA];
+            var matrixB = TestMatrices[nameA];
+            var matrixC = matrixA.TransposeThisAndMultiply(matrixB);
+
+            Assert.AreEqual(matrixC.RowCount, matrixA.ColumnCount);
+            Assert.AreEqual(matrixC.ColumnCount, matrixB.ColumnCount);
+
+            for (var i = 0; i < matrixC.RowCount; i++)
+            {
+                for (var j = 0; j < matrixC.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(matrixA.Column(i) * matrixB.Column(j), matrixC[i, j], 15);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Multiply the transpose of matrix with another matrix of incompatible size throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void TransposeThisAndMultiplyMatrixMatrixWithIncompatibleSizesThrowsArgumentException()
+        {
+            var matrix = TestMatrices["Wide2x3"];
+            var other = TestMatrices["Singular3x3"];
+            Assert.Throws<ArgumentException>(() => matrix.TransposeThisAndMultiply(other));
+        }
+
+        /// <summary>
+        /// Multiply the transpose of matrix with another matrix <c>null</c> matrix throws <c>ArgumentNullException</c>.
+        /// </summary>
+        [Test]
+        public void TransposeThisAndMultiplyMatrixWithNullMatrixThrowsArgumentNullException()
+        {
+            var matrix = TestMatrices["Wide2x3"];
+            Matrix<Complex> other = null;
+            Assert.Throws<ArgumentNullException>(() => matrix.TransposeThisAndMultiply(other));
+        }
+
+        /// <summary>
+        /// Multiply transpose of this matrix with another matrix into a result matrix.
+        /// </summary>
+        /// <param name="nameA">Matrix name.</param>
+        [Test, Sequential]
+        public void CanTransposeThisAndMultiplyMatrixWithMatrixIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Tall3x2")] string nameA)
+        {
+            var matrixA = TestMatrices[nameA];
+            var matrixB = TestMatrices[nameA];
+            var matrixC = CreateMatrix(matrixA.ColumnCount, matrixB.ColumnCount);
+            matrixA.TransposeThisAndMultiply(matrixB, matrixC);
+
+            Assert.AreEqual(matrixC.RowCount, matrixA.ColumnCount);
+            Assert.AreEqual(matrixC.ColumnCount, matrixB.ColumnCount);
+
+            for (var i = 0; i < matrixC.RowCount; i++)
+            {
+                for (var j = 0; j < matrixC.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqual(matrixA.Column(i) * matrixB.Column(j), matrixC[i, j], 15);
                 }
             }
         }

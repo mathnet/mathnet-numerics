@@ -270,6 +270,47 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Matrix<float> other, Matrix<float> result)
+        {
+            for (var j = 0; j < other.ColumnCount; j++)
+            {
+                for (var i = 0; i < ColumnCount; i++)
+                {
+                    var s = 0.0f;
+                    for (var l = 0; l < RowCount; l++)
+                    {
+                        s += At(l, i) * other.At(l, j);
+                    }
+
+                    result.At(i, j, s);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Vector<float> rightSide, Vector<float> result)
+        {
+            for (var i = 0; i < ColumnCount; i++)
+            {
+                var s = 0.0f;
+                for (var j = 0; j != RowCount; j++)
+                {
+                    s += At(j, i) * rightSide[j];
+                }
+                result[i] = s;
+            }
+        }
+
+
+        /// <summary>
         /// Computes the modulus for each element of the matrix.
         /// </summary>
         /// <param name="divisor">The divisor to use.</param>
