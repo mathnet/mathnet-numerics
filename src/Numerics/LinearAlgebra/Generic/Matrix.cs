@@ -1780,7 +1780,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                     return false;
                 }
 
-                for (var row = 1; row < RowCount; row++)
+                for (var row = 0; row < RowCount; row++)
                 {
                     for (var column = 0; column < ColumnCount; column++)
                     {
