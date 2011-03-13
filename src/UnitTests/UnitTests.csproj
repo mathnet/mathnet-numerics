@@ -706,6 +706,11 @@
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Random\Mcg31m1Tests.cs" />
     <Compile Include="Random\Mcg59Tests.cs" />
     <Compile Include="Random\MersenneTwisterTests.cs" />
@@ -717,6 +722,7 @@
     <Compile Include="Random\WH1982Tests.cs" />
     <Compile Include="Random\WH2006Tests.cs" />
     <Compile Include="Random\XorshiftTests.cs" />
+    <Compile Include="Setup.cs" />
     <Compile Include="SortingTests.cs" />
     <Compile Include="SpecialFunctionsTests\ErfTests.cs" />
     <Compile Include="SpecialFunctionsTests\FactorialTest.cs" />
@@ -1005,9 +1011,16 @@
       <Link>data\NIST\Wampler5.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="App.config" />
     <None Include="MathNet.Numerics.snk" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
