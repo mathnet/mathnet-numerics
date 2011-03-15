@@ -34,7 +34,7 @@
                 return;
             }
 
-            SafeNativeMethods.<#=prefix#>_axpy(y.Length, <#=reff#>alpha, x, result);
+            SafeNativeMethods.<#=prefix#>_axpy(y.Length, alpha, x, result);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
                 return;
             }
 
-            SafeNativeMethods.<#=prefix#>_scale(x.Length, <#=reff#>alpha, result);
+            SafeNativeMethods.<#=prefix#>_scale(x.Length, alpha, result);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            SafeNativeMethods.<#=prefix#>_matrix_multiply(transposeA, transposeB, m, n, k, <#=reff#>alpha, a, b, <#=reff#>beta, c);
+            SafeNativeMethods.<#=prefix#>_matrix_multiply(transposeA, transposeB, m, n, k, alpha, a, b, beta, c);
         }
 
         /// <summary>
@@ -964,7 +964,7 @@
             var vt = new <#=dataType#>[columnsA * columnsA];
 
             var clone = new <#=dataType#>[a.Length];
-            Buffer.BlockCopy(a, 0, clone, 0, a.Length * <#=data_size#>);
+			a.Copy(clone);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }

@@ -61,11 +61,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (alpha == 0.0)
             {
-                return;
-            }
-
-            if (alpha == 0.0)
-            {
                 CommonParallel.For(0, y.Length, index => result[index] = y[index]);
             }
             else if (alpha == 1.0)

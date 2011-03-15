@@ -1678,7 +1678,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             var clone = new Complex[a.Length];
-            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfComplex);
+            a.Copy(clone);
             var q = new Complex[rows * rows];
             QRFactor(clone, rows, columns, q, work);
             QRSolveFactored(q, clone, rows, columns, null, b, columnsB, x);
@@ -2607,7 +2607,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var vt = new Complex[columnsA * columnsA];
 
             var clone = new Complex[a.Length];
-            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfComplex);
+            a.Copy(clone);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);     
         }

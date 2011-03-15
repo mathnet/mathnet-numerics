@@ -80,10 +80,22 @@
     <Compile Include="..\..\..\UnitTests\AssertHelpers.cs">
       <Link>AssertHelpers.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Complex32\LinearAlgebraProviderTests.cs">
+      <Link>LinearAlgebra\Complex32\LinearAlgebraProviderTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs">
+      <Link>LinearAlgebra\Complex\LinearAlgebraProviderTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs">
       <Link>LinearAlgebra\Double\LinearAlgebraProviderTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\UnitTests\LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs">
+      <Link>LinearAlgebra\Single\LinearAlgebraProviderTests.cs</Link>
+    </Compile>
+    <Compile Include="LinearAlgebra\Complex32\MklLinearAlgebraProviderTests.cs" />
+    <Compile Include="LinearAlgebra\Complex\MklLinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebra\Double\MklLinearAlgebraProviderTests.cs" />
+    <Compile Include="LinearAlgebra\Single\MklLinearAlgebraProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +125,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
