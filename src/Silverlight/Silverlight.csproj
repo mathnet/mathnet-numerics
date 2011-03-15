@@ -75,6 +75,9 @@
     <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs">
       <Link>Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\ArrayExtensions.cs">
+      <Link>ArrayExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\Combinatorics.cs">
       <Link>Combinatorics.cs</Link>
     </Compile>

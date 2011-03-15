@@ -28,9 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double; 
+using MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single; 
 
-namespace MathNet.Numerics.MklWrapperTests.LinearAlgebra.Double
+namespace MathNet.Numerics.MklWrapperTests.LinearAlgebra.Single
 {
     using NUnit.Framework;
 

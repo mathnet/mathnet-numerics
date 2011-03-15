@@ -59,11 +59,6 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (alpha == 0.0F)
-            {
-                return;
-            }
-
             if (alpha.IsZero())
             {
                 CommonParallel.For(0, y.Length, index => result[index] = y[index]);
@@ -1678,7 +1673,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
 
             var clone = new Complex32[a.Length];
-            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfComplex32);
+            a.Copy(clone);
             var q = new Complex32[rows * rows];
             QRFactor(clone, rows, columns, q, work);
             QRSolveFactored(q, clone, rows, columns, null, b, columnsB, x);
@@ -2607,7 +2602,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             var vt = new Complex32[columnsA * columnsA];
 
             var clone = new Complex32[a.Length];
-            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Constants.SizeOfComplex32);
+            a.Copy(clone);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }

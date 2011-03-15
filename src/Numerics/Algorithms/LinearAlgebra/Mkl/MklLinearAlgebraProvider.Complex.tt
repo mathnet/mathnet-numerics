@@ -6,9 +6,7 @@
 <# string zero = "Complex.Zero";#>
 <# string one = "Complex.One";#>
 <# string prefix = "z";#>
-<# string reff = "ref ";#>
 <# string svd_work = "2 * Math.Min(rowsA, columnsA) + Math.Max(rowsA, columnsA)";#>
-<# string data_size = "Constants.SizeOfComplex";#>
 <#@ include file="..\native.header.include" #>
 <#@ include file="..\native.generic.include" #>
 <#@ include file="..\native.vector.include" #>

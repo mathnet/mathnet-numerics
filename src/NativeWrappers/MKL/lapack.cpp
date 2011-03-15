@@ -2,7 +2,7 @@
 #include "blas.h"
 #include "mkl_lapack.h"
 #include <string>
-
+#include <algorithm>
 
 extern "C" {
 
@@ -87,12 +87,12 @@ extern "C" {
 		int* ipiv = new int[n];
 		int info = 0;
 		DGETRF(&n,&n,a,&n,ipiv,&info);
-		
+
 		if (info != 0){
 			delete[] ipiv;
 			return info;
 		}
-		
+
 		DGETRI(&n,a,&n,ipiv,work,&lwork,&info);
 		delete[] ipiv;
 		return info;
@@ -200,7 +200,7 @@ extern "C" {
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
-		
+
 		char trans ='N';
 		SGETRS(&trans, &n, &nrhs, a, &n, ipiv, b, &n, &info);
 		for(i = 0; i < n; ++i ){
@@ -283,7 +283,7 @@ extern "C" {
 	{
 		double* clone = new double[n*n];
 		std::memcpy(clone, a, n*n*sizeof(double));
-		
+
 		int* ipiv = new int[n];
 		int info = 0;
 		DGETRF(&n, &n, clone, &n, ipiv, &info);
@@ -305,11 +305,11 @@ extern "C" {
 	{
 		MKL_Complex8* clone = new MKL_Complex8[n*n];
 		std::memcpy(clone, a, n*n*sizeof(MKL_Complex8));
-		
+
 		int* ipiv = new int[n];
 		int info = 0;
 		CGETRF(&n, &n, clone, &n, ipiv, &info);
-	
+
 		if (info != 0){
 			delete[] ipiv;
 			delete[] clone;
@@ -327,7 +327,7 @@ extern "C" {
 	{
 		MKL_Complex16* clone = new MKL_Complex16[n*n];
 		std::memcpy(clone, a, n*n*sizeof(MKL_Complex16));
-		
+
 		int* ipiv = new int[n];
 		int info = 0;
 		ZGETRF(&n, &n, clone, &n, ipiv, &info);
@@ -418,7 +418,7 @@ extern "C" {
 		char uplo = 'L';
 		int info = 0;
 		SPOTRF(&uplo, &n, clone, &n, &info);
-		
+
 		if (info != 0){
 			delete[] clone;
 			return info;
@@ -435,7 +435,7 @@ extern "C" {
 		char uplo = 'L';
 		int info = 0;
 		DPOTRF(&uplo, &n, clone, &n, &info);
-		
+
 		if (info != 0){
 			delete[] clone;
 			return info;
@@ -452,7 +452,7 @@ extern "C" {
 		char uplo = 'L';
 		int info = 0;
 		CPOTRF(&uplo, &n, clone, &n, &info);
-		
+
 		if (info != 0){
 			delete[] clone;
 			return info;
@@ -469,7 +469,7 @@ extern "C" {
 		char uplo = 'L';
 		int info = 0;
 		ZPOTRF(&uplo, &n, clone, &n, &info);
-		
+
 		if (info != 0){
 			delete[] clone;
 			return info;
@@ -573,7 +573,7 @@ extern "C" {
 	{
 		int info = 0;
 		CGEQRF(&m, &n, r, &m, tau, work, &len, &info);
-		
+
 		for (int i = 0; i < m; ++i)
 		{
 			for (int j = 0; j < m && j < n; ++j)
@@ -632,7 +632,7 @@ extern "C" {
 		int info = 0;
 		float* clone_r = new float[m*n];
 		std::memcpy(clone_r, r, m*n*sizeof(float));
-		
+
 		float* tau = new float[std::max(1, std::min(m,n))];
 		SGEQRF(&m, &n, clone_r, &m, tau, work, &len, &info);
 
@@ -669,7 +669,7 @@ extern "C" {
 		int info = 0;
 		double* clone_r = new double[m*n];
 		std::memcpy(clone_r, r, m*n*sizeof(double));
-		
+
 		double* tau = new double[std::max(1, std::min(m,n))];
 		DGEQRF(&m, &n, clone_r, &m, tau, work, &len, &info);
 
@@ -679,7 +679,7 @@ extern "C" {
 			delete[] tau;
 			return info;
 		}
-		
+
 		double* clone_b = new double[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(double));
 
@@ -708,7 +708,7 @@ extern "C" {
 		MKL_Complex8* clone_r = new MKL_Complex8[m*n];
 		std::memcpy(clone_r, r, m*n*sizeof(MKL_Complex8));
 
-		MKL_Complex8* tau = new MKL_Complex8[std::max(1, std::min(m,n))];
+		MKL_Complex8* tau = new MKL_Complex8[std::min(m,n)];
 		CGEQRF(&m, &n, clone_r, &m, tau, work, &len, &info);
 
 		if (info != 0)
@@ -718,15 +718,16 @@ extern "C" {
 			return info;
 		}
 
+		char side ='L';
+		char tran = 'C';
+
 		MKL_Complex8* clone_b = new MKL_Complex8[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(MKL_Complex8));
 
-		char side ='L';
-		char tran = 'T';
 		CUNMQR(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
-		MKL_Complex8 one;
-		one.real = 1.0;
+		MKL_Complex8 one = {1.0, 0.0};
 		cblas_ctrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, clone_r, m, clone_b, m);
+
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < bn; ++j)
@@ -746,8 +747,8 @@ extern "C" {
 		int info = 0;
 		MKL_Complex16* clone_r = new MKL_Complex16[m*n];
 		std::memcpy(clone_r, r, m*n*sizeof(MKL_Complex16));
-		
-		MKL_Complex16* tau = new MKL_Complex16[std::max(1, std::min(m,n))];
+
+		MKL_Complex16* tau = new MKL_Complex16[std::min(m,n)];
 		ZGEQRF(&m, &n, clone_r, &m, tau, work, &len, &info);
 
 		if (info != 0)
@@ -757,15 +758,16 @@ extern "C" {
 			return info;
 		}
 
+		char side ='L';
+		char tran = 'C';
+
 		MKL_Complex16* clone_b = new MKL_Complex16[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(MKL_Complex16));
 
-		char side ='L';
-		char tran = 'T';
 		ZUNMQR(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
-		MKL_Complex16 one;
-		one.real = 1.0;
-		cblas_ctrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, clone_r, m, clone_b, m);
+		MKL_Complex16 one = {1.0, 0.0};
+		cblas_ztrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, clone_r, m, clone_b, m);
+
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < bn; ++j)
@@ -788,7 +790,7 @@ extern "C" {
 
 		float* clone_b = new float[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(float));
-		
+
 		SORMQR(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
 		cblas_strsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, r, m, clone_b, m);
 		for (int i = 0; i < n; ++i)
@@ -798,11 +800,11 @@ extern "C" {
 				x[j * n + i] = clone_b[j * m + i];
 			}
 		}
-				
+
 		delete[] clone_b;
 		return info;
 	}
-	
+
 	DLLEXPORT int d_qr_solve_factored(int m, int n, int bn, double r[], double b[], double tau[], double x[], double work[], int len)
 	{
 		char side ='L';
@@ -829,15 +831,14 @@ extern "C" {
 	DLLEXPORT int c_qr_solve_factored(int m, int n, int bn, MKL_Complex8 r[], MKL_Complex8 b[], MKL_Complex8 tau[], MKL_Complex8 x[], MKL_Complex8 work[], int len)
 	{
 		char side ='L';
-		char tran = 'T';
+		char tran = 'C';
 		int info = 0;
 
 		MKL_Complex8* clone_b = new MKL_Complex8[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(MKL_Complex8));
-		
+
 		CUNMQR(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
-		MKL_Complex8 one;
-		one.real = 1.0;
+		MKL_Complex8 one = {1.0f, 0.0f};
 		cblas_ctrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, r, m, clone_b, m);
 		for (int i = 0; i < n; ++i)
 		{
@@ -854,17 +855,16 @@ extern "C" {
 	DLLEXPORT int z_qr_solve_factored(int m, int n, int bn, MKL_Complex16 r[], MKL_Complex16 b[], MKL_Complex16 tau[], MKL_Complex16 x[], MKL_Complex16 work[], int len)
 	{
 		char side ='L';
-		char tran = 'T';
+		char tran = 'C';
 		int info = 0;
-		
+
 		MKL_Complex16* clone_b = new MKL_Complex16[m*bn];
 		std::memcpy(clone_b, b, m*bn*sizeof(MKL_Complex16));
 
 		ZUNMQR(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
-		MKL_Complex16 one;
-		one.real = 1.0;
+		MKL_Complex16 one = {1.0, 0.0};
 		cblas_ztrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, r, m, clone_b, m);
-		
+
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < bn; ++j)
@@ -893,19 +893,41 @@ extern "C" {
 		return info;
 	}
 
-	DLLEXPORT int c_svd_factor(bool compute_vectors, int m, int n, MKL_Complex8 a[], float s[], MKL_Complex8 u[], MKL_Complex8 v[], MKL_Complex8 work[], int len, float rwork[])
+	DLLEXPORT int c_svd_factor(bool compute_vectors, int m, int n, MKL_Complex8 a[], MKL_Complex8 s[], MKL_Complex8 u[], MKL_Complex8 v[], MKL_Complex8 work[], int len)
 	{
 		int info = 0;
+		int dim_s = std::min(m,n);
+		float* rwork = new float[5 * dim_s];
+		float* s_local = new float[dim_s];
 		char job = compute_vectors ? 'A' : 'N';
-		CGESVD(&job, &job, &m, &n, a, &m, s, u, &m, v, &n, work, &len, rwork, &info);
+		CGESVD(&job, &job, &m, &n, a, &m, s_local, u, &m, v, &n, work, &len, rwork, &info);
+
+		for(int index = 0; index < dim_s; ++index){
+			MKL_Complex8 value = {s_local[index], 0.0f};
+			s[index] = value;
+		}
+
+		delete[] rwork;
+		delete[] s_local;
 		return info;
 	}
 
-	DLLEXPORT int z_svd_factor(bool compute_vectors, int m, int n, MKL_Complex16 a[], double s[], MKL_Complex16 u[], MKL_Complex16 v[], MKL_Complex16 work[], int len, double rwork[])
+	DLLEXPORT int z_svd_factor(bool compute_vectors, int m, int n, MKL_Complex16 a[], MKL_Complex16 s[], MKL_Complex16 u[], MKL_Complex16 v[], MKL_Complex16 work[], int len)
 	{
 		int info = 0;
+		int dim_s = std::min(m,n);
+		double* rwork = new double[5 * std::min(m, n)];
+		double* s_local = new double[dim_s];
 		char job = compute_vectors ? 'A' : 'N';
-		ZGESVD(&job, &job, &m, &n, a, &m, s, u, &m, v, &n, work, &len, rwork, &info);
+		ZGESVD(&job, &job, &m, &n, a, &m, s_local, u, &m, v, &n, work, &len, rwork, &info);
+
+		for(int index = 0; index < dim_s; ++index){
+			MKL_Complex16 value = {s_local[index], 0.0f};
+			s[index] = value;
+		}
+
+		delete[] rwork;
+		delete[] s_local;
 		return info;
 	}
 }

@@ -137,6 +137,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SafeNativeMethods.tt</DependentUpon>
     </Compile>
+    <Compile Include="ArrayExtensions.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="ComplexExtensions.cs" />
     <Compile Include="Constants.cs" />
