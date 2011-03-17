@@ -315,6 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 {
                     s += At(j, i) * rightSide[j];
                 }
+
                 result[i] = s;
             }
         }
