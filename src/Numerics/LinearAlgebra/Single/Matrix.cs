@@ -305,10 +305,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 {
                     s += At(j, i) * rightSide[j];
                 }
+
                 result[i] = s;
             }
         }
-
 
         /// <summary>
         /// Computes the modulus for each element of the matrix.

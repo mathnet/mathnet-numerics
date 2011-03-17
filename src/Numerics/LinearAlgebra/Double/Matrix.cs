@@ -305,6 +305,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     s += At(j, i) * rightSide[j];
                 }
+
                 result[i] = s;
             }
         }

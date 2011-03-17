@@ -570,7 +570,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="result">The result of the multiplication.</param>
         protected abstract void DoTransposeAndMultiply(Matrix<T> other, Matrix<T> result);
 
-
         /// <summary>
         /// Multiplies the transpose of this matrix by a vector and returns the result.
         /// </summary>
@@ -634,8 +633,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
         protected abstract void DoTransposeThisAndMultiply(Vector<T> rightSide, Vector<T> result);
-
-
 
         /// <summary>
         /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix. 
