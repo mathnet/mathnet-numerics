@@ -38,6 +38,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     public class DenseMatrix : Matrix
     {
         /// <summary>
+        /// Number of rows.
+        /// </summary>
+        /// <remarks>Using this instead of the RowCount property to speed up calculating
+        /// a matrix index in the data array.</remarks>
+        private readonly int _rowCount;
+
+        /// <summary>
+        /// Number of columns.
+        /// </summary>
+        /// <remarks>Using this instead of the ColumnCount property to speed up calculating
+        /// a matrix index in the data array.</remarks>
+        private readonly int _columnCount;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DenseMatrix"/> class. This matrix is square with a given size.
         /// </summary>
         /// <param name="order">the size of the square matrix.</param>
@@ -47,6 +61,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(int order)
             : base(order)
         {
+            _rowCount = order;
+            _columnCount = order;
             Data = new float[order * order];
         }
 
@@ -62,6 +78,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(int rows, int columns)
             : base(rows, columns)
         {
+            _rowCount = rows;
+            _columnCount = columns;
             Data = new float[rows * columns];
         }
 
@@ -78,6 +96,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(int rows, int columns, float value)
             : base(rows, columns)
         {
+            _rowCount = rows;
+            _columnCount = columns;
             Data = new float[rows * columns];
             for (var i = 0; i < Data.Length; i++)
             {
@@ -95,6 +115,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(int rows, int columns, float[] array)
             : base(rows, columns)
         {
+            _rowCount = rows;
+            _columnCount = columns;
             Data = array;
         }
 
@@ -106,14 +128,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(float[,] array)
             : base(array.GetLength(0), array.GetLength(1))
         {
-            var rows = array.GetLength(0);
-            var columns = array.GetLength(1);
-            Data = new float[rows * columns];
-            for (var i = 0; i < rows; i++)
+            _rowCount = array.GetLength(0);
+            _columnCount = array.GetLength(1);
+            Data = new float[_rowCount * _columnCount];
+            for (var i = 0; i < _rowCount; i++)
             {
-                for (var j = 0; j < columns; j++)
+                for (var j = 0; j < _columnCount; j++)
                 {
-                    Data[(j * rows) + i] = array[i, j];
+                    Data[(j * _rowCount) + i] = array[i, j];
                 }
             }
         }
@@ -158,6 +180,51 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Gets or sets the value at the given row and column.
+        /// </summary>
+        /// <param name="row">
+        /// The row of the element.
+        /// </param>
+        /// <param name="column">
+        /// The column of the element.
+        /// </param>
+        /// <value>The value to get or set.</value>
+        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,float)"/>
+        /// to get and set values without range checking.</remarks>
+        public override float this[int row, int column]
+        {
+            get
+            {
+                if (row < 0 || row >= _rowCount)
+                {
+                    throw new ArgumentOutOfRangeException("row");
+                }
+
+                if (column < 0 || column >= _columnCount)
+                {
+                    throw new ArgumentOutOfRangeException("column");
+                }
+
+                return Data[(column * _rowCount) + row];
+            }
+
+            set
+            {
+                if (row < 0 || row >= _rowCount)
+                {
+                    throw new ArgumentOutOfRangeException("row");
+                }
+
+                if (column < 0 || column >= _columnCount)
+                {
+                    throw new ArgumentOutOfRangeException("column");
+                }
+
+                Data[(column * _rowCount) + row] = value;
+            }
+        }
+
+        /// <summary>
         /// Retrieves the requested element without range checking.
         /// </summary>
         /// <param name="row">
@@ -171,7 +238,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </returns>
         public override float At(int row, int column)
         {
-            return Data[(column * RowCount) + row];
+            return Data[(column * _rowCount) + row];
         }
 
         /// <summary>
@@ -188,7 +255,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         public override void At(int row, int column, float value)
         {
-            Data[(column * RowCount) + row] = value;
+            Data[(column * _rowCount) + row] = value;
         }
 
         /// <summary>
