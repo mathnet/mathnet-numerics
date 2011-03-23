@@ -1,6 +1,6 @@
 #include "mkl_vml.h"
 #include "blas.h"
-#include "common.h"
+#include "wrapper_common.h"
 
 
 DLLEXPORT void s_vector_add( const int n, const float x[], const float y[], float result[] ){

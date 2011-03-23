@@ -1,4 +1,4 @@
-#include "common.h"
+#include "wrapper_common.h"
 #include "blas.h"
 #include "mkl_lapack.h"
 #include <string>

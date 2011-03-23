@@ -1,5 +1,5 @@
 #include "blas.h"
-#include "common.h"
+#include "wrapper_common.h"
 
 DLLEXPORT void s_axpy(const int n, const float alpha, const float x[], float y[]){
 	cblas_saxpy(n, alpha, x, 1, y, 1);
