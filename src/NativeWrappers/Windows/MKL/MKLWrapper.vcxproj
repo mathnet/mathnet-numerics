@@ -183,11 +183,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Common\common.h" />
+    <ClInclude Include="..\..\Common\wrapper_common.h" />
     <ClInclude Include="..\..\MKL\blas.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\Common\resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\blas.c" />

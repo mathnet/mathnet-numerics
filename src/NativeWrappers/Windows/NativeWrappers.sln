@@ -4,10 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
 		..\Common\blas.c = ..\Common\blas.c
-		..\Common\common.h = ..\Common\common.h
 		..\Common\resource.h = ..\Common\resource.h
 		..\Common\resource.rc = ..\Common\resource.rc
 		..\Common\WindowsDLL.cpp = ..\Common\WindowsDLL.cpp
+		..\Common\wrapper_common.h = ..\Common\wrapper_common.h
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MKLWrapper", "MKL\MKLWrapper.vcxproj", "{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}"
@@ -16,17 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKLWrapper64Tests", "MKLWra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKLWrapper32Tests", "MKLWrapper32Tests\MKLWrapper32Tests.csproj", "{D0AD591B-0CE6-4A6D-8DEA-01777EE09BC3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{953422F5-A946-434B-81FD-A5A0AF92AAE1}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-		NativeWrappers.vsmdi = NativeWrappers.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GotoBLAS2Wrapper", "GotoBLAS2Wrapper\GotoBLAS2Wrapper.vcxproj", "{507FF69E-32A6-495A-9DE2-20EC10EE8963}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = NativeWrappers.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -39,8 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Mixed Platforms.ActiveCfg = Release|Win32
+		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Mixed Platforms.Build.0 = Release|Win32
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|Win32.Build.0 = Debug|Win32
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Debug|x64.ActiveCfg = Debug|x64
@@ -55,6 +47,7 @@ Global
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{B134AA80-D8CA-4B83-9775-AE6ED2D5CFAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,6 +68,18 @@ Global
 		{D0AD591B-0CE6-4A6D-8DEA-01777EE09BC3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D0AD591B-0CE6-4A6D-8DEA-01777EE09BC3}.Release|Win32.ActiveCfg = Release|Any CPU
 		{D0AD591B-0CE6-4A6D-8DEA-01777EE09BC3}.Release|x64.ActiveCfg = Release|Any CPU
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Debug|Mixed Platforms.ActiveCfg = Release|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Debug|Mixed Platforms.Build.0 = Release|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Debug|Win32.ActiveCfg = Debug|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Debug|Win32.Build.0 = Debug|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Debug|x64.ActiveCfg = Debug|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Release|Any CPU.ActiveCfg = Release|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Release|Win32.ActiveCfg = Release|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Release|Win32.Build.0 = Release|Win32
+		{507FF69E-32A6-495A-9DE2-20EC10EE8963}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
