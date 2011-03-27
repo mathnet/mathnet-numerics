@@ -52,6 +52,11 @@ namespace MathNet.Numerics
         private static int _blockSize = 512;
 
         /// <summary>
+        /// Initial parallel order size for the matrix multiply in linear algebra provider.
+        /// </summary>
+        private static int _parallelizeOrder = 64;
+
+        /// <summary>
         /// Initializes static members of the Control class.
         /// </summary>
         static Control()
@@ -135,5 +140,26 @@ namespace MathNet.Numerics
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the order of the matrix when linear algebra provider must calculate multiply in parallel threads.
+        /// </summary>
+        /// <value>The order. Default is 64.</value>
+        public static int ParallelizeOrder
+        {
+            get
+            {
+                return _parallelizeOrder;
+            }
+
+            set
+            {
+                if (_parallelizeOrder > 2)
+                {
+                    _parallelizeOrder = value;
+                }
+            }
+        }
+
     }
 }
