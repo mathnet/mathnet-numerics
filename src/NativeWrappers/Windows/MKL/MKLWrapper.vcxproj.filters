@@ -21,6 +21,9 @@
     <ClInclude Include="..\..\Common\wrapper_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\MKL\lapack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\blas.c">
@@ -29,10 +32,10 @@
     <ClCompile Include="..\..\Common\WindowsDLL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MKL\lapack.cpp">
+    <ClCompile Include="..\..\MKL\vector_functions.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MKL\vector_functions.c">
+    <ClCompile Include="..\..\Common\lapack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
