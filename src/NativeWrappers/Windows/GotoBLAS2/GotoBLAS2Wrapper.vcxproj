@@ -80,7 +80,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GOTOBLAS2WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\Common;.\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\GotoBLAS2;.\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,7 +95,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GOTOBLAS2WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\Common;.\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\GotoBLAS2;.\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -112,7 +112,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GOTOBLAS2WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\Common;.\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\GotoBLAS2;.\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -131,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GOTOBLAS2WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\Common;.\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\GotoBLAS2;.\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,16 +146,16 @@
     <ResourceCompile Include="..\..\Common\resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\clapack.h" />
+    <ClInclude Include="..\..\Common\f2c.h" />
     <ClInclude Include="..\..\Common\wrapper_common.h" />
+    <ClInclude Include="..\..\GotoBlas2\blas.h" />
+    <ClInclude Include="..\..\GotoBlas2\lapack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
-    <ClCompile Include="..\..\GotoBlas2\blas.c">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Common;</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Common;</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\Common;</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\Common;</AdditionalIncludeDirectories>
-    </ClCompile>
+    <ClCompile Include="..\..\GotoBlas2\blas.c" />
+    <ClCompile Include="..\..\GotoBlas2\lapack.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,4 @@
-#include "include\cblas.h"
+#include "blas.h"
 #include "wrapper_common.h"
 
 DLLEXPORT void s_axpy(int n, float alpha, float x[], float y[]){
