@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" debug="true" #>
+<#@ output extenstion="cs" #>
+<# string namespaceSuffix = "GotoBlas";
+   string library = "GotoBLAS2"; 
+#>
+<#@ include file="..\safe.native.common.include" #>
+    }
+}

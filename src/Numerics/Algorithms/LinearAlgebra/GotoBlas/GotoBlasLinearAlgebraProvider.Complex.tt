@@ -1,0 +1,12 @@
+﻿<#@ template language="C#" debug="true" #>
+<#@ output extenstion="cs" #>
+<# string library = "GotoBlas";#>
+<# string title = "GotoBLAS2";#>
+<# string dataType = "Complex";#>
+<# string zero = "Complex.Zero";#>
+<# string one = "Complex.One";#>
+<# string prefix = "z";#>
+<# string svd_work = "2 * Math.Min(rowsA, columnsA) + Math.Max(rowsA, columnsA)";#>
+<#@ include file="..\native.header.include" #>
+<#@ include file="..\native.generic.include" #>
+<#@ include file="..\native.footer.include" #>

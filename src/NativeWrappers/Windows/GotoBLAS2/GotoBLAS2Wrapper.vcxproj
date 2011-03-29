@@ -86,7 +86,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgoto2_core2p-r1.13_x86.lib;libf2c_x86.lib;lapack_x86.lib;libf2c_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -101,7 +103,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgoto2_core2p-r1.13_x86_64.lib;libf2c_x86_64.lib;lapack_x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,7 +124,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgoto2_core2p-r1.13_x86.lib;libf2c_x86.lib;lapack_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,7 +145,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libgoto2_core2p-r1.13_x86_64.lib;libf2c_x86_64.lib;lapack_x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
