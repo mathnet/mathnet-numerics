@@ -1,6 +1,6 @@
 #include "blas.h"
 #include "wrapper_common.h"
-
+#include <stdlib.h>
 DLLEXPORT void s_axpy(int n, float alpha, float x[], float y[]){
 	cblas_saxpy(n, alpha, x, 1, y, 1);
 }
