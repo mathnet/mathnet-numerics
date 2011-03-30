@@ -1,7 +1,6 @@
 #ifndef LAPACK_H
 #define LAPACK_H
 
-
 extern "C"{
 	#include "f2c.h"
 	#include "clapack.h"
