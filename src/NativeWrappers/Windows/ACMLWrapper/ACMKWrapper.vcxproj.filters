@@ -20,27 +20,13 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Common\wrapper_common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GotoBlas2\lapack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GotoBlas2\clapack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\GotoBlas2\f2c.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\..\Common\WindowsDLL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GotoBlas2\blas.c">
+    <ClCompile Include="..\..\ACML\blas.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\GotoBlas2\lapack.cpp">
+    <ClCompile Include="..\..\ACML\lapack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

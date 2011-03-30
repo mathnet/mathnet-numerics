@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{507FF69E-32A6-495A-9DE2-20EC10EE8963}</ProjectGuid>
+    <ProjectGuid>{8774BCBE-27D0-44D2-A1B3-8ED705E252CB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GotoBLAS2Wrapper</RootNamespace>
+    <RootNamespace>ACMKWrapper</RootNamespace>
+    <ProjectName>ACMLWrapper</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -79,16 +80,15 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GOTOBLAS2WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\Common;..\..\GotoBLAS2;.\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ACMKWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Common;C:\AMD\acml4.4.0\ifort32_mp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86.lib;libf2c_x86.lib;lapack_x86.lib;libf2c_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
+      <AdditionalLibraryDirectories>C:\AMD\acml4.4.0\ifort32_mp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libacml_mp_dll.lib;kernel32.lib;user32.lib;</AdditionalDependencies>
+      <OutputFile>$(OutDir)MathNET.Numerics.ACML.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -96,16 +96,15 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GOTOBLAS2WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\Common;..\..\GotoBLAS2;.\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ACMKWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Common;C:\AMD\acml4.4.0\ifort64_mp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86_64.lib;libf2c_x86_64.lib;lapack_x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
+      <AdditionalLibraryDirectories>C:\AMD\acml4.4.0\ifort64_mp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libacml_mp_dll.lib;kernel32.lib;user32.lib;</AdditionalDependencies>
+      <OutputFile>$(OutDir)MathNET.Numerics.ACML.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -115,18 +114,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GOTOBLAS2WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\Common;..\..\GotoBLAS2;.\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ACMKWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Common;C:\AMD\acml4.4.0\ifort32_mp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86.lib;libf2c_x86.lib;lapack_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
+      <AdditionalLibraryDirectories>C:\AMD\acml4.4.0\ifort32_mp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libacml_mp_dll.lib;kernel32.lib;user32.lib;</AdditionalDependencies>
+      <OutputFile>$(OutDir)MathNET.Numerics.ACML.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,33 +134,26 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GOTOBLAS2WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\Common;..\..\GotoBLAS2;.\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ACMKWRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\Common;C:\AMD\acml4.4.0\ifort64_mp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86_64.lib;libf2c_x86_64.lib;lapack_x86_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
+      <AdditionalLibraryDirectories>C:\AMD\acml4.4.0\ifort64_mp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libacml_mp_dll.lib;kernel32.lib;user32.lib;</AdditionalDependencies>
+      <OutputFile>$(OutDir)MathNET.Numerics.ACML.dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Common\wrapper_common.h" />
-    <ClInclude Include="..\..\GotoBlas2\clapack.h" />
-    <ClInclude Include="..\..\GotoBlas2\f2c.h" />
-    <ClInclude Include="..\..\GotoBlas2\lapack.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\..\ACML\blas.c" />
+    <ClCompile Include="..\..\ACML\lapack.cpp" />
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
-    <ClCompile Include="..\..\GotoBlas2\blas.c" />
-    <ClCompile Include="..\..\GotoBlas2\lapack.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

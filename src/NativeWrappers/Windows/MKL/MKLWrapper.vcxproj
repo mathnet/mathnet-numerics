@@ -184,14 +184,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Common\wrapper_common.h" />
-    <ClInclude Include="..\..\MKL\blas.h" />
     <ClInclude Include="..\..\MKL\lapack.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Common\blas.c" />
-    <ClCompile Include="..\..\Common\lapack.cpp" />
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
+    <ClCompile Include="..\..\MKL\blas.c" />
+    <ClCompile Include="..\..\MKL\lapack.cpp" />
     <ClCompile Include="..\..\MKL\vector_functions.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Common\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
