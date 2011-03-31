@@ -29,7 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -104,7 +104,11 @@
     <Compile Include="Single\GotoBlasLinearAlgebraProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\x64\Release\MathNET.Numerics.GotoBLAS2.dll">
+    <Content Include="..\..\..\..\lib\GotoBLAS2\x86\libgoto2.dll">
+      <Link>libgoto2.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Release\MathNET.Numerics.GotoBLAS2.dll">
       <Link>MathNET.Numerics.GotoBLAS2.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
