@@ -85,8 +85,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86.lib;libf2c_x86.lib;lapack_x86.lib;libf2c_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2\x86;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libgoto2.lib;libf2c_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
     </Link>
@@ -123,8 +123,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libgoto2_core2p-r1.13_x86.lib;libf2c_x86.lib;lapack_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\..\..\lib\GotoBLAS2\x86;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libgoto2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <OutputFile>$(OutDir)MathNET.Numerics.GotoBLAS2.dll</OutputFile>
     </Link>

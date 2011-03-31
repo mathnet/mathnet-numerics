@@ -3,6 +3,12 @@
 #include "lapack.h"
 
 extern "C"{
+	void STRSM(char*, char*, char*, char*, int*, int*, float*, float*, int*, float*, int*);
+	void DTRSM(char*, char*, char*, char*, int*, int*, double*, double*, int*, double*, int*);
+	void CTRSM(char*, char*, char*, char*, int*, int*, complex*, complex*, int*, complex*, int*);
+	void ZTRSM(char*, char*, char*, char*, int*, int*, doublecomplex*, doublecomplex*, int*, doublecomplex*, int*);
+
+
 	DLLEXPORT float s_matrix_norm(char norm, int m, int n, float a[], float work[])
 	{
 		return slange_(&norm, &m, &n, a, &m, work);
@@ -641,8 +647,11 @@ extern "C"{
 
 		char side ='L';
 		char tran = 'T';
+		char upper = 'U';
+		char no = 'N';
+		float one = 1.f;
 		sormqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
-		cblas_strsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, clone_r, m, clone_b, m);
+		STRSM(&side, &upper, &no, &no, &n, &bn, &one, clone_r, &m, clone_b, &m);
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < bn; ++j)
@@ -678,9 +687,12 @@ extern "C"{
 
 		char side ='L';
 		char tran = 'T';
+		char upper = 'U';
+		char no = 'N';
+		double one = 1.;
 
 		dormqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
-		cblas_dtrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, clone_r, m, clone_b, m);
+		DTRSM(&side, &upper, &no, &no, &n, &bn, &one, clone_r, &m, clone_b, &m);
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < bn; ++j)
@@ -713,13 +725,14 @@ extern "C"{
 
 		char side ='L';
 		char tran = 'C';
-
+		char upper = 'U';
+		char no = 'N';
 		complex* clone_b = new complex[m*bn];
 		memcpy(clone_b, b, m*bn*sizeof(complex));
 
 		cunmqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
 		complex one = {1.0, 0.0};
-		cblas_ctrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, clone_r, m, clone_b, m);
+		CTRSM(&side, &upper, &no, &no, &n, &bn, &one, clone_r, &m, clone_b, &m);
 
 		for (int i = 0; i < n; ++i)
 		{
@@ -753,13 +766,14 @@ extern "C"{
 
 		char side ='L';
 		char tran = 'C';
-
+		char upper = 'U';
+		char no = 'N';
 		doublecomplex* clone_b = new doublecomplex[m*bn];
 		memcpy(clone_b, b, m*bn*sizeof(doublecomplex));
 
 		zunmqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
 		doublecomplex one = {1.0, 0.0};
-		cblas_ztrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, clone_r, m, clone_b, m);
+		ZTRSM(&side, &upper, &no, &no, &n, &bn, &one, clone_r, &m, clone_b, &m);
 
 		for (int i = 0; i < n; ++i)
 		{
@@ -780,12 +794,15 @@ extern "C"{
 		char side ='L';
 		char tran = 'T';
 		int info = 0;
+		char upper = 'U';
+		char no = 'N';
+		float one = 1.f;
 
 		float* clone_b = new float[m*bn];
 		memcpy(clone_b, b, m*bn*sizeof(float));
 
 		sormqr_(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
-		cblas_strsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, r, m, clone_b, m);
+		STRSM(&side, &upper, &no, &no, &n, &bn, &one, r, &m, clone_b, &m);
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < bn; ++j)
@@ -803,12 +820,15 @@ extern "C"{
 		char side ='L';
 		char tran = 'T';
 		int info = 0;
+		char upper = 'U';
+		char no = 'N';
+		double one = 1.;
 
 		double* clone_b = new double[m*bn];
 		memcpy(clone_b, b, m*bn*sizeof(double));
 
 		dormqr_(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
-		cblas_dtrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, r, m, clone_b, m);
+		DTRSM(&side, &upper, &no, &no, &n, &bn, &one, r, &m, clone_b, &m);
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < bn; ++j)
@@ -826,13 +846,15 @@ extern "C"{
 		char side ='L';
 		char tran = 'C';
 		int info = 0;
+		char upper = 'U';
+		char no = 'N';
 
 		complex* clone_b = new complex[m*bn];
 		memcpy(clone_b, b, m*bn*sizeof(complex));
 
 		cunmqr_(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
 		complex one = {1.0f, 0.0f};
-		cblas_ctrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, r, m, clone_b, m);
+		CTRSM(&side, &upper, &no, &no, &n, &bn, &one, r, &m, clone_b, &m);
 		for (int i = 0; i < n; ++i)
 		{
 			for (int j = 0; j < bn; ++j)
@@ -850,13 +872,15 @@ extern "C"{
 		char side ='L';
 		char tran = 'C';
 		int info = 0;
+		char upper = 'U';
+		char no = 'N';
 
 		doublecomplex* clone_b = new doublecomplex[m*bn];
 		memcpy(clone_b, b, m*bn*sizeof(doublecomplex));
 
 		zunmqr_(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
 		doublecomplex one = {1.0, 0.0};
-		cblas_ztrsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, r, m, clone_b, m);
+		ZTRSM(&side, &upper, &no, &no, &n, &bn, &one, r, &m, clone_b, &m);
 
 		for (int i = 0; i < n; ++i)
 		{
