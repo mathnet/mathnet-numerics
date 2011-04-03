@@ -518,7 +518,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Multiplies this diagonal matrix with another diagonal matrix and places the results into the result diagonal matrix.
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
@@ -724,7 +724,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Multiplies this diagonal matrix with transpose of another diagonal matrix and places the results into the result diagonal matrix.
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
