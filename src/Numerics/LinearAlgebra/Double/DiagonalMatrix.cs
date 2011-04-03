@@ -300,11 +300,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             Matrix<double> result;
             if (other is DiagonalMatrix)
             {
-                result = new DenseMatrix(RowCount, ColumnCount);
+                result = new DiagonalMatrix(RowCount, ColumnCount);
             }
             else
             {
-                result = new DiagonalMatrix(RowCount, ColumnCount);
+                result = new DenseMatrix(RowCount, ColumnCount);
             }
 
             Add(other, result);
@@ -375,11 +375,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             Matrix<double> result;
             if (other is DiagonalMatrix)
             {
-                result = new DenseMatrix(RowCount, ColumnCount);
+                result = new DiagonalMatrix(RowCount, ColumnCount);
             }
             else
             {
-                result = new DiagonalMatrix(RowCount, ColumnCount);
+                result = new DenseMatrix(RowCount, ColumnCount);
             }
 
             Subtract(other, result);
