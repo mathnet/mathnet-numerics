@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(-1.0, factorQR.R[i, j]);
+                        Assert.AreEqual(1.0, Math.Abs(factorQR.R[i, j]));
                     }
                     else
                     {
