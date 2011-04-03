@@ -66,34 +66,6 @@
         }
 
         /// <summary>
-        /// Computes the dot product of x and y.
-        /// </summary>
-        /// <param name="x">The vector x.</param>
-        /// <param name="y">The vector y.</param>
-        /// <returns>The dot product of x and y.</returns>
-        /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
-        [SecuritySafeCritical]
-        public override <#=dataType#> DotProduct(<#=dataType#>[] x, <#=dataType#>[] y)
-        {
-            if (y == null)
-            {
-                throw new ArgumentNullException("y");
-            }
-
-            if (x == null)
-            {
-                throw new ArgumentNullException("x");
-            }
-
-            if (x.Length != y.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
-            }
-
-            return SafeNativeMethods.<#=prefix#>_dot_product(x.Length, x, y);
-        }
-
-        /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>
         /// </summary>
         /// <param name="x">The x matrix.</param>
@@ -215,7 +187,18 @@
             }
 
             var work = new <#=dataType#>[order];
-            SafeNativeMethods.<#=prefix#>_lu_inverse(order, a, work, order);        
+<# if (dataType == "float") { #> 
+            if (Control.LinearAlgebraProvider is Algorithms.LinearAlgebra.GotoBlas.GotoBlasLinearAlgebraProvider)
+            {
+                new ManagedLinearAlgebraProvider().LUInverse(a, order, work);
+            }
+            else
+            {
+                SafeNativeMethods.s_lu_inverse(order, a, work, work.Length);        
+            }
+<# } else{#>
+            SafeNativeMethods.<#=prefix#>_lu_inverse(order, a, work, work.Length);        
+<# } #>      
         }
 
         /// <summary>
@@ -249,7 +232,18 @@
             }
 
             var work = new <#=dataType#>[order];
+<# if (dataType == "float") { #> 
+            if (Control.LinearAlgebraProvider is Algorithms.LinearAlgebra.GotoBlas.GotoBlasLinearAlgebraProvider)
+            {
+                new ManagedLinearAlgebraProvider().LUInverseFactored(a, order, ipiv, work);
+            }
+            else
+            {
+                SafeNativeMethods.s_lu_inverse_factored(order, a, ipiv, work, order);
+            }
+<# }else{ #>
             SafeNativeMethods.<#=prefix#>_lu_inverse_factored(order, a, ipiv, work, order);        
+<# } #>     
         }
 
         /// <summary>
@@ -284,7 +278,18 @@
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
+<# if (dataType == "float") { #> 
+            if (Control.LinearAlgebraProvider is Algorithms.LinearAlgebra.GotoBlas.GotoBlasLinearAlgebraProvider)
+            {
+                new ManagedLinearAlgebraProvider().LUInverse(a, order, work);
+            }
+            else
+            {
+                SafeNativeMethods.s_lu_inverse(order, a, work, work.Length);        
+            }
+<# } else{#>
             SafeNativeMethods.<#=prefix#>_lu_inverse(order, a, work, work.Length);        
+<# } #>
         }
 
         /// <summary>
@@ -330,7 +335,18 @@
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
+<# if (dataType == "float") { #> 
+            if (Control.LinearAlgebraProvider is Algorithms.LinearAlgebra.GotoBlas.GotoBlasLinearAlgebraProvider)
+            {
+                new ManagedLinearAlgebraProvider().LUInverseFactored(a, order, ipiv, work);
+            }
+            else
+            {
+                SafeNativeMethods.s_lu_inverse_factored(order, a, ipiv, work, order);
+            }
+<# }else{ #>
             SafeNativeMethods.<#=prefix#>_lu_inverse_factored(order, a, ipiv, work, order);        
+<# } #>
         }
 
         /// <summary>

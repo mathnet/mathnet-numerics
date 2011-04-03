@@ -8,6 +8,7 @@
 <# string prefix = "z";#>
 <# string svd_work = "2 * Math.Min(rowsA, columnsA) + Math.Max(rowsA, columnsA)";#>
 <#@ include file="..\native.header.include" #>
+<#@ include file="..\native.dotproduct.include" #>
 <#@ include file="..\native.generic.include" #>
 <#@ include file="..\native.vector.include" #>
 <#@ include file="..\native.footer.include" #>
