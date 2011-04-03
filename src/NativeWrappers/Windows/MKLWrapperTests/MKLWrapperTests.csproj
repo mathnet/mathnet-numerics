@@ -116,16 +116,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Win32\Debug\libiomp5md.dll">
+    <Content Include="..\Win32\Release\libiomp5md.dll">
       <Link>libiomp5md.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Win32\Debug\MathNET.Numerics.MKL.dll">
+    <Content Include="..\Win32\Release\MathNET.Numerics.MKL.dll">
       <Link>MathNET.Numerics.MKL.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
