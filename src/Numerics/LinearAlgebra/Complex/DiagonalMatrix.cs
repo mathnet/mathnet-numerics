@@ -301,11 +301,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             Matrix<Complex> result;
             if (other is DiagonalMatrix)
             {
-                result = new DenseMatrix(RowCount, ColumnCount);
+                result = new DiagonalMatrix(RowCount, ColumnCount);
             }
             else
             {
-                result = new DiagonalMatrix(RowCount, ColumnCount);
+                result = new DenseMatrix(RowCount, ColumnCount);
             }
 
             Add(other, result);
