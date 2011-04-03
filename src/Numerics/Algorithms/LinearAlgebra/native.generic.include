@@ -437,13 +437,12 @@
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            int info = SafeNativeMethods.<#=prefix#>_cholesky_factor(order, a);
+            var info = SafeNativeMethods.<#=prefix#>_cholesky_factor(order, a);
 
-			if (info > 0)
-			{
-				throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
-			}
-
+            if (info > 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+            }
         }
 
         /// <summary>
@@ -971,7 +970,7 @@
             var vt = new <#=dataType#>[columnsA * columnsA];
 
             var clone = new <#=dataType#>[a.Length];
-			a.Copy(clone);
+            a.Copy(clone);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }

@@ -40,7 +40,7 @@ public class Setup
     public void SetupProvider()
     {
         var provider = MathNet.Numerics.UnitTests.Properties.Settings.Default.LinearAlgebraProvider.ToLowerInvariant();
-        System.Console.WriteLine(provider);
+
         if (provider.Contains("mkl"))
         {
             MathNet.Numerics.Control.LinearAlgebraProvider = new MathNet.Numerics.Algorithms.LinearAlgebra.Mkl.MklLinearAlgebraProvider();

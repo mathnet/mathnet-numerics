@@ -3,76 +3,76 @@
 #include "lapack.h"
 
 extern "C"{
-	void STRSM(char*, char*, char*, char*, int*, int*, float*, float*, int*, float*, int*);
-	void DTRSM(char*, char*, char*, char*, int*, int*, double*, double*, int*, double*, int*);
-	void CTRSM(char*, char*, char*, char*, int*, int*, complex*, complex*, int*, complex*, int*);
-	void ZTRSM(char*, char*, char*, char*, int*, int*, doublecomplex*, doublecomplex*, int*, doublecomplex*, int*);
+	void STRSM(char*, char*, char*, char*, integer*, integer*, float*, float*, integer*, float*, integer*);
+	void DTRSM(char*, char*, char*, char*, integer*, integer*, double*, double*, integer*, double*, integer*);
+	void CTRSM(char*, char*, char*, char*, integer*, integer*, complex*, complex*, integer*, complex*, integer*);
+	void ZTRSM(char*, char*, char*, char*, integer*, integer*, doublecomplex*, doublecomplex*, integer*, doublecomplex*, integer*);
 
 
-	DLLEXPORT float s_matrix_norm(char norm, int m, int n, float a[], float work[])
+	DLLEXPORT float s_matrix_norm(char norm, integer m, integer n, float a[], float work[])
 	{
 		return slange_(&norm, &m, &n, a, &m, work);
 	}
 
-	DLLEXPORT double d_matrix_norm(char norm, int m, int n, double a[], double work[])
+	DLLEXPORT double d_matrix_norm(char norm, integer m, integer n, double a[], double work[])
 	{
 		return dlange_(&norm, &m, &n, a, &m, work);
 	}
 
-	DLLEXPORT float c_matrix_norm(char norm, int m, int n, complex a[], float work[])
+	DLLEXPORT float c_matrix_norm(char norm, integer m, integer n, complex a[], float work[])
 	{
 		return clange_(&norm, &m, &n, a, &m, work);
 	}
 
-	DLLEXPORT double z_matrix_norm(char norm, int m, int n, doublecomplex a[], double work[])
+	DLLEXPORT double z_matrix_norm(char norm, integer m, integer n, doublecomplex a[], double work[])
 	{
 		return zlange_(&norm, &m, &n, a, &m, work);
 	}
 
-	DLLEXPORT int s_lu_factor(int m, float a[], int ipiv[])
+	DLLEXPORT integer s_lu_factor(integer m, float a[], integer ipiv[])
 	{
-		int info = 0;
+		integer info = 0;
 		sgetrf_(&m,&m,a,&m,ipiv,&info);
-		for(int i = 0; i < m; ++i ){
+		for(integer i = 0; i < m; ++i ){
 			ipiv[i] -= 1;
 		}
 		return info;
 	}
 
-	DLLEXPORT int d_lu_factor(int m, double a[], int ipiv[])
+	DLLEXPORT integer d_lu_factor(integer m, double a[], integer ipiv[])
 	{
-		int info = 0;
+		integer info = 0;
 		dgetrf_(&m,&m,a,&m,ipiv,&info);
-		for(int i = 0; i < m; ++i ){
+		for(integer i = 0; i < m; ++i ){
 			ipiv[i] -= 1;
 		}
 		return info;
 	}
 
-	DLLEXPORT int c_lu_factor(int m, complex a[], int ipiv[])
+	DLLEXPORT integer c_lu_factor(integer m, complex a[], integer ipiv[])
 	{
-		int info = 0;
+		integer info = 0;
 		cgetrf_(&m,&m,a,&m,ipiv,&info);
-		for(int i = 0; i < m; ++i ){
+		for(integer i = 0; i < m; ++i ){
 			ipiv[i] -= 1;
 		}
 		return info;
 	}
 
-	DLLEXPORT int z_lu_factor(int m, doublecomplex a[], int ipiv[])
+	DLLEXPORT integer z_lu_factor(integer m, doublecomplex a[], integer ipiv[])
 	{
-		int info = 0;
+		integer info = 0;
 		zgetrf_(&m,&m,a,&m,ipiv,&info);
-		for(int i = 0; i < m; ++i ){
+		for(integer i = 0; i < m; ++i ){
 			ipiv[i] -= 1;
 		}
 		return info;
 	}
 
-	DLLEXPORT int s_lu_inverse(int n, float a[], float work[], int lwork)
+	DLLEXPORT integer s_lu_inverse(integer n, float a[], float work[], integer lwork)
 	{
-		int* ipiv = new int[n];
-		int info = 0;
+		integer* ipiv = new integer[n];
+		integer info = 0;
 		sgetrf_(&n,&n,a,&n,ipiv,&info);
 
 		if (info != 0){
@@ -85,10 +85,10 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int d_lu_inverse(int n, double a[], double work[], int lwork)
+	DLLEXPORT integer d_lu_inverse(integer n, double a[], double work[], integer lwork)
 	{
-		int* ipiv = new int[n];
-		int info = 0;
+		integer* ipiv = new integer[n];
+		integer info = 0;
 		dgetrf_(&n,&n,a,&n,ipiv,&info);
 
 		if (info != 0){
@@ -101,10 +101,10 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_lu_inverse(int n, complex a[], complex work[], int lwork)
+	DLLEXPORT integer c_lu_inverse(integer n, complex a[], complex work[], integer lwork)
 	{
-		int* ipiv = new int[n];
-		int info = 0;
+		integer* ipiv = new integer[n];
+		integer info = 0;
 		cgetrf_(&n,&n,a,&n,ipiv,&info);
 
 		if (info != 0){
@@ -117,10 +117,10 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_lu_inverse(int n, doublecomplex a[], doublecomplex work[], int lwork)
+	DLLEXPORT integer z_lu_inverse(integer n, doublecomplex a[], doublecomplex work[], integer lwork)
 	{
-		int* ipiv = new int[n];
-		int info = 0;
+		integer* ipiv = new integer[n];
+		integer info = 0;
 		zgetrf_(&n,&n,a,&n,ipiv,&info);
 
 		if (info != 0){
@@ -133,13 +133,13 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_lu_inverse_factored(int n, float a[], int ipiv[], float work[], int lwork)
+	DLLEXPORT integer s_lu_inverse_factored(integer n, float a[], integer ipiv[], float work[], integer lwork)
 	{
-		int i;
+		integer i;
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
-		int info = 0;
+		integer info = 0;
 		sgetri_(&n,a,&n,ipiv,work,&lwork,&info);
 
 		for(i = 0; i < n; ++i ){
@@ -148,14 +148,14 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int d_lu_inverse_factored(int n, double a[], int ipiv[], double work[], int lwork)
+	DLLEXPORT integer d_lu_inverse_factored(integer n, double a[], integer ipiv[], double work[], integer lwork)
 	{
-		int i;
+		integer i;
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
 
-		int info = 0;
+		integer info = 0;
 		dgetri_(&n,a,&n,ipiv,work,&lwork,&info);
 
 		for(i = 0; i < n; ++i ){
@@ -164,14 +164,14 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_lu_inverse_factored(int n, complex a[], int ipiv[], complex work[], int lwork)
+	DLLEXPORT integer c_lu_inverse_factored(integer n, complex a[], integer ipiv[], complex work[], integer lwork)
 	{
-		int i;
+		integer i;
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
 
-		int info = 0;
+		integer info = 0;
 		cgetri_(&n,a,&n,ipiv,work,&lwork,&info);
 
 		for(i = 0; i < n; ++i ){
@@ -180,14 +180,14 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_lu_inverse_factored(int n, doublecomplex a[], int ipiv[], doublecomplex work[], int lwork)
+	DLLEXPORT integer z_lu_inverse_factored(integer n, doublecomplex a[], integer ipiv[], doublecomplex work[], integer lwork)
 	{
-		int i;
+		integer i;
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
 
-		int info = 0;
+		integer info = 0;
 		zgetri_(&n,a,&n,ipiv,work,&lwork,&info);
 
 		for(i = 0; i < n; ++i ){
@@ -196,10 +196,10 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_lu_solve_factored(int n, int nrhs, float a[], int ipiv[], float b[])
+	DLLEXPORT integer s_lu_solve_factored(integer n, integer nrhs, float a[], integer ipiv[], float b[])
 	{
-		int info = 0;
-		int i;    
+		integer info = 0;
+		integer i;    
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
@@ -212,10 +212,10 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int  d_lu_solve_factored(int n, int nrhs, double a[], int ipiv[], double b[])
+	DLLEXPORT integer  d_lu_solve_factored(integer n, integer nrhs, double a[], integer ipiv[], double b[])
 	{
-		int info = 0;
-		int i;    
+		integer info = 0;
+		integer i;    
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
@@ -228,10 +228,10 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_lu_solve_factored(int n, int nrhs, complex a[], int ipiv[], complex b[])
+	DLLEXPORT integer c_lu_solve_factored(integer n, integer nrhs, complex a[], integer ipiv[], complex b[])
 	{
-		int info = 0;
-		int i;    
+		integer info = 0;
+		integer i;    
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
@@ -244,10 +244,10 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_lu_solve_factored(int n, int nrhs, doublecomplex a[], int ipiv[], doublecomplex b[])
+	DLLEXPORT integer z_lu_solve_factored(integer n, integer nrhs, doublecomplex a[], integer ipiv[], doublecomplex b[])
 	{
-		int info = 0;
-		int i;    
+		integer info = 0;
+		integer i;    
 		for(i = 0; i < n; ++i ){
 			ipiv[i] += 1;
 		}
@@ -260,13 +260,13 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_lu_solve(int n, int nrhs, float a[], float b[])
+	DLLEXPORT integer s_lu_solve(integer n, integer nrhs, float a[], float b[])
 	{
 		float* clone = new float[n*n];
 		memcpy(clone, a, n*n*sizeof(float));
 
-		int* ipiv = new int[n];
-		int info = 0;
+		integer* ipiv = new integer[n];
+		integer info = 0;
 		sgetrf_(&n, &n, clone, &n, ipiv, &info);
 
 		if (info != 0){
@@ -282,13 +282,13 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int d_lu_solve(int n, int nrhs, double a[], double b[])
+	DLLEXPORT integer d_lu_solve(integer n, integer nrhs, double a[], double b[])
 	{
 		double* clone = new double[n*n];
 		memcpy(clone, a, n*n*sizeof(double));
 
-		int* ipiv = new int[n];
-		int info = 0;
+		integer* ipiv = new integer[n];
+		integer info = 0;
 		dgetrf_(&n, &n, clone, &n, ipiv, &info);
 
 		if (info != 0){
@@ -304,13 +304,13 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_lu_solve(int n, int nrhs, complex a[], complex b[])
+	DLLEXPORT integer c_lu_solve(integer n, integer nrhs, complex a[], complex b[])
 	{
 		complex* clone = new complex[n*n];
 		memcpy(clone, a, n*n*sizeof(complex));
 
-		int* ipiv = new int[n];
-		int info = 0;
+		integer* ipiv = new integer[n];
+		integer info = 0;
 		cgetrf_(&n, &n, clone, &n, ipiv, &info);
 
 		if (info != 0){
@@ -326,13 +326,13 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_lu_solve(int n, int nrhs, doublecomplex a[],  doublecomplex b[])
+	DLLEXPORT integer z_lu_solve(integer n, integer nrhs, doublecomplex a[],  doublecomplex b[])
 	{
 		doublecomplex* clone = new doublecomplex[n*n];
 		memcpy(clone, a, n*n*sizeof(doublecomplex));
 
-		int* ipiv = new int[n];
-		int info = 0;
+		integer* ipiv = new integer[n];
+		integer info = 0;
 		zgetrf_(&n, &n, clone, &n, ipiv, &info);
 
 		if (info != 0){
@@ -348,14 +348,14 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_cholesky_factor(int n, float a[]){
+	DLLEXPORT integer s_cholesky_factor(integer n, float a[]){
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		spotrf_(&uplo, &n, a, &n, &info);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			int index = i * n;
-			for (int j = 0; j < n && i > j; ++j)
+			integer index = i * n;
+			for (integer j = 0; j < n && i > j; ++j)
 			{
 				a[index + j] = 0;
 			}
@@ -363,14 +363,14 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int d_cholesky_factor(int n, double* a){
+	DLLEXPORT integer d_cholesky_factor(integer n, double* a){
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		dpotrf_(&uplo, &n, a, &n, &info);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			int index = i * n;
-			for (int j = 0; j < n && i > j; ++j)
+			integer index = i * n;
+			for (integer j = 0; j < n && i > j; ++j)
 			{
 				a[index + j] = 0;
 			}
@@ -378,15 +378,15 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_cholesky_factor(int n, complex a[]){
+	DLLEXPORT integer c_cholesky_factor(integer n, complex a[]){
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		complex zero = {0.0f, 0.0f};
 		cpotrf_(&uplo, &n, a, &n, &info);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			int index = i * n;
-			for (int j = 0; j < n && i > j; ++j)
+			integer index = i * n;
+			for (integer j = 0; j < n && i > j; ++j)
 			{
 				a[index + j] = zero;
 			}
@@ -394,15 +394,15 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_cholesky_factor(int n, doublecomplex a[]){
+	DLLEXPORT integer z_cholesky_factor(integer n, doublecomplex a[]){
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		doublecomplex zero = {0.0, 0.0};
 		zpotrf_(&uplo, &n, a, &n, &info);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			int index = i * n;
-			for (int j = 0; j < n && i > j; ++j)
+			integer index = i * n;
+			for (integer j = 0; j < n && i > j; ++j)
 			{
 				a[index + j] = zero;
 			}
@@ -410,12 +410,12 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_cholesky_solve(int n, int nrhs, float a[], float b[])
+	DLLEXPORT integer s_cholesky_solve(integer n, integer nrhs, float a[], float b[])
 	{
 		float* clone = new float[n*n];
 		memcpy(clone, a, n*n*sizeof(float));
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		spotrf_(&uplo, &n, clone, &n, &info);
 
 		if (info != 0){
@@ -427,12 +427,12 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int d_cholesky_solve(int n, int nrhs, double a[], double b[])
+	DLLEXPORT integer d_cholesky_solve(integer n, integer nrhs, double a[], double b[])
 	{
 		double* clone = new double[n*n];
 		memcpy(clone, a, n*n*sizeof(double));
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		dpotrf_(&uplo, &n, clone, &n, &info);
 
 		if (info != 0){
@@ -444,12 +444,12 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_cholesky_solve(int n, int nrhs, complex a[], complex b[])
+	DLLEXPORT integer c_cholesky_solve(integer n, integer nrhs, complex a[], complex b[])
 	{
 		complex* clone = new complex[n*n];
 		memcpy(clone, a, n*n*sizeof(complex));
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		cpotrf_(&uplo, &n, clone, &n, &info);
 
 		if (info != 0){
@@ -461,12 +461,12 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_cholesky_solve(int n, int nrhs, doublecomplex a[], doublecomplex b[])
+	DLLEXPORT integer z_cholesky_solve(integer n, integer nrhs, doublecomplex a[], doublecomplex b[])
 	{
 		doublecomplex* clone = new doublecomplex[n*n];
 		memcpy(clone, a, n*n*sizeof(doublecomplex));
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		zpotrf_(&uplo, &n, clone, &n, &info);
 
 		if (info != 0){
@@ -478,46 +478,46 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_cholesky_solve_factored(int n, int nrhs, float a[], float b[])
+	DLLEXPORT integer s_cholesky_solve_factored(integer n, integer nrhs, float a[], float b[])
 	{
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		spotrs_(&uplo, &n, &nrhs, a, &n, b, &n, &info);
 		return info;
 	}
 
-	DLLEXPORT int d_cholesky_solve_factored(int n, int nrhs, double a[], double b[])
+	DLLEXPORT integer d_cholesky_solve_factored(integer n, integer nrhs, double a[], double b[])
 	{
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		dpotrs_(&uplo, &n, &nrhs, a, &n, b, &n, &info);
 		return info;
 	}
 
-	DLLEXPORT int c_cholesky_solve_factored(int n, int nrhs, complex a[], complex b[])
+	DLLEXPORT integer c_cholesky_solve_factored(integer n, integer nrhs, complex a[], complex b[])
 	{
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		cpotrs_(&uplo, &n, &nrhs, a, &n, b, &n, &info);
 		return info;
 	}
 
-	DLLEXPORT int z_cholesky_solve_factored(int n, int nrhs, doublecomplex a[], doublecomplex b[])
+	DLLEXPORT integer z_cholesky_solve_factored(integer n, integer nrhs, doublecomplex a[], doublecomplex b[])
 	{
 		char uplo = 'L';
-		int info = 0;
+		integer info = 0;
 		zpotrs_(&uplo, &n, &nrhs, a, &n, b, &n, &info);
 		return info;
 	}
 
-	DLLEXPORT int s_qr_factor(int m, int n, float r[], float tau[], float q[], float work[], int len)
+	DLLEXPORT integer s_qr_factor(integer m, integer n, float r[], float tau[], float q[], float work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		sgeqrf_(&m, &n, r, &m, tau, work, &len, &info);
 
-		for (int i = 0; i < m; ++i)
+		for (integer i = 0; i < m; ++i)
 		{
-			for (int j = 0; j < m && j < n; ++j)
+			for (integer j = 0; j < m && j < n; ++j)
 			{
 				if (i > j)
 				{
@@ -539,14 +539,14 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int d_qr_factor(int m, int n, double r[], double tau[], double q[], double work[], int len)
+	DLLEXPORT integer d_qr_factor(integer m, integer n, double r[], double tau[], double q[], double work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		dgeqrf_(&m, &n, r, &m, tau, work, &len, &info);
 
-		for (int i = 0; i < m; ++i)
+		for (integer i = 0; i < m; ++i)
 		{
-			for (int j = 0; j < m && j < n; ++j)
+			for (integer j = 0; j < m && j < n; ++j)
 			{
 				if (i > j)
 				{
@@ -568,14 +568,14 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_qr_factor(int m, int n, complex r[], complex tau[], complex q[], complex work[], int len)
+	DLLEXPORT integer c_qr_factor(integer m, integer n, complex r[], complex tau[], complex q[], complex work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		cgeqrf_(&m, &n, r, &m, tau, work, &len, &info);
 
-		for (int i = 0; i < m; ++i)
+		for (integer i = 0; i < m; ++i)
 		{
-			for (int j = 0; j < m && j < n; ++j)
+			for (integer j = 0; j < m && j < n; ++j)
 			{
 				if (i > j)
 				{
@@ -597,14 +597,14 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_qr_factor(int m, int n, doublecomplex r[], doublecomplex tau[], doublecomplex q[], doublecomplex work[], int len)
+	DLLEXPORT integer z_qr_factor(integer m, integer n, doublecomplex r[], doublecomplex tau[], doublecomplex q[], doublecomplex work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		zgeqrf_(&m, &n, r, &m, tau, work, &len, &info);
 
-		for (int i = 0; i < m; ++i)
+		for (integer i = 0; i < m; ++i)
 		{
-			for (int j = 0; j < m && j < n; ++j)
+			for (integer j = 0; j < m && j < n; ++j)
 			{
 				if (i > j)
 				{
@@ -626,9 +626,9 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_qr_solve(int m, int n, int bn, float r[], float b[], float x[], float work[], int len)
+	DLLEXPORT integer s_qr_solve(integer m, integer n, integer bn, float r[], float b[], float x[], float work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		float* clone_r = new float[m*n];
 		memcpy(clone_r, r, m*n*sizeof(float));
 
@@ -652,9 +652,9 @@ extern "C"{
 		float one = 1.f;
 		sormqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
 		STRSM(&side, &upper, &no, &no, &n, &bn, &one, clone_r, &m, clone_b, &m);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			for (int j = 0; j < bn; ++j)
+			for (integer j = 0; j < bn; ++j)
 			{
 				x[j * n + i] = clone_b[j * m + i];
 			}
@@ -666,9 +666,9 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int d_qr_solve(int m, int n, int bn, double r[], double b[], double x[], double work[], int len)
+	DLLEXPORT integer d_qr_solve(integer m, integer n, integer bn, double r[], double b[], double x[], double work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		double* clone_r = new double[m*n];
 		memcpy(clone_r, r, m*n*sizeof(double));
 
@@ -693,9 +693,9 @@ extern "C"{
 
 		dormqr_(&side, &tran, &m, &bn, &n, clone_r, &m, tau, clone_b, &m, work, &len, &info);
 		DTRSM(&side, &upper, &no, &no, &n, &bn, &one, clone_r, &m, clone_b, &m);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			for (int j = 0; j < bn; ++j)
+			for (integer j = 0; j < bn; ++j)
 			{
 				x[j * n + i] = clone_b[j * m + i];
 			}
@@ -707,9 +707,9 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_qr_solve(int m, int n, int bn, complex r[], complex b[], complex x[], complex work[], int len)
+	DLLEXPORT integer c_qr_solve(integer m, integer n, integer bn, complex r[], complex b[], complex x[], complex work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		complex* clone_r = new complex[m*n];
 		memcpy(clone_r, r, m*n*sizeof(complex));
 
@@ -734,9 +734,9 @@ extern "C"{
 		complex one = {1.0, 0.0};
 		CTRSM(&side, &upper, &no, &no, &n, &bn, &one, clone_r, &m, clone_b, &m);
 
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			for (int j = 0; j < bn; ++j)
+			for (integer j = 0; j < bn; ++j)
 			{
 				x[j * n + i] = clone_b[j * m + i];
 			}
@@ -748,9 +748,9 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_qr_solve(int m, int n, int bn, doublecomplex r[], doublecomplex b[], doublecomplex x[], doublecomplex work[], int len)
+	DLLEXPORT integer z_qr_solve(integer m, integer n, integer bn, doublecomplex r[], doublecomplex b[], doublecomplex x[], doublecomplex work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		doublecomplex* clone_r = new doublecomplex[m*n];
 		memcpy(clone_r, r, m*n*sizeof(doublecomplex));
 
@@ -775,9 +775,9 @@ extern "C"{
 		doublecomplex one = {1.0, 0.0};
 		ZTRSM(&side, &upper, &no, &no, &n, &bn, &one, clone_r, &m, clone_b, &m);
 
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			for (int j = 0; j < bn; ++j)
+			for (integer j = 0; j < bn; ++j)
 			{
 				x[j * n + i] = clone_b[j * m + i];
 			}
@@ -789,11 +789,11 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_qr_solve_factored(int m, int n, int bn, float r[], float b[], float tau[], float x[], float work[], int len)
+	DLLEXPORT integer s_qr_solve_factored(integer m, integer n, integer bn, float r[], float b[], float tau[], float x[], float work[], integer len)
 	{
 		char side ='L';
 		char tran = 'T';
-		int info = 0;
+		integer info = 0;
 		char upper = 'U';
 		char no = 'N';
 		float one = 1.f;
@@ -803,9 +803,9 @@ extern "C"{
 
 		sormqr_(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
 		STRSM(&side, &upper, &no, &no, &n, &bn, &one, r, &m, clone_b, &m);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			for (int j = 0; j < bn; ++j)
+			for (integer j = 0; j < bn; ++j)
 			{
 				x[j * n + i] = clone_b[j * m + i];
 			}
@@ -815,11 +815,11 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int d_qr_solve_factored(int m, int n, int bn, double r[], double b[], double tau[], double x[], double work[], int len)
+	DLLEXPORT integer d_qr_solve_factored(integer m, integer n, integer bn, double r[], double b[], double tau[], double x[], double work[], integer len)
 	{
 		char side ='L';
 		char tran = 'T';
-		int info = 0;
+		integer info = 0;
 		char upper = 'U';
 		char no = 'N';
 		double one = 1.;
@@ -829,9 +829,9 @@ extern "C"{
 
 		dormqr_(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
 		DTRSM(&side, &upper, &no, &no, &n, &bn, &one, r, &m, clone_b, &m);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			for (int j = 0; j < bn; ++j)
+			for (integer j = 0; j < bn; ++j)
 			{
 				x[j * n + i] = clone_b[j * m + i];
 			}
@@ -841,11 +841,11 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int c_qr_solve_factored(int m, int n, int bn, complex r[], complex b[], complex tau[], complex x[], complex work[], int len)
+	DLLEXPORT integer c_qr_solve_factored(integer m, integer n, integer bn, complex r[], complex b[], complex tau[], complex x[], complex work[], integer len)
 	{
 		char side ='L';
 		char tran = 'C';
-		int info = 0;
+		integer info = 0;
 		char upper = 'U';
 		char no = 'N';
 
@@ -855,9 +855,9 @@ extern "C"{
 		cunmqr_(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
 		complex one = {1.0f, 0.0f};
 		CTRSM(&side, &upper, &no, &no, &n, &bn, &one, r, &m, clone_b, &m);
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			for (int j = 0; j < bn; ++j)
+			for (integer j = 0; j < bn; ++j)
 			{
 				x[j * n + i] = clone_b[j * m + i];
 			}
@@ -867,11 +867,11 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_qr_solve_factored(int m, int n, int bn, doublecomplex r[], doublecomplex b[], doublecomplex tau[], doublecomplex x[], doublecomplex work[], int len)
+	DLLEXPORT integer z_qr_solve_factored(integer m, integer n, integer bn, doublecomplex r[], doublecomplex b[], doublecomplex tau[], doublecomplex x[], doublecomplex work[], integer len)
 	{
 		char side ='L';
 		char tran = 'C';
-		int info = 0;
+		integer info = 0;
 		char upper = 'U';
 		char no = 'N';
 
@@ -882,9 +882,9 @@ extern "C"{
 		doublecomplex one = {1.0, 0.0};
 		ZTRSM(&side, &upper, &no, &no, &n, &bn, &one, r, &m, clone_b, &m);
 
-		for (int i = 0; i < n; ++i)
+		for (integer i = 0; i < n; ++i)
 		{
-			for (int j = 0; j < bn; ++j)
+			for (integer j = 0; j < bn; ++j)
 			{
 				x[j * n + i] = clone_b[j * m + i];
 			}
@@ -894,32 +894,32 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int s_svd_factor(bool compute_vectors, int m, int n, float a[], float s[], float u[], float v[], float work[], int len)
+	DLLEXPORT integer s_svd_factor(bool compute_vectors, integer m, integer n, float a[], float s[], float u[], float v[], float work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		char job = compute_vectors ? 'A' : 'N';
 		sgesvd_(&job, &job, &m, &n, a, &m, s, u, &m, v, &n, work, &len, &info);
 		return info;
 	}
 
-	DLLEXPORT int d_svd_factor(bool compute_vectors, int m, int n, double a[], double s[], double u[], double v[], double work[], int len)
+	DLLEXPORT integer d_svd_factor(bool compute_vectors, integer m, integer n, double a[], double s[], double u[], double v[], double work[], integer len)
 	{
-		int info = 0;
+		integer info = 0;
 		char job = compute_vectors ? 'A' : 'N';
 		dgesvd_(&job, &job, &m, &n, a, &m, s, u, &m, v, &n, work, &len, &info);
 		return info;
 	}
 
-	DLLEXPORT int c_svd_factor(bool compute_vectors, int m, int n, complex a[], complex s[], complex u[], complex v[], complex work[], int len)
+	DLLEXPORT integer c_svd_factor(bool compute_vectors, integer m, integer n, complex a[], complex s[], complex u[], complex v[], complex work[], integer len)
 	{
-		int info = 0;
-		int dim_s = min(m,n);
+		integer info = 0;
+		integer dim_s = min(m,n);
 		float* rwork = new float[5 * dim_s];
 		float* s_local = new float[dim_s];
 		char job = compute_vectors ? 'A' : 'N';
 		cgesvd_(&job, &job, &m, &n, a, &m, s_local, u, &m, v, &n, work, &len, rwork, &info);
 
-		for(int index = 0; index < dim_s; ++index){
+		for(integer index = 0; index < dim_s; ++index){
 			complex value = {s_local[index], 0.0f};
 			s[index] = value;
 		}
@@ -929,16 +929,16 @@ extern "C"{
 		return info;
 	}
 
-	DLLEXPORT int z_svd_factor(bool compute_vectors, int m, int n, doublecomplex a[], doublecomplex s[], doublecomplex u[], doublecomplex v[], doublecomplex work[], int len)
+	DLLEXPORT integer z_svd_factor(bool compute_vectors, integer m, integer n, doublecomplex a[], doublecomplex s[], doublecomplex u[], doublecomplex v[], doublecomplex work[], integer len)
 	{
-		int info = 0;
-		int dim_s = min(m,n);
+		integer info = 0;
+		integer dim_s = min(m,n);
 		double* rwork = new double[5 * min(m, n)];
 		double* s_local = new double[dim_s];
 		char job = compute_vectors ? 'A' : 'N';
 		zgesvd_(&job, &job, &m, &n, a, &m, s_local, u, &m, v, &n, work, &len, rwork, &info);
 
-		for(int index = 0; index < dim_s; ++index){
+		for(integer index = 0; index < dim_s; ++index){
 			doublecomplex value = {s_local[index], 0.0f};
 			s[index] = value;
 		}

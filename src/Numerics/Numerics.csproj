@@ -146,9 +146,9 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.float.cs">
-      <DependentUpon>GotoBlasLinearAlgebraProvider.float.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>GotoBlasLinearAlgebraProvider.float.tt</DependentUpon>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\GotoBlas\SafeNativeMethods.cs">
       <DependentUpon>SafeNativeMethods.tt</DependentUpon>
