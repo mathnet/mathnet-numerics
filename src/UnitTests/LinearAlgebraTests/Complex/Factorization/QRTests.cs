@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(-Complex.One, factorQR.R[i, j]);
+                        Assert.AreEqual(1.0, factorQR.R[i, j].Magnitude);
                     }
                     else
                     {

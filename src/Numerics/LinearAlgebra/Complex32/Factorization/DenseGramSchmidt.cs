@@ -45,6 +45,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     public class DenseGramSchmidt : GramSchmidt
     {
         /// <summary>
+        /// used for QR solve
+        /// </summary>
+        private readonly Algorithms.LinearAlgebra.ILinearAlgebraProvider _provider = new Algorithms.LinearAlgebra.ManagedLinearAlgebraProvider();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an unitary matrix 
         /// using the modified Gram-Schmidt method.
         /// </summary>
@@ -167,7 +172,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Data, input.ColumnCount, dresult.Data);
+            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Data, input.ColumnCount, dresult.Data);
         }
 
         /// <summary>
@@ -212,7 +217,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Data, 1, dresult.Data);
+            _provider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixQ.RowCount, MatrixQ.ColumnCount, null, dinput.Data, 1, dresult.Data);
         }
     }
 }

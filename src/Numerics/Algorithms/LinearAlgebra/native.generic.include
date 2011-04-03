@@ -145,13 +145,14 @@
             var m = transposeA == Transpose.DontTranspose ? rowsA : columnsA;
             var n = transposeB == Transpose.DontTranspose ? columnsB : rowsB;
             var k = transposeA == Transpose.DontTranspose ? columnsA : rowsA;
+            var l = transposeB == Transpose.DontTranspose ? rowsB : columnsB;
 
-            if (c.Length != rowsA * columnsB)
+            if (c.Length != m * n)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);   
             }
 
-            if (columnsA != rowsB)
+            if (k != l)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
@@ -436,7 +437,13 @@
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            SafeNativeMethods.<#=prefix#>_cholesky_factor(order, a);
+            int info = SafeNativeMethods.<#=prefix#>_cholesky_factor(order, a);
+
+			if (info > 0)
+			{
+				throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+			}
+
         }
 
         /// <summary>

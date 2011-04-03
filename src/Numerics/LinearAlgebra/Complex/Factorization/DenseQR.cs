@@ -128,7 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 throw new NotSupportedException("Can only do QR factorization for dense matrices at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, null, dinput.Data, input.ColumnCount, dresult.Data);
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Data, input.ColumnCount, dresult.Data);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
             }
 
-            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, null, dinput.Data, 1, dresult.Data);
+            Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)MatrixQ).Data, ((DenseMatrix)MatrixR).Data, MatrixR.RowCount, MatrixR.ColumnCount, Tau, dinput.Data, 1, dresult.Data);
         }
     }
 }
