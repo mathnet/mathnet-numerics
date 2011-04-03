@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Algorithms\LinearAlgebra\native.dotproduct.include" />
     <None Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Common.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GotoBlasLinearAlgebraProvider.Common.cs</LastGenOutput>
