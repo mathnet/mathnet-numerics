@@ -1,0 +1,13 @@
+﻿<#@ template language="C#" debug="true" #>
+<#@ output extenstion="cs" #>
+<# string library = "Acml";#>
+<# string title = "AMD Core Math Library (ACML)";#>
+<# string dataType = "Complex32";#>
+<# string zero = "Complex32.Zero";#>
+<# string one = "Complex32.One";#>
+<# string prefix = "c";#>
+<# string svd_work = "2 * Math.Min(rowsA, columnsA) + Math.Max(rowsA, columnsA)";#>
+<#@ include file="..\native.header.include" #>
+<#@ include file="..\native.dotproduct.include" #>
+<#@ include file="..\native.generic.include" #>
+<#@ include file="..\native.footer.include" #>

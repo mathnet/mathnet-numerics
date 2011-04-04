@@ -12,4 +12,6 @@ bin
 *.XML
 Version1.cs
 src/Numerics/Algorithms/LinearAlgebra/Mkl/*.cs
+src/Numerics/Algorithms/LinearAlgebra/Acml/*.cs
+src/Numerics/Algorithms/LinearAlgebra/GotoBlas/*.cs
 out
