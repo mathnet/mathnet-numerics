@@ -63,21 +63,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixI = UserDefinedMatrix.Identity(order);
             var factorQR = matrixI.QR();
+            var r = factorQR.R;
 
-            Assert.AreEqual(matrixI.RowCount, factorQR.R.RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, factorQR.R.ColumnCount);
+            Assert.AreEqual(matrixI.RowCount, r.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, r.ColumnCount);
 
-            for (var i = 0; i < factorQR.R.RowCount; i++)
+            for (var i = 0; i < r.RowCount; i++)
             {
-                for (var j = 0; j < factorQR.R.ColumnCount; j++)
+                for (var j = 0; j < r.ColumnCount; j++)
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(-1.0, factorQR.R[i, j]);
+                        Assert.AreEqual(-1.0, r[i, j]);
                     }
                     else
                     {
-                        Assert.AreEqual(0.0, factorQR.R[i, j]);
+                        Assert.AreEqual(0.0, r[i, j]);
                     }
                 }
             }
@@ -105,29 +106,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var factorQR = matrixA.QR();
+            var q = factorQR.Q;
+            var r = factorQR.R;
 
             // Make sure the R has the right dimensions.
-            Assert.AreEqual(row, factorQR.R.RowCount);
-            Assert.AreEqual(column, factorQR.R.ColumnCount);
+            Assert.AreEqual(row, r.RowCount);
+            Assert.AreEqual(column, r.ColumnCount);
 
             // Make sure the Q has the right dimensions.
-            Assert.AreEqual(row, factorQR.Q.RowCount);
-            Assert.AreEqual(row, factorQR.Q.ColumnCount);
+            Assert.AreEqual(row, q.RowCount);
+            Assert.AreEqual(row, q.ColumnCount);
 
             // Make sure the R factor is upper triangular.
-            for (var i = 0; i < factorQR.R.RowCount; i++)
+            for (var i = 0; i < r.RowCount; i++)
             {
-                for (var j = 0; j < factorQR.R.ColumnCount; j++)
+                for (var j = 0; j < r.ColumnCount; j++)
                 {
                     if (i > j)
                     {
-                        Assert.AreEqual(0.0, factorQR.R[i, j]);
+                        Assert.AreEqual(0.0, r[i, j]);
                     }
                 }
             }
 
             // Make sure the Q*R is the original matrix.
-            var matrixQfromR = factorQR.Q * factorQR.R;
+            var matrixQfromR = q * r;
             for (var i = 0; i < matrixQfromR.RowCount; i++)
             {
                 for (var j = 0; j < matrixQfromR.ColumnCount; j++)
