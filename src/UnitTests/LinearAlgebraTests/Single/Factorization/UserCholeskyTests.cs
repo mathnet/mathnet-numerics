@@ -43,16 +43,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
         {
             var matrixI = UserDefinedMatrix.Identity(order);
-            var factorC = matrixI.Cholesky();
+            var factorC = matrixI.Cholesky().Factor;
 
-            Assert.AreEqual(matrixI.RowCount, factorC.Factor.RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, factorC.Factor.ColumnCount);
+            Assert.AreEqual(matrixI.RowCount, factorC.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, factorC.ColumnCount);
 
-            for (var i = 0; i < factorC.Factor.RowCount; i++)
+            for (var i = 0; i < factorC.RowCount; i++)
             {
-                for (var j = 0; j < factorC.Factor.ColumnCount; j++)
+                for (var j = 0; j < factorC.ColumnCount; j++)
                 {
-                    Assert.AreEqual(i == j ? 1.0 : 0.0, factorC.Factor[i, j]);
+                    Assert.AreEqual(i == j ? 1.0 : 0.0, factorC[i, j]);
                 }
             }
         }

@@ -44,16 +44,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
         {
             var matrixI = DenseMatrix.Identity(order);
-            var factorC = matrixI.Cholesky();
+            var factorC = matrixI.Cholesky().Factor;
 
-            Assert.AreEqual(matrixI.RowCount, factorC.Factor.RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, factorC.Factor.ColumnCount);
+            Assert.AreEqual(matrixI.RowCount, factorC.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, factorC.ColumnCount);
 
-            for (var i = 0; i < factorC.Factor.RowCount; i++)
+            for (var i = 0; i < factorC.RowCount; i++)
             {
-                for (var j = 0; j < factorC.Factor.ColumnCount; j++)
+                for (var j = 0; j < factorC.ColumnCount; j++)
                 {
-                    Assert.AreEqual(i == j ? Complex32.One : Complex32.Zero, factorC.Factor[i, j]);
+                    Assert.AreEqual(i == j ? Complex32.One : Complex32.Zero, factorC[i, j]);
                 }
             }
         }

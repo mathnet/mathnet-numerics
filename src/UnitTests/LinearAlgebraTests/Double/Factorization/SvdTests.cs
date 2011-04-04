@@ -55,21 +55,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorSvd = matrixI.Svd(true);
+            var u = factorSvd.U();
+            var vt = factorSvd.VT();
+            var w = factorSvd.W();
 
-            Assert.AreEqual(matrixI.RowCount, factorSvd.U().RowCount);
-            Assert.AreEqual(matrixI.RowCount, factorSvd.U().ColumnCount);
+            Assert.AreEqual(matrixI.RowCount, u.RowCount);
+            Assert.AreEqual(matrixI.RowCount, u.ColumnCount);
 
-            Assert.AreEqual(matrixI.ColumnCount, factorSvd.VT().RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, factorSvd.VT().ColumnCount);
+            Assert.AreEqual(matrixI.ColumnCount, vt.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, vt.ColumnCount);
 
-            Assert.AreEqual(matrixI.RowCount, factorSvd.W().RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, factorSvd.W().ColumnCount);
+            Assert.AreEqual(matrixI.RowCount, w.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, w.ColumnCount);
 
-            for (var i = 0; i < factorSvd.W().RowCount; i++)
+            for (var i = 0; i < w.RowCount; i++)
             {
-                for (var j = 0; j < factorSvd.W().ColumnCount; j++)
+                for (var j = 0; j < w.ColumnCount; j++)
                 {
-                    Assert.AreEqual(i == j ? 1.0 : 0.0, factorSvd.W()[i, j]);
+                    Assert.AreEqual(i == j ? 1.0 : 0.0, w[i, j]);
                 }
             }
         }
@@ -84,21 +87,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var factorSvd = matrixA.Svd(true);
+            var u = factorSvd.U();
+            var vt = factorSvd.VT();
+            var w = factorSvd.W();
 
             // Make sure the U has the right dimensions.
-            Assert.AreEqual(row, factorSvd.U().RowCount);
-            Assert.AreEqual(row, factorSvd.U().ColumnCount);
+            Assert.AreEqual(row, u.RowCount);
+            Assert.AreEqual(row, u.ColumnCount);
 
             // Make sure the VT has the right dimensions.
-            Assert.AreEqual(column, factorSvd.VT().RowCount);
-            Assert.AreEqual(column, factorSvd.VT().ColumnCount);
+            Assert.AreEqual(column, vt.RowCount);
+            Assert.AreEqual(column, vt.ColumnCount);
 
             // Make sure the W has the right dimensions.
-            Assert.AreEqual(row, factorSvd.W().RowCount);
-            Assert.AreEqual(column, factorSvd.W().ColumnCount);
+            Assert.AreEqual(row, w.RowCount);
+            Assert.AreEqual(column, w.ColumnCount);
 
             // Make sure the U*W*VT is the original matrix.
-            var matrix = factorSvd.U() * factorSvd.W() * factorSvd.VT();
+            var matrix = u * w * vt;
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)

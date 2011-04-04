@@ -62,36 +62,38 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         {
             var matrixI = UserDefinedMatrix.Identity(order);
             var factorGramSchmidt = matrixI.GramSchmidt();
+            var q = factorGramSchmidt.Q;
+            var r = factorGramSchmidt.R;
 
-            Assert.AreEqual(matrixI.RowCount, factorGramSchmidt.Q.RowCount);
-            Assert.AreEqual(matrixI.ColumnCount, factorGramSchmidt.Q.ColumnCount);
+            Assert.AreEqual(matrixI.RowCount, q.RowCount);
+            Assert.AreEqual(matrixI.ColumnCount, q.ColumnCount);
 
-            for (var i = 0; i < factorGramSchmidt.R.RowCount; i++)
+            for (var i = 0; i < r.RowCount; i++)
             {
-                for (var j = 0; j < factorGramSchmidt.R.ColumnCount; j++)
+                for (var j = 0; j < r.ColumnCount; j++)
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(1.0, factorGramSchmidt.R[i, j]);
+                        Assert.AreEqual(1.0, r[i, j]);
                     }
                     else
                     {
-                        Assert.AreEqual(0.0, factorGramSchmidt.R[i, j]);
+                        Assert.AreEqual(0.0, r[i, j]);
                     }
                 }
             }
 
-            for (var i = 0; i < factorGramSchmidt.Q.RowCount; i++)
+            for (var i = 0; i < q.RowCount; i++)
             {
-                for (var j = 0; j < factorGramSchmidt.Q.ColumnCount; j++)
+                for (var j = 0; j < q.ColumnCount; j++)
                 {
                     if (i == j)
                     {
-                        Assert.AreEqual(1.0, factorGramSchmidt.Q[i, j]);
+                        Assert.AreEqual(1.0, q[i, j]);
                     }
                     else
                     {
-                        Assert.AreEqual(0.0, factorGramSchmidt.Q[i, j]);
+                        Assert.AreEqual(0.0, q[i, j]);
                     }
                 }
             }
@@ -119,29 +121,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(row, column);
             var factorGramSchmidt = matrixA.GramSchmidt();
+            var q = factorGramSchmidt.Q;
+            var r = factorGramSchmidt.R;
 
             // Make sure the Q has the right dimensions.
-            Assert.AreEqual(row, factorGramSchmidt.Q.RowCount);
-            Assert.AreEqual(column, factorGramSchmidt.Q.ColumnCount);
+            Assert.AreEqual(row, q.RowCount);
+            Assert.AreEqual(column, q.ColumnCount);
 
             // Make sure the R has the right dimensions.
-            Assert.AreEqual(column, factorGramSchmidt.R.RowCount);
-            Assert.AreEqual(column, factorGramSchmidt.R.ColumnCount);
+            Assert.AreEqual(column, r.RowCount);
+            Assert.AreEqual(column, r.ColumnCount);
 
             // Make sure the R factor is upper triangular.
-            for (var i = 0; i < factorGramSchmidt.R.RowCount; i++)
+            for (var i = 0; i < r.RowCount; i++)
             {
-                for (var j = 0; j < factorGramSchmidt.R.ColumnCount; j++)
+                for (var j = 0; j < r.ColumnCount; j++)
                 {
                     if (i > j)
                     {
-                        Assert.AreEqual(0.0, factorGramSchmidt.R[i, j]);
+                        Assert.AreEqual(0.0, r[i, j]);
                     }
                 }
             }
 
             // Make sure the Q*R is the original matrix.
-            var matrixQfromR = factorGramSchmidt.Q * factorGramSchmidt.R;
+            var matrixQfromR = q * r;
             for (var i = 0; i < matrixQfromR.RowCount; i++)
             {
                 for (var j = 0; j < matrixQfromR.ColumnCount; j++)
