@@ -104,7 +104,7 @@
       <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
     </None>
     <None Include="Algorithms\LinearAlgebra\native.footer.include" />
-    <None Include="Algorithms\LinearAlgebra\native.common.include" />
+    <None Include="Algorithms\LinearAlgebra\native.norm.include" />
     <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MklLinearAlgebraProvider.Complex32.cs</LastGenOutput>
