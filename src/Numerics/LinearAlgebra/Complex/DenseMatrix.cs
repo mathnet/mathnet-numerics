@@ -35,6 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order.
     /// </summary>
+    [Serializable]
     public class DenseMatrix : Matrix
     {
         /// <summary>

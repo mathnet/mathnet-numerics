@@ -35,6 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     /// <summary>
     /// <c>float</c> version of the <see cref="Vector{T}"/> class.
     /// </summary>
+    [Serializable]
     public abstract class Vector : Vector<float>
     {
         /// <summary>

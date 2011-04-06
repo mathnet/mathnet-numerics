@@ -36,6 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// <summary>
     /// <c>Complex32</c> version of the <see cref="Vector{T}"/> class.
     /// </summary>
+    [Serializable]
     public abstract class Vector : Vector<Complex32>
     {
         /// <summary>

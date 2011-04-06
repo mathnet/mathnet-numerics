@@ -42,6 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// entries are set. The exception to this is when the off diagonal elements are
     /// 0.0 or NaN; these settings will cause no change to the diagonal matrix.
     /// </remarks>
+    [Serializable]
     public class DiagonalMatrix : Matrix
     {
          /// <summary>

@@ -34,6 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     /// <summary>
     /// <c>float</c> version of the <see cref="Matrix{T}"/> class.
     /// </summary>
+    [Serializable]
     public abstract class Matrix : Matrix<float>
     {        
         /// <summary>
