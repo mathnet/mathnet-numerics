@@ -35,6 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// <summary>
     /// <c>Complex</c> version of the <see cref="Matrix{T}"/> class.
     /// </summary>
+    [Serializable]
     public abstract class Matrix : Matrix<Complex>
     {        
         /// <summary>

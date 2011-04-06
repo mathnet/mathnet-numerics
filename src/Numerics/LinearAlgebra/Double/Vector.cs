@@ -35,6 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// <c>double</c> version of the <see cref="Vector{T}"/> class.
     /// </summary>
+    [Serializable]
     public abstract class Vector : Vector<double>
     {
         /// <summary>

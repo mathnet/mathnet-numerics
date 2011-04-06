@@ -36,6 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// <summary>
     /// <c>Complex</c> version of the <see cref="Vector{T}"/> class.
     /// </summary>
+    [Serializable]
     public abstract class Vector : Vector<Complex>
     {
         /// <summary>

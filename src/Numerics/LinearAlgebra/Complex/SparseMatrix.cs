@@ -41,6 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// A Matrix class with sparse storage. The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
+    [Serializable]
     public class SparseMatrix : Matrix
     {
         /// <summary>

@@ -38,6 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
+    [Serializable]
     public class DenseVector : Vector
     {
         /// <summary>

@@ -39,6 +39,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     /// A vector with sparse storage.
     /// </summary>
     /// <remarks>The sparse vector is not thread safe.</remarks>
+    [Serializable]
     public class SparseVector : Vector
     {
         /// <summary>

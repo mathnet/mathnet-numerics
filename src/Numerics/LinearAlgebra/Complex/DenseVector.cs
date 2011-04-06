@@ -38,6 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     /// <summary>
     /// A vector using dense storage.
     /// </summary>
+    [Serializable]
     public class DenseVector : Vector
     {
         /// <summary>
