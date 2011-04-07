@@ -518,13 +518,11 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             for (var column = 0; column < ColumnCount; column++)
             {
+                for (var row = 0; row < RowCount; row++)
                 {
-                    for (var row = 0; row < RowCount; row++)
+                    if (row <= column)
                     {
-                        if (row <= column)
-                        {
-                            ret.At(row, column, At(row, column));
-                        }
+                        ret.At(row, column, At(row, column));
                     }
                 }
             }
