@@ -470,9 +470,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         public virtual Matrix<T> LowerTriangle()
         {
             var ret = CreateMatrix(RowCount, ColumnCount);
-            for (var column = 0; column < ColumnCount; column++) 
+
+            for (var row = 0; row < RowCount; row++)
             {
-                for (var row = column; row < RowCount; row++)
+                for (var column = 0; column <= row; column++) 
                 {
                     ret.At(row, column, At(row, column));
                 }
@@ -499,9 +500,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            for (var column = 0; column < ColumnCount; column++)
+            for (var row = 0; row < RowCount; row++)
             {
-                for (var row = 0; row < RowCount; row++)
+                for (var column = 0; column < ColumnCount; column++)
                 {
                     result.At(row, column, row >= column ? At(row, column) : default(T));
                 }
@@ -516,9 +517,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             var ret = CreateMatrix(RowCount, ColumnCount);
 
-            for (var column = 0; column < ColumnCount; column++)
+            for (var row = 0; row < RowCount; row++)
             {
-                for (var row = 0; row < RowCount; row++)
+                for (var column = 0; column < ColumnCount; column++)
                 {
                     if (row <= column)
                     {
@@ -548,9 +549,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
             }
 
-            for (var column = 0; column < ColumnCount; column++)
+            for (var row = 0; row < RowCount; row++)
             {
-                for (var row = 0; row < RowCount; row++)
+                for (var column = 0; column < ColumnCount; column++)
                 {
                     result.At(row, column, row <= column ? At(row, column) : default(T));
                 }
