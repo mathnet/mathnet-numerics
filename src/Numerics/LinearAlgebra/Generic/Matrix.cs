@@ -473,7 +473,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             for (var row = 0; row < RowCount; row++)
             {
-                for (var column = 0; column <= row; column++) 
+                for (var column = 0; column <= ColumnCount; column++) 
                 {
                     ret.At(row, column, At(row, column));
                 }
