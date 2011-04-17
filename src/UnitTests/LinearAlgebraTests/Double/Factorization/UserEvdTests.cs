@@ -28,8 +28,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
     using System;
     using System.Numerics;
+    using LinearAlgebra.Double;
     using LinearAlgebra.Double.Factorization;
-    using LinearAlgebra.Generic.Factorization;
     using NUnit.Framework;
 
     /// <summary>

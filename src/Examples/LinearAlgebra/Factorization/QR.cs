@@ -29,7 +29,6 @@ namespace Examples.LinearAlgebra.Factorization
     using System;
     using System.Globalization;
     using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 
     /// <summary>
     /// QR factorization example. Any real square matrix A (m x n) may be decomposed as A = QR where Q is an orthogonal matrix (m x m)
@@ -104,26 +103,26 @@ namespace Examples.LinearAlgebra.Factorization
             Console.WriteLine();
 
             // Perform QR decomposition (Gram–Schmidt process)
-            qr = matrix.GramSchmidt();
+            var gramSchmidt = matrix.GramSchmidt();
             Console.WriteLine(@"QR decomposition (Gram–Schmidt process)");
 
             // 5. Orthogonal Q matrix
             Console.WriteLine(@"5. Orthogonal Q matrix");
-            Console.WriteLine(qr.Q.ToString("#0.00\t", formatProvider));
+            Console.WriteLine(gramSchmidt.Q.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 6. Multiply Q matrix by its transpose gives identity matrix
             Console.WriteLine(@"6. Multiply Q matrix by its transpose gives identity matrix");
-            Console.WriteLine((qr.Q.Transpose() * qr.Q).ToString("#0.00\t", formatProvider));
+            Console.WriteLine((gramSchmidt.Q.Transpose() * gramSchmidt.Q).ToString("#0.00\t", formatProvider));
             Console.WriteLine();
 
             // 7. Upper triangular factor R
             Console.WriteLine(@"7. Upper triangular factor R");
-            Console.WriteLine(qr.R.ToString("#0.00\t", formatProvider));
+            Console.WriteLine(gramSchmidt.R.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
             
             // 8. Reconstruct initial matrix: A = Q * R
-            reconstruct = qr.Q * qr.R;
+            reconstruct = gramSchmidt.Q * gramSchmidt.R;
             Console.WriteLine(@"8. Reconstruct initial matrix: A = Q*R");
             Console.WriteLine(reconstruct.ToString("#0.00\t", formatProvider));
             Console.WriteLine();
