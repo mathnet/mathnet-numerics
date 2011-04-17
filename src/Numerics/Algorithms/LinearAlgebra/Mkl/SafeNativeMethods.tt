@@ -1,9 +1,0 @@
-﻿<#@ template language="C#" debug="true" #>
-<#@ output extenstion="cs" #>
-<# string namespaceSuffix = "Mkl";
-   string library = "MKL"; 
-#>
-<#@ include file="..\safe.native.common.include" #>
-<#@ include file="..\safe.native.vector.include" #>
-    }
-}

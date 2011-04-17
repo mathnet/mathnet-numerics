@@ -1,8 +1,0 @@
-﻿<#@ template language="C#" debug="true" #>
-<#@ output extenstion="cs" #>
-<# string library = "Mkl";#>
-<# string title = "Intel's Math Kernel Library (MKL)";#>
-<# string dataType = "Common";#>
-<#@ include file="..\native.header.include" #>
-<#@ include file="..\native.norm.include" #>
-<#@ include file="..\native.footer.include" #>
