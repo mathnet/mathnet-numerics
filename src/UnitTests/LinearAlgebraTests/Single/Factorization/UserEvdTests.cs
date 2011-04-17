@@ -28,7 +28,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
 {
     using System;
     using System.Numerics;
-    using LinearAlgebra.Generic.Factorization;
+    using LinearAlgebra.Single;
     using LinearAlgebra.Single.Factorization;
     using NUnit.Framework;
 

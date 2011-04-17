@@ -124,6 +124,7 @@
     <Compile Include="Distributions\Multivariate\InverseWishart.cs" />
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
+    <Compile Include="LinearAlgebra\Complex32\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\Cholesky.cs" />
     <Compile Include="LinearAlgebra\Complex32\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex32\DiagonalMatrix.cs" />
@@ -146,6 +147,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebra\Complex\DiagonalMatrix.cs" />
+    <Compile Include="LinearAlgebra\Complex\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\Cholesky.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\Evd.cs" />
     <Compile Include="LinearAlgebra\Complex\Factorization\GramSchmidt.cs" />
@@ -161,6 +163,7 @@
     <Compile Include="LinearAlgebra\Complex\Solvers\StopCriterium\IIterationStopCriterium.cs" />
     <Compile Include="LinearAlgebra\Complex\SparseMatrix.cs" />
     <Compile Include="LinearAlgebra\Complex\Vector.cs" />
+    <Compile Include="LinearAlgebra\Double\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\Cholesky.cs" />
     <Compile Include="LinearAlgebra\Double\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Double\DiagonalMatrix.cs" />
@@ -256,6 +259,7 @@
     <Compile Include="LinearAlgebra\Single\DenseMatrix.cs" />
     <Compile Include="LinearAlgebra\Single\DenseVector.cs" />
     <Compile Include="LinearAlgebra\Single\DiagonalMatrix.cs" />
+    <Compile Include="LinearAlgebra\Single\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\Cholesky.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\DenseGramSchmidt.cs" />
     <Compile Include="LinearAlgebra\Single\Factorization\DenseEvd.cs" />
@@ -305,7 +309,6 @@
     <Compile Include="LinearAlgebra\Double\Factorization\DenseQR.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\DenseSvd.cs" />
     <Compile Include="LinearAlgebra\Double\Factorization\UserGramSchmidt.cs" />
-    <Compile Include="LinearAlgebra\Generic\Factorization\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Generic\Factorization\LU.cs" />
     <Compile Include="LinearAlgebra\Generic\Factorization\QR.cs" />
     <Compile Include="LinearAlgebra\Generic\Factorization\Svd.cs" />

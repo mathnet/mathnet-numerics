@@ -27,7 +27,7 @@
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
 {
     using System;
-    using LinearAlgebra.Generic.Factorization;
+    using LinearAlgebra.Complex32;
     using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 

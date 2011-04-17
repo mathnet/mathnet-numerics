@@ -17,6 +17,21 @@
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -294,6 +309,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Complex32\DiagonalMatrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex32\ExtensionMethods.cs">
+      <Link>LinearAlgebra\Complex32\ExtensionMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\Cholesky.cs">
       <Link>LinearAlgebra\Complex32\Factorization\Cholesky.cs</Link>
     </Compile>
@@ -429,6 +447,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Complex\DiagonalMatrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Complex\ExtensionMethods.cs">
+      <Link>LinearAlgebra\Complex\ExtensionMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\Cholesky.cs">
       <Link>LinearAlgebra\Complex\Factorization\Cholesky.cs</Link>
     </Compile>
@@ -563,6 +584,9 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Double\DiagonalMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Double\ExtensionMethods.cs">
+      <Link>LinearAlgebra\Double\ExtensionMethods.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Cholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\Cholesky.cs</Link>
@@ -708,6 +732,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Single\DiagonalMatrix.cs">
       <Link>LinearAlgebra\Single\DiagonalMatrix.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\ExtensionMethods.cs">
+      <Link>LinearAlgebra\Single\ExtensionMethods.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\Cholesky.cs">
       <Link>LinearAlgebra\Single\Factorization\Cholesky.cs</Link>
     </Compile>
@@ -833,9 +860,6 @@
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Cholesky.cs">
       <Link>LinearAlgebra\Generic\Factorization\Cholesky.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\ExtensionMethods.cs">
-      <Link>LinearAlgebra\Generic\Factorization\ExtensionMethods.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\LU.cs">
       <Link>LinearAlgebra\Generic\Factorization\LU.cs</Link>
@@ -1010,11 +1034,6 @@
     <Compile Include="Threading\Task.cs" />
     <Compile Include="Threading\TaskOfT.cs" />
     <Compile Include="Threading\ThreadQueue.cs" />
-    <Compile Include="Version.cs">
-      <DependentUpon>Version.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Numerics\Properties\Resources.resx">
@@ -1025,12 +1044,17 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Version.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Version.cs</LastGenOutput>
-    </None>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
