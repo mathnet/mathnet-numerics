@@ -3,7 +3,7 @@
   <Target Name="Go" DependsOnTargets="ApplyTemplates"/>
   
   <Target Name="ApplyTemplates">
-    <Exec Command="$(MSBuildProjectDirectory)\apply-t4-templates.bat"/>
+    <!--Exec Command="$(MSBuildProjectDirectory)\apply-t4-templates.bat"/-->
   </Target>
   
 </Project>
