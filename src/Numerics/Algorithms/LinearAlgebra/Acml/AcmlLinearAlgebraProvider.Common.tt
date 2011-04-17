@@ -1,7 +1,0 @@
-﻿<#@ template language="C#" debug="true" #>
-<#@ output extenstion="cs" #>
-<# string library = "Acml";#>
-<# string title = "AMD Core Math Library (ACML)";#>
-<# string dataType = "Common";#>
-<#@ include file="..\native.header.include" #>
-<#@ include file="..\native.footer.include" #>

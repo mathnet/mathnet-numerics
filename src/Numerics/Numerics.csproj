@@ -18,6 +18,8 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -30,10 +32,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,182 +70,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Common.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AcmlLinearAlgebraProvider.Common.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AcmlLinearAlgebraProvider.Complex.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AcmlLinearAlgebraProvider.Complex32.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.double.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AcmlLinearAlgebraProvider.double.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.float.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AcmlLinearAlgebraProvider.float.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Acml\SafeNativeMethods.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\native.dotproduct.include" />
-    <None Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Common.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GotoBlasLinearAlgebraProvider.Common.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GotoBlasLinearAlgebraProvider.Complex.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex32.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GotoBlasLinearAlgebraProvider.Complex32.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.double.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GotoBlasLinearAlgebraProvider.double.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.float.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GotoBlasLinearAlgebraProvider.float.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\GotoBlas\SafeNativeMethods.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Common.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MklLinearAlgebraProvider.Common.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\native.generic.include" />
-    <None Include="Algorithms\LinearAlgebra\safe.native.vector.include">
-      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\native.footer.include" />
-    <None Include="Algorithms\LinearAlgebra\native.norm.include" />
-    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MklLinearAlgebraProvider.Complex32.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MklLinearAlgebraProvider.Complex.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.float.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MklLinearAlgebraProvider.float.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.double.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MklLinearAlgebraProvider.double.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
-    </None>
-    <None Include="Algorithms\LinearAlgebra\native.vector.include" />
-    <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Common.cs">
-      <DependentUpon>AcmlLinearAlgebraProvider.Common.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs">
-      <DependentUpon>AcmlLinearAlgebraProvider.Complex.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs">
-      <DependentUpon>AcmlLinearAlgebraProvider.Complex32.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.double.cs">
-      <DependentUpon>AcmlLinearAlgebraProvider.double.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.float.cs">
-      <DependentUpon>AcmlLinearAlgebraProvider.float.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Algorithms\LinearAlgebra\Acml\SafeNativeMethods.cs">
-      <DependentUpon>SafeNativeMethods.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Common.cs">
-      <DependentUpon>GotoBlasLinearAlgebraProvider.Common.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex.cs">
-      <DependentUpon>GotoBlasLinearAlgebraProvider.Complex.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex32.cs">
-      <DependentUpon>GotoBlasLinearAlgebraProvider.Complex32.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.double.cs">
-      <DependentUpon>GotoBlasLinearAlgebraProvider.double.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.float.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GotoBlasLinearAlgebraProvider.float.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\SafeNativeMethods.cs">
-      <DependentUpon>SafeNativeMethods.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Common.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex32.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.double.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.float.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\GotoBlas\SafeNativeMethods.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Single.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ILinearAlgebraProviderOfT.cs" />
     <Compile Include="Algorithms\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
-    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Common.cs">
-      <DependentUpon>MklLinearAlgebraProvider.Common.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.cs">
-      <DependentUpon>MklLinearAlgebraProvider.Complex32.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.cs">
-      <DependentUpon>MklLinearAlgebraProvider.Complex.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.float.cs">
-      <DependentUpon>MklLinearAlgebraProvider.float.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.double.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MklLinearAlgebraProvider.double.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SafeNativeMethods.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Common.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Complex32.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.double.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.float.cs" />
+    <Compile Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.cs" />
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="ComplexExtensions.cs" />
@@ -594,22 +446,8 @@
     <None Include="..\MathNet.Numerics.snk">
       <Link>MathNet.Numerics.snk</Link>
     </None>
-    <None Include="Algorithms\LinearAlgebra\native.header.include" />
-    <None Include="Algorithms\LinearAlgebra\safe.native.common.include">
-      <LastGenOutput>SafeNativeMethods.cs</LastGenOutput>
-    </None>
     <Compile Include="Distributions\Continuous\StudentT.cs" />
     <Compile Include="Distributions\Multivariate\NormalGamma.cs" />
-    <Compile Include="Version.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Version.tt</DependentUpon>
-    </Compile>
-    <None Include="packages.config" />
-    <None Include="Version.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Version.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -635,8 +473,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>cd $(ProjectDir)..\..\build
-t4.bat</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

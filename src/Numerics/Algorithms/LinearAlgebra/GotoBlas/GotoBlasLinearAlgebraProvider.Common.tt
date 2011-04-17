@@ -1,8 +1,0 @@
-﻿<#@ template language="C#" debug="true" #>
-<#@ output extenstion="cs" #>
-<# string library = "GotoBlas";#>
-<# string title = "GotoBLAS2";#>
-<# string dataType = "Common";#>
-<#@ include file="..\native.header.include" #>
-<#@ include file="..\native.norm.include" #>
-<#@ include file="..\native.footer.include" #>

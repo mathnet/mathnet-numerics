@@ -1,8 +1,0 @@
-﻿<#@ template language="C#" debug="true" #>
-<#@ output extenstion="cs" #>
-<# string namespaceSuffix = "Acml";
-   string library = "ACML"; 
-#>
-<#@ include file="..\safe.native.common.include" #>
-    }
-}
