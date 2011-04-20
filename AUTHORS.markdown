@@ -1,10 +1,14 @@
 ﻿Math.NET Numerics Authors
 =========================
 
-* [Marcus Cuda](http://www.cuda.net/): @cuda
+* [Marcus Cuda](http://marcuscuda.com/): @cuda
 * [Jurgen Van Gael](http://mlg.eng.cam.ac.uk/jurgen/): @jvangael
 * [Christoph Rüegg](http://christoph.ruegg.name/): @cdrnet
-* Andriy Bratiychuk
+* [Andriy Bratiychuk](http://ua.linkedin.com/pub/andriy-bratiychuk/4/6b/920)
+
+Contributors
+------------
+* [Alexander Karatarakis](http://karatarakis.com/alex/)
 
 Other dnAnalytics Contributors
 ------------------------------
