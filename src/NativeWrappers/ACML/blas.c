@@ -1,7 +1,7 @@
 #include "acml.h"
 #include "wrapper_common.h"
 
-enum CBLAS_TRANSPOSE {CblasNoTrans=111, CblasTrans=112, CblasConjTrans=113, CblasConjNoTrans=114};
+enum TRANSPOSE {CblasNoTrans=111, CblasTrans=112, CblasConjTrans=113, CblasConjNoTrans=114};
 char getTransChar(TRANSPOSE);
 
 DLLEXPORT void s_axpy(const int n, const float alpha, float x[], float y[]){
