@@ -357,4 +357,7 @@
   <data name="RowsLessThanColumns" xml:space="preserve">
     <value>The number of rows must greater than or equal to the number of columns.</value>
   </data>
+  <data name="TooManyElements" xml:space="preserve">
+    <value>We only support sparse matrix with less than int.MaxValue elements.</value>
+  </data>
 </root>

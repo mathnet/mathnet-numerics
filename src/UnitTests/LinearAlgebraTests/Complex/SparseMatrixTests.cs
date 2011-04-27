@@ -297,5 +297,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             Assert.IsTrue(diff3.Equals(m3.Negate()));
             Assert.IsTrue(diff3.Equals(diff4.Negate()));
         }
+
+        /// <summary>
+        /// Test whether we can create a large sparse matrix
+        /// </summary>
+        [Test]
+        public void CanCreateLargeMatrix()
+        {
+            const int order = 1000000;
+            var matrix = new SparseMatrix(order);
+            Assert.AreEqual(order, matrix.RowCount);
+            Assert.AreEqual(order, matrix.ColumnCount);
+            Assert.DoesNotThrow(() => matrix[0, 0] = 1);
+        }
     }
 }

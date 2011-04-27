@@ -677,13 +677,18 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 index = ~index;
 
                 // Check if the storage needs to be increased
-                if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < (RowCount * ColumnCount)))
+                if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < ((long)RowCount * ColumnCount)))
                 {
                     // Value array is completely full so we increase the size
                     // Determine the increase in size. We will not grow beyond the size of the matrix
-                    var size = Math.Min(_nonZeroValues.Length + GrowthSize(), RowCount * ColumnCount);
-                    Array.Resize(ref _nonZeroValues, size);
-                    Array.Resize(ref _columnIndices, size);
+                    var size = Math.Min(_nonZeroValues.Length + GrowthSize(), (long)RowCount * ColumnCount);
+                    if (size > int.MaxValue)
+                    {
+                        throw new NotSupportedException(Resources.TooManyElements);
+                    }
+
+                    Array.Resize(ref _nonZeroValues, (int)size);
+                    Array.Resize(ref _columnIndices, (int)size);
                 }
 
                 // Move all values (with an position larger than index) in the value array to the next position
