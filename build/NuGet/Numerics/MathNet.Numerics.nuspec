@@ -16,5 +16,8 @@
     <dependencies>
       <dependency id="zlib.net" version="1.0" />
     </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Numerics" />
+    </frameworkAssemblies>
   </metadata>
 </package>
