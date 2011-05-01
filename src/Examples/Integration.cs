@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Integration;
+
 namespace Examples
 {
-    using System;
-    using MathNet.Numerics.Integration;
-
     /// <summary>
     /// Numeric Integration (Quadrature)
     /// </summary>

@@ -24,13 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Signals;
+using MathNet.Numerics.Statistics;
+
 namespace Examples
 {
-    using System;
-    using MathNet.Numerics.Distributions;
-    using MathNet.Numerics.Signals;
-    using MathNet.Numerics.Statistics;
-
     /// <summary>
     /// Statistics on set of data
     /// </summary>

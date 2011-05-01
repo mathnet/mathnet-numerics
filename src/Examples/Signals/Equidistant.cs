@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.Sampling
-{
-    using System;
-    using MathNet.Numerics.Signals;
+using System;
+using MathNet.Numerics.Signals;
 
+namespace Examples.SignalsExamples
+{
     /// <summary>
     /// Example of generic function sampling and quantization provider
     /// </summary>

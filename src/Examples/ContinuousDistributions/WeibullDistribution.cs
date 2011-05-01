@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.ContinuousDistributions
-{
-    using System;
-    using MathNet.Numerics.Distributions;
+using System;
+using MathNet.Numerics.Distributions;
 
+namespace Examples.ContinuousDistributionsExamples
+{
     /// <summary>
     /// Weibull distribution example
     /// </summary>

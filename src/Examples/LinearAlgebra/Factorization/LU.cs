@@ -24,13 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.LinearAlgebra.Factorization
-{
-    using System;
-    using System.Globalization;
-    using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using System;
+using System.Globalization;
+using MathNet.Numerics.LinearAlgebra.Double;
 
+namespace Examples.LinearAlgebra.FactorizationExamples
+{
     /// <summary>
     /// LU factorization example. For a matrix A, the LU factorization is a pair of lower triangular matrix L and
     /// upper triangular matrix U so that A = L*U.

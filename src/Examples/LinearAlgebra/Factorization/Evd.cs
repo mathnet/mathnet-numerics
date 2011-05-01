@@ -24,13 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.LinearAlgebra.Factorization
-{
-    using System;
-    using System.Globalization;
-    using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using System;
+using System.Globalization;
+using MathNet.Numerics.LinearAlgebra.Double;
 
+namespace Examples.LinearAlgebra.FactorizationExamples
+{
     /// <summary>
     /// EVD factorization example. If A is symmetric, then A = V*D*V' where the eigenvalue matrix D is
     /// diagonal and the eigenvector matrix V is orthogonal. I.e. A = V*D*V' and V*VT=I.

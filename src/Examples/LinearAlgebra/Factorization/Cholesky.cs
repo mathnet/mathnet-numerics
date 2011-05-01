@@ -24,13 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.LinearAlgebra.Factorization
-{
-    using System;
-    using System.Globalization;
-    using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using System;
+using System.Globalization;
+using MathNet.Numerics.LinearAlgebra.Double;
 
+namespace Examples.LinearAlgebra.FactorizationExamples
+{
     /// <summary>
     /// Cholesky factorization example. For a symmetric, positive definite matrix A, the Cholesky factorization
     /// is an lower triangular matrix L so that A = L*L'

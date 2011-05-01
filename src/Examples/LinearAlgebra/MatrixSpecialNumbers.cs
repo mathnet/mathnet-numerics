@@ -24,12 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.LinearAlgebra
-{
-    using System;
-    using System.Globalization;
-    using MathNet.Numerics.LinearAlgebra.Double;
+using System;
+using System.Globalization;
+using MathNet.Numerics.LinearAlgebra.Double;
 
+namespace Examples.LinearAlgebraExamples
+{
     /// <summary>
     /// Special numbers associated with any square matrix
     /// </summary>

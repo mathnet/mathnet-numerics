@@ -24,14 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.Interpolation
-{
-    using System;
-    using MathNet.Numerics.Interpolation;
-    using MathNet.Numerics.Interpolation.Algorithms;
-    using MathNet.Numerics.Random;
-    using MathNet.Numerics.Signals;
+using System;
+using MathNet.Numerics.Interpolation;
+using MathNet.Numerics.Interpolation.Algorithms;
+using MathNet.Numerics.Random;
+using MathNet.Numerics.Signals;
 
+namespace Examples.InterpolationExamples
+{
     /// <summary>
     /// Interpolation example
     /// </summary>

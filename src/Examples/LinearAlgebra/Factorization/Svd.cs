@@ -24,13 +24,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.LinearAlgebra.Factorization
-{
-    using System;
-    using System.Globalization;
-    using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
+using System;
+using System.Globalization;
+using MathNet.Numerics.LinearAlgebra.Double;
 
+namespace Examples.LinearAlgebra.FactorizationExamples
+{
     /// <summary>
     /// SVD factorization example. Suppose M is an m-by-n matrix whose entries are real numbers. 
     /// Then there exists a factorization of the form M = UΣVT where:

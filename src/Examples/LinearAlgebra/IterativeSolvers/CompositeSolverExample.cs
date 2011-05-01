@@ -24,16 +24,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.LinearAlgebra.IterativeSolvers
-{
-    using System;
-    using System.Globalization;
-    using System.Reflection;
-    using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Double.Solvers;
-    using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
-    using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
+using System;
+using System.Globalization;
+using System.Reflection;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative;
+using MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium;
 
+namespace Examples.LinearAlgebra.IterativeSolversExamples
+{
     /// <summary>
     /// Composite matrix solver
     /// </summary>
