@@ -33,7 +33,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Math.NET Numerics")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Math.NET Project")]
 [assembly: AssemblyProduct("Math.NET Numerics")]
