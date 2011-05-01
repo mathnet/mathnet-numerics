@@ -6,7 +6,7 @@
 		<OutNuGetPackages>$(MSBuildProjectDirectory)/../../out/packages/NuGet</OutNuGetPackages>
 		<NumericsPack>$(MSBuildProjectDirectory)/Numerics</NumericsPack>
 		<FSharpPack>$(MSBuildProjectDirectory)/FSharp</FSharpPack>
-		<NuGetExe>$(MSBuildProjectDirectory)/../../tools/NuGet-1.2/NuGet.exe</NuGetExe>
+		<NuGetExe>$(MSBuildProjectDirectory)/../../tools/NuGet-1.3/nuget.exe</NuGetExe>
 	</PropertyGroup>
 	
 	<ItemGroup>
