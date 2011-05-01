@@ -37,10 +37,10 @@
 		<Copy SourceFiles="@(FSharpNet40)" DestinationFolder="$(FSharpPack)/lib/Net40" />
 		
 		<RemoveDir Directories="$(NumericsSamplePack)/Samples" />
-		<Copy SourceFiles="@(NumericsSample)" DestinationFiles="$(NumericsSamplePack)/Samples/MathNet.Numerics/%(RecursiveDir)%(Filename).cs.pp" />
+		<Copy SourceFiles="@(NumericsSample)" DestinationFiles="$(NumericsSamplePack)/content/Samples/MathNet.Numerics/%(RecursiveDir)%(Filename).cs.pp" />
 		
 		<RemoveDir Directories="$(FSharpSamplePack)/Samples" />
-		<Copy SourceFiles="@(FSharpSample)" DestinationFiles="$(FSharpSamplePack)/Samples/MathNet.Numerics.FSharp/%(RecursiveDir)%(Filename).fs.pp" />
+		<Copy SourceFiles="@(FSharpSample)" DestinationFiles="$(FSharpSamplePack)/content/Samples/MathNet.Numerics.FSharp/%(RecursiveDir)%(Filename).fs.pp" />
 	</Target>
 
 	<Target Name="UpdateNuspec" DependsOnTargets="CopyContentFiles">
@@ -78,7 +78,7 @@
 			XPath="//package/n:metadata/n:dependencies/n:dependency[@id='MathNet.Numerics']/@version"
 			Value="%(NumericsAssemblyInfo.Version)"/>
 		<ItemGroup>
-			<NumericsSamplePreprocessingFiles Include="$(NumericsSamplePack)/Samples/MathNet.Numerics/**/*.pp" />
+			<NumericsSamplePreprocessingFiles Include="$(NumericsSamplePack)/content/Samples/MathNet.Numerics/**/*.pp" />
 		</ItemGroup>
 		<FileUpdate
 			Files="@(NumericsSamplePreprocessingFiles)"
@@ -96,7 +96,7 @@
 			XPath="//package/n:metadata/n:dependencies/n:dependency[@id='MathNet.Numerics.FSharp']/@version"
 			Value="%(FSharpAssemblyInfo.Version)"/>
 		<ItemGroup>
-			<FSharpSamplePreprocessingFiles Include="$(FSharpSamplePack)/Samples/MathNet.Numerics.FSharp/**/*.pp" />
+			<FSharpSamplePreprocessingFiles Include="$(FSharpSamplePack)/content/Samples/MathNet.Numerics.FSharp/**/*.pp" />
 		</ItemGroup>
 		<FileUpdate
 			Files="@(FSharpSamplePreprocessingFiles)"
