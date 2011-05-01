@@ -1,12 +1,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="BuildPackages" ToolsVersion="4.0">
 	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)/../MSBuild.Community.Tasks.v1.2.0.306/MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
+	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)/../MSBuild.Community.Tasks.v1.2.0.306/MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.FileUpdate" />
 
 	<PropertyGroup>
 		<Root>$(MSBuildProjectDirectory)/../..</Root>
+		<Examples>$(MSBuildProjectDirectory)/../../src/Examples</Examples>
 		<OutLib>$(MSBuildProjectDirectory)/../../out/lib</OutLib>
 		<OutNuGetPackages>$(MSBuildProjectDirectory)/../../out/packages/NuGet</OutNuGetPackages>
 		<NumericsPack>$(MSBuildProjectDirectory)/Numerics</NumericsPack>
 		<FSharpPack>$(MSBuildProjectDirectory)/FSharp</FSharpPack>
+		<NumericsSamplePack>$(MSBuildProjectDirectory)/Numerics.Sample</NumericsSamplePack>
 		<NuGetExe>$(MSBuildProjectDirectory)/../../tools/NuGet-1.3/nuget.exe</NuGetExe>
 	</PropertyGroup>
 	
@@ -14,6 +17,7 @@
 		<NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.xml" />
 		<NumericsSL4 Include="$(OutLib)/SL4/MathNet.Numerics.dll;$(OutLib)/SL4/MathNet.Numerics.pdb;$(OutLib)/SL4/MathNet.Numerics.xml;" />
 		<FSharpNet40 Include="$(OutLib)/Net40/MathNet.Numerics.FSharp.dll;$(OutLib)/Net40/MathNet.Numerics.FSharp.pdb;$(OutLib)/Net40/MathNet.Numerics.FSharp.xml" />
+		<NumericsSample Include="$(Examples)/**/*.cs" Exclude="$(Examples)/**/bin/**;$(Examples)/**/obj/**" />
 	</ItemGroup>
 	
 	<Target Name="CopyContentFiles">
@@ -28,6 +32,9 @@
 		
 		<RemoveDir Directories="$(FSharpPack)/lib" />
 		<Copy SourceFiles="@(FSharpNet40)" DestinationFolder="$(FSharpPack)/lib/Net40" />
+		
+		<RemoveDir Directories="$(NumericsSamplePack)/samples" />
+		<Copy SourceFiles="@(NumericsSample)" DestinationFiles="$(NumericsSamplePack)/samples/MathNet.Numerics/%(RecursiveDir)%(Filename).cs.pp" />
 	</Target>
 
 	<Target Name="UpdateNuspec" DependsOnTargets="CopyContentFiles">
@@ -42,6 +49,7 @@
 			XmlFileName="$(NumericsPack)/MathNet.Numerics.nuspec"
 			XPath="//package/n:metadata/n:version"
 			Value="%(NumericsAssemblyInfo.Version)"/>
+
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(FSharpPack)/MathNet.Numerics.FSharp.nuspec"
@@ -52,12 +60,31 @@
 			XmlFileName="$(FSharpPack)/MathNet.Numerics.FSharp.nuspec"
 			XPath="//package/n:metadata/n:dependencies/n:dependency[@id='MathNet.Numerics']/@version"
 			Value="%(NumericsAssemblyInfo.Version)"/>
+
+		<XmlUpdate
+			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
+			XmlFileName="$(NumericsSamplePack)/MathNet.Numerics.Sample.nuspec"
+			XPath="//package/n:metadata/n:version"
+			Value="%(NumericsAssemblyInfo.Version)"/>
+		<XmlUpdate
+			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
+			XmlFileName="$(NumericsSamplePack)/MathNet.Numerics.Sample.nuspec"
+			XPath="//package/n:metadata/n:dependencies/n:dependency[@id='MathNet.Numerics']/@version"
+			Value="%(NumericsAssemblyInfo.Version)"/>
+		<ItemGroup>
+			<NumericsSamplePreprocessingFiles Include="$(NumericsSamplePack)/samples/MathNet.Numerics/**/*.pp" />
+		</ItemGroup>
+		<FileUpdate
+			Files="@(NumericsSamplePreprocessingFiles)"
+			Regex="(namespace Examples)"
+			ReplacementText="namespace %24rootnamespace%24.Samples"/>
 	</Target>
 
 	<Target Name="BuildPackages" DependsOnTargets="UpdateNuspec">
 		<MakeDir Directories="$(OutNuGetPackages)" />
 		<Exec Command="$(NuGetExe) pack $(NumericsPack)/MathNet.Numerics.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
 		<Exec Command="$(NuGetExe) pack $(FSharpPack)/MathNet.Numerics.FSharp.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
+		<Exec Command="$(NuGetExe) pack $(NumericsSamplePack)/MathNet.Numerics.Sample.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
 	</Target>
 
 </Project>
