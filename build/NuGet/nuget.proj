@@ -2,6 +2,7 @@
 	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)/../MSBuild.Community.Tasks.v1.2.0.306/MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
 
 	<PropertyGroup>
+		<Root>$(MSBuildProjectDirectory)/../..</Root>
 		<OutLib>$(MSBuildProjectDirectory)/../../out/lib</OutLib>
 		<OutNuGetPackages>$(MSBuildProjectDirectory)/../../out/packages/NuGet</OutNuGetPackages>
 		<NumericsPack>$(MSBuildProjectDirectory)/Numerics</NumericsPack>
@@ -16,9 +17,15 @@
 	</ItemGroup>
 	
 	<Target Name="CopyContentFiles">
+		<RemoveDir Directories="$(NumericsPack)/content" />
+		<Copy SourceFiles="$(Root)/README.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.readme.txt" />
+		<Copy SourceFiles="$(Root)/COPYRIGHT.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.copyright.txt" />
+		<Copy SourceFiles="$(Root)/AUTHORS.markdown" DestinationFiles="$(NumericsPack)/content/App_Readme/MathNet.Numerics.authors.txt" />
+		
 		<RemoveDir Directories="$(NumericsPack)/lib" />
 		<Copy SourceFiles="@(NumericsNet40)" DestinationFolder="$(NumericsPack)/lib/Net40" />
 		<Copy SourceFiles="@(NumericsSL4)" DestinationFolder="$(NumericsPack)/lib/SL4" />
+		
 		<RemoveDir Directories="$(FSharpPack)/lib" />
 		<Copy SourceFiles="@(FSharpNet40)" DestinationFolder="$(FSharpPack)/lib/Net40" />
 	</Target>
@@ -49,8 +56,8 @@
 
 	<Target Name="BuildPackages" DependsOnTargets="UpdateNuspec">
 		<MakeDir Directories="$(OutNuGetPackages)" />
-		<Exec Command="$(NuGetExe) pack $(NumericsPack)/MathNet.Numerics.nuspec /v /o $(OutNuGetPackages)" />
-		<Exec Command="$(NuGetExe) pack $(FSharpPack)/MathNet.Numerics.FSharp.nuspec /v /o $(OutNuGetPackages)" />
+		<Exec Command="$(NuGetExe) pack $(NumericsPack)/MathNet.Numerics.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
+		<Exec Command="$(NuGetExe) pack $(FSharpPack)/MathNet.Numerics.FSharp.nuspec /Verbose /OutputDirectory $(OutNuGetPackages)" />
 	</Target>
 
 </Project>
