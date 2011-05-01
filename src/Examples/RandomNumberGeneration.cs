@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Random;
+
 namespace Examples
 {
-    using System;
-    using MathNet.Numerics.Random;
-
     /// <summary>
     /// Random number generation
     /// </summary>

@@ -24,13 +24,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.LinearAlgebra
-{
-    using System;
-    using System.Globalization;
-    using MathNet.Numerics;
-    using MathNet.Numerics.LinearAlgebra.Double;
+using System;
+using System.Globalization;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra.Double;
 
+namespace Examples.LinearAlgebraExamples
+{
     /// <summary>
     /// Matrix operations with rows and columns
     /// </summary>

@@ -1,4 +1,4 @@
-﻿// <copyright file="Chebyshev.cs" company="Math.NET">
+﻿// <copyright file="Random.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -24,15 +24,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.Sampling
-{
-    using System;
-    using MathNet.Numerics.Signals;
+using System;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Signals;
 
+namespace Examples.SignalsExamples
+{
     /// <summary>
     /// Example of generic function sampling and quantization provider
     /// </summary>
-    public class Chebyshev : IExample
+    public class Random : IExample
     {
               /// <summary>
         /// Gets the name of this example
@@ -41,7 +42,7 @@ namespace Examples.Sampling
         {
             get
             {
-                return "Sampling - Chebyshev";
+                return "Sampling - Random";
             }
         }
 
@@ -52,7 +53,7 @@ namespace Examples.Sampling
         {
             get
             {
-                return "Samples a function at the roots of the Chebyshev polynomial";
+                return "Samples a function randomly with the provided distribution";
             }
         }
 
@@ -61,9 +62,10 @@ namespace Examples.Sampling
         /// </summary>
         public void Run()
         {
-            // 1. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the first kind within interval [0, 10] 
-            var result = SignalGenerator.ChebyshevNodesFirstKind(Function, 0, 10, 20);
-            Console.WriteLine(@"1. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the first kind within interval [0, 10]");
+            // 1. Get 10 random samples of f(x) = (x * x) / 2 using continuous uniform distribution on [-10, 10]
+            var uniform = new ContinuousUniform(-10, 10);
+            var result = SignalGenerator.Random(Function, uniform, 10);
+            Console.WriteLine(@" 1. Get 10 random samples of f(x) = (x * x) / 2 using continuous uniform distribution on [-10, 10]");
             for (var i = 0; i < result.Length; i++)
             {
                 Console.Write(result[i].ToString("N") + @" ");
@@ -72,9 +74,31 @@ namespace Examples.Sampling
             Console.WriteLine();
             Console.WriteLine();
 
-            // 2. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the second kind within interval [0, 10]
-            result = SignalGenerator.ChebyshevNodesSecondKind(Function, 0, 10, 20);
-            Console.WriteLine(@"2. Get 20 samples of f(x) = (x * x) / 2 at the roots of the Chebyshev polynomial of the second kind within interval [0, 10]");
+            // 2. Get 10 random samples of f(x) = (x * x) / 2 using Exponential(1) distribution and retrieve sample points
+            var exponential = new Exponential(1);
+            double[] samplePoints;
+            result = SignalGenerator.Random(Function, exponential, 10, out samplePoints);
+            Console.WriteLine(@"2. Get 10 random samples of f(x) = (x * x) / 2 using Exponential(1) distribution and retrieve sample points");
+            Console.Write(@"Points: ");
+            for (var i = 0; i < samplePoints.Length; i++)
+            {
+                Console.Write(samplePoints[i].ToString("N") + @" ");
+            }
+
+            Console.WriteLine();
+            Console.Write(@"Values: ");
+            for (var i = 0; i < result.Length; i++)
+            {
+                Console.Write(result[i].ToString("N") + @" ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // 3. Get 10 random samples of f(x, y) = (x * y) / 2 using ChiSquare(10) distribution
+            var chiSquare = new ChiSquare(10);
+            result = SignalGenerator.Random(TwoDomainFunction, chiSquare, 10);
+            Console.WriteLine(@" 3. Get 10 random samples of f(x, y) = (x * y) / 2 using ChiSquare(10) distribution");
             for (var i = 0; i < result.Length; i++)
             {
                 Console.Write(result[i].ToString("N") + @" ");
@@ -84,13 +108,24 @@ namespace Examples.Sampling
         }
 
         /// <summary>
-        /// Fucntion f(x) = (x * x) / 2
+        /// Fucntion f(x, y) = (x * y) / 2
         /// </summary>
         /// <param name="x">Input value</param>
         /// <returns>Calculation result</returns>
         public double Function(double x)
         {
             return Math.Pow(x, 2) / 2;
+        }
+
+        /// <summary>
+        /// Fucntion f(x,y) = (x * y) / 2
+        /// </summary>
+        /// <param name="x">X input value</param>
+        /// <param name="y">Y input value</param>
+        /// <returns>Calculation result</returns>
+        public double TwoDomainFunction(double x, double y)
+        {
+            return (x * y) / 2;
         }
     }
 }

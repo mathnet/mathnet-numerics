@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.NumberTheory;
+
 namespace Examples
 {
-    using System;
-    using MathNet.Numerics.NumberTheory;
-
     /// <summary>
     /// Number theory utility functions
     /// </summary>

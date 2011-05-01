@@ -23,13 +23,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-namespace Examples.LinearAlgebra
-{
-    using System;
-    using System.Globalization;
-    using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Generic.Factorization;
 
+using System;
+using System.Globalization;
+using MathNet.Numerics.LinearAlgebra.Double;
+
+namespace Examples.LinearAlgebraExamples
+{
     /// <summary>
     /// Direct solvers (using matrix decompositions)
     /// </summary>

@@ -129,9 +129,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomNumberGeneration.cs" />
     <Compile Include="Integration.cs" />
-    <Compile Include="Sampling\Chebyshev.cs" />
-    <Compile Include="Sampling\Random.cs" />
-    <Compile Include="Sampling\Equidistant.cs" />
+    <Compile Include="Signals\Chebyshev.cs" />
+    <Compile Include="Signals\Random.cs" />
+    <Compile Include="Signals\Equidistant.cs" />
     <Compile Include="SpecialFunctions\Common.cs" />
     <Compile Include="SpecialFunctions\Beta.cs" />
     <Compile Include="SpecialFunctions\ErrorFunction.cs" />

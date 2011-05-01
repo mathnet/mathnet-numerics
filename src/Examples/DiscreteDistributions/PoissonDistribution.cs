@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace Examples.DiscreteDistributions
-{
-    using System;
-    using MathNet.Numerics.Distributions;
+using System;
+using MathNet.Numerics.Distributions;
 
+namespace Examples.DiscreteDistributionsExamples
+{
     /// <summary>
     /// Poisson distribution example
     /// </summary>

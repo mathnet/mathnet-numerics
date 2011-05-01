@@ -24,11 +24,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Statistics;
+
 namespace Examples
 {
-    using System;
-    using MathNet.Numerics.Statistics;
-
     /// <summary>
     /// Helper fucntions to output into Console window
     /// </summary>
