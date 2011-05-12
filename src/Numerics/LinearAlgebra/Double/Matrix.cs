@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var norm = 0.0;
             for (var i = 0; i < RowCount; i++)
             {
-                norm += Math.Abs(aat.At(i, i));
+                norm += aat.At(i, i);
             }
 
             norm = Math.Sqrt(norm);

@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var norm = 0.0f;
             for (var i = 0; i < RowCount; i++)
             {
-                norm += Math.Abs(aat.At(i, i));
+                norm += aat.At(i, i);
             }
 
             norm = Convert.ToSingle(Math.Sqrt(norm));
