@@ -1,4 +1,4 @@
-﻿// <copyright file="ChiSquareTests.cs" company="Math.NET">
+// <copyright file="ChiSquareTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -50,8 +50,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can create chi square.
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test]
-        public void CanCreateChiSquare([Values(1.0, 3.0, Double.PositiveInfinity)] double dof)
+        [TestCase(1.0)]
+        [TestCase(3.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanCreateChiSquare(double dof)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual(dof, n.DegreesOfFreedom);
@@ -61,8 +63,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Chi square create fails with bad parameters.
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test]
-        public void ChiSquareCreateFailsWithBadParameters([Values(0.0, -1.0, -100.0, Double.NegativeInfinity, Double.NaN)] double dof)
+        [TestCase(0.0)]
+        [TestCase(-1.0)]
+        [TestCase(-100.0)]
+        [TestCase(Double.NegativeInfinity)]
+        [TestCase(Double.NaN)]
+        public void ChiSquareCreateFailsWithBadParameters(double dof)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new ChiSquare(dof));
         }
@@ -81,8 +87,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set degrees of freedom.
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test]
-        public void CanSetDoF([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double dof)
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetDoF(double dof)
         {
             new ChiSquare(1.0)
             {
@@ -94,8 +103,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Set Degrees of freedom fails with non-positive value.
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test]
-        public void SetDofFailsWithNonPositiveDoF([Values(-1.0, -0.0, 0.0)] double dof)
+        [TestCase(-1.0)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        public void SetDofFailsWithNonPositiveDoF(double dof)
         {
             var n = new ChiSquare(1.0);
             Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreesOfFreedom = dof);
@@ -105,8 +116,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate mean.
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test]
-        public void ValidateMean([Values(1.0, 2.0, 2.5, 5.0, Double.PositiveInfinity)] double dof)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(2.5)]
+        [TestCase(5.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateMean(double dof)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual(dof, n.Mean);
@@ -116,8 +131,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate variance.
         /// </summary>
         /// <param name="dof">Degrees of freedom</param>
-        [Test]
-        public void ValidateVariance([Values(1.0, 2.0, 2.5, 3.0, Double.PositiveInfinity)] double dof)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(2.5)]
+        [TestCase(3.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateVariance(double dof)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual(2 * dof, n.Variance);
@@ -127,8 +146,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate standard deviation
         /// </summary>
         /// <param name="dof">Degrees of freedom</param>
-        [Test]
-        public void ValidateStdDev([Values(1.0, 2.0, 2.5, 3.0, Double.PositiveInfinity)] double dof)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(2.5)]
+        [TestCase(3.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateStdDev(double dof)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual(Math.Sqrt(n.Variance), n.StdDev);
@@ -138,8 +161,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate mode.
         /// </summary>
         /// <param name="dof">Degrees of freedom</param>
-        [Test]
-        public void ValidateMode([Values(1.0, 2.0, 2.5, 3.0, Double.PositiveInfinity)] double dof)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(2.5)]
+        [TestCase(3.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateMode(double dof)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual(dof - 2, n.Mode);
@@ -149,8 +176,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate median.
         /// </summary>
         /// <param name="dof">Degrees of freedom</param>
-        [Test]
-        public void ValidateMedian([Values(1.0, 2.0, 2.5, 3.0, Double.PositiveInfinity)] double dof)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(2.5)]
+        [TestCase(3.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateMedian(double dof)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual(dof - (2.0 / 3.0), n.Median);
@@ -181,10 +212,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Sequential]
-        public void ValidateDensity(
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double dof, 
-            [Values(0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity)] double x)
+        [TestCase(1.0, 0.0)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(1.0, 5.5)]
+        [TestCase(1.0, 110.1)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(2.0, 0.0)]
+        [TestCase(2.0, 0.1)]
+        [TestCase(2.0, 1.0)]
+        [TestCase(2.0, 5.5)]
+        [TestCase(2.0, 110.1)]
+        [TestCase(2.0, Double.PositiveInfinity)]
+        [TestCase(2.5, 0.0)]
+        [TestCase(2.5, 0.1)]
+        [TestCase(2.5, 1.0)]
+        [TestCase(2.5, 5.5)]
+        [TestCase(2.5, 110.1)]
+        [TestCase(2.5, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(Double.PositiveInfinity, 5.5)]
+        [TestCase(Double.PositiveInfinity, 110.1)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void ValidateDensity(double dof, double x)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual((Math.Pow(x, (dof / 2.0) - 1.0) * Math.Exp(-x / 2.0)) / (Math.Pow(2.0, dof / 2.0) * SpecialFunctions.Gamma(dof / 2.0)), n.Density(x));
@@ -195,10 +247,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Sequential]
-        public void ValidateDensityLn(
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double dof, 
-            [Values(0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity)] double x)
+        [TestCase(1.0, 0.0)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(1.0, 5.5)]
+        [TestCase(1.0, 110.1)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(2.0, 0.0)]
+        [TestCase(2.0, 0.1)]
+        [TestCase(2.0, 1.0)]
+        [TestCase(2.0, 5.5)]
+        [TestCase(2.0, 110.1)]
+        [TestCase(2.0, Double.PositiveInfinity)]
+        [TestCase(2.5, 0.0)]
+        [TestCase(2.5, 0.1)]
+        [TestCase(2.5, 1.0)]
+        [TestCase(2.5, 5.5)]
+        [TestCase(2.5, 110.1)]
+        [TestCase(2.5, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(Double.PositiveInfinity, 5.5)]
+        [TestCase(Double.PositiveInfinity, 110.1)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void ValidateDensityLn(double dof, double x)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual((-x / 2.0) + (((dof / 2.0) - 1.0) * Math.Log(x)) - ((dof / 2.0) * Math.Log(2)) - SpecialFunctions.GammaLn(dof / 2.0), n.DensityLn(x));
@@ -248,10 +321,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double dof, 
-            [Values(0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity, 0.0, 0.1, 1.0, 5.5, 110.1, Double.PositiveInfinity)] double x)
+        [TestCase(1.0, 0.0)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(1.0, 5.5)]
+        [TestCase(1.0, 110.1)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(2.0, 0.0)]
+        [TestCase(2.0, 0.1)]
+        [TestCase(2.0, 1.0)]
+        [TestCase(2.0, 5.5)]
+        [TestCase(2.0, 110.1)]
+        [TestCase(2.0, Double.PositiveInfinity)]
+        [TestCase(2.5, 0.0)]
+        [TestCase(2.5, 0.1)]
+        [TestCase(2.5, 1.0)]
+        [TestCase(2.5, 5.5)]
+        [TestCase(2.5, 110.1)]
+        [TestCase(2.5, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(Double.PositiveInfinity, 5.5)]
+        [TestCase(Double.PositiveInfinity, 110.1)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void ValidateCumulativeDistribution(double dof, double x)
         {
             var n = new ChiSquare(dof);
             Assert.AreEqual(SpecialFunctions.GammaLowerIncomplete(dof / 2.0, x / 2.0) / SpecialFunctions.Gamma(dof / 2.0), n.CumulativeDistribution(x));

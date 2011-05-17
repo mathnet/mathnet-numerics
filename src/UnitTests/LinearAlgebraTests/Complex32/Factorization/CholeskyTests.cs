@@ -1,4 +1,4 @@
-﻿// <copyright file="CholeskyTests.cs" company="Math.NET">
+// <copyright file="CholeskyTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -40,8 +40,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can factorize identity matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void CanFactorizeIdentity(int order)
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorC = matrixI.Cholesky().Factor;
@@ -83,8 +85,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Identity determinant is one.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void IdentityDeterminantIsOne([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void IdentityDeterminantIsOne(int order)
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorC = matrixI.Cholesky();
@@ -96,8 +100,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can factorize a random square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanFactorizeRandomMatrix(int order)
         {
             var matrixX = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
             var chol = matrixX.Cholesky();
@@ -132,8 +141,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can solve a system of linear equations for a random vector (Ax=b).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVector([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomVector(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -167,8 +181,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// </summary>
         /// <param name="row">Matrix row number.</param>
         /// <param name="col">Matrix column number.</param>
-        [Test, Sequential]
-        public void CanSolveForRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int row, [Values(1, 4, 8, 3, 10, 100)] int col)
+        [TestCase(1, 1)]
+        [TestCase(2, 4)]
+        [TestCase(5, 8)]
+        [TestCase(10, 3)]
+        [TestCase(50, 10)]
+        [TestCase(100, 100)]
+        public void CanSolveForRandomMatrix(int row, int col)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(row);
             var matrixACopy = matrixA.Clone();
@@ -205,8 +224,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can solve for a random vector into a result vector.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVectorWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -248,8 +272,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// </summary>
         /// <param name="row">Matrix row number.</param>
         /// <param name="col">Matrix column number.</param>
-        [Test, Sequential]
-        public void CanSolveForRandomMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int row, [Values(1, 4, 8, 3, 10, 100)] int col)
+        [TestCase(1, 1)]
+        [TestCase(2, 4)]
+        [TestCase(5, 8)]
+        [TestCase(10, 3)]
+        [TestCase(50, 10)]
+        [TestCase(100, 100)]
+        public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int col)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteHermitianDenseMatrix(row);
             var matrixACopy = matrixA.Clone();

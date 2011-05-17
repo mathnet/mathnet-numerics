@@ -1,4 +1,4 @@
-﻿// <copyright file="LinearAlgebraProviderTests.cs" company="Math.NET">
+// <copyright file="LinearAlgebraProviderTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,11 +28,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 {
     using System;
     using System.Collections.Generic;
-    
     using Algorithms.LinearAlgebra;
     using LinearAlgebra.Double;
     using LinearAlgebra.Generic;
-
     using NUnit.Framework;
 
     /// <summary>
@@ -56,11 +54,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         /// </summary>
         private readonly IDictionary<string, DenseMatrix> _matrices = new Dictionary<string, DenseMatrix>
                                                                       {
-                                                                          { "Singular3x3", new DenseMatrix(new[,] { { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 } }) }, 
-                                                                          { "Square3x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } }) }, 
-                                                                          { "Square4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } }) }, 
-                                                                          { "Singular4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } }) }, 
-                                                                          { "Tall3x2", new DenseMatrix(new[,] { { -1.1, -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } }) }, 
+                                                                          { "Singular3x3", new DenseMatrix(new[,] { { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 }, { 1.0, 1.0, 2.0 } }) },
+                                                                          { "Square3x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 }, { -4.4, 5.5, 6.6 } }) },
+                                                                          { "Square4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { 0.0, 1.1, 2.2, 3.3 }, { 1.0, 2.1, 6.2, 4.3 }, { -4.4, 5.5, 6.6, -7.7 } }) },
+                                                                          { "Singular4x4", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 }, { -1.1, -2.2, -3.3, -4.4 } }) },
+                                                                          { "Tall3x2", new DenseMatrix(new[,] { { -1.1, -2.2 }, { 0.0, 1.1 }, { -4.4, 5.5 } }) },
                                                                           { "Wide2x3", new DenseMatrix(new[,] { { -1.1, -2.2, -3.3 }, { 0.0, 1.1, 2.2 } }) }
                                                                       };
 
@@ -180,7 +178,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 Assert.AreEqual(_x[i] / _y[i], result[i]);
             }
         }
-        
+
         /// <summary>
         /// Can compute L1 norm.
         /// </summary>
@@ -413,16 +411,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var matrix = _matrices["Square3x3"];
             var a = new double[matrix.RowCount * matrix.RowCount];
             Array.Copy(matrix.Data, a, a.Length);
-            
+
             Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount);
 
             AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 14);
-            AssertHelpers.AlmostEqual(a[1],  -0.909090909090908, 14);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908, 14);
             AssertHelpers.AlmostEqual(a[2], 0.454545454545454, 14);
             AssertHelpers.AlmostEqual(a[3], -0.340909090909090, 14);
             AssertHelpers.AlmostEqual(a[4], -2.045454545454543, 14);
             AssertHelpers.AlmostEqual(a[5], 1.477272727272726, 14);
-            AssertHelpers.AlmostEqual(a[6],  -0.113636363636364, 14);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364, 14);
             AssertHelpers.AlmostEqual(a[7], 0.227272727272727, 14);
             AssertHelpers.AlmostEqual(a[8], -0.113636363636364, 14);
         }
@@ -543,7 +541,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             var ipiv = new int[matrix.RowCount];
             Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
-            
+
             var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
             Control.LinearAlgebraProvider.LUSolveFactored(2, a, matrix.RowCount, ipiv, b);
 
@@ -646,7 +644,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);                    
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 14);
                 }
             }
         }
@@ -829,7 +827,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var b = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
             var x = new double[matrix.ColumnCount * 2];
             Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
-            
+
             NotModified(3, 2, a, matrix);
 
             var mb = new DenseMatrix(matrix.RowCount, 2, b);

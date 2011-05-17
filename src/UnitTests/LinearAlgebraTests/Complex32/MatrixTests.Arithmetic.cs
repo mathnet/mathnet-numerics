@@ -1,4 +1,4 @@
-﻿// <copyright file="MatrixTests.Arithmetic.cs" company="Math.NET">
+// <copyright file="MatrixTests.Arithmetic.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -42,8 +42,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can multiply with a complex number.
         /// </summary>
         /// <param name="real">Complex32 real part value.</param>
-        [Test]
-        public void CanMultiplyWithComplex([Values(0, 1, 2.2f)] float real)
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2.2f)]
+        public void CanMultiplyWithComplex(float real)
         {
             var value = new Complex32(real, 1.0f);
             var matrix = TestMatrices["Singular3x3"];
@@ -148,8 +150,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can left multiply with a complex.
         /// </summary>
         /// <param name="real">Complex32 real value.</param>
-        [Test, Sequential]
-        public void CanOperatorLeftMultiplyWithComplex([Values(0, 1, 2.2f)] float real)
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2.2f)]
+        public void CanOperatorLeftMultiplyWithComplex(float real)
         {
             var value = new Complex32(real, 1.0f);
             var matrix = TestMatrices["Singular3x3"];
@@ -168,8 +172,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can right multiply with a Complex.
         /// </summary>
         /// <param name="real">Complex32 real value.</param>
-        [Test, Sequential]
-        public void CanOperatorRightMultiplyWithComplex([Values(0, 1, 2.2f)] float real)
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2.2f)]
+        public void CanOperatorRightMultiplyWithComplex(float real)
         {
             var value = new Complex32(real, 1.0f);
             var matrix = TestMatrices["Singular3x3"];
@@ -188,8 +194,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can multiply with a Complex into result.
         /// </summary>
         /// <param name="real">Complex32 real value.</param>
-        [Test]
-        public void CanMultiplyWithComplexIntoResult([Values(0, 1, 2.2f)] float real)
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2.2f)]
+        public void CanMultiplyWithComplexIntoResult(float real)
         {
             var value = new Complex32(real, 1.0f);
             var matrix = TestMatrices["Singular3x3"];
@@ -263,8 +271,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="mtxA">Matrix A name.</param>
         /// <param name="mtxB">Matrix B name.</param>
-        [Test, Sequential]
-        public void CanAddMatrix([Values("Singular3x3", "Singular4x4")] string mtxA, [Values("Square3x3", "Square4x4")] string mtxB)
+        [TestCase("Singular3x3", "Square3x3")]
+        [TestCase("Singular4x4", "Square4x4")]
+        public void CanAddMatrix(string mtxA, string mtxB)
         {
             var matrixA = TestMatrices[mtxA];
             var matrixB = TestMatrices[mtxB];
@@ -318,8 +327,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="mtxA">Matrix A name.</param>
         /// <param name="mtxB">Matrix B name.</param>
-        [Test, Sequential]
-        public void CanAddUsingOperator([Values("Singular3x3", "Singular4x4")] string mtxA, [Values("Square3x3", "Square4x4")] string mtxB)
+        [TestCase("Singular3x3", "Square3x3")]
+        [TestCase("Singular4x4", "Square4x4")]
+        public void CanAddUsingOperator(string mtxA, string mtxB)
         {
             var matrixA = TestMatrices[mtxA];
             var matrixB = TestMatrices[mtxB];
@@ -383,8 +393,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="mtxA">Matrix A name.</param>
         /// <param name="mtxB">Matrix B name.</param>
-        [Test, Sequential]
-        public void CanSubtractMatrix([Values("Singular3x3", "Singular4x4")] string mtxA, [Values("Square3x3", "Square4x4")] string mtxB)
+        [TestCase("Singular3x3", "Square3x3")]
+        [TestCase("Singular4x4", "Square4x4")]
+        public void CanSubtractMatrix(string mtxA, string mtxB)
         {
             var matrixA = TestMatrices[mtxA];
             var matrixB = TestMatrices[mtxB];
@@ -438,8 +449,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="mtxA">Matrix A name.</param>
         /// <param name="mtxB">Matrix B name.</param>
-        [Test, Sequential]
-        public void CanSubtractUsingOperator([Values("Singular3x3", "Singular4x4")] string mtxA, [Values("Square3x3", "Square4x4")] string mtxB)
+        [TestCase("Singular3x3", "Square3x3")]
+        [TestCase("Singular4x4", "Square4x4")]
+        public void CanSubtractUsingOperator(string mtxA, string mtxB)
         {
             var matrixA = TestMatrices[mtxA];
             var matrixB = TestMatrices[mtxB];
@@ -503,8 +515,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="nameA">Matrix A name.</param>
         /// <param name="nameB">Matrix B name.</param>
-        [Test, Sequential]
-        public void CanMultiplyMatrixWithMatrix([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string nameA, [Values("Square3x3", "Square4x4", "Square3x3", "Tall3x2", "Wide2x3")] string nameB)
+        [TestCase("Singular3x3", "Square3x3")]
+        [TestCase("Singular4x4", "Square4x4")]
+        [TestCase("Wide2x3", "Square3x3")]
+        [TestCase("Wide2x3", "Tall3x2")]
+        [TestCase("Tall3x2", "Wide2x3")]
+        public void CanMultiplyMatrixWithMatrix(string nameA, string nameB)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameB];
@@ -526,8 +542,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can transpose and multiply a matrix with matrix.
         /// </summary>
         /// <param name="nameA">Matrix name.</param>
-        [Test, Sequential]
-        public void CanTransposeAndMultiplyMatrixWithMatrix([Values("Singular3x3", "Singular4x4", "Wide2x3", "Tall3x2")] string nameA)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Wide2x3")]
+        [TestCase("Tall3x2")]
+        public void CanTransposeAndMultiplyMatrixWithMatrix(string nameA)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameA];
@@ -605,8 +624,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can transpose and multiply a matrix with matrix into a result matrix.
         /// </summary>
         /// <param name="nameA">Matrix name.</param>
-        [Test, Sequential]
-        public void CanTransposeAndMultiplyMatrixWithMatrixIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Tall3x2")] string nameA)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Wide2x3")]
+        [TestCase("Tall3x2")]
+        public void CanTransposeAndMultiplyMatrixWithMatrixIntoResult(string nameA)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameA];
@@ -663,8 +685,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="nameA">Matrix A name.</param>
         /// <param name="nameB">Matrix B name.</param>
-        [Test, Sequential]
-        public virtual void CanMultiplyMatrixWithMatrixIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string nameA, [Values("Square3x3", "Square4x4", "Square3x3", "Tall3x2", "Wide2x3")] string nameB)
+        [TestCase("Singular3x3", "Square3x3")]
+        [TestCase("Singular4x4", "Square4x4")]
+        [TestCase("Wide2x3", "Square3x3")]
+        [TestCase("Wide2x3", "Tall3x2")]
+        [TestCase("Tall3x2", "Wide2x3")]
+        public virtual void CanMultiplyMatrixWithMatrixIntoResult(string nameA, string nameB)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameB];
@@ -772,8 +798,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can multiply transposed matrix with another matrix.
         /// </summary>
         /// <param name="nameA">Matrix name.</param>
-        [Test, Sequential]
-        public void CanTransposeThisAndMultiplyMatrixWithMatrix([Values("Singular3x3", "Singular4x4", "Wide2x3", "Tall3x2")] string nameA)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Wide2x3")]
+        [TestCase("Tall3x2")]
+        public void CanTransposeThisAndMultiplyMatrixWithMatrix(string nameA)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameA];
@@ -817,8 +846,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Multiply transpose of this matrix with another matrix into a result matrix.
         /// </summary>
         /// <param name="nameA">Matrix name.</param>
-        [Test, Sequential]
-        public void CanTransposeThisAndMultiplyMatrixWithMatrixIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Tall3x2")] string nameA)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Wide2x3")]
+        [TestCase("Tall3x2")]
+        public void CanTransposeThisAndMultiplyMatrixWithMatrixIntoResult(string nameA)
         {
             var matrixA = TestMatrices[nameA];
             var matrixB = TestMatrices[nameA];
@@ -841,8 +873,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can negate a matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanNegate([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Wide2x3")]
+        [TestCase("Wide2x3")]
+        [TestCase("Tall3x2")]
+        public void CanNegate(string name)
         {
             var matrix = TestMatrices[name];
             var copy = matrix.Clone();
@@ -862,8 +898,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can negate a matrix into a result matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanNegateIntoResult([Values("Singular3x3", "Singular4x4", "Wide2x3", "Wide2x3", "Tall3x2")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Wide2x3")]
+        [TestCase("Wide2x3")]
+        [TestCase("Tall3x2")]
+        public void CanNegateIntoResult(string name)
         {
             var matrix = TestMatrices[name];
             var copy = matrix.Clone();
@@ -965,8 +1005,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can normalize columns of a matrix.
         /// </summary>
         /// <param name="p">The norm under which to normalize the columns under.</param>
-        [Test, Sequential]
-        public void CanNormalizeColumns([Values(1, 2)] int p)
+        [TestCase(1)]
+        [TestCase(2)]
+        public void CanNormalizeColumns(int p)
         {
             var matrix = TestMatrices["Square4x4"];
             var result = matrix.NormalizeColumns(p);
@@ -990,8 +1031,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can normalize rows of a matrix.
         /// </summary>
         /// <param name="p">The norm under which to normalize the rows under.</param>
-        [Test, Sequential]
-        public void CanNormalizeRows([Values(1, 2)] int p)
+        [TestCase(1)]
+        [TestCase(2)]
+        public void CanNormalizeRows(int p)
         {
             var matrix = TestMatrices["Square4x4"].NormalizeRows(p);
             for (var i = 0; i < matrix.RowCount; i++)
@@ -1166,8 +1208,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Create random matrix with non-positive number of rows throw <c>ArgumentException</c>.
         /// </summary>
         /// <param name="numberOfRows">Number of rows.</param>
-        [Test, Sequential]
-        public void RandomWithNonPositiveNumberOfRowsThrowsArgumentException([Values(0, -2)] int numberOfRows)
+        [TestCase(0)]
+        [TestCase(-2)]
+        public void RandomWithNonPositiveNumberOfRowsThrowsArgumentException(int numberOfRows)
         {
             var matrix = CreateMatrix(2, 3);
             Assert.Throws<ArgumentException>(() => matrix.Random(numberOfRows, 4, new ContinuousUniform()));

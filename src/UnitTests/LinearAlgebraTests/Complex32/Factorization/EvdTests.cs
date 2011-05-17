@@ -1,4 +1,4 @@
-﻿// <copyright file="EvdTests.cs" company="Math.NET">
+// <copyright file="EvdTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -52,8 +52,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can factorize identity matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void CanFactorizeIdentity(int order)
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorEvd = matrixI.Evd();
@@ -77,8 +79,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can factorize a random square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanFactorizeRandomMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var factorEvd = matrixA.Evd();
@@ -138,8 +145,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can check rank of square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanCheckRankSquare([Values(10, 50, 100)] int order)
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanCheckRankSquare(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var factorEvd = matrixA.Evd();
@@ -151,8 +160,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can check rank of square singular matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanCheckRankOfSquareSingular([Values(10, 50, 100)] int order)
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanCheckRankOfSquareSingular(int order)
         {
             var matrixA = new DenseMatrix(order, order);
             matrixA[0, 0] = 1;
@@ -175,8 +186,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Identity determinant is one.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void IdentityDeterminantIsOne([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void IdentityDeterminantIsOne(int order)
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorEvd = matrixI.Evd();
@@ -187,7 +200,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test,Ignore]
+        [Test, Ignore]
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(5, Ignore = true, IgnoreReason = "Problem with native providers determining if the matrix is symmetric.")]

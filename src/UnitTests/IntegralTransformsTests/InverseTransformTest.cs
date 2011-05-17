@@ -1,4 +1,4 @@
-﻿// <copyright file="InverseTransformTest.cs" company="Math.NET">
+// <copyright file="InverseTransformTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -53,9 +53,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="forward">Forward delegate.</param>
         /// <param name="inverse">Inverse delegate.</param>
         private void VerifyIsReversibleComplex(
-            int count, 
-            double maximumError, 
-            Func<Complex[], Complex[]> forward, 
+            int count,
+            double maximumError,
+            Func<Complex[], Complex[]> forward,
             Func<Complex[], Complex[]> inverse)
         {
             var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, count);
@@ -79,9 +79,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="forward">Forward delegate.</param>
         /// <param name="inverse">Inverse delegate.</param>
         private void VerifyIsReversibleReal(
-            int count, 
-            double maximumError, 
-            Func<double[], double[]> forward, 
+            int count,
+            double maximumError,
+            Func<double[], double[]> forward,
             Func<double[], double[]> inverse)
         {
             var samples = SignalGenerator.Random(x => x, _uniform, count);
@@ -101,15 +101,16 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier naive is reversible.
         /// </summary>
         /// <param name="options">Fourier options.</param>
-        [Test]
-        public void FourierNaiveIsReversible([Values(FourierOptions.Default, FourierOptions.Matlab)] FourierOptions options)
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        public void FourierNaiveIsReversible(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
 
             VerifyIsReversibleComplex(
-                0x80, 
-                1e-12, 
-                s => dft.NaiveForward(s, options), 
+                0x80,
+                1e-12,
+                s => dft.NaiveForward(s, options),
                 s => dft.NaiveInverse(s, options));
         }
 
@@ -117,19 +118,20 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier radix2xx is reversible.
         /// </summary>
         /// <param name="options">Fourier options.</param>
-        [Test]
-        public void FourierRadix2IsReversible([Values(FourierOptions.Default, FourierOptions.Matlab)] FourierOptions options)
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        public void FourierRadix2IsReversible(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
 
             VerifyIsReversibleComplex(
-                0x8000, 
-                1e-12, 
+                0x8000,
+                1e-12,
                 s =>
                 {
                     dft.Radix2Forward(s, options);
                     return s;
-                }, 
+                },
                 s =>
                 {
                     dft.Radix2Inverse(s, options);
@@ -141,19 +143,20 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier bluestein is reversible.
         /// </summary>
         /// <param name="options">Fourier options.</param>
-        [Test]
-        public void FourierBluesteinIsReversible([Values(FourierOptions.Default, FourierOptions.Matlab)] FourierOptions options)
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        public void FourierBluesteinIsReversible(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
 
             VerifyIsReversibleComplex(
-                0x7FFF, 
-                1e-12, 
+                0x7FFF,
+                1e-12,
                 s =>
                 {
                     dft.BluesteinForward(s, options);
                     return s;
-                }, 
+                },
                 s =>
                 {
                     dft.BluesteinInverse(s, options);
@@ -165,15 +168,16 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Hartley naive is reversible.
         /// </summary>
         /// <param name="options">Hartley options.</param>
-        [Test]
-        public void HartleyNaiveIsReversible([Values(HartleyOptions.Default, HartleyOptions.AsymmetricScaling)] HartleyOptions options)
+        [TestCase(HartleyOptions.Default)]
+        [TestCase(HartleyOptions.AsymmetricScaling)]
+        public void HartleyNaiveIsReversible(HartleyOptions options)
         {
             var dht = new DiscreteHartleyTransform();
 
             VerifyIsReversibleReal(
-                0x80, 
-                1e-9, 
-                s => dht.NaiveForward(s, options), 
+                0x80,
+                1e-9,
+                s => dht.NaiveForward(s, options),
                 s => dht.NaiveInverse(s, options));
         }
 

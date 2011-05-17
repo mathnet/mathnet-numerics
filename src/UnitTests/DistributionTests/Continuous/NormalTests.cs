@@ -1,4 +1,4 @@
-﻿// <copyright file="NormalTests.cs" company="Math.NET">
+// <copyright file="NormalTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -62,8 +62,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mean">Mean value.</param>
         /// <param name="sdev">Standard deviation value.</param>
-        [Test, Combinatorial]
-        public void CanCreateNormal([Values(0.0, 10.0, -5.0)] double mean, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double sdev)
+        [TestCase(0.0, 0.0)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(-5.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(10.0, 100.0)]
+        [TestCase(-5.0, Double.PositiveInfinity)]
+        public void CanCreateNormal(double mean, double sdev)
         {
             var n = new Normal(mean, sdev);
             Assert.AreEqual(mean, n.Mean);
@@ -75,8 +80,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mean">Mean value.</param>
         /// <param name="sdev">Standard deviation value.</param>
-        [Test, Sequential]
-        public void NormalCreateFailsWithBadParameters([Values(Double.NaN, 1.0, Double.NaN, 1.0)] double mean, [Values(1.0, Double.NaN, Double.NaN, -1.0)] double sdev)
+        [TestCase(Double.NaN, 1.0)]
+        [TestCase(1.0, Double.NaN)]
+        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(1.0, -1.0)]
+        public void NormalCreateFailsWithBadParameters(double mean, double sdev)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Normal(mean, sdev));
         }
@@ -86,8 +94,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mean">Mean value.</param>
         /// <param name="sdev">Standard deviation value.</param>
-        [Test, Combinatorial]
-        public void CanCreateNormalFromMeanAndStdDev([Values(0.0, 10.0, -5.0)] double mean, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double sdev)
+        [TestCase(0.0, 0.0)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(-5.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(10.0, 100.0)]
+        [TestCase(-5.0, Double.PositiveInfinity)]
+        public void CanCreateNormalFromMeanAndStdDev(double mean, double sdev)
         {
             var n = Normal.WithMeanStdDev(mean, sdev);
             Assert.AreEqual(mean, n.Mean);
@@ -99,8 +112,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mean">Mean value.</param>
         /// <param name="var">Variance value.</param>
-        [Test, Combinatorial]
-        public void CanCreateNormalFromMeanAndVariance([Values(0.0, 10.0, -5.0)] double mean, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double var)
+        [TestCase(0.0, 0.0)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(-5.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(10.0, 100.0)]
+        [TestCase(-5.0, Double.PositiveInfinity)]
+        public void CanCreateNormalFromMeanAndVariance(double mean, double var)
         {
             var n = Normal.WithMeanVariance(mean, var);
             AssertHelpers.AlmostEqual(mean, n.Mean, 16);
@@ -112,8 +130,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mean">Mean value.</param>
         /// <param name="prec">Precision value.</param>
-        [Test, Combinatorial]
-        public void CanCreateNormalFromMeanAndPrecision([Values(0.0, 10.0, -5.0)] double mean, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double prec)
+        [TestCase(0.0, 0.0)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(-5.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(10.0, 100.0)]
+        [TestCase(-5.0, Double.PositiveInfinity)]
+        public void CanCreateNormalFromMeanAndPrecision(double mean, double prec)
         {
             var n = Normal.WithMeanPrecision(mean, prec);
             AssertHelpers.AlmostEqual(mean, n.Mean, 15);
@@ -134,8 +157,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set precision.
         /// </summary>
         /// <param name="prec">Precision value.</param>
-        [Test]
-        public void CanSetPrecision([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double prec)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetPrecision(double prec)
         {
             new Normal
             {
@@ -157,8 +185,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set variance.
         /// </summary>
         /// <param name="var">Variance value.</param>
-        [Test]
-        public void CanSetVariance([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double var)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetVariance(double var)
         {
             new Normal
             {
@@ -180,8 +213,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set standard deviation.
         /// </summary>
         /// <param name="sdev">Standard deviation value.</param>
-        [Test]
-        public void CanSetStdDev([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double sdev)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetStdDev(double sdev)
         {
             new Normal
             {
@@ -203,8 +241,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set mean.
         /// </summary>
         /// <param name="mean">Mean value.</param>
-        [Test]
-        public void CanSetMean([Values(Double.NegativeInfinity, -0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double mean)
+        [TestCase(Double.NegativeInfinity)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetMean(double mean)
         {
             new Normal
             {
@@ -216,8 +260,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate entropy.
         /// </summary>
         /// <param name="sdev">Standard deviation value.</param>
-        [Test]
-        public void ValidateEntropy([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double sdev)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateEntropy(double sdev)
         {
             var n = new Normal(1.0, sdev);
             Assert.AreEqual(Constants.LogSqrt2PiE + Math.Log(n.StdDev), n.Entropy);
@@ -227,8 +276,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate skewness.
         /// </summary>
         /// <param name="sdev">Standard deviation value.</param>
-        [Test]
-        public void ValidateSkewness([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double sdev)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateSkewness(double sdev)
         {
             var n = new Normal(1.0, sdev);
             Assert.AreEqual(0.0, n.Skewness);
@@ -238,8 +292,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate mean.
         /// </summary>
         /// <param name="mean">Mean value.</param>
-        [Test]
-        public void ValidateMode([Values(Double.NegativeInfinity, -0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double mean)
+        [TestCase(Double.NegativeInfinity)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateMode(double mean)
         {
             var n = new Normal(mean, 1.0);
             Assert.AreEqual(mean, n.Mode);
@@ -249,8 +309,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Validate median.
         /// </summary>
         /// <param name="mean">Mean value.</param>
-        [Test]
-        public void ValidateMedian([Values(Double.NegativeInfinity, -0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double mean)
+        [TestCase(Double.NegativeInfinity)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void ValidateMedian(double mean)
         {
             var n = new Normal(mean, 1.0);
             Assert.AreEqual(mean, n.Median);
@@ -281,8 +347,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mean">Mean value.</param>
         /// <param name="sdev">Standard deviation value.</param>
-        [Test, Combinatorial]
-        public void ValidateDensity([Values(0.0, 10.0, -5.0)] double mean, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double sdev)
+        [TestCase(0.0, 0.0)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(-5.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(10.0, 100.0)]
+        [TestCase(-5.0, Double.PositiveInfinity)]
+        public void ValidateDensity(double mean, double sdev)
         {
             var n = Normal.WithMeanStdDev(mean, sdev);
             for (var i = 0; i < 11; i++)
@@ -299,8 +370,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="mean">Mean value.</param>
         /// <param name="sdev">Standard deviation value.</param>
-        [Test, Combinatorial]
-        public void ValidateDensityLn([Values(0.0, 10.0, -5.0)] double mean, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double sdev)
+        [TestCase(0.0, 0.0)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(-5.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(10.0, 100.0)]
+        [TestCase(-5.0, Double.PositiveInfinity)]
+        public void ValidateDensityLn(double mean, double sdev)
         {
             var n = Normal.WithMeanStdDev(mean, sdev);
             for (var i = 0; i < 11; i++)
@@ -375,10 +451,17 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="x">Input X value.</param>
         /// <param name="f">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(Double.NegativeInfinity, -5.0, -2.0, -0.0, 0.0, 4.0, 5.0, 6.0, 10.0, Double.PositiveInfinity)] double x, 
-            [Values(0.0, 0.00000028665157187919391167375233287464535385442301361187883, 0.0002326290790355250363499258867279847735487493358890356, 0.0062096653257761351669781045741922211278977469230927036, 0.0062096653257761351669781045741922211278977469230927036, 0.30853753872598689636229538939166226011639782444542207, 0.5, 0.69146246127401310363770461060833773988360217555457859, 0.9937903346742238648330218954258077788721022530769078, 1.0)] double f)
+        [TestCase(Double.NegativeInfinity, 0.0)]
+        [TestCase(-5.0, 0.00000028665157187919391167375233287464535385442301361187883)]
+        [TestCase(-2.0, 0.0002326290790355250363499258867279847735487493358890356)]
+        [TestCase(-0.0, 0.0062096653257761351669781045741922211278977469230927036)]
+        [TestCase(0.0, 0.0062096653257761351669781045741922211278977469230927036)]
+        [TestCase(4.0, 0.30853753872598689636229538939166226011639782444542207)]
+        [TestCase(5.0, 0.5)]
+        [TestCase(6.0, 0.69146246127401310363770461060833773988360217555457859)]
+        [TestCase(10.0, 0.9937903346742238648330218954258077788721022530769078)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        public void ValidateCumulativeDistribution(double x, double f)
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
             AssertHelpers.AlmostEqual(f, n.CumulativeDistribution(x), 10);
@@ -389,10 +472,17 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="x">Input X value.</param>
         /// <param name="f">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateInverseCumulativeDistribution(
-            [Values(Double.NegativeInfinity, -5.0, -2.0, -0.0, 0.0, 4.0, 5.0, 6.0, 10.0, Double.PositiveInfinity)] double x, 
-            [Values(0.0, 0.00000028665157187919391167375233287464535385442301361187883, 0.0002326290790355250363499258867279847735487493358890356, 0.0062096653257761351669781045741922211278977469230927036, .0062096653257761351669781045741922211278977469230927036, .30853753872598689636229538939166226011639782444542207, .5, .69146246127401310363770461060833773988360217555457859, 0.9937903346742238648330218954258077788721022530769078, 1.0)] double f)
+        [TestCase(Double.NegativeInfinity, 0.0)]
+        [TestCase(-5.0, 0.00000028665157187919391167375233287464535385442301361187883)]
+        [TestCase(-2.0, 0.0002326290790355250363499258867279847735487493358890356)]
+        [TestCase(-0.0, 0.0062096653257761351669781045741922211278977469230927036)]
+        [TestCase(0.0, .0062096653257761351669781045741922211278977469230927036)]
+        [TestCase(4.0, .30853753872598689636229538939166226011639782444542207)]
+        [TestCase(5.0, .5)]
+        [TestCase(6.0, .69146246127401310363770461060833773988360217555457859)]
+        [TestCase(10.0, 0.9937903346742238648330218954258077788721022530769078)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        public void ValidateInverseCumulativeDistribution(double x, double f)
         {
             var n = Normal.WithMeanStdDev(5.0, 2.0);
             AssertHelpers.AlmostEqual(x, n.InverseCumulativeDistribution(f), 15);

@@ -91,9 +91,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
             var solver = new GpBiCg(monitor);
@@ -136,9 +136,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
 
@@ -215,9 +215,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
 
@@ -239,7 +239,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
             {
+#if !SILVERLIGHT
                 Assert.IsTrue(Math.Abs(y[i] - z[i]).IsSmaller(ConvergenceBoundary, 1), "#05-" + i);
+#else
+                Assert.IsTrue(Math.Abs(y[i] - z[i]).IsSmaller(ConvergenceBoundary * 100.0, 1), "#05-" + i);
+#endif
             }
         }
 
@@ -247,16 +251,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         /// Can solve for a random vector.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVector([Values(4, 8, 10)] int order)
+        [TestCase(4)]
+        [TestCase(8)]
+        [TestCase(10)]
+        public void CanSolveForRandomVector(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(1000), 
-                                           new ResidualStopCriterium(1e-10), 
+                                           new IterationCountStopCriterium(1000),
+                                           new ResidualStopCriterium(1e-10),
                                        });
             var solver = new GpBiCg(monitor);
 
@@ -276,15 +282,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
         /// Can solve for random matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomMatrix([Values(4, 8, 10)] int order)
+        [TestCase(4)]
+        [TestCase(8)]
+        [TestCase(10)]
+        public void CanSolveForRandomMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(1000), 
+                                           new IterationCountStopCriterium(1000),
                                            new ResidualStopCriterium(1e-10)
                                        });
             var solver = new GpBiCg(monitor);
@@ -297,6 +305,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
             var matrixBReconstruct = matrixA * matrixX;
+
             // Check the reconstruction.
             for (var i = 0; i < matrixB.RowCount; i++)
             {

@@ -1,4 +1,4 @@
-﻿// <copyright file="HartleyTest.cs" company="Math.NET">
+// <copyright file="HartleyTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -54,17 +54,17 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="dft">DFT function delegate.</param>
         /// <param name="hartley">Hartley transform delegate.</param>
         private static void VerifyMatchesDft(
-            double[] samples, 
-            double maximumError, 
-            bool inverse, 
-            Action<Complex[]> dft, 
+            double[] samples,
+            double maximumError,
+            bool inverse,
+            Action<Complex[]> dft,
             Func<double[], double[]> hartley)
         {
             var hartleyReal = hartley(samples);
 
-            var fourierComplex = Array.ConvertAll(samples, s => new Complex(s, inverse ? -s : s));
+            var fourierComplex = ArrayHelpers.ConvertAll(samples, s => new Complex(s, inverse ? -s : s));
             dft(fourierComplex);
-            var fourierReal = Array.ConvertAll(fourierComplex, s => s.Real);
+            var fourierReal = ArrayHelpers.ConvertAll(fourierComplex, s => s.Real);
 
             AssertHelpers.AlmostEqualList(fourierReal, hartleyReal, maximumError);
         }
@@ -74,23 +74,25 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// </summary>
         /// <param name="hartleyOptions">Hartley transformation options.</param>
         /// <param name="fourierOptions">Fourier transformation options.</param>
-        [Test, Sequential]
-        public void NaiveMatchesDft([Values(HartleyOptions.Default, HartleyOptions.AsymmetricScaling, HartleyOptions.NoScaling)] HartleyOptions hartleyOptions, [Values(FourierOptions.Default, FourierOptions.AsymmetricScaling, FourierOptions.NoScaling)] FourierOptions fourierOptions)
+        [TestCase(HartleyOptions.Default, FourierOptions.Default)]
+        [TestCase(HartleyOptions.AsymmetricScaling, FourierOptions.AsymmetricScaling)]
+        [TestCase(HartleyOptions.NoScaling, FourierOptions.NoScaling)]
+        public void NaiveMatchesDft(HartleyOptions hartleyOptions, FourierOptions fourierOptions)
         {
             var dht = new DiscreteHartleyTransform();
             var samples = SignalGenerator.Random(x => x, _uniform, 0x80);
 
             VerifyMatchesDft(
-                samples, 
-                1e-5, 
-                false, 
-                s => Transform.FourierForward(s, fourierOptions), 
+                samples,
+                1e-5,
+                false,
+                s => Transform.FourierForward(s, fourierOptions),
                 s => dht.NaiveForward(s, hartleyOptions));
             VerifyMatchesDft(
-                samples, 
-                1e-5, 
-                true, 
-                s => Transform.FourierInverse(s, fourierOptions), 
+                samples,
+                1e-5,
+                true,
+                s => Transform.FourierInverse(s, fourierOptions),
                 s => dht.NaiveInverse(s, hartleyOptions));
         }
     }

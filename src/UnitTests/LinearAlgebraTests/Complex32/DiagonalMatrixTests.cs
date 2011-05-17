@@ -1,4 +1,4 @@
-﻿// <copyright file="DiagonalMatrixTests.cs" company="Math.NET">
+// <copyright file="DiagonalMatrixTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -33,6 +33,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 
+#if SILVERLIGHT
+    using Threading;
+#endif
+
     /// <summary>
     /// Diagonal matrix tests.
     /// </summary>
@@ -46,11 +50,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             TestData2D = new Dictionary<string, Complex32[,]>
                          {
-                             { "Singular3x3", new[,] { { new Complex32(1.0f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, new Complex32(3.0f, 1) } } }, 
-                             { "Square3x3", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, new Complex32(1.1f, 1), Complex32.Zero }, { Complex32.Zero, Complex32.Zero, new Complex32(6.6f, 1) } } }, 
-                             { "Square4x4", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero, Complex32.Zero, Complex32.Zero }, { Complex32.Zero, new Complex32(1.1f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, new Complex32(6.2f, 1), Complex32.Zero }, { Complex32.Zero, Complex32.Zero, Complex32.Zero, new Complex32(-7.7f, 1) } } }, 
-                             { "Singular4x4", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero, Complex32.Zero, Complex32.Zero }, { Complex32.Zero, new Complex32(-2.2f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, Complex32.Zero, new Complex32(-4.4f, 1) } } }, 
-                             { "Tall3x2", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero }, { Complex32.Zero, new Complex32(1.1f, 1) }, { Complex32.Zero, Complex32.Zero } } }, 
+                             { "Singular3x3", new[,] { { new Complex32(1.0f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, new Complex32(3.0f, 1) } } },
+                             { "Square3x3", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, new Complex32(1.1f, 1), Complex32.Zero }, { Complex32.Zero, Complex32.Zero, new Complex32(6.6f, 1) } } },
+                             { "Square4x4", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero, Complex32.Zero, Complex32.Zero }, { Complex32.Zero, new Complex32(1.1f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, new Complex32(6.2f, 1), Complex32.Zero }, { Complex32.Zero, Complex32.Zero, Complex32.Zero, new Complex32(-7.7f, 1) } } },
+                             { "Singular4x4", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero, Complex32.Zero, Complex32.Zero }, { Complex32.Zero, new Complex32(-2.2f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, Complex32.Zero, Complex32.Zero }, { Complex32.Zero, Complex32.Zero, Complex32.Zero, new Complex32(-4.4f, 1) } } },
+                             { "Tall3x2", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero }, { Complex32.Zero, new Complex32(1.1f, 1) }, { Complex32.Zero, Complex32.Zero } } },
                              { "Wide2x3", new[,] { { new Complex32(-1.1f, 1), Complex32.Zero, Complex32.Zero }, { Complex32.Zero, new Complex32(1.1f, 1), Complex32.Zero } } }
                          };
 
@@ -111,11 +115,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         {
             var testData = new Dictionary<string, Matrix>
                            {
-                               { "Singular3x3", new DiagonalMatrix(3, 3, new[] { new Complex32(1.0f, 1), Complex32.Zero, new Complex32(3.0f, 1) }) }, 
-                               { "Square3x3", new DiagonalMatrix(4, 4, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1), new Complex32(6.6f, 1) }) }, 
-                               { "Square4x4", new DiagonalMatrix(4, 4, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1), new Complex32(6.2f, 1), new Complex32(-7.7f, 1) }) }, 
-                               { "Tall3x2", new DiagonalMatrix(3, 2, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1) }) }, 
-                               { "Wide2x3", new DiagonalMatrix(2, 3, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1) }) }, 
+                               { "Singular3x3", new DiagonalMatrix(3, 3, new[] { new Complex32(1.0f, 1), Complex32.Zero, new Complex32(3.0f, 1) }) },
+                               { "Square3x3", new DiagonalMatrix(4, 4, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1), new Complex32(6.6f, 1) }) },
+                               { "Square4x4", new DiagonalMatrix(4, 4, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1), new Complex32(6.2f, 1), new Complex32(-7.7f, 1) }) },
+                               { "Tall3x2", new DiagonalMatrix(3, 2, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1) }) },
+                               { "Wide2x3", new DiagonalMatrix(2, 3, new[] { new Complex32(-1.1f, 1), new Complex32(1.1f, 1) }) },
                            };
 
             foreach (var name in testData.Keys)
@@ -140,8 +144,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Can create a matrix from two-dimensional array.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test]
-        public void CanCreateMatrixFrom2DArray([Values("Singular3x3", "Singular4x4", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanCreateMatrixFrom2DArray(string name)
         {
             var matrix = new DiagonalMatrix(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
@@ -186,8 +195,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Identity with wrong order throws <c>ArgumentOutOfRangeException</c>.
         /// </summary>
         /// <param name="order">The size of the square matrix</param>
-        [Test]
-        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException([Values(0, -1)] int order)
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => DiagonalMatrix.Identity(order));
         }
@@ -592,6 +602,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             var matrix = TestMatrices["Square3x3"];
             Assert.IsTrue(matrix.IsSymmetric);
         }
+
         /// <summary>
         /// Can get a sub-matrix.
         /// </summary>

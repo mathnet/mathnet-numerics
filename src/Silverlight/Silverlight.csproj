@@ -61,6 +61,12 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\out\lib\SL4\MathNet.Numerics.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System.Numerics, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -185,6 +191,9 @@
     </Compile>
     <Compile Include="..\Numerics\Distributions\Discrete\NegativeBinomial.cs">
       <Link>Distributions\Discrete\NegativeBinomial.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\Distributions\Discrete\Poisson.cs">
+      <Link>Distributions\Discrete\Poisson.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Distributions\Discrete\Zipf.cs">
       <Link>Distributions\Continuous\Zipf.cs</Link>
@@ -915,6 +924,9 @@
     <Compile Include="..\Numerics\NumberTheory\IntegerTheory.cs">
       <Link>NumberTheory\IntegerTheory.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\NumberTheory\IntegerTheory.Euclid.Big.cs">
+      <Link>NumberTheory\IntegerTheory.Euclid.Big.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\NumberTheory\IntegerTheory.Euclid.cs">
       <Link>NumberTheory\IntegerTheory.Euclid.cs</Link>
     </Compile>
@@ -924,8 +936,11 @@
     <Compile Include="..\Numerics\Precision.cs">
       <Link>Precision.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\Properties\Resources.Designer.cs">
-      <Link>Resources.Designer.cs</Link>
+    <Compile Include="..\Numerics\Properties\Resources1.Designer.cs">
+      <Link>Properties\Resources1.Designer.cs</Link>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="..\Numerics\Random\AbstractRandomNumberGenerator.cs">
       <Link>Random\AbstractRandomNumberGenerator.cs</Link>
@@ -1037,7 +1052,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\Numerics\Properties\Resources.resx">
-      <Link>Resources.resx</Link>
+      <Link>Properties\Resources.resx</Link>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -1054,6 +1071,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MathNet.Numerics.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

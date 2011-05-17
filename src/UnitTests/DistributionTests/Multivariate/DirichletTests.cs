@@ -202,8 +202,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="x">Alphas array.</param>
         /// <param name="res">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateDensity([Values(new[] { 0.01, 0.03, 0.5 }, new[] { 0.1, 0.2, 0.3, 0.4 })] double[] x, [Values(1335.32600710379, 59.1446044600076)] double res)
+        [TestCase(new[] { 0.01, 0.03, 0.5 }, 1335.32600710379)]
+        [TestCase(new[] { 0.1, 0.2, 0.3, 0.4 }, 59.1446044600076)]
+        public void ValidateDensity(double[] x, double res)
         {
             var d = new Dirichlet(new[] { 0.1, 0.3, 0.5, 0.8 });
             AssertHelpers.AlmostEqual(res, d.Density(x), 12);
@@ -213,8 +214,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// Validate density log.
         /// </summary>
         /// <param name="x">Alpha array.</param>
-        [Test]
-        public void ValidateDensityLn([Values(new[] { 0.01, 0.03, 0.5 }, new[] { 0.1, 0.2, 0.3, 0.4 })] double[] x)
+        [TestCase(new[] { 0.01, 0.03, 0.5, 0.5 })]
+        [TestCase(new[] { 0.1, 0.2, 0.3, 0.4 })]
+        public void ValidateDensityLn(double[] x)
         {
             var d = new Dirichlet(new[] { 0.1, 0.3, 0.5, 0.8 });
             AssertHelpers.AlmostEqual(d.DensityLn(x), Math.Log(d.Density(x)), 12);
@@ -224,8 +226,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// Validate entropy.
         /// </summary>
         /// <param name="x">Alpha array.</param>
-        [Test]
-        public void ValidateEntropy([Values(new[] { 0.1, 0.3, 0.5, 0.8 }, new[] { 0.1, 0.2, 0.3, 0.4 })] double[] x)
+        [TestCase(new[] { 0.1, 0.3, 0.5, 0.8 })]
+        [TestCase(new[] { 0.1, 0.2, 0.3, 0.4 })]
+        public void ValidateEntropy(double[] x)
         {
             var d = new Dirichlet(x);
 

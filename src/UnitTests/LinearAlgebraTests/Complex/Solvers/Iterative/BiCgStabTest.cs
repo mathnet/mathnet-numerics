@@ -92,9 +92,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
             var solver = new BiCgStab(monitor);
@@ -137,9 +137,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
             var solver = new BiCgStab(monitor);
@@ -215,9 +215,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
             var solver = new BiCgStab(monitor);
@@ -246,16 +246,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         /// Can solve for a random vector.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVector([Values(4, 8, 10)] int order)
+        [TestCase(4)]
+        [TestCase(8)]
+        [TestCase(10)]
+        public void CanSolveForRandomVector(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var vectorb = MatrixLoader.GenerateRandomDenseVector(order);
 
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(1000), 
-                                           new ResidualStopCriterium(1e-10), 
+                                           new IterationCountStopCriterium(1000),
+                                           new ResidualStopCriterium(1e-10),
                                        });
             var solver = new BiCgStab(monitor);
 
@@ -276,16 +278,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
         /// Can solve for random matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomMatrix([Values(4, 8, 10)] int order)
+        [TestCase(4)]
+        [TestCase(8)]
+        [TestCase(10)]
+        public void CanSolveForRandomMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixB = MatrixLoader.GenerateRandomDenseMatrix(order, order);
 
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(1000), 
-                                           new ResidualStopCriterium(1e-10), 
+                                           new IterationCountStopCriterium(1000),
+                                           new ResidualStopCriterium(1e-10),
                                        });
             var solver = new BiCgStab(monitor);
             var matrixX = solver.Solve(matrixA, matrixB);
@@ -297,6 +301,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             Assert.AreEqual(matrixB.ColumnCount, matrixX.ColumnCount);
 
             var matrixBReconstruct = matrixA * matrixX;
+
             // Check the reconstruction.
             for (var i = 0; i < matrixB.RowCount; i++)
             {

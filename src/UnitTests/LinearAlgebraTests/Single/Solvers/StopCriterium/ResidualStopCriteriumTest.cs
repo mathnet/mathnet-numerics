@@ -104,9 +104,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
-                -1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                -1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 new DenseVector(3, 6)));
         }
 
@@ -120,9 +120,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1, 
-                null, 
-                new DenseVector(3, 5), 
+                1,
+                null,
+                new DenseVector(3, 5),
                 new DenseVector(3, 6)));
         }
 
@@ -136,9 +136,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1, 
-                new DenseVector(3, 4), 
-                null, 
+                1,
+                new DenseVector(3, 4),
+                null,
                 new DenseVector(3, 6)));
         }
 
@@ -152,9 +152,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 null));
         }
 
@@ -168,9 +168,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
-                1, 
-                new DenseVector(4, 4), 
-                new DenseVector(3, 4), 
+                1,
+                new DenseVector(4, 4),
+                new DenseVector(3, 4),
                 new DenseVector(3, 4)));
         }
 
@@ -184,9 +184,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
-                1, 
-                new DenseVector(3, 4), 
-                new DenseVector(4, 4), 
+                1,
+                new DenseVector(3, 4),
+                new DenseVector(4, 4),
                 new DenseVector(3, 4)));
         }
 
@@ -200,9 +200,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             Assert.IsNotNull(criterium, "There should be a criterium");
 
             Assert.Throws<ArgumentException>(() => criterium.DetermineStatus(
-                1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 4), 
+                1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 4),
                 new DenseVector(4, 4)));
         }
 

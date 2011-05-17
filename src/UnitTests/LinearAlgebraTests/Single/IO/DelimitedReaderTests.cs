@@ -1,4 +1,4 @@
-﻿// <copyright file="DelimitedReaderTests.cs" company="Math.NET">
+// <copyright file="DelimitedReaderTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
 
             var reader = new DelimitedReader<DenseMatrix>(',')
                          {
-                             HasHeaderRow = true, 
+                             HasHeaderRow = true,
                              CultureInfo = CultureInfo.InvariantCulture
                          };
 
@@ -141,7 +141,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.IO
 
             var reader = new DelimitedReader<DenseMatrix>('.')
                          {
-                             HasHeaderRow = true, 
+                             HasHeaderRow = true,
                              CultureInfo = new CultureInfo("tr-TR")
                          };
 

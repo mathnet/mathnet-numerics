@@ -74,11 +74,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         {
             var type = ilutp.GetType();
             var methodInfo = type.GetMethod(
-                methodName, 
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, 
-                null, 
-                CallingConventions.Standard, 
-                new Type[0], 
+                methodName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static,
+                null,
+                CallingConventions.Standard,
+                new Type[0],
                 null);
             var obj = methodInfo.Invoke(ilutp, null);
             return (T)obj;
@@ -138,8 +138,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         {
             var result = new Ilutp
                          {
-                             DropTolerance = _dropTolerance, 
-                             FillLevel = _fillLevel, 
+                             DropTolerance = _dropTolerance,
+                             FillLevel = _fillLevel,
                              PivotTolerance = _pivotTolerance
                          };
             return result;
@@ -239,8 +239,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             sparseMatrix[2, 2] = 9;
             var ilu = new Ilutp
                       {
-                          PivotTolerance = 0.0, 
-                          DropTolerance = 0, 
+                          PivotTolerance = 0.0,
+                          DropTolerance = 0,
                           FillLevel = 10
                       };
             ilu.Initialize(sparseMatrix);
@@ -271,7 +271,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             {
                 for (var j = 0; j < sparseMatrix.ColumnCount; j++)
                 {
-                    Assert.IsTrue(((double)sparseMatrix[i, j]).AlmostEqual(original[i, j], -Epsilon.Magnitude()), "#03-" + i + "-" + j);
+                    Assert.IsTrue(((double)sparseMatrix[i, j]).AlmostEqualInDecimalPlaces(original[i, j], 5), "#03-" + i + "-" + j);
                 }
             }
         }
@@ -294,8 +294,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             sparseMatrix[2, 2] = 9;
             var ilu = new Ilutp
                       {
-                          PivotTolerance = 1.0, 
-                          DropTolerance = 0, 
+                          PivotTolerance = 1.0,
+                          DropTolerance = 0,
                           FillLevel = 10
                       };
             ilu.Initialize(sparseMatrix);
@@ -330,8 +330,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
             var vector = CreateStandardBcVector(Size);
             var preconditioner = new Ilutp
                                  {
-                                     PivotTolerance = 1.0, 
-                                     DropTolerance = 0, 
+                                     PivotTolerance = 1.0,
+                                     DropTolerance = 0,
                                      FillLevel = 10
                                  };
             preconditioner.Initialize(newMatrix);

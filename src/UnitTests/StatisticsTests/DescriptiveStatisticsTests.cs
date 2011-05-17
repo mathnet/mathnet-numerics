@@ -1,4 +1,4 @@
-﻿// <copyright file="DescriptiveStatisticsTests.cs" company="Math.NET">
+// <copyright file="DescriptiveStatisticsTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -26,6 +26,7 @@
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
+#if !SILVERLIGHT
     using System;
     using System.Collections.Generic;
     using NUnit.Framework;
@@ -34,6 +35,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Descriptive statistics tests.
     /// </summary>
+    /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files. 
+    /// In Silverlight access to local files is forbidden, except several cases.</remarks>
     [TestFixture]
     public class DescriptiveStatisticsTests
     {
@@ -91,16 +94,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value.</param>
         /// <param name="count">Count value.</param>
-        [Test, Sequential]
-        public void IEnumerableDouble(
-            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
-            [Values(15, 15, 12, 12, 15, 13, 9, 8)] int digits, 
-            [Values(-0.09333165310779, -0.050606638756334, 0.64492948110824, -0.0185388637725746, 0, 0, 0, 0)] double skewness, 
-            [Values(-1.19256091074856, -1.49604979214447, -0.82052379677456, 0.33968459842539, 0, -2.003003003003, -2.003003003003, -2.00300300299913)] double kurtosis, 
-            [Values(522.5, -162, 2.0018, 299.85, 10000002, 1.2, 1000000.2, 10000000.2)] double median, 
-            [Values(4, -579, 2.0013, 299.62, 10000001, 1.1, 1000000.1, 10000000.1)] double min, 
-            [Values(999, 300, 2.0027, 300.07, 10000003, 1.3, 1000000.3, 10000000.3)] double max, 
-            [Values(218, 200, 50, 100, 3, 1001, 1001, 1001)] int count)
+        [TestCase("lottery", 15, -0.09333165310779, -1.19256091074856, 522.5, 4, 999, 218)]
+        [TestCase("lew", 15, -0.050606638756334, -1.49604979214447, -162, -579, 300, 200)]
+        [TestCase("mavro", 12, 0.64492948110824, -0.82052379677456, 2.0018, 2.0013, 2.0027, 50)]
+        [TestCase("michelso", 12, -0.0185388637725746, 0.33968459842539, 299.85, 299.62, 300.07, 100)]
+        [TestCase("numacc1", 15, 0, 0, 10000002, 10000001, 10000003, 3)]
+        [TestCase("numacc2", 13, 0, -2.003003003003, 1.2, 1.1, 1.3, 1001)]
+        [TestCase("numacc3", 9, 0, -2.003003003003, 1000000.2, 1000000.1, 1000000.3, 1001)]
+        [TestCase("numacc4", 8, 0, -2.00300300299913, 10000000.2, 10000000.1, 10000000.3, 1001)]
+        public void IEnumerableDouble(string dataSet, int digits, double skewness, double kurtosis, double median, double min, double max, int count)
         {
             var data = _data[dataSet];
             var stats = new DescriptiveStatistics(data.Data);
@@ -125,15 +127,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value.</param>
         /// <param name="count">Count value.</param>
-        [Test, Sequential]
-        public void IEnumerableDoubleHighAccuracy(
-            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
-            [Values(-0.09333165310779, -0.050606638756334, 0.64492948110824, -0.0185388637725746, 0, 0, 0, 0)] double skewness, 
-            [Values(-1.19256091074856, -1.49604979214447, -0.82052379677456, 0.33968459842539, 0, -2.003003003003, -2.003003003003, -2.00300300299913)] double kurtosis, 
-            [Values(522.5, -162, 2.0018, 299.85, 10000002, 1.2, 1000000.2, 10000000.2)] double median, 
-            [Values(4, -579, 2.0013, 299.62, 10000001, 1.1, 1000000.1, 10000000.1)] double min, 
-            [Values(999, 300, 2.0027, 300.07, 10000003, 1.3, 1000000.3, 10000000.3)] double max, 
-            [Values(218, 200, 50, 100, 3, 1001, 1001, 1001)] int count)
+        [TestCase("lottery", -0.09333165310779, -1.19256091074856, 522.5, 4, 999, 218)]
+        [TestCase("lew", -0.050606638756334, -1.49604979214447, -162, -579, 300, 200)]
+        [TestCase("mavro", 0.64492948110824, -0.82052379677456, 2.0018, 2.0013, 2.0027, 50)]
+        [TestCase("michelso", -0.0185388637725746, 0.33968459842539, 299.85, 299.62, 300.07, 100)]
+        [TestCase("numacc1", 0, 0, 10000002, 10000001, 10000003, 3)]
+        [TestCase("numacc2", 0, -2.003003003003, 1.2, 1.1, 1.3, 1001)]
+        [TestCase("numacc3", 0, -2.003003003003, 1000000.2, 1000000.1, 1000000.3, 1001)]
+        [TestCase("numacc4", 0, -2.00300300299913, 10000000.2, 10000000.1, 10000000.3, 1001)]
+        public void IEnumerableDoubleHighAccuracy(string dataSet, double skewness, double kurtosis, double median, double min, double max, int count)
         {
             var data = _data[dataSet];
             var stats = new DescriptiveStatistics(data.Data, true);
@@ -158,16 +160,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value.</param>
         /// <param name="count">Count value.</param>
-        [Test, Sequential]
-        public void IEnumerableDoubleLowAccuracy(
-            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
-            [Values(15, 15, 12, 12, 15, 13, 9, 8)] int digits, 
-            [Values(-0.09333165310779, -0.050606638756334, 0.64492948110824, -0.0185388637725746, 0, 0, 0, 0)] double skewness, 
-            [Values(-1.19256091074856, -1.49604979214447, -0.82052379677456, 0.33968459842539, 0, -2.003003003003, -2.003003003003, -2.00300300299913)] double kurtosis, 
-            [Values(522.5, -162, 2.0018, 299.85, 10000002, 1.2, 1000000.2, 10000000.2)] double median, 
-            [Values(4, -579, 2.0013, 299.62, 10000001, 1.1, 1000000.1, 10000000.1)] double min, 
-            [Values(999, 300, 2.0027, 300.07, 10000003, 1.3, 1000000.3, 10000000.3)] double max, 
-            [Values(218, 200, 50, 100, 3, 1001, 1001, 1001)] int count)
+        [TestCase("lottery", 15, -0.09333165310779, -1.19256091074856, 522.5, 4, 999, 218)]
+        [TestCase("lew", 15, -0.050606638756334, -1.49604979214447, -162, -579, 300, 200)]
+        [TestCase("mavro", 12, 0.64492948110824, -0.82052379677456, 2.0018, 2.0013, 2.0027, 50)]
+        [TestCase("michelso", 12, -0.0185388637725746, 0.33968459842539, 299.85, 299.62, 300.07, 100)]
+        [TestCase("numacc1", 15, 0, 0, 10000002, 10000001, 10000003, 3)]
+        [TestCase("numacc2", 13, 0, -2.003003003003, 1.2, 1.1, 1.3, 1001)]
+        [TestCase("numacc3", 9, 0, -2.003003003003, 1000000.2, 1000000.1, 1000000.3, 1001)]
+        [TestCase("numacc4", 8, 0, -2.00300300299913, 10000000.2, 10000000.1, 10000000.3, 1001)]
+        public void IEnumerableDoubleLowAccuracy(string dataSet, int digits, double skewness, double kurtosis, double median, double min, double max, int count)
         {
             var data = _data[dataSet];
             var stats = new DescriptiveStatistics(data.Data, false);
@@ -192,16 +193,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value.</param>
         /// <param name="count">Count value.</param>
-        [Test, Sequential]
-        public void IEnumerableNullableDouble(
-            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
-            [Values(15, 15, 12, 12, 15, 13, 9, 8)] int digits, 
-            [Values(-0.09333165310779, -0.050606638756334, 0.64492948110824, -0.0185388637725746, 0, 0, 0, 0)] double skewness, 
-            [Values(-1.19256091074856, -1.49604979214447, -0.82052379677456, 0.33968459842539, 0, -2.003003003003, -2.003003003003, -2.00300300299913)] double kurtosis, 
-            [Values(522.5, -162, 2.0018, 299.85, 10000002, 1.2, 1000000.2, 10000000.2)] double median, 
-            [Values(4, -579, 2.0013, 299.62, 10000001, 1.1, 1000000.1, 10000000.1)] double min, 
-            [Values(999, 300, 2.0027, 300.07, 10000003, 1.3, 1000000.3, 10000000.3)] double max, 
-            [Values(218, 200, 50, 100, 3, 1001, 1001, 1001)] int count)
+        [TestCase("lottery", 15, -0.09333165310779, -1.19256091074856, 522.5, 4, 999, 218)]
+        [TestCase("lew", 15, -0.050606638756334, -1.49604979214447, -162, -579, 300, 200)]
+        [TestCase("mavro", 12, 0.64492948110824, -0.82052379677456, 2.0018, 2.0013, 2.0027, 50)]
+        [TestCase("michelso", 12, -0.0185388637725746, 0.33968459842539, 299.85, 299.62, 300.07, 100)]
+        [TestCase("numacc1", 15, 0, 0, 10000002, 10000001, 10000003, 3)]
+        [TestCase("numacc2", 13, 0, -2.003003003003, 1.2, 1.1, 1.3, 1001)]
+        [TestCase("numacc3", 9, 0, -2.003003003003, 1000000.2, 1000000.1, 1000000.3, 1001)]
+        [TestCase("numacc4", 8, 0, -2.00300300299913, 10000000.2, 10000000.1, 10000000.3, 1001)]
+        public void IEnumerableNullableDouble(string dataSet, int digits, double skewness, double kurtosis, double median, double min, double max, int count)
         {
             var data = _data[dataSet];
             var stats = new DescriptiveStatistics(data.DataWithNulls);
@@ -225,15 +225,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value.</param>
         /// <param name="count">Count value.</param>
-        [Test, Sequential]
-        public void IEnumerableNullableDoubleHighAccuracy(
-            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
-            [Values(-0.09333165310779, -0.050606638756334, 0.64492948110824, -0.0185388637725746, 0, 0, 0, 0)] double skewness, 
-            [Values(-1.19256091074856, -1.49604979214447, -0.82052379677456, 0.33968459842539, 0, -2.003003003003, -2.003003003003, -2.00300300299913)] double kurtosis, 
-            [Values(522.5, -162, 2.0018, 299.85, 10000002, 1.2, 1000000.2, 10000000.2)] double median, 
-            [Values(4, -579, 2.0013, 299.62, 10000001, 1.1, 1000000.1, 10000000.1)] double min, 
-            [Values(999, 300, 2.0027, 300.07, 10000003, 1.3, 1000000.3, 10000000.3)] double max, 
-            [Values(218, 200, 50, 100, 3, 1001, 1001, 1001)] int count)
+        [TestCase("lottery", -0.09333165310779, -1.19256091074856, 522.5, 4, 999, 218)]
+        [TestCase("lew", -0.050606638756334, -1.49604979214447, -162, -579, 300, 200)]
+        [TestCase("mavro", 0.64492948110824, -0.82052379677456, 2.0018, 2.0013, 2.0027, 50)]
+        [TestCase("michelso", -0.0185388637725746, 0.33968459842539, 299.85, 299.62, 300.07, 100)]
+        [TestCase("numacc1", 0, 0, 10000002, 10000001, 10000003, 3)]
+        [TestCase("numacc2", 0, -2.003003003003, 1.2, 1.1, 1.3, 1001)]
+        [TestCase("numacc3", 0, -2.003003003003, 1000000.2, 1000000.1, 1000000.3, 1001)]
+        [TestCase("numacc4", 0, -2.00300300299913, 10000000.2, 10000000.1, 10000000.3, 1001)]
+        public void IEnumerableNullableDoubleHighAccuracy(string dataSet, double skewness, double kurtosis, double median, double min, double max, int count)
         {
             var data = _data[dataSet];
             var stats = new DescriptiveStatistics(data.DataWithNulls, true);
@@ -258,16 +258,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <param name="min">Min value.</param>
         /// <param name="max">Max value.</param>
         /// <param name="count">Count value.</param>
-        [Test, Sequential]
-        public void IEnumerableNullableDoubleLowAccuracy(
-            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
-            [Values(15, 15, 12, 12, 15, 13, 9, 8)] int digits, 
-            [Values(-0.09333165310779, -0.050606638756334, 0.64492948110824, -0.0185388637725746, 0, 0, 0, 0)] double skewness, 
-            [Values(-1.19256091074856, -1.49604979214447, -0.82052379677456, 0.33968459842539, 0, -2.003003003003, -2.003003003003, -2.00300300299913)] double kurtosis, 
-            [Values(522.5, -162, 2.0018, 299.85, 10000002, 1.2, 1000000.2, 10000000.2)] double median, 
-            [Values(4, -579, 2.0013, 299.62, 10000001, 1.1, 1000000.1, 10000000.1)] double min, 
-            [Values(999, 300, 2.0027, 300.07, 10000003, 1.3, 1000000.3, 10000000.3)] double max, 
-            [Values(218, 200, 50, 100, 3, 1001, 1001, 1001)] int count)
+        [TestCase("lottery", 15, -0.09333165310779, -1.19256091074856, 522.5, 4, 999, 218)]
+        [TestCase("lew", 15, -0.050606638756334, -1.49604979214447, -162, -579, 300, 200)]
+        [TestCase("mavro", 12, 0.64492948110824, -0.82052379677456, 2.0018, 2.0013, 2.0027, 50)]
+        [TestCase("michelso", 12, -0.0185388637725746, 0.33968459842539, 299.85, 299.62, 300.07, 100)]
+        [TestCase("numacc1", 15, 0, 0, 10000002, 10000001, 10000003, 3)]
+        [TestCase("numacc2", 13, 0, -2.003003003003, 1.2, 1.1, 1.3, 1001)]
+        [TestCase("numacc3", 9, 0, -2.003003003003, 1000000.2, 1000000.1, 1000000.3, 1001)]
+        [TestCase("numacc4", 8, 0, -2.00300300299913, 10000000.2, 10000000.1, 10000000.3, 1001)]
+        public void IEnumerableNullableDoubleLowAccuracy(string dataSet, int digits, double skewness, double kurtosis, double median, double min, double max, int count)
         {
             var data = _data[dataSet];
             var stats = new DescriptiveStatistics(data.DataWithNulls, false);
@@ -281,4 +280,5 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(stats.Count, count);
         }
     }
+#endif
 }

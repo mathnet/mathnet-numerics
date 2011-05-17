@@ -1,4 +1,4 @@
-﻿// <copyright file="WeibullTests.cs" company="Math.NET">
+// <copyright file="WeibullTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,8 +51,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Combinatorial]
-        public void CanCreateWeibull([Values(1.0, 10.0)] double shape, [Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
+        [TestCase(1.0, 0.1)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(11.0, 10.0)]
+        [TestCase(12.0, Double.PositiveInfinity)]
+        public void CanCreateWeibull(double shape, double scale)
         {
             var n = new Weibull(shape, scale);
             Assert.AreEqual(shape, n.Shape);
@@ -64,8 +67,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void WeibullCreateFailsWithBadParameters([Values(Double.NaN, 1.0, Double.NaN, 1.0, -1.0, -1.0, 0.0, 0.0, 1.0)] double shape, [Values(1.0, Double.NaN, Double.NaN, -1.0, 1.0, -1.0, 0.0, 1.0, 0.0)] double scale)
+        [TestCase(Double.NaN, 1.0)]
+        [TestCase(1.0, Double.NaN)]
+        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(1.0, -1.0)]
+        [TestCase(-1.0, 1.0)]
+        [TestCase(-1.0, -1.0)]
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(1.0, 0.0)]
+        public void WeibullCreateFailsWithBadParameters(double shape, double scale)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Weibull(shape, scale));
         }
@@ -84,8 +95,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set shape.
         /// </summary>
         /// <param name="shape">Shape value.</param>
-        [Test]
-        public void CanSetShape([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetShape(double shape)
         {
             new Weibull(1.0, 1.0)
             {
@@ -97,8 +111,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Set shape fails with negative shape.
         /// </summary>
         /// <param name="shape">Shape value.</param>
-        [Test]
-        public void SetShapeFailsWithNegativeShape([Values(-1.0, -0.0, 0.0)] double shape)
+        [TestCase(-1.0)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        public void SetShapeFailsWithNegativeShape(double shape)
         {
             var n = new Weibull(1.0, 1.0);
             Assert.Throws<ArgumentOutOfRangeException>(() => n.Shape = shape);
@@ -108,8 +124,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set scale.
         /// </summary>
         /// <param name="scale">Scale value.</param>
-        [Test]
-        public void CanSetScale([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetScale(double scale)
         {
             new Weibull(1.0, 1.0)
             {
@@ -121,8 +140,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Set scale fails with negative scale.
         /// </summary>
         /// <param name="scale">Scale value.</param>
-        [Test]
-        public void SetScaleFailsWithNegativeScale([Values(-1.0, -0.0, 0.0)] double scale)
+        [TestCase(-1.0)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        public void SetScaleFailsWithNegativeScale(double scale)
         {
             var n = new Weibull(1.0, 1.0);
             Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = scale);
@@ -134,11 +155,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="mean">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMean(
-            [Values(1.0, 1.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 1.0, 10.0, 1.0)] double scale, 
-            [Values(0.1, 1.0, 9.5135076986687318362924871772654021925505786260884, 0.95135076986687318362924871772654021925505786260884)] double mean)
+        [TestCase(1.0, 0.1, 0.1)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 10.0, 9.5135076986687318362924871772654021925505786260884)]
+        [TestCase(10.0, 1.0, 0.95135076986687318362924871772654021925505786260884)]
+        public void ValidateMean(double shape, double scale, double mean)
         {
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqual(mean, n.Mean, 13);
@@ -150,11 +171,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="var">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateVariance(
-            [Values(1.0, 1.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 1.0, 10.0, 1.0)] double scale, 
-            [Values(0.01, 1.0, 1.3100455073468309147154581687505295026863354547057, 0.013100455073468309147154581687505295026863354547057)] double var)
+        [TestCase(1.0, 0.1, 0.01)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 10.0, 1.3100455073468309147154581687505295026863354547057)]
+        [TestCase(10.0, 1.0, 0.013100455073468309147154581687505295026863354547057)]
+        public void ValidateVariance(double shape, double scale, double var)
         {
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqual(var, n.Variance, 13);
@@ -166,11 +187,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="sdev">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateStdDev(
-            [Values(1.0, 1.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 1.0, 10.0, 1.0)] double scale, 
-            [Values(0.1, 1.0, 1.1445721940300799194124723631014002560036613065794, 0.11445721940300799194124723631014002560036613065794)] double sdev)
+        [TestCase(1.0, 0.1, 0.1)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 10.0, 1.1445721940300799194124723631014002560036613065794)]
+        [TestCase(10.0, 1.0, 0.11445721940300799194124723631014002560036613065794)]
+        public void ValidateStdDev(double shape, double scale, double sdev)
         {
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqual(sdev, n.StdDev, 13);
@@ -182,11 +203,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="skewness">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateSkewness(
-            [Values(1.0, 1.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 1.0, 10.0, 1.0)] double scale, 
-            [Values(2.0, 2.0, -0.63763713390314440916597757156663888653981696212127, -0.63763713390314440916597757156663888653981696212127)] double skewness)
+        [TestCase(1.0, 0.1, 2.0)]
+        [TestCase(1.0, 1.0, 2.0)]
+        [TestCase(10.0, 10.0, -0.63763713390314440916597757156663888653981696212127)]
+        [TestCase(10.0, 1.0, -0.63763713390314440916597757156663888653981696212127)]
+        public void ValidateSkewness(double shape, double scale, double skewness)
         {
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqual(skewness, n.Skewness, 11);
@@ -198,11 +219,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="mode">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMode(
-            [Values(1.0, 1.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 1.0, 10.0, 1.0)] double scale, 
-            [Values(0.0, 0.0, 9.8951925820621439264623017041980483215553841533709, 0.98951925820621439264623017041980483215553841533709)] double mode)
+        [TestCase(1.0, 0.1, 0.0)]
+        [TestCase(1.0, 1.0, 0.0)]
+        [TestCase(10.0, 10.0, 9.8951925820621439264623017041980483215553841533709)]
+        [TestCase(10.0, 1.0, 0.98951925820621439264623017041980483215553841533709)]
+        public void ValidateMode(double shape, double scale, double mode)
         {
             var n = new Weibull(shape, scale);
             Assert.AreEqual(mode, n.Mode);
@@ -214,11 +235,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="median">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMedian(
-            [Values(1.0, 1.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 1.0, 10.0, 1.0)] double scale, 
-            [Values(0.069314718055994530941723212145817656807550013436026, 0.69314718055994530941723212145817656807550013436026, 9.6401223546778973665856033763604752124634905617583, 0.96401223546778973665856033763604752124634905617583)] double median)
+        [TestCase(1.0, 0.1, 0.069314718055994530941723212145817656807550013436026)]
+        [TestCase(1.0, 1.0, 0.69314718055994530941723212145817656807550013436026)]
+        [TestCase(10.0, 10.0, 9.6401223546778973665856033763604752124634905617583)]
+        [TestCase(10.0, 1.0, 0.96401223546778973665856033763604752124634905617583)]
+        public void ValidateMedian(double shape, double scale, double median)
         {
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqual(median, n.Median, 13);
@@ -251,12 +272,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="pdf">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateDensity(
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 1.0, 1.0, 1.0)] double scale, 
-            [Values(0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0)] double x, 
-            [Values(10.0, 0.00045399929762484851535591515560550610237918088866565, 3.7200759760208359629596958038631183373588922923768e-43, 1.0, 0.36787944117144232159552377016146086744581113103177, 0.000045399929762484851535591515560550610237918088866565, 0.0, 9.9999999990000000000499999999983333333333750000000e-10, 0.36787944117144232159552377016146086744581113103177, 0.0, 3.6787944117144232159552377016146086744581113103177, 0.0)] double pdf)
+        [TestCase(1.0, 0.1, 0.0, 10.0)]
+        [TestCase(1.0, 0.1, 1.0, 0.00045399929762484851535591515560550610237918088866565)]
+        [TestCase(1.0, 0.1, 10.0, 3.7200759760208359629596958038631183373588922923768e-43)]
+        [TestCase(1.0, 1.0, 0.0, 1.0)]
+        [TestCase(1.0, 1.0, 1.0, 0.36787944117144232159552377016146086744581113103177)]
+        [TestCase(1.0, 1.0, 10.0, 0.000045399929762484851535591515560550610237918088866565)]
+        [TestCase(10.0, 10.0, 0.0, 0.0)]
+        [TestCase(10.0, 10.0, 1.0, 9.9999999990000000000499999999983333333333750000000e-10)]
+        [TestCase(10.0, 10.0, 10.0, 0.36787944117144232159552377016146086744581113103177)]
+        [TestCase(10.0, 1.0, 0.0, 0.0)]
+        [TestCase(10.0, 1.0, 1.0, 3.6787944117144232159552377016146086744581113103177)]
+        [TestCase(10.0, 1.0, 10.0, 0.0)]
+        public void ValidateDensity(double shape, double scale, double x, double pdf)
         {
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqual(pdf, n.Density(x), 14);
@@ -269,12 +297,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="pdfln">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateDensityLn(
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 1.0, 1.0, 1.0)] double scale, 
-            [Values(0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0)] double x, 
-            [Values(2.3025850929940456840179914546843642076011014886288, -7.6974149070059543159820085453156357923988985113712, -97.697414907005954315982008545315635792398898511371, 0.0, -1.0, -10.0, Double.NegativeInfinity, -20.723265837046411156161923092159277868409913397659, -1.0, Double.NegativeInfinity, 1.3025850929940456840179914546843642076011014886288, -9.999999976974149070059543159820085453156357923988985113712e9)] double pdfln)
+        [TestCase(1.0, 0.1, 0.0, 2.3025850929940456840179914546843642076011014886288)]
+        [TestCase(1.0, 0.1, 1.0, -7.6974149070059543159820085453156357923988985113712)]
+        [TestCase(1.0, 0.1, 10.0, -97.697414907005954315982008545315635792398898511371)]
+        [TestCase(1.0, 1.0, 0.0, 0.0)]
+        [TestCase(1.0, 1.0, 1.0, -1.0)]
+        [TestCase(1.0, 1.0, 10.0, -10.0)]
+        [TestCase(10.0, 10.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(10.0, 10.0, 1.0, -20.723265837046411156161923092159277868409913397659)]
+        [TestCase(10.0, 10.0, 10.0, -1.0)]
+        [TestCase(10.0, 1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(10.0, 1.0, 1.0, 1.3025850929940456840179914546843642076011014886288)]
+        [TestCase(10.0, 1.0, 10.0, -9.999999976974149070059543159820085453156357923988985113712e9)]
+        public void ValidateDensityLn(double shape, double scale, double x, double pdfln)
         {
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
@@ -345,12 +380,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="cdf">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0)] double shape, 
-            [Values(0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 1.0, 1.0, 1.0)] double scale, 
-            [Values(0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0)] double x, 
-            [Values(0.0, 0.99995460007023751514846440848443944938976208191113, 0.99999999999999999999999999999999999999999996279924, 0.0, 0.63212055882855767840447622983853913255418886896823, 0.99995460007023751514846440848443944938976208191113, 0.0, 9.9999999995000000000166666666662500000000083333333e-11, 0.63212055882855767840447622983853913255418886896823, 0.0, 0.63212055882855767840447622983853913255418886896823, 1.0)] double cdf)
+        [TestCase(1.0, 0.1, 0.0, 0.0)]
+        [TestCase(1.0, 0.1, 1.0, 0.99995460007023751514846440848443944938976208191113)]
+        [TestCase(1.0, 0.1, 10.0, 0.99999999999999999999999999999999999999999996279924)]
+        [TestCase(1.0, 1.0, 0.0, 0.0)]
+        [TestCase(1.0, 1.0, 1.0, 0.63212055882855767840447622983853913255418886896823)]
+        [TestCase(1.0, 1.0, 10.0, 0.99995460007023751514846440848443944938976208191113)]
+        [TestCase(10.0, 10.0, 0.0, 0.0)]
+        [TestCase(10.0, 10.0, 1.0, 9.9999999995000000000166666666662500000000083333333e-11)]
+        [TestCase(10.0, 10.0, 10.0, 0.63212055882855767840447622983853913255418886896823)]
+        [TestCase(10.0, 1.0, 0.0, 0.0)]
+        [TestCase(10.0, 1.0, 1.0, 0.63212055882855767840447622983853913255418886896823)]
+        [TestCase(10.0, 1.0, 10.0, 1.0)]
+        public void ValidateCumulativeDistribution(double shape, double scale, double x, double cdf)
         {
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 15);

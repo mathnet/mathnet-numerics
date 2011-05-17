@@ -1,4 +1,4 @@
-﻿// <copyright file="StudentTTests.cs" company="Math.NET">
+// <copyright file="StudentTTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -64,8 +64,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test, Combinatorial]
-        public void CanCreateStudentT([Values(0.0, -5.0, 10.0)] double location, [Values(0.1, 1.0, 10.0)] double scale, [Values(1.0, 3.0, Double.PositiveInfinity)] double dof)
+        [TestCase(0.0, 0.1, 1.0)]
+        [TestCase(-5.0, 1.0, 3.0)]
+        [TestCase(10.0, 10.0, Double.PositiveInfinity)]
+        public void CanCreateStudentT(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
             Assert.AreEqual(location, n.Location);
@@ -79,11 +81,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test, Sequential]
-        public void StudentTCreateFailsWithBadParameters(
-            [Values(Double.NaN, 0.0, 0.0, 0.0, 0.0)] double location, 
-            [Values(1.0, Double.NaN, 1.0, -10.0, 10.0)] double scale, 
-            [Values(1.0, 1.0, Double.NaN, 1.0, -1.0)] double dof)
+        [TestCase(Double.NaN, 1.0, 1.0)]
+        [TestCase(0.0, Double.NaN, 1.0)]
+        [TestCase(0.0, 1.0, Double.NaN)]
+        [TestCase(0.0, -10.0, 1.0)]
+        [TestCase(0.0, 10.0, -1.0)]
+        public void StudentTCreateFailsWithBadParameters(double location, double scale, double dof)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new StudentT(location, scale, dof));
         }
@@ -102,8 +105,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set location.
         /// </summary>
         /// <param name="loc">Location value.</param>
-        [Test]
-        public void CanSetLocation([Values(Double.NegativeInfinity, -5.0, -0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double loc)
+        [TestCase(Double.NegativeInfinity)]
+        [TestCase(-5.0)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetLocation(double loc)
         {
             new StudentT
             {
@@ -115,8 +125,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set scale.
         /// </summary>
         /// <param name="scale">Scale value.</param>
-        [Test]
-        public void CanSetScale([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetScale(double scale)
         {
             new StudentT
             {
@@ -128,8 +141,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Set scale fails with non-positive scale.
         /// </summary>
         /// <param name="scale">Scale value.</param>
-        [Test]
-        public void SetScaleFailsWithNonPositiveScale([Values(-1.0, -0.0, 0.0)] double scale)
+        [TestCase(-1.0)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        public void SetScaleFailsWithNonPositiveScale(double scale)
         {
             var n = new StudentT();
             Assert.Throws<ArgumentOutOfRangeException>(() => n.Scale = scale);
@@ -139,8 +154,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set degrees of freedom.
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test]
-        public void CanSetDoF([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double dof)
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetDoF(double dof)
         {
             new StudentT
             {
@@ -152,8 +170,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Set degrees of freedom fails with non-positive value.
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test]
-        public void SetDofFailsWithNonPositiveDoF([Values(-1.0, -0.0, 0.0)] double dof)
+        [TestCase(-1.0)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        public void SetDofFailsWithNonPositiveDoF(double dof)
         {
             var n = new StudentT();
             Assert.Throws<ArgumentOutOfRangeException>(() => n.DegreesOfFreedom = dof);
@@ -166,12 +186,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="mean">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMean(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, -5.0, 0.0)] double location, 
-            [Values(1.0, 0.1, 1.0, 10.0, 10.0, 10.0, 1.0, 100.0, Double.PositiveInfinity)] double scale, 
-            [Values(1.0, 1.0, 3.0, 1.0, 2.0, Double.PositiveInfinity, 1.0, 1.5, 1.0)] double dof, 
-            [Values(Double.NaN, Double.NaN, 0.0, Double.NaN, 0.0, 0.0, Double.NaN, -5.0, Double.NaN)] double mean)
+        [TestCase(0.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 0.1, 1.0, Double.NaN)]
+        [TestCase(0.0, 1.0, 3.0, 0.0)]
+        [TestCase(0.0, 10.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 10.0, 2.0, 0.0)]
+        [TestCase(0.0, 10.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(10.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(-5.0, 100.0, 1.5, -5.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
+        public void ValidateMean(double location, double scale, double dof, double mean)
         {
             var n = new StudentT(location, scale, dof);
             Assert.AreEqual(mean, n.Mean);
@@ -184,12 +208,18 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="var">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateVariance(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, -5.0, 0.0)] double location, 
-            [Values(1.0, 0.1, 1.0, 10.0, 10.0, 10.0, 10.0, 1.0, 1.0, 100.0, Double.PositiveInfinity)] double scale, 
-            [Values(1.0, 1.0, 3.0, 1.0, 2.0, 2.5, Double.PositiveInfinity, 1.0, 2.5, 1.5, 1.0)] double dof, 
-            [Values(Double.NaN, Double.NaN, 3.0, Double.NaN, Double.PositiveInfinity, 500.0, 100.0, Double.NaN, 5.0, Double.PositiveInfinity, Double.NaN)] double var)
+        [TestCase(0.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 0.1, 1.0, Double.NaN)]
+        [TestCase(0.0, 1.0, 3.0, 3.0)]
+        [TestCase(0.0, 10.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 10.0, 2.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 10.0, 2.5, 500.0)]
+        [TestCase(0.0, 10.0, Double.PositiveInfinity, 100.0)]
+        [TestCase(10.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(10.0, 1.0, 2.5, 5.0)]
+        [TestCase(-5.0, 100.0, 1.5, Double.PositiveInfinity)]
+        [TestCase(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
+        public void ValidateVariance(double location, double scale, double dof, double var)
         {
             var n = new StudentT(location, scale, dof);
             Assert.AreEqual(var, n.Variance);
@@ -202,12 +232,18 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="sdev">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateStdDev(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, -5.0, 0.0)] double location, 
-            [Values(1.0, 0.1, 1.0, 10.0, 10.0, 10.0, 10.0, 1.0, 1.0, 100.0, Double.PositiveInfinity)] double scale, 
-            [Values(1.0, 1.0, 3.0, 1.0, 2.0, 2.5, Double.PositiveInfinity, 1.0, 2.5, 1.5, 1.0)] double dof, 
-            [Values(Double.NaN, Double.NaN, 1.7320508075688772935274463415059, Double.NaN, Double.PositiveInfinity, 22.360679774997896964091736687313, 10.0, Double.NaN, 2.2360679774997896964091736687313, Double.PositiveInfinity, Double.NaN)] double sdev)
+        [TestCase(0.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 0.1, 1.0, Double.NaN)]
+        [TestCase(0.0, 1.0, 3.0, 1.7320508075688772935274463415059)]
+        [TestCase(0.0, 10.0, 1.0, Double.NaN)]
+        [TestCase(0.0, 10.0, 2.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 10.0, 2.5, 22.360679774997896964091736687313)]
+        [TestCase(0.0, 10.0, Double.PositiveInfinity, 10.0)]
+        [TestCase(10.0, 1.0, 1.0, Double.NaN)]
+        [TestCase(10.0, 1.0, 2.5, 2.2360679774997896964091736687313)]
+        [TestCase(-5.0, 100.0, 1.5, Double.PositiveInfinity)]
+        [TestCase(0.0, Double.PositiveInfinity, 1.0, Double.NaN)]
+        public void ValidateStdDev(double location, double scale, double dof, double sdev)
         {
             var n = new StudentT(location, scale, dof);
             Assert.AreEqual(sdev, n.StdDev);
@@ -219,11 +255,18 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test, Sequential]
-        public void ValidateMode(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, -5.0, 0.0)] double location, 
-            [Values(1.0, 0.1, 1.0, 10.0, 10.0, 10.0, 10.0, 1.0, 1.0, 100.0, Double.PositiveInfinity)] double scale, 
-            [Values(1.0, 1.0, 3.0, 1.0, 2.0, 2.5, Double.PositiveInfinity, 1.0, 2.5, 1.5, 1.0)] double dof)
+        [TestCase(0.0, 1.0, 1.0)]
+        [TestCase(0.0, 0.1, 1.0)]
+        [TestCase(0.0, 1.0, 3.0)]
+        [TestCase(0.0, 10.0, 1.0)]
+        [TestCase(0.0, 10.0, 2.0)]
+        [TestCase(0.0, 10.0, 2.5)]
+        [TestCase(0.0, 10.0, Double.PositiveInfinity)]
+        [TestCase(10.0, 1.0, 1.0)]
+        [TestCase(10.0, 1.0, 2.5)]
+        [TestCase(-5.0, 100.0, 1.5)]
+        [TestCase(0.0, Double.PositiveInfinity, 1.0)]
+        public void ValidateMode(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
             Assert.AreEqual(location, n.Mode);
@@ -235,11 +278,18 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
         /// <param name="dof">Degrees of freedom.</param>
-        [Test, Sequential]
-        public void ValidateMedian(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 10.0, -5.0, 0.0)] double location, 
-            [Values(1.0, 0.1, 1.0, 10.0, 10.0, 10.0, 10.0, 1.0, 1.0, 100.0, Double.PositiveInfinity)] double scale, 
-            [Values(1.0, 1.0, 3.0, 1.0, 2.0, 2.5, Double.PositiveInfinity, 1.0, 2.5, 1.5, 1.0)] double dof)
+        [TestCase(0.0, 1.0, 1.0)]
+        [TestCase(0.0, 0.1, 1.0)]
+        [TestCase(0.0, 1.0, 3.0)]
+        [TestCase(0.0, 10.0, 1.0)]
+        [TestCase(0.0, 10.0, 2.0)]
+        [TestCase(0.0, 10.0, 2.5)]
+        [TestCase(0.0, 10.0, Double.PositiveInfinity)]
+        [TestCase(10.0, 1.0, 1.0)]
+        [TestCase(10.0, 1.0, 2.5)]
+        [TestCase(-5.0, 100.0, 1.5)]
+        [TestCase(0.0, Double.PositiveInfinity, 1.0)]
+        public void ValidateMedian(double location, double scale, double dof)
         {
             var n = new StudentT(location, scale, dof);
             Assert.AreEqual(location, n.Median);
@@ -273,13 +323,20 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="p">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateDensity(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)] double location, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)] double scale, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double dof, 
-            [Values(0.0, 1.0, -1.0, 2.0, -2.0, 0.0, 1.0, -1.0, 2.0, -2.0, 0.0, 1.0, 2.0)] double x, 
-            [Values(0.318309886183791, 0.159154943091895, 0.159154943091895, 0.063661977236758, 0.063661977236758, 0.353553390593274, 0.192450089729875, 0.192450089729875, 0.068041381743977, 0.068041381743977, 0.398942280401433, 0.241970724519143, 0.053990966513188)] double p)
+        [TestCase(0.0, 1.0, 1.0, 0.0, 0.318309886183791)]
+        [TestCase(0.0, 1.0, 1.0, 1.0, 0.159154943091895)]
+        [TestCase(0.0, 1.0, 1.0, -1.0, 0.159154943091895)]
+        [TestCase(0.0, 1.0, 1.0, 2.0, 0.063661977236758)]
+        [TestCase(0.0, 1.0, 1.0, -2.0, 0.063661977236758)]
+        [TestCase(0.0, 1.0, 2.0, 0.0, 0.353553390593274)]
+        [TestCase(0.0, 1.0, 2.0, 1.0, 0.192450089729875)]
+        [TestCase(0.0, 1.0, 2.0, -1.0, 0.192450089729875)]
+        [TestCase(0.0, 1.0, 2.0, 2.0, 0.068041381743977)]
+        [TestCase(0.0, 1.0, 2.0, -2.0, 0.068041381743977)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.398942280401433)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.241970724519143)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.053990966513188)]
+        public void ValidateDensity(double location, double scale, double dof, double x, double p)
         {
             var n = new StudentT(location, scale, dof);
             AssertHelpers.AlmostEqual(p, n.Density(x), 13);
@@ -293,13 +350,20 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="p">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateDensityLn(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)] double location, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)] double scale, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double dof, 
-            [Values(0.0, 1.0, -1.0, 2.0, -2.0, 0.0, 1.0, -1.0, 2.0, -2.0, 0.0, 1.0, 2.0)] double x, 
-            [Values(-1.144729885849399, -1.837877066409348, -1.837877066409348, -2.754167798283503, -2.754167798283503, -1.039720770839917, -1.647918433002166, -1.647918433002166, -2.687639203842085, -2.687639203842085, -0.918938533204672, -1.418938533204674, -2.918938533204674)] double p)
+        [TestCase(0.0, 1.0, 1.0, 0.0, -1.144729885849399)]
+        [TestCase(0.0, 1.0, 1.0, 1.0, -1.837877066409348)]
+        [TestCase(0.0, 1.0, 1.0, -1.0, -1.837877066409348)]
+        [TestCase(0.0, 1.0, 1.0, 2.0, -2.754167798283503)]
+        [TestCase(0.0, 1.0, 1.0, -2.0, -2.754167798283503)]
+        [TestCase(0.0, 1.0, 2.0, 0.0, -1.039720770839917)]
+        [TestCase(0.0, 1.0, 2.0, 1.0, -1.647918433002166)]
+        [TestCase(0.0, 1.0, 2.0, -1.0, -1.647918433002166)]
+        [TestCase(0.0, 1.0, 2.0, 2.0, -2.687639203842085)]
+        [TestCase(0.0, 1.0, 2.0, -2.0, -2.687639203842085)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, -0.918938533204672)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, -1.418938533204674)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, -2.918938533204674)]
+        public void ValidateDensityLn(double location, double scale, double dof, double x, double p)
         {
             var n = new StudentT(location, scale, dof);
             AssertHelpers.AlmostEqual(p, n.DensityLn(x), 13);
@@ -372,13 +436,20 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="c">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)] double location, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)] double scale, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 2.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double dof, 
-            [Values(0.0, 1.0, -1.0, 2.0, -2.0, 0.0, 1.0, -1.0, 2.0, -2.0, 0.0, 1.0, 2.0)] double x, 
-            [Values(0.5, 0.75, 0.25, 0.852416382349567, 0.147583617650433, 0.5, 0.788675134594813, 0.211324865405187, 0.908248290463863, 0.091751709536137, 0.5, 0.841344746068543, 0.977249868051821)] double c)
+        [TestCase(0.0, 1.0, 1.0, 0.0, 0.5)]
+        [TestCase(0.0, 1.0, 1.0, 1.0, 0.75)]
+        [TestCase(0.0, 1.0, 1.0, -1.0, 0.25)]
+        [TestCase(0.0, 1.0, 1.0, 2.0, 0.852416382349567)]
+        [TestCase(0.0, 1.0, 1.0, -2.0, 0.147583617650433)]
+        [TestCase(0.0, 1.0, 2.0, 0.0, 0.5)]
+        [TestCase(0.0, 1.0, 2.0, 1.0, 0.788675134594813)]
+        [TestCase(0.0, 1.0, 2.0, -1.0, 0.211324865405187)]
+        [TestCase(0.0, 1.0, 2.0, 2.0, 0.908248290463863)]
+        [TestCase(0.0, 1.0, 2.0, -2.0, 0.091751709536137)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 0.0, 0.5)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 1.0, 0.841344746068543)]
+        [TestCase(0.0, 1.0, Double.PositiveInfinity, 2.0, 0.977249868051821)]
+        public void ValidateCumulativeDistribution(double location, double scale, double dof, double x, double c)
         {
             var n = new StudentT(location, scale, dof);
             AssertHelpers.AlmostEqual(c, n.CumulativeDistribution(x), 13);

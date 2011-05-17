@@ -1,4 +1,4 @@
-﻿// <copyright file="IntegrationTest.cs" company="Math.NET">
+// <copyright file="IntegrationTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -69,15 +69,15 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         public void TestIntegratePortal()
         {
             Assert.AreEqual(
-                TargetAreaA, 
-                Integrate.OnClosedInterval(TargetFunctionA, StartA, StopA), 
-                1e-5, 
+                TargetAreaA,
+                Integrate.OnClosedInterval(TargetFunctionA, StartA, StopA),
+                1e-5,
                 "Basic");
 
             Assert.AreEqual(
-                TargetAreaA, 
-                Integrate.OnClosedInterval(TargetFunctionA, StartA, StopA, 1e-10), 
-                1e-10, 
+                TargetAreaA,
+                Integrate.OnClosedInterval(TargetFunctionA, StartA, StopA, 1e-10),
+                1e-10,
                 "Basic Target 1e-10");
         }
 
@@ -85,16 +85,17 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// Test double exponential transformation algorithm.
         /// </summary>
         /// <param name="targetRelativeError">Relative error.</param>
-        [Test]
-        public void TestDoubleExponentialTransformationAlgorithm([Values(1e-5, 1e-13)] double targetRelativeError)
+        [TestCase(1e-5)]
+        [TestCase(1e-13)]
+        public void TestDoubleExponentialTransformationAlgorithm(double targetRelativeError)
         {
             var algorithm = new DoubleExponentialTransformation();
 
             Assert.AreEqual(
-                TargetAreaA, 
-                algorithm.Integrate(TargetFunctionA, StartA, StopA, targetRelativeError), 
-                targetRelativeError * TargetAreaA, 
-                "DET Adaptive {0}", 
+                TargetAreaA,
+                algorithm.Integrate(TargetFunctionA, StartA, StopA, targetRelativeError),
+                targetRelativeError * TargetAreaA,
+                "DET Adaptive {0}",
                 targetRelativeError);
         }
 
@@ -105,9 +106,9 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         public void TrapeziumRuleSupportsTwoPointIntegration()
         {
             Assert.AreEqual(
-                TargetAreaA, 
-                NewtonCotesTrapeziumRule.IntegrateTwoPoint(TargetFunctionA, StartA, StopA), 
-                0.4 * TargetAreaA, 
+                TargetAreaA,
+                NewtonCotesTrapeziumRule.IntegrateTwoPoint(TargetFunctionA, StartA, StopA),
+                0.4 * TargetAreaA,
                 "Direct (1 Partition)");
         }
 
@@ -116,14 +117,18 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// </summary>
         /// <param name="partitions">Partitions count.</param>
         /// <param name="maxRelativeError">Maximum relative error.</param>
-        [Test, Sequential]
-        public void TrapeziumRuleSupportsCompositeIntegration([Values(1, 5, 10, 50, 1000)] int partitions, [Values(3.5e-1, 1e-1, 2e-2, 6e-4, 1.5e-6)] double maxRelativeError)
+        [TestCase(1, 3.5e-1)]
+        [TestCase(5, 1e-1)]
+        [TestCase(10, 2e-2)]
+        [TestCase(50, 6e-4)]
+        [TestCase(1000, 1.5e-6)]
+        public void TrapeziumRuleSupportsCompositeIntegration(int partitions, double maxRelativeError)
         {
             Assert.AreEqual(
-                TargetAreaA, 
-                NewtonCotesTrapeziumRule.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions), 
-                maxRelativeError * TargetAreaA, 
-                "Composite {0} Partitions", 
+                TargetAreaA,
+                NewtonCotesTrapeziumRule.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions),
+                maxRelativeError * TargetAreaA,
+                "Composite {0} Partitions",
                 partitions);
         }
 
@@ -131,14 +136,16 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// Trapezium rule supports adaptive integration.
         /// </summary>
         /// <param name="targetRelativeError">Relative error</param>
-        [Test]
-        public void TrapeziumRuleSupportsAdaptiveIntegration([Values(1e-1, 1e-5, 1e-10)] double targetRelativeError)
+        [TestCase(1e-1)]
+        [TestCase(1e-5)]
+        [TestCase(1e-10)]
+        public void TrapeziumRuleSupportsAdaptiveIntegration(double targetRelativeError)
         {
             Assert.AreEqual(
-                TargetAreaA, 
-                NewtonCotesTrapeziumRule.IntegrateAdaptive(TargetFunctionA, StartA, StopA, targetRelativeError), 
-                targetRelativeError * TargetAreaA, 
-                "Adaptive {0}", 
+                TargetAreaA,
+                NewtonCotesTrapeziumRule.IntegrateAdaptive(TargetFunctionA, StartA, StopA, targetRelativeError),
+                targetRelativeError * TargetAreaA,
+                "Adaptive {0}",
                 targetRelativeError);
         }
 
@@ -149,9 +156,9 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         public void SimpsonRuleSupportsThreePointIntegration()
         {
             Assert.AreEqual(
-                TargetAreaA, 
-                SimpsonRule.IntegrateThreePoint(TargetFunctionA, StartA, StopA), 
-                0.2 * TargetAreaA, 
+                TargetAreaA,
+                SimpsonRule.IntegrateThreePoint(TargetFunctionA, StartA, StopA),
+                0.2 * TargetAreaA,
                 "Direct (2 Partitions)");
         }
 
@@ -160,14 +167,18 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// </summary>
         /// <param name="partitions">Partitions count.</param>
         /// <param name="maxRelativeError">Maximum relative error.</param>
-        [Test, Sequential]
-        public void SimpsonRuleSupportsCompositeIntegration([Values(2, 6, 10, 50, 1000)] int partitions, [Values(1.7e-1, 1.2e-1, 8e-3, 8e-6, 5e-11)] double maxRelativeError)
+        [TestCase(2, 1.7e-1)]
+        [TestCase(6, 1.2e-1)]
+        [TestCase(10, 8e-3)]
+        [TestCase(50, 8e-6)]
+        [TestCase(1000, 5e-11)]
+        public void SimpsonRuleSupportsCompositeIntegration(int partitions, double maxRelativeError)
         {
             Assert.AreEqual(
-                TargetAreaA, 
-                SimpsonRule.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions), 
-                maxRelativeError * TargetAreaA, 
-                "Composite {0} Partitions", 
+                TargetAreaA,
+                SimpsonRule.IntegrateComposite(TargetFunctionA, StartA, StopA, partitions),
+                maxRelativeError * TargetAreaA,
+                "Composite {0} Partitions",
                 partitions);
         }
     }

@@ -1,4 +1,4 @@
-﻿// <copyright file="LinearSplineTest.cs" company="Math.NET">
+// <copyright file="LinearSplineTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -34,11 +34,21 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using Interpolation.Algorithms;
     using NUnit.Framework;
 
+    /// <summary>
+    /// LinearSpline test case
+    /// </summary>
     [TestFixture]
     public class LinearSplineTest
     {
-        readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
-        readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        /// <summary>
+        /// Sample points.
+        /// </summary>
+        private readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
+
+        /// <summary>
+        /// Sample values.
+        /// </summary>
+        private readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -62,16 +72,24 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Verifies that at points other than the provided sample points, the interpolation matches the one computed by Maple as a reference.
         /// </summary>
+        /// <param name="t">Sample point.</param>
+        /// <param name="x">Sample value.</param>
+        /// <param name="maxAbsoluteError">Maximum absolute error.</param>
         /// <remarks>
         /// Maple:
         /// f := x -> piecewise(x&lt;-1,3+x,x&lt;0,-1-3*x,x&lt;1,-1+x,-1+x);
         /// f(x)
         /// </remarks>
-        [Test, Sequential]
-        public void FitsAtArbitraryPointsWithMaple(
-            [Values(-2.4, -0.9, -0.5, -0.1, 0.1, 0.4, 1.2, 10.0, -10.0)] double t,
-            [Values(.6, 1.7, .5, -.7, -.9, -.6, .2, 9.0, -7.0)] double x,
-            [Values(1e-15, 1e-15, 1e-15, 1e-15, 1e-15, 1e-15, 1e-15, 1e-15, 1e-15)] double maxAbsoluteError)
+        [TestCase(-2.4, .6, 1e-15)]
+        [TestCase(-0.9, 1.7, 1e-15)]
+        [TestCase(-0.5, .5, 1e-15)]
+        [TestCase(-0.1, -.7, 1e-15)]
+        [TestCase(0.1, -.9, 1e-15)]
+        [TestCase(0.4, -.6, 1e-15)]
+        [TestCase(1.2, .2, 1e-15)]
+        [TestCase(10.0, 9.0, 1e-15)]
+        [TestCase(-10.0, -7.0, 1e-15)]
+        public void FitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
         {
             IInterpolation interpolation = new LinearSplineInterpolation(_t, _x);
 
@@ -86,8 +104,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Verifies that the interpolation supports the linear case appropriately
         /// </summary>
-        [Test]
-        public void SupportsLinearCase([Values(2, 4, 12)] int samples)
+        /// <param name="samples">Samples array.</param>
+        [TestCase(2)]
+        [TestCase(4)]
+        [TestCase(12)]
+        public void SupportsLinearCase(int samples)
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);

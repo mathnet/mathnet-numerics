@@ -1,4 +1,4 @@
-﻿// <copyright file="ParsevalTheoremTest.cs" company="Math.NET">
+// <copyright file="ParsevalTheoremTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -50,8 +50,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier default transform satisfies parsevals theorem.
         /// </summary>
         /// <param name="count">Samples count.</param>
-        [Test]
-        public void FourierDefaultTransformSatisfiesParsevalsTheorem([Values(0x1000, 0x7FF)] int count)
+        [TestCase(0x1000)]
+        [TestCase(0x7FF)]
+        public void FourierDefaultTransformSatisfiesParsevalsTheorem(int count)
         {
             var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, count);
 
@@ -72,8 +73,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Hartley default naive satisfies parsevals theorem.
         /// </summary>
         /// <param name="count">Samples count.</param>
-        [Test]
-        public void HartleyDefaultNaiveSatisfiesParsevalsTheorem([Values(0x40, 0x1F)] int count)
+        [TestCase(0x40)]
+        [TestCase(0x1F)]
+        public void HartleyDefaultNaiveSatisfiesParsevalsTheorem(int count)
         {
             var samples = SignalGenerator.Random(x => x, _uniform, count);
 

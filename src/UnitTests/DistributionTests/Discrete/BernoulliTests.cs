@@ -50,8 +50,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can create Bernoulli.
         /// </summary>
         /// <param name="p">Probability of one.</param>
-        [Test]
-        public void CanCreateBernoulli([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void CanCreateBernoulli(double p)
         {
             var bernoulli = new Bernoulli(p);
             Assert.AreEqual(p, bernoulli.P);
@@ -61,8 +63,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Bernoulli create fails with bad parameters.
         /// </summary>
         /// <param name="p">Probability of one.</param>
-        [Test]
-        public void BernoulliCreateFailsWithBadParameters([Values(Double.NaN, -1.0, 2.0)] double p)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.0)]
+        [TestCase(2.0)]
+        public void BernoulliCreateFailsWithBadParameters(double p)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Bernoulli(p));
         }
@@ -81,8 +85,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set probability of one.
         /// </summary>
         /// <param name="p">Probability of one.</param>
-        [Test]
-        public void CanSetProbabilityOfOne([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void CanSetProbabilityOfOne(double p)
         {
             new Bernoulli(0.3)
             {
@@ -94,8 +100,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set probability of one fails with bad values.
         /// </summary>
         /// <param name="p">Probability of one.</param>
-        [Test]
-        public void SetProbabilityOfOneFails([Values(Double.NaN, -1.0, 2.0)] double p)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.0)]
+        [TestCase(2.0)]
+        public void SetProbabilityOfOneFails(double p)
         {
             var b = new Bernoulli(0.3);
             Assert.Throws<ArgumentOutOfRangeException>(() => b.P = p);
@@ -105,8 +113,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate entropy.
         /// </summary>
         /// <param name="p">Probability of one.</param>
-        [Test]
-        public void ValidateEntropy([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void ValidateEntropy(double p)
         {
             var b = new Bernoulli(p);
             AssertHelpers.AlmostEqual(-((1.0 - p) * Math.Log(1.0 - p)) - (p * Math.Log(p)), b.Entropy, 14);
@@ -116,8 +126,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate skewness.
         /// </summary>
         /// <param name="p">Probability of one.</param>
-        [Test]
-        public void ValidateSkewness([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void ValidateSkewness(double p)
         {
             var b = new Bernoulli(p);
             Assert.AreEqual((1.0 - (2.0 * p)) / Math.Sqrt(p * (1.0 - p)), b.Skewness);
@@ -128,8 +140,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">Probability of one.</param>
         /// <param name="m">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMode([Values(0.0, 0.3, 1.0)] double p, [Values(0.0, 0.0, 1.0)] double m)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.3, 0.0)]
+        [TestCase(1.0, 1.0)]
+        public void ValidateMode(double p, double m)
         {
             var b = new Bernoulli(p);
             Assert.AreEqual(m, b.Mode);
@@ -171,11 +185,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="p">Probability of one.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="d">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbability(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0.3, 1.0, 1.0, 1.0, 1.0)] double p, 
-            [Values(-1, 0, 1, 2, -1, 0, 1, 2, -1, 0, 1, 2)] int x, 
-            [Values(0.0, 1.0, 0.0, 0.0, 0.0, 0.7, 0.3, 0.0, 0.0, 0.0, 1.0, 0.0)] double d)
+        [TestCase(0.0, -1, 0.0)]
+        [TestCase(0.0, 0, 1.0)]
+        [TestCase(0.0, 1, 0.0)]
+        [TestCase(0.0, 2, 0.0)]
+        [TestCase(0.3, -1, 0.0)]
+        [TestCase(0.3, 0, 0.7)]
+        [TestCase(0.3, 1, 0.3)]
+        [TestCase(0.3, 2, 0.0)]
+        [TestCase(1.0, -1, 0.0)]
+        [TestCase(1.0, 0, 0.0)]
+        [TestCase(1.0, 1, 1.0)]
+        [TestCase(1.0, 2, 0.0)]
+        public void ValidateProbability(double p, int x, double d)
         {
             var b = new Bernoulli(p);
             Assert.AreEqual(d, b.Probability(x));
@@ -187,11 +209,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="p">Probability of one.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="dln">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbabilityLn(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0.3, 1.0, 1.0, 1.0, 1.0)] double p, 
-            [Values(-1, 0, 1, 2, -1, 0, 1, 2, -1, 0, 1, 2)] int x, 
-            [Values(Double.NegativeInfinity, 0.0, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, -0.35667494393873244235395440410727451457180907089949815, -1.2039728043259360296301803719337238685164245381839102, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, 0.0, Double.NegativeInfinity)] double dln)
+        [TestCase(0.0, -1, Double.NegativeInfinity)]
+        [TestCase(0.0, 0, 0.0)]
+        [TestCase(0.0, 1, Double.NegativeInfinity)]
+        [TestCase(0.0, 2, Double.NegativeInfinity)]
+        [TestCase(0.3, -1, Double.NegativeInfinity)]
+        [TestCase(0.3, 0, -0.35667494393873244235395440410727451457180907089949815)]
+        [TestCase(0.3, 1, -1.2039728043259360296301803719337238685164245381839102)]
+        [TestCase(0.3, 2, Double.NegativeInfinity)]
+        [TestCase(1.0, -1, Double.NegativeInfinity)]
+        [TestCase(1.0, 0, Double.NegativeInfinity)]
+        [TestCase(1.0, 1, 0.0)]
+        [TestCase(1.0, 2, Double.NegativeInfinity)]
+        public void ValidateProbabilityLn(double p, int x, double dln)
         {
             var b = new Bernoulli(p);
             Assert.AreEqual(dln, b.ProbabilityLn(x));
@@ -261,11 +291,22 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="p">Probability of one.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="cdf">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0.3, 0.3, 1.0, 1.0, 1.0, 1.0, 1.0)] double p, 
-            [Values(-1.0, 0.0, 0.5, 1.0, 2.0, -1.0, 0.0, 0.5, 1.0, 2.0, -1.0, 0.0, 0.5, 1.0, 2.0)] double x, 
-            [Values(0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.7, 0.7, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0)] double cdf)
+        [TestCase(0.0, -1.0, 0.0)]
+        [TestCase(0.0, 0.0, 1.0)]
+        [TestCase(0.0, 0.5, 1.0)]
+        [TestCase(0.0, 1.0, 1.0)]
+        [TestCase(0.0, 2.0, 1.0)]
+        [TestCase(0.3, -1.0, 0.0)]
+        [TestCase(0.3, 0.0, 0.7)]
+        [TestCase(0.3, 0.5, 0.7)]
+        [TestCase(0.3, 1.0, 1.0)]
+        [TestCase(0.3, 2.0, 1.0)]
+        [TestCase(1.0, -1.0, 0.0)]
+        [TestCase(1.0, 0.0, 0.0)]
+        [TestCase(1.0, 0.5, 0.0)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(1.0, 2.0, 1.0)]
+        public void ValidateCumulativeDistribution(double p, double x, double cdf)
         {
             var b = new Bernoulli(p);
             Assert.AreEqual(cdf, b.CumulativeDistribution(x));

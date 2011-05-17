@@ -1,4 +1,4 @@
-﻿// <copyright file="DenseMatrixTests.cs" company="Math.NET">
+// <copyright file="DenseMatrixTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -87,10 +87,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         {
             var testData = new Dictionary<string, Matrix>
                            {
-                               { "Singular3x3", new DenseMatrix(3, 3, new[] { new Complex(1.0, 1), new Complex(1.0, 1), new Complex(1.0, 1), new Complex(1.0, 1), new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1), new Complex(2.0, 1), new Complex(2.0, 1) }) }, 
-                               { "Square3x3", new DenseMatrix(3, 3, new[] { new Complex(-1.1, 1), Complex.Zero, new Complex(-4.4, 1), new Complex(-2.2, 1), new Complex(1.1, 1), new Complex(5.5, 1), new Complex(-3.3, 1), new Complex(2.2, 1), new Complex(6.6, 1) }) }, 
-                               { "Square4x4", new DenseMatrix(4, 4, new[] { new Complex(-1.1, 1), Complex.Zero, new Complex(1.0, 1), new Complex(-4.4, 1), new Complex(-2.2, 1), new Complex(1.1, 1), new Complex(2.1, 1), new Complex(5.5, 1), new Complex(-3.3, 1), new Complex(2.2, 1), new Complex(6.2, 1), new Complex(6.6, 1), new Complex(-4.4, 1), new Complex(3.3, 1), new Complex(4.3, 1), new Complex(-7.7, 1) }) }, 
-                               { "Tall3x2", new DenseMatrix(3, 2, new[] { new Complex(-1.1, 1), Complex.Zero, new Complex(-4.4, 1), new Complex(-2.2, 1), new Complex(1.1, 1), new Complex(5.5, 1) }) }, 
+                               { "Singular3x3", new DenseMatrix(3, 3, new[] { new Complex(1.0, 1), new Complex(1.0, 1), new Complex(1.0, 1), new Complex(1.0, 1), new Complex(1.0, 1), new Complex(1.0, 1), new Complex(2.0, 1), new Complex(2.0, 1), new Complex(2.0, 1) }) },
+                               { "Square3x3", new DenseMatrix(3, 3, new[] { new Complex(-1.1, 1), Complex.Zero, new Complex(-4.4, 1), new Complex(-2.2, 1), new Complex(1.1, 1), new Complex(5.5, 1), new Complex(-3.3, 1), new Complex(2.2, 1), new Complex(6.6, 1) }) },
+                               { "Square4x4", new DenseMatrix(4, 4, new[] { new Complex(-1.1, 1), Complex.Zero, new Complex(1.0, 1), new Complex(-4.4, 1), new Complex(-2.2, 1), new Complex(1.1, 1), new Complex(2.1, 1), new Complex(5.5, 1), new Complex(-3.3, 1), new Complex(2.2, 1), new Complex(6.2, 1), new Complex(6.6, 1), new Complex(-4.4, 1), new Complex(3.3, 1), new Complex(4.3, 1), new Complex(-7.7, 1) }) },
+                               { "Tall3x2", new DenseMatrix(3, 2, new[] { new Complex(-1.1, 1), Complex.Zero, new Complex(-4.4, 1), new Complex(-2.2, 1), new Complex(1.1, 1), new Complex(5.5, 1) }) },
                                { "Wide2x3", new DenseMatrix(2, 3, new[] { new Complex(-1.1, 1), Complex.Zero, new Complex(-2.2, 1), new Complex(1.1, 1), new Complex(-3.3, 1), new Complex(2.2, 1) }) }
                            };
 
@@ -127,8 +127,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// Can create a matrix from two-dimensional array.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test]
-        public void CanCreateMatrixFrom2DArray([Values("Singular3x3", "Singular4x4", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanCreateMatrixFrom2DArray(string name)
         {
             var matrix = new DenseMatrix(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
@@ -176,8 +181,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// Identity with wrong order throws <c>ArgumentOutOfRangeException</c>.
         /// </summary>
         /// <param name="order">The size of the square matrix</param>
-        [Test]
-        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException([Values(0, -1)] int order)
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => DenseMatrix.Identity(order));
         }

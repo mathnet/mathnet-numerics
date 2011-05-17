@@ -1,4 +1,4 @@
-﻿// <copyright file="IntegerTheoryTest.cs" company="Math.NET">
+// <copyright file="IntegerTheoryTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -231,12 +231,12 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         public void CeilingToPowerOfTwoThrowsWhenResultWouldOverflow32()
         {
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => Int32.MaxValue.CeilingToPowerOfTwo());
 
             const int MaxPowerOfTwo = 0x40000000;
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => (MaxPowerOfTwo + 1).CeilingToPowerOfTwo());
 
             Assert.DoesNotThrow(
@@ -250,12 +250,12 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         public void CeilingToPowerOfTwoThrowsWhenResultWouldOverflow64()
         {
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => Int64.MaxValue.CeilingToPowerOfTwo());
 
             const long MaxPowerOfTwo = 0x4000000000000000;
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => (MaxPowerOfTwo + 1).CeilingToPowerOfTwo());
 
             Assert.DoesNotThrow(
@@ -293,19 +293,19 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         public void PowerOfTwoThrowsWhenOutOfRange32()
         {
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => (-1).PowerOfTwo());
 
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => 31.PowerOfTwo());
 
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => Int32.MinValue.PowerOfTwo());
 
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => Int32.MaxValue.PowerOfTwo());
 
             Assert.DoesNotThrow(
@@ -322,19 +322,19 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         public void PowerOfTwoThrowsWhenOutOfRange64()
         {
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => ((long)-1).PowerOfTwo());
 
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => ((long)63).PowerOfTwo());
 
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => Int64.MinValue.PowerOfTwo());
 
             Assert.Throws(
-                typeof(ArgumentOutOfRangeException), 
+                typeof(ArgumentOutOfRangeException),
                 () => Int64.MaxValue.PowerOfTwo());
 
             Assert.DoesNotThrow(

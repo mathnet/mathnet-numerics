@@ -1,4 +1,4 @@
-﻿// <copyright file="IteratorTest.cs" company="Math.NET">
+// <copyright file="IteratorTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -81,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             Assert.Throws<ArgumentException>(() => new Iterator(new IIterationStopCriterium[]
                                                                 {
-                                                                    new FailureStopCriterium(), 
+                                                                    new FailureStopCriterium(),
                                                                     new FailureStopCriterium()
                                                                 }));
         }
@@ -94,9 +94,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
@@ -143,9 +143,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator();
@@ -175,9 +175,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
@@ -194,9 +194,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                            };
             var iterator = new Iterator(criteria);
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
@@ -213,9 +213,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
@@ -236,9 +236,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var iterator = new Iterator();
             Assert.Throws<ArgumentException>(() => iterator.DetermineStatus(
-                0, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                0,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 new DenseVector(3, 6)));
         }
 
@@ -250,17 +250,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
 
             Assert.Throws<ArgumentOutOfRangeException>(() => iterator.DetermineStatus(
-                -1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                -1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 new DenseVector(3, 6)));
         }
 
@@ -272,17 +272,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
-                1, 
-                null, 
-                new DenseVector(3, 5), 
+                1,
+                null,
+                new DenseVector(3, 5),
                 new DenseVector(3, 6)));
         }
 
@@ -294,17 +294,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
-                1, 
-                new DenseVector(3, 5), 
-                null, 
+                1,
+                new DenseVector(3, 5),
+                null,
                 new DenseVector(3, 6)));
         }
 
@@ -316,17 +316,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
             var iterator = new Iterator(criteria);
 
             Assert.Throws<ArgumentNullException>(() => iterator.DetermineStatus(
-                1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 null));
         }
 
@@ -338,8 +338,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
                                new IterationCountStopCriterium(1)
                            };
 
@@ -347,17 +347,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
 
             // First step, nothing should happen.
             iterator.DetermineStatus(
-                0, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 4), 
+                0,
+                new DenseVector(3, 4),
+                new DenseVector(3, 4),
                 new DenseVector(3, 4));
             Assert.IsInstanceOf(typeof(CalculationRunning), iterator.Status, "Incorrect status");
 
             // Second step, should run out of iterations.
             iterator.DetermineStatus(
-                1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 4), 
+                1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 4),
                 new DenseVector(3, 4));
             Assert.IsInstanceOf(typeof(CalculationStoppedWithoutConvergence), iterator.Status, "Incorrect status");
         }
@@ -370,8 +370,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
                                new IterationCountStopCriterium(1)
                            };
 
@@ -379,9 +379,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
 
             // First step, nothing should happen.
             iterator.DetermineStatus(
-                0, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 4), 
+                0,
+                new DenseVector(3, 4),
+                new DenseVector(3, 4),
                 new DenseVector(3, 4));
             Assert.IsInstanceOf(typeof(CalculationRunning), iterator.Status, "Incorrect status");
 
@@ -400,9 +400,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
         {
             var criteria = new List<IIterationStopCriterium>
                            {
-                               new FailureStopCriterium(), 
-                               new DivergenceStopCriterium(), 
-                               new IterationCountStopCriterium(), 
+                               new FailureStopCriterium(),
+                               new DivergenceStopCriterium(),
+                               new IterationCountStopCriterium(),
                                new ResidualStopCriterium()
                            };
 
@@ -416,6 +416,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers
 
             // ReSharper disable PossibleNullReferenceException
             Assert.AreEqual(iterator.NumberOfCriteria, clone.NumberOfCriteria, "Incorrect criterium count");
+
             // ReSharper restore PossibleNullReferenceException
             var enumerator = clone.StoredStopCriteria;
             while (enumerator.MoveNext())

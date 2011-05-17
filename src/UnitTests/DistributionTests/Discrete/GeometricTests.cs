@@ -1,4 +1,4 @@
-﻿// <copyright file="GeometricTests.cs" company="Math.NET">
+// <copyright file="GeometricTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -50,8 +50,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can create Geometric.
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
-        [Test]
-        public void CanCreateGeometric([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void CanCreateGeometric(double p)
         {
             var d = new Geometric(p);
             Assert.AreEqual(p, d.P);
@@ -61,8 +63,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Geometric create fails with bad parameters.
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
-        [Test]
-        public void GeometricCreateFailsWithBadParameters([Values(Double.NaN, -1.0, 2.0)] double p)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.0)]
+        [TestCase(2.0)]
+        public void GeometricCreateFailsWithBadParameters(double p)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Geometric(p));
         }
@@ -81,8 +85,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set probability of one.
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
-        [Test]
-        public void CanSetProbabilityOfOne([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void CanSetProbabilityOfOne(double p)
         {
             new Geometric(0.3)
             {
@@ -94,8 +100,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set probability of one with a bad value fails.
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
-        [Test]
-        public void SetProbabilityOfOneFails([Values(Double.NaN, -1.0, 2.0)] double p)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.0)]
+        [TestCase(2.0)]
+        public void SetProbabilityOfOneFails(double p)
         {
             var d = new Geometric(0.3);
             Assert.Throws<ArgumentOutOfRangeException>(() => d.P = p);
@@ -105,8 +113,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate entropy.
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
-        [Test]
-        public void ValidateEntropy([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void ValidateEntropy(double p)
         {
             var d = new Geometric(p);
             Assert.AreEqual(((-p * Math.Log(p, 2.0)) - ((1.0 - p) * Math.Log(1.0 - p, 2.0))) / p, d.Entropy);
@@ -116,8 +126,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate skewness.
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
-        [Test]
-        public void ValidateSkewness([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void ValidateSkewness(double p)
         {
             var d = new Geometric(p);
             Assert.AreEqual((2.0 - p) / Math.Sqrt(1.0 - p), d.Skewness);
@@ -127,8 +139,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate mode.
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
-        [Test]
-        public void ValidateMode([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void ValidateMode(double p)
         {
             var d = new Geometric(p);
             Assert.AreEqual(1, d.Mode);
@@ -138,8 +152,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate median.
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
-        [Test]
-        public void ValidateMedian([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void ValidateMedian(double p)
         {
             var d = new Geometric(p);
             Assert.AreEqual((int)Math.Ceiling(-Math.Log(2.0) / Math.Log(1 - p)), d.Median);
@@ -170,8 +186,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Combinatorial]
-        public void ValidateProbability([Values(0.0, 0.3, 1.0)] double p, [Values(-1, 0, 1, 2)] int x)
+        [TestCase(0.0, -1)]
+        [TestCase(0.3, 0)]
+        [TestCase(1.0, 1)]
+        [TestCase(1.0, 2)]
+        public void ValidateProbability(double p, int x)
         {
             var d = new Geometric(p);
             if (x > 0)
@@ -190,11 +209,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="p">Probability of generating a one.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="pln">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbabilityLn(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0.3, 1.0, 1.0, 1.0, 1.0)] double p, 
-            [Values(-1, 0, 1, 2, -1, 0, 1, 2, -1, 0, 1, 2)] int x, 
-            [Values(Double.NegativeInfinity, 0.0, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, -0.35667494393873244235395440410727451457180907089949815, -1.2039728043259360296301803719337238685164245381839102, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, 0.0, Double.NegativeInfinity)] double pln)
+        [TestCase(0.0, -1, Double.NegativeInfinity)]
+        [TestCase(0.0, 0, 0.0)]
+        [TestCase(0.0, 1, Double.NegativeInfinity)]
+        [TestCase(0.0, 2, Double.NegativeInfinity)]
+        [TestCase(0.3, -1, Double.NegativeInfinity)]
+        [TestCase(0.3, 0, -0.35667494393873244235395440410727451457180907089949815)]
+        [TestCase(0.3, 1, -1.2039728043259360296301803719337238685164245381839102)]
+        [TestCase(0.3, 2, Double.NegativeInfinity)]
+        [TestCase(1.0, -1, Double.NegativeInfinity)]
+        [TestCase(1.0, 0, Double.NegativeInfinity)]
+        [TestCase(1.0, 1, 0.0)]
+        [TestCase(1.0, 2, Double.NegativeInfinity)]
+        public void ValidateProbabilityLn(double p, int x, double pln)
         {
             var d = new Geometric(p);
             if (x > 0)
@@ -233,8 +260,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">Probability of generating a one.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Combinatorial]
-        public void ValidateCumulativeDistribution([Values(0.0, 0.3, 1.0)] double p, [Values(-1, 0, 1, 2)] int x)
+        [TestCase(0.0, -1)]
+        [TestCase(0.3, 0)]
+        [TestCase(1.0, 1)]
+        [TestCase(1.0, 2)]
+        public void ValidateCumulativeDistribution(double p, int x)
         {
             var d = new Geometric(p);
             Assert.AreEqual(1.0 - Math.Pow(1.0 - p, x), d.CumulativeDistribution(x));

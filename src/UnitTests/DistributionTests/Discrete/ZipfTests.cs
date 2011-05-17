@@ -1,4 +1,4 @@
-﻿// <copyright file="ZipfTests.cs" company="Math.NET">
+// <copyright file="ZipfTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,8 +51,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
-        [Test, Combinatorial]
-        public void CanCreateZipf([Values(0.1, 1)] double s, [Values(1, 20, 50)] int n)
+        [TestCase(0.1, 1)]
+        [TestCase(1, 20)]
+        [TestCase(1, 50)]
+        public void CanCreateZipf(double s, int n)
         {
             var d = new Zipf(s, n);
             Assert.AreEqual(s, d.S);
@@ -64,8 +66,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
-        [Test, Combinatorial]
-        public void ZipfCreateFailsWithBadParameters([Values(0.0)] double s, [Values(-10, 0)] int n)
+        [TestCase(0.0, -10)]
+        [TestCase(0.0, 0)]
+        public void ZipfCreateFailsWithBadParameters(double s, int n)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Zipf(s, n));
         }
@@ -84,8 +87,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set S.
         /// </summary>
         /// <param name="s">S parameter.</param>
-        [Test]
-        public void CanSetS([Values(0.1, 1.0, 5.0)] double s)
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(5.0)]
+        public void CanSetS(double s)
         {
             new Zipf(1.0, 5)
             {
@@ -97,8 +102,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set S fails with bad values.
         /// </summary>
         /// <param name="s">S parameter.</param>
-        [Test]
-        public void SetSFails([Values(Double.NaN, -1.0, Double.NegativeInfinity)] double s)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.0)]
+        [TestCase(Double.NegativeInfinity)]
+        public void SetSFails(double s)
         {
             var d = new Zipf(1.0, 5);
             Assert.Throws<ArgumentOutOfRangeException>(() => d.S = s);
@@ -108,8 +115,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set N.
         /// </summary>
         /// <param name="n">N parameter.</param>
-        [Test]
-        public void CanSetN([Values(1, 20, 50)] int n)
+        [TestCase(1)]
+        [TestCase(20)]
+        [TestCase(50)]
+        public void CanSetN(int n)
         {
             new Zipf(1.0, 5)
             {
@@ -121,8 +130,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set N fails with bad values.
         /// </summary>
         /// <param name="n">N parameter.</param>
-        [Test]
-        public void SetNFails([Values(-1, 0)] int n)
+        [TestCase(-1)]
+        [TestCase(0)]
+        public void SetNFails(int n)
         {
             var d = new Zipf(1.0, 5);
             Assert.Throws<ArgumentOutOfRangeException>(() => d.N = n);
@@ -134,11 +144,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
         /// <param name="e">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateEntropy(
-            [Values(0.1, 0.1, 0.1, 1.0, 1.0, 1.0)] double s, 
-            [Values(1, 20, 50, 1, 20, 50)] int n, 
-            [Values(0.0, 2.9924075515295949, 3.9078245132371388, 0.0, 2.5279968533953743, 3.1971263138845916)] double e)
+        [TestCase(0.1, 1, 0.0)]
+        [TestCase(0.1, 20, 2.9924075515295949)]
+        [TestCase(0.1, 50, 3.9078245132371388)]
+        [TestCase(1.0, 1, 0.0)]
+        [TestCase(1.0, 20, 2.5279968533953743)]
+        [TestCase(1.0, 50, 3.1971263138845916)]
+        public void ValidateEntropy(double s, int n, double e)
         {
             var d = new Zipf(s, n);
             AssertHelpers.AlmostEqual(e, d.Entropy, 15);
@@ -149,10 +161,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
-        [Test, Combinatorial]
-        public void ValidateSkewness(
-            [Values(5.0, 10.0)] double s, 
-            [Values(1, 20, 50)] int n)
+        [TestCase(5.0, 1)]
+        [TestCase(10.0, 20)]
+        [TestCase(10.0, 50)]
+        public void ValidateSkewness(double s, int n)
         {
             var d = new Zipf(s, n);
             if (s > 4)
@@ -166,8 +178,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
-        [Test, Combinatorial]
-        public void ValidateMode([Values(0.1, 1)] double s, [Values(1, 20, 50)] int n)
+        [TestCase(0.1, 1)]
+        [TestCase(1, 20)]
+        [TestCase(1, 50)]
+        public void ValidateMode(double s, int n)
         {
             var d = new Zipf(s, n);
             Assert.AreEqual(1, d.Mode);
@@ -198,8 +212,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
-        [Test, Combinatorial]
-        public void ValidateMaximum([Values(0.1, 1)] double s, [Values(1, 20, 50)] int n)
+        [TestCase(0.1, 1)]
+        [TestCase(1, 20)]
+        [TestCase(1, 50)]
+        public void ValidateMaximum(double s, int n)
         {
             var d = new Zipf(s, n);
             Assert.AreEqual(n, d.Maximum);
@@ -211,8 +227,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Combinatorial]
-        public void ValidateProbability([Values(0.1, 1)] double s, [Values(1, 20, 50)] int n, [Values(1, 15)] int x)
+        [TestCase(0.1, 1, 1)]
+        [TestCase(1, 20, 15)]
+        [TestCase(1, 50, 20)]
+        public void ValidateProbability(double s, int n, int x)
         {
             var d = new Zipf(s, n);
             Assert.AreEqual((1.0 / Math.Pow(x, s)) / SpecialFunctions.GeneralHarmonic(n, s), d.Probability(x));
@@ -224,8 +242,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Combinatorial]
-        public void ValidateProbabilityLn([Values(0.1, 1)] double s, [Values(1, 20, 50)] int n, [Values(1, 15)] int x)
+        [TestCase(0.1, 1, 1)]
+        [TestCase(1, 20, 15)]
+        [TestCase(1, 50, 20)]
+        public void ValidateProbabilityLn(double s, int n, int x)
         {
             var d = new Zipf(s, n);
             Assert.AreEqual(Math.Log(d.Probability(x)), d.ProbabilityLn(x));
@@ -265,8 +285,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="s">S parameter.</param>
         /// <param name="n">N parameter.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Combinatorial]
-        public void ValidateCumulativeDistribution([Values(0.1, 1)] double s, [Values(1, 20, 50)] int n, [Values(2, 15)] int x)
+        [TestCase(0.1, 1, 2)]
+        [TestCase(1, 20, 15)]
+        [TestCase(1, 50, 20)]
+        public void ValidateCumulativeDistribution(double s, int n, int x)
         {
             var d = new Zipf(s, n);
             var cdf = SpecialFunctions.GeneralHarmonic(x, s) / SpecialFunctions.GeneralHarmonic(n, s);

@@ -1,4 +1,4 @@
-﻿// <copyright file="DenseMatrixTests.cs" company="Math.NET">
+// <copyright file="DenseMatrixTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -86,10 +86,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var testData = new Dictionary<string, Matrix>
                            {
-                               { "Singular3x3", new DenseMatrix(3, 3, new[] { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 2.0f, 2.0f, 2.0f }) }, 
-                               { "Square3x3", new DenseMatrix(3, 3, new[] { -1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f, -3.3f, 2.2f, 6.6f }) }, 
-                               { "Square4x4", new DenseMatrix(4, 4, new[] { -1.1f, 0.0f, 1.0f, -4.4f, -2.2f, 1.1f, 2.1f, 5.5f, -3.3f, 2.2f, 6.2f, 6.6f, -4.4f, 3.3f, 4.3f, -7.7f }) }, 
-                               { "Tall3x2", new DenseMatrix(3, 2, new[] { -1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f }) }, 
+                               { "Singular3x3", new DenseMatrix(3, 3, new[] { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 2.0f, 2.0f, 2.0f }) },
+                               { "Square3x3", new DenseMatrix(3, 3, new[] { -1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f, -3.3f, 2.2f, 6.6f }) },
+                               { "Square4x4", new DenseMatrix(4, 4, new[] { -1.1f, 0.0f, 1.0f, -4.4f, -2.2f, 1.1f, 2.1f, 5.5f, -3.3f, 2.2f, 6.2f, 6.6f, -4.4f, 3.3f, 4.3f, -7.7f }) },
+                               { "Tall3x2", new DenseMatrix(3, 2, new[] { -1.1f, 0.0f, -4.4f, -2.2f, 1.1f, 5.5f }) },
                                { "Wide2x3", new DenseMatrix(2, 3, new[] { -1.1f, 0.0f, -2.2f, 1.1f, -3.3f, 2.2f }) }
                            };
 
@@ -126,8 +126,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can create a matrix from two-dimensional array.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test]
-        public void CanCreateMatrixFrom2DArray([Values("Singular3x3", "Singular4x4", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanCreateMatrixFrom2DArray(string name)
         {
             var matrix = new DenseMatrix(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
@@ -175,8 +180,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Identity with wrong order throws <c>ArgumentOutOfRangeException</c>.
         /// </summary>
         /// <param name="order">The size of the square matrix</param>
-        [Test]
-        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException([Values(0, -1)] int order)
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => DenseMatrix.Identity(order));
         }

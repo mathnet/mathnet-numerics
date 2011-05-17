@@ -91,9 +91,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
             var solver = new GpBiCg(monitor);
@@ -136,9 +136,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
 
@@ -215,9 +215,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
 
@@ -247,8 +247,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
         /// Can solve for a random vector.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVector([Values(4)] int order)
+        [TestCase(4)]
+        public void CanSolveForRandomVector(int order)
         {
             for (var iteration = 5; iteration > 3; iteration--)
             {
@@ -257,8 +257,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.Iterat
 
                 var monitor = new Iterator(new IIterationStopCriterium[]
                                            {
-                                               new IterationCountStopCriterium(1000), 
-                                               new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration)), 
+                                               new IterationCountStopCriterium(1000),
+                                               new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration)),
                                            });
                 var solver = new GpBiCg(monitor);
 

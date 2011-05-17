@@ -1,4 +1,4 @@
-﻿// <copyright file="ConwayMaxwellPoissonTests.cs" company="Math.NET">
+// <copyright file="ConwayMaxwellPoissonTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,8 +51,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
         /// <param name="nu">Nu parameter.</param>
-        [Test, Combinatorial]
-        public void CanCreateConwayMaxwellPoisson([Values(0.1, 1.0, 2.5, 10.0, Double.PositiveInfinity)] double lambda, [Values(0.0, 2.5, Double.PositiveInfinity)] double nu)
+        [TestCase(0.1, 0.0)]
+        [TestCase(1.0, 2.5)]
+        [TestCase(2.5, 3.0)]
+        [TestCase(10.0, 3.5)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void CanCreateConwayMaxwellPoisson(double lambda, double nu)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
             Assert.AreEqual(lambda, d.Lambda);
@@ -82,8 +86,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set lambda.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void CanSetLambda([Values(0.1, 3.0, 10.0, Double.PositiveInfinity)] double lambda)
+        [TestCase(0.1)]
+        [TestCase(3.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetLambda(double lambda)
         {
             new ConwayMaxwellPoisson(1.0, 2.0)
             {
@@ -95,8 +102,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set Nu.
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
-        [Test]
-        public void CanSetNu([Values(0.0, 3.0, 10.0, Double.PositiveInfinity)] double nu)
+        [TestCase(0.0)]
+        [TestCase(3.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetNu(double nu)
         {
             new ConwayMaxwellPoisson(1.0, 2.0)
             {
@@ -108,8 +118,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set lambda with bad values fails.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void SetLambdaFails([Values(0.0, -0.0, -1.0, Double.NegativeInfinity)] double lambda)
+        [TestCase(0.0)]
+        [TestCase(-0.0)]
+        [TestCase(-1.0)]
+        [TestCase(Double.NegativeInfinity)]
+        public void SetLambdaFails(double lambda)
         {
             var d = new ConwayMaxwellPoisson(1.0, 2.0);
             Assert.Throws<ArgumentOutOfRangeException>(() => d.Lambda = lambda);
@@ -119,8 +132,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set Nu with bad values fails.
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
-        [Test]
-        public void SetNuFails([Values(-0.1, -1.0, -10.0, Double.NegativeInfinity)] double nu)
+        [TestCase(-0.1)]
+        [TestCase(-1.0)]
+        [TestCase(-10.0)]
+        [TestCase(Double.NegativeInfinity)]
+        public void SetNuFails(double nu)
         {
             var d = new ConwayMaxwellPoisson(1.0, 2.0);
             Assert.Throws<ArgumentOutOfRangeException>(() => d.Nu = nu);
@@ -172,11 +188,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="lambda">Lambda value.</param>
         /// <param name="nu">Nu parameter.</param>
         /// <param name="mean">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMean(
-            [Values(1, 2, 10, 20, 1, 2)] int lambda, 
-            [Values(1, 1, 1, 1, 2, 2)] int nu, 
-            [Values(1.0, 2.0, 10.0, 20.0, 0.697774657964008, 1.12635723962342)] double mean)
+        [TestCase(1, 1, 1.0)]
+        [TestCase(2, 1, 2.0)]
+        [TestCase(10, 1, 10.0)]
+        [TestCase(20, 1, 20.0)]
+        [TestCase(1, 2, 0.697774657964008)]
+        [TestCase(2, 2, 1.12635723962342)]
+        public void ValidateMean(int lambda, int nu, double mean)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
             AssertHelpers.AlmostEqual(mean, d.Mean, 10);
@@ -209,12 +227,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="nu">Nu parameter.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="p">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbability(
-            [Values(1.0, 1.0, 2.0, 2.0, 2.0, 2.0)] double lambda, 
-            [Values(1.0, 1.0, 1.0, 1.0, 2.0, 2.0)] double nu, 
-            [Values(1, 2, 1, 2, 1, 3)] int x, 
-            [Values(0.367879441171442, 0.183939720585721, 0.270670566473225, 0.270670566473225, 0.470328074204904, 0.052258674911656)] double p)
+        [TestCase(1.0, 1.0, 1, 0.367879441171442)]
+        [TestCase(1.0, 1.0, 2, 0.183939720585721)]
+        [TestCase(2.0, 1.0, 1, 0.270670566473225)]
+        [TestCase(2.0, 1.0, 2, 0.270670566473225)]
+        [TestCase(2.0, 2.0, 1, 0.470328074204904)]
+        [TestCase(2.0, 2.0, 3, 0.052258674911656)]
+        public void ValidateProbability(double lambda, double nu, int x, double p)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
             AssertHelpers.AlmostEqual(p, d.Probability(x), 13);
@@ -227,12 +246,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="nu">Nu parameter.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="pln">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbabilityLn(
-            [Values(1.0, 1.0, 2.0, 2.0, 2.0, 2.0)] double lambda, 
-            [Values(1.0, 1.0, 1.0, 1.0, 2.0, 2.0)] double nu, 
-            [Values(1, 2, 1, 2, 1, 3)] int x, 
-            [Values(-1.0, -1.69314718055995, -1.30685281944005, -1.30685281944005, -0.754324797564617, -2.95154937490084)] double pln)
+        [TestCase(1.0, 1.0, 1, -1.0)]
+        [TestCase(1.0, 1.0, 2, -1.69314718055995)]
+        [TestCase(2.0, 1.0, 1, -1.30685281944005)]
+        [TestCase(2.0, 1.0, 2, -1.30685281944005)]
+        [TestCase(2.0, 2.0, 1, -0.754324797564617)]
+        [TestCase(2.0, 2.0, 3, -2.95154937490084)]
+        public void ValidateProbabilityLn(double lambda, double nu, int x, double pln)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
             AssertHelpers.AlmostEqual(pln, d.ProbabilityLn(x), 13);
@@ -266,12 +286,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="nu">Nu parameter.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="cdf">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(1.0, 1.0, 2.0, 2.0, 2.0, 2.0)] double lambda, 
-            [Values(1.0, 1.0, 1.0, 1.0, 2.0, 2.0)] double nu, 
-            [Values(1, 2, 1, 2, 1, 3)] int x, 
-            [Values(0.735758882342885, 0.919698602928606, 0.406005849709838, 0.676676416183064, 0.705492111307356, 0.992914823321464)] double cdf)
+        [TestCase(1.0, 1.0, 1, 0.735758882342885)]
+        [TestCase(1.0, 1.0, 2, 0.919698602928606)]
+        [TestCase(2.0, 1.0, 1, 0.406005849709838)]
+        [TestCase(2.0, 1.0, 2, 0.676676416183064)]
+        [TestCase(2.0, 2.0, 1, 0.705492111307356)]
+        [TestCase(2.0, 2.0, 3, 0.992914823321464)]
+        public void ValidateCumulativeDistribution(double lambda, double nu, int x, double cdf)
         {
             var d = new ConwayMaxwellPoisson(lambda, nu);
             AssertHelpers.AlmostEqual(cdf, d.CumulativeDistribution(x), 13);

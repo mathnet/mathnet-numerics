@@ -1,4 +1,4 @@
-﻿// <copyright file="VectorTests.cs" company="Math.NET">
+// <copyright file="VectorTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -37,7 +37,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     /// <summary>
     /// Abstract class with the common set of vector tests.
     /// </summary>
-    [TestFixture]
     public abstract partial class VectorTests
     {
         /// <summary>
@@ -59,6 +58,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             CollectionAssert.AreEqual(vector, clone);
         }
 
+#if !SILVERLIGHT
         /// <summary>
         /// Can clone a vector using <c>IClonable</c> interface method.
         /// </summary>
@@ -72,6 +72,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreEqual(vector.Count, clone.Count);
             CollectionAssert.AreEqual(vector, clone);
         }
+#endif
 
         /// <summary>
         /// Can convert vector to string.
@@ -305,8 +306,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// </summary>
         /// <param name="index">The first element to begin copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        [Test, Sequential]
-        public void CanGetSubVector([Values(0, 2, 1)] int index, [Values(5, 2, 4)] int length)
+        [TestCase(0, 5)]
+        [TestCase(2, 2)]
+        [TestCase(1, 4)]
+        public void CanGetSubVector(int index, int length)
         {
             var vector = CreateVector(Data);
             var sub = vector.SubVector(index, length);
@@ -322,8 +325,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// </summary>
         /// <param name="index">The first element to begin copying from.</param>
         /// <param name="length">The number of elements to copy.</param>
-        [Test, Combinatorial]
-        public void CanGetSubVectorWithWrongValuesShouldThrowException([Values(6, 1)] int index, [Values(10, -10)] int length)
+        [TestCase(6, 10)]
+        [TestCase(1, -10)]
+        public void CanGetSubVectorWithWrongValuesShouldThrowException(int index, int length)
         {
             var vector = CreateVector(Data);
             Assert.Throws<ArgumentOutOfRangeException>(() => vector.SubVector(index, length));

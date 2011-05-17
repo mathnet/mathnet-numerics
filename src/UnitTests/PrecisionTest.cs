@@ -1,4 +1,4 @@
-﻿// <copyright file="PrecisionTest.cs" company="Math.NET">
+// <copyright file="PrecisionTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -316,11 +316,16 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="expectedMin">Expected minimum.</param>
         /// <param name="expectedMax">Expected maximum.</param>
         /// <remarks>Numbers are calculated with the UlpsCalculator program which can be found in UlpsCalculator.cs</remarks>
-        [Test, Sequential]
-        public void RangeOfMatchingFloatingPointNumbersWithPositiveValue(
-            [Values(0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)] double input, 
-            [Values(-10 * double.Epsilon, 0.99999999999999889, 1.9999999999999978, 2.9999999999999956, 3.9999999999999956, 4.9999999999999911, 5.9999999999999911, 6.9999999999999911, 7.9999999999999911)] double expectedMin, 
-            [Values(10 * double.Epsilon, 1.0000000000000022, 2.0000000000000044, 3.0000000000000044, 4.0000000000000089, 5.0000000000000089, 6.0000000000000089, 7.0000000000000089, 8.0000000000000178)] double expectedMax)
+        [TestCase(0, -10 * double.Epsilon, 10 * double.Epsilon)]
+        [TestCase(1.0, 0.99999999999999889, 1.0000000000000022)]
+        [TestCase(2.0, 1.9999999999999978, 2.0000000000000044)]
+        [TestCase(3.0, 2.9999999999999956, 3.0000000000000044)]
+        [TestCase(4.0, 3.9999999999999956, 4.0000000000000089)]
+        [TestCase(5.0, 4.9999999999999911, 5.0000000000000089)]
+        [TestCase(6.0, 5.9999999999999911, 6.0000000000000089)]
+        [TestCase(7.0, 6.9999999999999911, 7.0000000000000089)]
+        [TestCase(8.0, 7.9999999999999911, 8.0000000000000178)]
+        public void RangeOfMatchingFloatingPointNumbersWithPositiveValue(double input, double expectedMin, double expectedMax)
         {
             double max;
             double min;
@@ -337,11 +342,16 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="expectedMin">Expected minimum.</param>
         /// <param name="expectedMax">Expected maximum.</param>
         /// <remarks>Numbers are calculated with the UlpsCalculator program which can be found in UlpsCalculator.cs</remarks>
-        [Test, Sequential]
-        public void RangeOfMatchingFloatingPointNumbersWithNegativeValue(
-            [Values(0, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0)] double input, 
-            [Values(-10 * double.Epsilon, -1.0000000000000022, -2.0000000000000044, -3.0000000000000044, -4.0000000000000089, -5.0000000000000089, -6.0000000000000089, -7.0000000000000089, -8.0000000000000178)] double expectedMin, 
-            [Values(10 * double.Epsilon, -0.99999999999999889, -1.9999999999999978, -2.9999999999999956, -3.9999999999999956, -4.9999999999999911, -5.9999999999999911, -6.9999999999999911, -7.9999999999999911)] double expectedMax)
+        [TestCase(0, -10 * double.Epsilon, 10 * double.Epsilon)]
+        [TestCase(-1.0, -1.0000000000000022, -0.99999999999999889)]
+        [TestCase(-2.0, -2.0000000000000044, -1.9999999999999978)]
+        [TestCase(-3.0, -3.0000000000000044, -2.9999999999999956)]
+        [TestCase(-4.0, -4.0000000000000089, -3.9999999999999956)]
+        [TestCase(-5.0, -5.0000000000000089, -4.9999999999999911)]
+        [TestCase(-6.0, -6.0000000000000089, -5.9999999999999911)]
+        [TestCase(-7.0, -7.0000000000000089, -6.9999999999999911)]
+        [TestCase(-8.0, -8.0000000000000178, -7.9999999999999911)]
+        public void RangeOfMatchingFloatingPointNumbersWithNegativeValue(double input, double expectedMin, double expectedMax)
         {
             double max;
             double min;
@@ -356,10 +366,16 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="input">Input value.</param>
         /// <param name="expectedMax">Expected maximum.</param>
-        [Test, Sequential]
-        public void MaximumMatchingFloatingPointNumberWithPositiveValue(
-            [Values(0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)] double input, 
-            [Values(10 * double.Epsilon, 1.0000000000000022, 2.0000000000000044, 3.0000000000000044, 4.0000000000000089, 5.0000000000000089, 6.0000000000000089, 7.0000000000000089, 8.0000000000000178)] double expectedMax)
+        [TestCase(0, 10 * double.Epsilon)]
+        [TestCase(1.0, 1.0000000000000022)]
+        [TestCase(2.0, 2.0000000000000044)]
+        [TestCase(3.0, 3.0000000000000044)]
+        [TestCase(4.0, 4.0000000000000089)]
+        [TestCase(5.0, 5.0000000000000089)]
+        [TestCase(6.0, 6.0000000000000089)]
+        [TestCase(7.0, 7.0000000000000089)]
+        [TestCase(8.0, 8.0000000000000178)]
+        public void MaximumMatchingFloatingPointNumberWithPositiveValue(double input, double expectedMax)
         {
             var max = input.MaximumMatchingFloatingPointNumber(10);
             Assert.AreEqual(expectedMax, max);
@@ -370,10 +386,16 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="input">Input value.</param>
         /// <param name="expectedMax">Expected maximum.</param>
-        [Test, Sequential]
-        public void MaximumMatchingFloatingPointNumberWithNegativeValue(
-            [Values(0, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0)] double input, 
-            [Values(10 * double.Epsilon, -0.99999999999999889, -1.9999999999999978, -2.9999999999999956, -3.9999999999999956, -4.9999999999999911, -5.9999999999999911, -6.9999999999999911, -7.9999999999999911)] double expectedMax)
+        [TestCase(0, 10 * double.Epsilon)]
+        [TestCase(-1.0, -0.99999999999999889)]
+        [TestCase(-2.0, -1.9999999999999978)]
+        [TestCase(-3.0, -2.9999999999999956)]
+        [TestCase(-4.0, -3.9999999999999956)]
+        [TestCase(-5.0, -4.9999999999999911)]
+        [TestCase(-6.0, -5.9999999999999911)]
+        [TestCase(-7.0, -6.9999999999999911)]
+        [TestCase(-8.0, -7.9999999999999911)]
+        public void MaximumMatchingFloatingPointNumberWithNegativeValue(double input, double expectedMax)
         {
             var max = input.MaximumMatchingFloatingPointNumber(10);
             Assert.AreEqual(expectedMax, max);
@@ -384,10 +406,16 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="input">Input value.</param>
         /// <param name="expectedMin">Expected minimum.</param>
-        [Test, Sequential]
-        public void MinimumMatchingFloatingPointNumberWithPositiveValue(
-            [Values(0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)] double input, 
-            [Values(-10 * double.Epsilon, 0.99999999999999889, 1.9999999999999978, 2.9999999999999956, 3.9999999999999956, 4.9999999999999911, 5.9999999999999911, 6.9999999999999911, 7.9999999999999911)] double expectedMin)
+        [TestCase(0, -10 * double.Epsilon)]
+        [TestCase(1.0, 0.99999999999999889)]
+        [TestCase(2.0, 1.9999999999999978)]
+        [TestCase(3.0, 2.9999999999999956)]
+        [TestCase(4.0, 3.9999999999999956)]
+        [TestCase(5.0, 4.9999999999999911)]
+        [TestCase(6.0, 5.9999999999999911)]
+        [TestCase(7.0, 6.9999999999999911)]
+        [TestCase(8.0, 7.9999999999999911)]
+        public void MinimumMatchingFloatingPointNumberWithPositiveValue(double input, double expectedMin)
         {
             var min = input.MinimumMatchingFloatingPointNumber(10);
             Assert.AreEqual(expectedMin, min);
@@ -398,10 +426,16 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="input">Input value.</param>
         /// <param name="expectedMin">Expected minimum.</param>
-        [Test, Sequential]
-        public void MinimumMatchingFloatingPointNumberWithNegativeValue(
-            [Values(0, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0)] double input, 
-            [Values(-10 * double.Epsilon, -1.0000000000000022, -2.0000000000000044, -3.0000000000000044, -4.0000000000000089, -5.0000000000000089, -6.0000000000000089, -7.0000000000000089, -8.0000000000000178)] double expectedMin)
+        [TestCase(0, -10 * double.Epsilon)]
+        [TestCase(-1.0, -1.0000000000000022)]
+        [TestCase(-2.0, -2.0000000000000044)]
+        [TestCase(-3.0, -3.0000000000000044)]
+        [TestCase(-4.0, -4.0000000000000089)]
+        [TestCase(-5.0, -5.0000000000000089)]
+        [TestCase(-6.0, -6.0000000000000089)]
+        [TestCase(-7.0, -7.0000000000000089)]
+        [TestCase(-8.0, -8.0000000000000178)]
+        public void MinimumMatchingFloatingPointNumberWithNegativeValue(double input, double expectedMin)
         {
             var min = input.MinimumMatchingFloatingPointNumber(10);
             Assert.AreEqual(expectedMin, min);
@@ -447,12 +481,16 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="relativeDifference">Relative difference value.</param>
         /// <param name="expectedMin">Expected minimum.</param>
         /// <param name="expectedMax">Expected maximum.</param>
-        [Test, Sequential]
-        public void RangeOfMatchingUlpsWithPositiveValue(
-            [Values(0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0)] double input, 
-            [Values(10 * double.Epsilon, (1.0000000000000022 - 1.0) / 1.0, (2.0000000000000044 - 2.0) / 2.0, (3.0000000000000044 - 3.0) / 3.0, (4.0000000000000089 - 4.0) / 4.0, (5.0000000000000089 - 5.0) / 5.0, (6.0000000000000089 - 6.0) / 6.0, (7.0000000000000089 - 7.0) / 7.0, (8.0000000000000178 - 8.0) / 8.0)] double relativeDifference, 
-            [Values(10, 20, 20, 10, 20, 10, 10, 10, 20)] long expectedMin, 
-            [Values(10, 10, 10, 10, 10, 10, 10, 10, 10)] long expectedMax)
+        [TestCase(0, 10 * double.Epsilon, 10, 10)]
+        [TestCase(1.0, (1.0000000000000022 - 1.0) / 1.0, 20, 10)]
+        [TestCase(2.0, (2.0000000000000044 - 2.0) / 2.0, 20, 10)]
+        [TestCase(3.0, (3.0000000000000044 - 3.0) / 3.0, 10, 10)]
+        [TestCase(4.0, (4.0000000000000089 - 4.0) / 4.0, 20, 10)]
+        [TestCase(5.0, (5.0000000000000089 - 5.0) / 5.0, 10, 10)]
+        [TestCase(6.0, (6.0000000000000089 - 6.0) / 6.0, 10, 10)]
+        [TestCase(7.0, (7.0000000000000089 - 7.0) / 7.0, 10, 10)]
+        [TestCase(8.0, (8.0000000000000178 - 8.0) / 8.0, 20, 10)]
+        public void RangeOfMatchingUlpsWithPositiveValue(double input, double relativeDifference, long expectedMin, long expectedMax)
         {
             long min;
             long max;
@@ -469,12 +507,16 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="relativeDifference">Relative difference value.</param>
         /// <param name="expectedMin">Expected minimum.</param>
         /// <param name="expectedMax">Expected maximum.</param>
-        [Test, Sequential]
-        public void RangeOfMatchingUlpsWithNegativeValue(
-            [Values(0, -1.0, -2.0, -3.0, -4.0, -5.0, -6.0, -7.0, -8.0)] double input, 
-            [Values(10 * double.Epsilon, (1.0000000000000022 - 1.0) / 1.0, (2.0000000000000044 - 2.0) / 2.0, (3.0000000000000044 - 3.0) / 3.0, (4.0000000000000089 - 4.0) / 4.0, (5.0000000000000089 - 5.0) / 5.0, (6.0000000000000089 - 6.0) / 6.0, (7.0000000000000089 - 7.0) / 7.0, (8.0000000000000178 - 8.0) / 8.0)] double relativeDifference, 
-            [Values(10, 10, 10, 10, 10, 10, 10, 10, 10)] long expectedMin, 
-            [Values(10, 20, 20, 10, 20, 10, 10, 10, 20)] long expectedMax)
+        [TestCase(0, 10 * double.Epsilon, 10, 10)]
+        [TestCase(-1.0, (1.0000000000000022 - 1.0) / 1.0, 10, 20)]
+        [TestCase(-2.0, (2.0000000000000044 - 2.0) / 2.0, 10, 20)]
+        [TestCase(-3.0, (3.0000000000000044 - 3.0) / 3.0, 10, 10)]
+        [TestCase(-4.0, (4.0000000000000089 - 4.0) / 4.0, 10, 20)]
+        [TestCase(-5.0, (5.0000000000000089 - 5.0) / 5.0, 10, 10)]
+        [TestCase(-6.0, (6.0000000000000089 - 6.0) / 6.0, 10, 10)]
+        [TestCase(-7.0, (7.0000000000000089 - 7.0) / 7.0, 10, 10)]
+        [TestCase(-8.0, (8.0000000000000178 - 8.0) / 8.0, 10, 20)]
+        public void RangeOfMatchingUlpsWithNegativeValue(double input, double relativeDifference, long expectedMin, long expectedMax)
         {
             long min;
             long max;

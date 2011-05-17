@@ -1,4 +1,4 @@
-﻿// <copyright file="EquidistantPolynomialTest.cs" company="Math.NET">
+// <copyright file="EquidistantPolynomialTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -34,11 +34,26 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using Interpolation.Algorithms;
     using NUnit.Framework;
 
+    /// <summary>
+    /// EquidistantPolynomial Test case.
+    /// </summary>
     [TestFixture]
     public class EquidistantPolynomialTest
     {
-        const double _tmin = 0.0, _tmax = 4.0;
-        readonly double[] _x = new[] { 0.0, 3.0, 2.5, 1.0, 3.0 };
+        /// <summary>
+        /// Left bound;
+        /// </summary>
+        private const double Tmin = 0.0;
+
+        /// <summary>
+        /// Right bound.
+        /// </summary>
+        private const double Tmax = 4.0;
+
+        /// <summary>
+        /// Sample values.
+        /// </summary>
+        private readonly double[] _x = new[] { 0.0, 3.0, 2.5, 1.0, 3.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -46,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [Test]
         public void FitsAtSamplePoints()
         {
-            IInterpolation interpolation = new EquidistantPolynomialInterpolation(_tmin, _tmax, _x);
+            IInterpolation interpolation = new EquidistantPolynomialInterpolation(Tmin, Tmax, _x);
 
             for (int i = 0; i < _x.Length; i++)
             {
@@ -57,18 +72,24 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Verifies that at points other than the provided sample points, the interpolation matches the one computed by Maple as a reference.
         /// </summary>
+        /// <param name="t">Sample point.</param>
+        /// <param name="x">Sample value.</param>
+        /// <param name="maxAbsoluteError">Maximum absolute error.</param>
         /// <remarks>
         /// Maple:
         /// with(CurveFitting);
         /// evalf(subs({x=0.1},PolynomialInterpolation([[0,0],[1,3],[2,2.5],[3,1],[4,3]], x)),20);
         /// </remarks>
-        [Test, Sequential]
-        public void FitsAtArbitraryPointsWithMaple(
-            [Values(0.1, 0.4, 1.1, 3.2, 4.5, 10.0, -10.0)] double t,
-            [Values(.487425, 1.6968, 3.081925, .9408, 7.265625, 592.5, 657.5)] double x,
-            [Values(1e-15, 1e-15, 1e-15, 1e-15, 1e-14, 1e-10, 1e-9)] double maxAbsoluteError)
+        [TestCase(0.1, .487425, 1e-15)]
+        [TestCase(0.4, 1.6968, 1e-15)]
+        [TestCase(1.1, 3.081925, 1e-15)]
+        [TestCase(3.2, .9408, 1e-15)]
+        [TestCase(4.5, 7.265625, 1e-14)]
+        [TestCase(10.0, 592.5, 1e-10)]
+        [TestCase(-10.0, 657.5, 1e-9)]
+        public void FitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
         {
-            IInterpolation interpolation = new EquidistantPolynomialInterpolation(_tmin, _tmax, _x);
+            IInterpolation interpolation = new EquidistantPolynomialInterpolation(Tmin, Tmax, _x);
 
             Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
         }
@@ -76,8 +97,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Verifies that the interpolation supports the linear case appropriately
         /// </summary>
-        [Test]
-        public void SupportsLinearCase([Values(2, 4, 12)] int samples)
+        /// <param name="samples">Samples array.</param>
+        [TestCase(2)]
+        [TestCase(4)]
+        [TestCase(12)]
+        public void SupportsLinearCase(int samples)
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);

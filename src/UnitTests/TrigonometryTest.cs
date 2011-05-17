@@ -1,4 +1,4 @@
-﻿// <copyright file="TrigonometryTest.cs" company="Math.NET">
+// <copyright file="TrigonometryTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -43,12 +43,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexCosine(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -1.19209289550780998537e-7)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -8.388608e6)] double imag, 
-            [Values(1.0, -0.90175467375875928, -0.90175467375875928, 0.99999999999999289, 0.99999999999999289, -0.90175467375876572, double.PositiveInfinity)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, -5.1528001100635277e-8, double.NegativeInfinity)] double expectedImag)
+        [TestCase(0.0, 0.0, 1.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, -0.90175467375875928, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -0.90175467375875928, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 0.99999999999999289, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, 0.99999999999999289, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, -0.90175467375876572, -5.1528001100635277e-8)]
+        [TestCase(-1.19209289550780998537e-7, -8.388608e6, double.PositiveInfinity, double.NegativeInfinity)]
+        public void CanComputeComplexCosine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Cosine();
             var expected = new Complex(expectedReal, expectedImag);
@@ -62,12 +64,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexSine(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -1.19209289550780998537e-7)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -8.388608e6)] double imag, 
-            [Values(0.0, 0.43224820225679778, -0.43224820225679778, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 0.43224820225680083, double.NegativeInfinity)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, -1.0749753400787824e-7, double.NegativeInfinity)] double expectedImag)
+        [TestCase(0.0, 0.0, 0.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, 0.43224820225679778, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -0.43224820225679778, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.19209289550780998537e-7, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.19209289550780998537e-7, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 0.43224820225680083, -1.0749753400787824e-7)]
+        [TestCase(-1.19209289550780998537e-7, -8.388608e6, double.NegativeInfinity, double.NegativeInfinity)]
+        public void CanComputeComplexSine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Sine();
             var expected = new Complex(expectedReal, expectedImag);
@@ -81,12 +85,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexTangent(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double imag, 
-            [Values(0.0, -0.47934123862654288, 0.47934123862654288, 1.1920928955078157e-7, -1.1920928955078157e-7, -0.47934123862653449, 0.47934123862653449)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.4659977233982276e-7, -1.4659977233982276e-7)] double expectedImag)
+        [TestCase(0.0, 0.0, 0.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, -0.47934123862654288, 0.0)]
+        [TestCase(-8.388608e6, 0.0, 0.47934123862654288, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.1920928955078157e-7, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078157e-7, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, -0.47934123862653449, 1.4659977233982276e-7)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, 0.47934123862653449, -1.4659977233982276e-7)]
+        public void CanComputeComplexTangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Tangent();
             var expected = new Complex(expectedReal, expectedImag);
@@ -98,10 +104,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeCosecant(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(double.PositiveInfinity, 2.3134856195559191, 8388608.0000000376, -2.3134856195559191, -8388608.0000000376)] double expected)
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(8388608, 2.3134856195559191)]
+        [TestCase(1.19209289550780998537e-7, 8388608.0000000376)]
+        [TestCase(-8388608, -2.3134856195559191)]
+        [TestCase(-1.19209289550780998537e-7, -8388608.0000000376)]
+        public void CanComputeCosecant(double value, double expected)
         {
             var actual = Trig.Cosecant(value);
             AssertHelpers.AlmostEqual(expected, actual, 13);
@@ -112,10 +120,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeCosine(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(1.0, -0.90175467375875928, 0.99999999999999289, -0.90175467375875928, 0.99999999999999289)] double expected)
+        [TestCase(0.0, 1.0)]
+        [TestCase(8388608, -0.90175467375875928)]
+        [TestCase(1.19209289550780998537e-7, 0.99999999999999289)]
+        [TestCase(-8388608, -0.90175467375875928)]
+        [TestCase(-1.19209289550780998537e-7, 0.99999999999999289)]
+        public void CanComputeCosine(double value, double expected)
         {
             var actual = Trig.Cosine(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -126,10 +136,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeCotangent(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(double.PositiveInfinity, -2.086196470108229, 8388607.999999978, 2.086196470108229, -8388607.999999978)] double expected)
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(8388608, -2.086196470108229)]
+        [TestCase(1.19209289550780998537e-7, 8388607.999999978)]
+        [TestCase(-8388608, 2.086196470108229)]
+        [TestCase(-1.19209289550780998537e-7, -8388607.999999978)]
+        public void CanComputeCotangent(double value, double expected)
         {
             var actual = Trig.Cotangent(value);
             AssertHelpers.AlmostEqual(expected, actual, 13);
@@ -140,10 +152,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeHyperbolicCosecant(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(double.PositiveInfinity, 1.3670377960148449e-3643126, 8388607.9999999978, -1.3670377960148449e-3643126, -8388607.9999999978)] double expected)
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(8388608, 1.3670377960148449e-3643126)]
+        [TestCase(1.19209289550780998537e-7, 8388607.9999999978)]
+        [TestCase(-8388608, -1.3670377960148449e-3643126)]
+        [TestCase(-1.19209289550780998537e-7, -8388607.9999999978)]
+        public void CanComputeHyperbolicCosecant(double value, double expected)
         {
             var actual = Trig.HyperbolicCosecant(value);
             AssertHelpers.AlmostEqual(expected, actual, 15);
@@ -154,10 +168,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeHyperbolicCosine(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(1.0, double.PositiveInfinity, 1.0000000000000071, double.PositiveInfinity, 1.0000000000000071)] double expected)
+        [TestCase(0.0, 1.0)]
+        [TestCase(8388608, double.PositiveInfinity)]
+        [TestCase(1.19209289550780998537e-7, 1.0000000000000071)]
+        [TestCase(-8388608, double.PositiveInfinity)]
+        [TestCase(-1.19209289550780998537e-7, 1.0000000000000071)]
+        public void CanComputeHyperbolicCosine(double value, double expected)
         {
             var actual = Trig.HyperbolicCosine(value);
             AssertHelpers.AlmostEqual(expected, actual, 15);
@@ -168,10 +184,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeHyperbolicCotangent(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(double.PositiveInfinity, 1.0, 8388608.0000000574, -1.0, -8388608.0000000574)] double expected)
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(8388608, 1.0)]
+        [TestCase(1.19209289550780998537e-7, 8388608.0000000574)]
+        [TestCase(-8388608, -1.0)]
+        [TestCase(-1.19209289550780998537e-7, -8388608.0000000574)]
+        public void CanComputeHyperbolicCotangent(double value, double expected)
         {
             var actual = Trig.HyperbolicCotangent(value);
             AssertHelpers.AlmostEqual(expected, actual, 15);
@@ -182,10 +200,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeHyperbolicSecant(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(1.0, 1.3670377960148449e-3643126, 0.99999999999999289, 1.3670377960148449e-3643126, 0.99999999999999289)] double expected)
+        [TestCase(0.0, 1.0)]
+        [TestCase(8388608, 1.3670377960148449e-3643126)]
+        [TestCase(1.19209289550780998537e-7, 0.99999999999999289)]
+        [TestCase(-8388608, 1.3670377960148449e-3643126)]
+        [TestCase(-1.19209289550780998537e-7, 0.99999999999999289)]
+        public void CanComputeHyperbolicSecant(double value, double expected)
         {
             var actual = Trig.HyperbolicSecant(value);
             AssertHelpers.AlmostEqual(expected, actual, 15);
@@ -196,10 +216,11 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeHyperbolicSine(
-            [Values(8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(double.PositiveInfinity, 1.1920928955078128e-7, double.NegativeInfinity, -1.1920928955078128e-7)] double expected)
+        [TestCase(8388608, double.PositiveInfinity)]
+        [TestCase(1.19209289550780998537e-7, 1.1920928955078128e-7)]
+        [TestCase(-8388608, double.NegativeInfinity)]
+        [TestCase(-1.19209289550780998537e-7, -1.1920928955078128e-7)]
+        public void CanComputeHyperbolicSine(double value, double expected)
         {
             var actual = Trig.HyperbolicSine(value);
             AssertHelpers.AlmostEqual(expected, actual, 15);
@@ -210,10 +231,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeHyperbolicTangent(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(0.0, 1.0, 1.1920928955078043e-7, -1.0, -1.1920928955078043e-7)] double expected)
+        [TestCase(0.0, 0.0)]
+        [TestCase(8388608, 1.0)]
+        [TestCase(1.19209289550780998537e-7, 1.1920928955078043e-7)]
+        [TestCase(-8388608, -1.0)]
+        [TestCase(-1.19209289550780998537e-7, -1.1920928955078043e-7)]
+        public void CanComputeHyperbolicTangent(double value, double expected)
         {
             var actual = Trig.HyperbolicTangent(value);
             AssertHelpers.AlmostEqual(expected, actual, 15);
@@ -224,10 +247,11 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseCosecant(
-            [Values(8388608, -8388608, 1, -1)] double value, 
-            [Values(1.1920928955078097e-7, -1.1920928955078097e-7, 1.5707963267948966, -1.5707963267948966)] double expected)
+        [TestCase(8388608, 1.1920928955078097e-7)]
+        [TestCase(-8388608, -1.1920928955078097e-7)]
+        [TestCase(1, 1.5707963267948966)]
+        [TestCase(-1, -1.5707963267948966)]
+        public void CanComputeInverseCosecant(double value, double expected)
         {
             var actual = Trig.InverseCosecant(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -238,10 +262,11 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseCosine(
-            [Values(1, -1, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(0, 3.1415926535897931, 1.570796207585607, 1.5707964460041861)] double expected)
+        [TestCase(1, 0)]
+        [TestCase(-1, 3.1415926535897931)]
+        [TestCase(1.19209289550780998537e-7, 1.570796207585607)]
+        [TestCase(-1.19209289550780998537e-7, 1.5707964460041861)]
+        public void CanComputeInverseCosine(double value, double expected)
         {
             var actual = Trig.InverseCosine(value);
             AssertHelpers.AlmostEqual(expected, actual, 15);
@@ -252,10 +277,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseCotangent(
-            [Values(0.0, 8388608, -8388608, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(1.5707963267948966, 1.1920928955078069e-7, -1.1920928955078069e-7, 1.5707962075856071, -1.5707962075856071)] double expected)
+        [TestCase(0.0, 1.5707963267948966)]
+        [TestCase(8388608, 1.1920928955078069e-7)]
+        [TestCase(-8388608, -1.1920928955078069e-7)]
+        [TestCase(1.19209289550780998537e-7, 1.5707962075856071)]
+        [TestCase(-1.19209289550780998537e-7, -1.5707962075856071)]
+        public void CanComputeInverseCotangent(double value, double expected)
         {
             var actual = Trig.InverseCotangent(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -266,10 +293,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseHyperbolicCosecant(
-            [Values(0.0, 8388608, -8388608, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(double.PositiveInfinity, 1.1920928955078097e-7, -1.1920928955078097e-7, 16.635532333438693, -16.635532333438693)] double expected)
+        [TestCase(0.0, double.PositiveInfinity)]
+        [TestCase(8388608, 1.1920928955078097e-7)]
+        [TestCase(-8388608, -1.1920928955078097e-7)]
+        [TestCase(1.19209289550780998537e-7, 16.635532333438693)]
+        [TestCase(-1.19209289550780998537e-7, -16.635532333438693)]
+        public void CanComputeInverseHyperbolicCosecant(double value, double expected)
         {
             var actual = Trig.InverseHyperbolicCosecant(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -280,8 +309,9 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseHyperbolicCosine([Values(1.0, 8388608)] double value, [Values(0.0, 16.635532333438682)] double expected)
+        [TestCase(1.0, 0.0)]
+        [TestCase(8388608, 16.635532333438682)]
+        public void CanComputeInverseHyperbolicCosine(double value, double expected)
         {
             var actual = Trig.InverseHyperbolicCosine(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -292,8 +322,11 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseHyperbolicCotangent([Values(8388608, -8388608, 1, -1)] double value, [Values(1.1920928955078181e-7, -1.1920928955078181e-7, double.PositiveInfinity, double.NegativeInfinity)] double expected)
+        [TestCase(8388608, 1.1920928955078181e-7)]
+        [TestCase(-8388608, -1.1920928955078181e-7)]
+        [TestCase(1, double.PositiveInfinity)]
+        [TestCase(-1, double.NegativeInfinity)]
+        public void CanComputeInverseHyperbolicCotangent(double value, double expected)
         {
             var actual = Trig.InverseHyperbolicCotangent(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -304,8 +337,10 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseHyperbolicSecant([Values(0, 0.5, 1)] double value, [Values(double.PositiveInfinity, 1.3169578969248167, 0.0)] double expected)
+        [TestCase(0, double.PositiveInfinity)]
+        [TestCase(0.5, 1.3169578969248167)]
+        [TestCase(1, 0.0)]
+        public void CanComputeInverseHyperbolicSecant(double value, double expected)
         {
             var actual = Trig.InverseHyperbolicSecant(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -316,10 +351,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseHyperbolicSine(
-            [Values(0.0, 8388608, -8388608, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(0.0, 16.63553233343869, -16.63553233343869, 1.1920928955078072e-7, -1.1920928955078072e-7)] double expected)
+        [TestCase(0.0, 0.0)]
+        [TestCase(8388608, 16.63553233343869)]
+        [TestCase(-8388608, -16.63553233343869)]
+        [TestCase(1.19209289550780998537e-7, 1.1920928955078072e-7)]
+        [TestCase(-1.19209289550780998537e-7, -1.1920928955078072e-7)]
+        public void CanComputeInverseHyperbolicSine(double value, double expected)
         {
             var actual = Trig.InverseHyperbolicSine(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -330,10 +367,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseHyperbolicTangent(
-            [Values(0.0, 1.0, -1.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(0.0, double.PositiveInfinity, double.NegativeInfinity, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double expected)
+        [TestCase(0.0, 0.0)]
+        [TestCase(1.0, double.PositiveInfinity)]
+        [TestCase(-1.0, double.NegativeInfinity)]
+        [TestCase(1.19209289550780998537e-7, 1.19209289550780998537e-7)]
+        [TestCase(-1.19209289550780998537e-7, -1.19209289550780998537e-7)]
+        public void CanComputeInverseHyperbolicTangent(double value, double expected)
         {
             var actual = Trig.InverseHyperbolicTangent(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -344,10 +383,11 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseSecant(
-            [Values(8388608, -8388608, 1.0, -1.0)] double value, 
-            [Values(1.5707962075856071, 1.5707964460041862, 0.0, 3.1415926535897932)] double expected)
+        [TestCase(8388608, 1.5707962075856071)]
+        [TestCase(-8388608, 1.5707964460041862)]
+        [TestCase(1.0, 0.0)]
+        [TestCase(-1.0, 3.1415926535897932)]
+        public void CanComputeInverseSecant(double value, double expected)
         {
             var actual = Trig.InverseSecant(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -358,10 +398,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseSine(
-            [Values(0.0, 1.0, -1.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(0.0, 1.5707963267948966, -1.5707963267948966, 1.1920928955078128e-7, -1.1920928955078128e-7)] double expected)
+        [TestCase(0.0, 0.0)]
+        [TestCase(1.0, 1.5707963267948966)]
+        [TestCase(-1.0, -1.5707963267948966)]
+        [TestCase(1.19209289550780998537e-7, 1.1920928955078128e-7)]
+        [TestCase(-1.19209289550780998537e-7, -1.1920928955078128e-7)]
+        public void CanComputeInverseSine(double value, double expected)
         {
             var actual = Trig.InverseSine(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -372,10 +414,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeInverseTangent(
-            [Values(0.0, 8388608, -8388608, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(0.0, 1.570796207585607, -1.570796207585607, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double expected)
+        [TestCase(0.0, 0.0)]
+        [TestCase(8388608, 1.570796207585607)]
+        [TestCase(-8388608, -1.570796207585607)]
+        [TestCase(1.19209289550780998537e-7, 1.19209289550780998537e-7)]
+        [TestCase(-1.19209289550780998537e-7, -1.19209289550780998537e-7)]
+        public void CanComputeInverseTangent(double value, double expected)
         {
             var actual = Trig.InverseTangent(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -386,10 +430,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeSecant(
-            [Values(0.0, 8388608, 1.19209289550780998537e-7, -8388608, -1.19209289550780998537e-7)] double value, 
-            [Values(1.0, -1.1089490624226292, 1.0000000000000071, -1.1089490624226292, 1.0000000000000071)] double expected)
+        [TestCase(0.0, 1.0)]
+        [TestCase(8388608, -1.1089490624226292)]
+        [TestCase(1.19209289550780998537e-7, 1.0000000000000071)]
+        [TestCase(-8388608, -1.1089490624226292)]
+        [TestCase(-1.19209289550780998537e-7, 1.0000000000000071)]
+        public void CanComputeSecant(double value, double expected)
         {
             var actual = Trig.Secant(value);
             AssertHelpers.AlmostEqual(expected, actual, 14);
@@ -400,10 +446,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeSine(
-            [Values(0.0, 8388608, -8388608, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(0.0, 0.43224820225679778, -0.43224820225679778, 1.1920928955078072e-7, -1.1920928955078072e-7)] double expected)
+        [TestCase(0.0, 0.0)]
+        [TestCase(8388608, 0.43224820225679778)]
+        [TestCase(-8388608, -0.43224820225679778)]
+        [TestCase(1.19209289550780998537e-7, 1.1920928955078072e-7)]
+        [TestCase(-1.19209289550780998537e-7, -1.1920928955078072e-7)]
+        public void CanComputeSine(double value, double expected)
         {
             var actual = Trig.Sine(value);
             AssertHelpers.AlmostEqual(expected, actual, 13);
@@ -414,10 +462,12 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="value">Input value.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeTangent(
-            [Values(0.0, 8388608, -8388608, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double value, 
-            [Values(0.0, -0.47934123862654288, 0.47934123862654288, 1.1920928955078157e-7, -1.1920928955078157e-7)] double expected)
+        [TestCase(0.0, 0.0)]
+        [TestCase(8388608, -0.47934123862654288)]
+        [TestCase(-8388608, 0.47934123862654288)]
+        [TestCase(1.19209289550780998537e-7, 1.1920928955078157e-7)]
+        [TestCase(-1.19209289550780998537e-7, -1.1920928955078157e-7)]
+        public void CanComputeTangent(double value, double expected)
         {
             var actual = Trig.Tangent(value);
             AssertHelpers.AlmostEqual(expected, actual, 13);
@@ -484,12 +534,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexCotangent(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double imag, 
-            [Values(double.PositiveInfinity, -2.086196470108229, 2.086196470108229, 8388607.999999978, -8388607.999999978, -2.0861964701080704, 2.0861964701080704)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, -6.3803383253713457e-7, 6.3803383253713457e-7)] double expectedImag)
+        [TestCase(0.0, 0.0, double.PositiveInfinity, 0.0)]
+        [TestCase(8.388608e6, 0.0, -2.086196470108229, 0.0)]
+        [TestCase(-8.388608e6, 0.0, 2.086196470108229, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 8388607.999999978, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -8388607.999999978, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, -2.0861964701080704, -6.3803383253713457e-7)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, 2.0861964701080704, 6.3803383253713457e-7)]
+        public void CanComputeComplexCotangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Cotangent();
             var expected = new Complex(expectedReal, expectedImag);
@@ -503,12 +555,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexSecant(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double imag, 
-            [Values(1.0, -1.1089490624226292, -1.1089490624226292, 1.0000000000000071, 1.0000000000000071, -1.1089490624226177, -1.1089490624226177)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 6.3367488045143761e-8, 6.3367488045143761e-8)] double expectedImag)
+        [TestCase(0.0, 0.0, 1.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, -1.1089490624226292, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -1.1089490624226292, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.0000000000000071, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, 1.0000000000000071, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, -1.1089490624226177, 6.3367488045143761e-8)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.1089490624226177, 6.3367488045143761e-8)]
+        public void CanComputeComplexSecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Secant();
             var expected = new Complex(expectedReal, expectedImag);
@@ -522,12 +576,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexCosecant(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7)] double imag, 
-            [Values(double.PositiveInfinity, 2.3134856195559191, -2.3134856195559191, 8388608.0000000376, -8388608.0000000376, 2.3134856195557596, -2.3134856195557596)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 5.7534999050657057e-7, -5.7534999050657057e-7)] double expectedImag)
+        [TestCase(0.0, 0.0, double.PositiveInfinity, 0.0)]
+        [TestCase(8.388608e6, 0.0, 2.3134856195559191, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -2.3134856195559191, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 8388608.0000000376, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -8388608.0000000376, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 2.3134856195557596, 5.7534999050657057e-7)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -2.3134856195557596, -5.7534999050657057e-7)]
+        public void CanComputeComplexCosecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Cosecant();
             var expected = new Complex(expectedReal, expectedImag);
@@ -541,12 +597,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexHyperbolicSine(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(0.0, double.PositiveInfinity, double.NegativeInfinity, 1.1920928955078128e-7, -1.1920928955078128e-7, double.PositiveInfinity, double.NegativeInfinity, 0.45730415318424922)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, double.PositiveInfinity, double.NegativeInfinity, -0.54061268571315335)] double expectedImag)
+        [TestCase(0.0, 0.0, 0.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, double.PositiveInfinity, 0.0)]
+        [TestCase(-8.388608e6, 0.0, double.NegativeInfinity, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.1920928955078128e-7, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078128e-7, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, double.PositiveInfinity, double.PositiveInfinity)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, double.NegativeInfinity, double.NegativeInfinity)]
+        [TestCase(0.5, -0.5, 0.45730415318424922, -0.54061268571315335)]
+        public void CanComputeComplexHyperbolicSine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).HyperbolicSine();
             var expected = new Complex(expectedReal, expectedImag);
@@ -560,12 +619,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexHyperbolicCosine(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(1.0, double.PositiveInfinity, double.PositiveInfinity, 1.0000000000000071, 1.0000000000000071, double.PositiveInfinity, double.PositiveInfinity, 0.9895848833999199)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, double.PositiveInfinity, double.PositiveInfinity, -0.24982639750046154)] double expectedImag)
+        [TestCase(0.0, 0.0, 1.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, double.PositiveInfinity, 0.0)]
+        [TestCase(-8.388608e6, 0.0, double.PositiveInfinity, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.0000000000000071, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, 1.0000000000000071, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, double.PositiveInfinity, double.PositiveInfinity)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, double.PositiveInfinity, double.PositiveInfinity)]
+        [TestCase(0.5, -0.5, 0.9895848833999199, -0.24982639750046154)]
+        public void CanComputeComplexHyperbolicCosine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).HyperbolicCosine();
             var expected = new Complex(expectedReal, expectedImag);
@@ -579,12 +641,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexHyperbolicTangent(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(0.0, 1.0, -1.0, 1.1920928955078043e-7, -1.1920928955078043e-7, 1.0, -1.0, 0.56408314126749848)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.40389645531602575)] double expectedImag)
+        [TestCase(0.0, 0.0, 0.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, 1.0, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -1.0, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.1920928955078043e-7, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078043e-7, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.0, 0.0)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.0, 0.0)]
+        [TestCase(0.5, -0.5, 0.56408314126749848, -0.40389645531602575)]
+        public void CanComputeComplexHyperbolicTangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).HyperbolicTangent();
             var expected = new Complex(expectedReal, expectedImag);
@@ -598,12 +663,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexHyperbolicCotangent(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(double.PositiveInfinity, 1.0, -1.0, 8388608.0000000574, -8388608.0000000574, 1.0, -1.0, 1.1719451445243514)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.8391395790248311)] double expectedImag)
+        [TestCase(0.0, 0.0, double.PositiveInfinity, 0.0)]
+        [TestCase(8.388608e6, 0.0, 1.0, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -1.0, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 8388608.0000000574, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -8388608.0000000574, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.0, 0.0)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.0, 0.0)]
+        [TestCase(0.5, -0.5, 1.1719451445243514, -0.8391395790248311)]
+        public void CanComputeComplexHyperbolicCotangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).HyperbolicCotangent();
             var expected = new Complex(expectedReal, expectedImag);
@@ -617,12 +685,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexHyperbolicSecant(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(1.0, 0.0, 0.0, 0.99999999999999289, 0.99999999999999289, 0.0, -0.0, 0.94997886761549463)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.23982763093808804)] double expectedImag)
+        [TestCase(0.0, 0.0, 1.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, 0.0, 0.0)]
+        [TestCase(-8.388608e6, 0.0, 0.0, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 0.99999999999999289, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, 0.99999999999999289, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 0.0, 0.0)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -0.0, 0.0)]
+        [TestCase(0.5, -0.5, 0.94997886761549463, 0.23982763093808804)]
+        public void CanComputeComplexHyperbolicSecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).HyperbolicSecant();
             var expected = new Complex(expectedReal, expectedImag);
@@ -636,12 +707,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexHyperbolicCosecant(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(double.PositiveInfinity, 0.0, 0.0, 8388607.9999999978, -8388607.9999999978, 0.0, 0.0, 0.91207426403881078)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0782296946540223)] double expectedImag)
+        [TestCase(0.0, 0.0, double.PositiveInfinity, 0.0)]
+        [TestCase(8.388608e6, 0.0, 0.0, 0.0)]
+        [TestCase(-8.388608e6, 0.0, 0.0, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 8388607.9999999978, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -8388607.9999999978, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 0.0, 0.0)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, 0.0, 0.0)]
+        [TestCase(0.5, -0.5, 0.91207426403881078, 1.0782296946540223)]
+        public void CanComputeComplexHyperbolicCosecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).HyperbolicCosecant();
             var expected = new Complex(expectedReal, expectedImag);
@@ -655,12 +729,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseSine(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(0.0, 1.5707963267948966, -1.5707963267948966, 1.1920928955078128e-7, -1.1920928955078128e-7, 1.5707963267948966, -1.5707963267948966, 0.4522784471511907)] double expectedReal, 
-            [Values(0.0, -16.635532333438682, 16.635532333438682, 0.0, 0.0, 16.635532333438682, -16.635532333438682, -0.53063753095251787)] double expectedImag)
+        [TestCase(0.0, 0.0, 0.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, 1.5707963267948966, -16.635532333438682)]
+        [TestCase(-8.388608e6, 0.0, -1.5707963267948966, 16.635532333438682)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.1920928955078128e-7, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078128e-7, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.5707963267948966, 16.635532333438682)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.5707963267948966, -16.635532333438682)]
+        [TestCase(0.5, -0.5, 0.4522784471511907, -0.53063753095251787)]
+        public void CanComputeComplexInverseSine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseSine();
             var expected = new Complex(expectedReal, expectedImag);
@@ -674,12 +751,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseCosine(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(1.5707963267948966, 0.0, 3.1415926535897931, 1.570796207585607, 1.5707964460041861, 1.4210854715202073e-14, 3.1415926535897789, 1.1185178796437059)] double expectedReal, 
-            [Values(0.0, 16.635532333438682, -16.635532333438682, 0.0, 0.0, -16.635532333438682, 16.63553233343868, 0.53063753095251787)] double expectedImag)
+        [TestCase(0.0, 0.0, 1.5707963267948966, 0.0)]
+        [TestCase(8.388608e6, 0.0, 0.0, 16.635532333438682)]
+        [TestCase(-8.388608e6, 0.0, 3.1415926535897931, -16.635532333438682)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.570796207585607, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, 1.5707964460041861, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.4210854715202073e-14, -16.635532333438682)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, 3.1415926535897789, 16.63553233343868)]
+        [TestCase(0.5, -0.5, 1.1185178796437059, 0.53063753095251787)]
+        public void CanComputeComplexInverseCosine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseCosine();
             var expected = new Complex(expectedReal, expectedImag);
@@ -693,12 +773,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseTangent(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(0.0, 1.570796207585607, -1.570796207585607, 1.1920928955078043e-7, -1.1920928955078043e-7, 1.570796207585607, -1.570796207585607, 0.5535743588970452)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.40235947810852507)] double expectedImag)
+        [TestCase(0.0, 0.0, 0.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, 1.570796207585607, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -1.570796207585607, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.1920928955078043e-7, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078043e-7, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.570796207585607, 0.0)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.570796207585607, 0.0)]
+        [TestCase(0.5, -0.5, 0.5535743588970452, -0.40235947810852507)]
+        public void CanComputeComplexInverseTangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseTangent();
             var expected = new Complex(expectedReal, expectedImag);
@@ -712,12 +795,15 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseCotangent(
-            [Values(0.0, 8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(Math.PI / 2.0, 1.1920928955078069e-7, -1.1920928955078069e-7, 1.5707962075856071, -1.5707962075856071, 1.1920928955078069e-7, -1.1920928955078069e-7, 1.0172219678978514)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, -1.6907571720583645e-21, 1.6907571720583645e-21, 0.40235947810852509)] double expectedImag)
+        [TestCase(0.0, 0.0, Math.PI / 2.0, 0.0)]
+        [TestCase(8.388608e6, 0.0, 1.1920928955078069e-7, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -1.1920928955078069e-7, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.5707962075856071, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.5707962075856071, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.1920928955078069e-7, -1.6907571720583645e-21)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.1920928955078069e-7, 1.6907571720583645e-21)]
+        [TestCase(0.5, -0.5, 1.0172219678978514, 0.40235947810852509)]
+        public void CanComputeComplexInverseCotangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseCotangent();
             var expected = new Complex(expectedReal, expectedImag);
@@ -731,12 +817,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseSecant(
-            [Values(8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(1.5707962075856071, 1.5707964460041862, 0.0, 3.1415926535897932, 1.5707962075856071, 1.5707964460041862, 0.90455689430238136)] double expectedReal, 
-            [Values(0.0, 0.0, 16.635532333438686, -16.635532333438686, 1.6940658945086007e-21, -1.6940658945086007e-21, -1.0612750619050357)] double expectedImag)
+        [TestCase(8.388608e6, 0.0, 1.5707962075856071, 0.0)]
+        [TestCase(-8.388608e6, 0.0, 1.5707964460041862, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 0.0, 16.635532333438686)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, 3.1415926535897932, -16.635532333438686)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.5707962075856071, 1.6940658945086007e-21)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, 1.5707964460041862, -1.6940658945086007e-21)]
+        [TestCase(0.5, -0.5, 0.90455689430238136, -1.0612750619050357)]
+        public void CanComputeComplexInverseSecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseSecant();
             var expected = new Complex(expectedReal, expectedImag);
@@ -750,12 +838,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseCosecant(
-            [Values(8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(1.1920928955078153e-7, -1.1920928955078153e-7, 1.5707963267948966, -1.5707963267948966, 1.1920928955078153e-7, -1.1920928955078153e-7, 0.66623943249251526)] double expectedReal, 
-            [Values(0.0, 0.0, -16.635532333438686, 16.635532333438686, -1.6940658945086007e-21, 1.6940658945086007e-21, 1.0612750619050357)] double expectedImag)
+        [TestCase(8.388608e6, 0.0, 1.1920928955078153e-7, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -1.1920928955078153e-7, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.5707963267948966, -16.635532333438686)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.5707963267948966, 16.635532333438686)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.1920928955078153e-7, -1.6940658945086007e-21)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.1920928955078153e-7, 1.6940658945086007e-21)]
+        [TestCase(0.5, -0.5, 0.66623943249251526, 1.0612750619050357)]
+        public void CanComputeComplexInverseCosecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseCosecant();
             var expected = new Complex(expectedReal, expectedImag);
@@ -769,12 +859,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseHyperbolicSine(
-            [Values(8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(16.63553233343869, -16.63553233343869, 1.1920928955078072e-7, -1.1920928955078072e-7, 16.63553233343869, -16.63553233343869, 0.53063753095251787)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.4210854715201873e-14, -1.4210854715201873e-14, -0.4522784471511907)] double expectedImag)
+        [TestCase(8.388608e6, 0.0, 16.63553233343869, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -16.63553233343869, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.1920928955078072e-7, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078072e-7, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 16.63553233343869, 1.4210854715201873e-14)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -16.63553233343869, -1.4210854715201873e-14)]
+        [TestCase(0.5, -0.5, 0.53063753095251787, -0.4522784471511907)]
+        public void CanComputeComplexInverseHyperbolicSine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseHyperbolicSine();
             var expected = new Complex(expectedReal, expectedImag);
@@ -788,12 +880,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseHyperbolicCosine(
-            [Values(8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(16.635532333438682, 16.635532333438682, 0.0, 0.0, 16.635532333438682, 16.635532333438682, 0.53063753095251787)] double expectedReal, 
-            [Values(0.0, 3.1415926535897931, 1.570796207585607, 1.5707964460041861, 1.4210854715202073e-14, -3.1415926535897789, -1.1185178796437059)] double expectedImag)
+        [TestCase(8.388608e6, 0.0, 16.635532333438682, 0.0)]
+        [TestCase(-8.388608e6, 0.0, 16.635532333438682, 3.1415926535897931)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 0.0, 1.570796207585607)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, 0.0, 1.5707964460041861)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 16.635532333438682, 1.4210854715202073e-14)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, 16.635532333438682, -3.1415926535897789)]
+        [TestCase(0.5, -0.5, 0.53063753095251787, -1.1185178796437059)]
+        public void CanComputeComplexInverseHyperbolicCosine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseHyperbolicCosine();
             var expected = new Complex(expectedReal, expectedImag);
@@ -807,12 +901,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseHyperbolicTangent(
-            [Values(8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(1.1920928955078125e-7, -1.1920928955078125e-7, 1.1920928955078157e-7, -1.1920928955078157e-7, 1.1920928955078125e-7, -1.1920928955078125e-7, 0.40235947810852509)] double expectedReal, 
-            [Values(-1.5707963267948966, 1.5707963267948966, 0.0, 0.0, 1.5707963267948966, -1.5707963267948966, -0.55357435889704525)] double expectedImag)
+        [TestCase(8.388608e6, 0.0, 1.1920928955078125e-7, -1.5707963267948966)]
+        [TestCase(-8.388608e6, 0.0, -1.1920928955078125e-7, 1.5707963267948966)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.1920928955078157e-7, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078157e-7, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.1920928955078125e-7, 1.5707963267948966)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.1920928955078125e-7, -1.5707963267948966)]
+        [TestCase(0.5, -0.5, 0.40235947810852509, -0.55357435889704525)]
+        public void CanComputeComplexInverseHyperbolicTangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseHyperbolicTangent();
             var expected = new Complex(expectedReal, expectedImag);
@@ -826,12 +922,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseHyperbolicCotangent(
-            [Values(8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(1.1920928955078181e-7, -1.1920928955078181e-7, 1.1920928955078157e-7, -1.1920928955078157e-7, 1.1920928955078181e-7, -1.1920928955078181e-7, 0.40235947810852509)] double expectedReal, 
-            [Values(0.0, 0.0, -1.5707963267948966, 1.5707963267948966, -1.6940658945086212e-21, 1.6940658945086212e-21, 1.0172219678978514)] double expectedImag)
+        [TestCase(8.388608e6, 0.0, 1.1920928955078181e-7, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -1.1920928955078181e-7, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 1.1920928955078157e-7, -1.5707963267948966)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078157e-7, 1.5707963267948966)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.1920928955078181e-7, -1.6940658945086212e-21)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.1920928955078181e-7, 1.6940658945086212e-21)]
+        [TestCase(0.5, -0.5, 0.40235947810852509, 1.0172219678978514)]
+        public void CanComputeComplexInverseHyperbolicCotangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseHyperbolicCotangent();
             var expected = new Complex(expectedReal, expectedImag);
@@ -845,12 +943,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseHyperbolicSecant(
-            [Values(8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(0.0, 0.0, 16.635532333438686, 16.635532333438686, 1.6940658945086007e-21, 1.6940658945086007e-21, 1.0612750619050357)] double expectedReal, 
-            [Values(1.5707962075856071, 1.5707964460041862, 0.0, 3.1415926535897932, -1.5707962075856071, 1.5707964460041862, 0.90455689430238136)] double expectedImag)
+        [TestCase(8.388608e6, 0.0, 0.0, 1.5707962075856071)]
+        [TestCase(-8.388608e6, 0.0, 0.0, 1.5707964460041862)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 16.635532333438686, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, 16.635532333438686, 3.1415926535897932)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.6940658945086007e-21, -1.5707962075856071)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, 1.6940658945086007e-21, 1.5707964460041862)]
+        [TestCase(0.5, -0.5, 1.0612750619050357, 0.90455689430238136)]
+        public void CanComputeComplexInverseHyperbolicSecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseHyperbolicSecant();
             var expected = new Complex(expectedReal, expectedImag);
@@ -864,12 +964,14 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="imag">Input complex imaginary part.</param>
         /// <param name="expectedReal">Expected complex real part.</param>
         /// <param name="expectedImag">Expected complex imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeComplexInverseHyperbolicCosecant(
-            [Values(8.388608e6, -8.388608e6, 1.19209289550780998537e-7, -1.19209289550780998537e-7, 8.388608e6, -8.388608e6, 0.5)] double real, 
-            [Values(0.0, 0.0, 0.0, 0.0, 1.19209289550780998537e-7, -1.19209289550780998537e-7, -0.5)] double imag, 
-            [Values(1.1920928955078097e-7, -1.1920928955078097e-7, 16.635532333438693, -16.635532333438693, 1.1920928955078076e-7, -1.1920928955078076e-7, 1.0612750619050357)] double expectedReal, 
-            [Values(0.0, 0.0, 0.0, 0.0, -1.6940658945085851e-21, 1.6940658945085851e-21, 0.66623943249251526)] double expectedImag)
+        [TestCase(8.388608e6, 0.0, 1.1920928955078097e-7, 0.0)]
+        [TestCase(-8.388608e6, 0.0, -1.1920928955078097e-7, 0.0)]
+        [TestCase(1.19209289550780998537e-7, 0.0, 16.635532333438693, 0.0)]
+        [TestCase(-1.19209289550780998537e-7, 0.0, -16.635532333438693, 0.0)]
+        [TestCase(8.388608e6, 1.19209289550780998537e-7, 1.1920928955078076e-7, -1.6940658945085851e-21)]
+        [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.1920928955078076e-7, 1.6940658945085851e-21)]
+        [TestCase(0.5, -0.5, 1.0612750619050357, 0.66623943249251526)]
+        public void CanComputeComplexInverseHyperbolicCosecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).InverseHyperbolicCosecant();
             var expected = new Complex(expectedReal, expectedImag);

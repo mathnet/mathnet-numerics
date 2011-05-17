@@ -1,4 +1,4 @@
-﻿// <copyright file="LinearAlgebraProviderTests.cs" company="Math.NET">
+// <copyright file="LinearAlgebraProviderTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,12 +28,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
 {
     using System;
     using System.Collections.Generic;
-
     using Algorithms.LinearAlgebra;
     using LinearAlgebra.Complex32;
     using LinearAlgebra.Generic;
     using Numerics;
-
     using NUnit.Framework;
 
     /// <summary>
@@ -57,11 +55,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
         /// </summary>
         private readonly IDictionary<string, DenseMatrix> _matrices = new Dictionary<string, DenseMatrix>
                                                                       {
-                                                                          { "Singular3x3", new DenseMatrix(new[,] { { new Complex32(1.0f, 0.0f), 1.0f, 2.0f }, { 1.0f, 1.0f, 2.0f }, { 1.0f, 1.0f, 2.0f } }) }, 
-                                                                          { "Square3x3", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f }, { -4.4f, 5.5f, 6.6f } }) }, 
-                                                                          { "Square4x4", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f, -3.3f, -4.4f }, { 0.0f, 1.1f, 2.2f, 3.3f }, { 1.0f, 2.1f, 6.2f, 4.3f }, { -4.4f, 5.5f, 6.6f, -7.7f } }) }, 
-                                                                          { "Singular4x4", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f } }) }, 
-                                                                          { "Tall3x2", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f }, { 0.0f, 1.1f }, { -4.4f, 5.5f } }) }, 
+                                                                          { "Singular3x3", new DenseMatrix(new[,] { { new Complex32(1.0f, 0.0f), 1.0f, 2.0f }, { 1.0f, 1.0f, 2.0f }, { 1.0f, 1.0f, 2.0f } }) },
+                                                                          { "Square3x3", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f }, { -4.4f, 5.5f, 6.6f } }) },
+                                                                          { "Square4x4", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f, -3.3f, -4.4f }, { 0.0f, 1.1f, 2.2f, 3.3f }, { 1.0f, 2.1f, 6.2f, 4.3f }, { -4.4f, 5.5f, 6.6f, -7.7f } }) },
+                                                                          { "Singular4x4", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f } }) },
+                                                                          { "Tall3x2", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f }, { 0.0f, 1.1f }, { -4.4f, 5.5f } }) },
                                                                           { "Wide2x3", new DenseMatrix(new[,] { { new Complex32(-1.1f, 0.0f), -2.2f, -3.3f }, { 0.0f, 1.1f, 2.2f } }) }
                                                                       };
 
@@ -181,7 +179,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
                 Assert.AreEqual(_x[i] / _y[i], result[i]);
             }
         }
-        
+
         /// <summary>
         /// Can compute L1 norm.
         /// </summary>
@@ -373,7 +371,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
                 for (var j = 0; j < c.ColumnCount; j++)
                 {
                     var test = 2.2f * x.Row(i) * y.Column(j);
-                    
+
                     // if they are both close to zero, skip
                     if (Math.Abs(test.Real) < 1e-7 && Math.Abs(c[i, j].Real) < 1e-7)
                     {
@@ -422,16 +420,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
             var matrix = _matrices["Square3x3"];
             var a = new Complex32[matrix.RowCount * matrix.RowCount];
             Array.Copy(matrix.Data, a, a.Length);
-            
+
             Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount);
 
             AssertHelpers.AlmostEqual(a[0], -0.454545454545454f, 6);
-            AssertHelpers.AlmostEqual(a[1],  -0.909090909090908f, 6);
+            AssertHelpers.AlmostEqual(a[1], -0.909090909090908f, 6);
             AssertHelpers.AlmostEqual(a[2], 0.454545454545454f, 6);
             AssertHelpers.AlmostEqual(a[3], -0.340909090909090f, 6);
             AssertHelpers.AlmostEqual(a[4], -2.045454545454543f, 6);
             AssertHelpers.AlmostEqual(a[5], 1.477272727272726f, 6);
-            AssertHelpers.AlmostEqual(a[6],  -0.113636363636364f, 6);
+            AssertHelpers.AlmostEqual(a[6], -0.113636363636364f, 6);
             AssertHelpers.AlmostEqual(a[7], 0.227272727272727f, 6);
             AssertHelpers.AlmostEqual(a[8], -0.113636363636364f, 6);
         }
@@ -655,7 +653,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
             {
                 for (var col = 0; col < matrix.ColumnCount; col++)
                 {
-                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);                    
+                    AssertHelpers.AlmostEqual(matrix[row, col], a[row, col], 6);
                 }
             }
         }
@@ -838,7 +836,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
             var b = new[] { new Complex32(1.0f, 0.0f), 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
             var x = new Complex32[matrix.ColumnCount * 2];
             Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
-            
+
             NotModified(3, 2, a, matrix);
 
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
@@ -1271,7 +1269,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
         /// Can solve Ax=b using SVD factorization with a tall A matrix.
         /// </summary>
         [Test]
-        public void CanSolveUsingSVDTallMatrix()
+        public void CanSolveUsingSvdTallMatrix()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new Complex32[matrix.RowCount * matrix.ColumnCount];
@@ -1286,10 +1284,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose() * matrix).Inverse() * matrix.Transpose() * mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqual(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqual(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqual(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqual(test[1, 1], x[3], 5);
         }
 
         /// <summary>
@@ -1297,7 +1295,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
         /// using a factored matrix.
         /// </summary>
         [Test]
-        public void CanSolveUsingSVDSquareMatrixOnFactoredMatrix()
+        public void CanSolveUsingSvdSquareMatrixOnFactoredMatrix()
         {
             var matrix = _matrices["Square3x3"];
             var a = new Complex32[matrix.RowCount * matrix.ColumnCount];
@@ -1316,8 +1314,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
             var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
             var mb = matrix * mx;
 
-            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 6);
-            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 6);
+            AssertHelpers.AlmostEqual(mb[0, 0], b[0], 5);
+            AssertHelpers.AlmostEqual(mb[1, 0], b[1], 5);
             AssertHelpers.AlmostEqual(mb[2, 0], b[2], 5);
             AssertHelpers.AlmostEqual(mb[0, 1], b[3], 5);
             AssertHelpers.AlmostEqual(mb[1, 1], b[4], 5);
@@ -1329,7 +1327,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
         /// using a factored matrix.
         /// </summary>
         [Test]
-        public void CanSolveUsingSVDTallMatrixOnFactoredMatrix()
+        public void CanSolveUsingSvdTallMatrixOnFactoredMatrix()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new Complex32[matrix.RowCount * matrix.ColumnCount];
@@ -1348,10 +1346,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex32
             var mb = new DenseMatrix(matrix.RowCount, 2, b);
             var test = (matrix.Transpose() * matrix).Inverse() * matrix.Transpose() * mb;
 
-            AssertHelpers.AlmostEqual(test[0, 0], x[0], 6);
-            AssertHelpers.AlmostEqual(test[1, 0], x[1], 6);
-            AssertHelpers.AlmostEqual(test[0, 1], x[2], 6);
-            AssertHelpers.AlmostEqual(test[1, 1], x[3], 6);
+            AssertHelpers.AlmostEqual(test[0, 0], x[0], 5);
+            AssertHelpers.AlmostEqual(test[1, 0], x[1], 5);
+            AssertHelpers.AlmostEqual(test[0, 1], x[2], 5);
+            AssertHelpers.AlmostEqual(test[1, 1], x[3], 5);
         }
 
         /// <summary>

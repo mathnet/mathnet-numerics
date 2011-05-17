@@ -1,4 +1,4 @@
-﻿// <copyright file="FourierTest.cs" company="Math.NET">
+// <copyright file="FourierTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -92,18 +92,18 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var dft = new DiscreteFourierTransform();
 
             Assert.Throws(
-                typeof(ArgumentException), 
+                typeof(ArgumentException),
                 () => dft.Radix2Forward(samples, FourierOptions.Default));
 
             Assert.Throws(
-                typeof(ArgumentException), 
+                typeof(ArgumentException),
                 () => dft.Radix2Inverse(samples, FourierOptions.Default));
 
             Assert.Throws(
-                typeof(ArgumentException), 
+                typeof(ArgumentException),
                 () => DiscreteFourierTransform.Radix2(samples, -1));
             Assert.Throws(
-                typeof(ArgumentException), 
+                typeof(ArgumentException),
                 () => DiscreteFourierTransform.Radix2Parallel(samples, -1));
         }
     }

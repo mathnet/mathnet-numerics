@@ -49,11 +49,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Precondit
         {
             var type = ilu.GetType();
             var methodInfo = type.GetMethod(
-                methodName, 
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, 
-                null, 
-                CallingConventions.Standard, 
-                new Type[0], 
+                methodName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static,
+                null,
+                CallingConventions.Standard,
+                new Type[0],
                 null);
             var obj = methodInfo.Invoke(ilu, null);
             return (T)obj;

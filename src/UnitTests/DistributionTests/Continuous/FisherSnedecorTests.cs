@@ -1,4 +1,4 @@
-﻿// <copyright file="FisherSnedecorTests.cs" company="Math.NET">
+// <copyright file="FisherSnedecorTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,10 +51,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
-        [Test]
-        public void CanCreateFisherSnedecor(
-            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double d1, 
-            [Values(0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double d2)
+        [TestCase(0.1, 0.1)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(0.1, 1.0)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, Double.PositiveInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void CanCreateFisherSnedecor(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
             Assert.AreEqual(d1, n.DegreeOfFreedom1);
@@ -66,10 +75,23 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
-        [Test, Sequential]
-        public void FisherSnedecorCreateFailsWithBadParameters(
-            [Values(Double.NaN, 0.0, -1.0, -10.0, Double.NaN, 0.0, -1.0, -10.0, Double.NaN, 0.0, -1.0, -10.0, Double.NaN, 0.0, -1.0, -10.0)] double d1, 
-            [Values(Double.NaN, Double.NaN, Double.NaN, Double.NaN, 0.0, 0.0, 0.0, 0.0, -1.0, -1.0, -1.0, -1.0, -10.0, -10.0, -10.0, -10.0)] double d2)
+        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(0.0, Double.NaN)]
+        [TestCase(-1.0, Double.NaN)]
+        [TestCase(-10.0, Double.NaN)]
+        [TestCase(Double.NaN, 0.0)]
+        [TestCase(0.0, 0.0)]
+        [TestCase(-1.0, 0.0)]
+        [TestCase(-10.0, 0.0)]
+        [TestCase(Double.NaN, -1.0)]
+        [TestCase(0.0, -1.0)]
+        [TestCase(-1.0, -1.0)]
+        [TestCase(-10.0, -1.0)]
+        [TestCase(Double.NaN, -10.0)]
+        [TestCase(0.0, -10.0)]
+        [TestCase(-1.0, -10.0)]
+        [TestCase(-10.0, -10.0)]
+        public void FisherSnedecorCreateFailsWithBadParameters(double d1, double d2)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new FisherSnedecor(d1, d2));
         }
@@ -88,8 +110,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set degree of freedom 1.
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
-        [Test]
-        public void CanSetDegreeOfFreedom1([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double d1)
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetDegreeOfFreedom1(double d1)
         {
             new FisherSnedecor(1.0, 2.0)
             {
@@ -111,8 +136,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set degree of freedom 2.
         /// </summary>
         /// <param name="d2">Degrees of freedom 2</param>
-        [Test]
-        public void CanSetDegreeOfFreedom2([Values(0.1, 1.0, 10.0, Double.PositiveInfinity)] double d2)
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetDegreeOfFreedom2(double d2)
         {
             new FisherSnedecor(1.0, 2.0)
             {
@@ -135,10 +163,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
-        [Test, Sequential]
-        public void ValidateMean(
-            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double d1, 
-            [Values(0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double d2)
+        [TestCase(0.1, 0.1)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(0.1, 1.0)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, Double.PositiveInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void ValidateMean(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
             if (d2 > 2)
@@ -152,10 +189,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
-        [Test, Sequential]
-        public void ValidateVariance(
-            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double d1, 
-            [Values(0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double d2)
+        [TestCase(0.1, 0.1)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(0.1, 1.0)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, Double.PositiveInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void ValidateVariance(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
             if (d2 > 4)
@@ -169,10 +215,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
-        [Test, Sequential]
-        public void ValidateStdDev(
-            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double d1, 
-            [Values(0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double d2)
+        [TestCase(0.1, 0.1)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(0.1, 1.0)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, Double.PositiveInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void ValidateStdDev(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
             if (d2 > 4)
@@ -196,10 +251,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
-        [Test, Sequential]
-        public void ValidateSkewness(
-            [Values(0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double d1, 
-            [Values(0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double d2)
+        [TestCase(0.1, 0.1)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(Double.PositiveInfinity, 0.1)]
+        [TestCase(0.1, 1.0)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(0.1, Double.PositiveInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(10.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
+        public void ValidateSkewness(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
             if (d2 > 6)
@@ -213,10 +277,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
-        [Test, Sequential]
-        public void ValidateMode(
-            [Values(0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0)] double d1, 
-            [Values(0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 100.0, 100.0, 100.0, 100.0)] double d2)
+        [TestCase(0.1, 0.1)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(10.0, 0.1)]
+        [TestCase(100.0, 0.1)]
+        [TestCase(0.1, 1.0)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(100.0, 1.0)]
+        [TestCase(0.1, 100.0)]
+        [TestCase(1.0, 100.0)]
+        [TestCase(10.0, 100.0)]
+        [TestCase(100.0, 100.0)]
+        public void ValidateMode(double d1, double d2)
         {
             var n = new FisherSnedecor(d1, d2);
             if (d1 > 2)
@@ -261,11 +334,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
         /// <param name="x">Input X value</param>
-        [Test, Sequential]
-        public void ValidateDensity(
-            [Values(0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0)] double d1, 
-            [Values(0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 100.0, 100.0, 100.0, 100.0, 0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 100.0, 100.0, 100.0, 100.0)] double d2, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0)] double x)
+        [TestCase(0.1, 0.1, 1.0)]
+        [TestCase(1.0, 0.1, 1.0)]
+        [TestCase(10.0, 0.1, 1.0)]
+        [TestCase(100.0, 0.1, 1.0)]
+        [TestCase(0.1, 1.0, 1.0)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 1.0, 1.0)]
+        [TestCase(100.0, 1.0, 1.0)]
+        [TestCase(0.1, 100.0, 1.0)]
+        [TestCase(1.0, 100.0, 1.0)]
+        [TestCase(10.0, 100.0, 1.0)]
+        [TestCase(100.0, 100.0, 1.0)]
+        [TestCase(0.1, 0.1, 10.0)]
+        [TestCase(1.0, 0.1, 10.0)]
+        [TestCase(10.0, 0.1, 10.0)]
+        [TestCase(100.0, 0.1, 10.0)]
+        [TestCase(0.1, 1.0, 10.0)]
+        [TestCase(1.0, 1.0, 10.0)]
+        [TestCase(10.0, 1.0, 10.0)]
+        [TestCase(100.0, 1.0, 10.0)]
+        [TestCase(0.1, 100.0, 10.0)]
+        [TestCase(1.0, 100.0, 10.0)]
+        [TestCase(10.0, 100.0, 10.0)]
+        [TestCase(100.0, 100.0, 10.0)]
+        public void ValidateDensity(double d1, double d2, double x)
         {
             var n = new FisherSnedecor(d1, d2);
             Assert.AreEqual(Math.Sqrt(Math.Pow(d1 * x, d1) * Math.Pow(d2, d2) / Math.Pow((d1 * x) + d2, d1 + d2)) / (x * SpecialFunctions.Beta(d1 / 2.0, d2 / 2.0)), n.Density(x));
@@ -277,11 +370,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
         /// <param name="x">Input X value</param>
-        [Test, Sequential]
-        public void ValidateDensityLn(
-            [Values(0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0, 0.1, 1.0, 10.0, 100.0)] double d1, 
-            [Values(0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 100.0, 100.0, 100.0, 100.0, 0.1, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 100.0, 100.0, 100.0, 100.0)] double d2, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0)] double x)
+        [TestCase(0.1, 0.1, 1.0)]
+        [TestCase(1.0, 0.1, 1.0)]
+        [TestCase(10.0, 0.1, 1.0)]
+        [TestCase(100.0, 0.1, 1.0)]
+        [TestCase(0.1, 1.0, 1.0)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 1.0, 1.0)]
+        [TestCase(100.0, 1.0, 1.0)]
+        [TestCase(0.1, 100.0, 1.0)]
+        [TestCase(1.0, 100.0, 1.0)]
+        [TestCase(10.0, 100.0, 1.0)]
+        [TestCase(100.0, 100.0, 1.0)]
+        [TestCase(0.1, 0.1, 10.0)]
+        [TestCase(1.0, 0.1, 10.0)]
+        [TestCase(10.0, 0.1, 10.0)]
+        [TestCase(100.0, 0.1, 10.0)]
+        [TestCase(0.1, 1.0, 10.0)]
+        [TestCase(1.0, 1.0, 10.0)]
+        [TestCase(10.0, 1.0, 10.0)]
+        [TestCase(100.0, 1.0, 10.0)]
+        [TestCase(0.1, 100.0, 10.0)]
+        [TestCase(1.0, 100.0, 10.0)]
+        [TestCase(10.0, 100.0, 10.0)]
+        [TestCase(100.0, 100.0, 10.0)]
+        public void ValidateDensityLn(double d1, double d2, double x)
         {
             var n = new FisherSnedecor(d1, d2);
             Assert.AreEqual(Math.Log(n.Density(x)), n.DensityLn(x));
@@ -314,11 +427,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="d1">Degrees of freedom 1</param>
         /// <param name="d2">Degrees of freedom 2</param>
         /// <param name="x">Input X value</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(0.1, 1.0, 10.0, 0.1, 1.0, 10.0, 0.1, 1.0, 10.0, 0.1, 1.0, 10.0)] double d1, 
-            [Values(0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0)] double d2, 
-            [Values(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0)] double x)
+        [TestCase(0.1, 0.1, 1.0)]
+        [TestCase(1.0, 0.1, 1.0)]
+        [TestCase(10.0, 0.1, 1.0)]
+        [TestCase(0.1, 1.0, 1.0)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 1.0, 1.0)]
+        [TestCase(0.1, 0.1, 10.0)]
+        [TestCase(1.0, 0.1, 10.0)]
+        [TestCase(10.0, 0.1, 10.0)]
+        [TestCase(0.1, 1.0, 10.0)]
+        [TestCase(1.0, 1.0, 10.0)]
+        [TestCase(10.0, 1.0, 10.0)]
+        public void ValidateCumulativeDistribution(double d1, double d2, double x)
         {
             var n = new FisherSnedecor(d1, d2);
             Assert.AreEqual(SpecialFunctions.BetaRegularized(d1 / 2.0, d2 / 2.0, d1 * x / (d2 + (x * d1))), n.CumulativeDistribution(x));

@@ -74,11 +74,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         {
             var type = ilutp.GetType();
             var methodInfo = type.GetMethod(
-                methodName, 
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, 
-                null, 
-                CallingConventions.Standard, 
-                new Type[0], 
+                methodName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static,
+                null,
+                CallingConventions.Standard,
+                new Type[0],
                 null);
             var obj = methodInfo.Invoke(ilutp, null);
             return (T)obj;
@@ -138,8 +138,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         {
             var result = new Ilutp
                          {
-                             DropTolerance = _dropTolerance, 
-                             FillLevel = _fillLevel, 
+                             DropTolerance = _dropTolerance,
+                             FillLevel = _fillLevel,
                              PivotTolerance = _pivotTolerance
                          };
             return result;
@@ -240,8 +240,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             sparseMatrix[2, 2] = 9;
             var ilu = new Ilutp
                       {
-                          PivotTolerance = 0.0, 
-                          DropTolerance = 0, 
+                          PivotTolerance = 0.0,
+                          DropTolerance = 0,
                           FillLevel = 10
                       };
             ilu.Initialize(sparseMatrix);
@@ -296,8 +296,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             sparseMatrix[2, 2] = 9;
             var ilu = new Ilutp
                       {
-                          PivotTolerance = 1.0, 
-                          DropTolerance = 0, 
+                          PivotTolerance = 1.0,
+                          DropTolerance = 0,
                           FillLevel = 10
                       };
             ilu.Initialize(sparseMatrix);
@@ -333,8 +333,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
             var vector = CreateStandardBcVector(Size);
             var preconditioner = new Ilutp
                                  {
-                                     PivotTolerance = 1.0, 
-                                     DropTolerance = 0, 
+                                     PivotTolerance = 1.0,
+                                     DropTolerance = 0,
                                      FillLevel = 10
                                  };
             preconditioner.Initialize(newMatrix);

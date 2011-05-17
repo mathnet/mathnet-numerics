@@ -1,4 +1,4 @@
-﻿// <copyright file="MatrixTests.cs" company="Math.NET">
+// <copyright file="MatrixTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -33,15 +33,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     /// <summary>
     /// Abstract class with the common set of matrix tests
     /// </summary>
-    [TestFixture]
     public abstract partial class MatrixTests : MatrixLoader
     {
         /// <summary>
         /// Can clone a matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanCloneMatrix([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanCloneMatrix(string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var clone = matrix.Clone();
@@ -62,8 +65,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can clone a matrix using <c>ICloneable</c> interface.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanCloneMatrixUsingICloneable([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanCloneMatrixUsingICloneable(string name)
         {
             var matrix = TestMatrices[name];
             var clone = (Matrix<float>)((ICloneable)matrix).Clone();
@@ -84,8 +91,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can copy a matrix to another matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanCopyTo([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanCopyTo(string name)
         {
             var matrix = TestMatrices[name];
             var copy = CreateMatrix(matrix.RowCount, matrix.ColumnCount);
@@ -149,8 +160,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can equate matrices.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanEquateMatrices([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanEquateMatrices(string name)
         {
             var matrix1 = CreateMatrix(TestData2D[name]);
             var matrix2 = CreateMatrix(TestData2D[name]);
@@ -166,8 +181,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        [Test, Sequential]
-        public void IfSizeIsNotPositiveThrowsArgumentException([Values(0, 2, 0, -1, 1)] int rows, [Values(2, 0, 0, 1, -1)] int columns)
+        [TestCase(0, 2)]
+        [TestCase(2, 0)]
+        [TestCase(0, 0)]
+        [TestCase(-1, 1)]
+        [TestCase(1, -1)]
+        public void IfSizeIsNotPositiveThrowsArgumentException(int rows, int columns)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => CreateMatrix(rows, columns));
         }
@@ -176,8 +195,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Testing for equality with non-matrix returns <c>false</c>.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void TestingForEqualityWithNonMatrixReturnsFalse([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void TestingForEqualityWithNonMatrixReturnsFalse(string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             Assert.IsFalse(matrix.Equals(2));
@@ -187,8 +210,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can test for equality using Object.Equals.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanTestForEqualityUsingObjectEquals([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanTestForEqualityUsingObjectEquals(string name)
         {
             var matrix1 = CreateMatrix(TestData2D[name]);
             var matrix2 = CreateMatrix(TestData2D[name]);
@@ -201,8 +228,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="i">Row index.</param>
         /// <param name="j">Column index.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void RangeCheckWithInvalidIndicesThrowsArgumentOutOfRangeException([Values(-1, 1, 4)] int i, [Values(1, -1, 2)] int j, [Values("Singular3x3", "Singular3x3", "Square3x3")] string name)
+        [TestCase(-1, 1, "Singular3x3")]
+        [TestCase(1, -1, "Singular3x3")]
+        [TestCase(4, 2, "Square3x3")]
+        public void RangeCheckWithInvalidIndicesThrowsArgumentOutOfRangeException(int i, int j, string name)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => { var x = TestMatrices[name][i, j]; });
         }
@@ -238,8 +267,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="rowIndex">Row index.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Combinatorial]
-        public void CanGetRow([Values(0, 1, 2)] int rowIndex, [Values("Singular3x3", "Square3x3")] string name)
+        [TestCase(0, "Singular3x3")]
+        [TestCase(1, "Square3x3")]
+        [TestCase(2, "Square3x3")]
+        public void CanGetRow(int rowIndex, string name)
         {
             var matrix = TestMatrices[name];
             var row = matrix.Row(rowIndex);
@@ -276,8 +307,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="rowIndex">Row index.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Combinatorial]
-        public void CanGetRowIntoResult([Values(0, 1, 2)] int rowIndex, [Values("Singular3x3", "Square3x3")] string name)
+        [TestCase(0, "Singular3x3")]
+        [TestCase(1, "Square3x3")]
+        [TestCase(2, "Square3x3")]
+        public void CanGetRowIntoResult(int rowIndex, string name)
         {
             var matrix = TestMatrices[name];
             var row = CreateVector(matrix.ColumnCount);
@@ -329,8 +362,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="start">Column start.</param>
         /// <param name="length">Row length.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanGetRowWithRange([Values(0, 1, 2, 2)] int rowIndex, [Values(0, 1, 0, 0)] int start, [Values(1, 2, 3, 3)] int length, [Values("Singular3x3", "Singular3x3", "Singular3x3", "Square3x3")] string name)
+        [TestCase(0, 0, 1, "Singular3x3")]
+        [TestCase(1, 1, 2, "Singular3x3")]
+        [TestCase(2, 0, 3, "Singular3x3")]
+        [TestCase(2, 0, 3, "Square3x3")]
+        public void CanGetRowWithRange(int rowIndex, int start, int length, string name)
         {
             var matrix = TestMatrices[name];
             var row = matrix.Row(rowIndex, start, length);
@@ -369,8 +405,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="colIndex">Row index.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Combinatorial]
-        public void CanGetColumn([Values(0, 1, 2)] int colIndex, [Values("Singular3x3", "Square3x3")] string name)
+        [TestCase(0, "Singular3x3")]
+        [TestCase(1, "Square3x3")]
+        [TestCase(2, "Square3x3")]
+        public void CanGetColumn(int colIndex, string name)
         {
             var matrix = TestMatrices[name];
             var col = matrix.Column(colIndex);
@@ -407,8 +445,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="colIndex">Column index.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Combinatorial]
-        public void CanGetColumnIntoResult([Values(0, 1, 2)] int colIndex, [Values("Singular3x3", "Square3x3")] string name)
+        [TestCase(0, "Singular3x3")]
+        [TestCase(1, "Square3x3")]
+        [TestCase(2, "Square3x3")]
+        public void CanGetColumnIntoResult(int colIndex, string name)
         {
             var matrix = TestMatrices[name];
             var col = CreateVector(matrix.RowCount);
@@ -460,8 +500,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="start">Start index.</param>
         /// <param name="length">Column length.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanGetColumnWithRange([Values(0, 1, 2, 2)] int colIndex, [Values(0, 1, 0, 0)] int start, [Values(1, 2, 3, 3)] int length, [Values("Singular3x3", "Singular3x3", "Singular3x3", "Square3x3")] string name)
+        [TestCase(0, 0, 1, "Singular3x3")]
+        [TestCase(1, 1, 2, "Singular3x3")]
+        [TestCase(2, 0, 3, "Singular3x3")]
+        [TestCase(2, 0, 3, "Square3x3")]
+        public void CanGetColumnWithRange(int colIndex, int start, int length, string name)
         {
             var matrix = TestMatrices[name];
             var col = matrix.Column(colIndex, start, length);
@@ -500,8 +543,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="rowIndex">Row index.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Combinatorial]
-        public void CanSetRow([Values(0, 1, 2)] int rowIndex, [Values("Singular3x3", "Square3x3")] string name)
+        [TestCase(0, "Singular3x3")]
+        [TestCase(1, "Square3x3")]
+        [TestCase(2, "Square3x3")]
+        public void CanSetRow(int rowIndex, string name)
         {
             var matrix = TestMatrices[name].Clone();
             matrix.SetRow(rowIndex, CreateVector(matrix.ColumnCount));
@@ -520,8 +565,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="colIndex">Column index.</param>
         /// <param name="name">Matrix name.</param>
-        [Test, Combinatorial]
-        public void CanSetColumn([Values(0, 1, 2)] int colIndex, [Values("Singular3x3", "Square3x3")] string name)
+        [TestCase(0, "Singular3x3")]
+        [TestCase(1, "Square3x3")]
+        [TestCase(2, "Square3x3")]
+        public void CanSetColumn(int colIndex, string name)
         {
             var matrix = TestMatrices[name].Clone();
             matrix.SetColumn(colIndex, CreateVector(matrix.ColumnCount));
@@ -539,8 +586,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Get an upper triangle matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanUpperTriangle([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanUpperTriangle(string name)
         {
             var data = TestMatrices[name];
             var upper = data.UpperTriangle();
@@ -557,8 +608,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Get an upper triangle matrix into a result matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanUpperTriangleIntoResult([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanUpperTriangleIntoResult(string name)
         {
             var data = TestMatrices[name];
             var result = CreateMatrix(data.RowCount, data.ColumnCount);
@@ -609,8 +664,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Get a lower triangle matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanLowerTriangle([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanLowerTriangle(string name)
         {
             var data = TestMatrices[name];
             var lower = data.LowerTriangle();
@@ -627,8 +686,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Get a lower triangle matrix into a result matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanLowerTriangleIntoResult([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanLowerTriangleIntoResult(string name)
         {
             var data = TestMatrices[name];
             var result = CreateMatrix(data.RowCount, data.ColumnCount);
@@ -823,8 +886,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can transpose a matrix.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public void CanTransposeMatrix([Values("Singular3x3", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanTransposeMatrix(string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var transpose = matrix.Transpose();
@@ -846,8 +913,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="name">Matrix name.</param>
         /// <param name="column">Column array.</param>
-        [Test, Sequential]
-        public virtual void CanSetColumnWithArray([Values("Singular3x3", "Square3x3", "Tall3x2", "Wide2x3")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2 })] float[] column)
+        [TestCase("Singular3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Square3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Tall3x2", new float[] { 1, 2, 3 })]
+        [TestCase("Wide2x3", new float[] { 1, 2 })]
+        public virtual void CanSetColumnWithArray(string name, float[] column)
         {
             var matrix = TestMatrices[name];
             for (var i = 0; i < matrix.ColumnCount; i++)
@@ -897,8 +967,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="name">Matrix name.</param>
         /// <param name="column">Column values.</param>
-        [Test, Sequential]
-        public virtual void CanSetColumnWithVector([Values("Singular3x3", "Square3x3", "Tall3x2", "Wide2x3")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2 })] float[] column)
+        [TestCase("Singular3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Square3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Tall3x2", new float[] { 1, 2, 3 })]
+        [TestCase("Wide2x3", new float[] { 1, 2 })]
+        public virtual void CanSetColumnWithVector(string name, float[] column)
         {
             var matrix = TestMatrices[name];
             var columnVector = CreateVector(column);
@@ -1011,8 +1084,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="name">Matrix name.</param>
         /// <param name="row">Row index.</param>
-        [Test, Sequential]
-        public virtual void CanSetRowWithArray([Values("Singular3x3", "Square3x3", "Tall3x2", "Wide2x3")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2 }, new float[] { 1, 2, 3 })] float[] row)
+        [TestCase("Singular3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Square3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Tall3x2", new float[] { 1, 2 })]
+        [TestCase("Wide2x3", new float[] { 1, 2, 3 })]
+        public virtual void CanSetRowWithArray(string name, float[] row)
         {
             var matrix = TestMatrices[name];
             for (var i = 0; i < matrix.RowCount; i++)
@@ -1052,8 +1128,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="name">Matrix name.</param>
         /// <param name="row">Row index.</param>
-        [Test, Sequential]
-        public virtual void CanSetRowWithVector([Values("Singular3x3", "Square3x3", "Tall3x2", "Wide2x3")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2, 3 }, new float[] { 1, 2 }, new float[] { 1, 2, 3 })] float[] row)
+        [TestCase("Singular3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Square3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Tall3x2", new float[] { 1, 2 })]
+        [TestCase("Wide2x3", new float[] { 1, 2, 3 })]
+        public virtual void CanSetRowWithVector(string name, float[] row)
         {
             var matrix = TestMatrices[name];
             var rowVector = CreateVector(row);
@@ -1107,8 +1186,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="rowLength">The number of rows to copy.</param>
         /// <param name="colStart">The column to start copying to.</param>
         /// <param name="colLength">The number of columns to copy.</param>
-        [Test, Sequential]
-        public virtual void CanSetSubMatrix([Values(0, 1)] int rowStart, [Values(2, 1)] int rowLength, [Values(0, 1)] int colStart, [Values(2, 1)] int colLength)
+        [TestCase(0, 2, 0, 2)]
+        [TestCase(1, 1, 1, 1)]
+        public virtual void CanSetSubMatrix(int rowStart, int rowLength, int colStart, int colLength)
         {
             foreach (var matrix in TestMatrices.Values)
             {
@@ -1136,8 +1216,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="rowLength">The number of rows to copy.</param>
         /// <param name="colStart">The column to start copying to.</param>
         /// <param name="colLength">The number of columns to copy.</param>
-        [Test, Sequential]
-        public virtual void SetSubMatrixWithInvalidRangesThrowsArgumentOutOfRangeException([Values(0, 0, 4, 0, -1, 0)] int rowStart, [Values(4, 2, 2, 2, 2, 2)] int rowLength, [Values(0, 0, 0, 4, 0, -1)] int colStart, [Values(2, 4, 2, 2, 2, 2)] int colLength)
+        [TestCase(0, 4, 0, 2)]
+        [TestCase(0, 2, 0, 4)]
+        [TestCase(4, 2, 0, 2)]
+        [TestCase(0, 2, 4, 2)]
+        [TestCase(-1, 2, 0, 2)]
+        [TestCase(0, 2, -1, 2)]
+        public virtual void SetSubMatrixWithInvalidRangesThrowsArgumentOutOfRangeException(int rowStart, int rowLength, int colStart, int colLength)
         {
             var subMatrix = TestMatrices["Square3x3"].SubMatrix(0, 2, 0, 2);
             subMatrix[0, 0] = 10.0f;
@@ -1154,8 +1239,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// <param name="rowLength">The number of rows to copy.</param>
         /// <param name="colStart">The column to start copying to.</param>
         /// <param name="colLength">The number of columns to copy.</param>
-        [Test, Sequential]
-        public virtual void SetSubMatrixWithInvalidLengthsThrowsArgumentException([Values(0, 0)] int rowStart, [Values(-1, 2)] int rowLength, [Values(0, 0)] int colStart, [Values(2, -1)] int colLength)
+        [TestCase(0, -1, 0, 2)]
+        [TestCase(0, 2, 0, -1)]
+        public virtual void SetSubMatrixWithInvalidLengthsThrowsArgumentException(int rowStart, int rowLength, int colStart, int colLength)
         {
             var subMatrix = TestMatrices["Square3x3"].SubMatrix(0, 2, 0, 2);
             subMatrix[0, 0] = 10.0f;
@@ -1180,8 +1266,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="name">Matrix name.</param>
         /// <param name="diagonal">Diagonal vector.</param>
-        [Test, Sequential]
-        public void CanSetDiagonalVector([Values("Square3x3", "Wide2x3", "Tall3x2")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2 }, new float[] { 1, 2 })] float[] diagonal)
+        [TestCase("Square3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Wide2x3", new float[] { 1, 2 })]
+        [TestCase("Tall3x2", new float[] { 1, 2 })]
+        public void CanSetDiagonalVector(string name, float[] diagonal)
         {
             var matrix = TestMatrices[name];
             var vector = CreateVector(diagonal);
@@ -1221,8 +1309,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// </summary>
         /// <param name="name">Matrix name.</param>
         /// <param name="diagonal">Diagonal array.</param>
-        [Test, Sequential]
-        public void CanSetDiagonalArray([Values("Square3x3", "Wide2x3", "Tall3x2")] string name, [Values(new float[] { 1, 2, 3 }, new float[] { 1, 2 }, new float[] { 1, 2 })] float[] diagonal)
+        [TestCase("Square3x3", new float[] { 1, 2, 3 })]
+        [TestCase("Wide2x3", new float[] { 1, 2 })]
+        [TestCase("Tall3x2", new float[] { 1, 2 })]
+        public void CanSetDiagonalArray(string name, float[] diagonal)
         {
             var matrix = TestMatrices[name];
             matrix.SetDiagonal(diagonal);
@@ -1384,8 +1474,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can permute matrix rows.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public virtual void CanPermuteMatrixRows([Values("Singular3x3", "Square3x3", "Tall3x2")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Tall3x2")]
+        public virtual void CanPermuteMatrixRows(string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var matrixp = CreateMatrix(TestData2D[name]);
@@ -1409,8 +1501,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can permute matrix columns.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test, Sequential]
-        public virtual void CanPermuteMatrixColumns([Values("Singular3x3", "Square3x3", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Wide2x3")]
+        public virtual void CanPermuteMatrixColumns(string name)
         {
             var matrix = CreateMatrix(TestData2D[name]);
             var matrixp = CreateMatrix(TestData2D[name]);
@@ -1728,7 +1822,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             matrix = TestMatrices["Tall3x2"];
             AssertHelpers.AlmostEqual(7.182727033856683f, matrix.L2Norm(), 5);
         }
-        
+
         /// <summary>
         /// Test whether the index enumerator returns the correct values.
         /// </summary>

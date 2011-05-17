@@ -51,8 +51,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">Success probability.</param>
         /// <param name="n">Number of trials.</param>
-        [Test, Sequential]
-        public void CanCreateBinomial([Values(0.0, 0.3, 1.0)] double p, [Values(4, 3, 2)] int n)
+        [TestCase(0.0, 4)]
+        [TestCase(0.3, 3)]
+        [TestCase(1.0, 2)]
+        public void CanCreateBinomial(double p, int n)
         {
             var bernoulli = new Binomial(p, n);
             Assert.AreEqual(p, bernoulli.P);
@@ -63,8 +65,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">Success probability.</param>
         /// <param name="n">Number of trials.</param>
-        [Test, Sequential]
-        public void BinomialCreateFailsWithBadParameters([Values(Double.NaN, -1.0, 2.0, 0.3)] double p, [Values(1, 1, 1, -2)] int n)
+        [TestCase(Double.NaN, 1)]
+        [TestCase(-1.0, 1)]
+        [TestCase(2.0, 1)]
+        [TestCase(0.3, -2)]
+        public void BinomialCreateFailsWithBadParameters(double p, int n)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Binomial(p, n));
         }
@@ -84,8 +89,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">Success probability.</param>
         /// <param name="n">Number of trials.</param>
-        [Test, Sequential]
-        public void CanSetSuccessProbability([Values(0.0, 0.3, 1.0)] double p, [Values(4, 3, 2)] int n)
+        [TestCase(0.0, 4)]
+        [TestCase(0.3, 3)]
+        [TestCase(1.0, 2)]
+        public void CanSetSuccessProbability(double p, int n)
         {
             new Binomial(0.3, n)
             {
@@ -97,8 +104,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set success probability fails with bad values.
         /// </summary>
         /// <param name="p">Success probability.</param>
-        [Test]
-        public void SetProbabilityOfOneFails([Values(Double.NaN, -1.0, 2.0)] double p)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.0)]
+        [TestCase(2.0)]
+        public void SetProbabilityOfOneFails(double p)
         {
             var b = new Binomial(0.3, 1);
             Assert.Throws<ArgumentOutOfRangeException>(() => b.P = p);
@@ -110,8 +119,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="p">Success probability.</param>
         /// <param name="n">Number of trials.</param>
         /// <param name="e">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateEntropy([Values(0.0, 0.3, 1.0)] double p, [Values(4, 3, 2)] int n, [Values(0.0, 1.1404671643037712668976423399228972051669206536461, 0.0)] double e)
+        [TestCase(0.0, 4, 0.0)]
+        [TestCase(0.3, 3, 1.1404671643037712668976423399228972051669206536461)]
+        [TestCase(1.0, 2, 0.0)]
+        public void ValidateEntropy(double p, int n, double e)
         {
             var b = new Binomial(p, n);
             AssertHelpers.AlmostEqual(e, b.Entropy, 14);
@@ -122,8 +133,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="p">Success probability.</param>
         /// <param name="n">Number of trials.</param>
-        [Test, Sequential]
-        public void ValidateSkewness([Values(0.0, 0.3, 1.0)] double p, [Values(4, 3, 2)] int n)
+        [TestCase(0.0, 4)]
+        [TestCase(0.3, 3)]
+        [TestCase(1.0, 2)]
+        public void ValidateSkewness(double p, int n)
         {
             var b = new Binomial(p, n);
             Assert.AreEqual((1.0 - (2.0 * p)) / Math.Sqrt(n * p * (1.0 - p)), b.Skewness);
@@ -135,8 +148,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="p">Success probability.</param>
         /// <param name="n">Number of trials.</param>
         /// <param name="m">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMode([Values(0.0, 0.3, 1.0)] double p, [Values(4, 3, 2)] int n, [Values(0, 1, 2)] int m)
+        [TestCase(0.0, 4, 0)]
+        [TestCase(0.3, 3, 1)]
+        [TestCase(1.0, 2, 2)]
+        public void ValidateMode(double p, int n, int m)
         {
             var b = new Binomial(p, n);
             Assert.AreEqual(m, b.Mode);
@@ -169,12 +184,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="n">Number of trials.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="d">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbability(
-            [Values(0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.300000, 0.300000, 0.300000, 0.300000, 0.300000, 0.300000, 0.300000, 0.300000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000)] double p, 
-            [Values(1, 1, 3, 3, 3, 10, 10, 10, 1, 1, 3, 3, 3, 10, 10, 10, 1, 1, 3, 3, 3, 10, 10, 10)] int n, 
-            [Values(0, 1, 0, 1, 3, 0, 1, 10, 0, 1, 0, 1, 3, 0, 1, 10, 0, 1, 0, 1, 3, 0, 1, 10)] int x, 
-            [Values(1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.69999999999999995559107901499373838305473327636719, 0.2999999999999999888977697537484345957636833190918, 0.34299999999999993471888615204079956461021032657166, 0.44099999999999992772448109690231306411849135972008, 0.026999999999999997002397833512077451789759292859569, 0.02824752489999998207939855277004937778546385011091, 0.12106082099999992639752977030555903089040470780077, 0.0000059048999999999978147480206303047454017251032868501, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0)] double d)
+        [TestCase(0.000000, 1, 0, 1.0)]
+        [TestCase(0.000000, 1, 1, 0.0)]
+        [TestCase(0.000000, 3, 0, 1.0)]
+        [TestCase(0.000000, 3, 1, 0.0)]
+        [TestCase(0.000000, 3, 3, 0.0)]
+        [TestCase(0.000000, 10, 0, 1.0)]
+        [TestCase(0.000000, 10, 1, 0.0)]
+        [TestCase(0.000000, 10, 10, 0.0)]
+        [TestCase(0.300000, 1, 0, 0.69999999999999995559107901499373838305473327636719)]
+        [TestCase(0.300000, 1, 1, 0.2999999999999999888977697537484345957636833190918)]
+        [TestCase(0.300000, 3, 0, 0.34299999999999993471888615204079956461021032657166)]
+        [TestCase(0.300000, 3, 1, 0.44099999999999992772448109690231306411849135972008)]
+        [TestCase(0.300000, 3, 3, 0.026999999999999997002397833512077451789759292859569)]
+        [TestCase(0.300000, 10, 0, 0.02824752489999998207939855277004937778546385011091)]
+        [TestCase(0.300000, 10, 1, 0.12106082099999992639752977030555903089040470780077)]
+        [TestCase(0.300000, 10, 10, 0.0000059048999999999978147480206303047454017251032868501)]
+        [TestCase(1.000000, 1, 0, 0.0)]
+        [TestCase(1.000000, 1, 1, 1.0)]
+        [TestCase(1.000000, 3, 0, 0.0)]
+        [TestCase(1.000000, 3, 1, 0.0)]
+        [TestCase(1.000000, 3, 3, 1.0)]
+        [TestCase(1.000000, 10, 0, 0.0)]
+        [TestCase(1.000000, 10, 1, 0.0)]
+        [TestCase(1.000000, 10, 10, 1.0)]
+        public void ValidateProbability(double p, int n, int x, double d)
         {
             var b = new Binomial(p, n);
             AssertHelpers.AlmostEqual(d, b.Probability(x), 14);
@@ -187,12 +221,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="n">Number of trials.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="dln">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbabilityLn(
-            [Values(0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.300000, 0.300000, 0.300000, 0.300000, 0.300000, 0.300000, 0.300000, 0.300000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000)] double p, 
-            [Values(1, 1, 3, 3, 3, 10, 10, 10, 1, 1, 3, 3, 3, 10, 10, 10, 1, 1, 3, 3, 3, 10, 10, 10)] int n, 
-            [Values(0, 1, 0, 1, 3, 0, 1, 10, 0, 1, 0, 1, 3, 0, 1, 10, 0, 1, 0, 1, 3, 0, 1, 10)] int x, 
-            [Values(0.0, Double.NegativeInfinity, 0.0, Double.NegativeInfinity, Double.NegativeInfinity, 0.0, Double.NegativeInfinity, Double.NegativeInfinity, -0.3566749439387324423539544041072745145718090708995, -1.2039728043259360296301803719337238685164245381839, -1.0700248318161973270618632123218235437154272126985, -0.81871040353529122294284394322574719301255212216016, -3.6119184129778080888905411158011716055492736145517, -3.566749439387324423539544041072745145718090708995, -2.1114622067804823267977785542148302920616046876506, -12.039728043259360296301803719337238685164245381839, Double.NegativeInfinity, 0.0, Double.NegativeInfinity, Double.NegativeInfinity, 0.0, Double.NegativeInfinity, Double.NegativeInfinity, 0.0)] double dln)
+        [TestCase(0.000000, 1, 0, 0.0)]
+        [TestCase(0.000000, 1, 1, Double.NegativeInfinity)]
+        [TestCase(0.000000, 3, 0, 0.0)]
+        [TestCase(0.000000, 3, 1, Double.NegativeInfinity)]
+        [TestCase(0.000000, 3, 3, Double.NegativeInfinity)]
+        [TestCase(0.000000, 10, 0, 0.0)]
+        [TestCase(0.000000, 10, 1, Double.NegativeInfinity)]
+        [TestCase(0.000000, 10, 10, Double.NegativeInfinity)]
+        [TestCase(0.300000, 1, 0, -0.3566749439387324423539544041072745145718090708995)]
+        [TestCase(0.300000, 1, 1, -1.2039728043259360296301803719337238685164245381839)]
+        [TestCase(0.300000, 3, 0, -1.0700248318161973270618632123218235437154272126985)]
+        [TestCase(0.300000, 3, 1, -0.81871040353529122294284394322574719301255212216016)]
+        [TestCase(0.300000, 3, 3, -3.6119184129778080888905411158011716055492736145517)]
+        [TestCase(0.300000, 10, 0, -3.566749439387324423539544041072745145718090708995)]
+        [TestCase(0.300000, 10, 1, -2.1114622067804823267977785542148302920616046876506)]
+        [TestCase(0.300000, 10, 10, -12.039728043259360296301803719337238685164245381839)]
+        [TestCase(1.000000, 1, 0, Double.NegativeInfinity)]
+        [TestCase(1.000000, 1, 1, 0.0)]
+        [TestCase(1.000000, 3, 0, Double.NegativeInfinity)]
+        [TestCase(1.000000, 3, 1, Double.NegativeInfinity)]
+        [TestCase(1.000000, 3, 3, 0.0)]
+        [TestCase(1.000000, 10, 0, Double.NegativeInfinity)]
+        [TestCase(1.000000, 10, 1, Double.NegativeInfinity)]
+        [TestCase(1.000000, 10, 10, 0.0)]
+        public void ValidateProbabilityLn(double p, int n, int x, double dln)
         {
             var b = new Binomial(p, n);
             AssertHelpers.AlmostEqual(dln, b.ProbabilityLn(x), 14);
