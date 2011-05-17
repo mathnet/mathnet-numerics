@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2011 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.Threading
 {
     using System;
-    using System.Numerics;
 
 #if !SILVERLIGHT
     using System.Collections.Concurrent;
@@ -48,26 +47,62 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
+        /// <param name="numberOfElements">The number of elements that will be iterated over.</param>
+        /// <param name="body">The body to be invoked for each iteration.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
+        /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
+        public static void ElementFor(int fromInclusive, int toExclusive, int numberOfElements, Action<int> body)
+        {
+            var parallel = true;
+            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2 || numberOfElements < Control.ParallelizeElements)
+            {
+                parallel = false;
+            }
+            
+            For(fromInclusive, toExclusive, body, parallel);
+        }
+
+        /// <summary>
+        /// Executes a for loop in which iterations may run in parallel. 
+        /// </summary>
+        /// <param name="fromInclusive">The start index, inclusive.</param>
+        /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The body to be invoked for each iteration.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
         public static void For(int fromInclusive, int toExclusive, Action<int> body)
         {
-#if SILVERLIGHT
-            Parallel.For(fromInclusive, toExclusive, body);
-#else
+            var parallel = true;
             if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2)
             {
-                for (var index = fromInclusive; index < toExclusive; index++)
-                {
-                    body(index);
-                }
+                parallel = false;
             }
-            else
+
+            For(fromInclusive, toExclusive, body, parallel);
+        }
+
+        /// <summary>
+        /// Executes a for loop in which iterations may run in parallel. 
+        /// </summary>
+        /// <param name="fromInclusive">The start index, inclusive.</param>
+        /// <param name="toExclusive">The end index, exclusive.</param>
+        /// <param name="body">The body to be invoked for each iteration.</param>
+        /// <param name="parallel">Use multiple threads.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
+        /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
+        public static void For(int fromInclusive, int toExclusive, Action<int> body, bool parallel)
+        {
+            if (parallel)
             {
+#if SILVERLIGHT
+                Parallel.For(fromInclusive, toExclusive, body);
+#else
                 Parallel.ForEach(
                     Partitioner.Create(fromInclusive, toExclusive),
-                    new ParallelOptions { MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads },
+                    new ParallelOptions
+                    {
+                        MaxDegreeOfParallelism = Control.NumberOfParallelWorkerThreads
+                    },
                     (range, loopState) =>
                     {
                         for (var i = range.Item1; i < range.Item2; i++)
@@ -75,8 +110,15 @@ namespace MathNet.Numerics.Threading
                             body(i);
                         }
                     });
-            }
 #endif
+            }
+            else
+            {
+                for (var index = fromInclusive; index < toExclusive; index++)
+                {
+                    body(index);
+                }
+            }
         }
 
 /*        /// <summary>
