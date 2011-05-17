@@ -67,15 +67,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (alpha.IsZero())
             {
-                CommonParallel.For(0, y.Length, index => result[index] = y[index]);
+                CommonParallel.ElementFor(0, y.Length, y.Length, index => result[index] = y[index]);
             }
             else if (alpha.IsOne())
             {
-                CommonParallel.For(0, y.Length, index => result[index] = y[index] + x[index]);
+                CommonParallel.ElementFor(0, y.Length, y.Length, index => result[index] = y[index] + x[index]);
             }
             else
             {
-                CommonParallel.For(0, y.Length, index => result[index] = y[index] + (alpha * x[index]));
+                CommonParallel.ElementFor(0, y.Length, y.Length, index => result[index] = y[index] + (alpha * x[index]));
             }
         }
 
@@ -95,15 +95,15 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (alpha.IsZero())
             {
-                CommonParallel.For(0, x.Length, index => result[index] = Complex.Zero);
+                CommonParallel.ElementFor(0, x.Length, x.Length, index => result[index] = Complex.Zero);
             }
             else if (alpha.IsOne())
             {
-                CommonParallel.For(0, x.Length, index => result[index] = x[index]);
+                CommonParallel.ElementFor(0, x.Length, x.Length, index => result[index] = x[index]);
             }
             else
             {
-                CommonParallel.For(0, x.Length, index => { result[index] = alpha * x[index]; });
+                CommonParallel.ElementFor(0, x.Length, x.Length, index => { result[index] = alpha * x[index]; });
             }
         }
 
@@ -172,7 +172,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.For(0, y.Length, i => result[i] = x[i] + y[i]);
+            CommonParallel.ElementFor(0, y.Length, y.Length, i => result[i] = x[i] + y[i]);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.For(0, y.Length, i => result[i] = x[i] - y[i]);
+            CommonParallel.ElementFor(0, y.Length, y.Length, i => result[i] = x[i] - y[i]);
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.For(0, y.Length, i => result[i] = x[i] * y[i]);
+            CommonParallel.ElementFor(0, y.Length, y.Length, i => result[i] = x[i] * y[i]);
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.For(0, y.Length, index => { result[index] = x[index] / y[index]; });
+            CommonParallel.ElementFor(0, y.Length, y.Length, index => { result[index] = x[index] / y[index]; });
         }
 
         /// <summary>

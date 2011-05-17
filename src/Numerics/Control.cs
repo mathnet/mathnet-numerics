@@ -57,6 +57,11 @@ namespace MathNet.Numerics
         private static int _parallelizeOrder = 64;
 
         /// <summary>
+        /// The default cutoff point for order size for the matrix multiply in linear algebra provider.
+        /// </summary>
+        private static int _parallelizeElements = 256;
+
+        /// <summary>
         /// Initializes static members of the Control class.
         /// </summary>
         static Control()
@@ -161,5 +166,24 @@ namespace MathNet.Numerics
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of elements a vector or matrix must contain before we multiply threads.
+        /// </summary>
+        /// <value>Number of elements. Default is 256.</value>
+        public static int ParallelizeElements
+        {
+            get
+            {
+                return _parallelizeElements;
+            }
+
+            set
+            {
+                if (_parallelizeElements > 2)
+                {
+                    _parallelizeElements = value;
+                }
+            }
+        }
     }
 }
