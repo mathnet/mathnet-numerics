@@ -51,8 +51,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="l">Lower bound.</param>
         /// <param name="u">Upper bound.</param>
-        [Test, Sequential]
-        public void CanCreateDiscreteUniform([Values(-10, 0, 10, 20)] int l, [Values(10, 4, 20, 20)] int u)
+        [TestCase(-10, 10)]
+        [TestCase(0, 4)]
+        [TestCase(10, 20)]
+        [TestCase(20, 20)]
+        public void CanCreateDiscreteUniform(int l, int u)
         {
             var du = new DiscreteUniform(l, u);
             Assert.AreEqual(l, du.LowerBound);
@@ -64,8 +67,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="l">Lower bound.</param>
         /// <param name="u">Upper bound.</param>
-        [Test, Sequential]
-        public void DiscreteUniformCreateFailsWithBadParameters([Values(-1, 6)] int l, [Values(-2, 5)] int u)
+        [TestCase(-1, -2)]
+        [TestCase(6, 5)]
+        public void DiscreteUniformCreateFailsWithBadParameters(int l, int u)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new DiscreteUniform(l, u));
         }
@@ -84,8 +88,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set lower bound.
         /// </summary>
         /// <param name="p">Lower bound.</param>
-        [Test]
-        public void CanSetLowerBound([Values(0, 3, 10)] int p)
+        [TestCase(0)]
+        [TestCase(3)]
+        [TestCase(10)]
+        public void CanSetLowerBound(int p)
         {
             new DiscreteUniform(0, 10)
             {
@@ -97,8 +103,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set upper bound.
         /// </summary>
         /// <param name="p">Upper bound.</param>
-        [Test]
-        public void CanSetUpperBound([Values(0, 3, 10)] int p)
+        [TestCase(0)]
+        [TestCase(3)]
+        [TestCase(10)]
+        public void CanSetUpperBound(int p)
         {
             new DiscreteUniform(0, 10)
             {
@@ -110,8 +118,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set lower bound with bad values fails.
         /// </summary>
         /// <param name="p">Lower bound.</param>
-        [Test]
-        public void SetLowerBoundFails([Values(11, 20)] int p)
+        [TestCase(11)]
+        [TestCase(20)]
+        public void SetLowerBoundFails(int p)
         {
             var b = new DiscreteUniform(0, 10);
             Assert.Throws<ArgumentOutOfRangeException>(() => b.LowerBound = p);
@@ -121,8 +130,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set upper bound with bad values fails
         /// </summary>
         /// <param name="p">Upper bound.</param>
-        [Test]
-        public void SetUpperBoundFails([Values(-11, -20)] int p)
+        [TestCase(-11)]
+        [TestCase(-20)]
+        public void SetUpperBoundFails(int p)
         {
             var b = new DiscreteUniform(0, 10);
             Assert.Throws<ArgumentOutOfRangeException>(() => b.UpperBound = p);
@@ -134,8 +144,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="l">Lower bound.</param>
         /// <param name="u">Upper bound.</param>
         /// <param name="e">Expceted value.</param>
-        [Test, Sequential]
-        public void ValidateEntropy([Values(-10, 0, 10, 20)] int l, [Values(10, 4, 20, 20)] int u, [Values(3.0445224377234229965005979803657054342845752874046093, 1.6094379124341003746007593332261876395256013542685181, 2.3978952727983705440619435779651292998217068539374197, 0.0)] double e)
+        [TestCase(-10, 10, 3.0445224377234229965005979803657054342845752874046093)]
+        [TestCase(0, 4, 1.6094379124341003746007593332261876395256013542685181)]
+        [TestCase(10, 20, 2.3978952727983705440619435779651292998217068539374197)]
+        [TestCase(20, 20, 0.0)]
+        public void ValidateEntropy(int l, int u, double e)
         {
             var du = new DiscreteUniform(l, u);
             AssertHelpers.AlmostEqual(e, du.Entropy, 14);
@@ -146,8 +159,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="l">Lower bound.</param>
         /// <param name="u">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateSkewness([Values(-10, 0, 10, 20)] int l, [Values(10, 4, 20, 20)] int u)
+        [TestCase(-10, 10)]
+        [TestCase(0, 4)]
+        [TestCase(10, 20)]
+        [TestCase(20, 20)]
+        public void ValidateSkewness(int l, int u)
         {
             var du = new DiscreteUniform(l, u);
             Assert.AreEqual(0.0, du.Skewness);
@@ -159,8 +175,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="l">Lower bound.</param>
         /// <param name="u">Upper bound.</param>
         /// <param name="m">Expceted value.</param>
-        [Test, Sequential]
-        public void ValidateMode([Values(-10, 0, 10, 20)] int l, [Values(10, 4, 20, 20)] int u, [Values(0, 2, 15, 20)] int m)
+        [TestCase(-10, 10, 0)]
+        [TestCase(0, 4, 2)]
+        [TestCase(10, 20, 15)]
+        [TestCase(20, 20, 20)]
+        public void ValidateMode(int l, int u, int m)
         {
             var du = new DiscreteUniform(l, u);
             Assert.AreEqual(m, du.Mode);
@@ -172,8 +191,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="l">Lower bound.</param>
         /// <param name="u">Upper bound.</param>
         /// <param name="m">Expceted value.</param>
-        [Test, Sequential]
-        public void ValidateMedian([Values(-10, 0, 10, 20)] int l, [Values(10, 4, 20, 20)] int u, [Values(0, 2, 15, 20)] int m)
+        [TestCase(-10, 10, 0)]
+        [TestCase(0, 4, 2)]
+        [TestCase(10, 20, 15)]
+        [TestCase(20, 20, 20)]
+        public void ValidateMedian(int l, int u, int m)
         {
             var du = new DiscreteUniform(l, u);
             Assert.AreEqual(m, du.Median);
@@ -185,8 +207,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="l">Lower bound.</param>
         /// <param name="u">Upper bound.</param>
         /// <param name="m">Expceted value.</param>
-        [Test, Sequential]
-        public void ValidateMean([Values(-10, 0, 10, 20)] int l, [Values(10, 4, 20, 20)] int u, [Values(0, 2, 15, 20)] int m)
+        [TestCase(-10, 10, 0)]
+        [TestCase(0, 4, 2)]
+        [TestCase(10, 20, 15)]
+        [TestCase(20, 20, 20)]
+        public void ValidateMean(int l, int u, int m)
         {
             var du = new DiscreteUniform(l, u);
             Assert.AreEqual(m, du.Mean);
@@ -219,8 +244,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="u">Upper bound.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="p">Expceted value.</param>
-        [Test, Sequential]
-        public void ValidateProbability([Values(-10, -10, -10, -10, -10)] int l, [Values(10, 10, 10, -10, -10)] int u, [Values(-5, 1, 10, 0, -10)] int x, [Values(1 / 21.0, 1 / 21.0, 1 / 21.0, 0.0, 1.0)] double p)
+        [TestCase(-10, 10, -5, 1 / 21.0)]
+        [TestCase(-10, 10, 1, 1 / 21.0)]
+        [TestCase(-10, 10, 10, 1 / 21.0)]
+        [TestCase(-10, -10, 0, 0.0)]
+        [TestCase(-10, -10, -10, 1.0)]
+        public void ValidateProbability(int l, int u, int x, double p)
         {
             var b = new DiscreteUniform(l, u);
             Assert.AreEqual(p, b.Probability(x));
@@ -233,12 +262,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="u">Upper bound.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="dln">Expceted value.</param>
-        [Test, Sequential]
-        public void ValidateProbabilityLn(
-            [Values(-10, -10, -10, -10, -10)] int l, 
-            [Values(10, 10, 10, -10, -10)] int u, 
-            [Values(-5, 1, 10, 0, -10)] int x, 
-            [Values(-3.0445224377234229965005979803657054342845752874046093, -3.0445224377234229965005979803657054342845752874046093, -3.0445224377234229965005979803657054342845752874046093, Double.NegativeInfinity, 0.0)] double dln)
+        [TestCase(-10, 10, -5, -3.0445224377234229965005979803657054342845752874046093)]
+        [TestCase(-10, 10, 1, -3.0445224377234229965005979803657054342845752874046093)]
+        [TestCase(-10, 10, 10, -3.0445224377234229965005979803657054342845752874046093)]
+        [TestCase(-10, -10, 0, Double.NegativeInfinity)]
+        [TestCase(-10, -10, -10, 0.0)]
+        public void ValidateProbabilityLn(int l, int u, int x, double dln)
         {
             var b = new DiscreteUniform(l, u);
             Assert.AreEqual(dln, b.ProbabilityLn(x));
@@ -309,12 +338,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="u">Upper bound.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="cdf">Expceted value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(-10, -10, -10, -10, -10, -10)] int l, 
-            [Values(10, 10, 10, -10, -10, -10)] int u, 
-            [Values(-5, 1, 10, 0, -10, -11)] double x, 
-            [Values(6.0 / 21.0, 12.0 / 21.0, 1.0, 1.0, 1.0, 0.0)] double cdf)
+        [TestCase(-10, 10, -5, 6.0 / 21.0)]
+        [TestCase(-10, 10, 1, 12.0 / 21.0)]
+        [TestCase(-10, 10, 10, 1.0)]
+        [TestCase(-10, -10, 0, 1.0)]
+        [TestCase(-10, -10, -10, 1.0)]
+        [TestCase(-10, -10, -11, 0.0)]
+        public void ValidateCumulativeDistribution(int l, int u, double x, double cdf)
         {
             var b = new DiscreteUniform(l, u);
             Assert.AreEqual(cdf, b.CumulativeDistribution(x));

@@ -1,4 +1,4 @@
-﻿// <copyright file="Complex32Test.cs" company="Math.NET">
+// <copyright file="Complex32Test.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -127,8 +127,12 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         /// <param name="imag">Imaginary part.</param>
         /// <param name="expectedReal">Expected real part.</param>
         /// <param name="expectedImag">Expected imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeNaturalLogarithm([Values(0.0f, 0.0f, -1.0f, -111.1f, 111.1f)] float real, [Values(0.0f, 1.0f, 1.0f, 111.1f, -111.1f)] float imag, [Values(float.NegativeInfinity, 0.0f, 0.34657359027997264f, 5.0570042869255571f, 5.0570042869255571f)] float expectedReal, [Values(0.0f, 1.5707963267948966f, 2.3561944901923448f, 2.3561944901923448f, -0.78539816339744828f)] float expectedImag)
+        [TestCase(0.0f, 0.0f, float.NegativeInfinity, 0.0f)]
+        [TestCase(0.0f, 1.0f, 0.0f, 1.5707963267948966f)]
+        [TestCase(-1.0f, 1.0f, 0.34657359027997264f, 2.3561944901923448f)]
+        [TestCase(-111.1f, 111.1f, 5.0570042869255571f, 2.3561944901923448f)]
+        [TestCase(111.1f, -111.1f, 5.0570042869255571f, -0.78539816339744828f)]
+        public void CanComputeNaturalLogarithm(float real, float imag, float expectedReal, float expectedImag)
         {
             var value = new Complex32(real, imag);
             var expected = new Complex32(expectedReal, expectedImag);
@@ -548,8 +552,11 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         /// <param name="real">Real part.</param>
         /// <param name="imag">Imaginary part.</param>
         /// <param name="expected">Expected value.</param>
-        [Test, Sequential]
-        public void CanComputeMagnitude([Values(0.0f, 0.0f, -1.0f, -111.1f)] float real, [Values(0.0f, 1.0f, 1.0f, 111.1f)] float imag, [Values(0.0f, 1.0f, 1.4142135623730951f, 157.11912677965086f)] float expected)
+        [TestCase(0.0f, 0.0f, 0.0f)]
+        [TestCase(0.0f, 1.0f, 1.0f)]
+        [TestCase(-1.0f, 1.0f, 1.4142135623730951f)]
+        [TestCase(-111.1f, 111.1f, 157.11912677965086f)]
+        public void CanComputeMagnitude(float real, float imag, float expected)
         {
             Assert.AreEqual(expected, new Complex32(real, imag).Magnitude);
         }
@@ -561,8 +568,14 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         /// <param name="imag">Imaginary part.</param>
         /// <param name="expectedReal">Expected real value.</param>
         /// <param name="expectedImag">Expected imaginary value.</param>
-        [Test, Sequential]
-        public void CanComputeSign([Values(float.PositiveInfinity, float.PositiveInfinity, float.NegativeInfinity, float.NegativeInfinity, 0.0f, -1.0f, -111.1f)] float real, [Values(float.PositiveInfinity, float.NegativeInfinity, float.PositiveInfinity, float.NegativeInfinity, 0.0f, 1.0f, 111.1f)] float imag, [Values((float)Constants.Sqrt1Over2, (float)Constants.Sqrt1Over2, (float)-Constants.Sqrt1Over2, (float)-Constants.Sqrt1Over2, 0.0f, -0.70710678118654746f, -0.70710678118654746f)] float expectedReal, [Values((float)Constants.Sqrt1Over2, (float)-Constants.Sqrt1Over2, (float)-Constants.Sqrt1Over2, (float)Constants.Sqrt1Over2, 0.0f, 0.70710678118654746f, 0.70710678118654746f)] float expectedImag)
+        [TestCase(float.PositiveInfinity, float.PositiveInfinity, (float)Constants.Sqrt1Over2, (float)Constants.Sqrt1Over2)]
+        [TestCase(float.PositiveInfinity, float.NegativeInfinity, (float)Constants.Sqrt1Over2, (float)-Constants.Sqrt1Over2)]
+        [TestCase(float.NegativeInfinity, float.PositiveInfinity, (float)-Constants.Sqrt1Over2, (float)-Constants.Sqrt1Over2)]
+        [TestCase(float.NegativeInfinity, float.NegativeInfinity, (float)-Constants.Sqrt1Over2, (float)Constants.Sqrt1Over2)]
+        [TestCase(0.0f, 0.0f, 0.0f, 0.0f)]
+        [TestCase(-1.0f, 1.0f, -0.70710678118654746f, 0.70710678118654746f)]
+        [TestCase(-111.1f, 111.1f, -0.70710678118654746f, 0.70710678118654746f)]
+        public void CanComputeSign(float real, float imag, float expectedReal, float expectedImag)
         {
             Assert.AreEqual(new Complex32(expectedReal, expectedImag), new Complex32(real, imag).Sign);
         }

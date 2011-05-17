@@ -51,8 +51,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientBin\SilverlightTest1.xap" />
+    <Content Include="ClientBin\SilverlightTest2.xap" />
     <Content Include="ClientBin\SilverlightUnitTests.xap" />
     <Content Include="Silverlight.js" />
+    <Content Include="SilverlightTest1TestPage.aspx" />
+    <Content Include="SilverlightTest1TestPage.html" />
+    <Content Include="SilverlightTest2TestPage.aspx" />
+    <Content Include="SilverlightTest2TestPage.html" />
     <Content Include="SilverlightUnitTestsTestPage.aspx" />
     <Content Include="SilverlightUnitTestsTestPage.html" />
     <Content Include="Web.config" />

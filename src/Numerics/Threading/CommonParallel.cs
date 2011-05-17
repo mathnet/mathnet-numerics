@@ -362,7 +362,7 @@ namespace MathNet.Numerics.Threading
                 fromInclusive, 
                 toExclusive, 
                 () => 0.0, 
-                (i, localData) => localData += body(i, localData), 
+                (i, localData) => localData = body(i, localData), 
                 localResult =>
                 {
                     lock (syncLock)
@@ -415,7 +415,7 @@ namespace MathNet.Numerics.Threading
                 fromInclusive, 
                 toExclusive, 
                 () => 0.0f, 
-                (i, localData) => localData += body(i, localData), 
+                (i, localData) => localData = body(i, localData), 
                 localResult =>
                 {
                     lock (syncLock)

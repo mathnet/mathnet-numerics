@@ -1,4 +1,4 @@
-﻿// <copyright file="UserEvdTests.cs" company="Math.NET">
+// <copyright file="UserEvdTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -50,8 +50,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can factorize identity matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void CanFactorizeIdentity(int order)
         {
             var matrixI = UserDefinedMatrix.Identity(order);
             var factorEvd = matrixI.Evd();
@@ -75,8 +77,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can factorize a random square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanFactorizeRandomMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var factorEvd = matrixA.Evd();
@@ -106,8 +113,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can factorize a symmetric random square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanFactorizeRandomSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var factorEvd = matrixA.Evd();
@@ -136,8 +148,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can check rank of square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanCheckRankSquare([Values(10, 50, 100)] int order)
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanCheckRankSquare(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomUserDefinedMatrix(order, order);
             var factorEvd = matrixA.Evd();
@@ -149,8 +163,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can check rank of square singular matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanCheckRankOfSquareSingular([Values(10, 50, 100)] int order)
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanCheckRankOfSquareSingular(int order)
         {
             var matrixA = new UserDefinedMatrix(order, order);
             matrixA[0, 0] = 1;
@@ -173,8 +189,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Identity determinant is one.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void IdentityDeterminantIsOne([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void IdentityDeterminantIsOne(int order)
         {
             var matrixI = UserDefinedMatrix.Identity(order);
             var factorEvd = matrixI.Evd();
@@ -185,8 +203,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVectorAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomVectorAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -219,8 +242,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can solve a system of linear equations for a random matrix and symmetric matrix (AX=B).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomMatrixAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomMatrixAndSymmetricMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -260,8 +288,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can solve a system of linear equations for a random vector and symmetric matrix (Ax=b) into a result matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();
@@ -299,8 +332,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         /// Can solve a system of linear equations for a random matrix and symmetric matrix (AX=B) into result matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomPositiveDefiniteUserDefinedMatrix(order);
             var matrixACopy = matrixA.Clone();

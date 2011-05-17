@@ -1,4 +1,4 @@
-﻿// <copyright file="ComplexTest.cs" company="Math.NET">
+// <copyright file="ComplexTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -42,8 +42,11 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         /// <param name="imag">Imaginary part.</param>
         /// <param name="expectedReal">Expected real part.</param>
         /// <param name="expectedImag">Expected imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeExponential([Values(0.0, 0.0, -1.0, -111.1)] double real, [Values(0.0, 1.0, 1.0, 111.1)] double imag, [Values(1.0, 0.54030230586813977, 0.19876611034641295, -2.3259065941590448e-49)] double expectedReal, [Values(0.0, 0.8414709848078965, 0.30955987565311222, -5.1181940185795617e-49)] double expectedImag)
+        [TestCase(0.0, 0.0, 1.0, 0.0)]
+        [TestCase(0.0, 1.0, 0.54030230586813977, 0.8414709848078965)]
+        [TestCase(-1.0, 1.0, 0.19876611034641295, 0.30955987565311222)]
+        [TestCase(-111.1, 111.1, -2.3259065941590448e-49, -5.1181940185795617e-49)]
+        public void CanComputeExponential(double real, double imag, double expectedReal, double expectedImag)
         {
             var value = new Complex(real, imag);
             var expected = new Complex(expectedReal, expectedImag);
@@ -57,8 +60,12 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         /// <param name="imag">Imaginary part.</param>
         /// <param name="expectedReal">Expected real part.</param>
         /// <param name="expectedImag">Expected imaginary part.</param>
-        [Test, Sequential]
-        public void CanComputeNaturalLogarithm([Values(0.0, 0.0, -1.0, -111.1, 111.1)] double real, [Values(0.0, 1.0, 1.0, 111.1, -111.1)] double imag, [Values(double.NegativeInfinity, 0.0, 0.34657359027997264, 5.0570042869255571, 5.0570042869255571)] double expectedReal, [Values(0.0, 1.5707963267948966, 2.3561944901923448, 2.3561944901923448, -0.78539816339744828)] double expectedImag)
+        [TestCase(0.0, 0.0, double.NegativeInfinity, 0.0)]
+        [TestCase(0.0, 1.0, 0.0, 1.5707963267948966)]
+        [TestCase(-1.0, 1.0, 0.34657359027997264, 2.3561944901923448)]
+        [TestCase(-111.1, 111.1, 5.0570042869255571, 2.3561944901923448)]
+        [TestCase(111.1, -111.1, 5.0570042869255571, -0.78539816339744828)]
+        public void CanComputeNaturalLogarithm(double real, double imag, double expectedReal, double expectedImag)
         {
             var value = new Complex(real, imag);
             var expected = new Complex(expectedReal, expectedImag);

@@ -160,7 +160,7 @@ namespace MathNet.Numerics.UnitTests
 
             // default sorting (Ascending)
             list.Sort();
-            
+
             // just check that the order is as expected, not that the items are correct
             for (var i = 1; i < list.Count; i++)
             {

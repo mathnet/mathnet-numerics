@@ -1,4 +1,4 @@
-﻿// <copyright file="CommonDistributionTests.cs" company="Math.NET">
+// <copyright file="CommonDistributionTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -106,20 +106,20 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         {
             _discreteDistributions = new List<IDiscreteDistribution>
                                      {
-                                         new Bernoulli(0.6), 
-                                         new Binomial(0.7, 10), 
-                                         new Categorical(new[] { 0.7, 0.3 }), 
+                                         new Bernoulli(0.6),
+                                         new Binomial(0.7, 10),
+                                         new Categorical(new[] { 0.7, 0.3 }),
                                          new DiscreteUniform(1, 10)
                                      };
 
             _continuousDistributions = new List<IContinuousDistribution>
                                        {
-                                           new Beta(1.0, 1.0), 
-                                           new ContinuousUniform(0.0, 1.0), 
-                                           new Gamma(1.0, 1.0), 
-                                           new Normal(0.0, 1.0), 
-                                           new Weibull(1.0, 1.0), 
-                                           new LogNormal(1.0, 1.0), 
+                                           new Beta(1.0, 1.0),
+                                           new ContinuousUniform(0.0, 1.0),
+                                           new Gamma(1.0, 1.0),
+                                           new Normal(0.0, 1.0),
+                                           new Weibull(1.0, 1.0),
+                                           new LogNormal(1.0, 1.0),
                                            new StudentT(0.0, 1.0, 5.0)
                                        };
         }

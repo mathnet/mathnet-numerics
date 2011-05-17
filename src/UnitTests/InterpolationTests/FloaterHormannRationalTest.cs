@@ -1,4 +1,4 @@
-﻿// <copyright file="FloaterHormannRationalTest.cs" company="Math.NET">
+// <copyright file="FloaterHormannRationalTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -34,11 +34,21 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using Interpolation.Algorithms;
     using NUnit.Framework;
 
+    /// <summary>
+    /// FloaterHormannRational test case.
+    /// </summary>
     [TestFixture]
     public class FloaterHormannRationalTest
     {
-        readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
-        readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        /// <summary>
+        /// Sample points.
+        /// </summary>
+        private readonly double[] _t = new[] { -2.0, -1.0, 0.0, 1.0, 2.0 };
+
+        /// <summary>
+        /// Sample values.
+        /// </summary>
+        private readonly double[] _x = new[] { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided polynomial sample points.
@@ -57,16 +67,24 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Verifies that at points other than the provided polynomial sample points, the interpolation matches the one computed by Maple as a reference.
         /// </summary>
+        /// <param name="t">Sample point.</param>
+        /// <param name="x">Sample value.</param>
+        /// <param name="maxAbsoluteError">Maximum absolute error.</param>
         /// <remarks>
         /// Maple:
         /// with(CurveFitting);
         /// PolynomialInterpolation([[-2,1],[-1,2],[0,-1],[1,0],[2,1]], x);
         /// </remarks>
-        [Test, Sequential]
-        public void PolynomialFitsAtArbitraryPointsWithMaple(
-            [Values(-2.4, -0.9, -0.5, -0.1, 0.1, 0.4, 1.2, 10.0, -10.0)] double t,
-            [Values(-4.5968, 1.65395, 0.21875, -0.84205, -1.10805, -1.1248, 0.5392, -4431.0, -5071.0)] double x,
-            [Values(1e-14, 1e-15, 1e-15, 1e-15, 1e-15, 1e-15, 1e-15, 1e-9, 1e-9)] double maxAbsoluteError)
+        [TestCase(-2.4, -4.5968, 1e-14)]
+        [TestCase(-0.9, 1.65395, 1e-15)]
+        [TestCase(-0.5, 0.21875, 1e-15)]
+        [TestCase(-0.1, -0.84205, 1e-15)]
+        [TestCase(0.1, -1.10805, 1e-15)]
+        [TestCase(0.4, -1.1248, 1e-15)]
+        [TestCase(1.2, 0.5392, 1e-15)]
+        [TestCase(10.0, -4431.0, 1e-9)]
+        [TestCase(-10.0, -5071.0, 1e-9)]
+        public void PolynomialFitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
         {
             IInterpolation interpolation = new EquidistantPolynomialInterpolation(_t, _x);
 
@@ -82,10 +100,10 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             var t = new double[40];
             var x = new double[40];
 
-            const double step = 10.0 / 39.0;
+            const double Step = 10.0 / 39.0;
             for (int i = 0; i < t.Length; i++)
             {
-                double tt = -5 + (i * step);
+                double tt = -5 + (i * Step);
                 t[i] = tt;
                 x[i] = 1.0 / (1.0 + (tt * tt));
             }
@@ -101,8 +119,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Verifies that the interpolation supports the linear case appropriately
         /// </summary>
-        [Test]
-        public void SupportsLinearCase([Values(2, 4, 12)] int samples)
+        /// <param name="samples">Samples array.</param>
+        [TestCase(2)]
+        [TestCase(4)]
+        [TestCase(12)]
+        public void SupportsLinearCase(int samples)
         {
             double[] x, y, xtest, ytest;
             LinearInterpolationCase.Build(out x, out y, out xtest, out ytest, samples);

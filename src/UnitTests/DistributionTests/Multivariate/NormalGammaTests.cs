@@ -44,8 +44,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanCreateNormalGamma([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanCreateNormalGamma(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
 
@@ -62,8 +63,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Sequential]
-        public void CanGetDensityAndDensityLn([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 1.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 1.0, 2.0, 2.0)]
+        public void CanGetDensityAndDensityLn(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             Assert.AreEqual(ng.DensityLn(meanLocation, precShape), Math.Log(ng.Density(meanLocation, precShape)), 1e-14);
@@ -87,8 +89,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanGetMeanLocation([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanGetMeanLocation(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             Assert.AreEqual(meanLocation, ng.MeanLocation);
@@ -101,8 +104,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanSetMeanLocation([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanSetMeanLocation(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale)
                      {
@@ -122,8 +126,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanGetMeanScale([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanGetMeanScale(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             Assert.AreEqual(meanScale, ng.MeanScale);
@@ -136,8 +141,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanSetMeanScale([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanSetMeanScale(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale)
                      {
@@ -156,8 +162,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanGetPrecisionShape([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanGetPrecisionShape(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             Assert.AreEqual(precShape, ng.PrecisionShape);
@@ -170,8 +177,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanSetPrecisionShape([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanSetPrecisionShape(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale)
                      {
@@ -190,8 +198,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanGetPrecisionInverseScale([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanGetPrecisionInverseScale(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             Assert.AreEqual(precInvScale, ng.PrecisionInverseScale);
@@ -204,8 +213,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanSetPrecisionPrecisionInverseScale([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        public void CanSetPrecisionPrecisionInverseScale(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale)
                      {
@@ -227,8 +237,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanMarginalMean">Mean marginal mean.</param>
         /// <param name="meanMarginalScale">Mean marginal scale.</param>
         /// <param name="meanMarginalDoF">Mean marginal degrees of freedom.</param>
-        [Test, Sequential]
-        public void CanGetMeanMarginal([Values(0.0, 10.0, 10.0)] double meanLocation, [Values(1.0, 1.0, 1.0)] double meanScale, [Values(1.0, 2.0, 2.0)] double precShape, [Values(1.0, 2.0, Double.PositiveInfinity)] double precInvScale, [Values(0.0, 10.0, 10.0)] double meanMarginalMean, [Values(1.0, 1.0, 0.5)] double meanMarginalScale, [Values(2.0, 4.0, Double.PositiveInfinity)] double meanMarginalDoF)
+        [TestCase(0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 2.0)]
+        [TestCase(10.0, 1.0, 2.0, 2.0, 10.0, 1.0, 4.0)]
+        [TestCase(10.0, 1.0, 2.0, Double.PositiveInfinity, 10.0, 0.5, Double.PositiveInfinity)]
+        public void CanGetMeanMarginal(double meanLocation, double meanScale, double precShape, double precInvScale, double meanMarginalMean, double meanMarginalScale, double meanMarginalDoF)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             var mm = ng.MeanMarginal();
@@ -244,8 +256,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void CanGetPrecisionMarginal([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0, Double.PositiveInfinity)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        [TestCase(10.0, 2.0, 2.0, Double.PositiveInfinity)]
+        public void CanGetPrecisionMarginal(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             var pm = ng.PrecisionMarginal();
@@ -262,8 +276,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="precInvScale">Precision inverse scale.</param>
         /// <param name="meanMean">Mean value.</param>
         /// <param name="meanPrecision">Mean precision.</param>
-        [Test, Sequential]
-        public void CanGetMean([Values(0.0, 10.0, 10.0)] double meanLocation, [Values(1.0, 1.0, 1.0)] double meanScale, [Values(1.0, 2.0, 2.0)] double precShape, [Values(1.0, 2.0, Double.PositiveInfinity)] double precInvScale, [Values(0.0, 10.0, 10.0)] double meanMean, [Values(1.0, 1.0, 2.0)] double meanPrecision)
+        [TestCase(0.0, 1.0, 1.0, 1.0, 0.0, 1.0)]
+        [TestCase(10.0, 1.0, 2.0, 2.0, 10.0, 1.0)]
+        [TestCase(10.0, 1.0, 2.0, Double.PositiveInfinity, 10.0, 2.0)]
+        public void CanGetMean(double meanLocation, double meanScale, double precShape, double precInvScale, double meanMean, double meanPrecision)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             Assert.AreEqual(meanMean, ng.Mean.Mean);
@@ -299,8 +315,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="meanScale">Mean scale.</param>
         /// <param name="precShape">Precision shape.</param>
         /// <param name="precInvScale">Precision inverse scale.</param>
-        [Test, Combinatorial]
-        public void ValidateVariance([Values(0.0, 10.0)] double meanLocation, [Values(1.0, 2.0)] double meanScale, [Values(1.0, 2.0)] double precShape, [Values(1.0, 2.0, Double.PositiveInfinity)] double precInvScale)
+        [TestCase(0.0, 1.0, 1.0, 1.0)]
+        [TestCase(10.0, 2.0, 2.0, 2.0)]
+        [TestCase(10.9, 2.0, 2.0, Double.PositiveInfinity)]
+        public void ValidateVariance(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             var x = precInvScale / (meanScale * (precShape - 1));
@@ -332,16 +350,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 
             // Check the precision distribution.
             CommonDistributionTests.VapnikChervonenkisTest(
-                CommonDistributionTests.Error, 
-                CommonDistributionTests.ErrorProbability, 
-                precs, 
+                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorProbability,
+                precs,
                 precMarginal);
 
             // Check the mean distribution.
             CommonDistributionTests.VapnikChervonenkisTest(
-                CommonDistributionTests.Error, 
-                CommonDistributionTests.ErrorProbability, 
-                means, 
+                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorProbability,
+                means,
                 meanMarginal);
         }
 
@@ -364,16 +382,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
 
             // Check the precision distribution.
             CommonDistributionTests.VapnikChervonenkisTest(
-                CommonDistributionTests.Error, 
-                CommonDistributionTests.ErrorProbability, 
-                precs, 
+                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorProbability,
+                precs,
                 precMarginal);
-            
+
             // Check the mean distribution.
             CommonDistributionTests.VapnikChervonenkisTest(
-                CommonDistributionTests.Error, 
-                CommonDistributionTests.ErrorProbability, 
-                means, 
+                CommonDistributionTests.Error,
+                CommonDistributionTests.ErrorProbability,
+                means,
                 meanMarginal);
         }
     }

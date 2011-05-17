@@ -1,4 +1,4 @@
-﻿// <copyright file="DiagonalMatrixTests.cs" company="Math.NET">
+// <copyright file="DiagonalMatrixTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -32,6 +32,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     using LinearAlgebra.Single;
     using NUnit.Framework;
 
+#if SILVERLIGHT
+    using Threading;
+#endif
+
     /// <summary>
     /// Diagonal matrix tests.
     /// </summary>
@@ -45,11 +49,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             TestData2D = new Dictionary<string, float[,]>
                          {
-                             { "Singular3x3", new[,] { { 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 3.0f } } }, 
-                             { "Square3x3", new[,] { { -1.1f, 0.0f, 0.0f }, { 0.0f, 1.1f, 0.0f }, { 0.0f, 0.0f, 6.6f } } }, 
-                             { "Square4x4", new[,] { { -1.1f, 0.0f, 0.0f, 0.0f }, { 0.0f, 1.1f, 0.0f, 0.0f }, { 0.0f, 0.0f, 6.2f, 0.0f }, { 0.0f, 0.0f, 0.0f, -7.7f } } }, 
-                             { "Singular4x4", new[,] { { -1.1f, 0.0f, 0.0f, 0.0f }, { 0.0f, -2.2f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, -4.4f } } }, 
-                             { "Tall3x2", new[,] { { -1.1f, 0.0f }, { 0.0f, 1.1f }, { 0.0f, 0.0f } } }, 
+                             { "Singular3x3", new[,] { { 1.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 3.0f } } },
+                             { "Square3x3", new[,] { { -1.1f, 0.0f, 0.0f }, { 0.0f, 1.1f, 0.0f }, { 0.0f, 0.0f, 6.6f } } },
+                             { "Square4x4", new[,] { { -1.1f, 0.0f, 0.0f, 0.0f }, { 0.0f, 1.1f, 0.0f, 0.0f }, { 0.0f, 0.0f, 6.2f, 0.0f }, { 0.0f, 0.0f, 0.0f, -7.7f } } },
+                             { "Singular4x4", new[,] { { -1.1f, 0.0f, 0.0f, 0.0f }, { 0.0f, -2.2f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f, -4.4f } } },
+                             { "Tall3x2", new[,] { { -1.1f, 0.0f }, { 0.0f, 1.1f }, { 0.0f, 0.0f } } },
                              { "Wide2x3", new[,] { { -1.1f, 0.0f, 0.0f }, { 0.0f, 1.1f, 0.0f } } }
                          };
 
@@ -110,11 +114,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var testData = new Dictionary<string, Matrix>
                            {
-                               { "Singular3x3", new DiagonalMatrix(3, 3, new[] { 1.0f, 0.0f, 3.0f }) }, 
-                               { "Square3x3", new DiagonalMatrix(4, 4, new[] { -1.1f, 1.1f, 6.6f }) }, 
-                               { "Square4x4", new DiagonalMatrix(4, 4, new[] { -1.1f, 1.1f, 6.2f, -7.7f }) }, 
-                               { "Tall3x2", new DiagonalMatrix(3, 2, new[] { -1.1f, 1.1f }) }, 
-                               { "Wide2x3", new DiagonalMatrix(2, 3, new[] { -1.1f, 1.1f }) }, 
+                               { "Singular3x3", new DiagonalMatrix(3, 3, new[] { 1.0f, 0.0f, 3.0f }) },
+                               { "Square3x3", new DiagonalMatrix(4, 4, new[] { -1.1f, 1.1f, 6.6f }) },
+                               { "Square4x4", new DiagonalMatrix(4, 4, new[] { -1.1f, 1.1f, 6.2f, -7.7f }) },
+                               { "Tall3x2", new DiagonalMatrix(3, 2, new[] { -1.1f, 1.1f }) },
+                               { "Wide2x3", new DiagonalMatrix(2, 3, new[] { -1.1f, 1.1f }) },
                            };
 
             foreach (var name in testData.Keys)
@@ -139,8 +143,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Can create a matrix from two-dimensional array.
         /// </summary>
         /// <param name="name">Matrix name.</param>
-        [Test]
-        public void CanCreateMatrixFrom2DArray([Values("Singular3x3", "Singular4x4", "Square3x3", "Square4x4", "Tall3x2", "Wide2x3")] string name)
+        [TestCase("Singular3x3")]
+        [TestCase("Singular4x4")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanCreateMatrixFrom2DArray(string name)
         {
             var matrix = new DiagonalMatrix(TestData2D[name]);
             for (var i = 0; i < TestData2D[name].GetLength(0); i++)
@@ -185,8 +194,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         /// Identity with wrong order throws <c>ArgumentOutOfRangeException</c>.
         /// </summary>
         /// <param name="order">The size of the square matrix</param>
-        [Test]
-        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException([Values(0, -1)] int order)
+        [TestCase(0)]
+        [TestCase(-1)]
+        public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => DiagonalMatrix.Identity(order));
         }

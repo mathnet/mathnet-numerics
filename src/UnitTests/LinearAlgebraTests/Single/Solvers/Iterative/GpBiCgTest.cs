@@ -90,9 +90,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
             var solver = new GpBiCg(monitor);
@@ -135,9 +135,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
 
@@ -214,9 +214,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator(new IIterationStopCriterium[]
                                        {
-                                           new IterationCountStopCriterium(MaximumIterations), 
-                                           new ResidualStopCriterium(ConvergenceBoundary), 
-                                           new DivergenceStopCriterium(), 
+                                           new IterationCountStopCriterium(MaximumIterations),
+                                           new ResidualStopCriterium(ConvergenceBoundary),
+                                           new DivergenceStopCriterium(),
                                            new FailureStopCriterium()
                                        });
 
@@ -246,8 +246,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
         /// Can solve for a random vector.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVector([Values(5)] int order)
+        [TestCase(5)]
+        public void CanSolveForRandomVector(int order)
         {
             // Due to datatype "float" it can happen that solution will not converge for specific random matrix
             // That's why we will do 3 tries and downgrade stop criterium each time
@@ -258,8 +258,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
 
                 var monitor = new Iterator(new IIterationStopCriterium[]
                                            {
-                                               new IterationCountStopCriterium(MaximumIterations), 
-                                               new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration)), 
+                                               new IterationCountStopCriterium(MaximumIterations),
+                                               new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration)),
                                            });
                 var solver = new GpBiCg(monitor);
                 var resultx = solver.Solve(matrixA, vectorb);
@@ -287,8 +287,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
         /// Can solve for random matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomMatrix([Values(5)] int order)
+        [TestCase(5)]
+        public void CanSolveForRandomMatrix(int order)
         {
             // Due to datatype "float" it can happen that solution will not converge for specific random matrix
             // That's why we will do 3 tries and downgrade stop criterium each time
@@ -299,7 +299,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Iterative
 
                 var monitor = new Iterator(new IIterationStopCriterium[]
                                            {
-                                               new IterationCountStopCriterium(MaximumIterations), 
+                                               new IterationCountStopCriterium(MaximumIterations),
                                                new ResidualStopCriterium((float)Math.Pow(1.0 / 10.0, iteration))
                                            });
                 var solver = new GpBiCg(monitor);

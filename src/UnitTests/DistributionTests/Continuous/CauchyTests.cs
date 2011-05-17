@@ -1,4 +1,4 @@
-﻿// <copyright file="CauchyTests.cs" company="Math.NET">
+// <copyright file="CauchyTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -62,8 +62,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void CanCreateCauchy([Values(0.0, 0.0, 0.0, 10.0, -5.0, 0.0)] double location, [Values(0.1, 1.0, 10.0, 11.0, 100.0, Double.PositiveInfinity)] double scale)
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(-5.0, 100.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void CanCreateCauchy(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             Assert.AreEqual(location, n.Location);
@@ -75,8 +80,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void CauchyCreateFailsWithBadParameters([Values(Double.NaN, 1.0, Double.NaN, 1.0)] double location, [Values(1.0, Double.NaN, Double.NaN, 0.0)] double scale)
+        [TestCase(Double.NaN, 1.0)]
+        [TestCase(1.0, Double.NaN)]
+        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(1.0, 0.0)]
+        public void CauchyCreateFailsWithBadParameters(double location, double scale)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Cauchy(location, scale));
         }
@@ -95,8 +103,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set location.
         /// </summary>
         /// <param name="location">Location value.</param>
-        [Test]
-        public void CanSetLocation([Values(-10.0, -0.0, 0.0, 0.1, 1.0)] double location)
+        [TestCase(-10.0)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        public void CanSetLocation(double location)
         {
             new Cauchy
             {
@@ -118,8 +130,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set scale.
         /// </summary>
         /// <param name="scale">Scale value.</param>
-        [Test]
-        public void CanSetScale([Values(1.0, 2.0, 12.0)] double scale)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(12.0)]
+        public void CanSetScale(double scale)
         {
             new Cauchy
             {
@@ -142,8 +156,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void ValidateEntropy([Values(-0.0, 0.0, 0.1, 1.0, 10.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0)] double scale)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        public void ValidateEntropy(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             Assert.AreEqual(Math.Log(4.0 * Constants.Pi * scale), n.Entropy);
@@ -164,8 +182,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void ValidateMode([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double scale)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateMode(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             Assert.AreEqual(location, n.Mode);
@@ -176,8 +199,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void ValidateMedian([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double scale)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateMedian(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             Assert.AreEqual(location, n.Median);
@@ -188,8 +216,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void ValidateMinimum([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double scale)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateMinimum(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             Assert.AreEqual(Double.NegativeInfinity, n.Minimum);
@@ -200,8 +233,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void ValidateMaximum([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double location, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double scale)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateMaximum(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
@@ -212,8 +250,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void ValidateDensity([Values(0.0, 0.0, 0.0, -5.0, 0.0, Double.PositiveInfinity)] double location, [Values(0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity, 1.0)] double scale)
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(-5.0, 100.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        public void ValidateDensity(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             for (var i = 0; i < 11; i++)
@@ -228,8 +271,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void ValidateDensityLn([Values(0.0, 0.0, 0.0, -5.0, 0.0, Double.PositiveInfinity)] double location, [Values(0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity, 1.0)] double scale)
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(-5.0, 100.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        public void ValidateDensityLn(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             for (var i = 0; i < 11; i++)
@@ -265,8 +313,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="location">Location value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution([Values(0.0, 0.0, 0.0, -5.0, 0.0)] double location, [Values(0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double scale)
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(-5.0, 100.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateCumulativeDistribution(double location, double scale)
         {
             var n = new Cauchy(location, scale);
             for (var i = 0; i < 11; i++)

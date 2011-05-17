@@ -108,9 +108,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         {
             var criterium = new DivergenceStopCriterium(0.5, 15);
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
-                -1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                -1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 new DenseVector(3, 6)));
         }
 
@@ -122,9 +122,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
         {
             var criterium = new DivergenceStopCriterium(0.5, 15);
             Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 null));
         }
 
@@ -143,9 +143,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             for (var i = 0; i < Iterations - 1; i++)
             {
                 criterium.DetermineStatus(
-                    i, 
-                    new DenseVector(new[] { new Complex(1.0, 0) }), 
-                    new DenseVector(new[] { new Complex(1.0, 0) }), 
+                    i,
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
                     new DenseVector(new[] { new Complex((i + 1) * (Increase + 0.1), 0) }));
 
                 Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Status check fail.");
@@ -167,9 +167,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             for (var i = 0; i < Iterations * 2; i++)
             {
                 criterium.DetermineStatus(
-                    i, 
-                    new DenseVector(new[] { new Complex(1.0, 0) }), 
-                    new DenseVector(new[] { new Complex(1.0, 0) }), 
+                    i,
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
                     new DenseVector(new[] { new Complex((i + 1) * (Increase - 0.01), 0) }));
 
                 Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Status check fail.");
@@ -191,9 +191,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             for (var i = 0; i < Iterations - 5; i++)
             {
                 criterium.DetermineStatus(
-                    i, 
-                    new DenseVector(new[] { new Complex(1.0, 0) }), 
-                    new DenseVector(new[] { new Complex(1.0, 0) }), 
+                    i,
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
                     new DenseVector(new[] { new Complex((i + 1) * (Increase - 0.01), 0) }));
 
                 Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Status check fail.");
@@ -201,9 +201,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
 
             // Now make it fail by throwing in a NaN
             criterium.DetermineStatus(
-                Iterations, 
-                new DenseVector(new[] { new Complex(1.0, 0) }), 
-                new DenseVector(new[] { new Complex(1.0, 0) }), 
+                Iterations,
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(1.0, 0) }),
                 new DenseVector(new[] { new Complex(double.NaN, 0) }));
 
             Assert.IsInstanceOf(typeof(CalculationDiverged), criterium.Status, "Status check fail.");
@@ -226,9 +226,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             {
                 previous *= 1 + Increase + 0.01;
                 criterium.DetermineStatus(
-                    i, 
-                    new DenseVector(new[] { new Complex(1.0, 0) }), 
-                    new DenseVector(new[] { new Complex(1.0, 0) }), 
+                    i,
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
+                    new DenseVector(new[] { new Complex(1.0, 0) }),
                     new DenseVector(new[] { new Complex(previous, 0) }));
 
                 Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Status check fail.");
@@ -237,9 +237,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             // Add the final residual. Now we should have divergence
             previous *= 1 + Increase + 0.01;
             criterium.DetermineStatus(
-                Iterations - 1, 
-                new DenseVector(new[] { new Complex(1.0, 0) }), 
-                new DenseVector(new[] { new Complex(1.0, 0) }), 
+                Iterations - 1,
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(1.0, 0) }),
                 new DenseVector(new[] { new Complex(previous, 0) }));
 
             Assert.IsInstanceOf(typeof(CalculationDiverged), criterium.Status, "Status check fail.");
@@ -258,9 +258,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
 
             // Add residuals. Blow it up instantly
             criterium.DetermineStatus(
-                1, 
-                new DenseVector(new[] { new Complex(1.0, 0) }), 
-                new DenseVector(new[] { new Complex(1.0, 0) }), 
+                1,
+                new DenseVector(new[] { new Complex(1.0, 0) }),
+                new DenseVector(new[] { new Complex(1.0, 0) }),
                 new DenseVector(new[] { new Complex(double.NaN, 0) }));
 
             Assert.IsInstanceOf(typeof(CalculationDiverged), criterium.Status, "Status check fail.");
@@ -294,6 +294,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             // ReSharper disable PossibleNullReferenceException
             Assert.AreEqual(criterium.MaximumRelativeIncrease, clonedCriterium.MaximumRelativeIncrease, "Incorrect maximum");
             Assert.AreEqual(criterium.MinimumNumberOfIterations, clonedCriterium.MinimumNumberOfIterations, "Incorrect iteration count");
+
             // ReSharper restore PossibleNullReferenceException
         }
     }

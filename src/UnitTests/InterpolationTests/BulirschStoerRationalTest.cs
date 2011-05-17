@@ -1,4 +1,4 @@
-﻿// <copyright file="BulirschStoerRationalTest.cs" company="Math.NET">
+// <copyright file="BulirschStoerRationalTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -34,11 +34,21 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using Interpolation.Algorithms;
     using NUnit.Framework;
 
+    /// <summary>
+    /// BulirschStoerRational test case.
+    /// </summary>
     [TestFixture]
     public class BulirschStoerRationalTest
     {
-        readonly double[] _t = new[] { 0d, 1, 3, 4, 5 };
-        readonly double[] _x = new[] { 0d, 3, 1000, -1000, 3 };
+        /// <summary>
+        /// Sample points.
+        /// </summary>
+        private readonly double[] _t = new[] { 0d, 1, 3, 4, 5 };
+
+        /// <summary>
+        /// Sample values.
+        /// </summary>
+        private readonly double[] _x = new[] { 0d, 3, 1000, -1000, 3 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -57,16 +67,26 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <summary>
         /// Verifies that at points other than the provided sample points, the interpolation matches the one computed by Maple as a reference.
         /// </summary>
+        /// <param name="t">Sample point.</param>
+        /// <param name="x">Sample value.</param>
+        /// <param name="maxAbsoluteError">Maximum absolute error.</param>
         /// <remarks>
         /// Maple:
         /// with(CurveFitting);
         /// evalf(subs({x=0.1},RationalInterpolation([[0,0],[1,3],[3,1000],[4,-1000], [5,3]], x)),20);
         /// </remarks>
-        [Test, Sequential]
-        public void FitsAtArbitraryPointsWithMaple(
-            [Values(0.1, 0.4, 1.1, 3.01, 3.02, 3.03, 3.1, 3.2, 4.5, 10.0, -10.0)] double t,
-            [Values(.19389203383553566255, .88132900698869875369, 3.5057665681580626913, 1548.7666642693586902, 3362.2564334253633516, -22332.603641443806014, -440.30323769822443789, -202.42421196280566349, 21.208249625210155439, -4.8936986959784751517, -3.6017584308603731307)] double x,
-            [Values(1e-14, 1e-14, 1e-15, 1e-10, 1e-10, 1e-8, 1e-11, 1e-12, 1e-12, 1e-13, 1e-13)] double maxAbsoluteError)
+        [TestCase(0.1, .19389203383553566255, 1e-14)]
+        [TestCase(0.4, .88132900698869875369, 1e-14)]
+        [TestCase(1.1, 3.5057665681580626913, 1e-15)]
+        [TestCase(3.01, 1548.7666642693586902, 1e-10)]
+        [TestCase(3.02, 3362.2564334253633516, 1e-10)]
+        [TestCase(3.03, -22332.603641443806014, 1e-8)]
+        [TestCase(3.1, -440.30323769822443789, 1e-11)]
+        [TestCase(3.2, -202.42421196280566349, 1e-12)]
+        [TestCase(4.5, 21.208249625210155439, 1e-12)]
+        [TestCase(10.0, -4.8936986959784751517, 1e-13)]
+        [TestCase(-10.0, -3.6017584308603731307, 1e-13)]
+        public void FitsAtArbitraryPointsWithMaple(double t, double x, double maxAbsoluteError)
         {
             IInterpolation interpolation = new BulirschStoerRationalInterpolation(_t, _x);
 

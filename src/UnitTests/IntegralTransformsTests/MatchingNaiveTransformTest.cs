@@ -1,4 +1,4 @@
-﻿// <copyright file="MatchingNaiveTransformTest.cs" company="Math.NET">
+// <copyright file="MatchingNaiveTransformTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -53,9 +53,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="naive">Naive transform.</param>
         /// <param name="fast">Fast delegate.</param>
         private static void VerifyMatchesNaiveComplex(
-            Complex[] samples, 
-            double maximumError, 
-            Func<Complex[], Complex[]> naive, 
+            Complex[] samples,
+            double maximumError,
+            Func<Complex[], Complex[]> naive,
             Action<Complex[]> fast)
         {
             var spectrumNaive = naive(samples);
@@ -71,22 +71,24 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier Radix2XX matches naive on real sine.
         /// </summary>
         /// <param name="options">Fourier options.</param>
-        [Test]
-        public void FourierRadix2MatchesNaiveOnRealSine([Values(FourierOptions.Default, FourierOptions.Matlab, FourierOptions.NumericalRecipes)] FourierOptions options)
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        [TestCase(FourierOptions.NumericalRecipes)]
+        public void FourierRadix2MatchesNaiveOnRealSine(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
             var samples = SignalGenerator.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 16);
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveForward(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveForward(s, options),
                 s => dft.Radix2Forward(s, options));
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveInverse(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveInverse(s, options),
                 s => dft.Radix2Inverse(s, options));
         }
 
@@ -94,22 +96,24 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier Radix2XX matches naive on random.
         /// </summary>
         /// <param name="options">Fourier options.</param>
-        [Test]
-        public void FourierRadix2MatchesNaiveOnRandom([Values(FourierOptions.Default, FourierOptions.Matlab, FourierOptions.NumericalRecipes)] FourierOptions options)
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        [TestCase(FourierOptions.NumericalRecipes)]
+        public void FourierRadix2MatchesNaiveOnRandom(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
             var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, 0x80);
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveForward(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveForward(s, options),
                 s => dft.Radix2Forward(s, options));
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveInverse(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveInverse(s, options),
                 s => dft.Radix2Inverse(s, options));
         }
 
@@ -117,22 +121,24 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier bluestein matches naive on real sine non-power of two.
         /// </summary>
         /// <param name="options">Fourier options.</param>
-        [Test]
-        public void FourierBluesteinMatchesNaiveOnRealSineNonPowerOfTwo([Values(FourierOptions.Default, FourierOptions.Matlab, FourierOptions.NumericalRecipes)] FourierOptions options)
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        [TestCase(FourierOptions.NumericalRecipes)]
+        public void FourierBluesteinMatchesNaiveOnRealSineNonPowerOfTwo(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
             var samples = SignalGenerator.EquidistantPeriodic(w => new Complex(Math.Sin(w), 0), Constants.Pi2, 0, 14);
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveForward(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveForward(s, options),
                 s => dft.BluesteinForward(s, options));
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveInverse(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveInverse(s, options),
                 s => dft.BluesteinInverse(s, options));
         }
 
@@ -140,22 +146,24 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier bluestein matches naive on random power of two.
         /// </summary>
         /// <param name="options">Fourier options.</param>
-        [Test]
-        public void FourierBluesteinMatchesNaiveOnRandomPowerOfTwo([Values(FourierOptions.Default, FourierOptions.Matlab, FourierOptions.NumericalRecipes)] FourierOptions options)
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        [TestCase(FourierOptions.NumericalRecipes)]
+        public void FourierBluesteinMatchesNaiveOnRandomPowerOfTwo(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
             var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, 0x80);
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveForward(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveForward(s, options),
                 s => dft.BluesteinForward(s, options));
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveInverse(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveInverse(s, options),
                 s => dft.BluesteinInverse(s, options));
         }
 
@@ -163,21 +171,23 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Fourier bluestein matches naive on random non-power of two.
         /// </summary>
         /// <param name="options">Fourier options.</param>
-        [Test]
-        public void FourierBluesteinMatchesNaiveOnRandomNonPowerOfTwo([Values(FourierOptions.Default, FourierOptions.Matlab, FourierOptions.NumericalRecipes)] FourierOptions options)
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        [TestCase(FourierOptions.NumericalRecipes)]
+        public void FourierBluesteinMatchesNaiveOnRandomNonPowerOfTwo(FourierOptions options)
         {
             var dft = new DiscreteFourierTransform();
             var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, 0x7F);
 
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveForward(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveForward(s, options),
                 s => dft.BluesteinForward(s, options));
             VerifyMatchesNaiveComplex(
-                samples, 
-                1e-12, 
-                s => dft.NaiveInverse(s, options), 
+                samples,
+                1e-12,
+                s => dft.NaiveInverse(s, options),
                 s => dft.BluesteinInverse(s, options));
         }
     }

@@ -1,4 +1,4 @@
-﻿// <copyright file="LinearInterpolationCase.cs" company="Math.NET">
+// <copyright file="LinearInterpolationCase.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -33,15 +33,29 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     using Distributions;
     using Numerics.Random;
 
+    /// <summary>
+    /// LinearInterpolation test case.
+    /// </summary>
     internal static class LinearInterpolationCase
     {
+        /// <summary>
+        /// Build linear samples.
+        /// </summary>
+        /// <param name="x">X sample values.</param>
+        /// <param name="y">Y samples values.</param>
+        /// <param name="xtest">X test values.</param>
+        /// <param name="ytest">Y test values.</param>
+        /// <param name="samples">Sample values.</param>
+        /// <param name="sampleOffset">Sample offset.</param>
+        /// <param name="slope">Slope number.</param>
+        /// <param name="intercept">Intercept criteria.</param>
         public static void Build(out double[] x, out double[] y, out double[] xtest, out double[] ytest, int samples = 3, double sampleOffset = -0.5, double slope = 2.0, double intercept = -1.0)
         {
             // Fixed-seed "random" distribution to ensure we always test with the same data
             var uniform = new ContinuousUniform
-                {
-                    RandomSource = new MersenneTwister(42)
-                };
+                          {
+                              RandomSource = new MersenneTwister(42)
+                          };
 
             // build linear samples
             x = new double[samples];
@@ -49,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             for (int i = 0; i < x.Length; i++)
             {
                 x[i] = i + sampleOffset;
-                y[i] = x[i] * slope + intercept;
+                y[i] = (x[i] * slope) + intercept;
             }
 
             // build linear test vectors randomly between the sample points
@@ -60,14 +74,14 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 // y = const
                 xtest[0] = sampleOffset - uniform.Sample();
                 xtest[1] = sampleOffset + uniform.Sample();
-                ytest[0] = ytest[1] = sampleOffset * slope + intercept;
+                ytest[0] = ytest[1] = (sampleOffset * slope) + intercept;
             }
             else
             {
                 for (int i = 0; i < xtest.Length; i++)
                 {
                     xtest[i] = (i - 1) + sampleOffset + uniform.Sample();
-                    ytest[i] = xtest[i] * slope + intercept;
+                    ytest[i] = (xtest[i] * slope) + intercept;
                 }
             }
         }

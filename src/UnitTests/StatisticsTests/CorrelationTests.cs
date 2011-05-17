@@ -1,4 +1,4 @@
-﻿// <copyright file="CorrelationTests.cs" company="Math.NET">
+// <copyright file="CorrelationTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -26,6 +26,7 @@
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
+#if !SILVERLIGHT
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -35,6 +36,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Correlation tests
     /// </summary>
+    /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files. 
+    /// In Silverlight access to local files is forbidden, except several cases.</remarks>
     [TestFixture]
     public class CorrelationTests
     {
@@ -78,4 +81,5 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.Throws<ArgumentOutOfRangeException>(() => Correlation.Pearson(dataA, dataB));
         }
     }
+#endif
 }

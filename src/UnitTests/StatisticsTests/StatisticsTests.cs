@@ -1,4 +1,4 @@
-﻿// <copyright file="StatisticsTests.cs" company="Math.NET">
+// <copyright file="StatisticsTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -26,6 +26,7 @@
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
+#if !SILVERLIGHT
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -36,6 +37,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Statistics tests.
     /// </summary>
+    /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files. 
+    /// In Silverlight access to local files is forbidden, except several cases.</remarks>
     [TestFixture]
     public class StatisticsTests
     {
@@ -71,8 +74,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// Validate mean.
         /// </summary>
         /// <param name="dataSet">Dataset name.</param>
-        [Test]
-        public void Mean([Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet)
+        [TestCase("lottery")]
+        [TestCase("lew")]
+        [TestCase("mavro")]
+        [TestCase("michelso")]
+        [TestCase("numacc1")]
+        [TestCase("numacc2")]
+        [TestCase("numacc3")]
+        [TestCase("numacc4")]
+        public void Mean(string dataSet)
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.Mean, data.Data.Mean(), 15);
@@ -82,8 +92,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// <c>Nullable</c> mean.
         /// </summary>
         /// <param name="dataSet">Dataset name.</param>
-        [Test]
-        public void NullableMean([Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet)
+        [TestCase("lottery")]
+        [TestCase("lew")]
+        [TestCase("mavro")]
+        [TestCase("michelso")]
+        [TestCase("numacc1")]
+        [TestCase("numacc2")]
+        [TestCase("numacc3")]
+        [TestCase("numacc4")]
+        public void NullableMean(string dataSet)
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.Mean, data.DataWithNulls.Mean(), 15);
@@ -104,10 +121,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// </summary>
         /// <param name="dataSet">Dataset name.</param>
         /// <param name="digits">Digits count.</param>
-        [Test, Sequential]
-        public void StandardDeviation(
-            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
-            [Values(15, 15, 12, 12, 15, 13, 9, 8)] int digits)
+        [TestCase("lottery", 15)]
+        [TestCase("lew", 15)]
+        [TestCase("mavro", 12)]
+        [TestCase("michelso", 12)]
+        [TestCase("numacc1", 15)]
+        [TestCase("numacc2", 13)]
+        [TestCase("numacc3", 9)]
+        [TestCase("numacc4", 8)]
+        public void StandardDeviation(string dataSet, int digits)
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.StandardDeviation, data.Data.StandardDeviation(), digits);
@@ -118,10 +140,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// </summary>
         /// <param name="dataSet">Dataset name.</param>
         /// <param name="digits">Digits count.</param>
-        [Test, Sequential]
-        public void NullableStandardDeviation(
-            [Values("lottery", "lew", "mavro", "michelso", "numacc1", "numacc2", "numacc3", "numacc4")] string dataSet, 
-            [Values(15, 15, 12, 12, 15, 13, 9, 8)] int digits)
+        [TestCase("lottery", 15)]
+        [TestCase("lew", 15)]
+        [TestCase("mavro", 12)]
+        [TestCase("michelso", 12)]
+        [TestCase("numacc1", 15)]
+        [TestCase("numacc2", 13)]
+        [TestCase("numacc3", 9)]
+        [TestCase("numacc4", 8)]
+        public void NullableStandardDeviation(string dataSet, int digits)
         {
             var data = _data[dataSet];
             AssertHelpers.AlmostEqual(data.StandardDeviation, data.DataWithNulls.StandardDeviation(), digits);
@@ -149,7 +176,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         /// <summary>
-        /// Validate Order Statistics & Median on a short sequence.
+        /// Validate Order Statistics and Median on a short sequence.
         /// </summary>
         [Test]
         public void ShortOrderMedian()
@@ -173,9 +200,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             // Test around 10^9, potential stability issues
             var gaussian = new Distributions.Normal(1e+9, 2)
-                {
-                    RandomSource = new Numerics.Random.MersenneTwister(100)
-                };
+                           {
+                               RandomSource = new Numerics.Random.MersenneTwister(100)
+                           };
 
             AssertHelpers.AlmostEqual(1e+9, gaussian.Samples().Take(10000).Mean(), 11);
             AssertHelpers.AlmostEqual(4d, gaussian.Samples().Take(10000).Variance(), 1);
@@ -183,7 +210,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         /// <summary>
-        /// http://mathnetnumerics.codeplex.com/workitem/5667
+        /// URL http://mathnetnumerics.codeplex.com/workitem/5667
         /// </summary>
         [Test]
         public void Median_CodeplexIssue5667()
@@ -192,4 +219,5 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(1.0, seq.Median());
         }
     }
+#endif
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="BetaTests.cs" company="Math.NET">
+// <copyright file="BetaTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,8 +51,17 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="a">Parameter A.</param>
         /// <param name="b">Parameter B.</param>
-        [Test, Sequential]
-        public void CanCreateBeta([Values(0.0, 0.0, 1.0, 1.0, 9.0, 5.0, 1.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)] double a, [Values(0.0, 0.1, 0.0, 1.0, 1.0, 100.0, Double.PositiveInfinity, 1.0, Double.PositiveInfinity, 0.0)] double b)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 0.1)]
+        [TestCase(1.0, 0.0)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(9.0, 1.0)]
+        [TestCase(5.0, 100.0)]
+        [TestCase(1.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, 1.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.0)]
+        public void CanCreateBeta(double a, double b)
         {
             var n = new Beta(a, b);
             Assert.AreEqual(a, n.A);
@@ -87,8 +96,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can Set Shape A
         /// </summary>
         /// <param name="a">New A value.</param>
-        [Test]
-        public void CanSetShapeA([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double a)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetShapeA(double a)
         {
             new Beta(1.0, 1.0)
             {
@@ -110,8 +124,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set shape B.
         /// </summary>
         /// <param name="b">New B value.</param>
-        [Test]
-        public void CanSetShapeB([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double b)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetShapeB(double b)
         {
             new Beta(1.0, 1.0)
             {
@@ -122,7 +141,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <summary>
         /// Set shape B fails with negative B.
         /// </summary>
-        [Test, Sequential]
+        [Test]
         public void SetShapeBFailsWithNegativeB()
         {
             var n = new Beta(1.0, 1.0);
@@ -135,8 +154,17 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="a">Parameter A.</param>
         /// <param name="b">Parameter B.</param>
         /// <param name="mean">Mean value.</param>
-        [Test, Sequential]
-        public void ValidateMean([Values(0.0, 0.0, 1.0, 1.0, 9.0, 5.0, 1.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)] double a, [Values(0.0, 0.1, 0.0, 1.0, 1.0, 100.0, Double.PositiveInfinity, 1.0, Double.PositiveInfinity, 0.0)] double b, [Values(0.5, 0.0, 1.0, 0.5, 0.9, 0.047619047619047619047616, 0.0, 1.0, 0.0, 1.0)] double mean)
+        [TestCase(0.0, 0.0, 0.5)]
+        [TestCase(0.0, 0.1, 0.0)]
+        [TestCase(1.0, 0.0, 1.0)]
+        [TestCase(1.0, 1.0, 0.5)]
+        [TestCase(9.0, 1.0, 0.9)]
+        [TestCase(5.0, 100.0, 0.047619047619047619047616)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 1.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 1.0)]
+        public void ValidateMean(double a, double b, double mean)
         {
             var n = new Beta(a, b);
             Assert.AreEqual(mean, n.Mean);
@@ -148,8 +176,17 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="a">Parameter A.</param>
         /// <param name="b">Parameter B.</param>
         /// <param name="entropy">Entropy value.</param>
-        [Test, Sequential]
-        public void ValidateEntropy([Values(0.0, 0.0, 1.0, 1.0, 9.0, 5.0, 1.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)] double a, [Values(0.0, 0.1, 0.0, 1.0, 1.0, 100.0, Double.PositiveInfinity, 1.0, Double.PositiveInfinity, 0.0)] double b, [Values(0.693147180559945309417232121458176568075500134360255, 0.0, 0.0, 0.0, -1.3083356884473304939016015849561625204060922267565917, -2.5201623187602743679459255108827601222133603091753153, 0.0, 0.0, 0.0, 0.0)] double entropy)
+        [TestCase(0.0, 0.0, 0.693147180559945309417232121458176568075500134360255)]
+        [TestCase(0.0, 0.1, 0.0)]
+        [TestCase(1.0, 0.0, 0.0)]
+        [TestCase(1.0, 1.0, 0.0)]
+        [TestCase(9.0, 1.0, -1.3083356884473304939016015849561625204060922267565917)]
+        [TestCase(5.0, 100.0, -2.5201623187602743679459255108827601222133603091753153)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.0)]
+        public void ValidateEntropy(double a, double b, double entropy)
         {
             var n = new Beta(a, b);
             AssertHelpers.AlmostEqual(entropy, n.Entropy, 14);
@@ -161,8 +198,17 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="a">Parameter A.</param>
         /// <param name="b">Parameter B.</param>
         /// <param name="skewness">Skewness value.</param>
-        [Test, Sequential]
-        public void ValidateSkewness([Values(0.0, 0.0, 1.0, 1.0, 9.0, 5.0, 1.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)] double a, [Values(0.0, 0.1, 0.0, 1.0, 1.0, 100.0, Double.PositiveInfinity, 1.0, Double.PositiveInfinity, 0.0)] double b, [Values(0.0, 2.0, -2.0, 0.0, -1.4740554623801777107177478829647496373009282424841579, 0.81759410927553430354583159143895018978562196953345572, 2.0, -2.0, 2.0, -2.0)] double skewness)
+        [TestCase(0.0, 0.0, 0.0)]
+        [TestCase(0.0, 0.1, 2.0)]
+        [TestCase(1.0, 0.0, -2.0)]
+        [TestCase(1.0, 1.0, 0.0)]
+        [TestCase(9.0, 1.0, -1.4740554623801777107177478829647496373009282424841579)]
+        [TestCase(5.0, 100.0, 0.81759410927553430354583159143895018978562196953345572)]
+        [TestCase(1.0, Double.PositiveInfinity, 2.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, -2.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 2.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, -2.0)]
+        public void ValidateSkewness(double a, double b, double skewness)
         {
             var n = new Beta(a, b);
             AssertHelpers.AlmostEqual(skewness, n.Skewness, 15);
@@ -174,8 +220,17 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="a">Parameter A.</param>
         /// <param name="b">Parameter B.</param>
         /// <param name="mode">Mode value.</param>
-        [Test, Sequential]
-        public void ValidateMode([Values(0.0, 0.0, 1.0, 1.0, 9.0, 5.0, 1.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)] double a, [Values(0.0, 0.1, 0.0, 1.0, 1.0, 100.0, Double.PositiveInfinity, 1.0, Double.PositiveInfinity, 0.0)] double b, [Values(0.5, 0.0, 1.0, 0.5, 1.0, 0.038834951456310676243255386452801758423447608947753906, 0.0, 1.0, 0.0, 1.0)] double mode)
+        [TestCase(0.0, 0.0, 0.5)]
+        [TestCase(0.0, 0.1, 0.0)]
+        [TestCase(1.0, 0.0, 1.0)]
+        [TestCase(1.0, 1.0, 0.5)]
+        [TestCase(9.0, 1.0, 1.0)]
+        [TestCase(5.0, 100.0, 0.038834951456310676243255386452801758423447608947753906)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 1.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 1.0)]
+        public void ValidateMode(double a, double b, double mode)
         {
             var n = new Beta(a, b);
             Assert.AreEqual(mode, n.Mode);
@@ -276,12 +331,39 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="b">Parameter B.</param>
         /// <param name="x">Input value X.</param>
         /// <param name="pdf">Density value.</param>
-        [Test, Sequential]
-        public void ValidateDensity(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double a, 
-            [Values(0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 100, 100, 100, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0)] double b, 
-            [Values(0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, -1.0, 2.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0)] double x, 
-            [Values(Double.PositiveInfinity, 0.0, Double.PositiveInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0, 0.0, Double.PositiveInfinity, 1.0, 1.0, 1.0, 0.0, 0.03515625, 9.0, 0.0, 0.0, 0.0, 1.0881845516040810386311829462908430145307026037926335e-21, 0.0, Double.PositiveInfinity, 0.0, 0.0, 0.0, 0.0, Double.PositiveInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0, 0.0, Double.PositiveInfinity)] double pdf)
+        [TestCase(0.0, 0.0, 0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 0.0, 0.5, 0.0)]
+        [TestCase(0.0, 0.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 0.1, 0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 0.1, 0.5, 0.0)]
+        [TestCase(0.0, 0.1, 1.0, 0.0)]
+        [TestCase(1.0, 0.0, 0.0, 0.0)]
+        [TestCase(1.0, 0.0, 0.5, 0.0)]
+        [TestCase(1.0, 0.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(1.0, 1.0, 0.0, 1.0)]
+        [TestCase(1.0, 1.0, 0.5, 1.0)]
+        [TestCase(1.0, 1.0, 1.0, 1.0)]
+        [TestCase(9.0, 1.0, 0.0, 0.0)]
+        [TestCase(9.0, 1.0, 0.5, 0.03515625)]
+        [TestCase(9.0, 1.0, 1.0, 9.0)]
+        [TestCase(9.0, 1.0, -1.0, 0.0)]
+        [TestCase(9.0, 1.0, 2.0, 0.0)]
+        [TestCase(5.0, 100, 0.0, 0.0)]
+        [TestCase(5.0, 100, 0.5, 1.0881845516040810386311829462908430145307026037926335e-21)]
+        [TestCase(5.0, 100, 1.0, 0.0)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.5, 0.0)]
+        [TestCase(1.0, Double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.5, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.5, 0.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.5, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 1.0, Double.PositiveInfinity)]
+        public void ValidateDensity(double a, double b, double x, double pdf)
         {
             var n = new Beta(a, b);
             AssertHelpers.AlmostEqual(pdf, n.Density(x), 13);
@@ -294,12 +376,39 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="b">Parameter B.</param>
         /// <param name="x">Input value X.</param>
         /// <param name="pdfln">Density log value.</param>
-        [Test, Sequential]
-        public void ValidateDensityLn(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double a, 
-            [Values(0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 100, 100, 100, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0)] double b, 
-            [Values(0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, -1.0, 2.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0)] double x, 
-            [Values(Double.PositiveInfinity, Double.NegativeInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0, Double.NegativeInfinity, -3.3479528671433430925473664978203611353090199592365458, 2.1972245773362193827904904738450514092949811156454996, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, -51.447830024537682154565870837960406410586196074573801, Double.NegativeInfinity, Double.PositiveInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, Double.PositiveInfinity)] double pdfln)
+        [TestCase(0.0, 0.0, 0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 0.0, 0.5, Double.NegativeInfinity)]
+        [TestCase(0.0, 0.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 0.1, 0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, 0.1, 0.5, Double.NegativeInfinity)]
+        [TestCase(0.0, 0.1, 1.0, Double.NegativeInfinity)]
+        [TestCase(1.0, 0.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(1.0, 0.0, 0.5, Double.NegativeInfinity)]
+        [TestCase(1.0, 0.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(1.0, 1.0, 0.0, 0.0)]
+        [TestCase(1.0, 1.0, 0.5, 0.0)]
+        [TestCase(1.0, 1.0, 1.0, 0.0)]
+        [TestCase(9.0, 1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(9.0, 1.0, 0.5, -3.3479528671433430925473664978203611353090199592365458)]
+        [TestCase(9.0, 1.0, 1.0, 2.1972245773362193827904904738450514092949811156454996)]
+        [TestCase(9.0, 1.0, -1.0, Double.NegativeInfinity)]
+        [TestCase(9.0, 1.0, 2.0, Double.NegativeInfinity)]
+        [TestCase(5.0, 100, 0.0, Double.NegativeInfinity)]
+        [TestCase(5.0, 100, 0.5, -51.447830024537682154565870837960406410586196074573801)]
+        [TestCase(5.0, 100, 1.0, Double.NegativeInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.5, Double.NegativeInfinity)]
+        [TestCase(1.0, Double.PositiveInfinity, 1.0, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.5, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 1.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.0, Double.PositiveInfinity)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.5, Double.NegativeInfinity)]
+        [TestCase(0.0, Double.PositiveInfinity, 1.0, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.5, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.0, 1.0, Double.PositiveInfinity)]
+        public void ValidateDensityLn(double a, double b, double x, double pdfln)
         {
             var n = new Beta(a, b);
             AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
@@ -312,12 +421,37 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="b">Parameter B.</param>
         /// <param name="x">Input value X.</param>
         /// <param name="cdf">Cumulative distribution value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 9.0, 9.0, 9.0, 5.0, 5.0, 5.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double a, 
-            [Values(0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 100, 100, 100, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, 0.0, 0.0, 0.0)] double b, 
-            [Values(0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0, 0.0, 0.5, 1.0)] double x, 
-            [Values(0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.5, 1.0, 0.0, 0.001953125, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0)] double cdf)
+        [TestCase(0.0, 0.0, 0.0, 0.5)]
+        [TestCase(0.0, 0.0, 0.5, 0.5)]
+        [TestCase(0.0, 0.0, 1.0, 1.0)]
+        [TestCase(0.0, 0.1, 0.0, 1.0)]
+        [TestCase(0.0, 0.1, 0.5, 1.0)]
+        [TestCase(0.0, 0.1, 1.0, 1.0)]
+        [TestCase(1.0, 0.0, 0.0, 0.0)]
+        [TestCase(1.0, 0.0, 0.5, 0.0)]
+        [TestCase(1.0, 0.0, 1.0, 1.0)]
+        [TestCase(1.0, 1.0, 0.0, 0.0)]
+        [TestCase(1.0, 1.0, 0.5, 0.5)]
+        [TestCase(1.0, 1.0, 1.0, 1.0)]
+        [TestCase(9.0, 1.0, 0.0, 0.0)]
+        [TestCase(9.0, 1.0, 0.5, 0.001953125)]
+        [TestCase(9.0, 1.0, 1.0, 1.0)]
+        [TestCase(5.0, 100, 0.0, 0.0)]
+        [TestCase(5.0, 100, 0.5, 1.0)]
+        [TestCase(5.0, 100, 1.0, 1.0)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.0, 1.0)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.5, 1.0)]
+        [TestCase(1.0, Double.PositiveInfinity, 1.0, 1.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.5, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 1.0, 1.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.0, 1.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 0.5, 1.0)]
+        [TestCase(0.0, Double.PositiveInfinity, 1.0, 1.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.5, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 1.0, 1.0)]
+        public void ValidateCumulativeDistribution(double a, double b, double x, double cdf)
         {
             var n = new Beta(a, b);
             AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 13);

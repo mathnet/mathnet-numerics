@@ -1,4 +1,4 @@
-﻿// <copyright file="GcdRelatedTestBigInteger.cs" company="Math.NET">
+// <copyright file="GcdRelatedTestBigInteger.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -74,7 +74,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual((BigInteger)1, IntegerTheory.GreatestCommonDivisor((BigInteger)Int32.MaxValue, Int64.MaxValue), "Gcd(Int32Max,Int64Max)");
             Assert.AreEqual((BigInteger)(1 << 18), IntegerTheory.GreatestCommonDivisor((BigInteger)(1 << 18), 1 << 20), "Gcd(1>>18,1<<20)");
             Assert.AreEqual((BigInteger)(1 << 18), IntegerTheory.GreatestCommonDivisor((BigInteger)(1 << 18), 1 << 20), "Gcd(1>>18,1<<20)");
+#if !SILVERLIGHT
             Assert.AreEqual((BigInteger)4569031055798, IntegerTheory.GreatestCommonDivisor(BigInteger.Parse("7305316061155559483748611586449542122662"), BigInteger.Parse("57377277362010117405715236427413896")), "Gcd(large)");
+#endif
         }
 
         /// <summary>
@@ -94,12 +96,14 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual((BigInteger)3, IntegerTheory.ExtendedGreatestCommonDivisor(-6, -15, out x, out y), "Egcd(-6,-15)");
             Assert.AreEqual((BigInteger)3, (-6 * x) + (-15 * y), "Egcd(-6,-15) -> a*x+b*y");
 
+#if !SILVERLIGHT
             var a = BigInteger.Parse("7305316061155559483748611586449542122662");
             var b = BigInteger.Parse("57377277362010117405715236427413896");
             Assert.AreEqual((BigInteger)4569031055798, IntegerTheory.ExtendedGreatestCommonDivisor(a, b, out x, out y), "Egcd(large)");
             Assert.AreEqual((BigInteger)4569031055798, (a * x) + (b * y), "Egcd(large) -> a*x+b*y");
             Assert.AreEqual((BigInteger)4569031055798, IntegerTheory.ExtendedGreatestCommonDivisor(-a, b, out x, out y), "Egcd(-large)");
             Assert.AreEqual((BigInteger)4569031055798, (-a * x) + (b * y), "Egcd(-large) -> a*x+b*y");
+#endif
         }
 
         /// <summary>
@@ -132,7 +136,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         public void ListGcdChecksForNullArguments()
         {
             Assert.Throws(
-                typeof(ArgumentNullException), 
+                typeof(ArgumentNullException),
                 () => IntegerTheory.GreatestCommonDivisor((BigInteger[])null));
         }
 
@@ -173,7 +177,9 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
             Assert.AreEqual((BigInteger)Int64.MaxValue, IntegerTheory.LeastCommonMultiple((BigInteger)Int64.MaxValue, Int64.MaxValue), "Lcm(Int64Max,Int64Max)");
             Assert.AreEqual((BigInteger)Int64.MaxValue, IntegerTheory.LeastCommonMultiple((BigInteger)(-Int64.MaxValue), -Int64.MaxValue), "Lcm(-Int64Max,-Int64Max)");
             Assert.AreEqual((BigInteger)Int64.MaxValue, IntegerTheory.LeastCommonMultiple((BigInteger)(-Int64.MaxValue), Int64.MaxValue), "Lcm(-Int64Max,Int64Max)");
+#if !SILVERLIGHT
             Assert.AreEqual(BigInteger.Parse("91739176367857263082719902034485224119528064014300888465614024"), IntegerTheory.LeastCommonMultiple(BigInteger.Parse("7305316061155559483748611586449542122662"), BigInteger.Parse("57377277362010117405715236427413896")), "Lcm(large)");
+#endif
         }
 
         /// <summary>
@@ -206,7 +212,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         public void ListLcmChecksForNullArguments()
         {
             Assert.Throws(
-                typeof(ArgumentNullException), 
+                typeof(ArgumentNullException),
                 () => IntegerTheory.LeastCommonMultiple((BigInteger[])null));
         }
     }

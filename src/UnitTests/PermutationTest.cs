@@ -1,4 +1,4 @@
-﻿// <copyright file="PermutationTest.cs" company="Math.NET">
+// <copyright file="PermutationTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -39,8 +39,12 @@ namespace MathNet.Numerics.UnitTests
         /// Can create permutation.
         /// </summary>
         /// <param name="idx">Permutations index set.</param>
-        [Test]
-        public void CanCreatePermutation([Values(new[] { 0 }, new[] { 0, 1, 2, 3, 4, 5 }, new[] { 5, 4, 3, 2, 1, 0 }, new[] { 0, 4, 3, 2, 1, 5 }, new[] { 0, 3, 2, 1, 4, 5 })] int[] idx)
+        [TestCase(new[] { 0 })]
+        [TestCase(new[] { 0, 1, 2, 3, 4, 5 })]
+        [TestCase(new[] { 5, 4, 3, 2, 1, 0 })]
+        [TestCase(new[] { 0, 4, 3, 2, 1, 5 })]
+        [TestCase(new[] { 0, 3, 2, 1, 4, 5 })]
+        public void CanCreatePermutation(int[] idx)
         {
             new Permutation(idx);
         }
@@ -49,8 +53,10 @@ namespace MathNet.Numerics.UnitTests
         /// Create permutation fails when given bad index set.
         /// </summary>
         /// <param name="idx">Permutations index set.</param>
-        [Test]
-        public void CreatePermutationFailsWhenGivenBadIndexSet([Values(new[] { -1 }, new[] { 0, 1, 2, 3, 4, 4 }, new[] { 5, 4, 3, 2, 1, 7 })] int[] idx)
+        [TestCase(new[] { -1 })]
+        [TestCase(new[] { 0, 1, 2, 3, 4, 4 })]
+        [TestCase(new[] { 5, 4, 3, 2, 1, 7 })]
+        public void CreatePermutationFailsWhenGivenBadIndexSet(int[] idx)
         {
             Assert.Throws<ArgumentException>(() => new Permutation(idx));
         }
@@ -59,7 +65,11 @@ namespace MathNet.Numerics.UnitTests
         /// Can invert permutation.
         /// </summary>
         /// <param name="idx">Permutations index set.</param>
-        [Test]
+        [TestCase(new[] { 0 })]
+        [TestCase(new[] { 0, 1, 2, 3, 4, 5 })]
+        [TestCase(new[] { 5, 4, 3, 2, 1, 0 })]
+        [TestCase(new[] { 0, 4, 3, 2, 1, 5 })]
+        [TestCase(new[] { 0, 3, 2, 1, 4, 5 })]
         public void CanInvertPermutation([Values(new[] { 0 }, new[] { 0, 1, 2, 3, 4, 5 }, new[] { 5, 4, 3, 2, 1, 0 }, new[] { 0, 4, 3, 2, 1, 5 }, new[] { 0, 3, 2, 1, 4, 5 })] int[] idx)
         {
             var p = new Permutation(idx);
@@ -78,10 +88,13 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="inv">Inverse permutations index set.</param>
         /// <param name="idx">Permutations index set.</param>
-        [Test, Sequential]
-        public void CanCreatePermutationFromInversions(
-            [Values(new[] { 0 }, new[] { 0, 1, 2, 3, 4, 5 }, new[] { 5, 4, 3, 3, 4, 5 }, new[] { 0, 4, 3, 3, 4, 5 }, new[] { 0, 3, 2, 3, 4, 5 }, new[] { 2, 2, 2, 4, 4 })] int[] inv, 
-            [Values(new[] { 0 }, new[] { 0, 1, 2, 3, 4, 5 }, new[] { 5, 4, 3, 2, 1, 0 }, new[] { 0, 4, 3, 2, 1, 5 }, new[] { 0, 3, 2, 1, 4, 5 }, new[] { 1, 2, 0, 4, 3 })] int[] idx)
+        [TestCase(new[] { 0 }, new[] { 0 })]
+        [TestCase(new[] { 0, 1, 2, 3, 4, 5 }, new[] { 0, 1, 2, 3, 4, 5 })]
+        [TestCase(new[] { 5, 4, 3, 3, 4, 5 }, new[] { 5, 4, 3, 2, 1, 0 })]
+        [TestCase(new[] { 0, 4, 3, 3, 4, 5 }, new[] { 0, 4, 3, 2, 1, 5 })]
+        [TestCase(new[] { 0, 3, 2, 3, 4, 5 }, new[] { 0, 3, 2, 1, 4, 5 })]
+        [TestCase(new[] { 2, 2, 2, 4, 4 }, new[] { 1, 2, 0, 4, 3 })]
+        public void CanCreatePermutationFromInversions(int[] inv, int[] idx)
         {
             var p = Permutation.FromInversions(inv);
             var q = new Permutation(idx);
@@ -98,10 +111,13 @@ namespace MathNet.Numerics.UnitTests
         /// </summary>
         /// <param name="inv">Inverse permutations index set.</param>
         /// <param name="idx">Permutations index set.</param>
-        [Test, Sequential]
-        public void CanCreateInversionsFromPermutation(
-            [Values(new[] { 0 }, new[] { 0, 1, 2, 3, 4, 5 }, new[] { 5, 4, 3, 3, 4, 5 }, new[] { 0, 4, 3, 3, 4, 5 }, new[] { 0, 3, 2, 3, 4, 5 }, new[] { 2, 2, 2, 4, 4 })] int[] inv, 
-            [Values(new[] { 0 }, new[] { 0, 1, 2, 3, 4, 5 }, new[] { 5, 4, 3, 2, 1, 0 }, new[] { 0, 4, 3, 2, 1, 5 }, new[] { 0, 3, 2, 1, 4, 5 }, new[] { 1, 2, 0, 4, 3 })] int[] idx)
+        [TestCase(new[] { 0 }, new[] { 0 })]
+        [TestCase(new[] { 0, 1, 2, 3, 4, 5 }, new[] { 0, 1, 2, 3, 4, 5 })]
+        [TestCase(new[] { 5, 4, 3, 3, 4, 5 }, new[] { 5, 4, 3, 2, 1, 0 })]
+        [TestCase(new[] { 0, 4, 3, 3, 4, 5 }, new[] { 0, 4, 3, 2, 1, 5 })]
+        [TestCase(new[] { 0, 3, 2, 3, 4, 5 }, new[] { 0, 3, 2, 1, 4, 5 })]
+        [TestCase(new[] { 2, 2, 2, 4, 4 }, new[] { 1, 2, 0, 4, 3 })]
+        public void CanCreateInversionsFromPermutation(int[] inv, int[] idx)
         {
             var q = new Permutation(idx);
             var p = q.ToInversions();

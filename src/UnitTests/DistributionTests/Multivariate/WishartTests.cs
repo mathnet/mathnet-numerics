@@ -1,4 +1,4 @@
-﻿// <copyright file="WishartTests.cs" company="Math.NET">
+// <copyright file="WishartTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -52,8 +52,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
         /// <param name="order">Scale matrix order.</param>
-        [Test, Combinatorial]
-        public void CanCreateWishart([Values(0.1, 1.0, 5.0)] double nu, [Values(2, 5)] int order)
+        [TestCase(0.1, 2)]
+        [TestCase(1.0, 5)]
+        [TestCase(5.0, 5)]
+        public void CanCreateWishart(double nu, int order)
         {
             var matrix = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
 
@@ -74,8 +76,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
         /// <param name="order">Scale matrix order.</param>
-        [Test, Combinatorial]
-        public void FailSCreateWishart([Values(0.0, 0.1, 1.0, 5.0)] double nu, [Values(2, 5)] int order)
+        [TestCase(0.0, 2)]
+        [TestCase(0.1, 5)]
+        [TestCase(1.0, 2)]
+        [TestCase(5.0, 5)]
+        public void FailSCreateWishart(double nu, int order)
         {
             var matrix = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
             matrix[0, 0] = 0.0;
@@ -88,8 +93,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
         /// <param name="order">Scale matrix order.</param>
-        [Test, Combinatorial]
-        public void FailNuCreateWishart([Values(-1.0, Double.NaN)] double nu, [Values(2, 5)] int order)
+        [TestCase(-1.0, 2)]
+        [TestCase(Double.NaN, 5)]
+        public void FailNuCreateWishart(double nu, int order)
         {
             var matrix = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order);
             Assert.Throws<ArgumentOutOfRangeException>(() => new InverseWishart(nu, matrix));
@@ -141,8 +147,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// Can get Nu.
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
-        [Test]
-        public void CanGetNu([Values(1.0, 2.0, 5.0)] double nu)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(5.0)]
+        public void CanGetNu(double nu)
         {
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2));
             Assert.AreEqual(nu, d.Nu);
@@ -152,8 +160,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// Can set Nu.
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
-        [Test]
-        public void CanSetNu([Values(1.0, 2.0, 5.0)] double nu)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(5.0)]
+        public void CanSetNu(double nu)
         {
             new Wishart(1.0, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(2))
             {
@@ -197,8 +207,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
         /// <param name="order">Scale matrix order.</param>
-        [Test, Combinatorial]
-        public void ValidateMean([Values(0.1, 1.0, 5.0)] double nu, [Values(2, 5)] int order)
+        [TestCase(0.1, 2)]
+        [TestCase(1.0, 5)]
+        [TestCase(5.0, 5)]
+        public void ValidateMean(double nu, int order)
         {
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
 
@@ -217,8 +229,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
         /// <param name="order">Scale matrix order.</param>
-        [Test, Combinatorial]
-        public void ValidateMode([Values(0.1, 1.0, 5.0)] double nu, [Values(2, 5)] int order)
+        [TestCase(0.1, 2)]
+        [TestCase(1.0, 5)]
+        [TestCase(5.0, 5)]
+        public void ValidateMode(double nu, int order)
         {
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
 
@@ -237,8 +251,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
         /// <param name="order">Scale matrix order.</param>
-        [Test, Combinatorial]
-        public void ValidateVariance([Values(0.1, 1.0, 5.0)] double nu, [Values(2, 5)] int order)
+        [TestCase(0.1, 2)]
+        [TestCase(1.0, 5)]
+        [TestCase(5.0, 5)]
+        public void ValidateVariance(double nu, int order)
         {
             var d = new Wishart(nu, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(order));
 
@@ -257,8 +273,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="nu">Nu parameter.</param>
         /// <param name="density">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateDensity([Values(1.0, 2.0, 5.0)] double nu, [Values(0.014644982561926487, 0.041042499311949421, 0.12204152134938706)] double density)
+        [TestCase(1.0, 0.014644982561926487)]
+        [TestCase(2.0, 0.041042499311949421)]
+        [TestCase(5.0, 0.12204152134938706)]
+        public void ValidateDensity(double nu, double density)
         {
             const int Order = 1;
             var matrix = new DenseMatrix(Order);

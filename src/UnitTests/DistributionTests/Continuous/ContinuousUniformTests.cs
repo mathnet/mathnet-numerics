@@ -62,8 +62,14 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void CanCreateContinuousUniform([Values(0.0, 0.0, 0.0, 10.0, -5.0)] double lower, [Values(0.0, 0.1, 1.0, 10.0, 11.0, 100.0, Double.PositiveInfinity)] double upper)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(10.0, 10.0)]
+        [TestCase(-5.0, 11.0)]
+        [TestCase(-5.0, 100.0)]
+        [TestCase(Double.NegativeInfinity, Double.PositiveInfinity)]
+        public void CanCreateContinuousUniform(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             Assert.AreEqual(lower, n.Lower);
@@ -75,8 +81,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ContinuousUniformCreateFailsWithBadParameters([Values(Double.NaN, 1.0, Double.NaN, 1.0)] double lower, [Values(1.0, Double.NaN, Double.NaN, 0.0)] double upper)
+        [TestCase(Double.NaN, 1.0)]
+        [TestCase(1.0, Double.NaN)]
+        [TestCase(Double.NaN, Double.NaN)]
+        [TestCase(1.0, 0.0)]
+        public void ContinuousUniformCreateFailsWithBadParameters(double lower, double upper)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new ContinuousUniform(lower, upper));
         }
@@ -95,8 +104,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set lower bound.
         /// </summary>
         /// <param name="lower">Lower bound.</param>
-        [Test]
-        public void CanSetLower([Values(-10.0, -0.0, 0.0, 0.1, 1.0)] double lower)
+        [TestCase(-10.0)]
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        public void CanSetLower(double lower)
         {
             new ContinuousUniform
             {
@@ -118,8 +131,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set upper bound.
         /// </summary>
         /// <param name="upper">Upper bound.</param>
-        [Test]
-        public void CanSetUpper([Values(1.0, 2.0, 12.0)] double upper)
+        [TestCase(1.0)]
+        [TestCase(2.0)]
+        [TestCase(12.0)]
+        public void CanSetUpper(double upper)
         {
             new ContinuousUniform
             {
@@ -142,8 +157,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateEntropy([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double lower, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double upper)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateEntropy(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             Assert.AreEqual(Math.Log(upper - lower), n.Entropy);
@@ -154,8 +174,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateSkewness([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double lower, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double upper)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateSkewness(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             Assert.AreEqual(0.0, n.Skewness);
@@ -166,8 +191,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateMode([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double lower, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double upper)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateMode(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             Assert.AreEqual((lower + upper) / 2.0, n.Mode);
@@ -178,8 +208,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateMedian([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double lower, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double upper)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateMedian(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             Assert.AreEqual((lower + upper) / 2.0, n.Median);
@@ -190,8 +225,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateMinimum([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double lower, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double upper)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateMinimum(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             Assert.AreEqual(lower, n.Minimum);
@@ -202,8 +242,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateMaximum([Values(-0.0, 0.0, 0.1, 1.0, 10.0, 0.0)] double lower, [Values(2.0, 2.0, 4.0, 10.0, 11.0, Double.PositiveInfinity)] double upper)
+        [TestCase(-0.0, 2.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(0.1, 4.0)]
+        [TestCase(1.0, 10.0)]
+        [TestCase(10.0, 11.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateMaximum(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             Assert.AreEqual(upper, n.Maximum);
@@ -214,8 +259,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateDensity([Values(0.0, 0.0, 0.0, 0.0, -5.0, 0.0)] double lower, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double upper)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(-5.0, 100.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateDensity(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             for (var i = 0; i < 11; i++)
@@ -237,8 +287,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateDensityLn([Values(0.0, 0.0, 0.0, 0.0, -5.0, 0.0)] double lower, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double upper)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(-5.0, 100.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateDensityLn(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             for (var i = 0; i < 11; i++)
@@ -318,8 +373,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="lower">Lower bound.</param>
         /// <param name="upper">Upper bound.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution([Values(0.0, 0.0, 0.0, 0.0, -5.0, 0.0)] double lower, [Values(0.0, 0.1, 1.0, 10.0, 100.0, Double.PositiveInfinity)] double upper)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.0, 0.1)]
+        [TestCase(0.0, 1.0)]
+        [TestCase(0.0, 10.0)]
+        [TestCase(-5.0, 100.0)]
+        [TestCase(0.0, Double.PositiveInfinity)]
+        public void ValidateCumulativeDistribution(double lower, double upper)
         {
             var n = new ContinuousUniform(lower, upper);
             for (var i = 0; i < 11; i++)

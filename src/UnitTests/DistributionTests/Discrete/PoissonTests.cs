@@ -1,4 +1,4 @@
-﻿// <copyright file="PoissonTests.cs" company="Math.NET">
+// <copyright file="PoissonTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -50,8 +50,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can create Poisson.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void CanCreatePoisson([Values(1.5, 5.4, 10.8)] double lambda)
+        [TestCase(1.5)]
+        [TestCase(5.4)]
+        [TestCase(10.8)]
+        public void CanCreatePoisson(double lambda)
         {
             var d = new Poisson(lambda);
             Assert.AreEqual(lambda, d.Lambda);
@@ -61,8 +63,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Poisson create fails with bad parameters.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void PoissonCreateFailsWithBadParameters([Values(Double.NaN, -1.5, 0.0)] double lambda)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.5)]
+        [TestCase(0.0)]
+        public void PoissonCreateFailsWithBadParameters(double lambda)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Poisson(lambda));
         }
@@ -81,8 +85,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set probability of one.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void CanSetProbabilityOfOne([Values(1.5, 5.4, 10.8)] double lambda)
+        [TestCase(1.5)]
+        [TestCase(5.4)]
+        [TestCase(10.8)]
+        public void CanSetProbabilityOfOne(double lambda)
         {
             new Poisson(0.3)
             {
@@ -94,8 +100,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set probability of one fails with bad value.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void SetProbabilityOfOneFails([Values(Double.NaN, -1.5, 0.0)] double lambda)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.5)]
+        [TestCase(0.0)]
+        public void SetProbabilityOfOneFails(double lambda)
         {
             var d = new Poisson(0.3);
             Assert.Throws<ArgumentOutOfRangeException>(() => d.Lambda = lambda);
@@ -105,8 +113,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate entropy.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void ValidateEntropy([Values(1.5, 5.4, 10.8)] double lambda)
+        [TestCase(1.5)]
+        [TestCase(5.4)]
+        [TestCase(10.8)]
+        public void ValidateEntropy(double lambda)
         {
             var d = new Poisson(lambda);
             Assert.AreEqual((0.5 * Math.Log(2 * Math.PI * Math.E * lambda)) - (1.0 / (12.0 * lambda)) - (1.0 / (24.0 * lambda * lambda)) - (19.0 / (360.0 * lambda * lambda * lambda)), d.Entropy);
@@ -116,8 +126,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate skewness.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void ValidateSkewness([Values(1.5, 5.4, 10.8)] double lambda)
+        [TestCase(1.5)]
+        [TestCase(5.4)]
+        [TestCase(10.8)]
+        public void ValidateSkewness(double lambda)
         {
             var d = new Poisson(lambda);
             Assert.AreEqual(1.0 / Math.Sqrt(lambda), d.Skewness);
@@ -127,8 +139,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate mode.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void ValidateMode([Values(1.5, 5.4, 10.8)] double lambda)
+        [TestCase(1.5)]
+        [TestCase(5.4)]
+        [TestCase(10.8)]
+        public void ValidateMode(double lambda)
         {
             var d = new Poisson(lambda);
             Assert.AreEqual((int)Math.Floor(lambda), d.Mode);
@@ -138,8 +152,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Validate median.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>
-        [Test]
-        public void ValidateMedian([Values(1.5, 5.4, 10.8)] double lambda)
+        [TestCase(1.5)]
+        [TestCase(5.4)]
+        [TestCase(10.8)]
+        public void ValidateMedian(double lambda)
         {
             var d = new Poisson(lambda);
             Assert.AreEqual((int)Math.Floor(lambda + (1.0 / 3.0) - (0.02 / lambda)), d.Median);
@@ -171,11 +187,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="lambda">Lambda value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="result">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbability(
-            [Values(1.5, 1.5, 1.5, 5.4, 5.4, 5.4, 10.8, 10.8, 10.8)] double lambda, 
-            [Values(1, 10, 20, 1, 10, 20, 1, 10, 20)] int x, 
-            [Values(0.334695240222645000000000000000, 0.000003545747740570180000000000, 0.000000000000000304971208961018, 0.024389537090108400000000000000, 0.026241240591792300000000000000, 0.000000825202200316548000000000, 0.000220314636840657000000000000, 0.121365183659420000000000000000, 0.003908139778574110000000000000)] double result)
+        [TestCase(1.5, 1, 0.334695240222645000000000000000)]
+        [TestCase(1.5, 10, 0.000003545747740570180000000000)]
+        [TestCase(1.5, 20, 0.000000000000000304971208961018)]
+        [TestCase(5.4, 1, 0.024389537090108400000000000000)]
+        [TestCase(5.4, 10, 0.026241240591792300000000000000)]
+        [TestCase(5.4, 20, 0.000000825202200316548000000000)]
+        [TestCase(10.8, 1, 0.000220314636840657000000000000)]
+        [TestCase(10.8, 10, 0.121365183659420000000000000000)]
+        [TestCase(10.8, 20, 0.003908139778574110000000000000)]
+        public void ValidateProbability(double lambda, int x, double result)
         {
             var d = new Poisson(lambda);
             Assert.AreEqual(d.Probability(x), result, 1e-12);
@@ -187,11 +208,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="lambda">Lambda value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="result">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateProbabilityLn(
-            [Values(1.5, 1.5, 1.5, 5.4, 5.4, 5.4, 10.8, 10.8, 10.8)] double lambda, 
-            [Values(1, 10, 20, 1, 10, 20, 1, 10, 20)] int x, 
-            [Values(0.334695240222645000000000000000, 0.000003545747740570180000000000, 0.000000000000000304971208961018, 0.024389537090108400000000000000, 0.026241240591792300000000000000, 0.000000825202200316548000000000, 0.000220314636840657000000000000, 0.121365183659420000000000000000, 0.003908139778574110000000000000)] double result)
+        [TestCase(1.5, 1, 0.334695240222645000000000000000)]
+        [TestCase(1.5, 10, 0.000003545747740570180000000000)]
+        [TestCase(1.5, 20, 0.000000000000000304971208961018)]
+        [TestCase(5.4, 1, 0.024389537090108400000000000000)]
+        [TestCase(5.4, 10, 0.026241240591792300000000000000)]
+        [TestCase(5.4, 20, 0.000000825202200316548000000000)]
+        [TestCase(10.8, 1, 0.000220314636840657000000000000)]
+        [TestCase(10.8, 10, 0.121365183659420000000000000000)]
+        [TestCase(10.8, 20, 0.003908139778574110000000000000)]
+        public void ValidateProbabilityLn(double lambda, int x, double result)
         {
             var d = new Poisson(lambda);
             Assert.AreEqual(d.ProbabilityLn(x), Math.Log(result), 1e-12);
@@ -224,11 +250,16 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="lambda">Lambda value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="result">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(1.5, 1.5, 1.5, 5.4, 5.4, 5.4, 10.8, 10.8, 10.8)] double lambda, 
-            [Values(1, 10, 20, 1, 10, 20, 1, 10, 20)] int x, 
-            [Values(0.5578254003710750000000, 0.9999994482467640000000, 1.0000000000000000000000, 0.0289061180327211000000, 0.9774863006897650000000, 0.9999997199928290000000, 0.0002407141402518290000, 0.4839692359955690000000, 0.9961800769608090000000)] double result)
+        [TestCase(1.5, 1, 0.5578254003710750000000)]
+        [TestCase(1.5, 10, 0.9999994482467640000000)]
+        [TestCase(1.5, 20, 1.0000000000000000000000)]
+        [TestCase(5.4, 1, 0.0289061180327211000000)]
+        [TestCase(5.4, 10, 0.9774863006897650000000)]
+        [TestCase(5.4, 20, 0.9999997199928290000000)]
+        [TestCase(10.8, 1, 0.0002407141402518290000)]
+        [TestCase(10.8, 10, 0.4839692359955690000000)]
+        [TestCase(10.8, 20, 0.9961800769608090000000)]
+        public void ValidateCumulativeDistribution(double lambda, int x, double result)
         {
             var d = new Poisson(lambda);
             Assert.AreEqual(d.CumulativeDistribution(x), result, 1e-12);

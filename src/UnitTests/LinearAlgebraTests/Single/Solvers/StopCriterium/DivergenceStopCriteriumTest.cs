@@ -106,9 +106,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
         {
             var criterium = new DivergenceStopCriterium(0.5, 15);
             Assert.Throws<ArgumentOutOfRangeException>(() => criterium.DetermineStatus(
-                -1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                -1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 new DenseVector(3, 6)));
         }
 
@@ -120,9 +120,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
         {
             var criterium = new DivergenceStopCriterium(0.5, 15);
             Assert.Throws<ArgumentNullException>(() => criterium.DetermineStatus(
-                1, 
-                new DenseVector(3, 4), 
-                new DenseVector(3, 5), 
+                1,
+                new DenseVector(3, 4),
+                new DenseVector(3, 5),
                 null));
         }
 
@@ -141,9 +141,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             for (var i = 0; i < Iterations - 1; i++)
             {
                 criterium.DetermineStatus(
-                    i, 
-                    new DenseVector(new[] { 1.0f }), 
-                    new DenseVector(new[] { 1.0f }), 
+                    i,
+                    new DenseVector(new[] { 1.0f }),
+                    new DenseVector(new[] { 1.0f }),
                     new DenseVector(new[] { (i + 1) * (Increase + 0.1f) }));
 
                 Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Status check fail.");
@@ -165,9 +165,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             for (var i = 0; i < Iterations * 2; i++)
             {
                 criterium.DetermineStatus(
-                    i, 
-                    new DenseVector(new[] { 1.0f }), 
-                    new DenseVector(new[] { 1.0f }), 
+                    i,
+                    new DenseVector(new[] { 1.0f }),
+                    new DenseVector(new[] { 1.0f }),
                     new DenseVector(new[] { (i + 1) * (Increase - 0.01f) }));
 
                 Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Status check fail.");
@@ -189,9 +189,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             for (var i = 0; i < Iterations - 5; i++)
             {
                 criterium.DetermineStatus(
-                    i, 
-                    new DenseVector(new[] { 1.0f }), 
-                    new DenseVector(new[] { 1.0f }), 
+                    i,
+                    new DenseVector(new[] { 1.0f }),
+                    new DenseVector(new[] { 1.0f }),
                     new DenseVector(new[] { (i + 1) * (Increase - 0.01f) }));
 
                 Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Status check fail.");
@@ -199,9 +199,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
 
             // Now make it fail by throwing in a NaN
             criterium.DetermineStatus(
-                Iterations, 
-                new DenseVector(new[] { 1.0f }), 
-                new DenseVector(new[] { 1.0f }), 
+                Iterations,
+                new DenseVector(new[] { 1.0f }),
+                new DenseVector(new[] { 1.0f }),
                 new DenseVector(new[] { float.NaN }));
 
             Assert.IsInstanceOf(typeof(CalculationDiverged), criterium.Status, "Status check fail.");
@@ -224,9 +224,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             {
                 previous *= 1 + Increase + 0.01f;
                 criterium.DetermineStatus(
-                    i, 
-                    new DenseVector(new[] { 1.0f }), 
-                    new DenseVector(new[] { 1.0f }), 
+                    i,
+                    new DenseVector(new[] { 1.0f }),
+                    new DenseVector(new[] { 1.0f }),
                     new DenseVector(new[] { previous }));
 
                 Assert.IsInstanceOf(typeof(CalculationRunning), criterium.Status, "Status check fail.");
@@ -235,9 +235,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
             // Add the final residual. Now we should have divergence
             previous *= 1 + Increase + 0.01f;
             criterium.DetermineStatus(
-                Iterations - 1, 
-                new DenseVector(new[] { 1.0f }), 
-                new DenseVector(new[] { 1.0f }), 
+                Iterations - 1,
+                new DenseVector(new[] { 1.0f }),
+                new DenseVector(new[] { 1.0f }),
                 new DenseVector(new[] { previous }));
 
             Assert.IsInstanceOf(typeof(CalculationDiverged), criterium.Status, "Status check fail.");
@@ -256,9 +256,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.StopCrite
 
             // Add residuals. Blow it up instantly
             criterium.DetermineStatus(
-                1, 
-                new DenseVector(new[] { 1.0f }), 
-                new DenseVector(new[] { 1.0f }), 
+                1,
+                new DenseVector(new[] { 1.0f }),
+                new DenseVector(new[] { 1.0f }),
                 new DenseVector(new[] { float.NaN }));
 
             Assert.IsInstanceOf(typeof(CalculationDiverged), criterium.Status, "Status check fail.");

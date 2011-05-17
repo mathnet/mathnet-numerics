@@ -1,4 +1,4 @@
-﻿// <copyright file="LUTests.cs" company="Math.NET">
+// <copyright file="LUTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -41,8 +41,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         /// Can factorize identity matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void CanFactorizeIdentity(int order)
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorLU = matrixI.LU();
@@ -86,8 +88,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         /// Identity determinant is one.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void IdentityDeterminantIsOne([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void IdentityDeterminantIsOne(int order)
         {
             var matrixI = DenseMatrix.Identity(order);
             var lu = matrixI.LU();
@@ -98,8 +102,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         /// Can factorize a random square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanFactorizeRandomMatrix(int order)
         {
             var matrixX = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var factorLU = matrixX.LU();
@@ -148,8 +157,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         /// Can solve a system of linear equations for a random vector (Ax=b).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVector([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomVector(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -182,8 +196,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         /// Can solve a system of linear equations for a random matrix (AX=B).
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomMatrix(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -223,8 +242,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         /// Can solve for a random vector into a result vector.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanSolveForRandomVectorWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomVectorWhenResultVectorGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -264,8 +288,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         /// Can solve a system of linear equations for a random matrix (AX=B) into a result matrix.
         /// </summary>
         /// <param name="order">Matrix row number.</param>
-        [Test]
-        public void CanSolveForRandomMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanSolveForRandomMatrixWhenResultMatrixGiven(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();
@@ -317,8 +346,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         /// Can inverse a matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanInverse([Values(1, 2, 5, 10, 50, 100)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanInverse(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var matrixACopy = matrixA.Clone();

@@ -1,4 +1,4 @@
-﻿// <copyright file="NegativeBinomialTests.cs" company="Math.NET">
+// <copyright file="NegativeBinomialTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,8 +51,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
-        [Test, Combinatorial]
-        public void CanCreateNegativeBinomial([Values(0.0, 0.1, 1.0)] double r, [Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.1, 0.3)]
+        [TestCase(1.0, 1.0)]
+        public void CanCreateNegativeBinomial(double r, double p)
         {
             var d = new NegativeBinomial(r, p);
             Assert.AreEqual(r, d.R);
@@ -64,8 +66,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
-        [Test, Sequential]
-        public void NegativeBinomialCreateFailsWithBadParameters([Values(0.0, 0.0, 0.0, Double.NegativeInfinity, -1.0, Double.NaN, Double.NegativeInfinity, Double.NaN)] double r, [Values(Double.NaN, -1.0, 2.0, 0.0, 0.3, 1.0, Double.NaN, Double.NaN)] double p)
+        [TestCase(0.0, Double.NaN)]
+        [TestCase(0.0, -1.0)]
+        [TestCase(0.0, 2.0)]
+        [TestCase(Double.NegativeInfinity, 0.0)]
+        [TestCase(-1.0, 0.3)]
+        [TestCase(Double.NaN, 1.0)]
+        [TestCase(Double.NegativeInfinity, Double.NaN)]
+        [TestCase(Double.NaN, Double.NaN)]
+        public void NegativeBinomialCreateFailsWithBadParameters(double r, double p)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new NegativeBinomial(r, p));
         }
@@ -84,8 +93,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set R.
         /// </summary>
         /// <param name="r">Number of trials.</param>
-        [Test]
-        public void CanSetR([Values(0.0, 0.1, 1.0)] double r)
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        public void CanSetR(double r)
         {
             new NegativeBinomial(1.0, 0.5)
             {
@@ -97,8 +108,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set R fails with bad values.
         /// </summary>
         /// <param name="r">Number of trials.</param>
-        [Test]
-        public void SetRFails([Values(Double.NaN, -1.0, Double.NegativeInfinity)] double r)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.0)]
+        [TestCase(Double.NegativeInfinity)]
+        public void SetRFails(double r)
         {
             var d = new NegativeBinomial(1.0, 0.5);
             Assert.Throws<ArgumentOutOfRangeException>(() => d.R = r);
@@ -108,8 +121,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Can set probability of one.
         /// </summary>
         /// <param name="p">Probability of success.</param>
-        [Test]
-        public void CanSetProbabilityOfOne([Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0)]
+        [TestCase(0.3)]
+        [TestCase(1.0)]
+        public void CanSetProbabilityOfOne(double p)
         {
             new NegativeBinomial(1.0, 0.5)
             {
@@ -121,8 +136,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// Set probability of one fails with bad values.
         /// </summary>
         /// <param name="p">Probability of success.</param>
-        [Test]
-        public void SetProbabilityOfOneFails([Values(Double.NaN, -1.0, 2.0)] double p)
+        [TestCase(Double.NaN)]
+        [TestCase(-1.0)]
+        [TestCase(2.0)]
+        public void SetProbabilityOfOneFails(double p)
         {
             var d = new NegativeBinomial(1.0, 0.5);
             Assert.Throws<ArgumentOutOfRangeException>(() => d.P = p);
@@ -143,8 +160,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
-        [Test, Combinatorial]
-        public void ValidateSkewness([Values(0.0, 0.1, 1.0)] double r, [Values(0.0, 0.3, 1.0)] double p)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.1, 0.3)]
+        [TestCase(1.0, 1.0)]
+        public void ValidateSkewness(double r, double p)
         {
             var b = new NegativeBinomial(r, p);
             Assert.AreEqual((2.0 - p) / Math.Sqrt(r * (1.0 - p)), b.Skewness);
@@ -155,8 +174,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// </summary>
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
-        [Test, Sequential]
-        public void ValidateMode([Values(0.0, 0.3, 1.0)] double r, [Values(0.0, 0.0, 1.0)] double p)
+        [TestCase(0.0, 0.0)]
+        [TestCase(0.3, 0.0)]
+        [TestCase(1.0, 1.0)]
+        public void ValidateMode(double r, double p)
         {
             var d = new NegativeBinomial(r, p);
             if (r > 1)
@@ -205,8 +226,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Combinatorial]
-        public void ValidateProbability([Values(0.0, 0.1, 1.0)] double r, [Values(0.0, 0.3, 1.0)] double p, [Values(0, 1, 2, 3, 5)] int x)
+        [TestCase(0.0, 0.0, 0)]
+        [TestCase(0.1, 0.3, 1)]
+        [TestCase(1.0, 1.0, 2)]
+        [TestCase(1.0, 1.0, 3)]
+        [TestCase(1.0, 1.0, 5)]
+        public void ValidateProbability(double r, double p, int x)
         {
             var d = new NegativeBinomial(r, p);
             Assert.AreEqual(Math.Exp(SpecialFunctions.GammaLn(r + x) - SpecialFunctions.GammaLn(r) - SpecialFunctions.GammaLn(x + 1.0) + (r * Math.Log(p)) + (x * Math.Log(1.0 - p))), d.Probability(x));
@@ -218,8 +243,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Combinatorial]
-        public void ValidateProbabilityLn([Values(0.0, 0.1, 1.0)] double r, [Values(0.0, 0.3, 1.0)] double p, [Values(0, 1, 2, 3, 5)] int x)
+        [TestCase(0.0, 0.0, 0)]
+        [TestCase(0.1, 0.3, 1)]
+        [TestCase(1.0, 1.0, 2)]
+        [TestCase(1.0, 1.0, 3)]
+        [TestCase(1.0, 1.0, 5)]
+        public void ValidateProbabilityLn(double r, double p, int x)
         {
             var d = new NegativeBinomial(r, p);
             Assert.AreEqual(SpecialFunctions.GammaLn(r + x) - SpecialFunctions.GammaLn(r) - SpecialFunctions.GammaLn(x + 1.0) + (r * Math.Log(p)) + (x * Math.Log(1.0 - p)), d.ProbabilityLn(x));
@@ -231,8 +260,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="r">Number of trials.</param>
         /// <param name="p">Probability of success.</param>
         /// <param name="x">Input X value.</param>
-        [Test, Combinatorial]
-        public void ValidateCumulativeDistribution([Values(0.0, 0.1, 1.0)] double r, [Values(0.0, 0.3, 1.0)] double p, [Values(0, 1, 2, 3, 5)] int x)
+        [TestCase(0.0, 0.0, 0)]
+        [TestCase(0.1, 0.3, 1)]
+        [TestCase(1.0, 1.0, 2)]
+        [TestCase(1.0, 1.0, 3)]
+        [TestCase(1.0, 1.0, 5)]
+        public void ValidateCumulativeDistribution(double r, double p, int x)
         {
             var d = new NegativeBinomial(r, p);
             Assert.AreEqual(SpecialFunctions.BetaRegularized(r, x + 1.0, p), d.CumulativeDistribution(x), 1e-12);

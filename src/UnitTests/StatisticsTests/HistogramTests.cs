@@ -1,4 +1,4 @@
-﻿// <copyright file="HistogramTests.cs" company="Math.NET">
+// <copyright file="HistogramTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -123,8 +123,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// </summary>
         /// <param name="x">Point values.</param>
         /// <param name="r">Expected result.</param>
-        [Test, Sequential]
-        public void ValidateContains([Values(0.0, 1.0, 1.05, 2.0, -1.0)] double x, [Values(-1, 0, 0, 1, 0 - 1)] int r)
+        [TestCase(0.0, -1)]
+        [TestCase(1.0, 0)]
+        [TestCase(1.05, 0)]
+        [TestCase(2.0, 1)]
+        [TestCase(-1.0, 0 - 1)]
+        public void ValidateContains(double x, int r)
         {
             var b = new Bucket(0.0, 1.5, 10.0);
             Assert.AreEqual(r, b.Contains(x));
@@ -154,8 +158,11 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// </summary>
         /// <param name="x">Point to check.</param>
         /// <param name="i">Bucket index.</param>
-        [Test, Sequential]
-        public void CanGetBucketIndexOf([Values(0.5, 1.0, 10.0, 10000.0)] double x, [Values(0, 0, 3, 4)] double i)
+        [TestCase(0.5, 0)]
+        [TestCase(1.0, 0)]
+        [TestCase(10.0, 3)]
+        [TestCase(10000.0, 4)]
+        public void CanGetBucketIndexOf(double x, double i)
         {
             var h = new Histogram();
             h.AddBucket(new Bucket(0.0, 1.0));

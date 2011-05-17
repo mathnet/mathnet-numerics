@@ -1,4 +1,4 @@
-﻿// <copyright file="SvdTests.cs" company="Math.NET">
+// <copyright file="SvdTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,8 +51,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can factorize identity matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanFactorizeIdentity([Values(1, 10, 100)] int order)
+        [TestCase(1)]
+        [TestCase(10)]
+        [TestCase(100)]
+        public void CanFactorizeIdentity(int order)
         {
             var matrixI = DenseMatrix.Identity(order);
             var factorSvd = matrixI.Svd(true);
@@ -83,8 +85,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// </summary>
         /// <param name="row">Matrix row number.</param>
         /// <param name="column">Matrix column number.</param>
-        [Test, Sequential]
-        public void CanFactorizeRandomMatrix([Values(1, 2, 5, 10, 50, 100)] int row, [Values(1, 2, 5, 6, 48, 98)] int column)
+        [TestCase(1, 1)]
+        [TestCase(2, 2)]
+        [TestCase(5, 5)]
+        [TestCase(10, 6)]
+        [TestCase(50, 48)]
+        [TestCase(100, 98)]
+        public void CanFactorizeRandomMatrix(int row, int column)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var factorSvd = matrixA.Svd(true);
@@ -121,8 +128,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// </summary>
         /// <param name="row">Matrix row number.</param>
         /// <param name="column">Matrix column number.</param>
-        [Test, Sequential]
-        public void CanCheckRankOfNonSquare([Values(10, 48, 100)] int row, [Values(8, 52, 93)] int column)
+        [TestCase(10, 8)]
+        [TestCase(48, 52)]
+        [TestCase(100, 93)]
+        public void CanCheckRankOfNonSquare(int row, int column)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var factorSvd = matrixA.Svd(true);
@@ -135,8 +144,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can check rank of a square matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanCheckRankSquare([Values(1, 2, 5, 9, 50, 90)] int order)
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(5)]
+        [TestCase(9)]
+        [TestCase(50)]
+        [TestCase(90)]
+        public void CanCheckRankSquare(int order)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(order, order);
             var factorSvd = matrixA.Svd(true);
@@ -155,8 +169,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// Can check rank of a square singular matrix.
         /// </summary>
         /// <param name="order">Matrix order.</param>
-        [Test]
-        public void CanCheckRankOfSquareSingular([Values(10, 50, 100)] int order)
+        [TestCase(10)]
+        [TestCase(50)]
+        [TestCase(100)]
+        public void CanCheckRankOfSquareSingular(int order)
         {
             var matrixA = new DenseMatrix(order, order);
             matrixA[0, 0] = 1;
@@ -206,8 +222,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// </summary>
         /// <param name="row">Matrix row number.</param>
         /// <param name="column">Matrix column number.</param>
-        [Test, Sequential]
-        public void CanSolveForRandomVector([Values(1, 2, 5, 9, 50, 90)] int row, [Values(1, 2, 5, 10, 50, 100)] int column)
+        [TestCase(1, 1)]
+        [TestCase(2, 2)]
+        [TestCase(5, 5)]
+        [TestCase(9, 10)]
+        [TestCase(50, 50)]
+        [TestCase(90, 100)]
+        public void CanSolveForRandomVector(int row, int column)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var matrixACopy = matrixA.Clone();
@@ -242,8 +263,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// </summary>
         /// <param name="row">Matrix row number.</param>
         /// <param name="column">Matrix column number.</param>
-        [Test, Sequential]
-        public void CanSolveForRandomMatrix([Values(1, 4, 7, 10, 45, 80)] int row, [Values(1, 4, 8, 10, 50, 100)] int column)
+        [TestCase(1, 1)]
+        [TestCase(4, 4)]
+        [TestCase(7, 8)]
+        [TestCase(10, 10)]
+        [TestCase(45, 50)]
+        [TestCase(80, 100)]
+        public void CanSolveForRandomMatrix(int row, int column)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var matrixACopy = matrixA.Clone();
@@ -285,8 +311,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// </summary>
         /// <param name="row">Matrix row number.</param>
         /// <param name="column">Matrix column number.</param>
-        [Test, Sequential]
-        public void CanSolveForRandomVectorWhenResultVectorGiven([Values(1, 2, 5, 9, 50, 90)] int row, [Values(1, 2, 5, 10, 50, 100)] int column)
+        [TestCase(1, 1)]
+        [TestCase(2, 2)]
+        [TestCase(5, 5)]
+        [TestCase(9, 10)]
+        [TestCase(50, 50)]
+        [TestCase(90, 100)]
+        public void CanSolveForRandomVectorWhenResultVectorGiven(int row, int column)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var matrixACopy = matrixA.Clone();
@@ -326,8 +357,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         /// </summary>
         /// <param name="row">Matrix row number.</param>
         /// <param name="column">Matrix column number.</param>
-        [Test, Sequential]
-        public void CanSolveForRandomMatrixWhenResultMatrixGiven([Values(1, 4, 7, 10, 45, 80)] int row, [Values(1, 4, 8, 10, 50, 100)] int column)
+        [TestCase(1, 1)]
+        [TestCase(4, 4)]
+        [TestCase(7, 8)]
+        [TestCase(10, 10)]
+        [TestCase(45, 50)]
+        [TestCase(80, 100)]
+        public void CanSolveForRandomMatrixWhenResultMatrixGiven(int row, int column)
         {
             var matrixA = MatrixLoader.GenerateRandomDenseMatrix(row, column);
             var matrixACopy = matrixA.Clone();

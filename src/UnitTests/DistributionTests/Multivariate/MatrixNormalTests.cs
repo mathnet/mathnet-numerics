@@ -1,4 +1,4 @@
-﻿// <copyright file="MatrixNormalTests.cs" company="Math.NET">
+// <copyright file="MatrixNormalTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -43,8 +43,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Combinatorial]
-        public void CanCreateMatrixNormal([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanCreateMatrixNormal(int n, int p)
         {
             var matrixM = MatrixLoader.GenerateRandomDenseMatrix(n, p);
             var matrixV = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n);
@@ -85,14 +87,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="columnsOfV">Covariance matrix columns.</param>
         /// <param name="rowsOfK">Covariance matrix rows (for columns)</param>
         /// <param name="columnsOfK">Covariance matrix columns (for columns)</param>
-        [Test, Sequential]
-        public void FailCreateMatrixNormal(
-            [Values(2, 2, 2, 2, 5, 5, 5, 5)] int rowsOfM, 
-            [Values(2, 2, 2, 2, 2, 2, 2, 2)] int columnsOfM, 
-            [Values(3, 2, 2, 2, 6, 5, 5, 5)] int rowsOfV, 
-            [Values(2, 3, 2, 2, 5, 6, 5, 5)] int columnsOfV, 
-            [Values(2, 2, 3, 2, 2, 2, 3, 2)] int rowsOfK, 
-            [Values(2, 2, 2, 3, 2, 2, 2, 3)] int columnsOfK)
+        [TestCase(2, 2, 3, 2, 2, 2)]
+        [TestCase(2, 2, 2, 3, 2, 2)]
+        [TestCase(2, 2, 2, 2, 3, 2)]
+        [TestCase(2, 2, 2, 2, 2, 3)]
+        [TestCase(5, 2, 6, 5, 2, 2)]
+        [TestCase(5, 2, 5, 6, 2, 2)]
+        [TestCase(5, 2, 5, 5, 3, 2)]
+        [TestCase(5, 2, 5, 5, 2, 3)]
+        public void FailCreateMatrixNormal(int rowsOfM, int columnsOfM, int rowsOfV, int columnsOfV, int rowsOfK, int columnsOfK)
         {
             var matrixM = MatrixLoader.GenerateRandomDenseMatrix(rowsOfM, columnsOfM);
             var matrixV = MatrixLoader.GenerateRandomDenseMatrix(rowsOfV, columnsOfV);
@@ -156,8 +159,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Combinatorial]
-        public void CanGetM([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanGetM(int n, int p)
         {
             var matrixM = MatrixLoader.GenerateRandomDenseMatrix(n, p);
             var d = new MatrixNormal(matrixM, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
@@ -175,8 +180,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Combinatorial]
-        public void CanSetM([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanSetM(int n, int p)
         {
             new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p))
             {
@@ -189,8 +196,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Combinatorial]
-        public void CanGetV([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanGetV(int n, int p)
         {
             var matrixV = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n);
             var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), matrixV, MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
@@ -208,8 +217,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Combinatorial]
-        public void CanSetV([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanSetV(int n, int p)
         {
             new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p))
             {
@@ -222,8 +233,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Combinatorial]
-        public void CanGetK([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanGetK(int n, int p)
         {
             var matrixK = MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p);
             var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), matrixK);
@@ -241,8 +254,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Combinatorial]
-        public void CanSetK([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanSetK(int n, int p)
         {
             new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p))
             {
@@ -289,8 +304,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Sequential]
-        public void CanSample([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanSample(int n, int p)
         {
             var d = new MatrixNormal(MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
             d.Sample();
@@ -301,8 +318,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
         /// <param name="p">Matrix columns count.</param>
-        [Test, Sequential]
-        public void CanSampleStatic([Values(1, 3, 10)] int n, [Values(1, 3, 10)] int p)
+        [TestCase(1, 1)]
+        [TestCase(3, 3)]
+        [TestCase(10, 10)]
+        public void CanSampleStatic(int n, int p)
         {
             MatrixNormal.Sample(new Random(), MatrixLoader.GenerateRandomDenseMatrix(n, p), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(n), MatrixLoader.GenerateRandomPositiveDefiniteDenseMatrix(p));
         }
@@ -316,14 +335,15 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// <param name="columnsOfV">Covariance matrix columns.</param>
         /// <param name="rowsOfK">Covariance matrix rows (for columns)</param>
         /// <param name="columnsOfK">Covariance matrix columns (for columns)</param>
-        [Test, Sequential]
-        public void FailSampleStatic(
-            [Values(2, 2, 2, 2, 5, 5, 5, 5)] int rowsOfM, 
-            [Values(2, 2, 2, 2, 2, 2, 2, 2)] int columnsOfM, 
-            [Values(3, 2, 2, 2, 6, 5, 5, 5)] int rowsOfV, 
-            [Values(2, 3, 2, 2, 5, 6, 5, 5)] int columnsOfV, 
-            [Values(2, 2, 3, 2, 2, 2, 3, 2)] int rowsOfK, 
-            [Values(2, 2, 2, 3, 2, 2, 2, 3)] int columnsOfK)
+        [TestCase(2, 2, 3, 2, 2, 2)]
+        [TestCase(2, 2, 2, 3, 2, 2)]
+        [TestCase(2, 2, 2, 2, 3, 2)]
+        [TestCase(2, 2, 2, 2, 2, 3)]
+        [TestCase(5, 2, 6, 5, 2, 2)]
+        [TestCase(5, 2, 5, 6, 2, 2)]
+        [TestCase(5, 2, 5, 5, 3, 2)]
+        [TestCase(5, 2, 5, 5, 2, 3)]
+        public void FailSampleStatic(int rowsOfM, int columnsOfM, int rowsOfV, int columnsOfV, int rowsOfK, int columnsOfK)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => MatrixNormal.Sample(new Random(), MatrixLoader.GenerateRandomDenseMatrix(rowsOfM, columnsOfM), MatrixLoader.GenerateRandomDenseMatrix(rowsOfV, columnsOfV), MatrixLoader.GenerateRandomDenseMatrix(rowsOfK, columnsOfK)));
         }

@@ -1,4 +1,4 @@
-﻿// <copyright file="VectorTests.Norm.cs" company="Math.NET">
+// <copyright file="VectorTests.Norm.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -70,8 +70,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// </summary>
         /// <param name="p">The norm index.</param>
         /// <param name="expected">The expected <c>P</c>-norm value.</param>
-        [Test, Sequential]
-        public void CanComputeNormP([Values(1, 2, 3, 10)] int p, [Values(16.0346843392517, 7.74596669241483, 6.28528392332871, 5.1608912235454)] double expected)
+        [TestCase(1, 16.0346843392517)]
+        [TestCase(2, 7.74596669241483)]
+        [TestCase(3, 6.28528392332871)]
+        [TestCase(10, 5.1608912235454)]
+        public void CanComputeNormP(int p, double expected)
         {
             var vector = CreateVector(Data);
             AssertHelpers.AlmostEqual(expected, vector.Norm(p), 15);

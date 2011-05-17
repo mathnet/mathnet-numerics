@@ -1,4 +1,4 @@
-﻿// <copyright file="GcdRelatedTest.cs" company="Math.NET">
+// <copyright file="GcdRelatedTest.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         public void ListGcdChecksForNullArguments()
         {
             Assert.Throws(
-                typeof(ArgumentNullException), 
+                typeof(ArgumentNullException),
                 () => IntegerTheory.GreatestCommonDivisor((long[])null));
         }
 
@@ -195,7 +195,7 @@ namespace MathNet.Numerics.UnitTests.NumberTheoryTests
         public void ListLcmChecksForNullArguments()
         {
             Assert.Throws(
-                typeof(ArgumentNullException), 
+                typeof(ArgumentNullException),
                 () => IntegerTheory.LeastCommonMultiple((long[])null));
         }
     }

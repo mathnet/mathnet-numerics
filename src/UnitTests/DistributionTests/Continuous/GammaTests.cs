@@ -1,4 +1,4 @@
-﻿// <copyright file="GammaTests.cs" company="Math.NET">
+// <copyright file="GammaTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -51,8 +51,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
-        [Test, Sequential]
-        public void CanCreateGamma([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double invScale)
+        [TestCase(0.0, 0.0)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 10.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(10.0, Double.PositiveInfinity)]
+        public void CanCreateGamma(double shape, double invScale)
         {
             var n = new Gamma(shape, invScale);
             Assert.AreEqual(shape, n.Shape);
@@ -64,8 +69,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
-        [Test, Sequential]
-        public void GammaCreateFailsWithBadParameters([Values(1.0, 1.0, -1.0, -1.0, -1.0)] double shape, [Values(Double.NaN, -1.0, 1.0, -1.0, Double.NaN)] double invScale)
+        [TestCase(1.0, Double.NaN)]
+        [TestCase(1.0, -1.0)]
+        [TestCase(-1.0, 1.0)]
+        [TestCase(-1.0, -1.0)]
+        [TestCase(-1.0, Double.NaN)]
+        public void GammaCreateFailsWithBadParameters(double shape, double invScale)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => new Gamma(shape, invScale));
         }
@@ -75,8 +84,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
-        [Test, Sequential]
-        public void CanCreateGammaWithShapeInvScale([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double invScale)
+        [TestCase(0.0, 0.0)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 10.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(10.0, Double.PositiveInfinity)]
+        public void CanCreateGammaWithShapeInvScale(double shape, double invScale)
         {
             var n = Gamma.WithShapeInvScale(shape, invScale);
             Assert.AreEqual(shape, n.Shape);
@@ -88,8 +102,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="shape">Shape value.</param>
         /// <param name="scale">Scale value.</param>
-        [Test, Sequential]
-        public void CanCreateGammaWithShapeScale([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double scale)
+        [TestCase(0.0, 0.0)]
+        [TestCase(1.0, 0.1)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 10.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(10.0, Double.PositiveInfinity)]
+        public void CanCreateGammaWithShapeScale(double shape, double scale)
         {
             var n = Gamma.WithShapeScale(shape, scale);
             Assert.AreEqual(shape, n.Shape);
@@ -110,8 +129,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set shape.
         /// </summary>
         /// <param name="shape">Shape value.</param>
-        [Test]
-        public void CanSetShape([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double shape)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetShape(double shape)
         {
             new Gamma(1.0, 1.0)
             {
@@ -133,8 +157,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set scale.
         /// </summary>
         /// <param name="scale">Scale value.</param>
-        [Test]
-        public void CanSetScale([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double scale)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetScale(double scale)
         {
             new Gamma(1.0, 1.0)
             {
@@ -156,8 +185,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// Can set inverse scale.
         /// </summary>
         /// <param name="invScale">Inverse scale value.</param>
-        [Test]
-        public void CanSetInvScale([Values(-0.0, 0.0, 0.1, 1.0, 10.0, Double.PositiveInfinity)] double invScale)
+        [TestCase(-0.0)]
+        [TestCase(0.0)]
+        [TestCase(0.1)]
+        [TestCase(1.0)]
+        [TestCase(10.0)]
+        [TestCase(Double.PositiveInfinity)]
+        public void CanSetInvScale(double invScale)
         {
             new Gamma(1.0, 1.0)
             {
@@ -181,8 +215,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="mean">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMean([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double invScale, [Values(Double.NaN, 10.0, 1.0, 1.0, 10.0, 10.0)] double mean)
+        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(1.0, 0.1, 10.0)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 10.0, 1.0)]
+        [TestCase(10.0, 1.0, 10.0)]
+        [TestCase(10.0, Double.PositiveInfinity, 10.0)]
+        public void ValidateMean(double shape, double invScale, double mean)
         {
             var n = new Gamma(shape, invScale);
             Assert.AreEqual(mean, n.Mean);
@@ -194,8 +233,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="var">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateVariance([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double invScale, [Values(Double.NaN, 100.0, 1.0, 0.1, 10.0, 0.0)] double var)
+        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(1.0, 0.1, 100.0)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 10.0, 0.1)]
+        [TestCase(10.0, 1.0, 10.0)]
+        [TestCase(10.0, Double.PositiveInfinity, 0.0)]
+        public void ValidateVariance(double shape, double invScale, double var)
         {
             var n = new Gamma(shape, invScale);
             AssertHelpers.AlmostEqual(var, n.Variance, 15);
@@ -207,8 +251,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="sdev">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateStdDev([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double invScale, [Values(Double.NaN, 10.0, 1.0, 0.31622776601683794197697302588502426416723164097476643, 3.1622776601683793319988935444327185337195551393252168, 0.0)] double sdev)
+        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(1.0, 0.1, 10.0)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 10.0, 0.31622776601683794197697302588502426416723164097476643)]
+        [TestCase(10.0, 1.0, 3.1622776601683793319988935444327185337195551393252168)]
+        [TestCase(10.0, Double.PositiveInfinity, 0.0)]
+        public void ValidateStdDev(double shape, double invScale, double sdev)
         {
             var n = new Gamma(shape, invScale);
             AssertHelpers.AlmostEqual(sdev, n.StdDev, 15);
@@ -220,8 +269,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="entropy">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateEntropy([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double invScale, [Values(Double.NaN, 3.3025850929940456285068402234265387271634735938763824, 1.0, 0.23346908548693395836262094490967812177376750477943892, 2.5360541784809796423806123995940423293748689934081866, 0.0)] double entropy)
+        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(1.0, 0.1, 3.3025850929940456285068402234265387271634735938763824)]
+        [TestCase(1.0, 1.0, 1.0)]
+        [TestCase(10.0, 10.0, 0.23346908548693395836262094490967812177376750477943892)]
+        [TestCase(10.0, 1.0, 2.5360541784809796423806123995940423293748689934081866)]
+        [TestCase(10.0, Double.PositiveInfinity, 0.0)]
+        public void ValidateEntropy(double shape, double invScale, double entropy)
         {
             var n = new Gamma(shape, invScale);
             AssertHelpers.AlmostEqual(entropy, n.Entropy, 13);
@@ -233,8 +287,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="skewness">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateSkewness([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double invScale, [Values(Double.NaN, 2.0, 2.0, 0.63245553203367586639977870888654370674391102786504337, 0.63245553203367586639977870888654370674391102786504337, 0.0)] double skewness)
+        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(1.0, 0.1, 2.0)]
+        [TestCase(1.0, 1.0, 2.0)]
+        [TestCase(10.0, 10.0, 0.63245553203367586639977870888654370674391102786504337)]
+        [TestCase(10.0, 1.0, 0.63245553203367586639977870888654370674391102786504337)]
+        [TestCase(10.0, Double.PositiveInfinity, 0.0)]
+        public void ValidateSkewness(double shape, double invScale, double skewness)
         {
             var n = new Gamma(shape, invScale);
             AssertHelpers.AlmostEqual(skewness, n.Skewness, 15);
@@ -246,8 +305,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="shape">Shape value.</param>
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="mode">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateMode([Values(0.0, 1.0, 1.0, 10.0, 10.0, 10.0)] double shape, [Values(0.0, 0.1, 1.0, 10.0, 1.0, Double.PositiveInfinity)] double invScale, [Values(Double.NaN, 0.0, 0.0, 0.9, 9.0, 10.0)] double mode)
+        [TestCase(0.0, 0.0, Double.NaN)]
+        [TestCase(1.0, 0.1, 0.0)]
+        [TestCase(1.0, 1.0, 0.0)]
+        [TestCase(10.0, 10.0, 0.9)]
+        [TestCase(10.0, 1.0, 9.0)]
+        [TestCase(10.0, Double.PositiveInfinity, 10.0)]
+        public void ValidateMode(double shape, double invScale, double mode)
         {
             var n = new Gamma(shape, invScale);
             Assert.AreEqual(mode, n.Mode);
@@ -290,12 +354,25 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="pdf">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateDensity(
-            [Values(0, 0, 0, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10)] int shape, 
-            [Values(0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double invScale, 
-            [Values(0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0)] double x, 
-            [Values(0.0, 0.0, 0.0, 0.10000000000000000555111512312578270211815834045410156, 0.090483741803595961836995913651194571475319347018875963, 0.036787944117144234201693506390001264039984687455876246, 1.0, 0.36787944117144232159552377016146086744581113103176804, 0.000045399929762484851535591515560550610237918088866564953, 0.0, 1.2511003572113329898476497894772544708420990097708588, 1.0251532120868705806216092933926141802686541811003037e-30, 0.0, 0.0000010137771196302974029859010421116095333052555418644397, 0.12511003572113329898476497894772544708420990097708601, 0.0, 0.0, Double.PositiveInfinity)] double pdf)
+        [TestCase(0, 0.0, 0.0, 0.0)]
+        [TestCase(0, 0.0, 1.0, 0.0)]
+        [TestCase(0, 0.0, 10.0, 0.0)]
+        [TestCase(1, 0.1, 0.0, 0.10000000000000000555111512312578270211815834045410156)]
+        [TestCase(1, 0.1, 1.0, 0.090483741803595961836995913651194571475319347018875963)]
+        [TestCase(1, 0.1, 10.0, 0.036787944117144234201693506390001264039984687455876246)]
+        [TestCase(1, 1.0, 0.0, 1.0)]
+        [TestCase(1, 1.0, 1.0, 0.36787944117144232159552377016146086744581113103176804)]
+        [TestCase(1, 1.0, 10.0, 0.000045399929762484851535591515560550610237918088866564953)]
+        [TestCase(10, 10.0, 0.0, 0.0)]
+        [TestCase(10, 10.0, 1.0, 1.2511003572113329898476497894772544708420990097708588)]
+        [TestCase(10, 10.0, 10.0, 1.0251532120868705806216092933926141802686541811003037e-30)]
+        [TestCase(10, 1.0, 0.0, 0.0)]
+        [TestCase(10, 1.0, 1.0, 0.0000010137771196302974029859010421116095333052555418644397)]
+        [TestCase(10, 1.0, 10.0, 0.12511003572113329898476497894772544708420990097708601)]
+        [TestCase(10, Double.PositiveInfinity, 0.0, 0.0)]
+        [TestCase(10, Double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(10, Double.PositiveInfinity, 10.0, Double.PositiveInfinity)]
+        public void ValidateDensity(int shape, double invScale, double x, double pdf)
         {
             var n = new Gamma(shape, invScale);
             AssertHelpers.AlmostEqual(pdf, n.Density(x), 14);
@@ -308,12 +385,25 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="pdfln">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateDensityLn(
-            [Values(0, 0, 0, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10)] int shape, 
-            [Values(0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double invScale, 
-            [Values(0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0)] double x, 
-            [Values(Double.NegativeInfinity, Double.NegativeInfinity, Double.NegativeInfinity, -2.3025850929940456285068402234265387271634735938763824, -2.402585092994045634057955346552321429281631934330484, -3.3025850929940456285068402234265387271634735938763824, 0.0, -1.0, -10.0, Double.NegativeInfinity, 0.22402344985898722897219667227693591172986563062456522, -69.052710713194601614865880235563786219860220971716511, Double.NegativeInfinity, -13.801827480081469611207717874566706164281149255663166, -2.0785616431350584550457947824074282958712358580042068, Double.NegativeInfinity, Double.NegativeInfinity, Double.PositiveInfinity)] double pdfln)
+        [TestCase(0, 0.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(0, 0.0, 1.0, Double.NegativeInfinity)]
+        [TestCase(0, 0.0, 10.0, Double.NegativeInfinity)]
+        [TestCase(1, 0.1, 0.0, -2.3025850929940456285068402234265387271634735938763824)]
+        [TestCase(1, 0.1, 1.0, -2.402585092994045634057955346552321429281631934330484)]
+        [TestCase(1, 0.1, 10.0, -3.3025850929940456285068402234265387271634735938763824)]
+        [TestCase(1, 1.0, 0.0, 0.0)]
+        [TestCase(1, 1.0, 1.0, -1.0)]
+        [TestCase(1, 1.0, 10.0, -10.0)]
+        [TestCase(10, 10.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(10, 10.0, 1.0, 0.22402344985898722897219667227693591172986563062456522)]
+        [TestCase(10, 10.0, 10.0, -69.052710713194601614865880235563786219860220971716511)]
+        [TestCase(10, 1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(10, 1.0, 1.0, -13.801827480081469611207717874566706164281149255663166)]
+        [TestCase(10, 1.0, 10.0, -2.0785616431350584550457947824074282958712358580042068)]
+        [TestCase(10, Double.PositiveInfinity, 0.0, Double.NegativeInfinity)]
+        [TestCase(10, Double.PositiveInfinity, 1.0, Double.NegativeInfinity)]
+        [TestCase(10, Double.PositiveInfinity, 10.0, Double.PositiveInfinity)]
+        public void ValidateDensityLn(int shape, double invScale, double x, double pdfln)
         {
             var n = new Gamma(shape, invScale);
             AssertHelpers.AlmostEqual(pdfln, n.DensityLn(x), 14);
@@ -384,12 +474,25 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <param name="invScale">Inverse scale value.</param>
         /// <param name="x">Input X value.</param>
         /// <param name="cdf">Expected value.</param>
-        [Test, Sequential]
-        public void ValidateCumulativeDistribution(
-            [Values(0, 0, 0, 1, 1, 1, 1, 1, 1, 10, 10, 10, 10, 10, 10, 10, 10, 10)] int shape, 
-            [Values(0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 1.0, 1.0, 1.0, 10.0, 10.0, 10.0, 1.0, 1.0, 1.0, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)] double invScale, 
-            [Values(0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0, 0.0, 1.0, 10.0)] double x, 
-            [Values(0.0, 0.0, 0.0, 0.0, 0.095162581964040431858607615783064404690935346242622848, 0.63212055882855767840447622983853913255418886896823196, 0.0, 0.63212055882855767840447622983853913255418886896823196, 0.99995460007023751514846440848443944938976208191113396, 0.0, 0.54207028552814779168583514294066541824736464003242184, 0.99999999999999999999999999999988746526039157266114706, 0.0, 0.00000011142547833872067735305068724025236288094949815466035, 0.54207028552814779168583514294066541824736464003242184, 0.0, 0.0, 1.0)] double cdf)
+        [TestCase(0, 0.0, 0.0, 0.0)]
+        [TestCase(0, 0.0, 1.0, 0.0)]
+        [TestCase(0, 0.0, 10.0, 0.0)]
+        [TestCase(1, 0.1, 0.0, 0.0)]
+        [TestCase(1, 0.1, 1.0, 0.095162581964040431858607615783064404690935346242622848)]
+        [TestCase(1, 0.1, 10.0, 0.63212055882855767840447622983853913255418886896823196)]
+        [TestCase(1, 1.0, 0.0, 0.0)]
+        [TestCase(1, 1.0, 1.0, 0.63212055882855767840447622983853913255418886896823196)]
+        [TestCase(1, 1.0, 10.0, 0.99995460007023751514846440848443944938976208191113396)]
+        [TestCase(10, 10.0, 0.0, 0.0)]
+        [TestCase(10, 10.0, 1.0, 0.54207028552814779168583514294066541824736464003242184)]
+        [TestCase(10, 10.0, 10.0, 0.99999999999999999999999999999988746526039157266114706)]
+        [TestCase(10, 1.0, 0.0, 0.0)]
+        [TestCase(10, 1.0, 1.0, 0.00000011142547833872067735305068724025236288094949815466035)]
+        [TestCase(10, 1.0, 10.0, 0.54207028552814779168583514294066541824736464003242184)]
+        [TestCase(10, Double.PositiveInfinity, 0.0, 0.0)]
+        [TestCase(10, Double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(10, Double.PositiveInfinity, 10.0, 1.0)]
+        public void ValidateCumulativeDistribution(int shape, double invScale, double x, double cdf)
         {
             var n = new Gamma(shape, invScale);
             AssertHelpers.AlmostEqual(cdf, n.CumulativeDistribution(x), 14);

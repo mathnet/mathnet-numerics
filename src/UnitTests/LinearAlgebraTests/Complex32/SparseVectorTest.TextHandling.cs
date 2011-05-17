@@ -1,4 +1,4 @@
-﻿// <copyright file="SparseVectorTest.TextHandling.cs" company="Math.NET">
+// <copyright file="SparseVectorTest.TextHandling.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -41,8 +41,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// </summary>
         /// <param name="stringToParse">String to parse.</param>
         /// <param name="expectedToString">Expected result.</param>
-        [Test, Sequential]
-        public void CanParseComplex32SparseVectorsWithInvariant([Values("2", "(3)", "[1,2,3]", " [ 1.1 , 2.1 , 3.1 ] ", " [ -1.1 , 2.1 , +3.1 ] ", " [1.2,3.4 , 5.6] ", "[1+1i,2+1i,3+1i]", " [ 1.1 + 1i , 2.1+1i , 3.1+1i ] ", " [ -1.1 + 1i , 2.1-1i , +3.1+1i ] ", " [1.2+2.3i ,3.4+4.5i , 5.6+ 6.7i] ")] string stringToParse, [Values("(2, 0)", "(3, 0)", "(1, 0),(2, 0),(3, 0)", "(1.1, 0),(2.1, 0),(3.1, 0)", "(-1.1, 0),(2.1, 0),(3.1, 0)", "(1.2, 0),(3.4, 0),(5.6, 0)", "(1, 1),(2, 1),(3, 1)", "(1.1, 1),(2.1, 1),(3.1, 1)", "(-1.1, 1),(2.1, -1),(3.1, 1)", "(1.2, 2.3),(3.4, 4.5),(5.6, 6.7)")] string expectedToString)
+        [TestCase("2", "(2, 0)")]
+        [TestCase("(3)", "(3, 0)")]
+        [TestCase("[1,2,3]", "(1, 0),(2, 0),(3, 0)")]
+        [TestCase(" [ 1.1 , 2.1 , 3.1 ] ", "(1.1, 0),(2.1, 0),(3.1, 0)")]
+        [TestCase(" [ -1.1 , 2.1 , +3.1 ] ", "(-1.1, 0),(2.1, 0),(3.1, 0)")]
+        [TestCase(" [1.2,3.4 , 5.6] ", "(1.2, 0),(3.4, 0),(5.6, 0)")]
+        [TestCase("[1+1i,2+1i,3+1i]", "(1, 1),(2, 1),(3, 1)")]
+        [TestCase(" [ 1.1 + 1i , 2.1+1i , 3.1+1i ] ", "(1.1, 1),(2.1, 1),(3.1, 1)")]
+        [TestCase(" [ -1.1 + 1i , 2.1-1i , +3.1+1i ] ", "(-1.1, 1),(2.1, -1),(3.1, 1)")]
+        [TestCase(" [1.2+2.3i ,3.4+4.5i , 5.6+ 6.7i] ", "(1.2, 2.3),(3.4, 4.5),(5.6, 6.7)")]
+        public void CanParseComplex32SparseVectorsWithInvariant(string stringToParse, string expectedToString)
         {
             var formatProvider = CultureInfo.InvariantCulture;
             var vector = SparseVector.Parse(stringToParse, formatProvider);
@@ -56,10 +65,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// <param name="stringToParse">String to parse.</param>
         /// <param name="expectedToString">Expected result.</param>
         /// <param name="culture">Culture name.</param>
-        [Test, Sequential]
-        public void CanParseComplex32SparseVectorsWithCulture([Values(" 1.2 + 1i , 3.4 + 1i , 5.6 + 1i ", " 1.2 + 1i ; 3.4 + 1i ; 5.6 + 1i ", " 1,2 + 1i ; 3,4 + 1i ; 5,6 + 1i ")] string stringToParse, [Values("(1.2, 1),(3.4, 1),(5.6, 1)", "(1.2, 1);(3.4, 1);(5.6, 1)", "(1,2, 1);(3,4, 1);(5,6, 1)")] string expectedToString, [Values("en-US", "de-CH", "de-DE")] string culture)
+        [TestCase(" 1.2 + 1i , 3.4 + 1i , 5.6 + 1i ", "(1.2, 1),(3.4, 1),(5.6, 1)", "en-US")]
+        [TestCase(" 1.2 + 1i ; 3.4 + 1i ; 5.6 + 1i ", "(1.2, 1);(3.4, 1);(5.6, 1)", "de-CH")]
+#if !SILVERLIGHT
+        [TestCase(" 1,2 + 1i ; 3,4 + 1i ; 5,6 + 1i ", "(1,2, 1);(3,4, 1);(5,6, 1)", "de-DE")]
+#endif
+        public void CanParseComplex32SparseVectorsWithCulture(string stringToParse, string expectedToString, string culture)
         {
-            var formatProvider = CultureInfo.GetCultureInfo(culture);
+            var formatProvider = new CultureInfo(culture);
             var vector = SparseVector.Parse(stringToParse, formatProvider);
 
             Assert.AreEqual(expectedToString, vector.ToString(formatProvider));
@@ -79,8 +92,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Try parse a bad value with invariant returns <c>false</c>.
         /// </summary>
         /// <param name="str">Input string.</param>
-        [Test]
-        public void TryParseBadValueWithInvariantReturnsFalse([Values(null, "", ",", "1,", ",1", "1,2,", ",1,2,", "1,,2,,3", "1e+", "1e", "()", "[  ]")] string str)
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(",")]
+        [TestCase("1,")]
+        [TestCase(",1")]
+        [TestCase("1,2,")]
+        [TestCase(",1,2,")]
+        [TestCase("1,,2,,3")]
+        [TestCase("1e+")]
+        [TestCase("1e")]
+        [TestCase("()")]
+        [TestCase("[  ]")]
+        public void TryParseBadValueWithInvariantReturnsFalse(string str)
         {
             SparseVector vector;
             var ret = SparseVector.TryParse(str, CultureInfo.InvariantCulture, out vector);
