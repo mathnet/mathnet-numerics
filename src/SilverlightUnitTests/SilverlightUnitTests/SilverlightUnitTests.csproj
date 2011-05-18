@@ -94,9 +94,9 @@
     <AssemblyOriginatorKeyFile>MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics">
+    <Reference Include="MathNet.Numerics, Version=2011.4.17.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\out\debug\SL4\MathNet.Numerics.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Microsoft.Silverlight.Testing">
       <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.Silverlight.Testing.dll</HintPath>
@@ -962,9 +962,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\OutOfBrowserSettings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <Import Condition="$(SilverlightVersion)=='v3.0'" Project="$(Registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SilverlightToolkit\Tools\v3.0)Microsoft.Silverlight.Toolkit.Build.targets" />
