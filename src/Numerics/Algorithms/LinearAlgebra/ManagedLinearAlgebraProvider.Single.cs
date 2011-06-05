@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (alpha == 0.0)
             {
-                CommonParallel.ElementFor(0, y.Length, y.Length, index => result[index] = y[index]);
+                Buffer.BlockCopy(y, 0, result, 0, y.Length * Constants.SizeOfFloat);
             }
             else if (alpha == 1.0)
             {
@@ -89,11 +89,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (alpha == 0.0)
             {
-                CommonParallel.ElementFor(0, x.Length, x.Length, index => result[index] = 0.0f);
+                Array.Clear(result, 0, result.Length);
             }
             else if (alpha == 1.0)
             {
-                CommonParallel.ElementFor(0, x.Length, x.Length, index => result[index] = x[index]);
+                Buffer.BlockCopy(x, 0, result, 0, x.Length * Constants.SizeOfFloat);
             }
             else
             {
