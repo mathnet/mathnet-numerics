@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (alpha.IsZero())
             {
-                CommonParallel.ElementFor(0, y.Length, y.Length, index => result[index] = y[index]);
+                Array.Copy(y, result, y.Length);
             }
             else if (alpha.IsOne())
             {
@@ -89,11 +89,11 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
 
             if (alpha.IsZero())
             {
-                CommonParallel.ElementFor(0, x.Length, x.Length, index => result[index] = Complex32.Zero);
+                Array.Clear(result, 0, result.Length);
             }
             else if (alpha.IsOne())
             {
-                CommonParallel.ElementFor(0, x.Length, x.Length, index => result[index] = x[index]);
+                Array.Copy(x, result, x.Length);
             }
             else
             {
