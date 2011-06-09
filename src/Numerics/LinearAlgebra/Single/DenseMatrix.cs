@@ -420,37 +420,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector.
-        /// </summary>
-        /// <param name="leftSide">The vector to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        protected override void DoLeftMultiply(Vector<float> leftSide, Vector<float> result)
-        {
-            var denseLeft = leftSide as DenseVector;
-            var denseResult = result as DenseVector;
-
-            if (denseLeft == null || denseResult == null)
-            {
-                base.DoLeftMultiply(leftSide, result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                    1.0f,
-                    denseLeft.Data,
-                    1,
-                    denseLeft.Count,
-                    Data,
-                    RowCount,
-                    ColumnCount,
-                    0.0f,
-                    denseResult.Data);
-            }
-        }
-
-        /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
