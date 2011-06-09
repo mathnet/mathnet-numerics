@@ -420,7 +420,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </summary>
         /// <param name="leftSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected abstract void DoLeftMultiply(Vector<T> leftSide, Vector<T> result);
+        protected void DoLeftMultiply(Vector<T> leftSide, Vector<T> result)
+        {
+            DoTransposeThisAndMultiply(leftSide, result);
+        }
 
         /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.

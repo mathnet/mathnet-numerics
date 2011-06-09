@@ -198,25 +198,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
          }
 
         /// <summary>
-        /// Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector.
-        /// </summary>
-        /// <param name="leftSide">The vector to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        protected override void DoLeftMultiply(Vector<float> leftSide, Vector<float> result)
-        {
-            for (var j = 0; j < ColumnCount; j++)
-            {
-                var s = 0.0f;
-                for (var i = 0; i != leftSide.Count; i++)
-                {
-                    s += leftSide[i] * At(i, j);
-                }
-
-                result[j] = s;
-            }
-        }
-
-        /// <summary>
         /// Multiplies this matrix with another matrix and places the results into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
