@@ -71,11 +71,31 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
             else if (alpha.IsOne())
             {
-                CommonParallel.ElementFor(0, y.Length, y.Length, index => result[index] = y[index] + x[index]);
+                if (x.Length < Control.ParallelizeElements || Control.DisableParallelization)
+                {
+                    for (var index = 0; index < x.Length; index++)
+                    {
+                        result[index] = y[index] + x[index];
+                    }
+                }
+                else
+                {
+                    CommonParallel.For(0, y.Length, index => result[index] = y[index] + x[index]);
+                }
             }
             else
             {
-                CommonParallel.ElementFor(0, y.Length, y.Length, index => result[index] = y[index] + (alpha * x[index]));
+                if (x.Length < Control.ParallelizeElements || Control.DisableParallelization)
+                {
+                    for (var index = 0; index < x.Length; index++)
+                    {
+                        result[index] = y[index] + (alpha * x[index]);
+                    }
+                }
+                else
+                {
+                    CommonParallel.For(0, y.Length, index => result[index] = y[index] + (alpha * x[index]));
+                }
             }
         }
 
@@ -103,7 +123,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
             }
             else
             {
-                CommonParallel.ElementFor(0, x.Length, x.Length, index => { result[index] = alpha * x[index]; });
+                if (x.Length < Control.ParallelizeElements || Control.DisableParallelization)
+                {
+                    for (var index = 0; index < x.Length; index++)
+                    {
+                        result[index] = alpha * x[index];
+                    }
+                }
+                else
+                {
+                    CommonParallel.For(0, x.Length, index => { result[index] = alpha * x[index]; });
+                }
             }
         }
 
@@ -172,7 +202,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.ElementFor(0, y.Length, y.Length, i => result[i] = x[i] + y[i]);
+            if (x.Length < Control.ParallelizeElements || Control.DisableParallelization)
+            {
+                for (var index = 0; index < x.Length; index++)
+                {
+                    result[index] = x[index] + y[index];
+                }
+            }
+            else
+            {
+                CommonParallel.For(0, y.Length, index => { result[index] = x[index] + y[index]; });
+            }
         }
 
         /// <summary>
@@ -207,7 +247,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.ElementFor(0, y.Length, y.Length, i => result[i] = x[i] - y[i]);
+            if (x.Length < Control.ParallelizeElements || Control.DisableParallelization)
+            {
+                for (var index = 0; index < x.Length; index++)
+                {
+                    result[index] = x[index] - y[index];
+                }
+            }
+            else
+            {
+                CommonParallel.For(0, y.Length, index => { result[index] = x[index] - y[index]; });
+            }
         }
 
         /// <summary>
@@ -242,7 +292,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.ElementFor(0, y.Length, y.Length, i => result[i] = x[i] * y[i]);
+            if (x.Length < Control.ParallelizeElements || Control.DisableParallelization)
+            {
+                for (var index = 0; index < x.Length; index++)
+                {
+                    result[index] = x[index] * y[index];
+                }
+            }
+            else
+            {
+                CommonParallel.For(0, y.Length, index => { result[index] = x[index] * y[index]; });
+            }
         }
 
         /// <summary>
@@ -277,7 +337,17 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.ElementFor(0, y.Length, y.Length, index => { result[index] = x[index] / y[index]; });
+            if (x.Length < Control.ParallelizeElements || Control.DisableParallelization)
+            {
+                for (var index = 0; index < x.Length; index++)
+                {
+                    result[index] = x[index] / y[index];
+                }
+            }
+            else
+            {
+                CommonParallel.For(0, y.Length, index => { result[index] = x[index] / y[index]; });
+            }
         }
 
         /// <summary>
@@ -1234,7 +1304,7 @@ namespace MathNet.Numerics.Algorithms.LinearAlgebra
         {
             var tmpColCount = colLimit - firstCol;
 
-            if ((availableCores > 1) && (tmpColCount > 200))
+            if ((availableCores > 1) && (tmpColCount > Control.ParallelizeElements))
             {
                 var tmpSplit = firstCol + (tmpColCount / 3);
                 var tmpCores = availableCores / 2;

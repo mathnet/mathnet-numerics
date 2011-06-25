@@ -47,26 +47,6 @@ namespace MathNet.Numerics.Threading
         /// </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
-        /// <param name="numberOfElements">The number of elements that will be iterated over.</param>
-        /// <param name="body">The body to be invoked for each iteration.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
-        /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
-        public static void ElementFor(int fromInclusive, int toExclusive, int numberOfElements, Action<int> body)
-        {
-            var parallel = true;
-            if (Control.DisableParallelization || Control.NumberOfParallelWorkerThreads < 2 || numberOfElements < Control.ParallelizeElements)
-            {
-                parallel = false;
-            }
-            
-            For(fromInclusive, toExclusive, body, parallel);
-        }
-
-        /// <summary>
-        /// Executes a for loop in which iterations may run in parallel. 
-        /// </summary>
-        /// <param name="fromInclusive">The start index, inclusive.</param>
-        /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The body to be invoked for each iteration.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="body"/> argument is <c>null</c>.</exception>
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
