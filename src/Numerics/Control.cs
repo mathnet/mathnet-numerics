@@ -59,7 +59,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// The default cutoff point for order size for the matrix multiply in linear algebra provider.
         /// </summary>
-        private static int _parallelizeElements = 256;
+        private static int _parallelizeElements = 300;
 
         /// <summary>
         /// Initializes static members of the Control class.
@@ -99,7 +99,8 @@ namespace MathNet.Numerics
         /// <value>The linear algebra provider.</value>
         public static ILinearAlgebraProvider LinearAlgebraProvider
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -169,7 +170,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets or sets the number of elements a vector or matrix must contain before we multiply threads.
         /// </summary>
-        /// <value>Number of elements. Default is 256.</value>
+        /// <value>Number of elements. Default is 300.</value>
         public static int ParallelizeElements
         {
             get
@@ -184,6 +185,16 @@ namespace MathNet.Numerics
                     _parallelizeElements = value;
                 }
             }
+        }
+
+        /// <summary>
+        /// Given the number elements, should the operation be parallelized.
+        /// </summary>
+        /// <param name="elements">The number elements to check.</param>
+        /// <returns><c>true</c> if the operation should be parallelized; <c>false</c> otherwise.</returns>
+        public static bool ParallelizeOperation(int elements)
+        {
+            return elements < ParallelizeElements || DisableParallelization || NumberOfParallelWorkerThreads < 2;
         }
     }
 }
