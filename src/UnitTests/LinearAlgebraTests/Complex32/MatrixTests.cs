@@ -1990,5 +1990,71 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 }
             }
         }
+
+        /// <summary>
+        /// Test whether we can create a matrix from a list of column vectors.
+        /// </summary>
+        [Test]
+        public virtual void CanCreateMatrixFromColumns()
+        {
+            var column1 = CreateVector(new Complex32[] { 1.0f });
+            var column2 = CreateVector(new Complex32[] { 1.0f, 2.0f, 3.0f, 4.0f });
+            var column3 = CreateVector(new Complex32[] { 1.0f, 2.0f });
+            var columnVectors = new System.Collections.Generic.List<Vector<Complex32>>
+                                {
+                                    column1,
+                                    column2,
+                                    column3
+                                };
+            var matrix = Matrix<Complex32>.CreateFromColumns(columnVectors);
+
+            Assert.AreEqual(matrix.RowCount, 4);
+            Assert.AreEqual(matrix.ColumnCount, 3);
+            Assert.AreEqual(1.0, matrix[0, 0].Real);
+            Assert.AreEqual(0.0, matrix[1, 0].Real);
+            Assert.AreEqual(0.0, matrix[2, 0].Real);
+            Assert.AreEqual(0.0, matrix[3, 0].Real);
+            Assert.AreEqual(1.0, matrix[0, 1].Real);
+            Assert.AreEqual(2.0, matrix[1, 1].Real);
+            Assert.AreEqual(3.0, matrix[2, 1].Real);
+            Assert.AreEqual(4.0, matrix[3, 1].Real);
+            Assert.AreEqual(1.0, matrix[0, 2].Real);
+            Assert.AreEqual(2.0, matrix[1, 2].Real);
+            Assert.AreEqual(0.0, matrix[2, 2].Real);
+            Assert.AreEqual(0.0, matrix[3, 2].Real);
+        }
+
+        /// <summary>
+        /// Test whether we can create a matrix from a list of row vectors.
+        /// </summary>
+        [Test]
+        public virtual void CanCreateMatrixFromRows()
+        {
+            var row1 = CreateVector(new Complex32[] { 1.0f });
+            var row2 = CreateVector(new Complex32[] { 1.0f, 2.0f, 3.0f, 4.0f });
+            var row3 = CreateVector(new Complex32[] { 1.0f, 2.0f });
+            var rowVectors = new System.Collections.Generic.List<Vector<Complex32>>
+                                {
+                                    row1,
+                                    row2,
+                                    row3
+                                };
+            var matrix = Matrix<Complex32>.CreateFromRows(rowVectors);
+
+            Assert.AreEqual(matrix.RowCount, 3);
+            Assert.AreEqual(matrix.ColumnCount, 4);
+            Assert.AreEqual(1.0, matrix[0, 0].Real);
+            Assert.AreEqual(0.0, matrix[0, 1].Real);
+            Assert.AreEqual(0.0, matrix[0, 2].Real);
+            Assert.AreEqual(0.0, matrix[0, 3].Real);
+            Assert.AreEqual(1.0, matrix[1, 0].Real);
+            Assert.AreEqual(2.0, matrix[1, 1].Real);
+            Assert.AreEqual(3.0, matrix[1, 2].Real);
+            Assert.AreEqual(4.0, matrix[1, 3].Real);
+            Assert.AreEqual(1.0, matrix[2, 0].Real);
+            Assert.AreEqual(2.0, matrix[2, 1].Real);
+            Assert.AreEqual(0.0, matrix[2, 2].Real);
+            Assert.AreEqual(0.0, matrix[2, 3].Real);
+        }
     }
 }

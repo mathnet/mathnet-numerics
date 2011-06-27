@@ -44,9 +44,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 #if SILVERLIGHT
     IFormattable, IEquatable<Matrix<T>>
 #else
-    IFormattable, IEquatable<Matrix<T>>, ICloneable
+        IFormattable, IEquatable<Matrix<T>>, ICloneable
 #endif
-    where T : struct, IEquatable<T>, IFormattable
+        where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>
         /// Initializes a new instance of the Matrix class.
@@ -108,6 +108,82 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Constructs matrix from a list of column vectors.
+        /// </summary>
+        /// <param name="columnVectors">The vectors to construct the matrix from.</param>
+        /// <returns>The matrix constructed from the list of column vectors.</returns>
+        /// <remarks>Creates a matrix of size Max(<paramref name="columnVectors"/>[i].Count) x <paramref name="columnVectors"/>.Count</remarks>
+        public static Matrix<T> CreateFromColumns(IList<Vector<T>> columnVectors)
+        {
+            if (columnVectors == null)
+            {
+                throw new ArgumentNullException("columnVectors");
+            }
+
+            if (columnVectors.Count == 0)
+            {
+                throw new ArgumentOutOfRangeException("columnVectors");
+            }
+
+            var rows = columnVectors[0].Count;
+            var columns = columnVectors.Count;
+
+            for (var column = 1; column < columns; column++)
+            {
+                rows = Math.Max(rows, columnVectors[column].Count);
+            }
+
+            var matrix = columnVectors[0].CreateMatrix(rows, columns);
+            for (var j = 0; j < columns; j++)
+            {
+                for (var i = 0; i < columnVectors[j].Count; i++)
+                {
+                    matrix.At(i, j, columnVectors[j][i]);
+                }
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
+        /// Constructs matrix from a list of  row vectors.
+        /// </summary>
+        /// <param name="rowVectors">The vectors to construct the matrix from.</param>
+        /// <returns>The matrix constructed from the list of row vectors.</returns>
+        /// <remarks>Creates a matrix of size Max(<paramref name="rowVectors"/>.Count) x <paramref name="rowVectors"/>[i].Count</remarks>
+        public static Matrix<T> CreateFromRows(IList<Vector<T>> rowVectors)
+        {
+            if (rowVectors == null)
+            {
+                throw new ArgumentNullException("rowVectors");
+            }
+
+            if (rowVectors.Count == 0)
+            {
+                throw new ArgumentOutOfRangeException("rowVectors");
+            }
+
+            var rows = rowVectors.Count;
+            var columns = rowVectors[0].Count;
+
+            for (var row = 1; row < rows; row++)
+            {
+                columns = Math.Max(columns, rowVectors[row].Count);
+            }
+
+            var matrix = rowVectors[0].CreateMatrix(rows, columns);
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < rowVectors[i].Count; j++)
+                {
+                    matrix.At(i, j, rowVectors[i][j]);
+                }
+            }
+
+            return matrix;
         }
 
         /// <summary>
@@ -473,7 +549,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             for (var row = 0; row < RowCount; row++)
             {
-                for (var column = 0; column <= row && column < ColumnCount; column++) 
+                for (var column = 0; column <= row && column < ColumnCount; column++)
                 {
                     ret.At(row, column, At(row, column));
                 }
@@ -733,7 +809,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 diagonal[i] = At(i, i);
             }
-            
+
             return diagonal;
         }
 
@@ -1426,6 +1502,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
         }
+
         #endregion
 
         /// <summary>
