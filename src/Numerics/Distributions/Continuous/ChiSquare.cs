@@ -274,14 +274,20 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a random number from the distribution.</returns>
         private static double DoSample(Random rnd, double dof)
         {
-            double sum = 0;
-            var n = (int)dof;
-            for (var i = 0; i < n; i++)
+            //Use the simple method if the dof is an integer anyway
+            if (Math.Floor(dof) == dof && dof < Int32.MaxValue)
             {
-                sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
+                double sum = 0;
+                var n = (int)dof;
+                for (var i = 0; i < n; i++)
+                {
+                    sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
+                }
+                return sum;
             }
-
-            return sum;
+            //Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
+            //for a justification)
+            return Gamma.Sample(rnd, dof / 2.0, .5);
         }
 
         /// <summary>
