@@ -4,6 +4,7 @@ obj
 *.user
 *.suo
 *.vsdoc
+*.docstates
 TestResults
 *.sdf
 Version.cs
