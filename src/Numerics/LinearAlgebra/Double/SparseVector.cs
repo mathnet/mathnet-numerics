@@ -980,10 +980,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j < v.NonZerosCount; j++)
                 {
-                    if (u._nonZeroIndices[i] == v._nonZeroIndices[j])
-                    {
-                        matrix.At(i, j, u._nonZeroValues[i] * v._nonZeroValues[j]);
-                    }
+                    matrix.At(i, j, u._nonZeroValues[i] * v._nonZeroValues[j]);
                 }
             }
 
