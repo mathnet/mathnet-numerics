@@ -432,5 +432,32 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             Assert.AreEqual(2, result.NonZerosCount);
         }
+
+        /// <summary>
+        /// Can outer multiple two sparse vectors. Checking fix for workitem 5696.
+        /// </summary>
+        [Test]
+        public void CanOuterMultiplySparseVectors()
+        {
+            var vector1 = new SparseVector(new[] { 2.0, 2.0, 0.0, 0.0 });
+            var vector2 = new SparseVector(new[] { 2.0, 2.0, 0.0, 0.0 });
+            var result = vector1.OuterProduct(vector2);
+
+            Assert.AreEqual(4.0, result[0, 0]);
+            Assert.AreEqual(4.0, result[0, 1]);
+            Assert.AreEqual(4.0, result[1, 0]);
+            Assert.AreEqual(4.0, result[1, 1]);
+
+            for (var i = 0; i < vector1.Count; i++)
+            {
+                for (var j = 0; j < vector2.Count; j++)
+                {
+                    if (i > 1 || j > 1)
+                    {
+                        Assert.AreEqual(0.0, result[i, j]);
+                    }
+                }
+            }
+        }
     }
 }
