@@ -71,5 +71,5 @@ module SparseMatrix =
     /// Initialize a matrix by calling a construction function for every column.
     let inline initCol (n: int) (m: int) (f: int -> #Vector<float>) =
         let A = new Double.SparseMatrix(n,m)
-        for i=0 to n-1 do A.SetColumn(i, f i)
+        for i=0 to m-1 do A.SetColumn(i, f i)
         A
