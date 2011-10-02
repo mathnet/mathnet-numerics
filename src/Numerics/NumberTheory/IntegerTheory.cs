@@ -32,7 +32,7 @@ namespace MathNet.Numerics.NumberTheory
 {
     using System;
 
-	/// <summary>
+    /// <summary>
     /// Number theory utility functions for integers.
     /// </summary>
     public static partial class IntegerTheory

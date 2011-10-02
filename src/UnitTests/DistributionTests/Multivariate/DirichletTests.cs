@@ -202,8 +202,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         /// </summary>
         /// <param name="x">Alphas array.</param>
         /// <param name="res">Expected value.</param>
-        [TestCase(new[] { 0.01, 0.03, 0.5 }, 1335.32600710379)]
-        [TestCase(new[] { 0.1, 0.2, 0.3, 0.4 }, 59.1446044600076)]
+        /// <remarks>
+        /// Mathematica: InputForm[PDF[DirichletDistribution[{0.1, 0.3, 0.5, 0.8}], {0.01, 0.03, 0.5}]]
+        /// </remarks>
+        [TestCase(new[] { 0.01, 0.03, 0.5 }, 18.77225681167061)]
+        [TestCase(new[] { 0.1, 0.2, 0.3, 0.4 }, 0.8314656481199253)]
         public void ValidateDensity(double[] x, double res)
         {
             var d = new Dirichlet(new[] { 0.1, 0.3, 0.5, 0.8 });
@@ -220,6 +223,21 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             var d = new Dirichlet(new[] { 0.1, 0.3, 0.5, 0.8 });
             AssertHelpers.AlmostEqual(d.DensityLn(x), Math.Log(d.Density(x)), 12);
+        }
+
+        /// <summary>
+        /// Validate density log matches Beta for 2-dimension cases
+        /// </summary>
+        /// <param name="x">Alpha array.</param>
+        [TestCase(0.01)]
+        [TestCase(0.1)]
+        [TestCase(0.4)]
+        [TestCase(0.71)]
+        public void ValidateBetaSpecialCaseDensityLn(double x)
+        {
+            var d = new Dirichlet(new[] { 0.1, 0.3 });
+            var beta = new Beta(0.1, 0.3);
+            AssertHelpers.AlmostEqual(d.DensityLn(new[] { x }), beta.DensityLn(x), 10);
         }
 
         /// <summary>
