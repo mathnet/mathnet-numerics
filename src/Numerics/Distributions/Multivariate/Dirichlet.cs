@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2011 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -251,42 +255,45 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentNullException("x");
             }
 
-            var flag = x.Length == (_alpha.Length - 1);
-            if ((x.Length != _alpha.Length) && !flag)
+            var shortVersion = x.Length == (_alpha.Length - 1);
+            if ((x.Length != _alpha.Length) && !shortVersion)
             {
                 throw new ArgumentException("x");
             }
 
-            var num = 0.0;
-            var num2 = 0.0;
+            var term = 0.0;
+            var sumxi = 0.0;
+            var sumalpha = 0.0;
             for (var i = 0; i < x.Length; i++)
             {
-                var d = x[i];
-                if ((d <= 0.0) || (d >= 1.0))
+                var xi = x[i];
+                if ((xi <= 0.0) || (xi >= 1.0))
                 {
                     return 0.0;
                 }
 
-                num += (_alpha[i] - 1.0) * Math.Log(d);
-                num2 += d;
+                term += (_alpha[i] - 1.0) * Math.Log(xi) - SpecialFunctions.GammaLn(_alpha[i]);
+                sumxi += xi;
+                sumalpha += _alpha[i];
             }
 
             // Calculate x[Length - 1] element, if needed
-            if (flag)
+            if (shortVersion)
             {
-                if (num2 >= 1.0)
+                if (sumxi >= 1.0)
                 {
                     return 0.0;
                 }
 
-                num += (_alpha[_alpha.Length - 1] - 1.0) * Math.Log(1.0 - num2);
+                term += (_alpha[_alpha.Length - 1] - 1.0) * Math.Log(1.0 - sumxi) - SpecialFunctions.GammaLn(_alpha[_alpha.Length - 1]);
+                sumalpha += _alpha[_alpha.Length - 1];
             }
-            else if (!num2.AlmostEqualInDecimalPlaces(1.0, 8))
+            else if (!sumxi.AlmostEqualInDecimalPlaces(1.0, 8))
             {
                 return 0.0;
             }
 
-            return -SpecialFunctions.GammaLn(AlphaSum) + num;
+            return term + SpecialFunctions.GammaLn(sumalpha);
         }
 
         /// <summary>
