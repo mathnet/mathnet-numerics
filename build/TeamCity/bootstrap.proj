@@ -1,9 +1,16 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Go" ToolsVersion="4.0">
-  
-  <Target Name="Go" DependsOnTargets="ApplyTemplates"/>
-  
-  <Target Name="ApplyTemplates">
-    <!--Exec Command="$(MSBuildProjectDirectory)\apply-t4-templates.bat"/-->
-  </Target>
-  
+	<UsingTask AssemblyFile="$(MSBuildThisFileDirectory)/../MSBuild.Community.Tasks.v1.2.0.306/MSBuild.Community.Tasks.dll" TaskName="MSBuild.Community.Tasks.FileUpdate" />
+
+	<Target Name="Go" DependsOnTargets="PatchFSharpAssemblyInfo"/>
+
+	<!-- TeamCity AssemblyInfo patcher doesn't support F# yet, hence we do it manually: -->
+	<Target Name="PatchFSharpAssemblyInfo">
+		<ItemGroup>
+			<FSharpAssemblyInfoFiles Include="$(MSBuildThisFileDirectory)/../../src/FSharp/AssemblyInfo.fs" />
+		</ItemGroup>
+		<FileUpdate
+			Files="@(FSharpAssemblyInfoFiles)"
+			Regex="(Version\(&quot;[^&quot;]*&quot;\))"
+			ReplacementText="Version(&quot;$(BUILD_NUMBER)&quot;)"/>
+	</Target>
 </Project>
