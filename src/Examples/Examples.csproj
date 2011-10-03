@@ -126,7 +126,6 @@
     <Compile Include="LinearAlgebra\VectorArithmeticOperations.cs" />
     <Compile Include="LinearAlgebra\VectorDataAccessor.cs" />
     <Compile Include="LinearAlgebra\VectorInitialization.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomNumberGeneration.cs" />
     <Compile Include="Integration.cs" />
     <Compile Include="Signals\Chebyshev.cs" />
@@ -162,7 +161,9 @@
       <Name>Numerics</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
