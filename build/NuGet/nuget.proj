@@ -44,50 +44,65 @@
 	</Target>
 
 	<Target Name="UpdateNuspec" DependsOnTargets="CopyContentFiles">
+	
+		<!-- Evaluate Assembly Identity -->
 		<GetAssemblyIdentity AssemblyFiles="$(NumericsPack)/lib/Net40/MathNet.Numerics.dll">
 			<Output TaskParameter="Assemblies" ItemName="NumericsAssemblyInfo"/>
 		</GetAssemblyIdentity>
 		<GetAssemblyIdentity AssemblyFiles="$(FSharpPack)/lib/Net40/MathNet.Numerics.FSharp.dll">
 			<Output TaskParameter="Assemblies" ItemName="FSharpAssemblyInfo"/>
 		</GetAssemblyIdentity>
+		
+		<!-- Extract Assembly Versions -->
+		<PropertyGroup>
+			<NumericsAssemblyVersion>%(NumericsAssemblyInfo.Version)</NumericsAssemblyVersion>
+			<FSharpAssemblyVersion>%(FSharpAssemblyInfo.Version)</FSharpAssemblyVersion>
+		</PropertyGroup>
+		
+		<!-- Package Versions (skip 4th part/build number, for semvar compliance) -->
+		<PropertyGroup>
+			<NumericsPackVersion>$(NumericsAssemblyVersion.Substring(0, $(NumericsAssemblyVersion.LastIndexOf('.'))))</NumericsPackVersion>
+			<FSharpPackVersion>$(FSharpAssemblyVersion.Substring(0, $(FSharpAssemblyVersion.LastIndexOf('.'))))</FSharpPackVersion>
+		</PropertyGroup>
+		
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(NumericsPack)/MathNet.Numerics.nuspec"
 			XPath="//package/n:metadata/n:version"
-			Value="%(NumericsAssemblyInfo.Version)"/>
+			Value="$(NumericsPackVersion)"/>
 
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(FSharpPack)/MathNet.Numerics.FSharp.nuspec"
 			XPath="//package/n:metadata/n:version"
-			Value="%(FSharpAssemblyInfo.Version)"/>
+			Value="$(FSharpPackVersion)"/>
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(FSharpPack)/MathNet.Numerics.FSharp.nuspec"
 			XPath="//package/n:metadata/n:dependencies/n:dependency[@id='MathNet.Numerics']/@version"
-			Value="%(NumericsAssemblyInfo.Version)"/>
+			Value="$(NumericsPackVersion)"/>
 
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(NumericsSamplePack)/MathNet.Numerics.Sample.nuspec"
 			XPath="//package/n:metadata/n:version"
-			Value="%(NumericsAssemblyInfo.Version)"/>
+			Value="$(NumericsPackVersion)"/>
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(NumericsSamplePack)/MathNet.Numerics.Sample.nuspec"
 			XPath="//package/n:metadata/n:dependencies/n:dependency[@id='MathNet.Numerics']/@version"
-			Value="%(NumericsAssemblyInfo.Version)"/>
+			Value="$(NumericsPackVersion)"/>
 
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(FSharpSamplePack)/MathNet.Numerics.FSharp.Sample.nuspec"
 			XPath="//package/n:metadata/n:version"
-			Value="%(FSharpAssemblyInfo.Version)"/>
+			Value="$(FSharpPackVersion)"/>
 		<XmlUpdate
 			Prefix="n" Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
 			XmlFileName="$(FSharpSamplePack)/MathNet.Numerics.FSharp.Sample.nuspec"
 			XPath="//package/n:metadata/n:dependencies/n:dependency[@id='MathNet.Numerics.FSharp']/@version"
-			Value="%(FSharpAssemblyInfo.Version)"/>
+			Value="$(FSharpPackVersion)"/>
 	</Target>
 
 	<Target Name="PatchContentFiles" DependsOnTargets="CopyContentFiles">
