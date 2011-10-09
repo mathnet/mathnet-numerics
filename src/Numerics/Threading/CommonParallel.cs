@@ -72,6 +72,20 @@ namespace MathNet.Numerics.Threading
         /// <exception cref="AggregateException">At least one invocation of the body threw an exception.</exception>
         public static void For(int fromInclusive, int toExclusive, Action<int> body, bool parallel)
         {
+            // Special case: no action
+            if (fromInclusive >= toExclusive)
+            {
+                return;
+            }
+
+            // Special case: single action, inline
+            if (fromInclusive == (toExclusive - 1))
+            {
+                body(fromInclusive);
+                return;
+            }
+
+            // Common case
             if (parallel)
             {
 #if SILVERLIGHT
@@ -353,6 +367,20 @@ namespace MathNet.Numerics.Threading
         /// <exception cref="AggregateException">An action threw an exception.</exception>
         public static void Invoke(params Action[] actions)
         {
+            // Special case: no action
+            if (actions.Length == 0)
+            {
+                return;
+            }
+
+            // Special case: single action, inline
+            if (actions.Length == 1)
+            {
+                actions[0]();
+                return;
+            }
+
+            // Common case
             var maxThreads = Control.DisableParallelization ? 1 : Control.NumberOfParallelWorkerThreads;
 #if SILVERLIGHT
             Parallel.Invoke(actions);
