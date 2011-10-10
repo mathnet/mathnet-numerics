@@ -1290,6 +1290,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         #region System.Object override
 
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            if (Count > 20)
+            {
+                return String.Format("SparseVectorOfComplex32({0},{1},{2})", Count, NonZerosCount, GetHashCode());
+            }
+
+            return base.ToString(format, formatProvider);
+        }
+
         /// <summary>
         /// Check equality. If this is regular vector, then check by base implementation. If Sparse - use own method.
         /// </summary>
