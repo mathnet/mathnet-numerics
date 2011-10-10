@@ -88,6 +88,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             }
         }
 
+        [Theory, Timeout(100)]
+        public void CanAddTwoVectorsInplace(Vector<Complex> a, Vector<Complex> b)
+        {
+            Assume.That(a.Count, Is.EqualTo(b.Count));
+
+            var hasha = a.GetHashCode();
+            var hashb = b.GetHashCode();
+
+            var result = a.Clone();
+            result.Add(b, result);
+
+            Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
+            Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
+            Assert.That(result, Is.Not.SameAs(a));
+            Assert.That(result, Is.Not.SameAs(b));
+
+            for (var i = 0; i < Math.Min(a.Count, 20); i++)
+            {
+                Assert.That(result[i], Is.EqualTo(a[i] + b[i]));
+            }
+        }
+
         [Theory, Pairwise, Timeout(100)]
         public void CanSubtractTwoVectorsUsingOperator(Vector<Complex> a, Vector<Complex> b)
         {
@@ -97,6 +119,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             var hashb = b.GetHashCode();
 
             var result = a - b;
+
+            Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
+            Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
+            Assert.That(result, Is.Not.SameAs(a));
+            Assert.That(result, Is.Not.SameAs(b));
+
+            for (var i = 0; i < Math.Min(a.Count, 20); i++)
+            {
+                Assert.That(result[i], Is.EqualTo(a[i] - b[i]));
+            }
+        }
+
+        [Theory, Timeout(100)]
+        public void CanSubtractTwoVectorsInplace(Vector<Complex> a, Vector<Complex> b)
+        {
+            Assume.That(a.Count, Is.EqualTo(b.Count));
+
+            var hasha = a.GetHashCode();
+            var hashb = b.GetHashCode();
+
+            var result = a.Clone();
+            result.Subtract(b, result);
 
             Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
             Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
