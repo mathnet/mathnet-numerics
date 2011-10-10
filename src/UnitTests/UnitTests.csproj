@@ -132,6 +132,7 @@
     <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\DenseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -246,6 +247,7 @@
     <Compile Include="LinearAlgebraTests\Complex32\SparseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -264,6 +266,7 @@
     <Compile Include="LinearAlgebraTests\Complex32\UserDefinedVectorTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\VectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\VectorTests.Arithmetic.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -276,6 +279,7 @@
     <Compile Include="LinearAlgebraTests\Complex\DenseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\DenseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex\DenseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -390,6 +394,7 @@
     <Compile Include="LinearAlgebraTests\Complex\SparseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -408,6 +413,7 @@
     <Compile Include="LinearAlgebraTests\Complex\UserDefinedVectorTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\VectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.Arithmetic.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -417,6 +423,7 @@
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.Norm.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Double\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -426,6 +433,7 @@
     <Compile Include="LinearAlgebraTests\Double\DenseVectorTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Double\DenseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\DiagonalMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -564,6 +572,7 @@
     <Compile Include="LinearAlgebraTests\Single\DenseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Single\DenseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseVectorTest.TextHandling.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -678,6 +687,7 @@
     <Compile Include="LinearAlgebraTests\Single\SparseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Single\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -696,6 +706,7 @@
     <Compile Include="LinearAlgebraTests\Single\UserDefinedVectorTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Single\VectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Single\VectorTests.Arithmetic.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -705,6 +716,7 @@
     <Compile Include="LinearAlgebraTests\Single\VectorTests.Norm.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Double\VectorArithmeticTheory.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />
