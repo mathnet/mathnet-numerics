@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     [TestFixture]
     public abstract class VectorArithmeticTheory
     {
-        [Theory, Timeout(100)]
+        [Theory] //, Timeout(100)]
         public void CanCallUnaryPlusOperatorOnVector(Vector<double> vector)
         {
             var hash = vector.GetHashCode();
@@ -46,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
             Assert.That(result, Is.Not.SameAs(vector));
-            Assert.That(result, Is.EqualTo(vector));
+            Assert.That(result.Equals(vector));
         }
 
         [Theory, Timeout(100)]
@@ -58,11 +58,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
             Assert.That(result, Is.Not.SameAs(vector));
-            Assert.That(-result, Is.EqualTo(vector));
+            Assert.That((-result).Equals(vector));
 
             for (var i = 0; i < Math.Min(vector.Count, 20); i++)
             {
-                Assert.That(result[i], Is.EqualTo(-vector[i]));
+                Assert.That(result[i], Is.EqualTo(-vector[i]), i.ToString());
             }
         }
 
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {
-                Assert.That(result[i], Is.EqualTo(a[i] + b[i]));
+                Assert.That(result[i], Is.EqualTo(a[i] + b[i]), i.ToString());
             }
         }
 
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {
-                Assert.That(result[i], Is.EqualTo(a[i] + b[i]));
+                Assert.That(result[i], Is.EqualTo(a[i] + b[i]), i.ToString());
             }
         }
 
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {
-                Assert.That(result[i], Is.EqualTo(a[i] - b[i]));
+                Assert.That(result[i], Is.EqualTo(a[i] - b[i]), i.ToString());
             }
         }
 
@@ -148,7 +148,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {
-                Assert.That(result[i], Is.EqualTo(a[i] - b[i]));
+                Assert.That(result[i], Is.EqualTo(a[i] - b[i]), i.ToString());
             }
         }
     }
