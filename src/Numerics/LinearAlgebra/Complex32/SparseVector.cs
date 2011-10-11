@@ -433,18 +433,73 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </param>
         protected override void DoAdd(Vector<Complex32> other, Vector<Complex32> result)
         {
-            if (ReferenceEquals(this, result))
+            var otherSparse = other as SparseVector;
+            if (otherSparse == null)
             {
-                CommonParallel.For(
-                    0,
-                    NonZerosCount,
-                    index => _nonZeroValues[index] += _nonZeroValues[index]);
+                base.DoAdd(other, result);
+                return;
+            }
+
+            var resultSparse = result as SparseVector;
+            if (resultSparse == null)
+            {
+                base.DoAdd(other, result);
+                return;
+            }
+
+            // TODO (ruegg, 2011-10-11): Options to optimize?
+
+            if (ReferenceEquals(this, resultSparse))
+            {
+                int i = 0, j = 0;
+                while (i < NonZerosCount || j < otherSparse.NonZerosCount)
+                {
+                    if (i < NonZerosCount && j < otherSparse.NonZerosCount && _nonZeroIndices[i] == otherSparse._nonZeroIndices[j])
+                    {
+                        _nonZeroValues[i++] += otherSparse._nonZeroValues[j++];
+                    }
+                    else if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] < otherSparse._nonZeroIndices[j])
+                    {
+                        _nonZeroValues[i] += otherSparse.At(_nonZeroIndices[i]);
+                        i++;
+                    }
+                    else
+                    {
+                        var otherValue = otherSparse._nonZeroValues[j];
+                        if (otherValue != Complex32.Zero)
+                        {
+                            InsertAtUnchecked(i++, otherSparse._nonZeroIndices[j], otherValue);
+                        }
+                        j++;
+                    }
+                }
             }
             else
             {
-                for (var index = 0; index < Count; index++)
+                result.Clear();
+                int i = 0, j = 0, last = -1;
+                while (i < NonZerosCount || j < otherSparse.NonZerosCount)
                 {
-                    result.At(index, At(index) + other.At(index));
+                    if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] <= otherSparse._nonZeroIndices[j])
+                    {
+                        var next = _nonZeroIndices[i];
+                        if (next != last)
+                        {
+                            last = next;
+                            result.At(next, _nonZeroValues[i] + otherSparse.At(next));
+                        }
+                        i++;
+                    }
+                    else
+                    {
+                        var next = otherSparse._nonZeroIndices[j];
+                        if (next != last)
+                        {
+                            last = next;
+                            result.At(next, At(next) + otherSparse._nonZeroValues[j]);
+                        }
+                        j++;
+                    }
                 }
             }
         }
