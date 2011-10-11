@@ -67,7 +67,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             }
         }
 
-        [Theory, Pairwise, Timeout(100)]
+        [Theory, Timeout(100)]
         public void CanAddTwoVectorsUsingOperator(Vector<Complex32> a, Vector<Complex32> b)
         {
             Assume.That(a.Count, Is.EqualTo(b.Count));
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             }
         }
 
-        [Theory, Pairwise, Timeout(100)]
+        [Theory, Timeout(100)]
         public void CanSubtractTwoVectorsUsingOperator(Vector<Complex32> a, Vector<Complex32> b)
         {
             Assume.That(a.Count, Is.EqualTo(b.Count));

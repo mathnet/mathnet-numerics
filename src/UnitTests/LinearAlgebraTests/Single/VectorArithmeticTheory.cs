@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
-        [Theory, Pairwise, Timeout(100)]
+        [Theory, Timeout(100)]
         public void CanAddTwoVectorsUsingOperator(Vector<float> a, Vector<float> b)
         {
             Assume.That(a.Count, Is.EqualTo(b.Count));
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             }
         }
 
-        [Theory, Pairwise, Timeout(100)]
+        [Theory, Timeout(100)]
         public void CanSubtractTwoVectorsUsingOperator(Vector<float> a, Vector<float> b)
         {
             Assume.That(a.Count, Is.EqualTo(b.Count));
