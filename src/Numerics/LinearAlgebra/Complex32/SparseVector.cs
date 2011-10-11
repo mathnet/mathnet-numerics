@@ -1301,45 +1301,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Check equality. If this is regular vector, then check by base implementation. If Sparse - use own method.
-        /// </summary>
-        /// <param name="obj">Object to compare</param>
-        /// <returns>
-        /// <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            var sparseVector = obj as SparseVector;
-
-            if (sparseVector == null)
-            {
-                return base.Equals(obj);
-            }
-
-            // Accept if the argument is the same object as this.
-            if (ReferenceEquals(this, sparseVector))
-            {
-                return true;
-            }
-
-            if ((Count != sparseVector.Count) || (NonZerosCount != sparseVector.NonZerosCount))
-            {
-                return false;
-            }
-
-            // If all else fails, perform element wise comparison.
-            for (var index = 0; index < NonZerosCount; index++)
-            {
-                if (!_nonZeroValues[index].AlmostEqual(sparseVector._nonZeroValues[index]) || (_nonZeroIndices[index] != sparseVector._nonZeroIndices[index]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
@@ -1362,6 +1323,58 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         #endregion
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">
+        /// An object to compare with this object.
+        /// </param>
+        /// <returns>
+        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool Equals(Vector<Complex32> other)
+        {
+            // Reject equality when the argument is null or has a different length.
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (Count != other.Count)
+            {
+                return false;
+            }
+
+            // Accept if the argument is the same object as this.
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            var sparseVector = other as SparseVector;
+
+            if (sparseVector == null)
+            {
+                return base.Equals(other);
+            }
+
+            if (NonZerosCount != sparseVector.NonZerosCount)
+            {
+                return false;
+            }
+
+            // If all else fails, perform element wise comparison.
+            for (var index = 0; index < NonZerosCount; index++)
+            {
+                if (!_nonZeroValues[index].AlmostEqual(sparseVector._nonZeroValues[index]) || (_nonZeroIndices[index] != sparseVector._nonZeroIndices[index]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Returns an <see cref="IEnumerator{T}"/> that contains the position and value of the element.
