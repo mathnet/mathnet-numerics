@@ -430,7 +430,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     }
                     else if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] < otherSparse._nonZeroIndices[j])
                     {
-                        _nonZeroValues[i] += otherSparse.At(_nonZeroIndices[i]);
                         i++;
                     }
                     else
@@ -577,7 +576,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     }
                     else if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] < otherSparse._nonZeroIndices[j])
                     {
-                        _nonZeroValues[i] -= otherSparse.At(_nonZeroIndices[i]);
                         i++;
                     }
                     else
