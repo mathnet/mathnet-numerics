@@ -1251,7 +1251,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
                     NonZerosCount -= 1;
 
-                    // Check if the storage needs to be shrink. This is reasonable to do if 
+                    // Check if the storage needs to be shrink. This is reasonable to do if
                     // there are a lot of non-zero elements and storage is two times bigger
                     if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroIndices.Length / 2))
                     {
@@ -1266,39 +1266,40 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                if (value == 0.0)
+                if (value != 0.0)
                 {
-                    return;
+                    InsertAtUnchecked(~itemIndex, index, value);
                 }
-
-                itemIndex = ~itemIndex; // Index where to put new value
-
-                // Check if the storage needs to be increased
-                if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < Count))
-                {
-                    // Value and Indices arrays are completely full so we increase the size
-                    var size = Math.Min(_nonZeroValues.Length + GrowthSize(), Count);
-                    Array.Resize(ref _nonZeroValues, size);
-                    Array.Resize(ref _nonZeroIndices, size);
-                }
-
-                // Move all values (with an position larger than index) in the value array 
-                // to the next position
-                // move all values (with an position larger than index) in the columIndices 
-                // array to the next position
-                for (var i = NonZerosCount - 1; i > itemIndex - 1; i--)
-                {
-                    _nonZeroValues[i + 1] = _nonZeroValues[i];
-                    _nonZeroIndices[i + 1] = _nonZeroIndices[i];
-                }
-
-                // Add the value and the column index
-                _nonZeroValues[itemIndex] = value;
-                _nonZeroIndices[itemIndex] = index;
-
-                // increase the number of non-zero numbers by one
-                NonZerosCount += 1;
             }
+        }
+
+        private void InsertAtUnchecked(int itemIndex, int index, float value)
+        {
+            // Check if the storage needs to be increased
+            if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < Count))
+            {
+                // Value and Indices arrays are completely full so we increase the size
+                var size = Math.Min(_nonZeroValues.Length + GrowthSize(), Count);
+                Array.Resize(ref _nonZeroValues, size);
+                Array.Resize(ref _nonZeroIndices, size);
+            }
+
+            // Move all values (with an position larger than index) in the value array
+            // to the next position
+            // Move all values (with an position larger than index) in the columIndices
+            // array to the next position
+            for (var i = NonZerosCount - 1; i > itemIndex - 1; i--)
+            {
+                _nonZeroValues[i + 1] = _nonZeroValues[i];
+                _nonZeroIndices[i + 1] = _nonZeroIndices[i];
+            }
+
+            // Add the value and the column index
+            _nonZeroValues[itemIndex] = value;
+            _nonZeroIndices[itemIndex] = index;
+
+            // increase the number of non-zero numbers by one
+            NonZerosCount += 1;
         }
 
         /// <summary>
