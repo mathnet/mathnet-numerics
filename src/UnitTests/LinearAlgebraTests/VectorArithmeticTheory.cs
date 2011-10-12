@@ -43,117 +43,104 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         private T Subtract(T first, T second) { return Add(first, Minus(second)); }
 
         [Theory, Timeout(100)]
-        public void CanCloneVectorUsingUnaryPlusOperator(Vector<T> vector)
+        public void CanPlusVector(Vector<T> vector)
         {
             var hash = vector.GetHashCode();
 
-            var result = +vector;
+            var result1 = +vector;
+            var result2 = vector.Plus();
 
             Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
-            Assert.That(result, Is.Not.SameAs(vector));
-            Assert.That(result.Equals(vector));
+            Assert.That(result1, Is.Not.SameAs(vector));
+            Assert.That(result1.Equals(vector));
+            Assert.That(result2, Is.Not.SameAs(vector));
+            Assert.That(result2.Equals(vector));
+            Assert.That(result1.Equals(result2));
         }
 
         [Theory, Timeout(100)]
-        public void CanNegateVectorUsingUnaryMinusOperator(Vector<T> vector)
+        public void CanNegateVector(Vector<T> vector)
         {
             var hash = vector.GetHashCode();
 
-            var result = -vector;
+            var result1 = -vector;
+            var result2 = vector.Negate();
 
             Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
-            Assert.That(result, Is.Not.SameAs(vector));
-            Assert.That((-result).Equals(vector));
+            Assert.That(result1, Is.Not.SameAs(vector));
+            Assert.That((-result1).Equals(vector));
+            Assert.That(result2, Is.Not.SameAs(vector));
+            Assert.That((-result2).Equals(vector));
+            Assert.That(result1.Equals(result2));
 
             for (var i = 0; i < Math.Min(vector.Count, 20); i++)
             {
-                Assert.That(result[i], Is.EqualTo(Minus(vector[i])), i.ToString());
+                Assert.That(result1[i], Is.EqualTo(Minus(vector[i])), i.ToString());
+                Assert.That(result2[i], Is.EqualTo(Minus(vector[i])), i.ToString());
             }
         }
 
         [Theory, Timeout(100)]
-        public void CanAddTwoVectorsUsingOperator(Vector<T> a, Vector<T> b)
+        public void CanAddTwoVectors(Vector<T> a, Vector<T> b)
         {
             Assume.That(a.Count, Is.EqualTo(b.Count));
 
             var hasha = a.GetHashCode();
             var hashb = b.GetHashCode();
 
-            var result = a + b;
+            var result1 = a + b;
+            var result2 = a.Add(b);
+            var result3 = a.Clone();
+            result3.Add(b, result3);
 
             Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
             Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
-            Assert.That(result, Is.Not.SameAs(a));
-            Assert.That(result, Is.Not.SameAs(b));
+            Assert.That(result1, Is.Not.SameAs(a));
+            Assert.That(result1, Is.Not.SameAs(b));
+            Assert.That(result2, Is.Not.SameAs(a));
+            Assert.That(result2, Is.Not.SameAs(b));
+            Assert.That(result3, Is.Not.SameAs(a));
+            Assert.That(result3, Is.Not.SameAs(b));
+            Assert.That(result1.Equals(result2));
+            Assert.That(result1.Equals(result3));
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {
-                Assert.That(result[i], Is.EqualTo(Add(a[i], b[i])), i.ToString());
+                Assert.That(result1[i], Is.EqualTo(Add(a[i], b[i])), i.ToString());
+                Assert.That(result2[i], Is.EqualTo(Add(a[i], b[i])), i.ToString());
+                Assert.That(result3[i], Is.EqualTo(Add(a[i], b[i])), i.ToString());
             }
         }
 
         [Theory, Timeout(100)]
-        public void CanAddTwoVectorsInplace(Vector<T> a, Vector<T> b)
+        public void CanSubtractTwoVectors(Vector<T> a, Vector<T> b)
         {
             Assume.That(a.Count, Is.EqualTo(b.Count));
 
             var hasha = a.GetHashCode();
             var hashb = b.GetHashCode();
 
-            var result = a.Clone();
-            result.Add(b, result);
+            var result1 = a - b;
+            var result2 = a.Subtract(b);
+            var result3 = a.Clone();
+            result3.Subtract(b, result3);
 
             Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
             Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
-            Assert.That(result, Is.Not.SameAs(a));
-            Assert.That(result, Is.Not.SameAs(b));
+            Assert.That(result1, Is.Not.SameAs(a));
+            Assert.That(result1, Is.Not.SameAs(b));
+            Assert.That(result2, Is.Not.SameAs(a));
+            Assert.That(result2, Is.Not.SameAs(b));
+            Assert.That(result3, Is.Not.SameAs(a));
+            Assert.That(result3, Is.Not.SameAs(b));
+            Assert.That(result1.Equals(result2));
+            // Assert.That(result1.Equals(result3)); BUG GH-21
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {
-                Assert.That(result[i], Is.EqualTo(Add(a[i], b[i])), i.ToString());
-            }
-        }
-
-        [Theory, Timeout(100)]
-        public void CanSubtractTwoVectorsUsingOperator(Vector<T> a, Vector<T> b)
-        {
-            Assume.That(a.Count, Is.EqualTo(b.Count));
-
-            var hasha = a.GetHashCode();
-            var hashb = b.GetHashCode();
-
-            var result = a - b;
-
-            Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
-            Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
-            Assert.That(result, Is.Not.SameAs(a));
-            Assert.That(result, Is.Not.SameAs(b));
-
-            for (var i = 0; i < Math.Min(a.Count, 20); i++)
-            {
-                Assert.That(result[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString());
-            }
-        }
-
-        [Theory, Timeout(100)]
-        public void CanSubtractTwoVectorsInplace(Vector<T> a, Vector<T> b)
-        {
-            Assume.That(a.Count, Is.EqualTo(b.Count));
-
-            var hasha = a.GetHashCode();
-            var hashb = b.GetHashCode();
-
-            var result = a.Clone();
-            result.Subtract(b, result);
-
-            Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
-            Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
-            Assert.That(result, Is.Not.SameAs(a));
-            Assert.That(result, Is.Not.SameAs(b));
-
-            for (var i = 0; i < Math.Min(a.Count, 20); i++)
-            {
-                Assert.That(result[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString());
+                Assert.That(result1[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString());
+                Assert.That(result2[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString());
+                Assert.That(result3[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString());
             }
         }
     }
