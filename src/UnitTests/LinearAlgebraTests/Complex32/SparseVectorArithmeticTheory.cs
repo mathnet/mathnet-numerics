@@ -46,5 +46,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 new SparseVector(5),
                 new SparseVector(int.MaxValue)
             };
+
+        [Datapoints]
+        private Complex32[] scalars = new[] { new Complex32(2f, -1f) };
     }
 }

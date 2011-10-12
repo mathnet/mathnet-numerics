@@ -44,5 +44,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
                 new DenseVector(new[] { new Complex32(1, 1), new Complex32(2, 1), new Complex32(3, 1), new Complex32(4, 1), new Complex32(5, 1) }),
                 new DenseVector(new[] { new Complex32(2, -1), new Complex32(0, 0), new Complex32(0, 2), new Complex32(-5, 1), new Complex32(0, 0) })
             };
+
+        [Datapoints]
+        private Complex32[] scalars = new[] { new Complex32(2f, -1f) };
     }
 }

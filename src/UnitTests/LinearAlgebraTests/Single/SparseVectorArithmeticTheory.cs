@@ -45,5 +45,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
                 new SparseVector(5),
                 new SparseVector(int.MaxValue)
             };
+
+        [Datapoints]
+        private float[] scalars = new[] { 2f };
     }
 }
