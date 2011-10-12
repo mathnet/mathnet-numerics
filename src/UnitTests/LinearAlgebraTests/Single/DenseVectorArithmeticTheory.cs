@@ -43,5 +43,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
                 new DenseVector(new float[] { 1, 2, 3, 4, 5 }),
                 new DenseVector(new float[] { 2, 0, 0, -5, 0 }),
             };
+
+        [Datapoints]
+        private float[] scalars = new[] { 2f };
     }
 }

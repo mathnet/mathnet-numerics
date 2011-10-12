@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
         }
 
-        [Theory, Timeout(100)]
+        [Theory, Timeout(200)]
         public void CanAddTwoVectors(Vector<T> a, Vector<T> b)
         {
             Assume.That(a.Count, Is.EqualTo(b.Count));
@@ -113,6 +113,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(100)]
+        public void CanAddScalarToVector(Vector<T> vector, T scalar)
+        {
+            Assume.That(vector.Count, Is.LessThan(100));
+
+            var hash = vector.GetHashCode();
+
+            var result1 = vector.Add(scalar);
+            var result2 = vector.Clone();
+            result2.Add(scalar, result2);
+
+            Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
+            Assert.That(result1, Is.Not.SameAs(vector));
+            Assert.That(result2, Is.Not.SameAs(vector));
+            Assert.That(result1.Equals(result2));
+
+            for (var i = 0; i < Math.Min(vector.Count, 20); i++)
+            {
+                Assert.That(result1[i], Is.EqualTo(Add(vector[i], scalar)), i.ToString());
+                Assert.That(result2[i], Is.EqualTo(Add(vector[i], scalar)), i.ToString());
+            }
+        }
+
+        [Theory, Timeout(200)]
         public void CanSubtractTwoVectors(Vector<T> a, Vector<T> b)
         {
             Assume.That(a.Count, Is.EqualTo(b.Count));
@@ -141,6 +164,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 Assert.That(result1[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString());
                 Assert.That(result2[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString());
                 Assert.That(result3[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString());
+            }
+        }
+
+        [Theory, Timeout(100)]
+        public void CanSubtractScalarFromVector(Vector<T> vector, T scalar)
+        {
+            Assume.That(vector.Count, Is.LessThan(100));
+
+            var hash = vector.GetHashCode();
+
+            var result1 = vector.Subtract(scalar);
+            var result2 = vector.Clone();
+            result2.Subtract(scalar, result2);
+
+            Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
+            Assert.That(result1, Is.Not.SameAs(vector));
+            Assert.That(result2, Is.Not.SameAs(vector));
+            Assert.That(result1.Equals(result2));
+
+            for (var i = 0; i < Math.Min(vector.Count, 20); i++)
+            {
+                Assert.That(result1[i], Is.EqualTo(Subtract(vector[i], scalar)), i.ToString());
+                Assert.That(result2[i], Is.EqualTo(Subtract(vector[i], scalar)), i.ToString());
             }
         }
     }
