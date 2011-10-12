@@ -1350,22 +1350,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 // Item already exist at itemIndex
                 if (value == 0.0)
                 {
-                    // Value is zero. Let's delete it from Values and Indices array
-                    for (var i = itemIndex + 1; i < NonZerosCount; i++)
-                    {
-                        _nonZeroValues[i - 1] = _nonZeroValues[i];
-                        _nonZeroIndices[i - 1] = _nonZeroIndices[i];
-                    }
-
-                    NonZerosCount -= 1;
-
-                    // Check if the storage needs to be shrink. This is reasonable to do if
-                    // there are a lot of non-zero elements and storage is two times bigger
-                    if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroIndices.Length / 2))
-                    {
-                        Array.Resize(ref _nonZeroValues, NonZerosCount);
-                        Array.Resize(ref _nonZeroIndices, NonZerosCount);
-                    }
+                    RemoveAtUnchecked(itemIndex);
                 }
                 else
                 {
@@ -1408,6 +1393,26 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             // increase the number of non-zero numbers by one
             NonZerosCount += 1;
+        }
+
+        private void RemoveAtUnchecked(int itemIndex)
+        {
+            // Value is zero. Let's delete it from Values and Indices array
+            for (var i = itemIndex + 1; i < NonZerosCount; i++)
+            {
+                _nonZeroValues[i - 1] = _nonZeroValues[i];
+                _nonZeroIndices[i - 1] = _nonZeroIndices[i];
+            }
+
+            NonZerosCount -= 1;
+
+            // Check if the storage needs to be shrink. This is reasonable to do if
+            // there are a lot of non-zero elements and storage is two times bigger
+            if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroIndices.Length / 2))
+            {
+                Array.Resize(ref _nonZeroValues, NonZerosCount);
+                Array.Resize(ref _nonZeroIndices, NonZerosCount);
+            }
         }
 
         /// <summary>
