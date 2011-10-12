@@ -717,6 +717,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LinearAlgebraTests\Double\VectorArithmeticTheory.cs" />
+    <Compile Include="LinearAlgebraTests\VectorArithmeticTheory.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTest.cs" />
     <Compile Include="NumberTheoryTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="NumberTheoryTests\IntegerTheoryTest.cs" />

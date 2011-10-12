@@ -30,127 +30,13 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
-    using System;
-    using LinearAlgebra.Generic;
     using Numerics;
     using NUnit.Framework;
 
     [TestFixture]
-    public abstract class VectorArithmeticTheory
+    public abstract class VectorArithmeticTheory : VectorArithmeticTheory<Complex32>
     {
-        [Theory, Timeout(100)]
-        public void CanCallUnaryPlusOperatorOnVector(Vector<Complex32> vector)
-        {
-            var hash = vector.GetHashCode();
-
-            var result = +vector;
-
-            Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
-            Assert.That(result, Is.Not.SameAs(vector));
-            Assert.That(result.Equals(vector));
-        }
-
-        [Theory, Timeout(100)]
-        public void CanCallUnaryMinusOperatorOnVector(Vector<Complex32> vector)
-        {
-            var hash = vector.GetHashCode();
-
-            var result = -vector;
-
-            Assert.That(vector.GetHashCode(), Is.EqualTo(hash));
-            Assert.That(result, Is.Not.SameAs(vector));
-            Assert.That((-result).Equals(vector));
-
-            for (var i = 0; i < Math.Min(vector.Count, 20); i++)
-            {
-                Assert.That(result[i], Is.EqualTo(-vector[i]), i.ToString());
-            }
-        }
-
-        [Theory, Timeout(100)]
-        public void CanAddTwoVectorsUsingOperator(Vector<Complex32> a, Vector<Complex32> b)
-        {
-            Assume.That(a.Count, Is.EqualTo(b.Count));
-
-            var hasha = a.GetHashCode();
-            var hashb = b.GetHashCode();
-
-            var result = a + b;
-
-            Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
-            Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
-            Assert.That(result, Is.Not.SameAs(a));
-            Assert.That(result, Is.Not.SameAs(b));
-
-            for (var i = 0; i < Math.Min(a.Count, 20); i++)
-            {
-                Assert.That(result[i], Is.EqualTo(a[i] + b[i]), i.ToString());
-            }
-        }
-
-        [Theory, Timeout(100)]
-        public void CanAddTwoVectorsInplace(Vector<Complex32> a, Vector<Complex32> b)
-        {
-            Assume.That(a.Count, Is.EqualTo(b.Count));
-
-            var hasha = a.GetHashCode();
-            var hashb = b.GetHashCode();
-
-            var result = a.Clone();
-            result.Add(b, result);
-
-            Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
-            Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
-            Assert.That(result, Is.Not.SameAs(a));
-            Assert.That(result, Is.Not.SameAs(b));
-
-            for (var i = 0; i < Math.Min(a.Count, 20); i++)
-            {
-                Assert.That(result[i], Is.EqualTo(a[i] + b[i]), i.ToString());
-            }
-        }
-
-        [Theory, Timeout(100)]
-        public void CanSubtractTwoVectorsUsingOperator(Vector<Complex32> a, Vector<Complex32> b)
-        {
-            Assume.That(a.Count, Is.EqualTo(b.Count));
-
-            var hasha = a.GetHashCode();
-            var hashb = b.GetHashCode();
-
-            var result = a - b;
-
-            Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
-            Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
-            Assert.That(result, Is.Not.SameAs(a));
-            Assert.That(result, Is.Not.SameAs(b));
-
-            for (var i = 0; i < Math.Min(a.Count, 20); i++)
-            {
-                Assert.That(result[i], Is.EqualTo(a[i] - b[i]), i.ToString());
-            }
-        }
-
-        [Theory, Timeout(100)]
-        public void CanSubtractTwoVectorsInplace(Vector<Complex32> a, Vector<Complex32> b)
-        {
-            Assume.That(a.Count, Is.EqualTo(b.Count));
-
-            var hasha = a.GetHashCode();
-            var hashb = b.GetHashCode();
-
-            var result = a.Clone();
-            result.Subtract(b, result);
-
-            Assert.That(a.GetHashCode(), Is.EqualTo(hasha));
-            Assert.That(b.GetHashCode(), Is.EqualTo(hashb));
-            Assert.That(result, Is.Not.SameAs(a));
-            Assert.That(result, Is.Not.SameAs(b));
-
-            for (var i = 0; i < Math.Min(a.Count, 20); i++)
-            {
-                Assert.That(result[i], Is.EqualTo(a[i] - b[i]), i.ToString());
-            }
-        }
+        protected override Complex32 Minus(Complex32 value) { return -value; }
+        protected override Complex32 Add(Complex32 first, Complex32 second) { return first + second; }
     }
 }
