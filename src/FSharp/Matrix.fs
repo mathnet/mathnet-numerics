@@ -128,7 +128,7 @@ module Matrix =
     
     /// Map every matrix column into an element in a sequence using the given position dependent function.
     let inline mapCols (f: int -> Vector<float> -> 'a) (A: #Matrix<float>) =
-        A.ColumnEnumerator() |> Seq.map (fun (j, row) -> f j row)
+        A.ColumnEnumerator() |> Seq.map (fun (j, col) -> f j col)
 
     /// Map every matrix row into an element in a sequence using the given position dependent function.
     let inline mapRows (f: int -> Vector<float> -> 'a) (A: #Matrix<float>) =

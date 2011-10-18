@@ -125,6 +125,10 @@ let MatrixTests =
             (Matrix.map (fun x -> 2.0 * x) smallM |> should equal (2.0 * smallM))
         spec "Matrix.mapi"
             (Matrix.mapi (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM))
+        spec "Matrix.mapCols"
+            (Matrix.mapCols (fun j col -> col.[0] + col.[1]) largeM |> Seq.toArray |> should array_equal [| for j in 0.0 .. 99.0 -> 2.0 * j + 100.0 |])
+        spec "Matrix.mapRows"
+            (Matrix.mapRows (fun i row -> row.[0] + row.[1]) largeM |> Seq.toArray |> should array_equal [| for i in 0.0 .. 99.0 -> 2.0 * 100.0 * i + 1.0 |])
         spec "Matrix.inplaceAssign"
             ( let N = smallM.Clone()
               Matrix.inplaceAssign (fun i j -> 0.0) N
@@ -137,6 +141,10 @@ let MatrixTests =
             (Seq.length (Matrix.nonZeroEntries smallM) |> should equal 4)
         spec "Matrix.sum"
             (Matrix.sum smallM |> should equal 1.2)
+        spec "Matrix.sumColsBy"
+            (Matrix.sumColsBy (fun j col -> col.[0] * col.[1]) (matrix [[1.0; 2.0]; [3.0; 4.0]]) |> should equal 11.0)
+        spec "Matrix.sumRowsBy"
+            (Matrix.sumRowsBy (fun i row -> row.[0] * row.[1]) (matrix [[1.0; 2.0]; [3.0; 4.0]]) |> should equal 14.0)
         spec "Matrix.foldCol"
             (Matrix.foldCol (+) 0.0 largeM 0 |> should equal 495000.0)
         spec "Matrix.foldRow"
