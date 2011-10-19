@@ -46,6 +46,16 @@ module Matrix =
                 acc <- f acc (A.Item(i,j))
         acc
 
+    /// Fold a function over all matrix elements in reverse order.
+    let inline foldBack (f: float -> 'a -> 'a) (acc0: 'a) (A: #Matrix<float>) =
+        let n = A.RowCount
+        let m = A.ColumnCount
+        let mutable acc = acc0
+        for i in n-1 .. -1 .. 0 do
+            for j in n-1 .. -1 .. 0 do
+                acc <- f (A.Item(i,j)) acc
+        acc
+
     /// Fold a matrix by applying a given function to all matrix elements.
     let inline foldi (f: int -> int -> 'a -> float -> 'a) (acc0: 'a) (A: #Matrix<float>) =
         let n = A.RowCount
