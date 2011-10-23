@@ -32,6 +32,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
 open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Generic
+
 /// A module which implements functional vector operations.
 module Vector =
         
@@ -174,3 +175,13 @@ module Vector =
         for i=2 to v.Count do
             p <- f (v.Item(v.Count - i)) p
         p
+
+    /// Creates a new vector and inserts the given value at the given index.
+    let inline insert index value (v: #Vector<float>) =        
+        let newV = new DenseVector(v.Count + 1)                
+        for i = 0 to index - 1 do 
+            newV.Item(i) <- v.Item(i)        
+        newV.Item(index) <- value        
+        for i = index + 1 to v.Count do 
+            newV.Item(i) <- v.Item(i - 1)        
+        newV

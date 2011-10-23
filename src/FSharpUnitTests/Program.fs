@@ -96,6 +96,8 @@ let VectorTests =
             (Vector.reduce (fun acc x -> acc ** x) smallv |> should approximately_equal 14 0.990295218585507)
         spec "Vector.reduceBack"
             (Vector.reduceBack (fun x acc -> x ** acc) smallv |> should approximately_equal 14 0.488911287726319)
+        spec "Vector.insert"
+            (Vector.insert 2 0.5 smallv |> should approximately_vector_equal 14 (new DenseVector ( [|0.3;0.3;0.5;0.3;0.3;0.3|] ) :> Vector<float>) )
     ]
 
 
