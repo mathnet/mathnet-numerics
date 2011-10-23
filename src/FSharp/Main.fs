@@ -40,3 +40,37 @@ module FSharp =
 
     /// Construct a dense vector from a list of floating point numbers.
     let inline vector (lst: list<float>) = DenseVector.ofList lst :> Vector<float>
+
+    type DenseVector with
+
+        /// Supports the slicing syntax 'v.[idx1..idx2]'
+        member v.GetSlice(start, finish) = 
+            let start = match start with None -> 0 | Some i -> i
+            let finish = match finish with None -> v.Count - 1 | Some i -> i
+            v.SubVector(start, finish - start + 1)
+
+        /// Supports the slicing syntax 'v.[idx1..idx2] <- v2'
+        member v.SetSlice(start, finish, vs:Vector<_>) = 
+            let start = match start with None -> 0 | Some i -> i 
+            let finish = match finish with None -> v.Count - 1 | Some i -> i
+            assert (vs.Count = finish - start + 1)
+            for i = start to finish do 
+                v.[i] <- vs.[i-start]
+
+    type DenseMatrix with
+
+        /// Supports the slicing syntax 'A.[idx1..idx2,idx1..idx2]'
+        member m.GetSlice(start1, finish1, start2, finish2) = 
+            let start1 = match start1 with None -> 0 | Some v -> v 
+            let finish1 = match finish1 with None -> m.RowCount - 1 | Some v -> v 
+            let start2 = match start2 with None -> 0 | Some v -> v 
+            let finish2 = match finish2 with None -> m.ColumnCount - 1 | Some v -> v 
+            m.SubMatrix(start1, finish1 - start1 + 1, start2, finish2 - start2 + 1)
+
+        /// Supports the slicing syntax 'A.[idx1..idx2,idx1..idx2] <- B'
+        member m.SetSlice (start1, finish1, start2, finish2, vs:Matrix<_>) = 
+            let start1 = match start1 with None -> 0 | Some i -> i 
+            let finish1 = match finish1 with None -> m.RowCount - 1 | Some i -> i 
+            let start2 = match start2 with None -> 0 | Some i -> i 
+            let finish2 = match finish2 with None -> m.ColumnCount - 1 | Some i -> i 
+            m.SetSubMatrix(start1, finish1 - start1 + 1, start2, finish2 - start2 + 1, vs)

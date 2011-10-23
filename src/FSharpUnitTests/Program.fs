@@ -23,6 +23,12 @@ let DenseVectorTests =
             (DenseVector.rangef 0.0 0.01 0.99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> 0.01 * float i |] ) ))
         spec "DenseVector.range"
             (DenseVector.range 0 99 |> should equal (new DenseVector( [| for i in 0 .. 99 -> float i |] ) ))
+        spec "DenseVector.GetSlice"
+            (largev.[..4] |> should equal (new DenseVector( [| 0.0; 0.01; 0.02; 0.03; 0.04 |] ) ))
+        spec "DenseVector.SetSlice"
+            (let v = largev.Clone() :?> DenseVector
+             v.[97..98] <- new DenseVector( [| 20.0; 30.0 |])
+             v.[96..] |> should equal (new DenseVector( [| 0.96; 20.0; 30.0; 0.99 |] ) ))
     ]
 
 
@@ -191,6 +197,12 @@ let DenseMatrixTests =
             (DenseMatrix.initRow 100 100 (fun i -> (DenseVector.init 100 (fun j -> float i * 100.0 + float j))) |> should equal largeM)
         spec "DenseMatrix.init_col"
             (DenseMatrix.initCol 100 100 (fun j -> (DenseVector.init 100 (fun i -> float i * 100.0 + float j))) |> should equal largeM)
+        spec "DenseMatrix.GetSlice"
+            (largeM.[..4,22..23] |> should equal (matrix [[22.0; 23.0]; [122.0; 123.0]; [222.0; 223.0]; [322.0; 323.0]; [422.0; 423.0]]))
+        spec "DenseMatrix.SetSlice"
+            (let v = largeM.Clone() :?> DenseMatrix
+             v.[97..98,95..96] <- (matrix [[20.0; 30.0]; [40.0; 50.0]])
+             v.[96..,94..97] |> should equal (matrix [[9694.0; 9695.0; 9696.0; 9697.0]; [9794.0; 20.0; 30.0; 9797.0]; [9894.0; 40.0; 50.0; 9897.0]; [9994.0; 9995.0; 9996.0; 9997.0]]))
     ]
     
 
