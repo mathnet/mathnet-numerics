@@ -132,9 +132,9 @@ let MatrixTests =
         spec "Matrix.mapi"
             (Matrix.mapi (fun i j x -> float i * 100.0 + float j + x) largeM |> should equal (2.0 * largeM))
         spec "Matrix.mapCols"
-            (Matrix.mapCols (fun j col -> col.[0] + col.[1]) largeM |> Seq.toArray |> should array_equal [| for j in 0.0 .. 99.0 -> 2.0 * j + 100.0 |])
+            (Matrix.mapCols (fun j col -> col.Add(float j)) smallM |> should approximately_matrix_equal 14 (matrix [[0.3;1.3];[0.3;1.3]]))
         spec "Matrix.mapRows"
-            (Matrix.mapRows (fun i row -> row.[0] + row.[1]) largeM |> Seq.toArray |> should array_equal [| for i in 0.0 .. 99.0 -> 2.0 * 100.0 * i + 1.0 |])
+            (Matrix.mapRows (fun i row -> row.Add(float i)) smallM |> should approximately_matrix_equal 14 (matrix [[0.3;0.3];[1.3;1.3]]))
         spec "Matrix.inplaceAssign"
             ( let N = smallM.Clone()
               Matrix.inplaceAssign (fun i j -> 0.0) N
