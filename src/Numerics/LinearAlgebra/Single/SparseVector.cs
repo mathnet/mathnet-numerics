@@ -1516,25 +1516,40 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return true;
             }
 
-            var sparseVector = other as SparseVector;
-
-            if (sparseVector == null)
+            var otherSparse = other as SparseVector;
+            if (otherSparse == null)
             {
                 return base.Equals(other);
             }
 
-            if (NonZerosCount != sparseVector.NonZerosCount)
+            int i = 0, j = 0;
+            while (i < NonZerosCount || j < otherSparse.NonZerosCount)
             {
-                return false;
-            }
+                if (j >= otherSparse.NonZerosCount || i < NonZerosCount && _nonZeroIndices[i] < otherSparse._nonZeroIndices[j])
+                {
+                    if (_nonZeroValues[i++] != 0f)
+                    {
+                        return false;
+                    }
+                    continue;
+                }
 
-            // If all else fails, perform element wise comparison.
-            for (var index = 0; index < NonZerosCount; index++)
-            {
-                if (!_nonZeroValues[index].AlmostEqual(sparseVector._nonZeroValues[index]) || (_nonZeroIndices[index] != sparseVector._nonZeroIndices[index]))
+                if (i >= NonZerosCount || j < otherSparse.NonZerosCount && otherSparse._nonZeroIndices[j] < _nonZeroIndices[i])
+                {
+                    if (otherSparse._nonZeroValues[j++] != 0f)
+                    {
+                        return false;
+                    }
+                    continue;
+                }
+
+                if (!_nonZeroValues[i].AlmostEqual(otherSparse._nonZeroValues[j]))
                 {
                     return false;
                 }
+
+                i++;
+                j++;
             }
 
             return true;
