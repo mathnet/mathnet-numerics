@@ -42,7 +42,40 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         protected abstract T Add(T first, T second);
         private T Subtract(T first, T second) { return Add(first, Minus(second)); }
 
-        [Theory, Timeout(100)]
+        [Theory, Timeout(200)]
+        public void CanEqualVector(Vector<T> vector, T scalar)
+        {
+            Assert.That(vector.Equals(vector));
+
+            var a = vector.Clone();
+            Assert.That(a, Is.Not.SameAs(vector));
+            Assert.That(a.Equals(vector), Is.True);
+
+            var a0 = a.At(0);
+            var a0Equals = a0.Equals(scalar);
+            a.At(0, scalar);
+            Assert.That(a.Equals(vector), Is.EqualTo(a0Equals));
+            Assert.That(vector.Equals(a), Is.EqualTo(a0Equals));
+
+            var b = vector.Clone();
+            var b1 = b.At(1);
+            var b1Equals = b1.Equals(scalar);
+            b.At(1, scalar);
+            Assert.That(b.Equals(vector), Is.EqualTo(b1Equals));
+            Assert.That(vector.Equals(b), Is.EqualTo(b1Equals));
+
+            Assert.That(a.Equals(b), Is.EqualTo(a0Equals && b1Equals));
+
+            a.At(0, a0);
+            Assert.That(a.Equals(vector), Is.True);
+            Assert.That(vector.Equals(a), Is.True);
+
+            var c = vector.Clone();
+            c.Subtract(vector, c);
+            Assert.That(c.Equals(vector.CreateVector(vector.Count)));
+        }
+
+        [Theory, Timeout(200)]
         public void CanPlusVector(Vector<T> vector)
         {
             var hash = vector.GetHashCode();
@@ -58,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(result1.Equals(result2));
         }
 
-        [Theory, Timeout(100)]
+        [Theory, Timeout(200)]
         public void CanNegateVector(Vector<T> vector)
         {
             var hash = vector.GetHashCode();
@@ -112,7 +145,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
         }
 
-        [Theory, Timeout(100)]
+        [Theory, Timeout(200)]
         public void CanAddScalarToVector(Vector<T> vector, T scalar)
         {
             Assume.That(vector.Count, Is.LessThan(100));
@@ -167,7 +200,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             }
         }
 
-        [Theory, Timeout(100)]
+        [Theory, Timeout(200)]
         public void CanSubtractScalarFromVector(Vector<T> vector, T scalar)
         {
             Assume.That(vector.Count, Is.LessThan(100));
