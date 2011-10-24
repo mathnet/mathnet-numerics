@@ -43,5 +43,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 new DenseVector(new double[] { 1, 2, 3, 4, 5 }),
                 new DenseVector(new double[] { 2, 0, 0, -5, 0 }),
             };
+
+        [Datapoints]
+        private double[] scalars = new[] { 2d };
+
     }
 }
