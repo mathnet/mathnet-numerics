@@ -630,15 +630,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns the conjugate transpose of this matrix.
-        /// </summary>        
-        /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<double> ConjugateTranspose()
-        {
-            return Transpose();
-        }
-
-        /// <summary>
         /// Computes the trace of this matrix.
         /// </summary>
         /// <returns>The trace of this matrix</returns>
