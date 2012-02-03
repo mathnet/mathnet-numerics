@@ -238,7 +238,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (x.RowCount != _m.RowCount || x.ColumnCount != _m.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("x", Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentOutOfRangeException>(x, _m, "x");
             }
 
             var a = x - _m;

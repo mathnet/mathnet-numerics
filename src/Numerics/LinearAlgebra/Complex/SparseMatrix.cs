@@ -275,7 +275,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result);
             }
 
             if (ReferenceEquals(this, result))
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result);
             }
 
             if (ReferenceEquals(this, result))
@@ -471,7 +471,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result);
             }
 
             if (ReferenceEquals(this, result))
@@ -534,7 +534,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result);
             }
 
             if (ReferenceEquals(this, result))
@@ -817,7 +817,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
                 if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixDimensions, "target");
+                    throw DimensionsDontMatch<ArgumentException>(this, target, "target");
                 }
 
                 // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
@@ -1042,7 +1042,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 if (resultSparseMatrix.RowCount != RowCount + lowerSparseMatrix.RowCount || resultSparseMatrix.ColumnCount != ColumnCount + lowerSparseMatrix.ColumnCount)
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                    throw DimensionsDontMatch<ArgumentException>(this, resultSparseMatrix, lowerSparseMatrix);
                 }
 
                 resultSparseMatrix.NonZerosCount = NonZerosCount + lowerSparseMatrix.NonZerosCount;
@@ -1622,7 +1622,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return (SparseMatrix)leftSide.Add(rightSide);
@@ -1669,7 +1669,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return (SparseMatrix)leftSide.Subtract(rightSide);
@@ -1750,7 +1750,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (leftSide.ColumnCount != rightSide.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(leftSide, rightSide);
             }
 
             return (SparseMatrix)leftSide.Multiply(rightSide);
