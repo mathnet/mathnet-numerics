@@ -301,7 +301,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
             }
 
             Matrix<Complex32> result;
@@ -339,12 +339,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
             }
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("result", Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
             }
 
             var diagOther = other as DiagonalMatrix;
@@ -376,7 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
             }
 
             Matrix<Complex32> result;
@@ -414,12 +414,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
             }
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("result", Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "result");
             }
 
             var diagOther = other as DiagonalMatrix;
@@ -547,12 +547,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ColumnCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
             if (result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
             var m = other as DiagonalMatrix;
@@ -589,7 +589,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ColumnCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
             var m = other as DiagonalMatrix;
@@ -621,7 +621,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ColumnCount != rightSide.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "rightSide");
+                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
             if (result == null)
@@ -631,7 +631,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (RowCount != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             if (ReferenceEquals(rightSide, result))
@@ -671,7 +671,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (RowCount != leftSide.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "leftSide");
+                throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
             }
 
             if (result == null)
@@ -681,7 +681,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ColumnCount != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             if (ReferenceEquals(leftSide, result))
@@ -770,7 +770,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (ColumnCount != otherDiagonal.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, otherDiagonal);
             }
 
             var result = (DiagonalMatrix)CreateMatrix(RowCount, other.RowCount);
@@ -809,7 +809,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "target");
+                throw DimensionsDontMatch<ArgumentException>(this, target, "target");
             }
 
             Array.Copy(Data, diagonalTarget.Data, Data.Length);
@@ -1033,7 +1033,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             if (ReferenceEquals(this, result))
@@ -1073,7 +1073,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             result.Clear();
@@ -1103,7 +1103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             result.Clear();
@@ -1138,7 +1138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             result.Clear();
@@ -1373,7 +1373,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (result.RowCount != (RowCount + lower.RowCount) || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, lower, result);
             }
 
             // Clear the result matrix
@@ -1505,7 +1505,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (result.RowCount != RowCount + lower.RowCount || result.ColumnCount != ColumnCount + lower.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, lower, result);
             }
 
             // Clear the result matrix

@@ -247,7 +247,7 @@ namespace MathNet.Numerics.Distributions
 
             if (x.RowCount != p || x.ColumnCount != p)
             {
-                throw new ArgumentOutOfRangeException("x", Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentOutOfRangeException>(x, _s, "x");
             }
 
             var dX = x.Determinant();

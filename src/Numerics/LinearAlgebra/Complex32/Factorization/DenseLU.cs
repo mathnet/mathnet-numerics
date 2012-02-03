@@ -106,7 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             if (input.RowCount != Factors.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factors);
             }
 
             var dinput = input as DenseMatrix;
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             if (input.Count != Factors.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factors);
             }
 
             var dinput = input as DenseVector;

@@ -171,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             if (input.RowCount != CholeskyFactor.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, CholeskyFactor);
             }
 
             input.CopyTo(result);
@@ -232,7 +232,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             if (input.Count != CholeskyFactor.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, CholeskyFactor);
             }
 
             input.CopyTo(result);

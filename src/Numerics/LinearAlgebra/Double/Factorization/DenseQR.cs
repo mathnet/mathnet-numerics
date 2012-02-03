@@ -70,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             if (matrix.RowCount < matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
             MatrixR = matrix.Clone();
@@ -157,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             // Check that x is a column vector with n entries
             if (MatrixR.ColumnCount != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(MatrixR, result);
             }
 
             var dinput = input as DenseVector;
