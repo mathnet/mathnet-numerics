@@ -62,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -86,12 +86,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("other", Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, "other");
             }
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("result", Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, result, "result");
             }
 
             DoAdd(other, result);
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (other.RowCount != RowCount || other.ColumnCount != ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other);
             }
 
             DoSubtract(other, result);
@@ -326,7 +326,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (ColumnCount != rightSide.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "rightSide");
+                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
             if (result == null)
@@ -336,7 +336,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (RowCount != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             if (ReferenceEquals(rightSide, result))
@@ -390,7 +390,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (RowCount != leftSide.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "leftSide");
+                throw DimensionsDontMatch<ArgumentException>(this, leftSide, "leftSide");
             }
 
             if (result == null)
@@ -400,7 +400,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (ColumnCount != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             if (ReferenceEquals(leftSide, result))
@@ -446,14 +446,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("result");
             }
 
-            if (ColumnCount != other.RowCount)
+            if (ColumnCount != other.RowCount || result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if (result.RowCount != RowCount || result.ColumnCount != other.ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
             }
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
@@ -481,10 +476,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             {
                 throw new ArgumentNullException("other");
             }
-
             if (ColumnCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
             var result = CreateMatrix(RowCount, other.ColumnCount);
@@ -520,14 +514,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("result");
             }
 
-            if (ColumnCount != other.ColumnCount)
+            if (ColumnCount != other.ColumnCount || result.RowCount != RowCount || result.ColumnCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if ((result.RowCount != RowCount) || (result.ColumnCount != other.RowCount))
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
             }
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
@@ -558,7 +547,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (ColumnCount != other.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
             var result = CreateMatrix(RowCount, other.RowCount);
@@ -605,7 +594,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (RowCount != rightSide.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "rightSide");
+                throw DimensionsDontMatch<ArgumentException>(this, rightSide, "rightSide");
             }
 
             if (result == null)
@@ -615,7 +604,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (ColumnCount != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             if (ReferenceEquals(rightSide, result))
@@ -658,14 +647,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("result");
             }
 
-            if (RowCount != other.RowCount)
+            if (RowCount != other.RowCount || result.RowCount != ColumnCount || result.ColumnCount != other.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
-            }
-
-            if ((result.RowCount != ColumnCount) || (result.ColumnCount != other.ColumnCount))
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
             }
 
             if (ReferenceEquals(this, result) || ReferenceEquals(other, result))
@@ -696,7 +680,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (RowCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
             var result = CreateMatrix(ColumnCount, other.ColumnCount);
@@ -737,7 +721,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(this, result);
             }
 
             DoNegate(result);
@@ -774,7 +758,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return leftSide.Add(rightSide);
@@ -821,7 +805,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return leftSide.Subtract(rightSide);
@@ -902,7 +886,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (leftSide.ColumnCount != rightSide.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentException>(leftSide, rightSide);
             }
 
             return leftSide.Multiply(rightSide);
@@ -958,7 +942,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "other");
+                throw DimensionsDontMatch<ArgumentException>(this, other, "other");
             }
 
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -987,14 +971,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("result");
             }
 
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
             }
 
             DoPointwiseMultiply(other, result);
@@ -1016,7 +995,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "other");
+                throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
             var result = CreateMatrix(RowCount, ColumnCount);
@@ -1052,14 +1031,9 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("result");
             }
 
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
-            }
-
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
             }
 
             DoPointwiseDivide(other, result);
@@ -1098,7 +1072,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result);
             }
 
             DoModulus(divisor, result);
@@ -1288,7 +1262,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (result.RowCount != (RowCount * other.RowCount) || result.ColumnCount != (ColumnCount * other.ColumnCount))
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(this, other, result);
             }
 
             for (var j = 0; j < ColumnCount; j++)
@@ -1345,5 +1319,68 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             return ret;
         }
+
+        #region Exceptions - possibly move elsewhere?
+
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, Matrix<T> result, string paramName = null) 
+            where TException : Exception
+        {
+            var message = string.Format(Resources.ArgumentMatrixDimensions3, left.RowCount + "x" + left.ColumnCount, right.RowCount + "x" + right.ColumnCount, result.RowCount + "x" + result.ColumnCount);
+            return CreateException<TException>(message, paramName);
+        }
+
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, string paramName = null) 
+            where TException : Exception
+        {
+            var message = string.Format(Resources.ArgumentMatrixDimensions2, left.RowCount + "x" + left.ColumnCount, right.RowCount + "x" + right.ColumnCount);
+            return CreateException<TException>(message, paramName);
+        }
+
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> matrix) 
+            where TException : Exception
+        {
+            var message = string.Format(Resources.ArgumentMatrixDimensions1, matrix.RowCount + "x" + matrix.ColumnCount);
+            return CreateException<TException>(message);
+        }
+
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Vector<T> right, Vector<T> result, string paramName = null)
+            where TException : Exception
+        {
+            return DimensionsDontMatch<TException>(left, right.ToColumnMatrix(), result.ToColumnMatrix(), paramName);
+        }
+
+        public static Exception DimensionsDontMatch<TException>(Matrix<T> left, Vector<T> right, string paramName = null) 
+            where TException : Exception
+        {
+            return DimensionsDontMatch<TException>(left, right.ToColumnMatrix(), paramName);
+        }
+
+        public static Exception DimensionsDontMatch<TException>(Vector<T> left, Matrix<T> right, string paramName = null) 
+            where TException : Exception
+        {
+            return DimensionsDontMatch<TException>(left.ToColumnMatrix(), right, paramName);
+        }
+
+        public static Exception DimensionsDontMatch<TException>(Vector<T> left, Vector<T> right, string paramName = null) 
+            where TException : Exception
+        {
+            return DimensionsDontMatch<TException>(left.ToColumnMatrix(), right.ToColumnMatrix(), paramName);
+        }
+
+        private static Exception CreateException<TException>(string message, string paramName = null) 
+            where TException : Exception
+        {
+            if (typeof(TException) == typeof(ArgumentException))
+            {
+                return new ArgumentException(message, paramName);
+            }
+            if (typeof(TException) == typeof(ArgumentOutOfRangeException))
+            {
+                return new ArgumentOutOfRangeException(paramName, message);
+            }
+            return new Exception(message);
+        }
+
+        #endregion
     }
 }

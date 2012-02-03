@@ -102,7 +102,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             if (input.RowCount != CholeskyFactor.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, CholeskyFactor);
             }
 
             var dinput = input as DenseMatrix;
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             if (input.Count != CholeskyFactor.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, CholeskyFactor);
             }
 
             var dinput = input as DenseVector;

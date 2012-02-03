@@ -138,6 +138,15 @@
   <data name="ArgumentMatrixDimensions" xml:space="preserve">
     <value>Matrix dimensions must agree.</value>
   </data>
+  <data name="ArgumentMatrixDimensions1" xml:space="preserve">
+    <value>Matrix dimensions must agree: {0}.</value>
+  </data>
+  <data name="ArgumentMatrixDimensions2" xml:space="preserve">
+    <value>Matrix dimensions must agree: op1 is {0}, op2 is {1}.</value>
+  </data>
+  <data name="ArgumentMatrixDimensions3" xml:space="preserve">
+    <value>Matrix dimensions must agree: op1 is {0}, op2 is {1}, op3 is {2}.</value>
+  </data>
   <data name="ArgumentMatrixSameRowDimension" xml:space="preserve">
     <value>Matrix row dimensions must agree.</value>
   </data>

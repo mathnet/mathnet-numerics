@@ -616,7 +616,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 
             if (matrix.RowCount != input.RowCount || input.RowCount != result.RowCount || input.ColumnCount != result.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, input, result);
             }
 
             for (var column = 0; column < input.ColumnCount; column++)

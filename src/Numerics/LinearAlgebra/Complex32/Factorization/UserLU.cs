@@ -162,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             if (input.RowCount != Factors.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factors);
             }
 
             // Copy the contents of input to result.
@@ -243,7 +243,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
             if (input.Count != Factors.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factors);
             }
 
             // Copy the contents of input to result.
