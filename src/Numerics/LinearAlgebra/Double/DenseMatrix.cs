@@ -684,7 +684,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return (DenseMatrix)leftSide.Add(rightSide);
@@ -731,7 +731,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return (DenseMatrix)leftSide.Subtract(rightSide);
@@ -812,7 +812,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (leftSide.ColumnCount != rightSide.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return (DenseMatrix)leftSide.Multiply(rightSide);

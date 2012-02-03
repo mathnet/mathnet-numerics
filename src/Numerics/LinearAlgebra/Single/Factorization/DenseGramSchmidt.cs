@@ -65,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             if (matrix.RowCount < matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
             }
 
             MatrixQ = matrix.Clone();
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             // Check that x is a column vector with n entries
             if (MatrixQ.ColumnCount != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(MatrixQ, result);
             }
 
             var dinput = input as DenseVector;
