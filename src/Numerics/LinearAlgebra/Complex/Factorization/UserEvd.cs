@@ -901,7 +901,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             // Check that x is a column vector with n entries
             if (VectorEv.Count != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(VectorEv, result);
             }
 
             if (IsSymmetric)

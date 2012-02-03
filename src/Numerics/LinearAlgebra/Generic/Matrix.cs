@@ -280,7 +280,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "target");
+                throw DimensionsDontMatch<ArgumentException>(this, target);
             }
 
             for (var i = 0; i < RowCount; i++)
@@ -573,7 +573,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             for (var row = 0; row < RowCount; row++)
@@ -619,7 +619,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             for (var row = 0; row < RowCount; row++)
@@ -848,7 +848,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             for (var row = 0; row < RowCount; row++)
@@ -895,7 +895,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             for (var row = 0; row < RowCount; row++)
@@ -1717,7 +1717,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (result.RowCount != (RowCount + lower.RowCount) || result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             for (var i = 0; i < RowCount; i++)
@@ -1779,7 +1779,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (result.RowCount != RowCount + lower.RowCount || result.ColumnCount != ColumnCount + lower.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions, "result");
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
             for (var i = 0; i < RowCount; i++)

@@ -161,7 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             // Check that x is a column vector with n entries
             if (MatrixVT.ColumnCount != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw Matrix.DimensionsDontMatch<ArgumentException>(MatrixVT, result);
             }
 
             var dinput = input as DenseVector;
