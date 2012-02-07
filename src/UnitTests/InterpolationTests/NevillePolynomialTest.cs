@@ -30,6 +30,10 @@
 
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
     using Interpolation;
     using Interpolation.Algorithms;
     using NUnit.Framework;
@@ -115,6 +119,43 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             {
                 Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-13, "Linear with {0} samples, sample {1}", samples, i);
             }
+        }
+
+        /// <summary>
+        /// Verifies that all sample points must be unique.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Constructor_SamplePointsNotUnique_Throws()
+        {
+            var x = new[] { -1.0, 0.0, 1.5, 1.5, 2.5, 4.0 };
+            var y = new[] { 1.0, 0.3, -0.7, -0.6, -0.1, 0.4 };
+            var interpolation = new NevillePolynomialInterpolation(x, y);
+        }
+
+        /// <summary>
+        /// Verifies that interpolation does not yield NaN values for a case where some sample points
+        /// has an upper and a lower sample value.
+        /// </summary>
+        /// <param name="value">Value for which interpolation is requested.</param>
+        /// <remarks>Columns 3 and 4 of the .csv file contain the logarithms of energy and mass attenuation
+        /// coefficients, respectively.</remarks>
+        [Test, Sequential, Ignore]
+        public void Interpolate_LogLogAttenuationData_InterpolationShouldNotYieldNaN(
+            [Values(0.0025, 0.035, 0.45, 5.5, 18.5, 35.0)] double value)
+        {
+            var data = File.ReadLines(@"./data/Github-Cureos-1.csv").
+                Select(line =>
+                {
+                    var vals = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    return Tuple.Create(vals[2], vals[3]);
+                }).ToArray();
+            var x = data.Select(tuple => Double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
+            var y = data.Select(tuple => Double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();
+            IInterpolation interpolation = new NevillePolynomialInterpolation(x, y);
+
+            var actual = interpolation.Interpolate(Math.Log(value));
+            Assert.That(actual, Is.Not.NaN);
         }
     }
 }
