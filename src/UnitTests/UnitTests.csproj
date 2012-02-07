@@ -769,6 +769,10 @@
       <Link>data\Codeplex-5667.csv</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\data\Github-Cureos-1.csv">
+      <Link>data\Github-Cureos-1.csv</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\data\Matlab\A.mat">
       <Link>data\Matlab\A.mat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

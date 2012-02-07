@@ -158,7 +158,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             // Now load the assembly with an AssemblyName
             var assemblyName = new AssemblyName(assemblyFileName);
-            var assembly = Assembly.Load(assemblyName);
+            var assembly = Assembly.Load(assemblyName.FullName);
             
             // <ay throws:
             // ArgumentNullException --> Can't get this because we checked that the file exists.
@@ -190,7 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 throw new ArgumentNullException("assemblyName");
             }
 
-            var assembly = Assembly.Load(assemblyName);
+            var assembly = Assembly.Load(assemblyName.FullName);
 
             // May throw:
             // ArgumentNullException --> Can't get this because we checked it.

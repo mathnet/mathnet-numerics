@@ -32,6 +32,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
 {
     using System;
     using System.Collections.Generic;
+    using Properties;
 
     /// <summary>
     /// Third-Degree Spline Interpolation Algorithm.
@@ -122,6 +123,10 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             {
                 throw new ArgumentOutOfRangeException("splineCoefficients");
             }
+
+            for (var i = 1; i < samplePoints.Count; ++i)
+                if (samplePoints[i] <= samplePoints[i - 1])
+                    throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder, "samplePoints");
 
             _points = samplePoints;
             _coefficients = splineCoefficients;

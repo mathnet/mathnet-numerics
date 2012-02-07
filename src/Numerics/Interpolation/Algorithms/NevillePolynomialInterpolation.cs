@@ -32,6 +32,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
 {
     using System;
     using System.Collections.Generic;
+    using Properties;
 
     /// <summary>
     /// Lagrange Polynomial Interpolation using Neville's Algorithm.
@@ -124,6 +125,10 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             {
                 throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
             }
+
+            for (var i = 1; i < samplePoints.Count; ++i)
+                if (samplePoints[i] <= samplePoints[i - 1])
+                    throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotUnique, "samplePoints");
 
             _points = samplePoints;
             _values = sampleValues;

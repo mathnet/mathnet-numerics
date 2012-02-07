@@ -30,6 +30,10 @@
 
 namespace MathNet.Numerics.UnitTests.InterpolationTests
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
     using Interpolation;
     using Interpolation.Algorithms;
     using NUnit.Framework;
@@ -117,6 +121,18 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             {
                 Assert.AreEqual(ytest[i], interpolation.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);
             }
+        }
+
+        /// <summary>
+        /// Verifies that sample points are required to be sorted in strictly monotonically ascending order.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Constructor_SamplePointsNotStrictlyAscending_Throws()
+        {
+            var x = new[] { -1.0, 0.0, 1.5, 1.5, 2.5, 4.0 };
+            var y = new[] { 1.0, 0.3, -0.7, -0.6, -0.1, 0.4 };
+            var interpolation = new LinearSplineInterpolation(x, y);
         }
     }
 }
