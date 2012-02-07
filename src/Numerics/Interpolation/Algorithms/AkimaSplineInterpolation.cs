@@ -134,6 +134,10 @@ namespace MathNet.Numerics.Interpolation.Algorithms
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
+            for (var i = 1; i < samplePoints.Count; ++i)
+                if (samplePoints[i] <= samplePoints[i - 1])
+                    throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder, "samplePoints");
+
             int n = samplePoints.Count;
 
             /* Prepare divided differences (diff) and weights (w) */

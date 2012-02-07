@@ -32,6 +32,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
 {
     using System;
     using System.Collections.Generic;
+    using Properties;
 
     /// <summary>
     /// Cubic Hermite Spline Interpolation Algorithm.
@@ -145,6 +146,10 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             {
                 throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
             }
+
+            for (var i = 1; i < samplePoints.Count; ++i)
+                if (samplePoints[i] <= samplePoints[i - 1])
+                    throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder, "samplePoints");
 
             double[] coefficients = new double[4 * (samplePoints.Count - 1)];
 
