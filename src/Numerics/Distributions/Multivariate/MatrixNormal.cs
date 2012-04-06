@@ -283,7 +283,7 @@ namespace MathNet.Numerics.Distributions
             var vki = v.KroneckerProduct(k.Inverse());
 
             // Sample a vector valued random variable with VKi as the covariance.
-            var vector = SampleVectorNormal(rnd, new DenseVector(n * n, 0.0), vki);
+            var vector = SampleVectorNormal(rnd, new DenseVector(n * p, 0.0), vki);
 
             // Unstack the vector v and add the mean.
             var r = m.Clone();
