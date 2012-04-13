@@ -179,11 +179,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// Gets an <c>IEnumerator</c> that enumerates over all the stored stop criteria.
         /// </summary>
         /// <remarks>Used for testing only.</remarks>
-        internal IEnumerator<IIterationStopCriterium> StoredStopCriteria
+        internal IEnumerable<IIterationStopCriterium> StoredStopCriteria
         {
             get
             {
-                return _stopCriterias.Select(criterium => criterium.Value).GetEnumerator();
+                return _stopCriterias.Select(criterium => criterium.Value);
             }
         }
 

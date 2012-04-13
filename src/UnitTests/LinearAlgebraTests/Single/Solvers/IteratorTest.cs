@@ -103,10 +103,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
 
             // Check that we have all the criteria
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
-            var enumerator = iterator.StoredStopCriteria;
-            while (enumerator.MoveNext())
+            foreach (var criterium in iterator.StoredStopCriteria)
             {
-                var criterium = enumerator.Current;
                 Assert.IsTrue(criteria.Exists(c => ReferenceEquals(c, criterium)), "Criterium missing");
             }
         }
@@ -158,10 +156,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
 
             // Check that we have all the criteria
             Assert.AreEqual(criteria.Count, iterator.NumberOfCriteria, "Incorrect criterium count");
-            var enumerator = iterator.StoredStopCriteria;
-            while (enumerator.MoveNext())
+            foreach (var criterium in iterator.StoredStopCriteria)
             {
-                var criterium = enumerator.Current;
                 Assert.IsTrue(criteria.Exists(c => ReferenceEquals(c, criterium)), "Criterium missing");
             }
         }
@@ -417,11 +413,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers
             Assert.AreEqual(iterator.NumberOfCriteria, clone.NumberOfCriteria, "Incorrect criterium count");
 
             // ReSharper restore PossibleNullReferenceException
-            var enumerator = clone.StoredStopCriteria;
-            while (enumerator.MoveNext())
+            foreach (var criterium in clone.StoredStopCriteria)
             {
-                var criterium = enumerator.Current;
-                Assert.IsTrue(criteria.Exists(c => c.GetType().Equals(criterium.GetType())), "Criterium missing");
+                Assert.IsTrue(criteria.Exists(c => c.GetType() == criterium.GetType()), "Criterium missing");
             }
         }
     }
