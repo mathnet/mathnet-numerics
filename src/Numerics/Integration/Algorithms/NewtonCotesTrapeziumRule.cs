@@ -183,66 +183,67 @@ namespace MathNet.Numerics.Integration.Algorithms
             double linearOffset = 0.5 * (intervalEnd + intervalBegin);
             targetRelativeError /= 5 * linearSlope;
 
-            var abcissasIterator = levelAbscissas.GetEnumerator();
-            var weightsIterator = levelWeights.GetEnumerator();
-
-            double step = levelOneStep;
-
-            // First Level
-            abcissasIterator.MoveNext();
-            weightsIterator.MoveNext();
-            double[] abcissasL1 = abcissasIterator.Current;
-            double[] weightsL1 = weightsIterator.Current;
-
-            double sum = f(linearOffset) * weightsL1[0];
-            for (int i = 1; i < abcissasL1.Length; i++)
+            using (var abcissasIterator = levelAbscissas.GetEnumerator())
+            using (var weightsIterator = levelWeights.GetEnumerator())
             {
-                sum += weightsL1[i] * (f((linearSlope * abcissasL1[i]) + linearOffset) + f(-(linearSlope * abcissasL1[i]) + linearOffset));
-            }
+                double step = levelOneStep;
 
-            sum *= step;
+                // First Level
+                abcissasIterator.MoveNext();
+                weightsIterator.MoveNext();
+                double[] abcissasL1 = abcissasIterator.Current;
+                double[] weightsL1 = weightsIterator.Current;
 
-            // Additional Levels
-            double previousDelta = double.MaxValue;
-            for (int level = 1; abcissasIterator.MoveNext() && weightsIterator.MoveNext(); level++)
-            {
-                double[] abcissas = abcissasIterator.Current;
-                double[] weights = weightsIterator.Current;
-
-                double midpointsum = 0;
-                for (int i = 0; i < abcissas.Length; i++)
+                double sum = f(linearOffset) * weightsL1[0];
+                for (int i = 1; i < abcissasL1.Length; i++)
                 {
-                    midpointsum += weights[i] * (f((linearSlope * abcissas[i]) + linearOffset) + f(-(linearSlope * abcissas[i]) + linearOffset));
+                    sum += weightsL1[i] * (f((linearSlope * abcissasL1[i]) + linearOffset) + f(-(linearSlope * abcissasL1[i]) + linearOffset));
                 }
 
-                midpointsum *= step;
-                sum = 0.5 * (sum + midpointsum);
-                step *= 0.5;
+                sum *= step;
 
-                double delta = Math.Abs(sum - midpointsum);
-
-                if (level == 1)
+                // Additional Levels
+                double previousDelta = double.MaxValue;
+                for (int level = 1; abcissasIterator.MoveNext() && weightsIterator.MoveNext(); level++)
                 {
+                    double[] abcissas = abcissasIterator.Current;
+                    double[] weights = weightsIterator.Current;
+
+                    double midpointsum = 0;
+                    for (int i = 0; i < abcissas.Length; i++)
+                    {
+                        midpointsum += weights[i] * (f((linearSlope * abcissas[i]) + linearOffset) + f(-(linearSlope * abcissas[i]) + linearOffset));
+                    }
+
+                    midpointsum *= step;
+                    sum = 0.5 * (sum + midpointsum);
+                    step *= 0.5;
+
+                    double delta = Math.Abs(sum - midpointsum);
+
+                    if (level == 1)
+                    {
+                        previousDelta = delta;
+                        continue;
+                    }
+
+                    double r = Math.Log(delta) / Math.Log(previousDelta);
                     previousDelta = delta;
-                    continue;
+
+                    if (r > 1.9 && r < 2.1)
+                    {
+                        // convergence region
+                        delta = Math.Sqrt(delta);
+                    }
+
+                    if (sum.AlmostEqualWithRelativeError(midpointsum, delta, targetRelativeError))
+                    {
+                        break;
+                    }
                 }
 
-                double r = Math.Log(delta) / Math.Log(previousDelta);
-                previousDelta = delta;
-
-                if (r > 1.9 && r < 2.1)
-                {
-                    // convergence region
-                    delta = Math.Sqrt(delta);
-                }
-
-                if (sum.AlmostEqualWithRelativeError(midpointsum, delta, targetRelativeError))
-                {
-                    break;
-                }
+                return sum * linearSlope;
             }
-
-            return sum * linearSlope;
         }
     }
 }

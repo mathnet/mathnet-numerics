@@ -49,27 +49,31 @@ namespace MathNet.Numerics.Statistics
         {
             int n = 0;
             double r = 0.0;
+
+            // BUG: PERFORMANCE degraded due to tripple iteration over both IEnumerables
+            
             double meanA = dataA.Mean();
             double meanB = dataB.Mean();
             double sdevA = dataA.StandardDeviation();
             double sdevB = dataB.StandardDeviation();
 
-            IEnumerator<double> ieA = dataA.GetEnumerator();
-            IEnumerator<double> ieB = dataB.GetEnumerator();
-
-            while (ieA.MoveNext())
+            using (IEnumerator<double> ieA = dataA.GetEnumerator())
+            using (IEnumerator<double> ieB = dataB.GetEnumerator())
             {
-                if (ieB.MoveNext() == false)
+                while (ieA.MoveNext())
                 {
-                    throw new ArgumentOutOfRangeException("Datasets dataA and dataB need to have the same length.");
-                }
+                    if (!ieB.MoveNext())
+                    {
+                        throw new ArgumentOutOfRangeException("dataB", "Datasets dataA and dataB need to have the same length. dataB is shorter.");
+                    }
 
-                n++;
-                r += (ieA.Current - meanA) * (ieB.Current - meanB) / (sdevA * sdevB);
-            }
-            if (ieB.MoveNext() == true)
-            {
-                throw new ArgumentOutOfRangeException("Datasets dataA and dataB need to have the same length.");
+                    n++;
+                    r += (ieA.Current - meanA) * (ieB.Current - meanB) / (sdevA * sdevB);
+                }
+                if (ieB.MoveNext())
+                {
+                    throw new ArgumentOutOfRangeException("dataA", "Datasets dataA and dataB need to have the same length. dataA is shorter.");
+                }
             }
 
             return r / (n - 1);
