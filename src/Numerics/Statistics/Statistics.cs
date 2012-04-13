@@ -102,20 +102,22 @@ namespace MathNet.Numerics.Statistics
             double t = 0;
             ulong j = 0;
 
-            IEnumerator<double> iterator = data.GetEnumerator();
-            if (iterator.MoveNext())
+            using (IEnumerator<double> iterator = data.GetEnumerator())
             {
-                j++;
-                t = iterator.Current;
-            }
+                if (iterator.MoveNext())
+                {
+                    j++;
+                    t = iterator.Current;
+                }
 
-            while (iterator.MoveNext())
-            {
-                j++;
-                double xi = iterator.Current;
-                t += xi;
-                double diff = (j * xi) - t;
-                variance += (diff * diff) / (j * (j - 1));
+                while (iterator.MoveNext())
+                {
+                    j++;
+                    double xi = iterator.Current;
+                    t += xi;
+                    double diff = (j * xi) - t;
+                    variance += (diff * diff) / (j * (j - 1));
+                }
             }
 
             return variance / (j - 1);
@@ -137,33 +139,34 @@ namespace MathNet.Numerics.Statistics
             double t = 0;
             ulong j = 0;
 
-            IEnumerator<double?> iterator = data.GetEnumerator();
-
-            while (true)
+            using (IEnumerator<double?> iterator = data.GetEnumerator())
             {
-                bool hasNext = iterator.MoveNext();
-                if (!hasNext)
+                while (true)
                 {
-                    break;
+                    bool hasNext = iterator.MoveNext();
+                    if (!hasNext)
+                    {
+                        break;
+                    }
+
+                    if (iterator.Current.HasValue)
+                    {
+                        j++;
+                        t = iterator.Current.Value;
+                        break;
+                    }
                 }
 
-                if (iterator.Current.HasValue)
+                while (iterator.MoveNext())
                 {
-                    j++;
-                    t = iterator.Current.Value;
-                    break;
-                }
-            }
-
-            while (iterator.MoveNext())
-            {
-                if (iterator.Current.HasValue)
-                {
-                    j++;
-                    double xi = iterator.Current.Value;
-                    t += xi;
-                    double diff = (j * xi) - t;
-                    variance += (diff * diff) / (j * (j - 1));
+                    if (iterator.Current.HasValue)
+                    {
+                        j++;
+                        double xi = iterator.Current.Value;
+                        t += xi;
+                        double diff = (j * xi) - t;
+                        variance += (diff * diff) / (j * (j - 1));
+                    }
                 }
             }
 
@@ -186,20 +189,22 @@ namespace MathNet.Numerics.Statistics
             double t = 0;
             ulong j = 0;
 
-            IEnumerator<double> iterator = data.GetEnumerator();
-            if (iterator.MoveNext())
+            using (IEnumerator<double> iterator = data.GetEnumerator())
             {
-                j++;
-                t = iterator.Current;
-            }
+                if (iterator.MoveNext())
+                {
+                    j++;
+                    t = iterator.Current;
+                }
 
-            while (iterator.MoveNext())
-            {
-                j++;
-                double xi = iterator.Current;
-                t += xi;
-                double diff = (j * xi) - t;
-                variance += (diff * diff) / (j * (j - 1));
+                while (iterator.MoveNext())
+                {
+                    j++;
+                    double xi = iterator.Current;
+                    t += xi;
+                    double diff = (j * xi) - t;
+                    variance += (diff * diff) / (j * (j - 1));
+                }
             }
 
             return variance / j;
@@ -221,33 +226,34 @@ namespace MathNet.Numerics.Statistics
             double t = 0;
             ulong j = 0;
 
-            IEnumerator<double?> iterator = data.GetEnumerator();
-
-            while (true)
+            using (IEnumerator<double?> iterator = data.GetEnumerator())
             {
-                bool hasNext = iterator.MoveNext();
-                if (!hasNext)
+                while (true)
                 {
-                    break;
+                    bool hasNext = iterator.MoveNext();
+                    if (!hasNext)
+                    {
+                        break;
+                    }
+
+                    if (iterator.Current.HasValue)
+                    {
+                        j++;
+                        t = iterator.Current.Value;
+                        break;
+                    }
                 }
 
-                if (iterator.Current.HasValue)
+                while (iterator.MoveNext())
                 {
-                    j++;
-                    t = iterator.Current.Value;
-                    break;
-                }
-            }
-
-            while (iterator.MoveNext())
-            {
-                if (iterator.Current.HasValue)
-                {
-                    j++;
-                    double xi = iterator.Current.Value;
-                    t += xi;
-                    double diff = (j * xi) - t;
-                    variance += (diff * diff) / (j * (j - 1));
+                    if (iterator.Current.HasValue)
+                    {
+                        j++;
+                        double xi = iterator.Current.Value;
+                        t += xi;
+                        double diff = (j * xi) - t;
+                        variance += (diff * diff) / (j * (j - 1));
+                    }
                 }
             }
 

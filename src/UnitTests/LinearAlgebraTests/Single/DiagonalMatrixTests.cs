@@ -535,61 +535,63 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public override void CanUseIndexedEnumerator()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var enumerator = matrix.IndexedEnumerator().GetEnumerator();
+            using (var enumerator = matrix.IndexedEnumerator().GetEnumerator())
+            {
+                enumerator.MoveNext();
+                var item = enumerator.Current;
+                Assert.AreEqual(0, item.Item1);
+                Assert.AreEqual(0, item.Item2);
+                Assert.AreEqual(1.0f, item.Item3);
 
-            enumerator.MoveNext();
-            var item = enumerator.Current;
-            Assert.AreEqual(0, item.Item1);
-            Assert.AreEqual(0, item.Item2);
-            Assert.AreEqual(1.0f, item.Item3);
+                enumerator.MoveNext();
+                item = enumerator.Current;
+                Assert.AreEqual(0, item.Item1);
+                Assert.AreEqual(1, item.Item2);
+                Assert.AreEqual(0.0f, item.Item3);
 
-            enumerator.MoveNext();
-            item = enumerator.Current;
-            Assert.AreEqual(0, item.Item1);
-            Assert.AreEqual(1, item.Item2);
-            Assert.AreEqual(0.0f, item.Item3);
+                enumerator.MoveNext();
+                item = enumerator.Current;
+                Assert.AreEqual(0, item.Item1);
+                Assert.AreEqual(2, item.Item2);
+                Assert.AreEqual(0.0f, item.Item3);
 
-            enumerator.MoveNext();
-            item = enumerator.Current;
-            Assert.AreEqual(0, item.Item1);
-            Assert.AreEqual(2, item.Item2);
-            Assert.AreEqual(0.0f, item.Item3);
+                enumerator.MoveNext();
+                item = enumerator.Current;
+                Assert.AreEqual(1, item.Item1);
+                Assert.AreEqual(0, item.Item2);
+                Assert.AreEqual(0.0f, item.Item3);
 
-            enumerator.MoveNext();
-            item = enumerator.Current;
-            Assert.AreEqual(1, item.Item1);
-            Assert.AreEqual(0, item.Item2);
-            Assert.AreEqual(0.0f, item.Item3);
+                enumerator.MoveNext();
+                item = enumerator.Current;
+                Assert.AreEqual(1, item.Item1);
+                Assert.AreEqual(1, item.Item2);
+                Assert.AreEqual(0.0f, item.Item3);
 
-            enumerator.MoveNext();
-            item = enumerator.Current;
-            Assert.AreEqual(1, item.Item1);
-            Assert.AreEqual(1, item.Item2);
-            Assert.AreEqual(0.0f, item.Item3);
+                enumerator.MoveNext();
+                item = enumerator.Current;
+                Assert.AreEqual(1, item.Item1);
+                Assert.AreEqual(2, item.Item2);
+                Assert.AreEqual(0.0f, item.Item3);
 
-            enumerator.MoveNext();
-            item = enumerator.Current;
-            Assert.AreEqual(1, item.Item1);
-            Assert.AreEqual(2, item.Item2);
-            Assert.AreEqual(0.0f, item.Item3);
+                enumerator.MoveNext();
+                item = enumerator.Current;
+                Assert.AreEqual(2, item.Item1);
+                Assert.AreEqual(0, item.Item2);
+                Assert.AreEqual(0.0f, item.Item3);
 
-            enumerator.MoveNext();
-            item = enumerator.Current;
-            Assert.AreEqual(2, item.Item1);
-            Assert.AreEqual(0, item.Item2);
-            Assert.AreEqual(0.0f, item.Item3);
+                enumerator.MoveNext();
+                item = enumerator.Current;
+                Assert.AreEqual(2, item.Item1);
+                Assert.AreEqual(1, item.Item2);
+                Assert.AreEqual(0.0f, item.Item3);
 
-            enumerator.MoveNext();
-            item = enumerator.Current;
-            Assert.AreEqual(2, item.Item1);
-            Assert.AreEqual(1, item.Item2);
-            Assert.AreEqual(0.0f, item.Item3);
-
-            enumerator.MoveNext();
-            item = enumerator.Current;
-            Assert.AreEqual(2, item.Item1);
-            Assert.AreEqual(2, item.Item2);
-            Assert.AreEqual(3.0f, item.Item3);
+                enumerator.MoveNext();
+                item = enumerator.Current;
+            
+                Assert.AreEqual(2, item.Item1);
+                Assert.AreEqual(2, item.Item2);
+                Assert.AreEqual(3.0f, item.Item3);
+            }
         }
 
         /// <summary>
