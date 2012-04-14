@@ -84,7 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the conjugate transpose of this matrix.
         /// </summary>        
         /// <returns>The conjugate transpose of this matrix.</returns>
-        public override Matrix<float> ConjugateTranspose()
+        public override sealed Matrix<float> ConjugateTranspose()
         {
             return Transpose();
         }
