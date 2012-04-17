@@ -127,7 +127,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
             }
 
             for (var i = 1; i < samplePoints.Count; ++i)
-                if (samplePoints[i] <= samplePoints[i - 1])
+                if (samplePoints[i] == samplePoints[i - 1])
                     throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotUnique, "samplePoints");
 
             _points = samplePoints;

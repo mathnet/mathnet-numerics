@@ -8,3 +8,5 @@ obj
 TestResults
 *.sdf
 Version.cs
+
+*.ReSharper
