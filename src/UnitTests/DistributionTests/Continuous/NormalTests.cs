@@ -193,10 +193,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetVariance(double var)
         {
-            new Normal
+            var dist = new Normal
             {
                 Variance = var
             };
+
+            Assert.AreEqual(var, dist.Variance, 1e-14);
         }
 
         /// <summary>
@@ -221,10 +223,12 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void CanSetStdDev(double sdev)
         {
-            new Normal
+            var dist = new Normal
             {
                 StdDev = sdev
             };
+
+            Assert.AreEqual(sdev, dist.StdDev, 1e-14);
         }
 
         /// <summary>

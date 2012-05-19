@@ -230,7 +230,7 @@ namespace MathNet.Numerics.Distributions
 
             set
             {
-                SetParameters(_mean, value);
+                SetParameters(_mean, Math.Sqrt(value));
             }
         }
 
