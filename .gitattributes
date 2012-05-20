@@ -1,2 +1,11 @@
-*	text=auto
-
+*.cs text diff=csharp
+*.csproj text
+*.sln text
+*.msbuild text
+*.config text
+*.conf text
+*.cscfg text
+*.csdef text
+*.xml text
+*.js text
+* text=auto

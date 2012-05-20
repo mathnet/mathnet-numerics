@@ -12,7 +12,7 @@
     <AssemblyName>MathNet.Numerics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -447,9 +447,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\MathNet.Numerics.snk">
-      <Link>MathNet.Numerics.snk</Link>
-    </None>
     <Compile Include="Distributions\Continuous\StudentT.cs" />
     <Compile Include="Distributions\Multivariate\NormalGamma.cs" />
   </ItemGroup>
