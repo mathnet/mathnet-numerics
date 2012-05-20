@@ -50,6 +50,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
+      <HintPath>..\packages\zlib.net.1.0.3.0\lib\zlib.net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayHelpers.cs" />
@@ -760,6 +763,10 @@
     <Compile Include="TrigonometryTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Numerics.IO\Numerics.IO.csproj">
+      <Project>{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}</Project>
+      <Name>Numerics.IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Numerics\Numerics.csproj">
       <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
       <Name>Numerics</Name>
@@ -1035,6 +1042,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

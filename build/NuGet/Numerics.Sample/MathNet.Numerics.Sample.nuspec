@@ -2,7 +2,7 @@
 <package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>MathNet.Numerics.Sample</id>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <title>Math.NET Numerics Code Samples</title>
     <summary>This package contains samples that demonstrate the use of the Math.NET Numerics library.</summary>
     <description>This package contains samples that demonstrate the use of the Math.NET Numerics library. Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Numerics is the result of merging dnAnalytics with Math.NET Iridium and is intended to replace both.</description>
@@ -14,7 +14,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>sample code math numeric statistics probability integration interpolation linear algebra matrix fft</tags>
     <dependencies>
-      <dependency id="MathNet.Numerics" version="1.0" />
+      <dependency id="MathNet.Numerics" version="1.0.0" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Numerics" />

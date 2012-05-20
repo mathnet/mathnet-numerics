@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		..\README.markdown = ..\README.markdown
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics.IO", "Numerics.IO\Numerics.IO.csproj", "{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB1A5D32-F264-4BCE-BEB7-0B97085075BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -32,7 +32,7 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Math.NET Numerics")]
+[assembly: AssemblyTitle("Math.NET Numerics IO")]
 [assembly: AssemblyDescription("Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Math.NET Project")]
@@ -42,7 +42,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
-[assembly: Guid("7b66646f-f0ee-425d-9065-910d1937a2df")]
+[assembly: Guid("5d559feb-5f06-4401-b48b-c08b78f8582a")]
 [assembly: NeutralResourcesLanguage("en")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
 [assembly: AssemblyVersion("1.0.0.0")]

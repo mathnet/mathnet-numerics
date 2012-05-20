@@ -12,11 +12,11 @@
 		<FSharpPack>$(MSBuildProjectDirectory)/FSharp</FSharpPack>
 		<NumericsSamplePack>$(MSBuildProjectDirectory)/Numerics.Sample</NumericsSamplePack>
 		<FSharpSamplePack>$(MSBuildProjectDirectory)/FSharp.Sample</FSharpSamplePack>
-		<NuGetExe>$(MSBuildProjectDirectory)/../../tools/NuGet-1.3/nuget.exe</NuGetExe>
+		<NuGetExe>$(MSBuildProjectDirectory)/../../tools/NuGet/nuget.exe</NuGetExe>
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.xml" />
+		<NumericsNet40 Include="$(OutLib)/Net40/MathNet.Numerics.dll;$(OutLib)/Net40/MathNet.Numerics.IO.dll;$(OutLib)/Net40/MathNet.Numerics.pdb;$(OutLib)/Net40/MathNet.Numerics.IO.pdb;$(OutLib)/Net40/MathNet.Numerics.xml;$(OutLib)/Net40/MathNet.Numerics.IO.xml" />
 		<NumericsSL4 Include="$(OutLib)/SL4/MathNet.Numerics.dll;$(OutLib)/SL4/MathNet.Numerics.pdb;$(OutLib)/SL4/MathNet.Numerics.xml;" />
 		<FSharpNet40 Include="$(OutLib)/Net40/MathNet.Numerics.FSharp.dll;$(OutLib)/Net40/MathNet.Numerics.FSharp.pdb;$(OutLib)/Net40/MathNet.Numerics.FSharp.xml" />
 		<NumericsSample Include="$(Examples)/**/*.cs" Exclude="$(Examples)/**/bin/**;$(Examples)/**/obj/**" />
