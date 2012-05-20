@@ -1,12 +1,12 @@
 Bin
 bin
 obj
+TestResults
+_ReSharper*
 *.user
 *.suo
 *.vsdoc
+*.cache
 *.docstates
-TestResults
 *.sdf
-Version.cs
-
 *.ReSharper
