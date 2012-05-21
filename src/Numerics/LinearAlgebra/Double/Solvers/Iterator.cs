@@ -311,7 +311,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             return new Iterator(stopCriteria);
         }
 
-        #if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Creates a deep clone of the current iterator.
         /// </summary>
@@ -320,6 +320,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         {
             return Clone();
         }
-        #endif
+#endif
     }
 }

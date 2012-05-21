@@ -311,7 +311,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             return new Iterator(stopCriteria);
         }
 
-        #if !SILVERLIGHT
+        #if !PORTABLE
         /// <summary>
         /// Creates a deep clone of the current iterator.
         /// </summary>

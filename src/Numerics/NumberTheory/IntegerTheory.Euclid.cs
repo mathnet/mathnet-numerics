@@ -117,8 +117,9 @@ namespace MathNet.Numerics.NumberTheory
             while (b != 0)
             {
                 long rem;
-#if SILVERLIGHT
-                var quot = SilverlightUtilities.DivRem(a, b, out rem);
+#if PORTABLE
+                rem = a / b;
+                var quot = a % b;
 #else
                 long quot = Math.DivRem(a, b, out rem);
 #endif

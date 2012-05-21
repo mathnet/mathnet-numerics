@@ -497,7 +497,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if SILVERLIGHT
+#if PORTABLE
             var value = GlobalizationHelper.ParseDouble(ref token);
 #else
             var value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());

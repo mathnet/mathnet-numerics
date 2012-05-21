@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
     public abstract class Vector<T> :
-#if SILVERLIGHT
+#if PORTABLE
     IFormattable, IEnumerable<T>, IEquatable<Vector<T>>
 #else
     IFormattable, IEnumerable<T>, IEquatable<Vector<T>>, ICloneable
@@ -1391,7 +1391,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
         #region Implemented Interfaces
 
-#if !SILVERLIGHT
+#if !PORTABLE
 
         #region ICloneable
 
@@ -1583,7 +1583,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
-#if SILVERLIGHT
+#if PORTABLE
                 hash ^= Precision.DoubleToInt64Bits(this[i].GetHashCode());
 #else
                 hash ^= BitConverter.DoubleToInt64Bits(this[i].GetHashCode());

@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests
         /// <returns>An array of the target type containing the converted elements from the source array.</returns>
         public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Converter<TInput, TOutput> converter)
         {
-#if SILVERLIGHT
+#if PORTABLE
             if (array == null)
                 throw new ArgumentException();
 
@@ -55,7 +55,7 @@ namespace MathNet.Numerics.UnitTests
 #endif
         }
 
-#if SILVERLIGHT
+#if PORTABLE
     /// <summary>
     /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
     /// </summary>

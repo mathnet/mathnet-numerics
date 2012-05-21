@@ -807,11 +807,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
             if (Double.IsPositiveInfinity(p))
             {
-                return CommonParallel.Select(
-                    0,
-                    Count,
-                    (index, localData) => Math.Max(localData, Data[index].Magnitude),
-                    Math.Max);
+                return CommonParallel.Aggregate(Data, (i, v) => v.Magnitude, Math.Max, 0d);
             }
 
             var sum = 0.0;

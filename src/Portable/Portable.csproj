@@ -1,82 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}</ProjectGuid>
-    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectGuid>{D877F358-A2D2-4CC3-A921-8AA5CF6187E8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <AssemblyName>MathNet.Numerics</AssemblyName>
-    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-    <SilverlightApplication>false</SilverlightApplication>
-    <ValidateXaml>true</ValidateXaml>
-    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <!-- This property group is only here to support building this project using the 
-       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
-       to set the TargetFrameworkVersion to v3.5 -->
-  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile42</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\out\debug\SL4\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;PORTABLE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
+    <OutputPath>..\..\out\debug\Portable\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\out\lib\SL4\</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
+    <OutputPath>..\..\out\lib\Portable\</OutputPath>
+    <DefineConstants>TRACE;PORTABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\out\lib\SL4\MathNet.Numerics.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <DocumentationFile>..\..\out\lib\Portable\MathNet.Numerics.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="System.Numerics, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Windows" />
-    <Reference Include="system" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Windows.Browser" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <EmbeddedResource Include="..\Numerics\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Numerics\Algorithms\LinearAlgebra\ILinearAlgebraProvider.cs">
@@ -200,7 +163,7 @@
       <Link>Distributions\Discrete\Poisson.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Distributions\Discrete\Zipf.cs">
-      <Link>Distributions\Continuous\Zipf.cs</Link>
+      <Link>Distributions\Discrete\Zipf.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Distributions\IContinuousDistribution.cs">
       <Link>Distributions\IContinuousDistribution.cs</Link>
@@ -325,121 +288,121 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\ExtensionMethods.cs">
       <Link>LinearAlgebra\Complex32\ExtensionMethods.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\Cholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\Cholesky.cs">
       <Link>LinearAlgebra\Complex32\Factorization\Cholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\DenseCholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\DenseCholesky.cs">
       <Link>LinearAlgebra\Complex32\Factorization\DenseCholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\DenseEvd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\DenseEvd.cs">
       <Link>LinearAlgebra\Complex32\Factorization\DenseEvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\DenseGramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\DenseGramSchmidt.cs">
       <Link>LinearAlgebra\Complex32\Factorization\DenseGramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\DenseLU.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\DenseLU.cs">
       <Link>LinearAlgebra\Complex32\Factorization\DenseLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\DenseQR.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\DenseQR.cs">
       <Link>LinearAlgebra\Complex32\Factorization\DenseQR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\DenseSvd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\DenseSvd.cs">
       <Link>LinearAlgebra\Complex32\Factorization\DenseSvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\Evd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\Evd.cs">
       <Link>LinearAlgebra\Complex32\Factorization\Evd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\GramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\GramSchmidt.cs">
       <Link>LinearAlgebra\Complex32\Factorization\GramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\LU.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\LU.cs">
       <Link>LinearAlgebra\Complex32\Factorization\LU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\QR.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\QR.cs">
       <Link>LinearAlgebra\Complex32\Factorization\QR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\Svd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\Svd.cs">
       <Link>LinearAlgebra\Complex32\Factorization\Svd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserCholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserCholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserEvd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\UserEvd.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserEvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserGramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\UserGramSchmidt.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserGramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserLU.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\UserLU.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserQR.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\UserQR.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserQR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Factorization\UserSvd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\factorization\UserSvd.cs">
       <Link>LinearAlgebra\Complex32\Factorization\UserSvd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\Matrix.cs">
       <Link>LinearAlgebra\Complex32\Matrix.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\IIterativeSolver.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\IIterativeSolver.cs">
       <Link>LinearAlgebra\Complex32\Solvers\IIterativeSolver.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\IIterativeSolverSetup.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\IIterativeSolverSetup.cs">
       <Link>LinearAlgebra\Complex32\Solvers\IIterativeSolverSetup.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\IIterator.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\IIterator.cs">
       <Link>LinearAlgebra\Complex32\Solvers\IIterator.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Iterative\BiCgStab.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Iterative\CompositeSolver.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\iterative\CompositeSolver.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Iterative\CompositeSolver.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Iterative\GpBiCg.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\iterative\GpBiCg.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Iterative\GpBiCg.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Iterative\MlkBiCgStab.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\iterative\MlkBiCgStab.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Iterative\MlkBiCgStab.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Iterative\TFQMR.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\iterative\TFQMR.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Iterative\TFQMR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Iterator.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\Iterator.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Iterator.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\Diagonal.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\preconditioners\Diagonal.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\Diagonal.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\Ilutp.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\preconditioners\Ilutp.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\Ilutp.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\IlutpElementSorter.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\preconditioners\IlutpElementSorter.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\IlutpElementSorter.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\IncompleteLU.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\preconditioners\IncompleteLU.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\IncompleteLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\IPreConditioner.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\preconditioners\IPreConditioner.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\IPreConditioner.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\Preconditioners\UnitPreconditioner.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\preconditioners\UnitPreconditioner.cs">
       <Link>LinearAlgebra\Complex32\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\StopCriterium\DivergenceStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\stopcriterium\DivergenceStopCriterium.cs">
       <Link>LinearAlgebra\Complex32\Solvers\StopCriterium\DivergenceStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\StopCriterium\FailureStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\stopcriterium\FailureStopCriterium.cs">
       <Link>LinearAlgebra\Complex32\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\StopCriterium\IIterationStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\stopcriterium\IIterationStopCriterium.cs">
       <Link>LinearAlgebra\Complex32\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\StopCriterium\IterationCountStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\stopcriterium\IterationCountStopCriterium.cs">
       <Link>LinearAlgebra\Complex32\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex32\Solvers\StopCriterium\ResidualStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex32\solvers\stopcriterium\ResidualStopCriterium.cs">
       <Link>LinearAlgebra\Complex32\Solvers\StopCriterium\ResidualStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex32\SparseMatrix.cs">
@@ -463,121 +426,121 @@
     <Compile Include="..\Numerics\LinearAlgebra\Complex\ExtensionMethods.cs">
       <Link>LinearAlgebra\Complex\ExtensionMethods.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\Cholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\Cholesky.cs">
       <Link>LinearAlgebra\Complex\Factorization\Cholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseCholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\DenseCholesky.cs">
       <Link>LinearAlgebra\Complex\Factorization\DenseCholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseEvd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\DenseEvd.cs">
       <Link>LinearAlgebra\Complex\Factorization\DenseEvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseGramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\DenseGramSchmidt.cs">
       <Link>LinearAlgebra\Complex\Factorization\DenseGramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseLU.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\DenseLU.cs">
       <Link>LinearAlgebra\Complex\Factorization\DenseLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseQR.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\DenseQR.cs">
       <Link>LinearAlgebra\Complex\Factorization\DenseQR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\DenseSvd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\DenseSvd.cs">
       <Link>LinearAlgebra\Complex\Factorization\DenseSvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\Evd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\Evd.cs">
       <Link>LinearAlgebra\Complex\Factorization\Evd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\GramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\GramSchmidt.cs">
       <Link>LinearAlgebra\Complex\Factorization\GramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\LU.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\LU.cs">
       <Link>LinearAlgebra\Complex\Factorization\LU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\QR.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\QR.cs">
       <Link>LinearAlgebra\Complex\Factorization\QR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\Svd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\Svd.cs">
       <Link>LinearAlgebra\Complex\Factorization\Svd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserCholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserCholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserEvd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\UserEvd.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserEvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserGramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\UserGramSchmidt.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserGramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserLU.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\UserLU.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserQR.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\UserQR.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserQR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Factorization\UserSvd.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\factorization\UserSvd.cs">
       <Link>LinearAlgebra\Complex\Factorization\UserSvd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\Matrix.cs">
       <Link>LinearAlgebra\Complex\Matrix.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\IIterativeSolver.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\IIterativeSolver.cs">
       <Link>LinearAlgebra\Complex\Solvers\IIterativeSolver.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\IIterativeSolverSetup.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\IIterativeSolverSetup.cs">
       <Link>LinearAlgebra\Complex\Solvers\IIterativeSolverSetup.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\IIterator.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\IIterator.cs">
       <Link>LinearAlgebra\Complex\Solvers\IIterator.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Complex\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\CompositeSolver.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\iterative\CompositeSolver.cs">
       <Link>LinearAlgebra\Complex\Solvers\Iterative\CompositeSolver.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\GpBiCg.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\iterative\GpBiCg.cs">
       <Link>LinearAlgebra\Complex\Solvers\Iterative\GpBiCg.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\MlkBiCgStab.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\iterative\MlkBiCgStab.cs">
       <Link>LinearAlgebra\Complex\Solvers\Iterative\MlkBiCgStab.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterative\TFQMR.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\iterative\TFQMR.cs">
       <Link>LinearAlgebra\Complex\Solvers\Iterative\TFQMR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Iterator.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\Iterator.cs">
       <Link>LinearAlgebra\Complex\Solvers\Iterator.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\Diagonal.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\preconditioners\Diagonal.cs">
       <Link>LinearAlgebra\Complex\Solvers\Preconditioners\Diagonal.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\Ilutp.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\preconditioners\Ilutp.cs">
       <Link>LinearAlgebra\Complex\Solvers\Preconditioners\Ilutp.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\IlutpElementSorter.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\preconditioners\IlutpElementSorter.cs">
       <Link>LinearAlgebra\Complex\Solvers\Preconditioners\IlutpElementSorter.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\IncompleteLU.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\preconditioners\IncompleteLU.cs">
       <Link>LinearAlgebra\Complex\Solvers\Preconditioners\IncompleteLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\IPreConditioner.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\preconditioners\IPreConditioner.cs">
       <Link>LinearAlgebra\Complex\Solvers\Preconditioners\IPreConditioner.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\Preconditioners\UnitPreconditioner.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\preconditioners\UnitPreconditioner.cs">
       <Link>LinearAlgebra\Complex\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\DivergenceStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\stopcriterium\DivergenceStopCriterium.cs">
       <Link>LinearAlgebra\Complex\Solvers\StopCriterium\DivergenceStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\FailureStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\stopcriterium\FailureStopCriterium.cs">
       <Link>LinearAlgebra\Complex\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\IIterationStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\stopcriterium\IIterationStopCriterium.cs">
       <Link>LinearAlgebra\Complex\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\IterationCountStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\stopcriterium\IterationCountStopCriterium.cs">
       <Link>LinearAlgebra\Complex\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Complex\Solvers\StopCriterium\ResidualStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\complex\solvers\stopcriterium\ResidualStopCriterium.cs">
       <Link>LinearAlgebra\Complex\Solvers\StopCriterium\ResidualStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Complex\SparseMatrix.cs">
@@ -601,121 +564,121 @@
     <Compile Include="..\Numerics\LinearAlgebra\Double\ExtensionMethods.cs">
       <Link>LinearAlgebra\Double\ExtensionMethods.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Cholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\Cholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\Cholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseCholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\DenseCholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseCholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseEvd.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\DenseEvd.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseEvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseGramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\DenseGramSchmidt.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseGramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseLU.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\DenseLU.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseQR.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\DenseQR.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseQR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\DenseSvd.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\DenseSvd.cs">
       <Link>LinearAlgebra\Double\Factorization\DenseSvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Evd.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\Evd.cs">
       <Link>LinearAlgebra\Double\Factorization\Evd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\GramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\GramSchmidt.cs">
       <Link>LinearAlgebra\Double\Factorization\GramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\LU.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\LU.cs">
       <Link>LinearAlgebra\Double\Factorization\LU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\QR.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\QR.cs">
       <Link>LinearAlgebra\Double\Factorization\QR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\Svd.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\Svd.cs">
       <Link>LinearAlgebra\Double\Factorization\Svd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserCholesky.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\UserCholesky.cs">
       <Link>LinearAlgebra\Double\Factorization\UserCholesky.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserEvd.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\UserEvd.cs">
       <Link>LinearAlgebra\Double\Factorization\UserEvd.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserGramSchmidt.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\UserGramSchmidt.cs">
       <Link>LinearAlgebra\Double\Factorization\UserGramSchmidt.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserLU.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\UserLU.cs">
       <Link>LinearAlgebra\Double\Factorization\UserLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserQR.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\UserQR.cs">
       <Link>LinearAlgebra\Double\Factorization\UserQR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Factorization\UserSvd.cs">
+    <Compile Include="..\numerics\linearalgebra\double\factorization\UserSvd.cs">
       <Link>LinearAlgebra\Double\Factorization\UserSvd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\Matrix.cs">
       <Link>LinearAlgebra\Double\Matrix.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterativeSolver.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\IIterativeSolver.cs">
       <Link>LinearAlgebra\Double\Solvers\IIterativeSolver.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterativeSolverSetup.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\IIterativeSolverSetup.cs">
       <Link>LinearAlgebra\Double\Solvers\IIterativeSolverSetup.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\IIterator.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\IIterator.cs">
       <Link>LinearAlgebra\Double\Solvers\IIterator.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\iterative\BiCgStab.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\BiCgStab.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\CompositeSolver.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\iterative\CompositeSolver.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\CompositeSolver.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\GpBiCg.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\iterative\GpBiCg.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\GpBiCg.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\MlkBiCgStab.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\iterative\MlkBiCgStab.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\MlkBiCgStab.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterative\TFQMR.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\iterative\TFQMR.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterative\TFQMR.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Iterator.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\Iterator.cs">
       <Link>LinearAlgebra\Double\Solvers\Iterator.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\Diagonal.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\preconditioners\Diagonal.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\Diagonal.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\Ilutp.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\preconditioners\Ilutp.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\Ilutp.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\IlutpElementSorter.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\preconditioners\IlutpElementSorter.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\IlutpElementSorter.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\IncompleteLU.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\preconditioners\IncompleteLU.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\IncompleteLU.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\IPreConditioner.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\preconditioners\IPreConditioner.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\IPreConditioner.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\Preconditioners\UnitPreconditioner.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\preconditioners\UnitPreconditioner.cs">
       <Link>LinearAlgebra\Double\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\stopcriterium\DivergenceStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\DivergenceStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\stopcriterium\FailureStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\IIterationStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\stopcriterium\IIterationStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\stopcriterium\IterationCountStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs">
+    <Compile Include="..\numerics\linearalgebra\double\solvers\stopcriterium\ResidualStopCriterium.cs">
       <Link>LinearAlgebra\Double\Solvers\StopCriterium\ResidualStopCriterium.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Double\SparseMatrix.cs">
@@ -730,149 +693,14 @@
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Common.cs">
       <Link>LinearAlgebra\Generic\Common.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Cholesky.cs">
+      <Link>LinearAlgebra\Generic\Factorization\Cholesky.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Evd.cs">
       <Link>LinearAlgebra\Generic\Factorization\Evd.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\GramSchmidt.cs">
       <Link>LinearAlgebra\Generic\Factorization\GramSchmidt.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\DenseMatrix.cs">
-      <Link>LinearAlgebra\Single\DenseMatrix.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\DenseVector.cs">
-      <Link>LinearAlgebra\Single\DenseVector.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\DiagonalMatrix.cs">
-      <Link>LinearAlgebra\Single\DiagonalMatrix.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\ExtensionMethods.cs">
-      <Link>LinearAlgebra\Single\ExtensionMethods.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\Cholesky.cs">
-      <Link>LinearAlgebra\Single\Factorization\Cholesky.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\DenseCholesky.cs">
-      <Link>LinearAlgebra\Single\Factorization\DenseCholesky.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\DenseEvd.cs">
-      <Link>LinearAlgebra\Single\Factorization\DenseEvd.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\DenseGramSchmidt.cs">
-      <Link>LinearAlgebra\Single\Factorization\DenseGramSchmidt.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\DenseLU.cs">
-      <Link>LinearAlgebra\Single\Factorization\DenseLU.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\DenseQR.cs">
-      <Link>LinearAlgebra\Single\Factorization\DenseQR.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\DenseSvd.cs">
-      <Link>LinearAlgebra\Single\Factorization\DenseSvd.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\Evd.cs">
-      <Link>LinearAlgebra\Single\Factorization\Evd.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\GramSchmidt.cs">
-      <Link>LinearAlgebra\Single\Factorization\GramSchmidt.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\LU.cs">
-      <Link>LinearAlgebra\Single\Factorization\LU.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\QR.cs">
-      <Link>LinearAlgebra\Single\Factorization\QR.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\Svd.cs">
-      <Link>LinearAlgebra\Single\Factorization\Svd.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserCholesky.cs">
-      <Link>LinearAlgebra\Single\Factorization\UserCholesky.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserEvd.cs">
-      <Link>LinearAlgebra\Single\Factorization\UserEvd.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserGramSchmidt.cs">
-      <Link>LinearAlgebra\Single\Factorization\UserGramSchmidt.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserLU.cs">
-      <Link>LinearAlgebra\Single\Factorization\UserLU.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserQR.cs">
-      <Link>LinearAlgebra\Single\Factorization\UserQR.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Factorization\UserSvd.cs">
-      <Link>LinearAlgebra\Single\Factorization\UserSvd.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Matrix.cs">
-      <Link>LinearAlgebra\Single\Matrix.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\IIterativeSolver.cs">
-      <Link>LinearAlgebra\Single\Solvers\IIterativeSolver.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\IIterativeSolverSetup.cs">
-      <Link>LinearAlgebra\Single\Solvers\IIterativeSolverSetup.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\IIterator.cs">
-      <Link>LinearAlgebra\Single\Solvers\IIterator.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs">
-      <Link>LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Iterative\CompositeSolver.cs">
-      <Link>LinearAlgebra\Single\Solvers\Iterative\CompositeSolver.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Iterative\GpBiCg.cs">
-      <Link>LinearAlgebra\Single\Solvers\Iterative\GpBiCg.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Iterative\MlkBiCgStab.cs">
-      <Link>LinearAlgebra\Single\Solvers\Iterative\MlkBiCgStab.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Iterative\TFQMR.cs">
-      <Link>LinearAlgebra\Single\Solvers\Iterative\TFQMR.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Iterator.cs">
-      <Link>LinearAlgebra\Single\Solvers\Iterator.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\Diagonal.cs">
-      <Link>LinearAlgebra\Single\Solvers\Preconditioners\Diagonal.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\Ilutp.cs">
-      <Link>LinearAlgebra\Single\Solvers\Preconditioners\Ilutp.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\IlutpElementSorter.cs">
-      <Link>LinearAlgebra\Single\Solvers\Preconditioners\IlutpElementSorter.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\IncompleteLU.cs">
-      <Link>LinearAlgebra\Single\Solvers\Preconditioners\IncompleteLU.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\IPreConditioner.cs">
-      <Link>LinearAlgebra\Single\Solvers\Preconditioners\IPreConditioner.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\Preconditioners\UnitPreconditioner.cs">
-      <Link>LinearAlgebra\Single\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\StopCriterium\DivergenceStopCriterium.cs">
-      <Link>LinearAlgebra\Single\Solvers\StopCriterium\DivergenceStopCriterium.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs">
-      <Link>LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\StopCriterium\IIterationStopCriterium.cs">
-      <Link>LinearAlgebra\Single\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\StopCriterium\IterationCountStopCriterium.cs">
-      <Link>LinearAlgebra\Single\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\Solvers\StopCriterium\ResidualStopCriterium.cs">
-      <Link>LinearAlgebra\Single\Solvers\StopCriterium\ResidualStopCriterium.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\SparseMatrix.cs">
-      <Link>LinearAlgebra\Single\SparseMatrix.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Single\SparseVector.cs">
-      <Link>LinearAlgebra\Single\SparseVector.cs</Link>
-    </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\Cholesky.cs">
-      <Link>LinearAlgebra\Generic\Factorization\Cholesky.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Factorization\LU.cs">
       <Link>LinearAlgebra\Generic\Factorization\LU.cs</Link>
@@ -922,6 +750,141 @@
     <Compile Include="..\Numerics\LinearAlgebra\Generic\Vector.cs">
       <Link>LinearAlgebra\Generic\Vector.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\DenseMatrix.cs">
+      <Link>LinearAlgebra\Single\DenseMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\DenseVector.cs">
+      <Link>LinearAlgebra\Single\DenseVector.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\DiagonalMatrix.cs">
+      <Link>LinearAlgebra\Single\DiagonalMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\ExtensionMethods.cs">
+      <Link>LinearAlgebra\Single\ExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\Cholesky.cs">
+      <Link>LinearAlgebra\Single\Factorization\Cholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\DenseCholesky.cs">
+      <Link>LinearAlgebra\Single\Factorization\DenseCholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\DenseEvd.cs">
+      <Link>LinearAlgebra\Single\Factorization\DenseEvd.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\DenseGramSchmidt.cs">
+      <Link>LinearAlgebra\Single\Factorization\DenseGramSchmidt.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\DenseLU.cs">
+      <Link>LinearAlgebra\Single\Factorization\DenseLU.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\DenseQR.cs">
+      <Link>LinearAlgebra\Single\Factorization\DenseQR.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\DenseSvd.cs">
+      <Link>LinearAlgebra\Single\Factorization\DenseSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\Evd.cs">
+      <Link>LinearAlgebra\Single\Factorization\Evd.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\GramSchmidt.cs">
+      <Link>LinearAlgebra\Single\Factorization\GramSchmidt.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\LU.cs">
+      <Link>LinearAlgebra\Single\Factorization\LU.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\QR.cs">
+      <Link>LinearAlgebra\Single\Factorization\QR.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\Svd.cs">
+      <Link>LinearAlgebra\Single\Factorization\Svd.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\UserCholesky.cs">
+      <Link>LinearAlgebra\Single\Factorization\UserCholesky.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\UserEvd.cs">
+      <Link>LinearAlgebra\Single\Factorization\UserEvd.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\UserGramSchmidt.cs">
+      <Link>LinearAlgebra\Single\Factorization\UserGramSchmidt.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\UserLU.cs">
+      <Link>LinearAlgebra\Single\Factorization\UserLU.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\UserQR.cs">
+      <Link>LinearAlgebra\Single\Factorization\UserQR.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\factorization\UserSvd.cs">
+      <Link>LinearAlgebra\Single\Factorization\UserSvd.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\Matrix.cs">
+      <Link>LinearAlgebra\Single\Matrix.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\IIterativeSolver.cs">
+      <Link>LinearAlgebra\Single\Solvers\IIterativeSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\IIterativeSolverSetup.cs">
+      <Link>LinearAlgebra\Single\Solvers\IIterativeSolverSetup.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\IIterator.cs">
+      <Link>LinearAlgebra\Single\Solvers\IIterator.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\iterative\BiCgStab.cs">
+      <Link>LinearAlgebra\Single\Solvers\Iterative\BiCgStab.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\iterative\CompositeSolver.cs">
+      <Link>LinearAlgebra\Single\Solvers\Iterative\CompositeSolver.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\iterative\GpBiCg.cs">
+      <Link>LinearAlgebra\Single\Solvers\Iterative\GpBiCg.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\iterative\MlkBiCgStab.cs">
+      <Link>LinearAlgebra\Single\Solvers\Iterative\MlkBiCgStab.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\iterative\TFQMR.cs">
+      <Link>LinearAlgebra\Single\Solvers\Iterative\TFQMR.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\Iterator.cs">
+      <Link>LinearAlgebra\Single\Solvers\Iterator.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\preconditioners\Diagonal.cs">
+      <Link>LinearAlgebra\Single\Solvers\Preconditioners\Diagonal.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\preconditioners\Ilutp.cs">
+      <Link>LinearAlgebra\Single\Solvers\Preconditioners\Ilutp.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\preconditioners\IlutpElementSorter.cs">
+      <Link>LinearAlgebra\Single\Solvers\Preconditioners\IlutpElementSorter.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\preconditioners\IncompleteLU.cs">
+      <Link>LinearAlgebra\Single\Solvers\Preconditioners\IncompleteLU.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\preconditioners\IPreConditioner.cs">
+      <Link>LinearAlgebra\Single\Solvers\Preconditioners\IPreConditioner.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\preconditioners\UnitPreconditioner.cs">
+      <Link>LinearAlgebra\Single\Solvers\Preconditioners\UnitPreconditioner.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\stopcriterium\DivergenceStopCriterium.cs">
+      <Link>LinearAlgebra\Single\Solvers\StopCriterium\DivergenceStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\stopcriterium\FailureStopCriterium.cs">
+      <Link>LinearAlgebra\Single\Solvers\StopCriterium\FailureStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\stopcriterium\IIterationStopCriterium.cs">
+      <Link>LinearAlgebra\Single\Solvers\StopCriterium\IIterationStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\stopcriterium\IterationCountStopCriterium.cs">
+      <Link>LinearAlgebra\Single\Solvers\StopCriterium\IterationCountStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\numerics\linearalgebra\single\solvers\stopcriterium\ResidualStopCriterium.cs">
+      <Link>LinearAlgebra\Single\Solvers\StopCriterium\ResidualStopCriterium.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\SparseMatrix.cs">
+      <Link>LinearAlgebra\Single\SparseMatrix.cs</Link>
+    </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Single\SparseVector.cs">
+      <Link>LinearAlgebra\Single\SparseVector.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Single\Vector.cs">
       <Link>LinearAlgebra\Single\Vector.cs</Link>
     </Compile>
@@ -942,9 +905,9 @@
     </Compile>
     <Compile Include="..\Numerics\Properties\Resources1.Designer.cs">
       <Link>Properties\Resources1.Designer.cs</Link>
+      <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="..\Numerics\Random\AbstractRandomNumberGenerator.cs">
       <Link>Random\AbstractRandomNumberGenerator.cs</Link>
@@ -997,19 +960,19 @@
     <Compile Include="..\Numerics\SpecialFunctions.cs">
       <Link>SpecialFunctions.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\SpecialFunctions\Beta.cs">
+    <Compile Include="..\numerics\specialfunctions\Beta.cs">
       <Link>SpecialFunctions\Beta.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\SpecialFunctions\Erf.cs">
+    <Compile Include="..\numerics\specialfunctions\Erf.cs">
       <Link>SpecialFunctions\Erf.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\SpecialFunctions\Factorial.cs">
+    <Compile Include="..\numerics\specialfunctions\Factorial.cs">
       <Link>SpecialFunctions\Factorial.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\SpecialFunctions\Gamma.cs">
+    <Compile Include="..\numerics\specialfunctions\Gamma.cs">
       <Link>SpecialFunctions\Gamma.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\SpecialFunctions\Stability.cs">
+    <Compile Include="..\numerics\specialfunctions\Stability.cs">
       <Link>SpecialFunctions\Stability.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\Statistics\Correlation.cs">
@@ -1051,35 +1014,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Numerics\Properties\Resources.resx">
-      <Link>Properties\Resources.resx</Link>
-      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
+    <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
-        <SilverlightProjectProperties />
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

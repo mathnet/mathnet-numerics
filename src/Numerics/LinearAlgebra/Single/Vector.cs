@@ -319,11 +319,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (float.IsPositiveInfinity((float)p))
             {
-                return CommonParallel.Select(
-                    0,
-                    Count,
-                    (index, localData) => Math.Max(localData, Math.Abs(At(index))),
-                    Common.Max);
+                return CommonParallel.Aggregate(0, Count, i => Math.Abs(At(i)), Math.Max, 0f);
             }
 
             var sum = 0.0;

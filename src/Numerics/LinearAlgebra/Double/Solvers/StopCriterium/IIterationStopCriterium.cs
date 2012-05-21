@@ -34,7 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
     /// The base interface for classes that provide stop criteria for iterative calculations. 
     /// </summary>
     public interface IIterationStopCriterium
-#if !SILVERLIGHT
+#if !PORTABLE
  : ICloneable
 #endif
     {
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
         /// </summary>
         StopLevel StopLevel { get; }
 
-#if SILVERLIGHT
+#if PORTABLE
         IIterationStopCriterium Clone();
 #endif
     }

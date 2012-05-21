@@ -1159,7 +1159,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (Double.IsPositiveInfinity(p))
             {
-                return CommonParallel.Select(0, NonZerosCount, (index, localData) => Math.Max(localData, Math.Abs(_nonZeroValues[index])), Common.Max);
+                return CommonParallel.Aggregate(0, NonZerosCount, i => Math.Abs(_nonZeroValues[i]), Math.Max, 0f);
             }
 
             var sum = 0.0;
@@ -1476,7 +1476,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
-#if SILVERLIGHT
+#if PORTABLE
                 hash ^= Precision.DoubleToInt64Bits(this._nonZeroValues[i].GetHashCode());
 #else
                 hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i].GetHashCode());

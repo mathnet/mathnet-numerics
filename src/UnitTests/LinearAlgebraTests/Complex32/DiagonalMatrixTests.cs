@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     using NUnit.Framework;
     using Complex32 = Numerics.Complex32;
 
-#if SILVERLIGHT
+#if PORTABLE
     using Threading;
 #endif
 

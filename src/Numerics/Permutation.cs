@@ -149,7 +149,7 @@ namespace MathNet.Numerics
             {
                 if (idx[i] != i)
                 {
-#if !SILVERLIGHT
+#if !PORTABLE
                     int q = Array.FindIndex(idx, i + 1, x => x == i);
 #else
                     int q = -1;

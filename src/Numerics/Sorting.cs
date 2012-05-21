@@ -165,6 +165,7 @@ namespace MathNet.Numerics
                 throw new ArgumentNullException("comparer");
             }
 
+#if !PORTABLE
             // array case
             var keysArray = keys as TKey[];
             var itemsArray = items as TItem[];
@@ -173,6 +174,7 @@ namespace MathNet.Numerics
                 Array.Sort(keysArray, itemsArray, comparer);
                 return;
             }
+#endif
 
             // local sort implementation
             QuickSort(keys, items, comparer, 0, keys.Count - 1);

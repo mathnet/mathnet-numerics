@@ -378,7 +378,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.StopCriterium
             return new DivergenceStopCriterium(_maximumRelativeIncrease, _minimumNumberOfIterations);
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Clone this object
         /// </summary>

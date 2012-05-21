@@ -93,7 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
         /// </summary>
         private static readonly ICalculationStatus RunningStatus = new CalculationRunning();
         
-#if SILVERLIGHT
+#if PORTABLE
         private static readonly Dictionary<double, List<IIterativeSolverSetup>> SolverSetups = new Dictionary<double, List<IIterativeSolverSetup>>();        
 #else
         /// <summary>
@@ -122,6 +122,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             LoadSolverInformationFromAssembly(Assembly.GetExecutingAssembly(), typesToExclude);
         }
 
+#if !PORTABLE
         /// <summary>
         /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the file location.
         /// </summary>
@@ -168,6 +169,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
             // Now we can load the solver information.
             LoadSolverInformationFromAssembly(assembly, typesToExclude);
         }
+#endif
 
         /// <summary>
         /// Loads the available <see cref="IIterativeSolverSetup"/> objects from the assembly specified by the assembly name.
@@ -288,6 +290,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 {
                     continue;
                 }
+#if !PORTABLE
                 catch (MethodAccessException)
                 {
                     continue;
@@ -296,6 +299,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 {
                     continue;
                 }
+#endif
                 catch (MemberAccessException)
                 {
                     continue;
@@ -553,7 +557,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
                 throw new Exception("IIterativeSolverSetup objects not found");
             }
 
-#if SILVERLIGHT
+#if PORTABLE
             foreach (var setup in SolverSetups.OrderBy(solver => solver.Key, new DoubleComparer()).Select(pair => pair.Value).SelectMany(setups => setups))          
 #else
             foreach (var setup in SolverSetups.Select(pair => pair.Value).SelectMany(setups => setups))

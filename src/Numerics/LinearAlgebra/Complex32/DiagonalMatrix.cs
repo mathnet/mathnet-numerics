@@ -273,7 +273,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
-#if SILVERLIGHT
+#if PORTABLE
                 hash ^= Precision.DoubleToInt64Bits(Data[i].GetHashCode());
 #else
                 hash ^= BitConverter.DoubleToInt64Bits(Data[i].GetHashCode());

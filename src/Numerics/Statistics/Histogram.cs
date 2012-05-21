@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Statistics
     /// </summary>
     [Serializable]
     public class Bucket :
-#if SILVERLIGHT
+#if PORTABLE
    IComparable<Bucket>
 #else
     IComparable<Bucket>, ICloneable

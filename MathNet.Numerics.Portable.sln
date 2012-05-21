@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight", "src\Silverlight\Silverlight.csproj", "{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
 		AUTHORS.markdown = AUTHORS.markdown
@@ -10,16 +8,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		README.markdown = README.markdown
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable", "src\Portable\Portable.csproj", "{D877F358-A2D2-4CC3-A921-8AA5CF6187E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{793E332F-E2B1-4D1D-9B2E-27E90B99BF93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D877F358-A2D2-4CC3-A921-8AA5CF6187E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D877F358-A2D2-4CC3-A921-8AA5CF6187E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D877F358-A2D2-4CC3-A921-8AA5CF6187E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D877F358-A2D2-4CC3-A921-8AA5CF6187E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

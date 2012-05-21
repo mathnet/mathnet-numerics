@@ -1,9 +1,9 @@
-﻿// <copyright file="SilverlightUtilities.cs" company="Math.NET">
+﻿// <copyright file="AssemblyInfo.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://numerics.mathdotnet.com
-// http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+// http://mathnet.opensourcedotnet.info
+//
+// Copyright (c) 2002-2012 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +12,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,24 +26,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics
-{
-    /// <summary>
-    /// Contains methods missing from Silverlight.
-    /// </summary>
-    public static class SilverlightUtilities
-    {
-        /// <summary>
-        /// Calculates the quotient of two 64-bit signed integers and also returns the remainder in an output parameter.
-        /// </summary>
-        /// <param name="a">The dividend.</param>
-        /// <param name="b">The divisor.</param>
-        /// <param name="result">The remainder.</param>
-        /// <returns>The quotient of the specified numbers.</returns>
-        public static long DivRem(long a, long b, out long result)
-        {
-            result = a % b;
-            return a / b;
-        }
-    }
-}
+using System;
+using System.Reflection;
+using System.Resources;
+using System.Runtime.CompilerServices;
+
+[assembly: AssemblyTitle("Math.NET Numerics - Portable Edition")]
+[assembly: AssemblyDescription("Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use.")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Math.NET Project")]
+[assembly: AssemblyProduct("Math.NET Numerics")]
+[assembly: AssemblyCopyright("Copyright © Math.NET Project")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+[assembly: CLSCompliant(true)]
+[assembly: InternalsVisibleTo("SilverlightUnitTests")]
+[assembly: NeutralResourcesLanguage("en")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

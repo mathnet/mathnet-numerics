@@ -843,7 +843,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
-#if SILVERLIGHT
+#if PORTABLE
                 hash ^= Precision.DoubleToInt64Bits(_nonZeroValues[i].Magnitude);
 #else
                 hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i].Magnitude);

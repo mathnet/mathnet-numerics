@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
                 a.ToString());
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Can format complex to string with culture.
         /// </summary>
@@ -245,7 +245,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Try parse can handle symbols with a culture.
         /// </summary>

@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     /// <typeparam name="T">Supported data types are <c>double</c>, <c>single</c>, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
     public abstract partial class Matrix<T> :
-#if SILVERLIGHT
+#if PORTABLE
     IFormattable, IEquatable<Matrix<T>>
 #else
         IFormattable, IEquatable<Matrix<T>>, ICloneable
@@ -1335,7 +1335,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
         #region Implemented Interfaces
 
-#if !SILVERLIGHT
+#if !PORTABLE
 
         #region ICloneable
 
@@ -1493,7 +1493,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 var col = i % ColumnCount;
                 var row = (i - col) / RowCount;
 
-#if SILVERLIGHT
+#if PORTABLE
                 hash ^= Precision.DoubleToInt64Bits(this[row, col].GetHashCode());
 #else
                 hash ^= BitConverter.DoubleToInt64Bits(this[row, col].GetHashCode());

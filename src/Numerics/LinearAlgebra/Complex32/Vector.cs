@@ -316,11 +316,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (double.IsPositiveInfinity(p))
             {
-                return CommonParallel.Select(
-                    0, 
-                    Count, 
-                    (index, localData) => Math.Max(localData, At(index).Magnitude), 
-                    Common.Max);
+                return CommonParallel.Aggregate(0, Count, i => At(i).Magnitude, Math.Max, 0f);
             }
 
             var sum = 0.0;

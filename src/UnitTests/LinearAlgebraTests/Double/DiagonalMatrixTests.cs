@@ -33,7 +33,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     using LinearAlgebra.Generic;
     using NUnit.Framework;
 
-#if SILVERLIGHT
+#if PORTABLE
     using Threading;
 #endif
 

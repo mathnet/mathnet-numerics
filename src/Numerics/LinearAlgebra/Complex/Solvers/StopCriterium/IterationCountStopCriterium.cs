@@ -212,7 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.StopCriterium
             return new IterationCountStopCriterium(_maximumNumberOfIterations);
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Clones the current <see cref="IterationCountStopCriterium"/> and its settings.
         /// </summary>

@@ -127,7 +127,7 @@ namespace MathNet.Numerics
             }
         }
 
-#if SILVERLIGHT
+#if PORTABLE
         /// <summary>
         /// Globalized Parsing: Parse a double number
         /// </summary>

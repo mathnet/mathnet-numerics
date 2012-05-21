@@ -186,14 +186,14 @@ namespace MathNet.Numerics
             // truncating a negative number will give us a magnitude that is off by 1
             if (magnitude < 0)
             {
-#if SILVERLIGHT
+#if PORTABLE
                 return (int)Truncate(magnitude - 1);
 #else
                 return (int)Math.Truncate(magnitude - 1);
 #endif
             }
 
-#if SILVERLIGHT
+#if PORTABLE
             return (int)Truncate(magnitude);
 #else
             return (int)Math.Truncate(magnitude);
@@ -223,14 +223,14 @@ namespace MathNet.Numerics
             // truncating a negative number will give us a magnitude that is off by 1
             if (magnitude < 0)
             {
-#if SILVERLIGHT
+#if PORTABLE
                 return (int)Truncate(magnitude - 1);
 #else
                 return (int)Math.Truncate(magnitude - 1);
 #endif
             }
 
-#if SILVERLIGHT
+#if PORTABLE
             return (int)Truncate(magnitude);
 #else
             return (int)Math.Truncate(magnitude);
@@ -261,7 +261,7 @@ namespace MathNet.Numerics
         /// </returns>
         private static long GetLongFromDouble(double value)
         {
-#if SILVERLIGHT
+#if PORTABLE
             return DoubleToInt64Bits(value);
 #else
             return BitConverter.DoubleToInt64Bits(value);
@@ -364,7 +364,7 @@ namespace MathNet.Numerics
 
             // Note that not all long values can be translated into double values. There's a whole bunch of them 
             // which return weird values like infinity and NaN
-#if SILVERLIGHT
+#if PORTABLE
             return Int64BitsToDouble(intValue);
 #else
             return BitConverter.Int64BitsToDouble(intValue);
@@ -434,7 +434,7 @@ namespace MathNet.Numerics
 
             // Note that not all long values can be translated into double values. There's a whole bunch of them 
             // which return weird values like infinity and NaN
-#if SILVERLIGHT
+#if PORTABLE
             return Int64BitsToDouble(intValue);
 #else
             return BitConverter.Int64BitsToDouble(intValue);
@@ -581,7 +581,7 @@ namespace MathNet.Numerics
                     // Got underflow, which can be fixed by splitting the calculation into two bits
                     // first get the remainder of the intValue after subtracting it from the long.MinValue
                     // and add that to the ulpsDifference. That way we'll turn positive without underflow
-#if SILVERLIGHT
+#if PORTABLE
                     topRangeEnd =Int64BitsToDouble(maxNumbersBetween + (long.MinValue - intValue));
 #else
                     topRangeEnd = BitConverter.Int64BitsToDouble(maxNumbersBetween + (long.MinValue - intValue));
@@ -590,7 +590,7 @@ namespace MathNet.Numerics
                 else
                 {
                     // No problems here, move along.
-#if SILVERLIGHT
+#if PORTABLE
                     topRangeEnd = Int64BitsToDouble(intValue - maxNumbersBetween);
 #else
                     topRangeEnd = BitConverter.Int64BitsToDouble(intValue - maxNumbersBetween);
@@ -607,7 +607,7 @@ namespace MathNet.Numerics
                 {
                     // intValue is negative. Adding the positive ulpsDifference means that it gets less negative.
                     // However due to the conversion way this means that the actual double value gets more negative :-S
-#if SILVERLIGHT
+#if PORTABLE
                     bottomRangeEnd =Int64BitsToDouble(intValue + maxNumbersBetween);
 #else
                     bottomRangeEnd = BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
@@ -626,7 +626,7 @@ namespace MathNet.Numerics
                 else
                 {
                     // No troubles here
-#if SILVERLIGHT
+#if PORTABLE
                     topRangeEnd = Int64BitsToDouble(intValue + maxNumbersBetween);
 #else
                     topRangeEnd = BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
@@ -638,7 +638,7 @@ namespace MathNet.Numerics
                 {
                     // No problems here. IntValue is larger than ulpsDifference so we'll end up with a
                     // positive number.
-#if SILVERLIGHT
+#if PORTABLE
                     bottomRangeEnd =Int64BitsToDouble(intValue - maxNumbersBetween);
 #else
                     bottomRangeEnd = BitConverter.Int64BitsToDouble(intValue - maxNumbersBetween);
@@ -648,7 +648,7 @@ namespace MathNet.Numerics
                 {
                     // Int value is bigger than zero but smaller than the ulpsDifference. So we'll need to deal with
                     // the reversal at the negative end
-#if SILVERLIGHT
+#if PORTABLE
                     bottomRangeEnd = Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
 #else
                     bottomRangeEnd = BitConverter.Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
@@ -1772,7 +1772,7 @@ namespace MathNet.Numerics
                 return double.NaN;
             }
 
-#if SILVERLIGHT
+#if PORTABLE
             long signed64 = DoubleToInt64Bits(value);
 #else
             long signed64 = BitConverter.DoubleToInt64Bits(value);
@@ -1781,7 +1781,7 @@ namespace MathNet.Numerics
             if (signed64 == 0)
             {
                 signed64++;
-#if SILVERLIGHT
+#if PORTABLE
                 return Int64BitsToDouble(signed64) - value;
 #else
                 return BitConverter.Int64BitsToDouble(signed64) - value;
@@ -1790,14 +1790,14 @@ namespace MathNet.Numerics
 
             if (signed64-- < 0)
             {
-#if SILVERLIGHT
+#if PORTABLE
                 return Int64BitsToDouble(signed64) - value;
 #else
                 return BitConverter.Int64BitsToDouble(signed64) - value;
 #endif
             }
 
-#if SILVERLIGHT
+#if PORTABLE
             return value - Int64BitsToDouble(signed64);
 #else
             return value - BitConverter.Int64BitsToDouble(signed64);
@@ -1826,7 +1826,7 @@ namespace MathNet.Numerics
             return BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
         }
 
-#if SILVERLIGHT
+#if PORTABLE
         internal static long DoubleToInt64Bits(double value)
         {
             return BitConverter.ToInt64(BitConverter.GetBytes(value), 0);

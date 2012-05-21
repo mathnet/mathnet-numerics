@@ -32,7 +32,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     using LinearAlgebra.Single;
     using NUnit.Framework;
 
-#if SILVERLIGHT
+#if PORTABLE
     using Threading;
 #endif
 

@@ -26,7 +26,7 @@
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-#if !SILVERLIGHT
+#if !PORTABLE
     using System;
     using System.Collections.Generic;
     using NUnit.Framework;

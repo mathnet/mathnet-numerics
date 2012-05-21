@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             CollectionAssert.AreEqual(vector, clone);
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Can clone a vector using <c>IClonable</c> interface method.
         /// </summary>

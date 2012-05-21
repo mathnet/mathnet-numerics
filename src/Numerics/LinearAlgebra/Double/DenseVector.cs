@@ -942,11 +942,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (Double.IsPositiveInfinity(p))
             {
-                return CommonParallel.Select(
-                    0,
-                    Count,
-                    (index, localData) => Math.Max(localData, Math.Abs(Data[index])),
-                    Math.Max);
+                return CommonParallel.Aggregate(Data, (i, v) => Math.Abs(v), Math.Max, 0d);
             }
 
             var sum = 0.0;

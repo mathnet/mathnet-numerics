@@ -186,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
             return new FailureStopCriterium();
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Clones the current <see cref="FailureStopCriterium"/> and its settings.
         /// </summary>

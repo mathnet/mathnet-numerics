@@ -147,7 +147,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(double.MinValue, z.Imaginary, "E3");
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Try parse can handle symbols with a culture.
         /// </summary>

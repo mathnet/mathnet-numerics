@@ -40,7 +40,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\out\debug\Net40\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SYSNUMERICS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -51,7 +51,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\out\lib\Net40\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;SYSNUMERICS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\out\lib\Net40\MathNet.Numerics.xml</DocumentationFile>
@@ -96,6 +96,7 @@
     <Compile Include="Algorithms\LinearAlgebra\Mkl\MklLinearAlgebraProvider.float.cs" />
     <Compile Include="Algorithms\LinearAlgebra\Mkl\SafeNativeMethods.cs" />
     <Compile Include="ArrayExtensions.cs" />
+    <Compile Include="Complex64.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="ComplexExtensions.cs" />
     <Compile Include="Constants.cs" />
@@ -394,6 +395,7 @@
     <Compile Include="Random\WH1982.cs" />
     <Compile Include="Random\WH2006.cs" />
     <Compile Include="Random\Xorshift.cs" />
+    <Compile Include="SerializableAttribute.cs" />
     <Compile Include="Signals\SignalGenerator.Random.cs" />
     <Compile Include="Signals\SignalGenerator.Chebyshev.cs" />
     <Compile Include="Signals\SignalGenerator.Equidistant.cs" />

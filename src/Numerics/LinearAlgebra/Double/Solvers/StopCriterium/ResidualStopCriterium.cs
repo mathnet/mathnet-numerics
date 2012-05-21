@@ -394,7 +394,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
             return new ResidualStopCriterium(_maximum, _minimumIterationsBelowMaximum);
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Clones the current <see cref="ResidualStopCriterium"/> and its settings.
         /// </summary>

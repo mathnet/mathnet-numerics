@@ -32,19 +32,16 @@ namespace MathNet.Numerics
 {
     using System;
     using Algorithms.LinearAlgebra;
-    using Threading;
 
     /// <summary>
     /// Sets parameters for the library.
     /// </summary>
     public static class Control
     {
-#if !SILVERLIGHT
         /// <summary>
         /// Initial number of threads to use;
         /// </summary>
         private static int _numberOfThreads = Environment.ProcessorCount;
-#endif
 
         /// <summary>
         /// Initial block size for the native linear algebra provider.
@@ -110,20 +107,11 @@ namespace MathNet.Numerics
         /// <remarks>The Silverlight version of the library defaults to one thread.</remarks>
         public static int NumberOfParallelWorkerThreads
         {
-#if SILVERLIGHT
-            get { return ThreadQueue.ThreadCount; }
-            set { ThreadQueue.Start(value); }
-#else
-            get
-            {
-                return _numberOfThreads;
-            }
-
+            get { return _numberOfThreads; }
             set
             {   // instead of throwing an out of range exception, simply normalize
                 _numberOfThreads = Math.Max(1, Math.Min(1024, value));
             }
-#endif
         }
 
         /// <summary>
@@ -133,11 +121,7 @@ namespace MathNet.Numerics
         /// <value>The block size. Must be at least 32.</value>
         public static int BlockSize
         {
-            get
-            {
-                return _blockSize;
-            }
-
+            get { return _blockSize; }
             set
             {
                 if (_blockSize > 31)
@@ -153,11 +137,7 @@ namespace MathNet.Numerics
         /// <value>The order. Default is 64.</value>
         public static int ParallelizeOrder
         {
-            get
-            {
-                return _parallelizeOrder;
-            }
-
+            get { return _parallelizeOrder; }
             set
             {
                 if (_parallelizeOrder > 2)
@@ -173,11 +153,7 @@ namespace MathNet.Numerics
         /// <value>Number of elements. Default is 300.</value>
         public static int ParallelizeElements
         {
-            get
-            {
-                return _parallelizeElements;
-            }
-
+            get { return _parallelizeElements; }
             set
             {
                 if (_parallelizeElements > 2)

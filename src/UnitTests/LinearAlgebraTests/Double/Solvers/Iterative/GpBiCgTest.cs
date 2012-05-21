@@ -239,7 +239,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.Iterative
             // Now compare the vectors
             for (var i = 0; i < y.Count; i++)
             {
-#if !SILVERLIGHT
+#if !PORTABLE
                 Assert.IsTrue(Math.Abs(y[i] - z[i]).IsSmaller(ConvergenceBoundary, 1), "#05-" + i);
 #else
                 Assert.IsTrue(Math.Abs(y[i] - z[i]).IsSmaller(ConvergenceBoundary * 100.0, 1), "#05-" + i);

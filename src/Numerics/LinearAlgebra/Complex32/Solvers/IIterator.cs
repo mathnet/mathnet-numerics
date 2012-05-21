@@ -38,7 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
     /// Defines the base interface for iterators that help control an iterative calculation.
     /// </summary>
     public interface IIterator
-#if !SILVERLIGHT
+#if !PORTABLE
  : ICloneable
 #endif
     {
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// </remarks>
         void ResetToPrecalculationState();
 
-#if SILVERLIGHT
+#if PORTABLE
         IIterator Clone();
 #endif
     }

@@ -212,7 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.StopCriterium
             return new IterationCountStopCriterium(_maximumNumberOfIterations);
         }
 
-#if !SILVERLIGHT
+#if !PORTABLE
         /// <summary>
         /// Clones the current <see cref="IterationCountStopCriterium"/> and its settings.
         /// </summary>
