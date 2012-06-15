@@ -37,7 +37,7 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 using MathNet.Numerics.Statistics.Mcmc;
-using MathNet.Numerics.Statistics.Mcmc.Diagonistics;
+using MathNet.Numerics.Statistics.Mcmc.Diagnostics;
 using MathNet.Numerics.Statistics;
 
 
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 
             double[] Sample = Hybrid.Sample(10000);
 
-            double Effective = MCMCDiagonistics.EffectiveSize(Sample,x=>x);
+            double Effective = MCMCDiagnostics.EffectiveSize(Sample,x=>x);
 
             DescriptiveStatistics Stats = new DescriptiveStatistics(Sample);
 

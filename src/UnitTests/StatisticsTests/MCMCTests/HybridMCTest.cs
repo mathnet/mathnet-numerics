@@ -37,7 +37,7 @@ using MathNet.Numerics.Random;
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.Statistics.Mcmc;
-using MathNet.Numerics.Statistics.Mcmc.Diagonistics;
+using MathNet.Numerics.Statistics.Mcmc.Diagnostics;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 
             for (int i = 0; i < 2; i++)
             {
-                Convergence[i] = 1 / Math.Sqrt(MCMCDiagonistics.EffectiveSize(Sample,x=>x[i]));
+                Convergence[i] = 1 / Math.Sqrt(MCMCDiagnostics.EffectiveSize(Sample,x=>x[i]));
                 DescriptiveStatistics Stats = new DescriptiveStatistics(NewSamples[i]);
                 SampleMean[i] = Stats.Mean;
                 SampleSdv[i] = Stats.StandardDeviation;
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
                 Assert.AreEqual(SampleSdv[i] * SampleSdv[i], Sdv[i] * Sdv[i], 10 * Convergence[i], index + "Standard Deviation");
             }
 
-            double ConvergenceRho=1/Math.Sqrt(MCMCDiagonistics.EffectiveSize(Sample,x=>(x[0]-SampleMean[0])*(x[1]-SampleMean[1])));
+            double ConvergenceRho=1/Math.Sqrt(MCMCDiagnostics.EffectiveSize(Sample,x=>(x[0]-SampleMean[0])*(x[1]-SampleMean[1])));
 
             Assert.AreEqual(SampleRho*SampleSdv[0]*SampleSdv[1], rho*Sdv[0]*Sdv[1], 10 * ConvergenceRho, "Rho");
 
