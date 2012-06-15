@@ -409,10 +409,14 @@
     <Compile Include="Statistics\Correlation.cs" />
     <Compile Include="Statistics\DescriptiveStatistics.cs" />
     <Compile Include="Statistics\Histogram.cs" />
+    <Compile Include="Statistics\MCMC\HybridMC.cs" />
+    <Compile Include="Statistics\MCMC\HybridMCGeneric.cs" />
+    <Compile Include="Statistics\MCMC\MCMCDiagonistics.cs" />
     <Compile Include="Statistics\MCMC\MCMCSampler.cs" />
     <Compile Include="Statistics\MCMC\MetropolisHastingsSampler.cs" />
     <Compile Include="Statistics\MCMC\MetropolisSampler.cs" />
     <Compile Include="Statistics\MCMC\RejectionSampler.cs" />
+    <Compile Include="Statistics\MCMC\UnivariateHybridMC.cs" />
     <Compile Include="Statistics\Percentile.cs" />
     <Compile Include="Statistics\Statistics.cs" />
     <Compile Include="Statistics\MCMC\UnivariateSliceSampler.cs" />

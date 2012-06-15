@@ -753,9 +753,12 @@
     <Compile Include="StatisticsTests\CorrelationTests.cs" />
     <Compile Include="StatisticsTests\DescriptiveStatisticsTests.cs" />
     <Compile Include="StatisticsTests\HistogramTests.cs" />
+    <Compile Include="StatisticsTests\MCMCTests\HybridMCTest.cs" />
+    <Compile Include="StatisticsTests\MCMCTests\MCMCDiagonisticsTest.cs" />
     <Compile Include="StatisticsTests\MCMCTests\MetropolisHastingsSamplerTests.cs" />
     <Compile Include="StatisticsTests\MCMCTests\MetropolisSamplerTests.cs" />
     <Compile Include="StatisticsTests\MCMCTests\RejectionSamplerTests.cs" />
+    <Compile Include="StatisticsTests\MCMCTests\UnivariateHybridMCTest.cs" />
     <Compile Include="StatisticsTests\MCMCTests\UnivariateSliceSamplerTests.cs" />
     <Compile Include="StatisticsTests\PercentileTests.cs" />
     <Compile Include="StatisticsTests\StatisticsTests.cs" />
