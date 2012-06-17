@@ -160,67 +160,48 @@ namespace MathNet.Numerics
         /// <returns>The upper incomplete regularized gamma function.</returns>
         public static double GammaUpperRegularized(double a, double x)
         {
-            double result = 0;
-            double igammaepsilon = 0;
-            double igammabignumber = 0;
-            double igammabignumberinv = 0;
-            double ans = 0;
-            double ax = 0;
-            double c = 0;
-            double yc = 0;
-            double r = 0;
-            double t = 0;
-            double y = 0;
-            double z = 0;
-            double pk = 0;
-            double pkm1 = 0;
-            double pkm2 = 0;
-            double qk = 0;
-            double qkm1 = 0;
-            double qkm2 = 0;
+            double t;
 
-            igammaepsilon = 0.000000000000001;
-            igammabignumber = 4503599627370496.0;
-            igammabignumberinv = 2.22044604925031308085 * 0.0000000000000001;
+            const double igammaepsilon = 0.000000000000001;
+            const double igammabignumber = 4503599627370496.0;
+            const double igammabignumberinv = 2.22044604925031308085 * 0.0000000000000001;
+            
             if (x <= 0 | a <= 0)
             {
-                result = 1;
-                return result;
+                return 1;
             }
 
             if (x < 1 | x < a)
             {
-                result = 1 - GammaLowerRegularized(a, x);
-                return result;
+                return 1 - GammaLowerRegularized(a, x);
             }
 
-            ax = a * Math.Log(x) - x - GammaLn(a);
+            double ax = a * Math.Log(x) - x - GammaLn(a);
             if (ax < -709.78271289338399)
             {
-                result = 0;
-                return result;
+                return 0;
             }
 
             ax = Math.Exp(ax);
-            y = 1 - a;
-            z = x + y + 1;
-            c = 0;
-            pkm2 = 1;
-            qkm2 = x;
-            pkm1 = x + 1;
-            qkm1 = z * x;
-            ans = pkm1 / qkm1;
+            double y = 1 - a;
+            double z = x + y + 1;
+            double c = 0;
+            double pkm2 = 1;
+            double qkm2 = x;
+            double pkm1 = x + 1;
+            double qkm1 = z * x;
+            double ans = pkm1 / qkm1;
             do
             {
                 c = c + 1;
                 y = y + 1;
                 z = z + 2;
-                yc = y * c;
-                pk = pkm1 * z - pkm2 * yc;
-                qk = qkm1 * z - qkm2 * yc;
+                double yc = y * c;
+                double pk = pkm1 * z - pkm2 * yc;
+                double qk = qkm1 * z - qkm2 * yc;
                 if (qk != 0)
                 {
-                    r = pk / qk;
+                    double r = pk / qk;
                     t = Math.Abs((ans - r) / r);
                     ans = r;
                 }
@@ -244,9 +225,7 @@ namespace MathNet.Numerics
             }
             while (t > igammaepsilon);
 
-            result = ans * ax;
-
-            return result;
+            return ans * ax;
         }
     
         /// <summary>
@@ -307,7 +286,7 @@ namespace MathNet.Numerics
                 return 0d;
             }
 
-            double ax = (a * Math.Log(x)) - x - SpecialFunctions.GammaLn(a);
+            double ax = (a * Math.Log(x)) - x - GammaLn(a);
             if (ax < -709.78271289338399)
             {
                 return 1d;
@@ -340,7 +319,7 @@ namespace MathNet.Numerics
             double q2 = z * x;
             double ans = p2 / q2;
 
-            double error = 0;
+            double error;
 
             do
             {

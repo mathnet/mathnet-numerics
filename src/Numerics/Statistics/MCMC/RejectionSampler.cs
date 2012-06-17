@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 // Sample a variable between 0.0 and proposal density.
                 double u = RandomSource.NextDouble() * q;
 
-                mSamples++;
+                Samples++;
 
                 if (q < p)
                 {
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 }
                 if (u < p)
                 {
-                    mAccepts++;
+                    Accepts++;
                     return x;
                 }
             }

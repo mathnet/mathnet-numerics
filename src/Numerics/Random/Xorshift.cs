@@ -247,7 +247,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// The multiplier.
         /// </summary>
-        private ulong _a;
+        private readonly ulong _a;
 
         /// <summary>
         /// Returns a random number between 0.0 and 1.0.

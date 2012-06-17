@@ -381,24 +381,24 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             if (ReferenceEquals(this, result))
             {
                 //populate a new vector with the scalar   
-                var vnonZeroValues = new Complex[this.Count];
-                var vnonZeroIndices = new int[this.Count];
-                for (int index = 0; index < this.Count; index++)
+                var vnonZeroValues = new Complex[Count];
+                var vnonZeroIndices = new int[Count];
+                for (int index = 0; index < Count; index++)
                 {
                     vnonZeroIndices[index] = index;
                     vnonZeroValues[index] = scalar;
                 }
 
                 //populate the non zero values from this
-                for (int j = 0; j < this.NonZerosCount; j++)
+                for (int j = 0; j < NonZerosCount; j++)
                 {
-                    vnonZeroValues[this._nonZeroIndices[j]] = this._nonZeroValues[j] + scalar;
+                    vnonZeroValues[_nonZeroIndices[j]] = _nonZeroValues[j] + scalar;
                 }
 
                 //assign this vectors arrary to the new arrays. 
-                this._nonZeroValues = vnonZeroValues;
-                this._nonZeroIndices = vnonZeroIndices;
-                this.NonZerosCount = this.Count;
+                _nonZeroValues = vnonZeroValues;
+                _nonZeroIndices = vnonZeroIndices;
+                NonZerosCount = Count;
             }
             else
             {
@@ -1155,7 +1155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             if (value == null)
             {
-                throw new ArgumentNullException(value);
+                throw new ArgumentNullException("value");
             }
 
             value = value.Trim();

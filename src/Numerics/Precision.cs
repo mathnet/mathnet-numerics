@@ -1291,14 +1291,10 @@ namespace MathNet.Numerics
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
             // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
             double maxDifference = decimalPlaceMagnitude / 2.0;
-            if (a > b)
-            {
-                return (a * Math.Pow(10, -magnitudeOfFirst)) - maxDifference < (b * Math.Pow(10, -magnitudeOfFirst));
-            }
-            else
-            {
-                return (b * Math.Pow(10, -magnitudeOfSecond)) - maxDifference < (a * Math.Pow(10, -magnitudeOfSecond));
-            }
+
+            return a > b
+                ? (a*Math.Pow(10, -magnitudeOfFirst)) - maxDifference < (b*Math.Pow(10, -magnitudeOfFirst))
+                : (b*Math.Pow(10, -magnitudeOfSecond)) - maxDifference < (a*Math.Pow(10, -magnitudeOfSecond));
         }
 
         /// <summary>
@@ -1333,14 +1329,10 @@ namespace MathNet.Numerics
             // on each side of the numbers, e.g. if decimalPlaces == 2, 
             // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
             float maxDifference = decimalPlaceMagnitude / 2.0f;
-            if (a > b)
-            {
-                return (a * (float)Math.Pow(10, -magnitudeOfFirst)) - maxDifference < (b * (float)Math.Pow(10, -magnitudeOfFirst));
-            }
-            else
-            {
-                return (b * (float)Math.Pow(10, -magnitudeOfSecond)) - maxDifference < (a * (float)Math.Pow(10, -magnitudeOfSecond));
-            }
+
+            return a > b
+                ? (a*(float) Math.Pow(10, -magnitudeOfFirst)) - maxDifference < (b*(float) Math.Pow(10, -magnitudeOfFirst))
+                : (b*(float) Math.Pow(10, -magnitudeOfSecond)) - maxDifference < (a*(float) Math.Pow(10, -magnitudeOfSecond));
         }
 
         /// <summary>

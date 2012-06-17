@@ -60,18 +60,13 @@ namespace MathNet.Numerics.Statistics
             /// <returns>-1 when the point is less than this bucket, 0 when it is in this bucket and 1 otherwise.</returns>
             public int Compare(Bucket bkt1, Bucket bkt2)
             {
-                if (bkt2.Width == 0.0)
-                {
-                    return -bkt1.Contains(bkt2.UpperBound);
-                }
-                else
-                {
-                    return -bkt2.Contains(bkt1.UpperBound);
-                }
+                return bkt2.Width == 0.0
+                    ? -bkt1.Contains(bkt2.UpperBound)
+                    : -bkt2.Contains(bkt1.UpperBound);
             }
         }
 
-        private static PointComparer pointComparer = new PointComparer();
+        private static readonly PointComparer pointComparer = new PointComparer();
 
         /// <summary>
         /// Lower Bound of the Bucket.
@@ -166,18 +161,18 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public int CompareTo(Bucket bucket)
         {
-            if (this.UpperBound > bucket.LowerBound && this.LowerBound < bucket.LowerBound)
+            if (UpperBound > bucket.LowerBound && LowerBound < bucket.LowerBound)
             {
                 throw new ArgumentException(Resources.PartialOrderException);
             }
 
-            if (Precision.AlmostEqual(this.UpperBound, bucket.UpperBound) 
-                && Precision.AlmostEqual(this.LowerBound, bucket.LowerBound))
+            if (UpperBound.AlmostEqual(bucket.UpperBound) 
+                && LowerBound.AlmostEqual(bucket.LowerBound))
             {
                 return 0;
             }
 
-            if (bucket.UpperBound <= this.LowerBound)
+            if (bucket.UpperBound <= LowerBound)
             {
                 return 1;
             }
@@ -196,10 +191,10 @@ namespace MathNet.Numerics.Statistics
                 return false;
             }
 
-            Bucket b = (Bucket) obj;
-            return Precision.AlmostEqual(this.LowerBound, b.LowerBound)
-                && Precision.AlmostEqual(this.UpperBound, b.UpperBound)
-                && Precision.AlmostEqual(this.Count, b.Count);
+            var bucket = (Bucket) obj;
+            return LowerBound.AlmostEqual(bucket.LowerBound)
+                && UpperBound.AlmostEqual(bucket.UpperBound)
+                && Count.AlmostEqual(bucket.Count);
         }
 
         /// <summary>
@@ -216,7 +211,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns></returns>
         public override string ToString()
         {
-            return "(" + this.LowerBound + ";" + this.UpperBound + "] = " + this.Count;
+            return "(" + LowerBound + ";" + UpperBound + "] = " + Count;
         }
     }
     
@@ -229,20 +224,20 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Contains all the <c>Bucket</c>s of the <c>Histogram</c>.
         /// </summary>
-        private List<Bucket> buckets;
+        private readonly List<Bucket> _buckets;
 
         /// <summary>
         /// Indicates whether the elements of <c>buckets</c> are currently sorted.
         /// </summary>
-        private bool areBucketsSorted;
+        private bool _areBucketsSorted;
 
         /// <summary>
         /// Initializes a new instance of the Histogram class.
         /// </summary>
         public Histogram()
         {
-            buckets = new List<Bucket>();
-            areBucketsSorted = true;
+            _buckets = new List<Bucket>();
+            _areBucketsSorted = true;
         }
 
         /// <summary>
@@ -256,7 +251,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (nbuckets < 1)
             {
-                throw new ArgumentOutOfRangeException("The number of bins in a histogram should be at least 1.");
+                throw new ArgumentOutOfRangeException("data", "The number of bins in a histogram should be at least 1.");
             }
 
             double lower = data.Minimum();
@@ -315,20 +310,20 @@ namespace MathNet.Numerics.Statistics
             // Sort if needed.
             LazySort();
 
-            if (d < this.LowerBound)
+            if (d < LowerBound)
             {
                 // Make the lower bound just slightly smaller than the datapoint so it is contained in this bucket.
-                buckets[0].LowerBound = d.Decrement();
-                buckets[0].Count++;
+                _buckets[0].LowerBound = d.Decrement();
+                _buckets[0].Count++;
             }
-            else if (d > this.UpperBound)
+            else if (d > UpperBound)
             {
-                buckets[BucketCount - 1].UpperBound = d;
-                buckets[BucketCount - 1].Count++;
+                _buckets[BucketCount - 1].UpperBound = d;
+                _buckets[BucketCount - 1].Count++;
             }
             else
             {
-                buckets[GetBucketIndexOf(d)].Count++;
+                _buckets[GetBucketIndexOf(d)].Count++;
             }
         }
 
@@ -350,8 +345,8 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public void AddBucket(Bucket bucket)
         {
-            buckets.Add(bucket);
-            areBucketsSorted = false;
+            _buckets.Add(bucket);
+            _areBucketsSorted = false;
         }
 
         /// <summary>
@@ -359,10 +354,10 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         private void LazySort()
         {
-            if (!areBucketsSorted)
+            if (!_areBucketsSorted)
             {
-                buckets.Sort();
-                areBucketsSorted = true;
+                _buckets.Sort();
+                _areBucketsSorted = true;
             }
         }
 
@@ -373,7 +368,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>A copy of the bucket containing point <paramref name="v"/>.</returns>
         public Bucket GetBucketOf(double v)
         {
-            return (Bucket) buckets[GetBucketIndexOf(v)].Clone();
+            return (Bucket) _buckets[GetBucketIndexOf(v)].Clone();
         }
 
         /// <summary>
@@ -388,7 +383,7 @@ namespace MathNet.Numerics.Statistics
             LazySort();
 
             // Binary search for the bucket index.
-            int index = buckets.BinarySearch(new Bucket(v, v), Bucket.DefaultPointComparer);
+            int index = _buckets.BinarySearch(new Bucket(v, v), Bucket.DefaultPointComparer);
 
             if (index < 0)
             {
@@ -406,7 +401,7 @@ namespace MathNet.Numerics.Statistics
             get
             {
                 LazySort();
-                return buckets[0].LowerBound;
+                return _buckets[0].LowerBound;
             }
         }
 
@@ -418,7 +413,7 @@ namespace MathNet.Numerics.Statistics
             get
             {
                 LazySort();
-                return buckets[buckets.Count - 1].UpperBound;
+                return _buckets[_buckets.Count - 1].UpperBound;
             }
         }
 
@@ -432,7 +427,7 @@ namespace MathNet.Numerics.Statistics
             get
             {
                 LazySort();
-                return (Bucket) buckets[n].Clone();
+                return (Bucket) _buckets[n].Clone();
             }
         }
         
@@ -441,7 +436,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public int BucketCount
         {
-            get { return buckets.Count; }
+            get { return _buckets.Count; }
         }
 
         /// <summary>
@@ -453,7 +448,7 @@ namespace MathNet.Numerics.Statistics
             {
                 double totalCount = 0;
                
-                for (int i = 0; i < this.BucketCount; i++)
+                for (int i = 0; i < BucketCount; i++)
                 {
                     totalCount += this[i].Count;
                 }
@@ -469,7 +464,7 @@ namespace MathNet.Numerics.Statistics
         {
             StringBuilder sb = new StringBuilder();
            
-            foreach (Bucket b in buckets)
+            foreach (Bucket b in _buckets)
             {
                 sb.Append(b.ToString());
             }

@@ -34,10 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Numerics;
     using System.Reflection;
-    using Generic;
-    using Generic.Solvers;
     using Generic.Solvers.Status;
     using Properties;
 
@@ -248,7 +245,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
         {
             if (assembly == null)
             {
-                throw new ArgumentNullException("Assembly");
+                throw new ArgumentNullException("assembly");
             }
 
             if (typesToExclude == null)

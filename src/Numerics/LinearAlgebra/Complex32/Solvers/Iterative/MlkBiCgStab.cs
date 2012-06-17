@@ -35,7 +35,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Iterative
     using System.Diagnostics;
     using System.Linq;
     using Distributions;
-    using Generic.Factorization;
     using Generic.Solvers.Status;
     using Numerics;
     using Preconditioners;

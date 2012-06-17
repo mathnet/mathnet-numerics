@@ -198,7 +198,7 @@ namespace MathNet.Numerics.Statistics
             Minimum = minimum;
             Maximum = maximum;
             Variance = (variance - (correction * correction / n)) / (n - 1);
-            StandardDeviation = System.Math.Sqrt(Variance);
+            StandardDeviation = Math.Sqrt(Variance);
             if (Variance != 0)
             {
                 if (n > 2)
@@ -254,7 +254,7 @@ namespace MathNet.Numerics.Statistics
                 Minimum = minimum;
                 Maximum = maximum;
                 Variance = (variance - (correction * correction / n)) / (n - 1);
-                StandardDeviation = System.Math.Sqrt(Variance);
+                StandardDeviation = Math.Sqrt(Variance);
                 if (Variance != 0)
                 {
                     if (n > 2)
@@ -307,7 +307,7 @@ namespace MathNet.Numerics.Statistics
             Minimum = (double)minimum;
             Maximum = (double)maximum;
             Variance = (double)(variance - (correction * correction / n)) / (n - 1);
-            StandardDeviation = System.Math.Sqrt(Variance);
+            StandardDeviation = Math.Sqrt(Variance);
             if (Variance != 0)
             {
                 if (n > 2)
@@ -364,7 +364,7 @@ namespace MathNet.Numerics.Statistics
                 Minimum = (double) minimum;
                 Maximum = (double) maximum;
                 Variance = (double)(variance - (correction * correction / n)) / (n - 1);
-                StandardDeviation = System.Math.Sqrt(Variance);
+                StandardDeviation = Math.Sqrt(Variance);
                 if (Variance != 0)
                 {
                     if (n > 2)

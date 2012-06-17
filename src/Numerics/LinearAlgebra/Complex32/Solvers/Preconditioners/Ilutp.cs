@@ -170,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Value");
+                    throw new ArgumentOutOfRangeException("value");
                 }
 
                 _fillLevel = value;
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Value");
+                    throw new ArgumentOutOfRangeException("value");
                 }
 
                 _dropTolerance = value;
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers.Preconditioners
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Value");
+                    throw new ArgumentOutOfRangeException("value");
                 }
 
                 _pivotTolerance = value;

@@ -40,7 +40,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// </summary>
     /// <typeparam name="T">The type of the datapoints.</typeparam>
     /// <returns>A sample from the proposal distribution.</returns>
-    public delegate T GlobalProposalSampler<T>();
+    public delegate T GlobalProposalSampler<out T>();
 
     /// <summary>
     /// A method which samples datapoints from a proposal distribution given an initial sample. The implementation 
@@ -58,14 +58,14 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// </summary>
     /// <typeparam name="T">The type of data the distribution is over.</typeparam>
     /// <param name="sample">The sample we want to evaluate the density for.</param>
-    public delegate double Density<T>(T sample);
+    public delegate double Density<in T>(T sample);
 
     /// <summary>
     /// A function which evaluates a log density.
     /// </summary>
     /// <typeparam name="T">The type of data the distribution is over.</typeparam>
     /// <param name="sample">The sample we want to evaluate the log density for.</param>
-    public delegate double DensityLn<T>(T sample);
+    public delegate double DensityLn<in T>(T sample);
 
     /// <summary>
     /// A function which evaluates the log of a transition kernel probability.
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// <param name="to">The new state in the transition.</param>
     /// <param name="from">The previous state in the transition.</param>
     /// <returns>The log probability of the transition.</returns>
-    public delegate double TransitionKernelLn<T>(T to, T from);
+    public delegate double TransitionKernelLn<in T>(T to, T from);
 
     /// <summary>
     /// The interface which every sampler must implement.
@@ -85,18 +85,18 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// The random number generator for this class.
         /// </summary>
-        private System.Random mRandomNumberGenerator;
+        private Random _randomNumberGenerator;
 
         /// <summary>
         /// Keeps track of the number of accepted samples.
         /// </summary>
-        protected int mAccepts;
+        protected int Accepts;
 
         /// <summary>
         /// Keeps track of the number of calls to the proposal sampler.
         /// </summary>
-        protected int mSamples;
-
+        protected int Samples;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="McmcSampler{T}"/> class.
         /// </summary>
@@ -104,18 +104,18 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// safe classes.</remarks>
         protected McmcSampler()
         {
-            mAccepts = 0;
-            mSamples = 0;
-            RandomSource = new System.Random();
+            Accepts = 0;
+            Samples = 0;
+            RandomSource = new Random();
         }
 
         /// <summary>
         /// Gets or sets the random number generator.
         /// </summary>
         /// <exception cref="ArgumentNullException">When the random number generator is null.</exception>
-        public System.Random RandomSource
+        public Random RandomSource
         {
-            get { return mRandomNumberGenerator; }
+            get { return _randomNumberGenerator; }
 
             set
             {
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 {
                     throw new ArgumentNullException();
                 }
-                mRandomNumberGenerator = value;
+                _randomNumberGenerator = value;
             }
         }
 
@@ -154,7 +154,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         public double AcceptanceRate
         {
-            get { return (double)mAccepts / (double)mSamples; }
+            get { return Accepts / (double)Samples; }
         }
     }
 }

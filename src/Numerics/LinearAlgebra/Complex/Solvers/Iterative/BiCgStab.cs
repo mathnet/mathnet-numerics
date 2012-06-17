@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 {
     using System;
     using System.Numerics;
-    using Generic;
     using Generic.Solvers.Status;
     using Preconditioners;
     using Properties;

@@ -32,7 +32,6 @@ namespace MathNet.Numerics.Statistics
 {
     using System;
     using System.Collections.Generic;
-    using Properties;
 
     /// <summary>
     /// A class with correlation measures between two datasets.

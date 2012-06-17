@@ -72,7 +72,7 @@ namespace MathNet.Numerics.Signals
 
             if (sampleCount == 1)
             {
-                return new T[] { function(0.5 * (intervalBegin + intervalEnd)) };
+                return new[] { function(0.5 * (intervalBegin + intervalEnd)) };
             }
 
             var samples = new T[sampleCount];
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.Signals
             if (sampleCount == 1)
             {
                 samplePoints = new[] { 0.5 * (intervalBegin + intervalEnd) };
-                return new T[] { function(samplePoints[0]) };
+                return new[] { function(samplePoints[0]) };
             }
 
             var samples = new T[sampleCount];

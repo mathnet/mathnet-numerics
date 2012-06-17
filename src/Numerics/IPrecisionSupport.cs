@@ -34,7 +34,7 @@ namespace MathNet.Numerics
     /// Support Interface for Precision Operations (like AlmostEquals).
     /// </summary>
     /// <typeparam name="T">Type of the implementing class.</typeparam>
-    public interface IPrecisionSupport<T>
+    public interface IPrecisionSupport<in T>
     {
         /// <summary>
         /// Returns a Norm of a value of this type, which is appropriate for measuring how

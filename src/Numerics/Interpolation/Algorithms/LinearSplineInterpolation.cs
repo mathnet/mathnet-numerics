@@ -131,7 +131,7 @@ namespace MathNet.Numerics.Interpolation.Algorithms
 
             if (samplePoints.Count != sampleValues.Count)
             {
-                throw new ArgumentException(Properties.Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
             for (var i = 1; i < samplePoints.Count; ++i)

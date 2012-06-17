@@ -417,7 +417,7 @@ namespace MathNet.Numerics
                     return Zero;
                 }
 
-                return new Complex32((float)(_real / mod), (float)(_imag / mod));
+                return new Complex32(_real / mod, _imag / mod);
             }
         }
 
@@ -1103,7 +1103,7 @@ namespace MathNet.Numerics
         {
             if (value == null)
             {
-                throw new ArgumentNullException(value);
+                throw new ArgumentNullException("value");
             }
 
             value = value.Trim();
