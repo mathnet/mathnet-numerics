@@ -181,21 +181,26 @@ namespace MathNet.Numerics
             // work for negative numbers (obviously).
             double magnitude = Math.Log10(Math.Abs(value));
 
+#if PORTABLE
             // To get the right number we need to know if the value is negative or positive
             // truncating a positive number will always give use the correct magnitude
             // truncating a negative number will give us a magnitude that is off by 1
             if (magnitude < 0)
             {
-#if PORTABLE
+
                 return (int)Truncate(magnitude - 1);
-#else
-                return (int)Math.Truncate(magnitude - 1);
-#endif
             }
 
-#if PORTABLE
             return (int)Truncate(magnitude);
 #else
+            // To get the right number we need to know if the value is negative or positive
+            // truncating a positive number will always give use the correct magnitude
+            // truncating a negative number will give us a magnitude that is off by 1
+            if (magnitude < 0)
+            {
+                return (int)Math.Truncate(magnitude - 1);
+            }
+
             return (int)Math.Truncate(magnitude);
 #endif
         }
@@ -569,6 +574,7 @@ namespace MathNet.Numerics
             //                          i.e. 0 - double.epsilon will give the largest long value!
             long intValue = GetLongFromDouble(value);
 
+#if PORTABLE
             // We need to protect against over- and under-flow of the intValue when
             // we start to add the ulpsDifference.
             if (intValue < 0)
@@ -576,85 +582,85 @@ namespace MathNet.Numerics
                 // Note that long.MinValue has the same bit pattern as
                 // -0.0. Therefore we're working in opposite direction (i.e. add if we want to
                 // go more negative and subtract if we want to go less negative)
-                if (Math.Abs(long.MinValue - intValue) < maxNumbersBetween)
-                {
+                topRangeEnd = Math.Abs(long.MinValue - intValue) < maxNumbersBetween
                     // Got underflow, which can be fixed by splitting the calculation into two bits
                     // first get the remainder of the intValue after subtracting it from the long.MinValue
                     // and add that to the ulpsDifference. That way we'll turn positive without underflow
-#if PORTABLE
-                    topRangeEnd =Int64BitsToDouble(maxNumbersBetween + (long.MinValue - intValue));
-#else
-                    topRangeEnd = BitConverter.Int64BitsToDouble(maxNumbersBetween + (long.MinValue - intValue));
-#endif   
-                }
-                else
-                {
+                    ? Int64BitsToDouble(maxNumbersBetween + (long.MinValue - intValue))
                     // No problems here, move along.
-#if PORTABLE
-                    topRangeEnd = Int64BitsToDouble(intValue - maxNumbersBetween);
-#else
-                    topRangeEnd = BitConverter.Int64BitsToDouble(intValue - maxNumbersBetween);
-#endif
-                }
+                    : Int64BitsToDouble(intValue - maxNumbersBetween);
 
-                if (Math.Abs(intValue) < maxNumbersBetween)
-                {
+                bottomRangeEnd = Math.Abs(intValue) < maxNumbersBetween
                     // Underflow, which means we'd have to go further than a long would allow us.
                     // Also we couldn't translate it back to a double, so we'll return -Double.MaxValue
-                    bottomRangeEnd = -double.MaxValue;
-                }
-                else
-                {
+                    ? -double.MaxValue
                     // intValue is negative. Adding the positive ulpsDifference means that it gets less negative.
                     // However due to the conversion way this means that the actual double value gets more negative :-S
-#if PORTABLE
-                    bottomRangeEnd =Int64BitsToDouble(intValue + maxNumbersBetween);
-#else
-                    bottomRangeEnd = BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
-#endif
-                }
+                    : Int64BitsToDouble(intValue + maxNumbersBetween);
             }
             else
             {
                 // IntValue is positive
-                if (long.MaxValue - intValue < maxNumbersBetween)
-                {
+                topRangeEnd = long.MaxValue - intValue < maxNumbersBetween
                     // Overflow, which means we'd have to go further than a long would allow us.
                     // Also we couldn't translate it back to a double, so we'll return Double.MaxValue 
-                    topRangeEnd = double.MaxValue;
-                }
-                else
-                {
+                    ? double.MaxValue
                     // No troubles here
-#if PORTABLE
-                    topRangeEnd = Int64BitsToDouble(intValue + maxNumbersBetween);
-#else
-                    topRangeEnd = BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
-#endif               
-                }
+                    : Int64BitsToDouble(intValue + maxNumbersBetween);
 
                 // Check the bottom range end for underflows
-                if (intValue > maxNumbersBetween)
-                {
+                bottomRangeEnd = intValue > maxNumbersBetween
                     // No problems here. IntValue is larger than ulpsDifference so we'll end up with a
                     // positive number.
-#if PORTABLE
-                    bottomRangeEnd =Int64BitsToDouble(intValue - maxNumbersBetween);
-#else
-                    bottomRangeEnd = BitConverter.Int64BitsToDouble(intValue - maxNumbersBetween);
-#endif 
-                }
-                else
-                {
+                    ? Int64BitsToDouble(intValue - maxNumbersBetween)
                     // Int value is bigger than zero but smaller than the ulpsDifference. So we'll need to deal with
                     // the reversal at the negative end
-#if PORTABLE
-                    bottomRangeEnd = Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
-#else
-                    bottomRangeEnd = BitConverter.Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
-#endif   
-                }
+                    : Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
             }
+#else
+            // We need to protect against over- and under-flow of the intValue when
+            // we start to add the ulpsDifference.
+            if (intValue < 0)
+            {
+                // Note that long.MinValue has the same bit pattern as
+                // -0.0. Therefore we're working in opposite direction (i.e. add if we want to
+                // go more negative and subtract if we want to go less negative)
+                topRangeEnd = Math.Abs(long.MinValue - intValue) < maxNumbersBetween
+                    // Got underflow, which can be fixed by splitting the calculation into two bits
+                    // first get the remainder of the intValue after subtracting it from the long.MinValue
+                    // and add that to the ulpsDifference. That way we'll turn positive without underflow
+                    ? BitConverter.Int64BitsToDouble(maxNumbersBetween + (long.MinValue - intValue))
+                    // No problems here, move along.
+                    : BitConverter.Int64BitsToDouble(intValue - maxNumbersBetween);
+
+                bottomRangeEnd = Math.Abs(intValue) < maxNumbersBetween
+                    // Underflow, which means we'd have to go further than a long would allow us.
+                    // Also we couldn't translate it back to a double, so we'll return -Double.MaxValue
+                    ? -double.MaxValue
+                    // intValue is negative. Adding the positive ulpsDifference means that it gets less negative.
+                    // However due to the conversion way this means that the actual double value gets more negative :-S
+                    : BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
+            }
+            else
+            {
+                // IntValue is positive
+                topRangeEnd = long.MaxValue - intValue < maxNumbersBetween
+                    // Overflow, which means we'd have to go further than a long would allow us.
+                    // Also we couldn't translate it back to a double, so we'll return Double.MaxValue
+                    ? double.MaxValue
+                    // No troubles here
+                    : BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
+
+                // Check the bottom range end for underflows
+                bottomRangeEnd = intValue > maxNumbersBetween
+                    // No problems here. IntValue is larger than ulpsDifference so we'll end up with a
+                    // positive number.
+                    ? BitConverter.Int64BitsToDouble(intValue - maxNumbersBetween)
+                    // Int value is bigger than zero but smaller than the ulpsDifference. So we'll need to deal with
+                    // the reversal at the negative end
+                    : BitConverter.Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
+            }
+#endif
         }
 
         /// <summary>
@@ -1766,32 +1772,27 @@ namespace MathNet.Numerics
 
 #if PORTABLE
             long signed64 = DoubleToInt64Bits(value);
-#else
-            long signed64 = BitConverter.DoubleToInt64Bits(value);
-#endif
-            
             if (signed64 == 0)
             {
                 signed64++;
-#if PORTABLE
                 return Int64BitsToDouble(signed64) - value;
-#else
-                return BitConverter.Int64BitsToDouble(signed64) - value;
-#endif
             }
-
             if (signed64-- < 0)
             {
-#if PORTABLE
                 return Int64BitsToDouble(signed64) - value;
-#else
-                return BitConverter.Int64BitsToDouble(signed64) - value;
-#endif
             }
-
-#if PORTABLE
             return value - Int64BitsToDouble(signed64);
 #else
+            long signed64 = BitConverter.DoubleToInt64Bits(value);
+            if (signed64 == 0)
+            {
+                signed64++;
+                return BitConverter.Int64BitsToDouble(signed64) - value;
+            }
+            if (signed64-- < 0)
+            {
+                return BitConverter.Int64BitsToDouble(signed64) - value;
+            }
             return value - BitConverter.Int64BitsToDouble(signed64);
 #endif
         }
