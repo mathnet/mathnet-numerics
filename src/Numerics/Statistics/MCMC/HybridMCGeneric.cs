@@ -201,7 +201,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 double DH = Hnew - H;
 
                 Update(ref E, ref Gradient, mNew, gNew, Enew, DH);
-                mSamples++;
+                Samples++;
             }
         }
 
@@ -221,10 +221,10 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (DH <= 0)
             {
-                mCurrent = mNew; Gradient = gNew; E = Enew; mAccepts++;
+                mCurrent = mNew; Gradient = gNew; E = Enew; Accepts++;
             }
             else if (Bernoulli.Sample(RandomSource, System.Math.Exp(-DH)) == 1)
-            { mCurrent = mNew; Gradient = gNew; E = Enew; mAccepts++; }
+            { mCurrent = mNew; Gradient = gNew; E = Enew; Accepts++; }
         }
 
         /// <summary>
