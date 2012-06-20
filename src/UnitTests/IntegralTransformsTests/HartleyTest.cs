@@ -43,7 +43,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Continuous uniform distribution.
         /// </summary>
-        private readonly IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+        private IContinuousDistribution GetUniform(int seed)
+        {
+            return new ContinuousUniform(-1, 1)
+            {
+                RandomSource = new Random(seed)
+            };
+        }
 
         /// <summary>
         /// Verify if matches DFT.
@@ -80,7 +86,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         public void NaiveMatchesDft(HartleyOptions hartleyOptions, FourierOptions fourierOptions)
         {
             var dht = new DiscreteHartleyTransform();
-            var samples = SignalGenerator.Random(x => x, _uniform, 0x80);
+            var samples = SignalGenerator.Random(x => x, GetUniform(1), 0x80);
 
             VerifyMatchesDft(
                 samples,

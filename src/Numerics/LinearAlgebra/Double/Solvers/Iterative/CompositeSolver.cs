@@ -242,7 +242,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
         {
             if (assembly == null)
             {
-                throw new ArgumentNullException("Assembly");
+                throw new ArgumentNullException("assembly");
             }
 
             if (typesToExclude == null)

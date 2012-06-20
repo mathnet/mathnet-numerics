@@ -337,7 +337,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
 
             // Define the temporary scalars
             Complex beta = 0;
-            Complex sigma;
 
             // Define the temporary vectors
             // rDash_0 = r_0
@@ -418,6 +417,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers.Iterative
                 // if we don't do any so ...
                 var ctdot = c.DotProduct(t);
                 Complex eta;
+                Complex sigma;
                 if (((_numberOfBiCgStabSteps == 0) && (iterationNumber == 0)) || ShouldRunBiCgStabSteps(iterationNumber))
                 {
                     // sigma_k = (c_k * t_k) / (c_k * c_k)

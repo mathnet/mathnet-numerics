@@ -32,7 +32,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
     using System;
     using System.Numerics;
-    using Algorithms.LinearAlgebra;
     using Generic;
     using Properties;
     using Threading;

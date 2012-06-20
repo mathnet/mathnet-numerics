@@ -245,7 +245,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
         {
             if (assembly == null)
             {
-                throw new ArgumentNullException("Assembly");
+                throw new ArgumentNullException("assembly");
             }
 
             if (typesToExclude == null)

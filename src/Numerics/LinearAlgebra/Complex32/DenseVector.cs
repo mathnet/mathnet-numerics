@@ -907,7 +907,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (value == null)
             {
-                throw new ArgumentNullException(value);
+                throw new ArgumentNullException("value");
             }
 
             value = value.Trim();

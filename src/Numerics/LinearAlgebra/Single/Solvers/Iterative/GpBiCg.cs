@@ -341,7 +341,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
 
             // Define the temporary scalars
             float beta = 0;
-            float sigma;
 
             // Define the temporary vectors
             // rDash_0 = r_0
@@ -422,6 +421,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
                 // if we don't do any so ...
                 var ctdot = c.DotProduct(t);
                 float eta;
+                float sigma;
                 if (((_numberOfBiCgStabSteps == 0) && (iterationNumber == 0)) || ShouldRunBiCgStabSteps(iterationNumber))
                 {
                     // sigma_k = (c_k * t_k) / (c_k * c_k)

@@ -172,7 +172,7 @@ namespace MathNet.Numerics
         {
             double compensation = 0.0;
             double current;
-            double factor = 1 << 16;
+            const double factor = 1 << 16;
 
             double sum = nextSummand();
 

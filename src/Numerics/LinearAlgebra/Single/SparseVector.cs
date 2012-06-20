@@ -335,6 +335,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
+        /// Warning, the new 'sparse vector' with a non-zero scalar added to it will be a 100% filled
+        /// sparse vector and very inefficient. Would be better to work with a dense vector instead.
         /// </summary>
         /// <param name="scalar">
         /// The scalar to add.
@@ -356,11 +358,27 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (ReferenceEquals(this, result))
             {
-                CommonParallel.For(
-                    0,
-                    NonZerosCount,
-                    index => _nonZeroValues[index] += scalar);
+                //populate a new vector with the scalar   
+                var vnonZeroValues = new float[Count];
+                var vnonZeroIndices = new int[Count];
+                for (int index = 0; index < Count; index++)
+                {
+                    vnonZeroIndices[index] = index;
+                    vnonZeroValues[index] = scalar;
+                }
+
+                //populate the non zero values from this
+                for (int j = 0; j < NonZerosCount; j++)
+                {
+                    vnonZeroValues[_nonZeroIndices[j]] = _nonZeroValues[j] + scalar;
+                }
+
+                //assign this vectors arrary to the new arrays. 
+                _nonZeroValues = vnonZeroValues;
+                _nonZeroIndices = vnonZeroIndices;
+                NonZerosCount = Count;
             }
+
             else
             {
                 for (var index = 0; index < Count; index++)
@@ -1207,7 +1225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (value == null)
             {
-                throw new ArgumentNullException(value);
+                throw new ArgumentNullException("value");
             }
 
             value = value.Trim();

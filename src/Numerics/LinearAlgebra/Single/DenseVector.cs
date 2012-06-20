@@ -991,7 +991,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (value == null)
             {
-                throw new ArgumentNullException(value);
+                throw new ArgumentNullException("value");
             }
 
             value = value.Trim();

@@ -139,17 +139,13 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             for (int i = 0; i < n; i++)
             {
-                double x_l = mCurrent;
-                double x_r = mCurrent;
-                double xnew = mCurrent;
-
                 // The logarithm of the slice height.
-                double lu = System.Math.Log(RandomSource.NextDouble()) + mCurrentDensityLn;
+                double lu = Math.Log(RandomSource.NextDouble()) + mCurrentDensityLn;
                 
                 // Create a horizontal interval (x_l, x_r) enclosing x.
                 double r = RandomSource.NextDouble();
-                x_l = mCurrent - r * Scale;
-                x_r = mCurrent + (1.0 - r) * Scale;
+                double x_l = mCurrent - r * Scale;
+                double x_r = mCurrent + (1.0 - r) * Scale;
                 
                 // Stepping out procedure.
                 while (mPdfLnP(x_l) > lu) { x_l -= Scale; }
@@ -158,13 +154,13 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 // Shrinking: propose new x and shrink interval until good one found.
                 while (true)
                 {
-                    xnew = RandomSource.NextDouble() * (x_r - x_l) + x_l;
+                    double xnew = RandomSource.NextDouble() * (x_r - x_l) + x_l;
                     mCurrentDensityLn = mPdfLnP(xnew);
                     if (mCurrentDensityLn > lu)
                     {
                         mCurrent = xnew;
-                        mAccepts++;
-                        mSamples++;
+                        Accepts++;
+                        Samples++;
                         break;
                     }
                     if (xnew > mCurrent)

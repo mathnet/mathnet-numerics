@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
     using System;
-    using Algorithms.LinearAlgebra;
     using Generic;
     using Properties;
 

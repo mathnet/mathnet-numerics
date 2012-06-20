@@ -145,20 +145,20 @@ namespace MathNet.Numerics.Statistics.Mcmc
                 // Evaluate the backward transition probability
                 double bwd = mKrnlQ(mCurrent, next);
 
-                mSamples++;
+                Samples++;
 
-                double acc = System.Math.Min(0.0, p + bwd - mCurrentDensityLn - fwd);
+                double acc = Math.Min(0.0, p + bwd - mCurrentDensityLn - fwd);
                 if (acc == 0.0)
                 {
                     mCurrent = next;
                     mCurrentDensityLn = p;
-                    mAccepts++;
+                    Accepts++;
                 }
-                else if (Bernoulli.Sample(RandomSource, System.Math.Exp(acc)) == 1)
+                else if (Bernoulli.Sample(RandomSource, Math.Exp(acc)) == 1)
                 {
                     mCurrent = next;
                     mCurrentDensityLn = p;
-                    mAccepts++;
+                    Accepts++;
                 }
             }
         }

@@ -30,7 +30,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
     using System.Numerics;
     using Generic;
     using Numerics;
-    using Properties;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>

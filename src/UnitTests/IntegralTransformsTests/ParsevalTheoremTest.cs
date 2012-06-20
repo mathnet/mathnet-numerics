@@ -44,7 +44,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Continuous uniform distribution.
         /// </summary>
-        private readonly IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+        private IContinuousDistribution GetUniform(int seed)
+        {
+            return new ContinuousUniform(-1, 1)
+            {
+                RandomSource = new System.Random(seed)
+            };
+        }
 
         /// <summary>
         /// Fourier default transform satisfies parsevals theorem.
@@ -54,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(0x7FF)]
         public void FourierDefaultTransformSatisfiesParsevalsTheorem(int count)
         {
-            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, count);
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), count);
 
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
@@ -77,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(0x1F)]
         public void HartleyDefaultNaiveSatisfiesParsevalsTheorem(int count)
         {
-            var samples = SignalGenerator.Random(x => x, _uniform, count);
+            var samples = SignalGenerator.Random(x => x, GetUniform(1), count);
 
             var timeSpaceEnergy = (from s in samples select s * s).Mean();
 

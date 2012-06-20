@@ -1,6 +1,4 @@
 *.cs text diff=csharp
-*.csproj text
-*.sln text
 *.msbuild text
 *.config text
 *.conf text
@@ -8,4 +6,20 @@
 *.csdef text
 *.xml text
 *.js text
+
+*.csproj text merge=union
+*.fsproj text merge=union
+*.sln text eol=crlf merge=union
+
+*.jpg binary
+*.png binary
+*.gif binary
+
+*.doc diff=astextplain
+*.DOC diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.pdf diff=astextplain
+*.PDF diff=astextplain
+
 * text=auto

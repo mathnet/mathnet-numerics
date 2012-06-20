@@ -990,7 +990,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         {
             if (value == null)
             {
-                throw new ArgumentNullException(value);
+                throw new ArgumentNullException("value");
             }
 
             value = value.Trim();

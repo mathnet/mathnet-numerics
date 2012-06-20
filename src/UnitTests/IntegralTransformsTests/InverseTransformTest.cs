@@ -43,7 +43,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Continuous uniform distribution.
         /// </summary>
-        private readonly IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+        private IContinuousDistribution GetUniform(int seed)
+        {
+            return new ContinuousUniform(-1, 1)
+                {
+                    RandomSource = new Random(seed)
+                };
+        }
 
         /// <summary>
         /// Verify if is reversible complex.
@@ -58,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Func<Complex[], Complex[]> forward,
             Func<Complex[], Complex[]> inverse)
         {
-            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, count);
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), count);
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -84,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Func<double[], double[]> forward,
             Func<double[], double[]> inverse)
         {
-            var samples = SignalGenerator.Random(x => x, _uniform, count);
+            var samples = SignalGenerator.Random(x => x, GetUniform(1), count);
             var work = new double[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -187,7 +193,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void FourierDefaultTransformIsReversible()
         {
-            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, 0x7FFF);
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), 0x7FFF);
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 

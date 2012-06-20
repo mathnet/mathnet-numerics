@@ -43,7 +43,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Continuous uniform distribution.
         /// </summary>
-        private readonly IContinuousDistribution _uniform = new ContinuousUniform(-1, 1);
+        private IContinuousDistribution GetUniform(int seed)
+        {
+            return new ContinuousUniform(-1, 1)
+            {
+                RandomSource = new Random(seed)
+            };
+        }
 
         /// <summary>
         /// Naive transforms real sine correctly.
@@ -87,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void Radix2ThrowsWhenNotPowerOfTwo()
         {
-            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), _uniform, 0x7F);
+            var samples = SignalGenerator.Random((u, v) => new Complex(u, v), GetUniform(1), 0x7F);
 
             var dft = new DiscreteFourierTransform();
 

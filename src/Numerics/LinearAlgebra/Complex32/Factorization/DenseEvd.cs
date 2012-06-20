@@ -597,7 +597,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             var eps = (float)Precision.SingleMachinePrecision;
 
             float norm;
-            Complex32 s, x, y, z, exshift = Complex32.Zero;
+            Complex32 x, y, z, exshift = Complex32.Zero;
 
             // Outer loop over eigenvalue index
             var iter = 0;
@@ -628,6 +628,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 else
                 {
                     // Form shift
+                    Complex32 s;
                     if (iter != 10 && iter != 20)
                     {
                         s = matrixH[n, n];

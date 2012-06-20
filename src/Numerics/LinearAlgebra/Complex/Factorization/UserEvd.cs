@@ -588,7 +588,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             var eps = Precision.DoubleMachinePrecision;
 
             double norm;
-            Complex s, x, y, z, exshift = Complex.Zero;
+            Complex x, y, z, exshift = Complex.Zero;
 
             // Outer loop over eigenvalue index
             var iter = 0;
@@ -619,6 +619,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 else
                 {
                     // Form shift
+                    Complex s;
                     if (iter != 10 && iter != 20)
                     {
                         s = matrixH[n, n];

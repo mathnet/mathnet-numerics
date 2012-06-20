@@ -35,8 +35,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers.Iterative
     using System.Diagnostics;
     using System.Linq;
     using Distributions;
-    using Generic;
-    using Generic.Factorization;
     using Generic.Solvers.Status;
     using Preconditioners;
     using Properties;

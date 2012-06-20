@@ -31,7 +31,6 @@
 namespace MathNet.Numerics.LinearAlgebra.Generic.Factorization
 {
     using System;
-    using System.Linq;
     using System.Numerics;
     using Generic;
     using Numerics;

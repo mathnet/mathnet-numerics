@@ -28,11 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !SYSNUMERICS
 using MathNet.Numerics;
 
 namespace System.Numerics
 {
-#if !SYSNUMERICS
+
     using System;
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
@@ -1696,5 +1697,5 @@ namespace System.Numerics
             return value.SquareRoot();
         }
     }
-#endif
 }
+#endif

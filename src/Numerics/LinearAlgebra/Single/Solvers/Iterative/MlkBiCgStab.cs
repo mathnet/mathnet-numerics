@@ -34,7 +34,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers.Iterative
     using System.Collections.Generic;
     using System.Diagnostics;
     using Distributions;
-    using Generic.Factorization;
     using Generic.Solvers.Status;
     using Preconditioners;
     using Properties;

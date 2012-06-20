@@ -64,7 +64,7 @@ namespace MathNet.Numerics
         {
             if (x < 0)
             {
-                throw new ArgumentOutOfRangeException("x", Properties.Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException("x", Resources.ArgumentPositive);
             }
 
             if (x < factorialCache.Length)
@@ -83,7 +83,7 @@ namespace MathNet.Numerics
         {
             if (x < 0)
             {
-                throw new ArgumentOutOfRangeException("x", Properties.Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException("x", Resources.ArgumentPositive);
             }
 
             if (x <= 1)
@@ -170,7 +170,7 @@ namespace MathNet.Numerics
                 throw new ArgumentException(Resources.ArgumentParameterSetInvalid , "ni");
             }
 
-            return System.Math.Floor(0.5 + System.Math.Exp(ret));
+            return Math.Floor(0.5 + Math.Exp(ret));
         }
     }
 }
