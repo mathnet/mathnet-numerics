@@ -45,7 +45,8 @@ namespace MathNet.Numerics.Statistics
         /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
         /// </summary>
         /// <param name="data">The sample data.</param>
-        public DescriptiveStatistics(IEnumerable<double> data) : this(data, false)
+        public DescriptiveStatistics(IEnumerable<double> data)
+            : this(data, false)
         {
         }
 
@@ -53,7 +54,8 @@ namespace MathNet.Numerics.Statistics
         /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
         /// </summary>
         /// <param name="data">The sample data.</param>
-        public DescriptiveStatistics(IEnumerable<double?> data) : this(data, false)
+        public DescriptiveStatistics(IEnumerable<double?> data)
+            : this(data, false)
         {
         }
 
@@ -71,6 +73,11 @@ namespace MathNet.Numerics.Statistics
         /// </remarks>
         public DescriptiveStatistics(IEnumerable<double> data, bool increasedAccuracy)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
             if (increasedAccuracy)
             {
                 ComputeHA(data);
@@ -97,6 +104,12 @@ namespace MathNet.Numerics.Statistics
         /// </remarks>
         public DescriptiveStatistics(IEnumerable<double?> data, bool increasedAccuracy)
         {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+
             if (increasedAccuracy)
             {
                 ComputeHA(data);
@@ -171,9 +184,8 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">A sequence of datapoints.</param>
         private void Compute(IEnumerable<double> data)
         {
-            Mean = data.Mean();
+            double mean = 0;
             double variance = 0;
-            double correction = 0;
             double skewness = 0;
             double kurtosis = 0;
             double minimum = Double.PositiveInfinity;
@@ -181,40 +193,26 @@ namespace MathNet.Numerics.Statistics
             int n = 0;
             foreach (var xi in data)
             {
-                double diff = xi - Mean;
-                correction += diff;
-                double tmp = diff * diff;
-                variance += tmp;
-                tmp *= diff;
-                skewness += tmp;
-                tmp *= diff;
-                kurtosis += tmp;
+                double delta = xi - mean;
+                double scaleDelta = delta / ++n;
+                double scaleDeltaSQR = scaleDelta * scaleDelta;
+                double tmpDelta = delta * (n - 1);
+
+                mean += scaleDelta;
+
+                kurtosis += tmpDelta * scaleDelta * scaleDeltaSQR * (n * n - 3 * n + 3)
+                    + 6 * scaleDeltaSQR * variance - 4 * scaleDelta * skewness;
+
+                skewness += tmpDelta * scaleDeltaSQR * (n - 2) - 3 * scaleDelta * variance;
+                variance += tmpDelta * scaleDelta;
+
                 if (minimum > xi) { minimum = xi; }
                 if (maximum < xi) { maximum = xi; }
-                n++;
             }
-
-            Count = n;
-            Minimum = minimum;
-            Maximum = maximum;
-            Variance = (variance - (correction * correction / n)) / (n - 1);
-            StandardDeviation = Math.Sqrt(Variance);
-            if (Variance != 0)
-            {
-                if (n > 2)
-                {
-                    Skewness = (double)n / ((n - 1) * (n - 2)) * (skewness / (Variance * StandardDeviation));
-                }
-
-                if (n > 3)
-                {
-                    Kurtosis = (((double)n * (n + 1))
-                                / ((n - 1) * (n - 2) * (n - 3))
-                                * (kurtosis / (Variance * Variance)))
-                               - ((3.0 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3)));
-                }
-            }
+            SetStatistics(mean, variance, skewness, kurtosis, minimum, maximum, n);
         }
+
+
 
         /// <summary>
         /// Computes descriptive statistics from a stream of nullable data values.
@@ -222,9 +220,8 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">A sequence of datapoints.</param>
         private void Compute(IEnumerable<double?> data)
         {
-            Mean = data.Mean();
+            double mean = 0;
             double variance = 0;
-            double correction = 0;
             double skewness = 0;
             double kurtosis = 0;
             double minimum = Double.PositiveInfinity;
@@ -234,27 +231,122 @@ namespace MathNet.Numerics.Statistics
             {
                 if (xi.HasValue)
                 {
-                    double diff = xi.Value - Mean;
-                    double tmp = diff * diff;
-                    correction += diff;
-                    variance += tmp;
-                    tmp *= diff;
-                    skewness += tmp;
-                    tmp *= diff;
-                    kurtosis += tmp;
+                    double delta = xi.Value - mean;
+                    double scaleDelta = delta / ++n;
+                    double scaleDeltaSQR = scaleDelta * scaleDelta;
+                    double tmpDelta = delta * (n - 1);
+
+                    mean += scaleDelta;
+
+                    kurtosis += tmpDelta * scaleDelta * scaleDeltaSQR * (n * n - 3 * n + 3)
+                        + 6 * scaleDeltaSQR * variance - 4 * scaleDelta * skewness;
+
+                    skewness += tmpDelta * scaleDeltaSQR * (n - 2) - 3 * scaleDelta * variance;
+                    variance += tmpDelta * scaleDelta;
                     if (minimum > xi) { minimum = xi.Value; }
                     if (maximum < xi) { maximum = xi.Value; }
-                    n++;
                 }
             }
 
+            SetStatistics(mean, variance, skewness, kurtosis, minimum, maximum, n);
+
+        }
+
+        /// <summary>
+        /// Computes descriptive statistics from a stream of data values using high accuracy.
+        /// </summary>
+        /// <param name="data">A sequence of datapoints.</param>
+        private void ComputeHA(IEnumerable<double> data)
+        {
+            decimal mean = 0;
+            decimal variance = 0;
+            decimal skewness = 0;
+            decimal kurtosis = 0;
+            decimal minimum = Decimal.MaxValue;
+            decimal maximum = Decimal.MinValue;
+            int n = 0;
+            foreach (decimal xi in data)
+            {
+                decimal delta = xi - mean;
+                decimal scaleDelta = delta / ++n;
+                decimal scaleDeltaSQR = scaleDelta * scaleDelta;
+                decimal tmpDelta = delta * (n - 1);
+
+                mean += scaleDelta;
+
+                kurtosis += tmpDelta * scaleDelta * scaleDeltaSQR * (n * n - 3 * n + 3)
+                    + 6 * scaleDeltaSQR * variance - 4 * scaleDelta * skewness;
+
+                skewness += tmpDelta * scaleDeltaSQR * (n - 2) - 3 * scaleDelta * variance;
+                variance += tmpDelta * scaleDelta;
+                if (minimum > xi) { minimum = xi; }
+                if (maximum < xi) { maximum = xi; }
+            }
+
+            SetStatistics((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n);
+
+        }
+
+        /// <summary>
+        /// Computes descriptive statistics from a stream of nullable data values using high accuracy.
+        /// </summary>
+        /// <param name="data">A sequence of datapoints.</param>
+        private void ComputeHA(IEnumerable<double?> data)
+        {
+            decimal mean = 0;
+            decimal variance = 0;
+            decimal skewness = 0;
+            decimal kurtosis = 0;
+            decimal minimum = Decimal.MaxValue;
+            decimal maximum = Decimal.MinValue;
+            int n = 0;
+            foreach (decimal? xi in data)
+            {
+                if (xi.HasValue)
+                {
+                    decimal delta = xi.Value - mean;
+                    decimal scaleDelta = delta / ++n;
+                    decimal scaleDeltaSQR = scaleDelta * scaleDelta;
+                    decimal tmpDelta = delta * (n - 1);
+
+                    mean += scaleDelta;
+
+                    kurtosis += tmpDelta * scaleDelta * scaleDeltaSQR * (n * n - 3 * n + 3)
+                        + 6 * scaleDeltaSQR * variance - 4 * scaleDelta * skewness;
+
+                    skewness += tmpDelta * scaleDeltaSQR * (n - 2) - 3 * scaleDelta * variance;
+                    variance += tmpDelta * scaleDelta;
+                    if (minimum > xi) { minimum = xi.Value; }
+                    if (maximum < xi) { maximum = xi.Value; }
+                }
+            }
+            SetStatistics((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n);
+
+        }
+
+        /// <summary>
+        /// Internal use. Method use for setting the statistics.
+        /// </summary>
+        /// <param name="mean">For setting Mean.</param>
+        /// <param name="variance">For setting Variance.</param>
+        /// <param name="skewness">For setting Skewness.</param>
+        /// <param name="kurtosis">For setting Kurtosis.</param>
+        /// <param name="minimum">For setting Minimum.</param>
+        /// <param name="maximum">For setting Maximum.</param>
+        /// <param name="n">For setting Count.</param>
+        private void SetStatistics(double mean, double variance, double skewness, double kurtosis, double minimum, double maximum, int n)
+        {
+            Mean = mean;
             Count = n;
             if (n > 0)
             {
                 Minimum = minimum;
                 Maximum = maximum;
-                Variance = (variance - (correction * correction / n)) / (n - 1);
-                StandardDeviation = Math.Sqrt(Variance);
+                if (n > 1)
+                {
+                    Variance = variance / (n - 1);
+                    StandardDeviation = Math.Sqrt(Variance);
+                }
                 if (Variance != 0)
                 {
                     if (n > 2)
@@ -272,115 +364,6 @@ namespace MathNet.Numerics.Statistics
                 }
             }
         }
-
-        /// <summary>
-        /// Computes descriptive statistics from a stream of data values using high accuracy.
-        /// </summary>
-        /// <param name="data">A sequence of datapoints.</param>
-        private void ComputeHA(IEnumerable<double> data)
-        {
-            Mean = data.Mean();
-            decimal mean = (decimal)Mean;
-            decimal variance = 0;
-            decimal correction = 0;
-            decimal skewness = 0;
-            decimal kurtosis = 0;
-            decimal minimum = Decimal.MaxValue;
-            decimal maximum = Decimal.MinValue;
-            int n = 0;
-            foreach (decimal xi in data)
-            {
-                decimal diff = xi - mean;
-                decimal tmp = diff * diff;
-                correction += diff;
-                variance += tmp;
-                tmp *= diff;
-                skewness += tmp;
-                tmp *= diff;
-                kurtosis += tmp;
-                if (minimum > xi) { minimum = xi; }
-                if (maximum < xi) { maximum = xi; }
-                n++;
-            }
-
-            Count = n;
-            Minimum = (double)minimum;
-            Maximum = (double)maximum;
-            Variance = (double)(variance - (correction * correction / n)) / (n - 1);
-            StandardDeviation = Math.Sqrt(Variance);
-            if (Variance != 0)
-            {
-                if (n > 2)
-                {
-                    Skewness = (double)n / ((n - 1) * (n - 2)) * ((double)skewness / (Variance * StandardDeviation));
-                }
-
-                if (n > 3)
-                {
-                    Kurtosis = (((double)n * (n + 1))
-                                / ((n - 1) * (n - 2) * (n - 3))
-                                * ((double)kurtosis / (Variance * Variance)))
-                               - ((3.0 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3)));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Computes descriptive statistics from a stream of nullable data values using high accuracy.
-        /// </summary>
-        /// <param name="data">A sequence of datapoints.</param>
-        private void ComputeHA(IEnumerable<double?> data)
-        {
-            Mean = data.Mean();
-            decimal mean = (decimal)Mean;
-            decimal variance = 0;
-            decimal correction = 0;
-            decimal skewness = 0;
-            decimal kurtosis = 0;
-            decimal minimum = Decimal.MaxValue;
-            decimal maximum = Decimal.MinValue;
-            int n = 0;
-            foreach (decimal? xi in data)
-            {
-                if (xi.HasValue)
-                {
-                    decimal diff = xi.Value - mean;
-                    decimal tmp = diff * diff;
-                    correction += diff;
-                    variance += tmp;
-                    tmp *= diff;
-                    skewness += tmp;
-                    tmp *= diff;
-                    kurtosis += tmp;
-                    if (minimum > xi) { minimum = xi.Value; }
-                    if (maximum < xi) { maximum = xi.Value; }
-                    n++;
-                }
-            }
-
-            Count = n;
-            if (n > 0)
-            {
-                Minimum = (double) minimum;
-                Maximum = (double) maximum;
-                Variance = (double)(variance - (correction * correction / n)) / (n - 1);
-                StandardDeviation = Math.Sqrt(Variance);
-                if (Variance != 0)
-                {
-                    if (n > 2)
-                    {
-                        Skewness = (double)n / ((n - 1) * (n - 2)) * ((double)skewness / (Variance * StandardDeviation));
-                    }
-
-                    if (n > 3)
-                    {
-                        Kurtosis = (((double)n * (n + 1))
-                                    / ((n - 1) * (n - 2) * (n - 3))
-                                    * ((double)kurtosis / (Variance * Variance)))
-                                   - ((3.0 * (n - 1) * (n - 1)) / ((n - 2) * (n - 3)));
-                    }
-                }
-            }
-        }
     }
+
 }

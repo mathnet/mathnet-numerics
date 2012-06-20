@@ -32,6 +32,7 @@ namespace MathNet.Numerics.Statistics
 {
     using System;
     using System.Collections.Generic;
+    using Properties;
 
     /// <summary>
     /// A class with correlation measures between two datasets.
@@ -49,12 +50,10 @@ namespace MathNet.Numerics.Statistics
             int n = 0;
             double r = 0.0;
 
-            // BUG: PERFORMANCE degraded due to tripple iteration over both IEnumerables
-            
-            double meanA = dataA.Mean();
-            double meanB = dataB.Mean();
-            double sdevA = dataA.StandardDeviation();
-            double sdevB = dataB.StandardDeviation();
+            double meanA = 0;
+            double meanB = 0;
+            double varA = 0;
+            double varB = 0;
 
             using (IEnumerator<double> ieA = dataA.GetEnumerator())
             using (IEnumerator<double> ieB = dataB.GetEnumerator())
@@ -65,9 +64,21 @@ namespace MathNet.Numerics.Statistics
                     {
                         throw new ArgumentOutOfRangeException("dataB", "Datasets dataA and dataB need to have the same length. dataB is shorter.");
                     }
+                    double Acurrent = ieA.Current;
+                    double Bcurrent = ieB.Current;
 
-                    n++;
-                    r += (ieA.Current - meanA) * (ieB.Current - meanB) / (sdevA * sdevB);
+                    double deltaA = Acurrent - meanA;
+                    double scaleDeltaA = deltaA / ++n;
+
+                    double deltaB = Bcurrent - meanB;
+                    double scaleDeltaB = deltaB / n;
+
+                    meanA += scaleDeltaA;
+                    meanB += scaleDeltaB;
+
+                    varA += scaleDeltaA * deltaA * (n - 1);
+                    varB += scaleDeltaB * deltaB * (n - 1);
+                    r += ((deltaA * deltaB * (n - 1)) / n);
                 }
                 if (ieB.MoveNext())
                 {
@@ -75,7 +86,7 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            return r / (n - 1);
+            return r / Math.Sqrt(varA * varB);
         }
     }
 }
