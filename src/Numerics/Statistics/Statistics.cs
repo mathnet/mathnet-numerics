@@ -32,6 +32,7 @@ namespace MathNet.Numerics.Statistics
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Properties;
 
     /// <summary>
@@ -455,7 +456,7 @@ namespace MathNet.Numerics.Statistics
             if (dataArray.Count % 2 == 0)
             {
                 double lower = OrderSelect(dataArray, 0, dataArray.Count - 1, index - 1);
-                double upper = OrderSelect(dataArray, 0, dataArray.Count - 1, index);
+                double upper = dataArray.Skip(index - 1).Minimum();
                 return (lower + upper) / 2.0;
             }
 
@@ -543,12 +544,23 @@ namespace MathNet.Numerics.Statistics
                     return samples[left];
                 }
 
-                // The pivot point.
+                
+                // The pivot point. Choose median of left, right and center
+                //to be the pivot and arrange so that
+                //samples[left]<=samples[right]<=samples[center]
+                int center = (left + right) / 2;
+                if (samples[center] < samples[left])
+                    Sorting.Swap(samples, left, center);
+                if (samples[center] < samples[right])
+                    Sorting.Swap(samples, right, center);
+                if (samples[right] < samples[left])
+                    Sorting.Swap(samples, right, left);
+
                 double pivot = samples[right];
 
                 // The partioning code.
-                int i = left - 1;
-                for (int j = left; j <= right - 1; j++)
+                int i = left;
+                for (int j = left+1; j <= right - 1; j++)
                 {
                     if (samples[j] <= pivot)
                     {
