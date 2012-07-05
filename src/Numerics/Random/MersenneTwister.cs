@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        private const double _reciprocal = 1.0/4294967295.0;
+        private const double _reciprocal = 1.0/4294967296.0;
 
         /// <summary>
         /// Mersenne twister constant.
