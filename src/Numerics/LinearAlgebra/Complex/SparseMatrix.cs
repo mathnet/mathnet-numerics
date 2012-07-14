@@ -377,9 +377,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Creates a matrix that contains the values from the requested sub-matrix.
         /// </summary>
         /// <param name="rowIndex">The row to start copying from.</param>
-        /// <param name="rowLength">The number of rows to copy. Must be positive.</param>
+        /// <param name="rowCount">The number of rows to copy. Must be positive.</param>
         /// <param name="columnIndex">The column to start copying from.</param>
-        /// <param name="columnLength">The number of columns to copy. Must be positive.</param>
+        /// <param name="columnCount">The number of columns to copy. Must be positive.</param>
         /// <returns>The requested sub-matrix.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If: <list><item><paramref name="rowIndex"/> is
         /// negative, or greater than or equal to the number of rows.</item>
@@ -387,9 +387,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// of columns.</item>
         /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
-        /// <exception cref="ArgumentException">If <paramref name="rowLength"/> or <paramref name="columnLength"/>
+        /// <exception cref="ArgumentException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
-        public override Matrix<Complex> SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
+        public override Matrix<Complex> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
             if (rowIndex >= RowCount || rowIndex < 0)
             {
@@ -401,30 +401,30 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
 
-            if (rowLength < 1)
+            if (rowCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowLength");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
             }
 
-            if (columnLength < 1)
+            if (columnCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnLength");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
             }
 
-            var colMax = columnIndex + columnLength;
-            var rowMax = rowIndex + rowLength;
+            var colMax = columnIndex + columnCount;
+            var rowMax = rowIndex + rowCount;
 
             if (rowMax > RowCount)
             {
-                throw new ArgumentOutOfRangeException("rowLength");
+                throw new ArgumentOutOfRangeException("rowCount");
             }
 
             if (colMax > ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("columnLength");
+                throw new ArgumentOutOfRangeException("columnCount");
             }
 
-            var result = (SparseMatrix)CreateMatrix(rowLength, columnLength);
+            var result = (SparseMatrix)CreateMatrix(rowCount, columnCount);
 
             for (int i = rowIndex, row = 0; i < rowMax; i++, row++)
             {
@@ -433,7 +433,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 for (int j = startIndex; j < endIndex; j++)
                 {
                     // check if the column index is in the range
-                    if ((_columnIndices[j] >= columnIndex) && (_columnIndices[j] < columnIndex + columnLength))
+                    if ((_columnIndices[j] >= columnIndex) && (_columnIndices[j] < columnIndex + columnCount))
                     {
                         var column = _columnIndices[j] - columnIndex;
                         result.SetValueAt(row, column, _nonZeroValues[j]);
