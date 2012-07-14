@@ -245,6 +245,49 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Copies the values of this vector into the target vector.
+        /// </summary>
+        /// <param name="target">
+        /// The vector to copy elements into.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="target"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="target"/> is not the same size as this vector.
+        /// </exception>
+        public override void CopyTo(Vector<Complex> target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (Count != target.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                return;
+            }
+
+            var otherVector = target as DenseVector;
+            if (otherVector == null)
+            {
+                CommonParallel.For(
+                    0,
+                    Data.Length,
+                    index => target[index] = Data[index]);
+            }
+            else
+            {
+                Array.Copy(Data, 0, otherVector.Data, 0, Data.Length);
+            }
+        }
+
+        /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">The scalar to add.</param>

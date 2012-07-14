@@ -334,7 +334,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                 if (NonZerosCount != 0)
                 {
-                    CommonParallel.For(0, NonZerosCount, index => otherVector._nonZeroValues[index] = _nonZeroValues[index]);
+                    Array.Copy(_nonZeroValues, 0, otherVector._nonZeroValues, 0, NonZerosCount);
                     Buffer.BlockCopy(_nonZeroIndices, 0, otherVector._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
                 }
             }

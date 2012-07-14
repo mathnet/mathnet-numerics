@@ -181,6 +181,40 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Copies the elements of this matrix to the given matrix.
+        /// </summary>
+        /// <param name="target">
+        /// The matrix to copy values into.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If target is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// If this and the target matrix do not have the same dimensions..
+        /// </exception>
+        public override void CopyTo(Matrix<float> target)
+        {
+            var denseTarget = target as DenseMatrix;
+            if (denseTarget == null)
+            {
+                base.CopyTo(target);
+                return;
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                return;
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, target, "target");
+            }
+
+            Buffer.BlockCopy(Data, 0, denseTarget.Data, 0, Data.Length * Constants.SizeOfFloat);
+        }
+
+        /// <summary>
         /// Gets or sets the value at the given row and column.
         /// </summary>
         /// <param name="row">

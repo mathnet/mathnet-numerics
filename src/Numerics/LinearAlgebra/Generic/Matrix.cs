@@ -273,23 +273,26 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentNullException("target");
             }
 
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, target);
             }
 
-            for (var i = 0; i < RowCount; i++)
+            if (ReferenceEquals(this, target))
             {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    target.At(i, j, At(i, j));
-                }
+                return;
             }
+
+            CommonParallel.For(
+                0,
+                RowCount,
+                row =>
+                    {
+                        for (var j = 0; j < ColumnCount; j++)
+                        {
+                            target.At(row, j, At(row, j));
+                        }
+                    });
         }
 
         /// <summary>
