@@ -128,7 +128,7 @@ namespace MathNet.Numerics.Random
             }
             
             _x = new uint[LongLag];
-            var gen = new MersenneTwister(seed);
+            var gen = new MersenneTwister(seed, threadSafe);
             for (var j = 0; j < LongLag; ++j)
             {
                 _x[j] = (uint)(gen.NextDouble() * uint.MaxValue);
