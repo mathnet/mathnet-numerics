@@ -798,31 +798,32 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override void CopyTo(Matrix<float> target)
         {
             var sparseTarget = target as SparseMatrix;
-
             if (sparseTarget == null)
             {
                 base.CopyTo(target);
+                return;
             }
-            else
+
+            if (ReferenceEquals(this, target))
             {
-                if (ReferenceEquals(this, target))
-                {
-                    return;
-                }
+                return;
+            }
 
-                if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-                {
-                    throw DimensionsDontMatch<ArgumentException>(this, target, "target");
-                }
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, target, "target");
+            }
 
-                // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-                sparseTarget._nonZeroValues = new float[NonZerosCount];
-                sparseTarget._columnIndices = new int[NonZerosCount];
-                sparseTarget.NonZerosCount = NonZerosCount;
+            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
+            sparseTarget._nonZeroValues = new float[NonZerosCount];
+            sparseTarget._columnIndices = new int[NonZerosCount];
+            sparseTarget.NonZerosCount = NonZerosCount;
 
-                Buffer.BlockCopy(_nonZeroValues, 0, sparseTarget._nonZeroValues, 0, NonZerosCount * Constants.SizeOfFloat);
-                Buffer.BlockCopy(_columnIndices, 0, sparseTarget._columnIndices, 0, NonZerosCount * Constants.SizeOfInt);
-                Buffer.BlockCopy(_rowIndex, 0, sparseTarget._rowIndex, 0, RowCount * Constants.SizeOfInt);
+            if (NonZerosCount != 0)
+            {
+                Buffer.BlockCopy(_nonZeroValues, 0, sparseTarget._nonZeroValues, 0, NonZerosCount*Constants.SizeOfFloat);
+                Buffer.BlockCopy(_columnIndices, 0, sparseTarget._columnIndices, 0, NonZerosCount*Constants.SizeOfInt);
+                Buffer.BlockCopy(_rowIndex, 0, sparseTarget._rowIndex, 0, RowCount*Constants.SizeOfInt);
             }
         }
         

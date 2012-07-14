@@ -326,8 +326,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 otherVector._nonZeroIndices = new int[NonZerosCount];
                 otherVector.NonZerosCount = NonZerosCount;
 
-                Buffer.BlockCopy(_nonZeroValues, 0, otherVector._nonZeroValues, 0, NonZerosCount * Constants.SizeOfFloat);
-                Buffer.BlockCopy(_nonZeroIndices, 0, otherVector._nonZeroIndices, 0, NonZerosCount * Constants.SizeOfInt);
+                if (NonZerosCount != 0)
+                {
+                    Buffer.BlockCopy(_nonZeroValues, 0, otherVector._nonZeroValues, 0, NonZerosCount*Constants.SizeOfFloat);
+                    Buffer.BlockCopy(_nonZeroIndices, 0, otherVector._nonZeroIndices, 0, NonZerosCount*Constants.SizeOfInt);
+                }
             }
         }
 
