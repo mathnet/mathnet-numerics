@@ -34,6 +34,10 @@ namespace MathNet.Numerics
     using System.Collections.Generic;
     using System.Numerics;
 
+#if PORTABLE
+    using System.Runtime.InteropServices;
+#endif
+
     /// <summary>
     /// Utilities for working with floating point numbers.
     /// </summary>
@@ -1822,16 +1826,29 @@ namespace MathNet.Numerics
 #if PORTABLE
         internal static long DoubleToInt64Bits(double value)
         {
-            return BitConverter.ToInt64(BitConverter.GetBytes(value), 0);
+            var union = new DoubleLongUnion {Double = value};
+            return union.Int64;
         }
 
         internal static double Int64BitsToDouble(long value)
         {
-            return BitConverter.ToDouble(BitConverter.GetBytes(value), 0);
+            var union = new DoubleLongUnion {Int64 = value};
+            return union.Double;
         }
 
-        internal static double Truncate(double value){
+        internal static double Truncate(double value)
+        {
             return value >= 0.0 ? Math.Floor(value) : Math.Ceiling(value);
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct DoubleLongUnion
+        {
+            [FieldOffset(0)]
+            public double Double;
+
+            [FieldOffset(0)]
+            public long Int64;
         }
 #endif
     }
