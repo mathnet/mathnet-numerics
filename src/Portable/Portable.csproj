@@ -888,6 +888,9 @@
     <Compile Include="..\Numerics\LinearAlgebra\Single\Vector.cs">
       <Link>LinearAlgebra\Single\Vector.cs</Link>
     </Compile>
+    <Compile Include="..\Numerics\LinearAlgebra\Storage\DenseColumnMajorMatrixStorage.cs">
+      <Link>LinearAlgebra\Storage\DenseColumnMajorMatrixStorage.cs</Link>
+    </Compile>
     <Compile Include="..\Numerics\NumberTheory\IntegerTheory.cs">
       <Link>NumberTheory\IntegerTheory.cs</Link>
     </Compile>
