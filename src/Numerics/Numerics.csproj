@@ -330,6 +330,7 @@
     <Compile Include="LinearAlgebra\Generic\Matrix.cs" />
     <Compile Include="LinearAlgebra\Generic\Vector.cs" />
     <Compile Include="LinearAlgebra\Single\Vector.cs" />
+    <Compile Include="LinearAlgebra\Storage\DenseColumnMajorMatrixStorage.cs" />
     <Compile Include="Permutation.cs" />
     <Compile Include="Distributions\Continuous\Beta.cs" />
     <Compile Include="Distributions\Continuous\ContinuousUniform.cs" />
