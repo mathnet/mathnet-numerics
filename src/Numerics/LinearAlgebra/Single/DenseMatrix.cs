@@ -30,6 +30,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using Algorithms.LinearAlgebra;
     using Generic;
     using Properties;
+    using Storage;
     using Threading;
 
     /// <summary>
@@ -38,19 +39,27 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     [Serializable]
     public class DenseMatrix : Matrix
     {
+        readonly DenseColumnMajorMatrixStorage<float> _storage;
+
         /// <summary>
         /// Number of rows.
         /// </summary>
         /// <remarks>Using this instead of the RowCount property to speed up calculating
         /// a matrix index in the data array.</remarks>
-        private readonly int _rowCount;
+        readonly int _rowCount;
 
         /// <summary>
         /// Number of columns.
         /// </summary>
         /// <remarks>Using this instead of the ColumnCount property to speed up calculating
         /// a matrix index in the data array.</remarks>
-        private readonly int _columnCount;
+        readonly int _columnCount;
+
+        /// <summary>
+        /// Gets the matrix's data.
+        /// </summary>
+        /// <value>The matrix's data.</value>
+        readonly float[] _data;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseMatrix"/> class. This matrix is square with a given size.
@@ -62,9 +71,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(int order)
             : base(order)
         {
-            _rowCount = order;
-            _columnCount = order;
-            Data = new float[order * order];
+            _storage = new DenseColumnMajorMatrixStorage<float>(order, order);
+
+            _rowCount = _storage.RowCount;
+            _columnCount = _storage.ColumnCount;
+            _data = _storage.Data;
         }
 
         /// <summary>
@@ -79,9 +90,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(int rows, int columns)
             : base(rows, columns)
         {
-            _rowCount = rows;
-            _columnCount = columns;
-            Data = new float[rows * columns];
+            _storage = new DenseColumnMajorMatrixStorage<float>(rows, columns);
+
+            _rowCount = _storage.RowCount;
+            _columnCount = _storage.ColumnCount;
+            _data = _storage.Data;
         }
 
         /// <summary>
@@ -97,12 +110,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(int rows, int columns, float value)
             : base(rows, columns)
         {
-            _rowCount = rows;
-            _columnCount = columns;
-            Data = new float[rows * columns];
-            for (var i = 0; i < Data.Length; i++)
+            _storage = new DenseColumnMajorMatrixStorage<float>(rows, columns);
+
+            _rowCount = _storage.RowCount;
+            _columnCount = _storage.ColumnCount;
+            _data = _storage.Data;
+
+            for (var i = 0; i < _data.Length; i++)
             {
-                Data[i] = value;
+                _data[i] = value;
             }
         }
 
@@ -116,9 +132,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(int rows, int columns, float[] array)
             : base(rows, columns)
         {
-            _rowCount = rows;
-            _columnCount = columns;
-            Data = array;
+            _storage = new DenseColumnMajorMatrixStorage<float>(rows, columns, array);
+
+            _rowCount = _storage.RowCount;
+            _columnCount = _storage.ColumnCount;
+            _data = _storage.Data;
         }
 
         /// <summary>
@@ -129,14 +147,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DenseMatrix(float[,] array)
             : base(array.GetLength(0), array.GetLength(1))
         {
-            _rowCount = array.GetLength(0);
-            _columnCount = array.GetLength(1);
-            Data = new float[_rowCount * _columnCount];
+            _storage = new DenseColumnMajorMatrixStorage<float>(array.GetLength(0), array.GetLength(1));
+
+            _rowCount = _storage.RowCount;
+            _columnCount = _storage.ColumnCount;
+            _data = _storage.Data;
+
             for (var i = 0; i < _rowCount; i++)
             {
                 for (var j = 0; j < _columnCount; j++)
                 {
-                    Data[(j * _rowCount) + i] = array[i, j];
+                    _data[(j * _rowCount) + i] = array[i, j];
                 }
             }
         }
@@ -147,8 +168,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <value>The matrix's data.</value>
         public float[] Data
         {
-            get;
-            private set;
+            get { return _data; }
         }
 
         /// <summary>
@@ -195,23 +215,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override void CopyTo(Matrix<float> target)
         {
             var denseTarget = target as DenseMatrix;
-            if (denseTarget == null)
+            if (denseTarget != null)
             {
-                base.CopyTo(target);
+                _storage.CopyTo(denseTarget._storage);
                 return;
             }
 
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, target, "target");
-            }
-
-            Buffer.BlockCopy(Data, 0, denseTarget.Data, 0, Data.Length * Constants.SizeOfFloat);
+            base.CopyTo(target);
         }
 
         /// <summary>
@@ -240,7 +250,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     throw new ArgumentOutOfRangeException("column");
                 }
 
-                return Data[(column * _rowCount) + row];
+                return _data[(column * _rowCount) + row];
             }
 
             set
@@ -255,7 +265,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     throw new ArgumentOutOfRangeException("column");
                 }
 
-                Data[(column * _rowCount) + row] = value;
+                _data[(column * _rowCount) + row] = value;
             }
         }
 
@@ -273,7 +283,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </returns>
         public override float At(int row, int column)
         {
-            return Data[(column * _rowCount) + row];
+            return _data[(column * _rowCount) + row];
         }
 
         /// <summary>
@@ -290,7 +300,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         public override void At(int row, int column, float value)
         {
-            Data[(column * _rowCount) + row] = value;
+            _data[(column * _rowCount) + row] = value;
         }
 
         /// <summary>
@@ -298,7 +308,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public override void Clear()
         {
-            Array.Clear(Data, 0, Data.Length);
+            Array.Clear(_data, 0, _data.Length);
         }
 
         /// <summary>
@@ -307,13 +317,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix<float> Transpose()
         {
-            var ret = new DenseMatrix(ColumnCount, RowCount);
-            for (var j = 0; j < ColumnCount; j++)
+            var ret = new DenseMatrix(_columnCount, _rowCount);
+            for (var j = 0; j < _columnCount; j++)
             {
-                var index = j * RowCount;
-                for (var i = 0; i < RowCount; i++)
+                var index = j * _rowCount;
+                for (var i = 0; i < _rowCount; i++)
                 {
-                    ret.Data[(i * ColumnCount) + j] = Data[index + i];
+                    ret._data[(i * _columnCount) + j] = _data[index + i];
                 }
             }
 
@@ -324,21 +334,21 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The L1 norm of the matrix.</returns>
         public override float L1Norm()
         {
-            return Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, RowCount, ColumnCount, Data);
+            return Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, _rowCount, _columnCount, _data);
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override float FrobeniusNorm()
         {
-            return Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, RowCount, ColumnCount, Data);
+            return Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, _rowCount, _columnCount, _data);
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>  
         public override float InfinityNorm()
         {
-            return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, RowCount, ColumnCount, Data);
+            return Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, _rowCount, _columnCount, _data);
         }
 
         #region Static constructors for special matrices.
@@ -356,7 +366,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var m = new DenseMatrix(order);
             for (var i = 0; i < order; i++)
             {
-                m.Data[(i * order) + i] = 1.0f;
+                m._data[(i * order) + i] = 1.0f;
             }
 
             return m;
@@ -381,7 +391,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.AddArrays(Data, denseOther.Data, denseResult.Data);
+                Control.LinearAlgebraProvider.AddArrays(_data, denseOther._data, denseResult._data);
             }
         }
 
@@ -400,7 +410,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.SubtractArrays(Data, denseOther.Data, denseResult.Data);
+                Control.LinearAlgebraProvider.SubtractArrays(_data, denseOther._data, denseResult._data);
             }
         }
 
@@ -418,7 +428,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(scalar, Data, denseResult.Data);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, _data, denseResult._data);
             }
         }
 
@@ -442,9 +452,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     Algorithms.LinearAlgebra.Transpose.DontTranspose,
                     Algorithms.LinearAlgebra.Transpose.DontTranspose,
                     1.0f,
-                    Data,
-                    RowCount,
-                    ColumnCount,
+                    _data,
+                    _rowCount,
+                    _columnCount,
                     denseRight.Data,
                     denseRight.Count,
                     1,
@@ -470,17 +480,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                                  1.0f,
-                                  Data,
-                                  RowCount,
-                                  ColumnCount,
-                                  denseOther.Data,
-                                  denseOther.RowCount,
-                                  denseOther.ColumnCount,
-                                  0.0f,
-                                  denseResult.Data);
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0f,
+                    _data,
+                    _rowCount,
+                    _columnCount,
+                    denseOther._data,
+                    denseOther._rowCount,
+                    denseOther._columnCount,
+                    0.0f,
+                    denseResult._data);
             }
         }
 
@@ -501,17 +511,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                                  Algorithms.LinearAlgebra.Transpose.Transpose,
-                                  1.0f,
-                                  Data,
-                                  RowCount,
-                                  ColumnCount,
-                                  denseOther.Data,
-                                  denseOther.RowCount,
-                                  denseOther.ColumnCount,
-                                  0.0f,
-                                  denseResult.Data);
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    Algorithms.LinearAlgebra.Transpose.Transpose,
+                    1.0f,
+                    _data,
+                    _rowCount,
+                    _columnCount,
+                    denseOther._data,
+                    denseOther._rowCount,
+                    denseOther._columnCount,
+                    0.0f,
+                    denseResult._data);
             }
         }
 
@@ -535,9 +545,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     Algorithms.LinearAlgebra.Transpose.Transpose,
                     Algorithms.LinearAlgebra.Transpose.DontTranspose,
                     1.0f,
-                    Data,
-                    RowCount,
-                    ColumnCount,
+                    _data,
+                    _rowCount,
+                    _columnCount,
                     denseRight.Data,
                     denseRight.Count,
                     1,
@@ -563,17 +573,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             else
             {
                 Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                                  Algorithms.LinearAlgebra.Transpose.Transpose,
-                                  Algorithms.LinearAlgebra.Transpose.DontTranspose,
-                                  1.0f,
-                                  Data,
-                                  RowCount,
-                                  ColumnCount,
-                                  denseOther.Data,
-                                  denseOther.RowCount,
-                                  denseOther.ColumnCount,
-                                  0.0f,
-                                  denseResult.Data);
+                    Algorithms.LinearAlgebra.Transpose.Transpose,
+                    Algorithms.LinearAlgebra.Transpose.DontTranspose,
+                    1.0f,
+                    _data,
+                    _rowCount,
+                    _columnCount,
+                    denseOther._data,
+                    denseOther._rowCount,
+                    denseOther._columnCount,
+                    0.0f,
+                    denseResult._data);
             }
         }
 
@@ -591,7 +601,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(-1, Data, denseResult.Data);
+                Control.LinearAlgebraProvider.ScaleArray(-1, _data, denseResult._data);
             }
         }
 
@@ -611,7 +621,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(Data, denseOther.Data, denseResult.Data);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther._data, denseResult._data);
             }
         }
 
@@ -631,7 +641,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.PointWiseDivideArrays(Data, denseOther.Data, denseResult.Data);
+                Control.LinearAlgebraProvider.PointWiseDivideArrays(_data, denseOther._data, denseResult._data);
             }
         }
 
@@ -657,8 +667,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
                 CommonParallel.For(
                     0,
-                    Data.Length,
-                    index => denseResult.Data[index] %= divisor);
+                    _data.Length,
+                    index => denseResult._data[index] %= divisor);
             }
         }
 
@@ -669,15 +679,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentException">If the matrix is not square</exception>
         public override float Trace()
         {
-            if (RowCount != ColumnCount)
+            if (_rowCount != _columnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
             var sum = 0.0f;
-            for (var i = 0; i < RowCount; i++)
+            for (var i = 0; i < _rowCount; i++)
             {
-                sum += Data[(i * RowCount) + i];
+                sum += _data[(i * _rowCount) + i];
             }
 
             return sum;
@@ -706,7 +716,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentNullException("leftSide");
             }
 
-            if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
+            if (leftSide._rowCount != rightSide._rowCount || leftSide._columnCount != rightSide._columnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
@@ -753,7 +763,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentNullException("leftSide");
             }
 
-            if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
+            if (leftSide._rowCount != rightSide._rowCount || leftSide._columnCount != rightSide._columnCount)
             {
                 throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
@@ -834,7 +844,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentNullException("rightSide");
             }
 
-            if (leftSide.ColumnCount != rightSide.RowCount)
+            if (leftSide._columnCount != rightSide._rowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(leftSide, rightSide);
             }
