@@ -44,16 +44,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     [Serializable]
     public class DiagonalMatrix : Matrix
     {
-         /// <summary>
+        /// <summary>
         /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class. This matrix is square with a given size.
         /// </summary>
         /// <param name="order">the size of the square matrix.</param>
         /// <exception cref="ArgumentException">
         /// If <paramref name="order"/> is less than one.
         /// </exception>
-        public DiagonalMatrix(int order) : base(order)
+        public DiagonalMatrix(int order)
+            : base(order)
         {
-            Data = new float[order * order];
+            Data = new float[order];
         }
 
         /// <summary>
@@ -65,7 +66,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="columns">
         /// The number of columns.
         /// </param>
-        public DiagonalMatrix(int rows, int columns) : base(rows, columns)
+        public DiagonalMatrix(int rows, int columns)
+            : base(rows, columns)
         {
             Data = new float[Math.Min(rows, columns)];
         }
@@ -80,7 +82,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// The number of columns.
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
-        public DiagonalMatrix(int rows, int columns, float value) : base(rows, columns)
+        public DiagonalMatrix(int rows, int columns, float value)
+            : base(rows, columns)
         {
             Data = new float[Math.Min(rows, columns)];
             for (var i = 0; i < Data.Length; i++)
@@ -96,7 +99,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
-        public DiagonalMatrix(int rows, int columns, float[] diagonalArray) : base(rows, columns)
+        public DiagonalMatrix(int rows, int columns, float[] diagonalArray)
+            : base(rows, columns)
         {
             Data = diagonalArray;
         }
@@ -108,7 +112,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="IndexOutOfRangeException">When <paramref name="array"/> contains an off-diagonal element.</exception>
         /// <exception cref="IndexOutOfRangeException">Depending on the implementation, an <see cref="IndexOutOfRangeException"/>
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
-        public DiagonalMatrix(float[,] array) : this(array.GetLength(0), array.GetLength(1))
+        public DiagonalMatrix(float[,] array)
+            : this(array.GetLength(0), array.GetLength(1))
         {
             var rows = array.GetLength(0);
             var columns = array.GetLength(1);
@@ -350,7 +355,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.AddArrays(Data, diagOther.Data, diagResult.Data);    
+                Control.LinearAlgebraProvider.AddArrays(Data, diagOther.Data, diagResult.Data);
             }
         }
 
@@ -450,7 +455,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
             }
-        
+
             Buffer.BlockCopy(source, 0, Data, 0, source.Length * Constants.SizeOfFloat);
         }
 
@@ -478,7 +483,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
             }
 
-            Buffer.BlockCopy(denseSource.Data, 0, Data, 0, denseSource.Data.Length  * Constants.SizeOfFloat);
+            Buffer.BlockCopy(denseSource.Data, 0, Data, 0, denseSource.Data.Length * Constants.SizeOfFloat);
         }
 
         /// <summary>
@@ -979,7 +984,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (RowCount != ColumnCount)
             {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
             var inverse = (DiagonalMatrix)Clone();
@@ -1188,16 +1193,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (rowIndex > columnIndex && columnIndex + columnCount > rowIndex)
             {
-                for (var i = 0; rowIndex - columnIndex + i < Math.Min(columnCount, rowCount); i++)
+                int columnInit = rowIndex - columnIndex;
+                int end = Math.Min(columnCount, rowCount + columnInit);
+                for (var i = 0; columnInit + i < end; i++)
                 {
-                    result[i, rowIndex - columnIndex + i] = Data[rowIndex + i];
+                    result[i, columnInit + i] = Data[rowIndex + i];
                 }
             }
             else if (rowIndex < columnIndex && rowIndex + rowCount > columnIndex)
             {
-                for (var i = 0; rowIndex - columnIndex + i < Math.Min(columnCount, rowCount); i++)
+                int rowInit = columnIndex - rowIndex;
+                int end = Math.Min(columnCount + rowInit, rowCount);
+                for (var i = 0; rowInit + i < end; i++)
                 {
-                    result[columnIndex - rowIndex + i, i] = Data[columnIndex + i];
+                    result[rowInit + i, i] = Data[columnIndex + i];
                 }
             }
             else
