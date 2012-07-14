@@ -45,5 +45,86 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             //Buffer.BlockCopy(Data, 0, target.Data, 0, Data.Length * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
+
+        public void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount)
+        {
+            if (rowCount < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
+            }
+
+            if (columnCount < 1)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
+            }
+
+            // Verify Source
+
+            if (sourceRowIndex >= RowCount || sourceRowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("sourceRowIndex");
+            }
+
+            if (sourceColumnIndex >= ColumnCount || sourceColumnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("sourceColumnIndex");
+            }
+
+            var sourceRowMax = sourceRowIndex + rowCount;
+            var sourceColumnMax = sourceColumnIndex + columnCount;
+
+            if (sourceRowMax > RowCount)
+            {
+                throw new ArgumentOutOfRangeException("rowCount");
+            }
+
+            if (sourceColumnMax > ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("columnCount");
+            }
+
+            // Verify Target
+
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                throw new NotSupportedException();
+            }
+
+            if (targetRowIndex >= target.RowCount || targetRowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("targetRowIndex");
+            }
+
+            if (targetColumnIndex >= target.ColumnCount || targetColumnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("targetColumnIndex");
+            }
+
+            var targetRowMax = targetRowIndex + rowCount;
+            var targetColumnMax = targetColumnIndex + columnCount;
+
+            if (targetRowMax > target.RowCount)
+            {
+                throw new ArgumentOutOfRangeException("rowCount");
+            }
+
+            if (targetColumnMax > target.ColumnCount)
+            {
+                throw new ArgumentOutOfRangeException("columnCount");
+            }
+
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnMax; j++, jj++)
+            {
+                //Buffer.BlockCopy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
+                Array.Copy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount);
+            }
+        }
     }
 }

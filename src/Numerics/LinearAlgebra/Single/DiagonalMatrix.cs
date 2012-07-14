@@ -1137,9 +1137,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Creates a matrix that contains the values from the requested sub-matrix.
         /// </summary>
         /// <param name="rowIndex">The row to start copying from.</param>
-        /// <param name="rowLength">The number of rows to copy. Must be positive.</param>
+        /// <param name="rowCount">The number of rows to copy. Must be positive.</param>
         /// <param name="columnIndex">The column to start copying from.</param>
-        /// <param name="columnLength">The number of columns to copy. Must be positive.</param>
+        /// <param name="columnCount">The number of columns to copy. Must be positive.</param>
         /// <returns>The requested sub-matrix.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If: <list><item><paramref name="rowIndex"/> is
         /// negative, or greater than or equal to the number of rows.</item>
@@ -1147,9 +1147,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// of columns.</item>
         /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
-        /// <exception cref="ArgumentException">If <paramref name="rowLength"/> or <paramref name="columnLength"/>
+        /// <exception cref="ArgumentException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
-        public override Matrix<float> SubMatrix(int rowIndex, int rowLength, int columnIndex, int columnLength)
+        public override Matrix<float> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
             if (rowIndex >= RowCount || rowIndex < 0)
             {
@@ -1161,48 +1161,48 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
 
-            if (rowLength < 1)
+            if (rowCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowLength");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
             }
 
-            if (columnLength < 1)
+            if (columnCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnLength");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
             }
 
-            var colMax = columnIndex + columnLength;
-            var rowMax = rowIndex + rowLength;
+            var colMax = columnIndex + columnCount;
+            var rowMax = rowIndex + rowCount;
 
             if (rowMax > RowCount)
             {
-                throw new ArgumentOutOfRangeException("rowLength");
+                throw new ArgumentOutOfRangeException("rowCount");
             }
 
             if (colMax > ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("columnLength");
+                throw new ArgumentOutOfRangeException("columnCount");
             }
 
-            var result = new SparseMatrix(rowLength, columnLength);
+            var result = new SparseMatrix(rowCount, columnCount);
 
-            if (rowIndex > columnIndex && columnIndex + columnLength > rowIndex)
+            if (rowIndex > columnIndex && columnIndex + columnCount > rowIndex)
             {
-                for (var i = 0; rowIndex - columnIndex + i < Math.Min(columnLength, rowLength); i++)
+                for (var i = 0; rowIndex - columnIndex + i < Math.Min(columnCount, rowCount); i++)
                 {
                     result[i, rowIndex - columnIndex + i] = Data[rowIndex + i];
                 }
             }
-            else if (rowIndex < columnIndex && rowIndex + rowLength > columnIndex)
+            else if (rowIndex < columnIndex && rowIndex + rowCount > columnIndex)
             {
-                for (var i = 0; rowIndex - columnIndex + i < Math.Min(columnLength, rowLength); i++)
+                for (var i = 0; rowIndex - columnIndex + i < Math.Min(columnCount, rowCount); i++)
                 {
                     result[columnIndex - rowIndex + i, i] = Data[columnIndex + i];
                 }
             }
             else
             {
-                for (var i = 0; i < Math.Min(columnLength, rowLength); i++)
+                for (var i = 0; i < Math.Min(columnCount, rowCount); i++)
                 {
                     result[i, i] = Data[rowIndex + i];
                 }
