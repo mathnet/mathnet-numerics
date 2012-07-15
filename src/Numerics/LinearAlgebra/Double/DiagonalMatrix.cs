@@ -817,6 +817,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
+            var sparseTarget = target as SparseMatrix;
+            if (sparseTarget != null)
+            {
+                _storage.CopyTo(sparseTarget.Storage);
+                return;
+            }
+
             base.CopyTo(target);
         }
 

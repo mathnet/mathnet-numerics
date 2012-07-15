@@ -691,35 +691,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override void CopyTo(Matrix<double> target)
         {
             var sparseTarget = target as SparseMatrix;
-            if (sparseTarget == null)
+            if (sparseTarget != null)
             {
-                base.CopyTo(target);
+                _storage.CopyTo(sparseTarget.Storage);
                 return;
             }
 
-            if (ReferenceEquals(this, target))
+            var denseTarget = target as DenseMatrix;
+            if (denseTarget != null)
             {
+                _storage.CopyTo(denseTarget.Storage);
                 return;
             }
 
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, target, "target");
-            }
-
-            var targetStorage = sparseTarget.Storage;
-
-            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-            targetStorage.ValueCount = _storage.ValueCount;
-            targetStorage.Values = new double[_storage.ValueCount];
-            targetStorage.ColumnIndices = new int[_storage.ValueCount];
-
-            if (_storage.ValueCount != 0)
-            {
-                Buffer.BlockCopy(_storage.Values, 0, targetStorage.Values, 0, _storage.ValueCount * Constants.SizeOfDouble);
-                Buffer.BlockCopy(_storage.ColumnIndices, 0, targetStorage.ColumnIndices, 0, _storage.ValueCount * Constants.SizeOfInt);
-                Buffer.BlockCopy(_storage.RowPointers, 0, targetStorage.RowPointers, 0, RowCount * Constants.SizeOfInt);
-            }
+            base.CopyTo(target);
         }
         
         /// <summary>

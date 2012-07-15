@@ -127,7 +127,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
-        public void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool targetKnownClear = false)
+        public void CopyTo(SparseCompressedRowMatrixStorage<T> target, bool skipClearing = false)
         {
             if (target == null)
             {
@@ -140,7 +140,31 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentException(message, "target");
             }
 
-            if (!targetKnownClear)
+            if (!skipClearing)
+            {
+                target.Clear();
+            }
+
+            for (int i = 0; i < Data.Length; i++)
+            {
+                target.At(i, i, Data[i]);
+            }
+        }
+
+        public void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            if (!skipClearing)
             {
                 target.Clear();
             }
