@@ -34,6 +34,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using System.Collections.Generic;
     using Generic;
     using Properties;
+    using Storage;
     using Threading;
     
     /// <summary>
@@ -41,35 +42,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     /// <a href="http://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_.28CSR_or_CRS.29">Wikipedia - CSR</a>.
     /// </summary>
     [Serializable]
-    public class SparseMatrix : Matrix 
+    public class SparseMatrix : Matrix
     {
-        /// <summary>
-        /// The array containing the row indices of the existing rows. Element "j" of the array gives the index of the 
-        /// element in the <see cref="_nonZeroValues"/> array that is first non-zero element in a row "j"
-        /// </summary>
-        private readonly int[] _rowIndex = new int[0];
+        readonly SparseCompressedRowMatrixStorage<float> _storage;
 
-        /// <summary>
-        /// Array that contains the non-zero elements of matrix. Values of the non-zero elements of matrix are mapped into the values 
-        /// array using the row-major storage mapping described in a compressed sparse row (CSR) format.
-        /// </summary>
-        private float[] _nonZeroValues = new float[0];
-        
         /// <summary>
         /// Gets the number of non zero elements in the matrix.
         /// </summary>
         /// <value>The number of non zero elements.</value>
         public int NonZerosCount
         {
-            get;
-            private set;
+            get { return _storage.ValueCount; }
         }
-        
-        /// <summary>
-        /// An array containing the column indices of the non-zero values. Element "I" of the array 
-        /// is the number of the column in matrix that contains the I-th value in the <see cref="_nonZeroValues"/> array.
-        /// </summary>
-        private int[] _columnIndices = new int[0];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class.
@@ -80,9 +64,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="columns">
         /// The number of columns.
         /// </param>
-        public SparseMatrix(int rows, int columns) : base(rows, columns)
+        public SparseMatrix(int rows, int columns)
+            : base(rows, columns)
         {
-            _rowIndex = new int[rows];
+            _storage = new SparseCompressedRowMatrixStorage<float>(rows, columns, 0f);
         }
         
         /// <summary>
@@ -92,8 +77,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <exception cref="ArgumentException">
         /// If <paramref name="order"/> is less than one.
         /// </exception>
-        public SparseMatrix(int order) : this(order, order)
+        public SparseMatrix(int order)
+            : base(order, order)
         {
+            _storage = new SparseCompressedRowMatrixStorage<float>(order, order, 0f);
         }
 
         /// <summary>
@@ -106,18 +93,22 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// The number of columns.
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
-        public SparseMatrix(int rows, int columns, float value) : this(rows, columns)
+        public SparseMatrix(int rows, int columns, float value)
+            : base(rows, columns)
         {
+            _storage = new SparseCompressedRowMatrixStorage<float>(rows, columns, 0f);
+
             if (value == 0.0)
             {
                 return;
             }
 
-            NonZerosCount = rows * columns;
-            _nonZeroValues = new float[NonZerosCount];
-            _columnIndices = new int[NonZerosCount];
+            var rowPointers = _storage.RowPointers;
+            var valueCount = _storage.ValueCount = rows * columns;
+            var columnIndices = _storage.ColumnIndices = new int[valueCount];
+            var values = _storage.Values = new float[valueCount];
 
-            for (int i = 0, j = 0; i < _nonZeroValues.Length; i++, j++)
+            for (int i = 0, j = 0; i < values.Length; i++, j++)
             {
                 // Reset column position to "0"
                 if (j == columns)
@@ -125,14 +116,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     j = 0;
                 }
 
-                _nonZeroValues[i] = value;
-                _columnIndices[i] = j;
+                values[i] = value;
+                columnIndices[i] = j;
             }
-            
+
             // Set proper row pointers
-            for (var i = 0; i < _rowIndex.Length; i++)
+            for (var i = 0; i < rowPointers.Length; i++)
             {
-                _rowIndex[i] = ((i + 1) * columns) - columns;
+                rowPointers[i] = ((i + 1) * columns) - columns;
             }
         }
 
@@ -144,8 +135,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="array">The one dimensional array to create this matrix from. This array should store the matrix in column-major order. see: http://en.wikipedia.org/wiki/Column-major_order </param>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="array"/> length is less than <paramref name="rows"/> * <paramref name="columns"/>.
         /// </exception>
-        public SparseMatrix(int rows, int columns, float[] array) : this(rows, columns)
+        public SparseMatrix(int rows, int columns, float[] array)
+            : base(rows, columns)
         {
+            _storage = new SparseCompressedRowMatrixStorage<float>(rows, columns, 0f);
+
             if (rows * columns > array.Length)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
@@ -155,7 +149,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 for (var j = 0; j < columns; j++)
                 {
-                    SetValueAt(i, j, array[i + (j * rows)]);
+                    _storage.SetValueAt(i, j, array[i + (j * rows)]);
                 }
             }
         }
@@ -164,16 +158,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class from a 2D array. 
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
-        public SparseMatrix(float[,] array) : this(array.GetLength(0), array.GetLength(1))
+        public SparseMatrix(float[,] array)
+            : base(array.GetLength(0), array.GetLength(1))
         {
-            var rows = array.GetLength(0);
-            var columns = array.GetLength(1);
+            _storage = new SparseCompressedRowMatrixStorage<float>(array.GetLength(0), array.GetLength(1), 0f);
 
-            for (var i = 0; i < rows; i++)
+            for (var i = 0; i < _storage.RowCount; i++)
             {
-                for (var j = 0; j < columns; j++)
+                for (var j = 0; j < _storage.ColumnCount; j++)
                 {
-                    SetValueAt(i, j, array[i, j]);
+                    _storage.SetValueAt(i, j, array[i, j]);
                 }
             }
         }
@@ -186,6 +180,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public SparseMatrix(Matrix<float> matrix)
             : this(matrix.RowCount, matrix.ColumnCount)
         {
+            _storage = new SparseCompressedRowMatrixStorage<float>(matrix.RowCount, matrix.ColumnCount, 0f);
+
             var sparseMatrix = matrix as SparseMatrix;
 
             var rows = matrix.RowCount;
@@ -197,21 +193,26 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 {
                     for (var j = 0; j < columns; j++)
                     {
-                        SetValueAt(i, j, matrix.At(i, j));
+                        _storage.SetValueAt(i, j, matrix.At(i, j));
                     }
                 }
             }
             else
             {
-                NonZerosCount = sparseMatrix.NonZerosCount;
-                _rowIndex = new int[rows];
-                _columnIndices = new int[NonZerosCount];
-                _nonZeroValues = new float[NonZerosCount];
+                var matrixStorage = sparseMatrix.Storage;
+                var valueCount = _storage.ValueCount = matrixStorage.ValueCount;
+                _storage.ColumnIndices = new int[valueCount];
+                _storage.Values = new float[valueCount];
 
-                Buffer.BlockCopy(sparseMatrix._nonZeroValues, 0, _nonZeroValues, 0, NonZerosCount * Constants.SizeOfFloat);
-                Buffer.BlockCopy(sparseMatrix._columnIndices, 0, _columnIndices, 0, NonZerosCount * Constants.SizeOfInt);
-                Buffer.BlockCopy(sparseMatrix._rowIndex, 0, _rowIndex, 0, rows * Constants.SizeOfInt);
+                Buffer.BlockCopy(matrixStorage.Values, 0, _storage.Values, 0, valueCount * Constants.SizeOfFloat);
+                Buffer.BlockCopy(matrixStorage.ColumnIndices, 0, _storage.ColumnIndices, 0, valueCount * Constants.SizeOfInt);
+                Buffer.BlockCopy(matrixStorage.RowPointers, 0, _storage.RowPointers, 0, rows * Constants.SizeOfInt);
             }
+        }
+
+        internal SparseCompressedRowMatrixStorage<float> Storage
+        {
+            get { return _storage; }
         }
 
         /// <summary>
@@ -291,15 +292,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">Where to store the lower triangle.</param>
         private void LowerTriangleImpl(Matrix<float> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (row >= _columnIndices[j])
+                    if (row >= columnIndices[j])
                     {
-                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
+                        result.At(row, columnIndices[j], values[j]);
                     }
                 }
             }
@@ -353,15 +359,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">Where to store the lower triangle.</param>
         private void UpperTriangleImpl(Matrix<float> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (row <= _columnIndices[j])
+                    if (row <= columnIndices[j])
                     {
-                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
+                        result.At(row, columnIndices[j], values[j]);
                     }
                 }
             }
@@ -420,18 +431,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             var result = (SparseMatrix)CreateMatrix(rowCount, columnCount);
 
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (int i = rowIndex, row = 0; i < rowMax; i++, row++)
             {
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 for (int j = startIndex; j < endIndex; j++)
                 {
                     // check if the column index is in the range
-                    if ((_columnIndices[j] >= columnIndex) && (_columnIndices[j] < columnIndex + columnCount))
+                    if ((columnIndices[j] >= columnIndex) && (columnIndices[j] < columnIndex + columnCount))
                     {
-                        var column = _columnIndices[j] - columnIndex;
-                        result.SetValueAt(row, column, _nonZeroValues[j]);
+                        var column = columnIndices[j] - columnIndex;
+                        result._storage.SetValueAt(row, column, values[j]);
                     }
                 }
             }
@@ -488,15 +504,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">Where to store the lower triangle.</param>
         private void StrictlyLowerTriangleImpl(Matrix<float> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (row > _columnIndices[j])
+                    if (row > columnIndices[j])
                     {
-                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
+                        result.At(row, columnIndices[j], values[j]);
                     }
                 }
             }
@@ -551,15 +572,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">Where to store the lower triangle.</param>
         private void StrictlyUpperTriangleImpl(Matrix<float> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (row < _columnIndices[j])
+                    if (row < columnIndices[j])
                     {
-                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
+                        result.At(row, columnIndices[j], values[j]);
                     }
                 }
             }
@@ -576,13 +602,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>An array containing the matrix's elements.</returns>
         public override float[] ToColumnWiseArray()
         {
+            var values = _storage.Values;
             var ret = new float[RowCount * ColumnCount];
             for (var j = 0; j < ColumnCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    var index = FindItem(i, j);
-                    ret[(j * RowCount) + i] = index >= 0 ? _nonZeroValues[index] : 0.0f;
+                    var index = _storage.FindItem(i, j);
+                    ret[(j * RowCount) + i] = index >= 0 ? values[index] : 0.0f;
                 }
             }
 
@@ -603,8 +630,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </returns>
         public override float At(int row, int column)
         {
-            var index = FindItem(row, column);
-            return index >= 0 ? _nonZeroValues[index] : 0.0f;
+            return _storage.GetValueAt(row, column);
         }
 
         /// <summary>
@@ -621,166 +647,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </param>
         public override void At(int row, int column, float value)
         {
-            SetValueAt(row, column, value);
+            _storage.SetValueAt(row, column, value);
         }
-
-        #region Internal methods - CRS storage implementation
-        /// <summary>
-        /// Created this method because we cannot call "virtual At" in constructor of the class, but we need to do it
-        /// </summary>
-        /// <param name="row"> The row of the element. </param>
-        /// <param name="column"> The column of the element. </param>
-        /// <param name="value"> The value to set the element to. </param>
-        /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        private void SetValueAt(int row, int column, float value)
-        {
-            var index = FindItem(row, column);
-            if (index >= 0)
-            {
-                // Non-zero item found in matrix
-                if (value == 0.0)
-                {
-                    // Delete existing item
-                    DeleteItemByIndex(index, row);
-                }
-                else
-                {
-                    // Update item
-                    _nonZeroValues[index] = value;
-                }
-            }
-            else
-            {
-                // Item not found. Add new value
-                if (value == 0.0)
-                {
-                    return;
-                }
-
-                index = ~index;
-
-                // Check if the storage needs to be increased
-                if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < ((long)RowCount * ColumnCount)))
-                {
-                    // Value array is completely full so we increase the size
-                    // Determine the increase in size. We will not grow beyond the size of the matrix
-                    var size = Math.Min(_nonZeroValues.Length + GrowthSize(), (long)RowCount * ColumnCount);
-                    if (size > int.MaxValue)
-                    {
-                        throw new NotSupportedException(Resources.TooManyElements);
-                    }
-
-                    Array.Resize(ref _nonZeroValues, (int)size);
-                    Array.Resize(ref _columnIndices, (int)size);
-                }
-
-                // Move all values (with an position larger than index) in the value array to the next position
-                // move all values (with an position larger than index) in the columIndices array to the next position
-                for (var i = NonZerosCount - 1; i > index - 1; i--)
-                {
-                    _nonZeroValues[i + 1] = _nonZeroValues[i];
-                    _columnIndices[i + 1] = _columnIndices[i];
-                }
-
-                // Add the value and the column index
-                _nonZeroValues[index] = value;
-                _columnIndices[index] = column;
-
-                // increase the number of non-zero numbers by one
-                NonZerosCount += 1;
-
-                // add 1 to all the row indices for rows bigger than rowIndex
-                // so that they point to the correct part of the value array again.
-                for (var i = row + 1; i < _rowIndex.Length; i++)
-                {
-                    _rowIndex[i] += 1;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Delete value from internal storage
-        /// </summary>
-        /// <param name="itemIndex">Index of value in nonZeroValues array</param>
-        /// <param name="row">Row number of matrix</param>
-        /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        private void DeleteItemByIndex(int itemIndex, int row)
-        {
-            // Move all values (with an position larger than index) in the value array to the previous position
-            // move all values (with an position larger than index) in the columIndices array to the previous position
-            for (var i = itemIndex + 1; i < NonZerosCount; i++)
-            {
-                _nonZeroValues[i - 1] = _nonZeroValues[i];
-                _columnIndices[i - 1] = _columnIndices[i];
-            }
-            
-            // Decrease value in Row
-            for (var i = row + 1; i < _rowIndex.Length; i++)
-            {
-                _rowIndex[i] -= 1;
-            }
-
-            NonZerosCount -= 1;
-
-            // Check if the storage needs to be shrink. This is reasonable to do if 
-            // there are a lot of non-zero elements and storage is two times bigger
-            if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroValues.Length / 2))
-            {
-                Array.Resize(ref _nonZeroValues, NonZerosCount);
-                Array.Resize(ref _columnIndices, NonZerosCount);
-            }
-        }
-        
-        /// <summary>
-        /// Find item Index in nonZeroValues array
-        /// </summary>
-        /// <param name="row">Matrix row index</param>
-        /// <param name="column">Matrix column index</param>
-        /// <returns>Item index</returns>
-        /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        private int FindItem(int row, int column)
-        {
-            // Determin bounds in columnIndices array where this item should be searched (using rowIndex)
-            var startIndex = _rowIndex[row];
-            var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
-            return Array.BinarySearch(_columnIndices, startIndex, endIndex - startIndex, column);
-        }
-        
-        /// <summary>
-        /// Calculates the amount with which to grow the storage array's if they need to be
-        /// increased in size.
-        /// </summary>
-        /// <returns>The amount grown.</returns>
-        private int GrowthSize()
-        {
-            int delta;
-            if (_nonZeroValues.Length > 1024)
-            {
-                delta = _nonZeroValues.Length / 4;
-            }
-            else
-            {
-                if (_nonZeroValues.Length > 256)
-                {
-                    delta = 512;
-                }
-                else
-                {
-                    delta = _nonZeroValues.Length > 64 ? 128 : 32;
-                }
-            }
-
-            return delta;
-        }
-        #endregion
 
         /// <summary>
         /// Sets all values to zero.
         /// </summary>
         public override void Clear()
         {
-            NonZerosCount = 0;
-            Array.Clear(_rowIndex, 0, _rowIndex.Length);
+            _storage.Clear();
         }
 
         /// <summary>
@@ -814,16 +689,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw DimensionsDontMatch<ArgumentException>(this, target, "target");
             }
 
-            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-            sparseTarget._nonZeroValues = new float[NonZerosCount];
-            sparseTarget._columnIndices = new int[NonZerosCount];
-            sparseTarget.NonZerosCount = NonZerosCount;
+            var targetStorage = sparseTarget.Storage;
 
-            if (NonZerosCount != 0)
+            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
+            targetStorage.ValueCount = _storage.ValueCount;
+            targetStorage.Values = new float[_storage.ValueCount];
+            targetStorage.ColumnIndices = new int[_storage.ValueCount];
+
+            if (_storage.ValueCount != 0)
             {
-                Buffer.BlockCopy(_nonZeroValues, 0, sparseTarget._nonZeroValues, 0, NonZerosCount*Constants.SizeOfFloat);
-                Buffer.BlockCopy(_columnIndices, 0, sparseTarget._columnIndices, 0, NonZerosCount*Constants.SizeOfInt);
-                Buffer.BlockCopy(_rowIndex, 0, sparseTarget._rowIndex, 0, RowCount*Constants.SizeOfInt);
+                Buffer.BlockCopy(_storage.Values, 0, targetStorage.Values, 0, _storage.ValueCount * Constants.SizeOfFloat);
+                Buffer.BlockCopy(_storage.ColumnIndices, 0, targetStorage.ColumnIndices, 0, _storage.ValueCount * Constants.SizeOfInt);
+                Buffer.BlockCopy(_storage.RowPointers, 0, targetStorage.RowPointers, 0, RowCount * Constants.SizeOfInt);
             }
         }
         
@@ -835,14 +712,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(NonZerosCount, 25);
+            var values = _storage.Values;
+            var hashNum = Math.Min(_storage.ValueCount, 25);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
 #if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(_nonZeroValues[i]);
+                hash ^= Precision.DoubleToInt64Bits(values[i]);
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i]);
+                hash ^= BitConverter.DoubleToInt64Bits(values[i]);
 #endif
             }
 
@@ -855,18 +733,22 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix<float> Transpose()
         {
-            var ret = new SparseMatrix(ColumnCount, RowCount)
-            {
-                _columnIndices = new int[NonZerosCount],
-                _nonZeroValues = new float[NonZerosCount]
-            };
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
+            var ret = new SparseMatrix(ColumnCount, RowCount);
+            var retStorage = ret.Storage;
+            retStorage.ColumnIndices = new int[valueCount];
+            retStorage.Values = new float[valueCount];
 
             // Do an 'inverse' CopyTo iterate over the rows
-            for (var i = 0; i < _rowIndex.Length; i++)
+            for (var i = 0; i < rowPointers.Length; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 // Get the values for the current row
                 if (startIndex == endIndex)
@@ -877,7 +759,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    ret.SetValueAt(_columnIndices[j], i, _nonZeroValues[j]);
+                    retStorage.SetValueAt(columnIndices[j], i, values[j]);
                 }
             }
 
@@ -889,15 +771,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override float FrobeniusNorm()
         {
             var transpose = (SparseMatrix)Transpose();
-            var aat = this * transpose;
+            var aat = (this * transpose).Storage;
 
-            var norm = 0.0f;
+            var norm = 0f;
 
-            for (var i = 0; i < aat._rowIndex.Length; i++)
+            for (var i = 0; i < aat.RowPointers.Length; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = aat._rowIndex[i];
-                var endIndex = i < aat._rowIndex.Length - 1 ? aat._rowIndex[i + 1] : aat.NonZerosCount;
+                var startIndex = aat.RowPointers[i];
+                var endIndex = i < aat.RowPointers.Length - 1 ? aat.RowPointers[i + 1] : aat.ValueCount;
 
                 // Get the values for the current row
                 if (startIndex == endIndex)
@@ -908,27 +790,30 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (i == aat._columnIndices[j])
+                    if (i == aat.ColumnIndices[j])
                     {
-                        norm += Math.Abs(aat._nonZeroValues[j]);
+                        norm += Math.Abs(aat.Values[j]);
                     }
                 }
             }
 
-            norm = Convert.ToSingle(Math.Sqrt(norm));
-            return norm;
+            return Convert.ToSingle(Math.Sqrt(norm));
         }
 
         /// <summary>Calculates the infinity norm of this matrix.</summary>
         /// <returns>The infinity norm of this matrix.</returns>   
         public override float InfinityNorm()
         {
-            var norm = 0.0f;
-            for (var i = 0; i < _rowIndex.Length; i++)
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
+            var norm = 0f;
+            for (var i = 0; i < rowPointers.Length; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 // Get the values for the current row
                 if (startIndex == endIndex)
@@ -937,10 +822,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     continue;
                 }
 
-                var s = 0.0f;
+                var s = 0f;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    s += Math.Abs(_nonZeroValues[j]);
+                    s += Math.Abs(values[j]);
                 }
 
                 norm = Math.Max(norm, s);
@@ -997,9 +882,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             // Determine bounds in columnIndices array where this item should be searched (using rowIndex)
-            var startIndex = _rowIndex[rowIndex];
-            var endIndex = rowIndex < _rowIndex.Length - 1 ? _rowIndex[rowIndex + 1] : NonZerosCount;
+            var startIndex = rowPointers[rowIndex];
+            var endIndex = rowIndex < rowPointers.Length - 1 ? rowPointers[rowIndex + 1] : valueCount;
 
             if (startIndex == endIndex)
             {
@@ -1011,8 +900,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 for (int i = columnIndex, j = 0; i < columnIndex + length; i++, j++)
                 {
                     // Copy code from At(row, column) to avoid unnecessary lock
-                    var index = FindItem(rowIndex, i);
-                    result[j] = index >= 0 ? _nonZeroValues[index] : 0.0f;
+                    var index = _storage.FindItem(rowIndex, i);
+                    result[j] = index >= 0 ? values[index] : 0f;
                 }
             }
         }
@@ -1036,30 +925,33 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                if (resultSparseMatrix.RowCount != RowCount + lowerSparseMatrix.RowCount || resultSparseMatrix.ColumnCount != ColumnCount + lowerSparseMatrix.ColumnCount)
+                var resultStorage = resultSparseMatrix.Storage;
+                var lowerStorage = lowerSparseMatrix.Storage;
+
+                if (resultStorage.RowCount != RowCount + lowerStorage.RowCount || resultStorage.ColumnCount != ColumnCount + lowerSparseMatrix.ColumnCount)
                 {
-                    throw DimensionsDontMatch<ArgumentException>(this, lowerSparseMatrix, resultSparseMatrix, "result");
+                    throw DimensionsDontMatch<ArgumentException>(this, lowerSparseMatrix, resultSparseMatrix);
                 }
 
-                resultSparseMatrix.NonZerosCount = NonZerosCount + lowerSparseMatrix.NonZerosCount;
-                resultSparseMatrix._nonZeroValues = new float[resultSparseMatrix.NonZerosCount];
-                resultSparseMatrix._columnIndices = new int[resultSparseMatrix.NonZerosCount];
-                
-                Array.Copy(_nonZeroValues, 0, resultSparseMatrix._nonZeroValues, 0, NonZerosCount);
-                Array.Copy(lowerSparseMatrix._nonZeroValues, 0, resultSparseMatrix._nonZeroValues, NonZerosCount, lowerSparseMatrix.NonZerosCount);
+                resultStorage.ValueCount = _storage.ValueCount + lowerStorage.ValueCount;
+                resultStorage.Values = new float[resultStorage.ValueCount];
+                resultStorage.ColumnIndices = new int[resultStorage.ValueCount];
 
-                Array.Copy(_columnIndices, 0, resultSparseMatrix._columnIndices, 0, NonZerosCount);
-                Array.Copy(_rowIndex, 0, resultSparseMatrix._rowIndex, 0, RowCount);
+                Array.Copy(_storage.Values, 0, resultStorage.Values, 0, _storage.ValueCount);
+                Array.Copy(lowerStorage.Values, 0, resultStorage.Values, _storage.ValueCount, lowerStorage.ValueCount);
+
+                Array.Copy(_storage.ColumnIndices, 0, resultStorage.ColumnIndices, 0, _storage.ValueCount);
+                Array.Copy(_storage.RowPointers, 0, resultStorage.RowPointers, 0, RowCount);
 
                 // Copy and adjust lower column indices and rowIndex
-                for (int i = NonZerosCount, j = 0; i < resultSparseMatrix.NonZerosCount; i++, j++)
+                for (int i = _storage.ValueCount, j = 0; i < resultStorage.ValueCount; i++, j++)
                 {
-                    resultSparseMatrix._columnIndices[i] = lowerSparseMatrix._columnIndices[j] + ColumnCount;
+                    resultStorage.ColumnIndices[i] = lowerStorage.ColumnIndices[j] + ColumnCount;
                 }
 
-                for (int i = RowCount, j = 0; i < resultSparseMatrix.RowCount; i++, j++)
+                for (int i = RowCount, j = 0; i < resultStorage.RowCount; i++, j++)
                 {
-                    resultSparseMatrix._rowIndex[i] = lowerSparseMatrix._rowIndex[j] + NonZerosCount;
+                    resultStorage.RowPointers[i] = lowerStorage.RowPointers[j] + _storage.ValueCount;
                 }
             }
         }
@@ -1075,18 +967,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </exception>
         public static SparseMatrix Identity(int order)
         {
-            var m = new SparseMatrix(order)
-                    {
-                        NonZerosCount = order,
-                        _nonZeroValues = new float[order],
-                        _columnIndices = new int[order]
-                    };
+            var m = new SparseMatrix(order);
+            var mStorage = m.Storage;
+
+            mStorage.ValueCount = order;
+            mStorage.Values = new float[order];
+            mStorage.ColumnIndices = new int[order];
 
             for (var i = 0; i < order; i++)
             {
-                m._nonZeroValues[i] = 1.0f;
-                m._columnIndices[i] = i;
-                m._rowIndex[i] = i;
+                mStorage.Values[i] = 1f;
+                mStorage.ColumnIndices[i] = i;
+                mStorage.RowPointers[i] = i;
             }
 
             return m;
@@ -1121,21 +1013,21 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             var sparseMatrix = other as SparseMatrix;
-
             if (sparseMatrix == null)
             {
                 return base.Equals(other);
             }
 
-            if (NonZerosCount != sparseMatrix.NonZerosCount)
+            var otherStorage = sparseMatrix.Storage;
+            if (_storage.ValueCount != otherStorage.ValueCount)
             {
                 return false;
             }
 
             // If all else fails, perform element wise comparison.
-            for (var index = 0; index < NonZerosCount; index++)
+            for (var index = 0; index < _storage.ValueCount; index++)
             {
-                if (!_nonZeroValues[index].AlmostEqual(sparseMatrix._nonZeroValues[index]) || _columnIndices[index] != sparseMatrix._columnIndices[index])
+                if (!_storage.Values[index].AlmostEqual(otherStorage.Values[index]) || _storage.ColumnIndices[index] != otherStorage.ColumnIndices[index])
                 {
                     return false;
                 }
@@ -1168,7 +1060,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     CopyTo(result);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(2.0f, _nonZeroValues, _nonZeroValues);
+                Control.LinearAlgebraProvider.ScaleArray(2.0f, _storage.Values, _storage.Values);
                 return;
             }
 
@@ -1188,16 +1080,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 left = sparseOther;
             }
 
-            for (var i = 0; i < left.RowCount; i++)
+            var leftStorage = left.Storage;
+            for (var i = 0; i < leftStorage.RowCount; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = left._rowIndex[i];
-                var endIndex = i < left._rowIndex.Length - 1 ? left._rowIndex[i + 1] : left.NonZerosCount;
+                var startIndex = leftStorage.RowPointers[i];
+                var endIndex = i < leftStorage.RowPointers.Length - 1 ? leftStorage.RowPointers[i + 1] : leftStorage.ValueCount;
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var columnIndex = left._columnIndices[j];
-                    var resVal = left._nonZeroValues[j] + result.At(i, columnIndex);
+                    var columnIndex = leftStorage.ColumnIndices[j];
+                    var resVal = leftStorage.Values[j] + result.At(i, columnIndex);
                     result.At(i, columnIndex, resVal);
                 }
             }
@@ -1226,18 +1119,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return;
             }
 
+            var otherStorage = sparseOther.Storage;
+
             if (ReferenceEquals(this, sparseResult))
             {
-                for (var i = 0; i < sparseOther.RowCount; i++)
+                for (var i = 0; i < otherStorage.RowCount; i++)
                 {
                     // Get the begin / end index for the current row
-                    var startIndex = sparseOther._rowIndex[i];
-                    var endIndex = i < sparseOther._rowIndex.Length - 1 ? sparseOther._rowIndex[i + 1] : sparseOther.NonZerosCount;
+                    var startIndex = otherStorage.RowPointers[i];
+                    var endIndex = i < otherStorage.RowPointers.Length - 1 ? otherStorage.RowPointers[i + 1] : otherStorage.ValueCount;
 
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        var columnIndex = sparseOther._columnIndices[j];
-                        var resVal = sparseResult.At(i, columnIndex) - sparseOther._nonZeroValues[j];
+                        var columnIndex = otherStorage.ColumnIndices[j];
+                        var resVal = sparseResult.At(i, columnIndex) - otherStorage.Values[j];
                         result.At(i, columnIndex, resVal);
                     }
                 }
@@ -1251,16 +1146,21 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
                 sparseResult.Negate(sparseResult);
 
+                var rowPointers = _storage.RowPointers;
+                var columnIndices = _storage.ColumnIndices;
+                var values = _storage.Values;
+                var valueCount = _storage.ValueCount;
+
                 for (var i = 0; i < RowCount; i++)
                 {
                     // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                    var startIndex = rowPointers[i];
+                    var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        var columnIndex = _columnIndices[j];
-                        var resVal = sparseResult.At(i, columnIndex) + _nonZeroValues[j];
+                        var columnIndex = columnIndices[j];
+                        var resVal = sparseResult.At(i, columnIndex) + values[j];
                         result.At(i, columnIndex, resVal);
                     }
                 }
@@ -1291,10 +1191,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             {
                 result.Clear();
 
+                var rowPointers = _storage.RowPointers;
+                var columnIndices = _storage.ColumnIndices;
+                var values = _storage.Values;
+
                 for (var row = 0; row < RowCount; row++)
                 {
-                    var start = _rowIndex[row];
-                    var end = _rowIndex[row + 1];
+                    var start = rowPointers[row];
+                    var end = rowPointers[row + 1];
 
                     if (start == end)
                     {
@@ -1303,8 +1207,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
                     for (var index = start; index < end; index++)
                     {
-                        var column = _columnIndices[index];
-                        result.At(row, column, _nonZeroValues[index] * scalar);
+                        var column = columnIndices[index];
+                        result.At(row, column, values[index] * scalar);
                     }
                 }
             }
@@ -1315,7 +1219,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     CopyTo(sparseResult);
                 }
 
-                CommonParallel.For(0, NonZerosCount, index => sparseResult._nonZeroValues[index] *= scalar);
+                CommonParallel.For(0, NonZerosCount, index => sparseResult.Storage.Values[index] *= scalar);
             }
         }
 
@@ -1328,11 +1232,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             result.Clear();
             var columnVector = new DenseVector(other.RowCount);
+
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < RowCount; row++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 if (startIndex == endIndex)
                 {
                     continue;
@@ -1342,11 +1252,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 {
                     // Multiply row of matrix A on column of matrix B
                     other.Column(column, columnVector);
-                    
-                    var sum = 0.0f;
+
+                    var sum = 0f;
                     for (var index = startIndex; index < endIndex; index++)
                     {
-                        sum += _nonZeroValues[index] * columnVector[_columnIndices[index]];
+                        sum += values[index] * columnVector[columnIndices[index]];
                     }
 
                     result.At(row, column, sum);
@@ -1361,20 +1271,25 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<float> rightSide, Vector<float> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < RowCount; row++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 if (startIndex == endIndex)
                 {
                     continue;
                 }
 
-                var sum = 0.0f;
+                var sum = 0f;
                 for (var index = startIndex; index < endIndex; index++)
                 {
-                    sum += _nonZeroValues[index] * rightSide[_columnIndices[index]];
+                    sum += values[index] * rightSide[columnIndices[index]];
                 }
 
                 result[row] = sum;
@@ -1398,11 +1313,18 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             resultSparse.Clear();
+
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
+            var otherStorage = otherSparse.Storage;
+
             for (var j = 0; j < RowCount; j++)
             {
                 // Get the begin / end index for the row
-                var startIndexOther = otherSparse._rowIndex[j];
-                var endIndexOther = j < otherSparse._rowIndex.Length - 1 ? otherSparse._rowIndex[j + 1] : otherSparse.NonZerosCount;
+                var startIndexOther = otherStorage.RowPointers[j];
+                var endIndexOther = j < otherStorage.RowPointers.Length - 1 ? otherStorage.RowPointers[j + 1] : otherStorage.ValueCount;
                 if (startIndexOther == endIndexOther)
                 {
                     continue;
@@ -1412,24 +1334,24 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 {
                     // Multiply row of matrix A on row of matrix B
                     // Get the begin / end index for the row
-                    var startIndexThis = _rowIndex[i];
-                    var endIndexThis = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                    var startIndexThis = rowPointers[i];
+                    var endIndexThis = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
                     if (startIndexThis == endIndexThis)
                     {
                         continue;
                     }
 
-                    var sum = 0.0f;
+                    var sum = 0f;
                     for (var index = startIndexOther; index < endIndexOther; index++)
                     {
-                        var ind = FindItem(i, otherSparse._columnIndices[index]);
+                        var ind = _storage.FindItem(i, otherStorage.ColumnIndices[index]);
                         if (ind >= 0)
                         {
-                            sum += otherSparse._nonZeroValues[index] * _nonZeroValues[ind];
+                            sum += otherStorage.Values[index]*values[ind];
                         }
                     }
 
-                    resultSparse.SetValueAt(i, j, sum + result.At(i, j));
+                    resultSparse.Storage.SetValueAt(i, j, sum + result.At(i, j));
                 }
             }
         }
@@ -1453,18 +1375,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             result.Clear();
 
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var i = 0; i < other.RowCount; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
-                    if (resVal != 0.0)
+                    var resVal = values[j] * other.At(i, columnIndices[j]);
+                    if (resVal != 0f)
                     {
-                        result.At(i, _columnIndices[j], resVal);
+                        result.At(i, columnIndices[j], resVal);
                     }
                 }
             }
@@ -1479,18 +1406,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             result.Clear();
 
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var i = 0; i < other.RowCount; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
-                    if (resVal != 0.0)
+                    var resVal = values[j] / other.At(i, columnIndices[j]);
+                    if (resVal != 0f)
                     {
-                        result.At(i, _columnIndices[j], resVal);
+                        result.At(i, columnIndices[j], resVal);
                     }
                 }
             }
@@ -1503,23 +1435,22 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoModulus(float divisor, Matrix<float> result)
         {
-            var denseResult = result as SparseMatrix;
-
-            if (denseResult == null)
+            var sparseResult = result as SparseMatrix;
+            if (sparseResult == null)
             {
                 base.DoModulus(divisor, result);
+                return;
             }
-            else
-            {
-                if (!ReferenceEquals(this, result))
-                {
-                    CopyTo(result);
-                }
 
-                for (var index = 0; index < denseResult._nonZeroValues.Length; index++)
-                {
-                    denseResult._nonZeroValues[index] %= divisor;
-                }
+            if (!ReferenceEquals(this, result))
+            {
+                CopyTo(result);
+            }
+
+            var resultStorage = sparseResult.Storage;
+            for (var index = 0; index < resultStorage.Values.Length; index++)
+            {
+                resultStorage.Values[index] %= divisor;
             }
         }
 
@@ -1529,10 +1460,15 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The value at the current iteration along with its position (row, column, value).</returns>
         public override IEnumerable<Tuple<int, int, float>> IndexedEnumerator()
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < RowCount - 1; row++)
             {
-                var start = _rowIndex[row];
-                var end = _rowIndex[row + 1];
+                var start = rowPointers[row];
+                var end = rowPointers[row + 1];
 
                 if (start == end)
                 {
@@ -1541,17 +1477,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
                 for (var index = start; index < end; index++)
                 {
-                    yield return new Tuple<int, int, float>(row, _columnIndices[index], _nonZeroValues[index]);
+                    yield return new Tuple<int, int, float>(row, columnIndices[index], values[index]);
                 }
             }
 
-            var lastRow = _rowIndex.Length - 1;
+            var lastRow = rowPointers.Length - 1;
 
-            if (_rowIndex[lastRow] < NonZerosCount)
+            if (rowPointers[lastRow] < NonZerosCount)
             {
-                for (var index = _rowIndex[lastRow]; index < NonZerosCount; index++)
+                for (var index = rowPointers[lastRow]; index < NonZerosCount; index++)
                 {
-                    yield return new Tuple<int, int, float>(lastRow, _columnIndices[index], _nonZeroValues[index]);
+                    yield return new Tuple<int, int, float>(lastRow, columnIndices[index], values[index]);
                 }
             }
         }
@@ -1569,10 +1505,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 }
 
                 // todo: we might be able to speed this up by caching one half of the matrix
+                var rowPointers = _storage.RowPointers;
                 for (var row = 0; row < RowCount - 1; row++)
                 {
-                    var start = _rowIndex[row];
-                    var end = _rowIndex[row + 1];
+                    var start = rowPointers[row];
+                    var end = rowPointers[row + 1];
 
                     if (start == end)
                     {
@@ -1585,11 +1522,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     }
                 }
 
-                var lastRow = _rowIndex.Length - 1;
+                var lastRow = rowPointers.Length - 1;
 
-                if (_rowIndex[lastRow] < NonZerosCount)
+                if (rowPointers[lastRow] < NonZerosCount)
                 {
-                    if (!CheckIfOppositesAreEqual(_rowIndex[lastRow], NonZerosCount, lastRow))
+                    if (!CheckIfOppositesAreEqual(rowPointers[lastRow], NonZerosCount, lastRow))
                     {
                         return false;
                     }
@@ -1608,11 +1545,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>If the values are equal or not.</returns>
         private bool CheckIfOppositesAreEqual(int start, int end, int row)
         {
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+
             for (var index = start; index < end; index++)
             {
-                var column = _columnIndices[index];
+                var column = columnIndices[index];
                 var opposite = At(column, row);
-                if (!_nonZeroValues[index].Equals(opposite))
+                if (!values[index].Equals(opposite))
                 {
                     return false;
                 }

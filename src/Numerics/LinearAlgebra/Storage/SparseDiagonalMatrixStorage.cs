@@ -6,25 +6,30 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     internal class SparseDiagonalMatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
-        public int RowCount { get; private set; }
-        public int ColumnCount { get; private set; }
-        public T[] Data { get; private set; }
+        // [ruegg] public fields are OK here
+
+        public readonly int RowCount;
+        public readonly int ColumnCount;
         readonly T _zero;
+
+        public readonly T[] Data;
 
         internal SparseDiagonalMatrixStorage(int rows, int columns, T zero)
         {
             RowCount = rows;
             ColumnCount = columns;
-            Data = new T[Math.Min(rows, columns)];
             _zero = zero;
+
+            Data = new T[Math.Min(rows, columns)];
         }
 
         internal SparseDiagonalMatrixStorage(int rows, int columns, T zero, T[] data)
         {
             RowCount = rows;
             ColumnCount = columns;
-            Data = data;
             _zero = zero;
+
+            Data = data;
         }
 
         public T this[int row, int column]
