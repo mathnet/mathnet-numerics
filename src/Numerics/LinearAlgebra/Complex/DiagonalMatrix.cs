@@ -823,6 +823,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
+            var sparseTarget = target as SparseMatrix;
+            if (sparseTarget != null)
+            {
+                _storage.CopyTo(sparseTarget.Storage);
+                return;
+            }
+
             base.CopyTo(target);
         }
 

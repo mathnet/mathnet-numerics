@@ -197,7 +197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <param name="itemIndex">Index of value in nonZeroValues array</param>
         /// <param name="row">Row number of matrix</param>
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        private void DeleteItemByIndex(int itemIndex, int row)
+        void DeleteItemByIndex(int itemIndex, int row)
         {
             // Move all values (with an position larger than index) in the value array to the previous position
             // move all values (with an position larger than index) in the columIndices array to the previous position
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// increased in size.
         /// </summary>
         /// <returns>The amount grown.</returns>
-        private int GrowthSize()
+        int GrowthSize()
         {
             int delta;
             if (Values.Length > 1024)
@@ -264,6 +264,68 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             return delta;
+        }
+
+        public void CopyTo(SparseCompressedRowMatrixStorage<T> target)
+        {
+            if (ReferenceEquals(this, target))
+            {
+                return;
+            }
+
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            target.ValueCount = ValueCount;
+            target.Values = new T[ValueCount];
+            target.ColumnIndices = new int[ValueCount];
+
+            if (ValueCount != 0)
+            {
+                Array.Copy(Values, target.Values, ValueCount);
+                Buffer.BlockCopy(ColumnIndices, 0, target.ColumnIndices, 0, ValueCount * Constants.SizeOfInt);
+                Buffer.BlockCopy(RowPointers, 0, target.RowPointers, 0, RowCount * Constants.SizeOfInt);
+            }
+        }
+
+        public void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            if (!skipClearing)
+            {
+                target.Clear();
+            }
+
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        target.At(row, ColumnIndices[j], Values[j]);
+                    }
+                }
+            }
         }
     }
 }
