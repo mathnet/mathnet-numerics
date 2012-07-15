@@ -48,16 +48,49 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             ValueCount = 0;
         }
 
+        /// <summary>
+        /// Gets or sets the value at the given row and column, with range checking.
+        /// </summary>
+        /// <param name="row">
+        /// The row of the element.
+        /// </param>
+        /// <param name="column">
+        /// The column of the element.
+        /// </param>
+        /// <value>The value to get or set.</value>
+        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,T)"/>
+        /// to get and set values without range checking.</remarks>
         public T this[int row, int column]
         {
-            get { return GetValueAt(row, column); }
-            set { SetValueAt(row, column, value); }
-        }
+            get
+            {
+                if (row < 0 || row >= RowCount)
+                {
+                    throw new ArgumentOutOfRangeException("row");
+                }
 
-        public void Clear()
-        {
-            ValueCount = 0;
-            Array.Clear(RowPointers, 0, RowPointers.Length);
+                if (column < 0 || column >= ColumnCount)
+                {
+                    throw new ArgumentOutOfRangeException("column");
+                }
+
+                return At(row, column);
+            }
+
+            set
+            {
+                if (row < 0 || row >= RowCount)
+                {
+                    throw new ArgumentOutOfRangeException("row");
+                }
+
+                if (column < 0 || column >= ColumnCount)
+                {
+                    throw new ArgumentOutOfRangeException("column");
+                }
+
+                At(row, column, value);
+            }
         }
 
         /// <summary>
@@ -72,20 +105,21 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <returns>
         /// The requested element.
         /// </returns>
-        public T GetValueAt(int row, int column)
+        /// <remarks>Not range-checked.</remarks>
+        public T At(int row, int column)
         {
             var index = FindItem(row, column);
             return index >= 0 ? Values[index] : _zero;
         }
 
         /// <summary>
-        /// Created this method because we cannot call "virtual At" in constructor of the class, but we need to do it
+        /// Sets the element without range checking.
         /// </summary>
         /// <param name="row"> The row of the element. </param>
         /// <param name="column"> The column of the element. </param>
         /// <param name="value"> The value to set the element to. </param>
-        /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        public void SetValueAt(int row, int column, T value)
+        /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
+        public void At(int row, int column, T value)
         {
             var index = FindItem(row, column);
             if (index >= 0)
@@ -149,6 +183,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     RowPointers[i] += 1;
                 }
             }
+        }
+
+        public void Clear()
+        {
+            ValueCount = 0;
+            Array.Clear(RowPointers, 0, RowPointers.Length);
         }
 
         /// <summary>

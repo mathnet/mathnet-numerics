@@ -149,7 +149,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j < columns; j++)
                 {
-                    _storage.SetValueAt(i, j, array[i + (j * rows)]);
+                    _storage.At(i, j, array[i + (j * rows)]);
                 }
             }
         }
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             {
                 for (var j = 0; j < _storage.ColumnCount; j++)
                 {
-                    _storage.SetValueAt(i, j, array[i, j]);
+                    _storage.At(i, j, array[i, j]);
                 }
             }
         }
@@ -193,7 +193,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 {
                     for (var j = 0; j < columns; j++)
                     {
-                        _storage.SetValueAt(i, j, matrix.At(i, j));
+                        _storage.At(i, j, matrix.At(i, j));
                     }
                 }  
             }
@@ -447,7 +447,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     if ((columnIndices[j] >= columnIndex) && (columnIndices[j] < columnIndex + columnCount))
                     {
                         var column = columnIndices[j] - columnIndex;
-                        result._storage.SetValueAt(row, column, values[j]);
+                        result._storage.At(row, column, values[j]);
                     }
                 }
             }
@@ -617,6 +617,24 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Gets or sets the value at the given row and column, with range checking.
+        /// </summary>
+        /// <param name="row">
+        /// The row of the element.
+        /// </param>
+        /// <param name="column">
+        /// The column of the element.
+        /// </param>
+        /// <value>The value to get or set.</value>
+        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,double)"/>
+        /// to get and set values without range checking.</remarks>
+        public override double this[int row, int column]
+        {
+            get { return _storage[row, column]; }
+            set { _storage[row, column] = value; }
+        }
+
+        /// <summary>
         /// Retrieves the requested element without range checking.
         /// </summary>
         /// <param name="row">
@@ -630,7 +648,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override double At(int row, int column)
         {
-            return _storage.GetValueAt(row, column);
+            return _storage.At(row, column);
         }
         
         /// <summary>
@@ -647,7 +665,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         public override void At(int row, int column, double value)
         {
-            _storage.SetValueAt(row, column, value);
+            _storage.At(row, column, value);
         }
 
         /// <summary>
@@ -759,7 +777,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    retStorage.SetValueAt(columnIndices[j], i, values[j]);
+                    retStorage.At(columnIndices[j], i, values[j]);
                 }
             }
 
@@ -1352,7 +1370,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         }
                     }
 
-                    resultSparse.Storage.SetValueAt(i, j, sum + result.At(i, j));
+                    resultSparse.Storage.At(i, j, sum + result.At(i, j));
                 }
             }
         }

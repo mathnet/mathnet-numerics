@@ -154,6 +154,24 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Gets or sets the value at the given row and column, with range checking.
+        /// </summary>
+        /// <param name="row">
+        /// The row of the element.
+        /// </param>
+        /// <param name="column">
+        /// The column of the element.
+        /// </param>
+        /// <value>The value to get or set.</value>
+        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,float)"/>
+        /// to get and set values without range checking.</remarks>
+        public override float this[int row, int column]
+        {
+            get { return _storage[row, column]; }
+            set { _storage[row, column] = value; }
+        }
+
+        /// <summary>
         /// Retrieves the requested element without range checking.
         /// </summary>
         /// <param name="row">
@@ -169,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override float At(int row, int column)
         {
-            return _storage[row, column];
+            return _storage.At(row, column);
         }
 
         /// <summary>
@@ -189,7 +207,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override void At(int row, int column, float value)
         {
-            _storage[row, column] = value;
+            _storage.At(row, column, value);
         }
 
         /// <summary>
