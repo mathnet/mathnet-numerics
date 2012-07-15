@@ -6,14 +6,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
     internal class DenseColumnMajorMatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
-        public int RowCount { get; private set; }
-        public int ColumnCount { get; private set; }
-        public T[] Data { get; private set; }
+        // [ruegg] public fields are OK here
+
+        public readonly int RowCount;
+        public readonly int ColumnCount;
+
+        public readonly T[] Data;
 
         internal DenseColumnMajorMatrixStorage(int rows, int columns)
         {
             RowCount = rows;
             ColumnCount = columns;
+
             Data = new T[rows * columns];
         }
 
@@ -21,6 +25,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             RowCount = rows;
             ColumnCount = columns;
+
             Data = data;
         }
 

@@ -35,6 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     using Generic;
     using Numerics;
     using Properties;
+    using Storage;
     using Threading;
     
     /// <summary>
@@ -44,17 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
     [Serializable]
     public class SparseMatrix : Matrix
     {
-        /// <summary>
-        /// The array containing the row indices of the existing rows. Element "j" of the array gives the index of the 
-        /// element in the <see cref="_nonZeroValues"/> array that is first non-zero element in a row "j"
-        /// </summary>
-        private readonly int[] _rowIndex = new int[0];
-
-        /// <summary>
-        /// Array that contains the non-zero elements of matrix. Values of the non-zero elements of matrix are mapped into the values 
-        /// array using the row-major storage mapping described in a compressed sparse row (CSR) format.
-        /// </summary>
-        private Complex32[] _nonZeroValues = new Complex32[0];
+        readonly SparseCompressedRowMatrixStorage<Complex32> _storage;
 
         /// <summary>
         /// Gets the number of non zero elements in the matrix.
@@ -62,15 +53,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <value>The number of non zero elements.</value>
         public int NonZerosCount
         {
-            get;
-            private set;
+            get { return _storage.ValueCount; }
         }
-
-        /// <summary>
-        /// An array containing the column indices of the non-zero values. Element "I" of the array 
-        /// is the number of the column in matrix that contains the I-th value in the <see cref="_nonZeroValues"/> array.
-        /// </summary>
-        private int[] _columnIndices = new int[0];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class.
@@ -84,7 +68,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public SparseMatrix(int rows, int columns)
             : base(rows, columns)
         {
-            _rowIndex = new int[rows];
+            _storage = new SparseCompressedRowMatrixStorage<Complex32>(rows, columns, Complex32.Zero);
         }
 
         /// <summary>
@@ -95,8 +79,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public SparseMatrix(int order)
-            : this(order, order)
+            : base(order, order)
         {
+            _storage = new SparseCompressedRowMatrixStorage<Complex32>(order, order, Complex32.Zero);
         }
 
         /// <summary>
@@ -110,18 +95,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
         public SparseMatrix(int rows, int columns, Complex32 value)
-            : this(rows, columns)
+            : base(rows, columns)
         {
-            if (value == 0.0f)
+            _storage = new SparseCompressedRowMatrixStorage<Complex32>(rows, columns, Complex32.Zero);
+
+            if (value.IsZero())
             {
                 return;
             }
 
-            NonZerosCount = rows * columns;
-            _nonZeroValues = new Complex32[NonZerosCount];
-            _columnIndices = new int[NonZerosCount];
+            var rowPointers = _storage.RowPointers;
+            var valueCount = _storage.ValueCount = rows * columns;
+            var columnIndices = _storage.ColumnIndices = new int[valueCount];
+            var values = _storage.Values = new Complex32[valueCount];
 
-            for (int i = 0, j = 0; i < _nonZeroValues.Length; i++, j++)
+            for (int i = 0, j = 0; i < values.Length; i++, j++)
             {
                 // Reset column position to "0"
                 if (j == columns)
@@ -129,14 +117,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     j = 0;
                 }
 
-                _nonZeroValues[i] = value;
-                _columnIndices[i] = j;
+                values[i] = value;
+                columnIndices[i] = j;
             }
 
             // Set proper row pointers
-            for (var i = 0; i < _rowIndex.Length; i++)
+            for (var i = 0; i < rowPointers.Length; i++)
             {
-                _rowIndex[i] = ((i + 1) * columns) - columns;
+                rowPointers[i] = ((i + 1) * columns) - columns;
             }
         }
 
@@ -149,8 +137,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="array"/> length is less than <paramref name="rows"/> * <paramref name="columns"/>.
         /// </exception>
         public SparseMatrix(int rows, int columns, Complex32[] array)
-            : this(rows, columns)
+            : base(rows, columns)
         {
+            _storage = new SparseCompressedRowMatrixStorage<Complex32>(rows, columns, Complex32.Zero);
+
             if (rows * columns > array.Length)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
@@ -160,7 +150,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 for (var j = 0; j < columns; j++)
                 {
-                    SetValueAt(i, j, array[i + (j * rows)]);
+                    _storage.SetValueAt(i, j, array[i + (j * rows)]);
                 }
             }
         }
@@ -170,16 +160,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
         public SparseMatrix(Complex32[,] array)
-            : this(array.GetLength(0), array.GetLength(1))
+            : base(array.GetLength(0), array.GetLength(1))
         {
-            var rows = array.GetLength(0);
-            var columns = array.GetLength(1);
+            _storage = new SparseCompressedRowMatrixStorage<Complex32>(array.GetLength(0), array.GetLength(1), Complex32.Zero);
 
-            for (var i = 0; i < rows; i++)
+            for (var i = 0; i < _storage.RowCount; i++)
             {
-                for (var j = 0; j < columns; j++)
+                for (var j = 0; j < _storage.ColumnCount; j++)
                 {
-                    SetValueAt(i, j, array[i, j]);
+                    _storage.SetValueAt(i, j, array[i, j]);
                 }
             }
         }
@@ -190,8 +179,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="matrix">The matrix  to copy.</param>
         public SparseMatrix(Matrix<Complex32> matrix)
-            : this(matrix.RowCount, matrix.ColumnCount)
+            : base(matrix.RowCount, matrix.ColumnCount)
         {
+            _storage = new SparseCompressedRowMatrixStorage<Complex32>(matrix.RowCount, matrix.ColumnCount, Complex32.Zero);
+
             var sparseMatrix = matrix as SparseMatrix;
 
             var rows = matrix.RowCount;
@@ -203,21 +194,26 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 {
                     for (var j = 0; j < columns; j++)
                     {
-                        SetValueAt(i, j, matrix.At(i, j));
+                        _storage.SetValueAt(i, j, matrix.At(i, j));
                     }
                 }
             }
             else
             {
-                NonZerosCount = sparseMatrix.NonZerosCount;
-                _rowIndex = new int[rows];
-                _columnIndices = new int[NonZerosCount];
-                _nonZeroValues = new Complex32[NonZerosCount];
+                var matrixStorage = sparseMatrix.Storage;
+                var valueCount = _storage.ValueCount = matrixStorage.ValueCount;
+                _storage.ColumnIndices = new int[valueCount];
+                _storage.Values = new Complex32[valueCount];
 
-                Array.Copy(sparseMatrix._nonZeroValues, _nonZeroValues, NonZerosCount);
-                Array.Copy(sparseMatrix._columnIndices, _columnIndices, NonZerosCount);
-                Array.Copy(sparseMatrix._rowIndex, _rowIndex, rows);
+                Array.Copy(matrixStorage.Values, _storage.Values, valueCount);
+                Array.Copy(matrixStorage.ColumnIndices, _storage.ColumnIndices, valueCount);
+                Array.Copy(matrixStorage.RowPointers, _storage.RowPointers, rows);
             }
+        }
+
+        internal SparseCompressedRowMatrixStorage<Complex32> Storage
+        {
+            get { return _storage; }
         }
 
         /// <summary>
@@ -297,15 +293,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">Where to store the lower triangle.</param>
         private void LowerTriangleImpl(Matrix<Complex32> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (row >= _columnIndices[j])
+                    if (row >= columnIndices[j])
                     {
-                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
+                        result.At(row, columnIndices[j], values[j]);
                     }
                 }
             }
@@ -359,15 +360,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">Where to store the lower triangle.</param>
         private void UpperTriangleImpl(Matrix<Complex32> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (row <= _columnIndices[j])
+                    if (row <= columnIndices[j])
                     {
-                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
+                        result.At(row, columnIndices[j], values[j]);
                     }
                 }
             }
@@ -426,18 +432,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             var result = (SparseMatrix)CreateMatrix(rowCount, columnCount);
 
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (int i = rowIndex, row = 0; i < rowMax; i++, row++)
             {
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 for (int j = startIndex; j < endIndex; j++)
                 {
                     // check if the column index is in the range
-                    if ((_columnIndices[j] >= columnIndex) && (_columnIndices[j] < columnIndex + columnCount))
+                    if ((columnIndices[j] >= columnIndex) && (columnIndices[j] < columnIndex + columnCount))
                     {
-                        var column = _columnIndices[j] - columnIndex;
-                        result.SetValueAt(row, column, _nonZeroValues[j]);
+                        var column = columnIndices[j] - columnIndex;
+                        result._storage.SetValueAt(row, column, values[j]);
                     }
                 }
             }
@@ -494,15 +505,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">Where to store the lower triangle.</param>
         private void StrictlyLowerTriangleImpl(Matrix<Complex32> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (row > _columnIndices[j])
+                    if (row > columnIndices[j])
                     {
-                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
+                        result.At(row, columnIndices[j], values[j]);
                     }
                 }
             }
@@ -557,15 +573,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">Where to store the lower triangle.</param>
         private void StrictlyUpperTriangleImpl(Matrix<Complex32> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < result.RowCount; row++)
             {
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (row < _columnIndices[j])
+                    if (row < columnIndices[j])
                     {
-                        result.At(row, _columnIndices[j], _nonZeroValues[j]);
+                        result.At(row, columnIndices[j], values[j]);
                     }
                 }
             }
@@ -582,13 +603,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>An array containing the matrix's elements.</returns>
         public override Complex32[] ToColumnWiseArray()
         {
+            var values = _storage.Values;
             var ret = new Complex32[RowCount * ColumnCount];
             for (var j = 0; j < ColumnCount; j++)
             {
                 for (var i = 0; i < RowCount; i++)
                 {
-                    var index = FindItem(i, j);
-                    ret[(j * RowCount) + i] = index >= 0 ? _nonZeroValues[index] : 0.0f;
+                    var index = _storage.FindItem(i, j);
+                    ret[(j * RowCount) + i] = index >= 0 ? values[index] : 0.0f;
                 }
             }
 
@@ -609,8 +631,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </returns>
         public override Complex32 At(int row, int column)
         {
-            var index = FindItem(row, column);
-            return index >= 0 ? _nonZeroValues[index] : 0.0f;
+            return _storage.GetValueAt(row, column);
         }
 
         /// <summary>
@@ -627,166 +648,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </param>
         public override void At(int row, int column, Complex32 value)
         {
-            SetValueAt(row, column, value);
+            _storage.SetValueAt(row, column, value);
         }
-
-        #region Internal methods - CRS storage implementation
-        /// <summary>
-        /// Created this method because we cannot call "virtual At" in constructor of the class, but we need to do it
-        /// </summary>
-        /// <param name="row"> The row of the element. </param>
-        /// <param name="column"> The column of the element. </param>
-        /// <param name="value"> The value to set the element to. </param>
-        /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        private void SetValueAt(int row, int column, Complex32 value)
-        {
-            var index = FindItem(row, column);
-            if (index >= 0)
-            {
-                // Non-zero item found in matrix
-                if (value == 0.0f)
-                {
-                    // Delete existing item
-                    DeleteItemByIndex(index, row);
-                }
-                else
-                {
-                    // Update item
-                    _nonZeroValues[index] = value;
-                }
-            }
-            else
-            {
-                // Item not found. Add new value
-                if (value == 0.0f)
-                {
-                    return;
-                }
-
-                index = ~index;
-
-                // Check if the storage needs to be increased
-                if ((NonZerosCount == _nonZeroValues.Length) && (NonZerosCount < ((long)RowCount * ColumnCount)))
-                {
-                    // Value array is completely full so we increase the size
-                    // Determine the increase in size. We will not grow beyond the size of the matrix
-                    var size = Math.Min(_nonZeroValues.Length + GrowthSize(), (long)RowCount * ColumnCount);
-                    if (size > int.MaxValue)
-                    {
-                        throw new NotSupportedException(Resources.TooManyElements);
-                    }
-
-                    Array.Resize(ref _nonZeroValues, (int)size);
-                    Array.Resize(ref _columnIndices, (int)size);
-                }
-
-                // Move all values (with an position larger than index) in the value array to the next position
-                // move all values (with an position larger than index) in the columIndices array to the next position
-                for (var i = NonZerosCount - 1; i > index - 1; i--)
-                {
-                    _nonZeroValues[i + 1] = _nonZeroValues[i];
-                    _columnIndices[i + 1] = _columnIndices[i];
-                }
-
-                // Add the value and the column index
-                _nonZeroValues[index] = value;
-                _columnIndices[index] = column;
-
-                // increase the number of non-zero numbers by one
-                NonZerosCount += 1;
-
-                // add 1 to all the row indices for rows bigger than rowIndex
-                // so that they point to the correct part of the value array again.
-                for (var i = row + 1; i < _rowIndex.Length; i++)
-                {
-                    _rowIndex[i] += 1;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Delete value from internal storage
-        /// </summary>
-        /// <param name="itemIndex">Index of value in nonZeroValues array</param>
-        /// <param name="row">Row number of matrix</param>
-        /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        private void DeleteItemByIndex(int itemIndex, int row)
-        {
-            // Move all values (with an position larger than index) in the value array to the previous position
-            // move all values (with an position larger than index) in the columIndices array to the previous position
-            for (var i = itemIndex + 1; i < NonZerosCount; i++)
-            {
-                _nonZeroValues[i - 1] = _nonZeroValues[i];
-                _columnIndices[i - 1] = _columnIndices[i];
-            }
-
-            // Decrease value in Row
-            for (var i = row + 1; i < _rowIndex.Length; i++)
-            {
-                _rowIndex[i] -= 1;
-            }
-
-            NonZerosCount -= 1;
-
-            // Check if the storage needs to be shrink. This is reasonable to do if 
-            // there are a lot of non-zero elements and storage is two times bigger
-            if ((NonZerosCount > 1024) && (NonZerosCount < _nonZeroValues.Length / 2))
-            {
-                Array.Resize(ref _nonZeroValues, NonZerosCount);
-                Array.Resize(ref _columnIndices, NonZerosCount);
-            }
-        }
-
-        /// <summary>
-        /// Find item Index in nonZeroValues array
-        /// </summary>
-        /// <param name="row">Matrix row index</param>
-        /// <param name="column">Matrix column index</param>
-        /// <returns>Item index</returns>
-        /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks</remarks>
-        private int FindItem(int row, int column)
-        {
-            // Determin bounds in columnIndices array where this item should be searched (using rowIndex)
-            var startIndex = _rowIndex[row];
-            var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
-            return Array.BinarySearch(_columnIndices, startIndex, endIndex - startIndex, column);
-        }
-
-        /// <summary>
-        /// Calculates the amount with which to grow the storage array's if they need to be
-        /// increased in size.
-        /// </summary>
-        /// <returns>The amount grown.</returns>
-        private int GrowthSize()
-        {
-            int delta;
-            if (_nonZeroValues.Length > 1024)
-            {
-                delta = _nonZeroValues.Length / 4;
-            }
-            else
-            {
-                if (_nonZeroValues.Length > 256)
-                {
-                    delta = 512;
-                }
-                else
-                {
-                    delta = _nonZeroValues.Length > 64 ? 128 : 32;
-                }
-            }
-
-            return delta;
-        }
-        #endregion
 
         /// <summary>
         /// Sets all values to zero.
         /// </summary>
         public override void Clear()
         {
-            NonZerosCount = 0;
-            Array.Clear(_rowIndex, 0, _rowIndex.Length);
+            _storage.Clear();
         }
 
         /// <summary>
@@ -820,16 +690,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw DimensionsDontMatch<ArgumentException>(this, target, "target");
             }
 
-            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
-            sparseTarget._nonZeroValues = new Complex32[NonZerosCount];
-            sparseTarget._columnIndices = new int[NonZerosCount];
-            sparseTarget.NonZerosCount = NonZerosCount;
 
-            if (NonZerosCount != 0)
+            var targetStorage = sparseTarget.Storage;
+
+            // Lets copy only needed data. Portion of needed data is determined by NonZerosCount value
+            targetStorage.ValueCount = _storage.ValueCount;
+            targetStorage.Values = new Complex32[_storage.ValueCount];
+            targetStorage.ColumnIndices = new int[_storage.ValueCount];
+
+            if (_storage.ValueCount != 0)
             {
-                Array.Copy(_nonZeroValues, sparseTarget._nonZeroValues, NonZerosCount);
-                Buffer.BlockCopy(_columnIndices, 0, sparseTarget._columnIndices, 0, NonZerosCount * Constants.SizeOfInt);
-                Buffer.BlockCopy(_rowIndex, 0, sparseTarget._rowIndex, 0, RowCount * Constants.SizeOfInt);
+                Array.Copy(_storage.Values, targetStorage.Values, _storage.ValueCount);
+                Buffer.BlockCopy(_storage.ColumnIndices, 0, targetStorage.ColumnIndices, 0, _storage.ValueCount * Constants.SizeOfInt);
+                Buffer.BlockCopy(_storage.RowPointers, 0, targetStorage.RowPointers, 0, RowCount * Constants.SizeOfInt);
             }
         }
 
@@ -841,14 +714,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(NonZerosCount, 25);
+            var values = _storage.Values;
+            var hashNum = Math.Min(_storage.ValueCount, 25);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
 #if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(_nonZeroValues[i].Magnitude);
+                hash ^= Precision.DoubleToInt64Bits(values[i].Magnitude);
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(_nonZeroValues[i].Magnitude);
+                hash ^= BitConverter.DoubleToInt64Bits(values[i].Magnitude);
 #endif
             }
 
@@ -861,18 +735,22 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The transpose of this matrix.</returns>
         public override Matrix<Complex32> Transpose()
         {
-            var ret = new SparseMatrix(ColumnCount, RowCount)
-            {
-                _columnIndices = new int[NonZerosCount],
-                _nonZeroValues = new Complex32[NonZerosCount]
-            };
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
+            var ret = new SparseMatrix(ColumnCount, RowCount);
+            var retStorage = ret.Storage;
+            retStorage.ColumnIndices = new int[valueCount];
+            retStorage.Values = new Complex32[valueCount];
 
             // Do an 'inverse' CopyTo iterate over the rows
-            for (var i = 0; i < _rowIndex.Length; i++)
+            for (var i = 0; i < rowPointers.Length; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : NonZerosCount;
 
                 // Get the values for the current row
                 if (startIndex == endIndex)
@@ -883,7 +761,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    ret.SetValueAt(_columnIndices[j], i, _nonZeroValues[j]);
+                    retStorage.SetValueAt(columnIndices[j], i, values[j]);
                 }
             }
 
@@ -895,15 +773,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public override Complex32 FrobeniusNorm()
         {
             var transpose = (SparseMatrix)Transpose();
-            var aat = this * transpose;
+            var aat = (this * transpose).Storage;
 
-            var norm = 0.0f;
+            var norm = 0f;
 
-            for (var i = 0; i < aat._rowIndex.Length; i++)
+            for (var i = 0; i < aat.RowPointers.Length; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = aat._rowIndex[i];
-                var endIndex = i < aat._rowIndex.Length - 1 ? aat._rowIndex[i + 1] : aat.NonZerosCount;
+                var startIndex = aat.RowPointers[i];
+                var endIndex = i < aat.RowPointers.Length - 1 ? aat.RowPointers[i + 1] : aat.ValueCount;
 
                 // Get the values for the current row
                 if (startIndex == endIndex)
@@ -914,9 +792,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    if (i == aat._columnIndices[j])
+                    if (i == aat.ColumnIndices[j])
                     {
-                        norm += aat._nonZeroValues[j].Magnitude;
+                        norm += aat.Values[j].Magnitude;
                     }
                 }
             }
@@ -929,12 +807,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The infinity norm of this matrix.</returns>   
         public override Complex32 InfinityNorm()
         {
-            var norm = 0.0f;
-            for (var i = 0; i < _rowIndex.Length; i++)
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
+            var norm = 0f;
+            for (var i = 0; i < rowPointers.Length; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 // Get the values for the current row
                 if (startIndex == endIndex)
@@ -946,7 +828,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 var s = 0.0f;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    s += _nonZeroValues[j].Magnitude;
+                    s += values[j].Magnitude;
                 }
 
                 norm = Math.Max(norm, s);
@@ -1003,9 +885,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
             }
 
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             // Determine bounds in columnIndices array where this item should be searched (using rowIndex)
-            var startIndex = _rowIndex[rowIndex];
-            var endIndex = rowIndex < _rowIndex.Length - 1 ? _rowIndex[rowIndex + 1] : NonZerosCount;
+            var startIndex = rowPointers[rowIndex];
+            var endIndex = rowIndex < rowPointers.Length - 1 ? rowPointers[rowIndex + 1] : valueCount;
 
             if (startIndex == endIndex)
             {
@@ -1017,8 +903,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 for (int i = columnIndex, j = 0; i < columnIndex + length; i++, j++)
                 {
                     // Copy code from At(row, column) to avoid unnecessary lock
-                    var index = FindItem(rowIndex, i);
-                    result[j] = index >= 0 ? _nonZeroValues[index] : 0.0f;
+                    var index = _storage.FindItem(rowIndex, i);
+                    result[j] = index >= 0 ? values[index] : Complex32.Zero;
                 }
             }
         }
@@ -1042,30 +928,33 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
             else
             {
+                var resultStorage = resultSparseMatrix.Storage;
+                var lowerStorage = lowerSparseMatrix.Storage;
+
                 if (resultSparseMatrix.RowCount != RowCount + lowerSparseMatrix.RowCount || resultSparseMatrix.ColumnCount != ColumnCount + lowerSparseMatrix.ColumnCount)
                 {
-                    throw DimensionsDontMatch<ArgumentException>(this, lowerSparseMatrix, resultSparseMatrix);
+                    throw DimensionsDontMatch<ArgumentException>(this, resultSparseMatrix, lowerSparseMatrix);
                 }
 
-                resultSparseMatrix.NonZerosCount = NonZerosCount + lowerSparseMatrix.NonZerosCount;
-                resultSparseMatrix._nonZeroValues = new Complex32[resultSparseMatrix.NonZerosCount];
-                resultSparseMatrix._columnIndices = new int[resultSparseMatrix.NonZerosCount];
+                resultStorage.ValueCount = _storage.ValueCount + lowerStorage.ValueCount;
+                resultStorage.Values = new Complex32[resultStorage.ValueCount];
+                resultStorage.ColumnIndices = new int[resultStorage.ValueCount];
 
-                Array.Copy(_nonZeroValues, 0, resultSparseMatrix._nonZeroValues, 0, NonZerosCount);
-                Array.Copy(lowerSparseMatrix._nonZeroValues, 0, resultSparseMatrix._nonZeroValues, NonZerosCount, lowerSparseMatrix.NonZerosCount);
+                Array.Copy(_storage.Values, 0, resultStorage.Values, 0, _storage.ValueCount);
+                Array.Copy(lowerStorage.Values, 0, resultStorage.Values, _storage.ValueCount, lowerStorage.ValueCount);
 
-                Array.Copy(_columnIndices, 0, resultSparseMatrix._columnIndices, 0, NonZerosCount);
-                Array.Copy(_rowIndex, 0, resultSparseMatrix._rowIndex, 0, RowCount);
+                Array.Copy(_storage.ColumnIndices, 0, resultStorage.ColumnIndices, 0, _storage.ValueCount);
+                Array.Copy(_storage.RowPointers, 0, resultStorage.RowPointers, 0, RowCount);
 
                 // Copy and adjust lower column indices and rowIndex
-                for (int i = NonZerosCount, j = 0; i < resultSparseMatrix.NonZerosCount; i++, j++)
+                for (int i = _storage.ValueCount, j = 0; i < resultStorage.ValueCount; i++, j++)
                 {
-                    resultSparseMatrix._columnIndices[i] = lowerSparseMatrix._columnIndices[j] + ColumnCount;
+                    resultStorage.ColumnIndices[i] = lowerStorage.ColumnIndices[j] + ColumnCount;
                 }
 
-                for (int i = RowCount, j = 0; i < resultSparseMatrix.RowCount; i++, j++)
+                for (int i = RowCount, j = 0; i < resultStorage.RowCount; i++, j++)
                 {
-                    resultSparseMatrix._rowIndex[i] = lowerSparseMatrix._rowIndex[j] + NonZerosCount;
+                    resultStorage.RowPointers[i] = lowerStorage.RowPointers[j] + _storage.ValueCount;
                 }
             }
         }
@@ -1081,18 +970,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </exception>
         public static SparseMatrix Identity(int order)
         {
-            var m = new SparseMatrix(order)
-                    {
-                        NonZerosCount = order,
-                        _nonZeroValues = new Complex32[order],
-                        _columnIndices = new int[order]
-                    };
+            var m = new SparseMatrix(order);
+            var mStorage = m.Storage;
+
+            mStorage.ValueCount = order;
+            mStorage.Values = new Complex32[order];
+            mStorage.ColumnIndices = new int[order];
 
             for (var i = 0; i < order; i++)
             {
-                m._nonZeroValues[i] = 1.0f;
-                m._columnIndices[i] = i;
-                m._rowIndex[i] = i;
+                mStorage.Values[i] = 1f;
+                mStorage.ColumnIndices[i] = i;
+                mStorage.RowPointers[i] = i;
             }
 
             return m;
@@ -1127,21 +1016,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             var sparseMatrix = other as SparseMatrix;
-
             if (sparseMatrix == null)
             {
                 return base.Equals(other);
             }
 
-            if (NonZerosCount != sparseMatrix.NonZerosCount)
+            var otherStorage = sparseMatrix.Storage;
+            if (_storage.ValueCount != otherStorage.ValueCount)
             {
                 return false;
             }
 
             // If all else fails, perform element wise comparison.
-            for (var index = 0; index < NonZerosCount; index++)
+            for (var index = 0; index < _storage.ValueCount; index++)
             {
-                if (!_nonZeroValues[index].AlmostEqual(sparseMatrix._nonZeroValues[index]) || _columnIndices[index] != sparseMatrix._columnIndices[index])
+                if (!_storage.Values[index].AlmostEqual(otherStorage.Values[index]) || _storage.ColumnIndices[index] != otherStorage.ColumnIndices[index])
                 {
                     return false;
                 }
@@ -1174,7 +1063,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     CopyTo(result);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(2.0f, _nonZeroValues, _nonZeroValues);
+                Control.LinearAlgebraProvider.ScaleArray(2.0f, _storage.Values, _storage.Values);
                 return;
             }
 
@@ -1194,16 +1083,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 left = sparseOther;
             }
 
-            for (var i = 0; i < left.RowCount; i++)
+            var leftStorage = left.Storage;
+            for (var i = 0; i < leftStorage.RowCount; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = left._rowIndex[i];
-                var endIndex = i < left._rowIndex.Length - 1 ? left._rowIndex[i + 1] : left.NonZerosCount;
+                var startIndex = leftStorage.RowPointers[i];
+                var endIndex = i < leftStorage.RowPointers.Length - 1 ? leftStorage.RowPointers[i + 1] : leftStorage.ValueCount;
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var columnIndex = left._columnIndices[j];
-                    var resVal = left._nonZeroValues[j] + result.At(i, columnIndex);
+                    var columnIndex = leftStorage.ColumnIndices[j];
+                    var resVal = leftStorage.Values[j] + result.At(i, columnIndex);
                     result.At(i, columnIndex, resVal);
                 }
             }
@@ -1232,18 +1122,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
+            var otherStorage = sparseOther.Storage;
+
             if (ReferenceEquals(this, sparseResult))
             {
-                for (var i = 0; i < sparseOther.RowCount; i++)
+                for (var i = 0; i < otherStorage.RowCount; i++)
                 {
                     // Get the begin / end index for the current row
-                    var startIndex = sparseOther._rowIndex[i];
-                    var endIndex = i < sparseOther._rowIndex.Length - 1 ? sparseOther._rowIndex[i + 1] : sparseOther.NonZerosCount;
+                    var startIndex = otherStorage.RowPointers[i];
+                    var endIndex = i < otherStorage.RowPointers.Length - 1 ? otherStorage.RowPointers[i + 1] : otherStorage.ValueCount;
 
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        var columnIndex = sparseOther._columnIndices[j];
-                        var resVal = sparseResult.At(i, columnIndex) - sparseOther._nonZeroValues[j];
+                        var columnIndex = otherStorage.ColumnIndices[j];
+                        var resVal = sparseResult.At(i, columnIndex) - otherStorage.Values[j];
                         result.At(i, columnIndex, resVal);
                     }
                 }
@@ -1257,16 +1149,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                 sparseResult.Negate(sparseResult);
 
+                var rowPointers = _storage.RowPointers;
+                var columnIndices = _storage.ColumnIndices;
+                var values = _storage.Values;
+                var valueCount = _storage.ValueCount;
+
                 for (var i = 0; i < RowCount; i++)
                 {
                     // Get the begin / end index for the current row
-                    var startIndex = _rowIndex[i];
-                    var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                    var startIndex = rowPointers[i];
+                    var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                     for (var j = startIndex; j < endIndex; j++)
                     {
-                        var columnIndex = _columnIndices[j];
-                        var resVal = sparseResult.At(i, columnIndex) + _nonZeroValues[j];
+                        var columnIndex = columnIndices[j];
+                        var resVal = sparseResult.At(i, columnIndex) + values[j];
                         result.At(i, columnIndex, resVal);
                     }
                 }
@@ -1297,10 +1194,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             {
                 result.Clear();
 
+                var rowPointers = _storage.RowPointers;
+                var columnIndices = _storage.ColumnIndices;
+                var values = _storage.Values;
+
                 for (var row = 0; row < RowCount; row++)
                 {
-                    var start = _rowIndex[row];
-                    var end = _rowIndex[row + 1];
+                    var start = rowPointers[row];
+                    var end = rowPointers[row + 1];
 
                     if (start == end)
                     {
@@ -1309,8 +1210,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                     for (var index = start; index < end; index++)
                     {
-                        var column = _columnIndices[index];
-                        result.At(row, column, _nonZeroValues[index] * scalar);
+                        var column = columnIndices[index];
+                        result.At(row, column, values[index] * scalar);
                     }
                 }
             }
@@ -1321,7 +1222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     CopyTo(sparseResult);
                 }
 
-                CommonParallel.For(0, NonZerosCount, index => sparseResult._nonZeroValues[index] *= scalar);
+                CommonParallel.For(0, NonZerosCount, index => sparseResult.Storage.Values[index] *= scalar);
             }
         }
 
@@ -1334,11 +1235,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             result.Clear();
             var columnVector = new DenseVector(other.RowCount);
+
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < RowCount; row++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 if (startIndex == endIndex)
                 {
                     continue;
@@ -1352,7 +1259,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     var sum = Complex32.Zero;
                     for (var index = startIndex; index < endIndex; index++)
                     {
-                        sum += _nonZeroValues[index] * columnVector[_columnIndices[index]];
+                        sum += values[index] * columnVector[columnIndices[index]];
                     }
 
                     result.At(row, column, sum);
@@ -1367,11 +1274,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < RowCount; row++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[row];
-                var endIndex = row < _rowIndex.Length - 1 ? _rowIndex[row + 1] : NonZerosCount;
+                var startIndex = rowPointers[row];
+                var endIndex = row < rowPointers.Length - 1 ? rowPointers[row + 1] : valueCount;
                 if (startIndex == endIndex)
                 {
                     continue;
@@ -1380,7 +1292,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 var sum = Complex32.Zero;
                 for (var index = startIndex; index < endIndex; index++)
                 {
-                    sum += _nonZeroValues[index] * rightSide[_columnIndices[index]];
+                    sum += values[index] * rightSide[columnIndices[index]];
                 }
 
                 result[row] = sum;
@@ -1404,11 +1316,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             resultSparse.Clear();
+
+            var rowPointers = _storage.RowPointers;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
+            var otherStorage = otherSparse.Storage;
+
             for (var j = 0; j < RowCount; j++)
             {
                 // Get the begin / end index for the row
-                var startIndexOther = otherSparse._rowIndex[j];
-                var endIndexOther = j < otherSparse._rowIndex.Length - 1 ? otherSparse._rowIndex[j + 1] : otherSparse.NonZerosCount;
+                var startIndexOther = otherStorage.RowPointers[j];
+                var endIndexOther = j < otherStorage.RowPointers.Length - 1 ? otherStorage.RowPointers[j + 1] : otherStorage.ValueCount;
                 if (startIndexOther == endIndexOther)
                 {
                     continue;
@@ -1418,8 +1337,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 {
                     // Multiply row of matrix A on row of matrix B
                     // Get the begin / end index for the row
-                    var startIndexThis = _rowIndex[i];
-                    var endIndexThis = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                    var startIndexThis = rowPointers[i];
+                    var endIndexThis = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
                     if (startIndexThis == endIndexThis)
                     {
                         continue;
@@ -1428,14 +1347,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     var sum = Complex32.Zero;
                     for (var index = startIndexOther; index < endIndexOther; index++)
                     {
-                        var ind = FindItem(i, otherSparse._columnIndices[index]);
+                        var ind = _storage.FindItem(i, otherStorage.ColumnIndices[index]);
                         if (ind >= 0)
                         {
-                            sum += otherSparse._nonZeroValues[index] * _nonZeroValues[ind];
+                            sum += otherStorage.Values[index] * values[ind];
                         }
                     }
 
-                    resultSparse.SetValueAt(i, j, sum + result.At(i, j));
+                    resultSparse.Storage.SetValueAt(i, j, sum + result.At(i, j));
                 }
             }
         }
@@ -1459,18 +1378,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             result.Clear();
 
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var i = 0; i < other.RowCount; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var resVal = _nonZeroValues[j] * other.At(i, _columnIndices[j]);
-                    if (resVal != 0.0f)
+                    var resVal = values[j] * other.At(i, columnIndices[j]);
+                    if (!resVal.IsZero())
                     {
-                        result.At(i, _columnIndices[j], resVal);
+                        result.At(i, columnIndices[j], resVal);
                     }
                 }
             }
@@ -1485,18 +1409,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             result.Clear();
 
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var i = 0; i < other.RowCount; i++)
             {
                 // Get the begin / end index for the current row
-                var startIndex = _rowIndex[i];
-                var endIndex = i < _rowIndex.Length - 1 ? _rowIndex[i + 1] : NonZerosCount;
+                var startIndex = rowPointers[i];
+                var endIndex = i < rowPointers.Length - 1 ? rowPointers[i + 1] : valueCount;
 
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    var resVal = _nonZeroValues[j] / other.At(i, _columnIndices[j]);
-                    if (resVal != 0.0f)
+                    var resVal = values[j] / other.At(i, columnIndices[j]);
+                    if (!resVal.IsZero())
                     {
-                        result.At(i, _columnIndices[j], resVal);
+                        result.At(i, columnIndices[j], resVal);
                     }
                 }
             }
@@ -1508,10 +1437,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The value at the current iteration along with its position (row, column, value).</returns>
         public override IEnumerable<Tuple<int, int, Complex32>> IndexedEnumerator()
         {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+            var valueCount = _storage.ValueCount;
+
             for (var row = 0; row < RowCount - 1; row++)
             {
-                var start = _rowIndex[row];
-                var end = _rowIndex[row + 1];
+                var start = rowPointers[row];
+                var end = rowPointers[row + 1];
 
                 if (start == end)
                 {
@@ -1520,17 +1454,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
                 for (var index = start; index < end; index++)
                 {
-                    yield return new Tuple<int, int, Complex32>(row, _columnIndices[index], _nonZeroValues[index]);
+                    yield return new Tuple<int, int, Complex32>(row, columnIndices[index], values[index]);
                 }
             }
 
-            var lastRow = _rowIndex.Length - 1;
+            var lastRow = rowPointers.Length - 1;
 
-            if (_rowIndex[lastRow] < NonZerosCount)
+            if (rowPointers[lastRow] < valueCount)
             {
-                for (var index = _rowIndex[lastRow]; index < NonZerosCount; index++)
+                for (var index = rowPointers[lastRow]; index < valueCount; index++)
                 {
-                    yield return new Tuple<int, int, Complex32>(lastRow, _columnIndices[index], _nonZeroValues[index]);
+                    yield return new Tuple<int, int, Complex32>(lastRow, columnIndices[index], values[index]);
                 }
             }
         }
@@ -1548,10 +1482,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 }
 
                 // todo: we might be able to speed this up by caching one half of the matrix
+                var rowPointers = _storage.RowPointers;
                 for (var row = 0; row < RowCount - 1; row++)
                 {
-                    var start = _rowIndex[row];
-                    var end = _rowIndex[row + 1];
+                    var start = rowPointers[row];
+                    var end = rowPointers[row + 1];
 
                     if (start == end)
                     {
@@ -1564,11 +1499,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     }
                 }
 
-                var lastRow = _rowIndex.Length - 1;
+                var lastRow = rowPointers.Length - 1;
 
-                if (_rowIndex[lastRow] < NonZerosCount)
+                if (rowPointers[lastRow] < NonZerosCount)
                 {
-                    if (!CheckIfOppositesAreEqual(_rowIndex[lastRow], NonZerosCount, lastRow))
+                    if (!CheckIfOppositesAreEqual(rowPointers[lastRow], _storage.ValueCount, lastRow))
                     {
                         return false;
                     }
@@ -1587,11 +1522,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>If the values are equal or not.</returns>
         private bool CheckIfOppositesAreEqual(int start, int end, int row)
         {
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+
             for (var index = start; index < end; index++)
             {
-                var column = _columnIndices[index];
+                var column = columnIndices[index];
                 var opposite = At(column, row);
-                if (!_nonZeroValues[index].Equals(opposite))
+                if (!values[index].Equals(opposite))
                 {
                     return false;
                 }
