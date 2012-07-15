@@ -341,7 +341,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override double At(int row, int column)
         {
-            return _data[(column * _rowCount) + row];
+            return _storage[row, column];
         }
         
         /// <summary>
@@ -358,7 +358,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         public override void At(int row, int column, double value)
         {
-            _data[(column * _rowCount) + row] = value;
+            _storage[row, column] = value;
         }
 
         /// <summary>

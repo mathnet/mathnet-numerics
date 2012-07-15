@@ -63,7 +63,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(int order)
             : base(order)
         {
-            _storage = new SparseDiagonalMatrixStorage<float>(order, order);
+            _storage = new SparseDiagonalMatrixStorage<float>(order, order, 0f);
             _data = _storage.Data;
         }
 
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(int rows, int columns)
             : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns);
+            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns, 0f);
             _data = _storage.Data;
         }
 
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(int rows, int columns, float value)
             : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns);
+            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns, 0f);
             _data = _storage.Data;
 
             for (var i = 0; i < _data.Length; i++)
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(int rows, int columns, float[] diagonalArray)
             : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns, diagonalArray);
+            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns, 0f, diagonalArray);
             _data = _storage.Data;
         }
 
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(float[,] array)
             : this(array.GetLength(0), array.GetLength(1))
         {
-            _storage = new SparseDiagonalMatrixStorage<float>(array.GetLength(0), array.GetLength(1));
+            _storage = new SparseDiagonalMatrixStorage<float>(array.GetLength(0), array.GetLength(1), 0f);
             _data = _storage.Data;
 
             for (var i = 0; i < RowCount; i++)
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override float At(int row, int column)
         {
-            return row == column ? _data[row] : 0.0f;
+            return _storage[row, column];
         }
 
         /// <summary>
@@ -189,14 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override void At(int row, int column, float value)
         {
-            if (row == column)
-            {
-                _data[row] = value;
-            }
-            else if (value != 0.0 && !float.IsNaN(value))
-            {
-                throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
-            }
+            _storage[row, column] = value;
         }
 
         /// <summary>

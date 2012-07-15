@@ -24,6 +24,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Data = data;
         }
 
+        public T this[int row, int column]
+        {
+            get { return Data[(column*RowCount) + row]; }
+            set { Data[(column*RowCount) + row] = value; }
+        }
+
         public void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
@@ -124,6 +130,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 throw new ArgumentOutOfRangeException("columnCount");
             }
+
+            // Copy
 
             for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnMax; j++, jj++)
             {

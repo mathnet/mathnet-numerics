@@ -9,19 +9,41 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public int RowCount { get; private set; }
         public int ColumnCount { get; private set; }
         public T[] Data { get; private set; }
+        readonly T _zero;
 
-        internal SparseDiagonalMatrixStorage(int rows, int columns)
+        internal SparseDiagonalMatrixStorage(int rows, int columns, T zero)
         {
             RowCount = rows;
             ColumnCount = columns;
             Data = new T[Math.Min(rows, columns)];
+            _zero = zero;
         }
 
-        internal SparseDiagonalMatrixStorage(int rows, int columns, T[] data)
+        internal SparseDiagonalMatrixStorage(int rows, int columns, T zero, T[] data)
         {
             RowCount = rows;
             ColumnCount = columns;
             Data = data;
+            _zero = zero;
+        }
+
+        public T this[int row, int column]
+        {
+            get
+            {
+                return row == column ? Data[row] : _zero;
+            }
+            set
+            {
+                if (row == column)
+                {
+                    Data[row] = value;
+                }
+                else if (!_zero.Equals(value))
+                {
+                    throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
+                }
+            }
         }
 
         public void Clear()
@@ -51,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Copy(Data, 0, target.Data, 0, Data.Length);
         }
 
-        public void CopyTo(DenseColumnMajorMatrixStorage<T> target)
+        public void CopyTo(DenseColumnMajorMatrixStorage<T> target, bool targetKnownClear = false)
         {
             if (target == null)
             {
@@ -64,7 +86,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentException(message, "target");
             }
 
-            target.Clear();
+            if (!targetKnownClear)
+            {
+                target.Clear();
+            }
 
             for (int i = 0; i < Data.Length; i++)
             {
