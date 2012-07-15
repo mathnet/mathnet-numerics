@@ -30,6 +30,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     using System.Linq;
     using Generic;
     using Properties;
+    using Storage;
     using Threading;
 
     /// <summary>
@@ -44,6 +45,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     [Serializable]
     public class DiagonalMatrix : Matrix
     {
+        readonly SparseDiagonalMatrixStorage<float> _storage;
+
+        /// <summary>
+        /// Gets the matrix's data.
+        /// </summary>
+        /// <value>The matrix's data.</value>
+        readonly float[] _data;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class. This matrix is square with a given size.
         /// </summary>
@@ -54,7 +63,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(int order)
             : base(order)
         {
-            Data = new float[order];
+            _storage = new SparseDiagonalMatrixStorage<float>(order, order);
+            _data = _storage.Data;
         }
 
         /// <summary>
@@ -69,11 +79,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(int rows, int columns)
             : base(rows, columns)
         {
-            Data = new float[Math.Min(rows, columns)];
+            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns);
+            _data = _storage.Data;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class with all entries set to a particular value.
+        /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class with all diagonal entries set to a particular value.
         /// </summary>
         /// <param name="rows">
         /// The number of rows.
@@ -81,14 +92,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="columns">
         /// The number of columns.
         /// </param>
-        /// <param name="value">The value which we assign to each element of the matrix.</param>
+        /// <param name="value">The value which we assign to each diagonal element of the matrix.</param>
         public DiagonalMatrix(int rows, int columns, float value)
             : base(rows, columns)
         {
-            Data = new float[Math.Min(rows, columns)];
-            for (var i = 0; i < Data.Length; i++)
+            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns);
+            _data = _storage.Data;
+
+            for (var i = 0; i < _data.Length; i++)
             {
-                Data[i] = value;
+                _data[i] = value;
             }
         }
 
@@ -102,7 +115,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(int rows, int columns, float[] diagonalArray)
             : base(rows, columns)
         {
-            Data = diagonalArray;
+            _storage = new SparseDiagonalMatrixStorage<float>(rows, columns, diagonalArray);
+            _data = _storage.Data;
         }
 
         /// <summary>
@@ -115,16 +129,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public DiagonalMatrix(float[,] array)
             : this(array.GetLength(0), array.GetLength(1))
         {
-            var rows = array.GetLength(0);
-            var columns = array.GetLength(1);
+            _storage = new SparseDiagonalMatrixStorage<float>(array.GetLength(0), array.GetLength(1));
+            _data = _storage.Data;
 
-            for (var i = 0; i < rows; i++)
+            for (var i = 0; i < RowCount; i++)
             {
-                for (var j = 0; j < columns; j++)
+                for (var j = 0; j < ColumnCount; j++)
                 {
                     if (i == j)
                     {
-                        Data[i] = array[i, j];
+                        _data[i] = array[i, j];
                     }
                     else if (array[i, j] != 0.0 && !float.IsNaN(array[i, j]))
                     {
@@ -134,14 +148,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
         }
 
-        /// <summary>
-        /// Gets the matrix's data.
-        /// </summary>
-        /// <value>The matrix's data.</value>
-        internal float[] Data
+        internal SparseDiagonalMatrixStorage<float> Storage
         {
-            get;
-            private set;
+            get { return _storage; }
         }
 
         /// <summary>
@@ -160,7 +169,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override float At(int row, int column)
         {
-            return row == column ? Data[row] : 0.0f;
+            return row == column ? _data[row] : 0.0f;
         }
 
         /// <summary>
@@ -182,7 +191,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (row == column)
             {
-                Data[row] = value;
+                _data[row] = value;
             }
             else if (value != 0.0 && !float.IsNaN(value))
             {
@@ -224,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public override void Clear()
         {
-            Array.Clear(Data, 0, Data.Length);
+            _storage.Clear();
         }
 
         /// <summary>
@@ -251,13 +260,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return true;
             }
 
-            if (diagonalMatrix.Data.Length != Data.Length)
+            if (diagonalMatrix._data.Length != _data.Length)
             {
                 return false;
             }
 
             // If all else fails, perform element wise comparison.
-            return !Data.Where((t, i) => t != diagonalMatrix.Data[i]).Any();
+            return !_data.Where((t, i) => t != diagonalMatrix._data[i]).Any();
         }
 
         /// <summary>
@@ -268,14 +277,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(Data.Length, 25);
+            var hashNum = Math.Min(_data.Length, 25);
             long hash = 0;
             for (var i = 0; i < hashNum; i++)
             {
 #if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(Data[i]);
+                hash ^= Precision.DoubleToInt64Bits(_data[i]);
 #else
-                hash ^= BitConverter.DoubleToInt64Bits(Data[i]);
+                hash ^= BitConverter.DoubleToInt64Bits(_data[i]);
 #endif
             }
 
@@ -355,7 +364,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.AddArrays(Data, diagOther.Data, diagResult.Data);
+                Control.LinearAlgebraProvider.AddArrays(_data, diagOther._data, diagResult._data);
             }
         }
 
@@ -430,7 +439,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                Control.LinearAlgebraProvider.SubtractArrays(Data, diagOther.Data, diagResult.Data);
+                Control.LinearAlgebraProvider.SubtractArrays(_data, diagOther._data, diagResult._data);
             }
         }
 
@@ -451,12 +460,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentNullException("source");
             }
 
-            if (source.Length != Data.Length)
+            if (source.Length != _data.Length)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
             }
 
-            Buffer.BlockCopy(source, 0, Data, 0, source.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(source, 0, _data, 0, source.Length * Constants.SizeOfFloat);
         }
 
         /// <summary>
@@ -478,12 +487,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 return;
             }
 
-            if (Data.Length != denseSource.Data.Length)
+            if (_data.Length != denseSource.Data.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
             }
 
-            Buffer.BlockCopy(denseSource.Data, 0, Data, 0, denseSource.Data.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(denseSource.Data, 0, _data, 0, denseSource.Data.Length * Constants.SizeOfFloat);
         }
 
         /// <summary>
@@ -519,7 +528,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     CopyTo(diagResult);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(scalar, Data, diagResult.Data);
+                Control.LinearAlgebraProvider.ScaleArray(scalar, _data, diagResult._data);
             }
         }
 
@@ -558,12 +567,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
             else
             {
-                var thisDataCopy = new float[r.Data.Length];
-                var otherDataCopy = new float[r.Data.Length];
-                Buffer.BlockCopy(Data, 0, thisDataCopy, 0, (r.Data.Length > Data.Length) ? Data.Length * Constants.SizeOfFloat : r.Data.Length * Constants.SizeOfFloat);
-                Buffer.BlockCopy(m.Data, 0, otherDataCopy, 0, (r.Data.Length > m.Data.Length) ? m.Data.Length * Constants.SizeOfFloat : r.Data.Length * Constants.SizeOfFloat);
+                var thisDataCopy = new float[r._data.Length];
+                var otherDataCopy = new float[r._data.Length];
+                Buffer.BlockCopy(_data, 0, thisDataCopy, 0, (r._data.Length > _data.Length) ? _data.Length * Constants.SizeOfFloat : r._data.Length * Constants.SizeOfFloat);
+                Buffer.BlockCopy(m._data, 0, otherDataCopy, 0, (r._data.Length > m._data.Length) ? m._data.Length * Constants.SizeOfFloat : r._data.Length * Constants.SizeOfFloat);
 
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, r.Data);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, r._data);
             }
         }
 
@@ -640,9 +649,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 result.Clear();
 
                 // Multiply the elements in the vector with the corresponding diagonal element in this.
-                for (var r = 0; r < Data.Length; r++)
+                for (var r = 0; r < _data.Length; r++)
                 {
-                    result[r] = Data[r] * rightSide[r];
+                    result[r] = _data[r] * rightSide[r];
                 }
             }
         }
@@ -690,9 +699,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 result.Clear();
 
                 // Multiply the elements in the vector with the corresponding diagonal element in this.
-                for (var r = 0; r < Data.Length; r++)
+                for (var r = 0; r < _data.Length; r++)
                 {
-                    result[r] = Data[r] * leftSide[r];
+                    result[r] = _data[r] * leftSide[r];
                 }
             }
         }
@@ -708,7 +717,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
-            return Data.Aggregate(1.0f, (current, t) => current * t);
+            return _data.Aggregate(1.0f, (current, t) => current * t);
         }
 
         /// <summary>
@@ -721,7 +730,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             // TODO: Should we return reference to array? In current implementation we return copy of array, so changes in DenseVector will
             // not influence onto diagonal elements
-            return new DenseVector((float[])Data.Clone());
+            return new DenseVector((float[])_data.Clone());
         }
 
         /// <summary>
@@ -789,24 +798,20 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override void CopyTo(Matrix<float> target)
         {
             var diagonalTarget = target as DiagonalMatrix;
-
-            if (diagonalTarget == null)
+            if (diagonalTarget != null)
             {
-                base.CopyTo(target);
+                _storage.CopyTo(diagonalTarget.Storage);
                 return;
             }
 
-            if (ReferenceEquals(this, target))
+            var denseTarget = target as DenseMatrix;
+            if (denseTarget != null)
             {
+                _storage.CopyTo(denseTarget.Storage);
                 return;
             }
 
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, target, "target");
-            }
-
-            Buffer.BlockCopy(Data, 0, diagonalTarget.Data, 0, Data.Length * Constants.SizeOfFloat);
+            base.CopyTo(target);
         }
 
         /// <summary>
@@ -816,7 +821,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override Matrix<float> Transpose()
         {
             var ret = new DiagonalMatrix(ColumnCount, RowCount);
-            Buffer.BlockCopy(Data, 0, ret.Data, 0, Data.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(_data, 0, ret._data, 0, _data.Length * Constants.SizeOfFloat);
             return ret;
         }
 
@@ -870,9 +875,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             // Clear the result and copy the diagonal entry.
             result.Clear();
-            if (columnIndex >= rowIndex && columnIndex < rowIndex + length && columnIndex < Data.Length)
+            if (columnIndex >= rowIndex && columnIndex < rowIndex + length && columnIndex < _data.Length)
             {
-                result[columnIndex - rowIndex] = Data[columnIndex];
+                result[columnIndex - rowIndex] = _data[columnIndex];
             }
         }
 
@@ -926,9 +931,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             // Clear the result and copy the diagonal entry.
             result.Clear();
-            if (rowIndex >= columnIndex && rowIndex < columnIndex + length && rowIndex < Data.Length)
+            if (rowIndex >= columnIndex && rowIndex < columnIndex + length && rowIndex < _data.Length)
             {
-                result[rowIndex - columnIndex] = Data[rowIndex];
+                result[rowIndex - columnIndex] = _data[rowIndex];
             }
         }
 
@@ -936,21 +941,21 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <returns>The L1 norm of the matrix.</returns>
         public override float L1Norm()
         {
-            return Data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
+            return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
         /// <summary>Calculates the L2 norm.</summary>
         /// <returns>The L2 norm of the matrix.</returns>   
         public override float L2Norm()
         {
-            return Data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
+            return _data.Aggregate(float.NegativeInfinity, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
         /// <summary>Calculates the Frobenius norm of this matrix.</summary>
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override float FrobeniusNorm()
         {
-            var norm = Data.Sum(t => t * t);
+            var norm = _data.Sum(t => t * t);
             return Convert.ToSingle(Math.Sqrt(norm));
         }
 
@@ -967,7 +972,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             var maxSv = float.NegativeInfinity;
             var minSv = float.PositiveInfinity;
-            foreach (var t in Data)
+            foreach (var t in _data)
             {
                 maxSv = Math.Max(maxSv, Math.Abs(t));
                 minSv = Math.Min(minSv, Math.Abs(t));
@@ -988,11 +993,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             var inverse = (DiagonalMatrix)Clone();
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < _data.Length; i++)
             {
-                if (Data[i] != 0.0)
+                if (_data[i] != 0.0)
                 {
-                    inverse.Data[i] = 1.0f / Data[i];
+                    inverse._data[i] = 1.0f / _data[i];
                 }
                 else
                 {
@@ -1036,9 +1041,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             result.Clear();
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = Data[i];
+                result[i, i] = _data[i];
             }
         }
 
@@ -1101,9 +1106,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             result.Clear();
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = Data[i];
+                result[i, i] = _data[i];
             }
         }
 
@@ -1197,7 +1202,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 int end = Math.Min(columnCount, rowCount + columnInit);
                 for (var i = 0; columnInit + i < end; i++)
                 {
-                    result[i, columnInit + i] = Data[rowIndex + i];
+                    result[i, columnInit + i] = _data[rowIndex + i];
                 }
             }
             else if (rowIndex < columnIndex && rowIndex + rowCount > columnIndex)
@@ -1206,14 +1211,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 int end = Math.Min(columnCount + rowInit, rowCount);
                 for (var i = 0; rowInit + i < end; i++)
                 {
-                    result[rowInit + i, i] = Data[columnIndex + i];
+                    result[rowInit + i, i] = _data[columnIndex + i];
                 }
             }
             else
             {
                 for (var i = 0; i < Math.Min(columnCount, rowCount); i++)
                 {
-                    result[i, i] = Data[rowIndex + i];
+                    result[i, i] = _data[rowIndex + i];
                 }
             }
 
@@ -1227,9 +1232,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         public override float[,] ToArray()
         {
             var result = new float[RowCount, ColumnCount];
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = Data[i];
+                result[i, i] = _data[i];
             }
 
             return result;
@@ -1378,9 +1383,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             result.Clear();
 
             // Copy the diagonal part into the result matrix.
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = Data[i];
+                result[i, i] = _data[i];
             }
 
             // Copy the lower matrix into the result matrix.
@@ -1446,9 +1451,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             result.Clear();
 
             // Copy the diagonal part into the result matrix.
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = Data[i];
+                result[i, i] = _data[i];
             }
 
             // Copy the lower matrix into the result matrix.
@@ -1510,9 +1515,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             result.Clear();
 
             // Copy the diagonal part into the result matrix.
-            for (var i = 0; i < Data.Length; i++)
+            for (var i = 0; i < _data.Length; i++)
             {
-                result[i, i] = Data[i];
+                result[i, i] = _data[i];
             }
 
             // Copy the lower matrix into the result matrix.
@@ -1572,9 +1577,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     CopyTo(result);
                 }
 
-                for (var index = 0; index < Data.Length; index++)
+                for (var index = 0; index < _data.Length; index++)
                 {
-                    denseResult.Data[index] %= divisor;
+                    denseResult._data[index] %= divisor;
                 }
             }
         }
@@ -1594,7 +1599,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             var m = new DiagonalMatrix(order);
             for (var i = 0; i < order; i++)
             {
-                m.Data[i] = 1.0f;
+                m._data[i] = 1.0f;
             }
 
             return m;

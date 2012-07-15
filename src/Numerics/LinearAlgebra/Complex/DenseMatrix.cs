@@ -162,6 +162,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
         }
 
+        internal DenseColumnMajorMatrixStorage<Complex> Storage
+        {
+            get { return _storage; }
+        }
+
         /// <summary>
         /// Gets the matrix's data.
         /// </summary>
@@ -217,7 +222,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var denseTarget = target as DenseMatrix;
             if (denseTarget != null)
             {
-                _storage.CopyTo(denseTarget._storage);
+                _storage.CopyTo(denseTarget.Storage);
                 return;
             }
 
@@ -361,7 +366,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public override void Clear()
         {
-            Array.Clear(_data, 0, _data.Length);
+            _storage.Clear();
         }
 
         /// <summary>

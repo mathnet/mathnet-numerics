@@ -24,6 +24,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Data = data;
         }
 
+        public void Clear()
+        {
+            Array.Clear(Data, 0, Data.Length);
+        }
+
         public void CopyTo(DenseColumnMajorMatrixStorage<T> target)
         {
             if (ReferenceEquals(this, target))
