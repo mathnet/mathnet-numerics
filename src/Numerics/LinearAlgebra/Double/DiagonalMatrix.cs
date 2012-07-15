@@ -62,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </exception>
         public DiagonalMatrix(int order) : base(order)
         {
-            _storage = new SparseDiagonalMatrixStorage<double>(order, order);
+            _storage = new SparseDiagonalMatrixStorage<double>(order, order, 0d);
             _data = _storage.Data;
         }
 
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         public DiagonalMatrix(int rows, int columns) : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<double>(rows, columns);
+            _storage = new SparseDiagonalMatrixStorage<double>(rows, columns, 0d);
             _data = _storage.Data;
         }
 
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="value">The value which we assign to each diagonal element of the matrix.</param>
         public DiagonalMatrix(int rows, int columns, double value) : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<double>(rows, columns);
+            _storage = new SparseDiagonalMatrixStorage<double>(rows, columns, 0d);
             _data = _storage.Data;
 
             for (var i = 0; i < _data.Length; i++)
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, double[] diagonalArray) : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<double>(rows, columns, diagonalArray);
+            _storage = new SparseDiagonalMatrixStorage<double>(rows, columns, 0d, diagonalArray);
             _data = _storage.Data;
         }
 
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public DiagonalMatrix(double[,] array) : this(array.GetLength(0), array.GetLength(1))
         {
-            _storage = new SparseDiagonalMatrixStorage<double>(array.GetLength(0), array.GetLength(1));
+            _storage = new SparseDiagonalMatrixStorage<double>(array.GetLength(0), array.GetLength(1), 0d);
             _data = _storage.Data;
 
             for (var i = 0; i < RowCount; i++)
@@ -164,7 +164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override double At(int row, int column)
         {
-            return row == column ? _data[row] : 0.0;
+            return _storage[row, column];
         }
 
         /// <summary>
@@ -184,14 +184,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override void At(int row, int column, double value)
         {
-            if (row == column)
-            {
-                _data[row] = value;
-            }
-            else if (value != 0.0 && !Double.IsNaN(value))
-            {
-                throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
-            }
+            _storage[row, column] = value;
         }
 
         /// <summary>

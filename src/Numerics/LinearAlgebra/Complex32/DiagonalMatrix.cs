@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DiagonalMatrix(int order)
             : base(order)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(order, order);
+            _storage = new SparseDiagonalMatrixStorage<Complex32>(order, order, Complex32.Zero);
             _data = _storage.Data;
         }
 
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DiagonalMatrix(int rows, int columns)
             : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns);
+            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero);
             _data = _storage.Data;
         }
 
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DiagonalMatrix(int rows, int columns, Complex32 value)
             : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns);
+            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero);
             _data = _storage.Data;
 
             for (var i = 0; i < _data.Length; i++)
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DiagonalMatrix(int rows, int columns, Complex32[] diagonalArray)
             : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns, diagonalArray);
+            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero, diagonalArray);
             _data = _storage.Data;
         }
 
@@ -130,7 +130,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DiagonalMatrix(Complex32[,] array)
             : this(array.GetLength(0), array.GetLength(1))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(array.GetLength(0), array.GetLength(1));
+            _storage = new SparseDiagonalMatrixStorage<Complex32>(array.GetLength(0), array.GetLength(1), Complex32.Zero);
             _data = _storage.Data;
 
             for (var i = 0; i < RowCount; i++)
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override Complex32 At(int row, int column)
         {
-            return row == column ? _data[row] : 0.0f;
+            return _storage[row, column];
         }
 
         /// <summary>
@@ -190,14 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override void At(int row, int column, Complex32 value)
         {
-            if (row == column)
-            {
-                _data[row] = value;
-            }
-            else if (((value.Real != 0.0) && !double.IsNaN(value.Real)) || ((value.Imaginary != 0.0) && !double.IsNaN(value.Imaginary)))
-            {
-                throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
-            }
+            _storage[row, column] = value;
         }
 
         /// <summary>

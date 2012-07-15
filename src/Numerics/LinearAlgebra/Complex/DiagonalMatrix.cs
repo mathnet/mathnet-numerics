@@ -63,7 +63,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </exception>
         public DiagonalMatrix(int order) : base(order)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(order, order);
+            _storage = new SparseDiagonalMatrixStorage<Complex>(order, order, Complex.Zero);
             _data = _storage.Data;
         }
 
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </param>
         public DiagonalMatrix(int rows, int columns) : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns);
+            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero);
             _data = _storage.Data;
         }
 
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="value">The value which we assign to each diagonal element of the matrix.</param>
         public DiagonalMatrix(int rows, int columns, Complex value) : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns);
+            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero);
             _data = _storage.Data;
 
             for (var i = 0; i < _data.Length; i++)
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, Complex[] diagonalArray) : base(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns, diagonalArray);
+            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero, diagonalArray);
             _data = _storage.Data;
         }
 
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public DiagonalMatrix(Complex[,] array) : this(array.GetLength(0), array.GetLength(1))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(array.GetLength(0), array.GetLength(1));
+            _storage = new SparseDiagonalMatrixStorage<Complex>(array.GetLength(0), array.GetLength(1), Complex.Zero);
             _data = _storage.Data;
 
             for (var i = 0; i < RowCount; i++)
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override Complex At(int row, int column)
         {
-            return row == column ? _data[row] : 0.0;
+            return _storage[row, column];
         }
 
         /// <summary>
@@ -185,14 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
         public override void At(int row, int column, Complex value)
         {
-            if (row == column)
-            {
-                _data[row] = value;
-            }
-            else if (((value.Real != 0.0) && !double.IsNaN(value.Real)) || ((value.Imaginary != 0.0) && !double.IsNaN(value.Imaginary)))
-            {
-                throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
-            }
+            _storage[row, column] = value;
         }
 
         /// <summary>
