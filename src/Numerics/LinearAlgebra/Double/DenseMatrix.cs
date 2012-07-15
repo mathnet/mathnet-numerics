@@ -283,7 +283,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Gets or sets the value at the given row and column.
+        /// Gets or sets the value at the given row and column, with range checking.
         /// </summary>
         /// <param name="row">
         /// The row of the element.
@@ -296,35 +296,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// to get and set values without range checking.</remarks>
         public override double this[int row, int column]
         {
-            get
-            {
-                if (row < 0 || row >= _rowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= _columnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
-                return _data[(column * _rowCount) + row];
-            }
-
-            set
-            {
-                if (row < 0 || row >= _rowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= _columnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
-                _data[(column * _rowCount) + row] = value;
-            }
+            get { return _storage[row, column]; }
+            set { _storage[row, column] = value; }
         }
 
         /// <summary>
@@ -341,7 +314,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </returns>
         public override double At(int row, int column)
         {
-            return _storage[row, column];
+            return _storage.At(row, column);
         }
         
         /// <summary>
@@ -358,7 +331,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         public override void At(int row, int column, double value)
         {
-            _storage[row, column] = value;
+            _storage.At(row, column, value);
         }
 
         /// <summary>

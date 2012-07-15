@@ -32,22 +32,71 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Data = data;
         }
 
+        /// <summary>
+        /// Gets or sets the value at the given row and column, with range checking.
+        /// </summary>
+        /// <param name="row">
+        /// The row of the element.
+        /// </param>
+        /// <param name="column">
+        /// The column of the element.
+        /// </param>
+        /// <value>The value to get or set.</value>
+        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,T)"/>
+        /// to get and set values without range checking.</remarks>
         public T this[int row, int column]
         {
             get
             {
-                return row == column ? Data[row] : _zero;
+                if (row < 0 || row >= RowCount)
+                {
+                    throw new ArgumentOutOfRangeException("row");
+                }
+
+                if (column < 0 || column >= ColumnCount)
+                {
+                    throw new ArgumentOutOfRangeException("column");
+                }
+
+                return At(row, column);
             }
+
             set
             {
-                if (row == column)
+                if (row < 0 || row >= RowCount)
                 {
-                    Data[row] = value;
+                    throw new ArgumentOutOfRangeException("row");
                 }
-                else if (!_zero.Equals(value))
+
+                if (column < 0 || column >= ColumnCount)
                 {
-                    throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
+                    throw new ArgumentOutOfRangeException("column");
                 }
+
+                At(row, column, value);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the requested element without range checking.
+        /// </summary>
+        public T At(int row, int column)
+        {
+            return row == column ? Data[row] : _zero;
+        }
+
+        /// <summary>
+        /// Sets the element without range checking.
+        /// </summary>
+        public void At(int row, int column, T value)
+        {
+            if (row == column)
+            {
+                Data[row] = value;
+            }
+            else if (!_zero.Equals(value))
+            {
+                throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
             }
         }
 
