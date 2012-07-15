@@ -94,7 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Gets the number of columns.
         /// </summary>
         /// <value>The number of columns.</value>
-        public virtual int ColumnCount
+        public int ColumnCount
         {
             get;
             private set;
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// Gets the number of rows.
         /// </summary>
         /// <value>The number of rows.</value>
-        public virtual int RowCount
+        public int RowCount
         {
             get;
             private set;
