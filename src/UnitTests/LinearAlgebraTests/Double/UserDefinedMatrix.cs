@@ -62,21 +62,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 Data[row, column] = value;
             }
-
-            public override void Clear()
-            {
-                Array.Clear(Data, 0, RowCount * ColumnCount);
-            }
-        }
-
-        readonly UserDefinedMatrixStorage _storage;
-        readonly double[,] _data;
-
-        private UserDefinedMatrix(UserDefinedMatrixStorage storage)
-            : base(storage)
-        {
-            _storage = storage;
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -84,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// </summary>
         /// <param name="order">the size of the square matrix.</param>
         public UserDefinedMatrix(int order)
-            : this(new UserDefinedMatrixStorage(order, order))
+            : base(new UserDefinedMatrixStorage(order, order))
         {
         }
 
@@ -94,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         public UserDefinedMatrix(int rows, int columns)
-            : this(new UserDefinedMatrixStorage(rows, columns))
+            : base(new UserDefinedMatrixStorage(rows, columns))
         {
         }
 
@@ -103,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         public UserDefinedMatrix(double[,] data)
-            : this(new UserDefinedMatrixStorage(data.GetLength(0), data.GetLength(1), (double[,])data.Clone()))
+            : base(new UserDefinedMatrixStorage(data.GetLength(0), data.GetLength(1), (double[,])data.Clone()))
         {
         }
 
@@ -138,7 +123,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var m = new UserDefinedMatrix(order, order);
             for (var i = 0; i < order; i++)
             {
-                m[i, i] = 1.0;
+                m[i, i] = 1d;
             }
 
             return m;
