@@ -188,30 +188,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Copies the elements of this matrix to the given matrix.
-        /// </summary>
-        /// <param name="target">
-        /// The matrix to copy values into.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If target is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this and the target matrix do not have the same dimensions..
-        /// </exception>
-        public override void CopyTo(Matrix<Complex32> target)
-        {
-            var denseTarget = target as DenseMatrix;
-            if (denseTarget != null)
-            {
-                _storage.CopyTo(denseTarget.Raw);
-                return;
-            }
-
-            base.CopyTo(target);
-        }
-
-        /// <summary>
         /// Creates a matrix that contains the values from the requested sub-matrix.
         /// </summary>
         /// <param name="rowIndex">The row to start copying from.</param>

@@ -237,33 +237,25 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <exception cref="ArgumentException">
         /// If this and the target matrix do not have the same dimensions..
         /// </exception>
-        public virtual void CopyTo(Matrix<T> target)
+        public void CopyTo(Matrix<T> target)
         {
             if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
 
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, target);
-            }
-
-            if (ReferenceEquals(this, target))
+            if (ReferenceEquals(this, target) || ReferenceEquals(Storage, target.Storage))
             {
                 return;
             }
 
-            CommonParallel.For(
-                0,
-                RowCount,
-                row =>
-                    {
-                        for (var j = 0; j < ColumnCount; j++)
-                        {
-                            target.At(row, j, At(row, j));
-                        }
-                    });
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            Storage.CopyTo(target.Storage);
         }
 
         /// <summary>
