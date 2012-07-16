@@ -3,7 +3,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    public abstract class MatrixStorage<T> where T : struct, IEquatable<T>, IFormattable
+    public abstract partial class MatrixStorage<T> where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
 
@@ -42,31 +42,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             get
             {
-                if (row < 0 || row >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
+                ValidateRange(row, column);
                 return At(row, column);
             }
 
             set
             {
-                if (row < 0 || row >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
+                ValidateRange(row, column);
                 At(row, column, value);
             }
         }
@@ -95,6 +77,15 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
         public abstract void At(int row, int column, T value);
 
-        public abstract void Clear();
+        public virtual void Clear()
+        {
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, default(T));
+                }
+            }
+        }
     }
 }

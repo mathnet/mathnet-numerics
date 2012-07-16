@@ -265,66 +265,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Gets or sets the value at the given row and column, with range checking.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <value>The value to get or set.</value>
-        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,float)"/>
-        /// to get and set values without range checking.</remarks>
-        public override float this[int row, int column]
-        {
-            get { return _storage[row, column]; }
-            set { _storage[row, column] = value; }
-        }
-
-        /// <summary>
-        /// Retrieves the requested element without range checking.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <returns>
-        /// The requested element.
-        /// </returns>
-        public override float At(int row, int column)
-        {
-            return _storage.At(row, column);
-        }
-
-        /// <summary>
-        /// Sets the value of the given element.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <param name="value">
-        /// The value to set the element to.
-        /// </param>
-        public override void At(int row, int column, float value)
-        {
-            _storage.At(row, column, value);
-        }
-
-        /// <summary>
-        /// Sets all values to zero.
-        /// </summary>
-        public override void Clear()
-        {
-            _storage.Clear();
-        }
-
-        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>

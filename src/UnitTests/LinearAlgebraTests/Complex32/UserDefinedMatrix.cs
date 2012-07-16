@@ -109,28 +109,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         }
 
         /// <summary>
-        /// Retrieves the requested element without range checking.
-        /// </summary>
-        /// <param name="row">The row of the element.</param>
-        /// <param name="column">The column of the element.</param>
-        /// <returns>The requested element. </returns>
-        public override Complex32 At(int row, int column)
-        {
-            return _data[row, column];
-        }
-
-        /// <summary>
-        /// Sets the value of the given element.
-        /// </summary>
-        /// <param name="row">The row of the element.</param>
-        /// <param name="column">The column of the element.</param>
-        /// <param name="value">The value to set the element to. </param>
-        public override void At(int row, int column, Complex32 value)
-        {
-            _data[row, column] = value;
-        }
-
-        /// <summary>
         /// Creates a matrix for the given number of rows and columns.
         /// </summary>
         /// <param name="numberOfRows">The number of rows.</param>

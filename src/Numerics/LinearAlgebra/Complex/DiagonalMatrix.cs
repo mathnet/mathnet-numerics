@@ -150,63 +150,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Gets or sets the value at the given row and column, with range checking.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <value>The value to get or set.</value>
-        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,Complex)"/>
-        /// to get and set values without range checking.</remarks>
-        public override Complex this[int row, int column]
-        {
-            get { return _storage[row, column]; }
-            set { _storage[row, column] = value; }
-        }
-
-        /// <summary>
-        /// Retrieves the requested element without range checking.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <returns>
-        /// The requested element.
-        /// </returns>
-        /// <exception cref="IndexOutOfRangeException">Depending on the implementation, an <see cref="IndexOutOfRangeException"/>
-        /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
-        public override Complex At(int row, int column)
-        {
-            return _storage.At(row, column);
-        }
-
-        /// <summary>
-        /// Sets the value of the given element.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <param name="value">
-        /// The value to set the element to.
-        /// </param>
-        /// <exception cref="IndexOutOfRangeException">When trying to set an off diagonal element.</exception>
-        /// <exception cref="IndexOutOfRangeException">Depending on the implementation, an <see cref="IndexOutOfRangeException"/>
-        /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
-        public override void At(int row, int column, Complex value)
-        {
-            _storage.At(row, column, value);
-        }
-
-        /// <summary>
         /// Creates a <c>DiagonalMatrix</c> for the given number of rows and columns.
         /// </summary>
         /// <param name="numberOfRows">
@@ -233,14 +176,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override Vector<Complex> CreateVector(int size)
         {
             return new SparseVector(size);
-        }
-
-        /// <summary>
-        /// Sets all values to zero.
-        /// </summary>
-        public override void Clear()
-        {
-            _storage.Clear();
         }
 
         /// <summary>

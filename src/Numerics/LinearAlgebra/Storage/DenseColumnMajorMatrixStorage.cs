@@ -115,8 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new NotSupportedException();
             }
 
-            ArgumentValidation.CopySubMatrixTo(RowCount, ColumnCount,
-                target.RowCount, target.ColumnCount,
+            ValidateSubMatrixRange(target,
                 sourceRowIndex, targetRowIndex, rowCount,
                 sourceColumnIndex, targetColumnIndex, columnCount);
 
