@@ -54,6 +54,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <value>The matrix's data.</value>
         readonly Complex[] _data;
 
+        internal SparseDiagonalMatrixStorage<Complex> Raw
+        {
+            get { return _storage; }
+        }
+
+        internal DiagonalMatrix(SparseDiagonalMatrixStorage<Complex> storage)
+            : base(storage)
+        {
+            _storage = storage;
+            _data = _storage.Data;
+        }
+
          /// <summary>
         /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class. This matrix is square with a given size.
         /// </summary>
@@ -61,11 +73,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="ArgumentException">
         /// If <paramref name="order"/> is less than one.
         /// </exception>
-        public DiagonalMatrix(int order) : base(order)
-        {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(order, order, Complex.Zero);
-            _data = _storage.Data;
-        }
+        public DiagonalMatrix(int order)
+            : this(new SparseDiagonalMatrixStorage<Complex>(order, order, Complex.Zero))
+         {
+         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class.
@@ -76,10 +87,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="columns">
         /// The number of columns.
         /// </param>
-        public DiagonalMatrix(int rows, int columns) : base(rows, columns)
+        public DiagonalMatrix(int rows, int columns)
+            : this(new SparseDiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero);
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -92,11 +102,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// The number of columns.
         /// </param>
         /// <param name="value">The value which we assign to each diagonal element of the matrix.</param>
-        public DiagonalMatrix(int rows, int columns, Complex value) : base(rows, columns)
+        public DiagonalMatrix(int rows, int columns, Complex value)
+            : this(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero);
-            _data = _storage.Data;
-
             for (var i = 0; i < _data.Length; i++)
             {
                 _data[i] = value;
@@ -110,10 +118,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
-        public DiagonalMatrix(int rows, int columns, Complex[] diagonalArray) : base(rows, columns)
+        public DiagonalMatrix(int rows, int columns, Complex[] diagonalArray)
+            : this(new SparseDiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero, diagonalArray))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(rows, columns, Complex.Zero, diagonalArray);
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -123,11 +130,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <exception cref="IndexOutOfRangeException">When <paramref name="array"/> contains an off-diagonal element.</exception>
         /// <exception cref="IndexOutOfRangeException">Depending on the implementation, an <see cref="IndexOutOfRangeException"/>
         /// may be thrown if one of the indices is outside the dimensions of the matrix.</exception>
-        public DiagonalMatrix(Complex[,] array) : this(array.GetLength(0), array.GetLength(1))
+        public DiagonalMatrix(Complex[,] array)
+            : this(array.GetLength(0), array.GetLength(1))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex>(array.GetLength(0), array.GetLength(1), Complex.Zero);
-            _data = _storage.Data;
-
             for (var i = 0; i < RowCount; i++)
             {
                 for (var j = 0; j < ColumnCount; j++)
@@ -142,11 +147,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     }
                 }
             }
-        }
-
-        internal SparseDiagonalMatrixStorage<Complex> Storage
-        {
-            get { return _storage; }
         }
 
         /// <summary>
@@ -806,21 +806,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var diagonalTarget = target as DiagonalMatrix;
             if (diagonalTarget != null)
             {
-                _storage.CopyTo(diagonalTarget.Storage);
+                _storage.CopyTo(diagonalTarget.Raw);
                 return;
             }
 
             var denseTarget = target as DenseMatrix;
             if (denseTarget != null)
             {
-                _storage.CopyTo(denseTarget.Storage);
+                _storage.CopyTo(denseTarget.Raw);
                 return;
             }
 
             var sparseTarget = target as SparseMatrix;
             if (sparseTarget != null)
             {
-                _storage.CopyTo(sparseTarget.Storage);
+                _storage.CopyTo(sparseTarget.Raw);
                 return;
             }
 

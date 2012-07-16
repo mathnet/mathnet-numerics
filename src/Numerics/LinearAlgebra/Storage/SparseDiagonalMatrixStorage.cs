@@ -3,84 +3,32 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    internal class SparseDiagonalMatrixStorage<T> : IMatrixStorage<T>
+    internal class SparseDiagonalMatrixStorage<T> : MatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
 
-        public readonly int RowCount;
-        public readonly int ColumnCount;
         readonly T _zero;
-
         public readonly T[] Data;
 
         internal SparseDiagonalMatrixStorage(int rows, int columns, T zero)
+            : base(rows, columns)
         {
-            RowCount = rows;
-            ColumnCount = columns;
             _zero = zero;
-
             Data = new T[Math.Min(rows, columns)];
         }
 
         internal SparseDiagonalMatrixStorage(int rows, int columns, T zero, T[] data)
+            : base(rows, columns)
         {
-            RowCount = rows;
-            ColumnCount = columns;
             _zero = zero;
-
             Data = data;
-        }
-
-        /// <summary>
-        /// Gets or sets the value at the given row and column, with range checking.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <value>The value to get or set.</value>
-        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,T)"/>
-        /// to get and set values without range checking.</remarks>
-        public T this[int row, int column]
-        {
-            get
-            {
-                if (row < 0 || row >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
-                return At(row, column);
-            }
-
-            set
-            {
-                if (row < 0 || row >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
-                At(row, column, value);
-            }
         }
 
         /// <summary>
         /// Retrieves the requested element without range checking.
         /// </summary>
-        public T At(int row, int column)
+        public override T At(int row, int column)
         {
             return row == column ? Data[row] : _zero;
         }
@@ -88,7 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <summary>
         /// Sets the element without range checking.
         /// </summary>
-        public void At(int row, int column, T value)
+        public override void At(int row, int column, T value)
         {
             if (row == column)
             {
@@ -100,12 +48,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void Clear()
+        public override void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
         }
 
-        public void CopyTo(IMatrixStorage<T> target, bool skipClearing = false)
+        public void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
         {
             var diagonalTarget = target as SparseDiagonalMatrixStorage<T>;
             if (diagonalTarget != null)
@@ -328,16 +276,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     target.At(i + targetRowIndex, i + targetColumnIndex, Data[sourceRowIndex + i]);
                 }
             }
-        }
-
-        int IMatrixStorage<T>.RowCount
-        {
-            get { return RowCount; }
-        }
-
-        int IMatrixStorage<T>.ColumnCount
-        {
-            get { return ColumnCount; }
         }
     }
 }

@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
@@ -42,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     [Serializable]
     public abstract partial class Matrix<T> :
 #if PORTABLE
-    IFormattable, IEquatable<Matrix<T>>
+        IFormattable, IEquatable<Matrix<T>>
 #else
         IFormattable, IEquatable<Matrix<T>>, ICloneable
 #endif
@@ -51,64 +53,29 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>
         /// Initializes a new instance of the Matrix class.
         /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
-        protected Matrix(int rows, int columns)
+        protected Matrix(MatrixStorage<T> storage)
         {
-            if (rows <= 0)
-            {
-                throw new ArgumentOutOfRangeException(Resources.MatrixRowsMustBePositive);
-            }
-
-            if (columns <= 0)
-            {
-                throw new ArgumentOutOfRangeException(Resources.MatrixColumnsMustBePositive);
-            }
-
-            RowCount = rows;
-            ColumnCount = columns;
+            Storage = storage;
+            RowCount = storage.RowCount;
+            ColumnCount = storage.ColumnCount;
         }
 
         /// <summary>
-        /// Initializes a new instance of the Matrix class.
+        /// Gets the raw matrix data storage.
         /// </summary>
-        /// <param name="order">
-        /// The order of the matrix.
-        /// </param>
-        protected Matrix(int order)
-        {
-            if (order <= 0)
-            {
-                throw new ArgumentOutOfRangeException(Resources.MatrixRowsOrColumnsMustBePositive);
-            }
-
-            RowCount = order;
-            ColumnCount = order;
-        }
+        public MatrixStorage<T> Storage { get; private set; }
 
         /// <summary>
         /// Gets the number of columns.
         /// </summary>
         /// <value>The number of columns.</value>
-        public int ColumnCount
-        {
-            get;
-            private set;
-        }
+        public int ColumnCount { get; private set; }
 
         /// <summary>
         /// Gets the number of rows.
         /// </summary>
         /// <value>The number of rows.</value>
-        public int RowCount
-        {
-            get;
-            private set;
-        }
+        public int RowCount { get; private set; }
 
         /// <summary>
         /// Constructs matrix from a list of column vectors.

@@ -24,6 +24,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Storage;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using LinearAlgebra.Double;
@@ -34,18 +37,55 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     /// </summary>
     internal class UserDefinedMatrix : Matrix
     {
-        /// <summary>
-        /// Values storage
-        /// </summary>
-        private readonly double[,] _data;
+        private class UserDefinedMatrixStorage : MatrixStorage<double>
+        {
+            public readonly double[,] Data;
+
+            public UserDefinedMatrixStorage(int rowCount, int columnCount)
+                : base(rowCount, columnCount)
+            {
+                Data = new double[rowCount,columnCount];
+            }
+
+            public UserDefinedMatrixStorage(int rowCount, int columnCount, double[,] data)
+                : base(rowCount, columnCount)
+            {
+                Data = data;
+            }
+
+            public override double At(int row, int column)
+            {
+                return Data[row, column];
+            }
+
+            public override void At(int row, int column, double value)
+            {
+                Data[row, column] = value;
+            }
+
+            public override void Clear()
+            {
+                Array.Clear(Data, 0, RowCount * ColumnCount);
+            }
+        }
+
+        readonly UserDefinedMatrixStorage _storage;
+        readonly double[,] _data;
+
+        private UserDefinedMatrix(UserDefinedMatrixStorage storage)
+            : base(storage)
+        {
+            _storage = storage;
+            _data = _storage.Data;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDefinedMatrix"/> class. This matrix is square with a given size.
         /// </summary>
         /// <param name="order">the size of the square matrix.</param>
-        public UserDefinedMatrix(int order) : base(order, order)
+        public UserDefinedMatrix(int order)
+            : this(new UserDefinedMatrixStorage(order, order))
         {
-            _data = new double[order, order];
         }
 
         /// <summary>
@@ -53,18 +93,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        public UserDefinedMatrix(int rows, int columns) : base(rows, columns)
+        public UserDefinedMatrix(int rows, int columns)
+            : this(new UserDefinedMatrixStorage(rows, columns))
         {
-            _data = new double[rows, columns];
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDefinedMatrix"/> class from a 2D array. 
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
-        public UserDefinedMatrix(double[,] data) : base(data.GetLength(0), data.GetLength(1))
+        public UserDefinedMatrix(double[,] data)
+            : this(new UserDefinedMatrixStorage(data.GetLength(0), data.GetLength(1), (double[,])data.Clone()))
         {
-            _data = (double[,])data.Clone();
         }
 
         /// <summary>

@@ -61,6 +61,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <value>The matrix's data.</value>
         readonly double[] _data;
 
+        internal DenseColumnMajorMatrixStorage<double> Raw
+        {
+            get { return _storage; }
+        }
+
+        internal DenseMatrix(DenseColumnMajorMatrixStorage<double> storage)
+            : base(storage)
+        {
+            _storage = storage;
+            _rowCount = _storage.RowCount;
+            _columnCount = _storage.ColumnCount;
+            _data = _storage.Data;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseMatrix"/> class. This matrix is square with a given size.
         /// </summary>
@@ -69,13 +83,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DenseMatrix(int order)
-            : base(order)
+            : this(new DenseColumnMajorMatrixStorage<double>(order, order))
         {
-            _storage = new DenseColumnMajorMatrixStorage<double>(order, order);
-
-            _rowCount = _storage.RowCount;
-            _columnCount = _storage.ColumnCount;
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -88,13 +97,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The number of columns.
         /// </param>
         public DenseMatrix(int rows, int columns)
-            : base(rows, columns)
+            : this(new DenseColumnMajorMatrixStorage<double>(rows, columns))
         {
-            _storage = new DenseColumnMajorMatrixStorage<double>(rows, columns);
-
-            _rowCount = _storage.RowCount;
-            _columnCount = _storage.ColumnCount;
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -108,14 +112,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
         public DenseMatrix(int rows, int columns, double value)
-            : base(rows, columns)
+            : this(rows, columns)
         {
-            _storage = new DenseColumnMajorMatrixStorage<double>(rows, columns);
-
-            _rowCount = _storage.RowCount;
-            _columnCount = _storage.ColumnCount;
-            _data = _storage.Data;
-
             for (var i = 0; i < _data.Length; i++)
             {
                 _data[i] = value;
@@ -130,13 +128,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="columns">The number of columns.</param>
         /// <param name="array">The one dimensional array to create this matrix from. This array should store the matrix in column-major order. see: http://en.wikipedia.org/wiki/Row-major_order </param>
         public DenseMatrix(int rows, int columns, double[] array)
-            : base(rows, columns)
+            : this(new DenseColumnMajorMatrixStorage<double>(rows, columns, array))
         {
-            _storage = new DenseColumnMajorMatrixStorage<double>(rows, columns, array);
-
-            _rowCount = _storage.RowCount;
-            _columnCount = _storage.ColumnCount;
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -145,14 +138,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
         public DenseMatrix(double[,] array)
-            : base(array.GetLength(0), array.GetLength(1))
+            : this(array.GetLength(0), array.GetLength(1))
         {
-            _storage = new DenseColumnMajorMatrixStorage<double>(array.GetLength(0), array.GetLength(1));
-
-            _rowCount = _storage.RowCount;
-            _columnCount = _storage.ColumnCount;
-            _data = _storage.Data;
-
             for (var i = 0; i < _rowCount; i++)
             {
                 for (var j = 0; j < _columnCount; j++)
@@ -160,11 +147,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     _data[(j * _rowCount) + i] = array[i, j];
                 }
             }
-        }
-
-        internal DenseColumnMajorMatrixStorage<double> Storage
-        {
-            get { return _storage; }
         }
 
         /// <summary>
@@ -222,7 +204,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var denseTarget = target as DenseMatrix;
             if (denseTarget != null)
             {
-                _storage.CopyTo(denseTarget.Storage);
+                _storage.CopyTo(denseTarget.Raw);
                 return;
             }
 

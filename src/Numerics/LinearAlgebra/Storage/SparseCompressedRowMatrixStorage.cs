@@ -3,13 +3,11 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    internal class SparseCompressedRowMatrixStorage<T> : IMatrixStorage<T>
+    internal class SparseCompressedRowMatrixStorage<T> : MatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
 
-        public readonly int RowCount;
-        public readonly int ColumnCount;
         readonly T _zero;
 
         /// <summary>
@@ -37,60 +35,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public int ValueCount;
 
         internal SparseCompressedRowMatrixStorage(int rows, int columns, T zero)
+            : base(rows, columns)
         {
-            RowCount = rows;
-            ColumnCount = columns;
             _zero = zero;
-
             RowPointers = new int[rows];
             ColumnIndices = new int[0];
             Values = new T[0];
             ValueCount = 0;
-        }
-
-        /// <summary>
-        /// Gets or sets the value at the given row and column, with range checking.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <value>The value to get or set.</value>
-        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,T)"/>
-        /// to get and set values without range checking.</remarks>
-        public T this[int row, int column]
-        {
-            get
-            {
-                if (row < 0 || row >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
-                return At(row, column);
-            }
-
-            set
-            {
-                if (row < 0 || row >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
-                At(row, column, value);
-            }
         }
 
         /// <summary>
@@ -106,7 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// The requested element.
         /// </returns>
         /// <remarks>Not range-checked.</remarks>
-        public T At(int row, int column)
+        public override T At(int row, int column)
         {
             var index = FindItem(row, column);
             return index >= 0 ? Values[index] : _zero;
@@ -119,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <param name="column"> The column of the element. </param>
         /// <param name="value"> The value to set the element to. </param>
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
-        public void At(int row, int column, T value)
+        public override void At(int row, int column, T value)
         {
             var index = FindItem(row, column);
             if (index >= 0)
@@ -185,7 +136,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void Clear()
+        public override void Clear()
         {
             ValueCount = 0;
             Array.Clear(RowPointers, 0, RowPointers.Length);
@@ -266,7 +217,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return delta;
         }
 
-        public void CopyTo(IMatrixStorage<T> target, bool skipClearing = false)
+        public void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
         {
             var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
             if (sparseTarget != null)
@@ -374,16 +325,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     }
                 }
             }
-        }
-
-        int IMatrixStorage<T>.RowCount
-        {
-            get { return RowCount; }
-        }
-
-        int IMatrixStorage<T>.ColumnCount
-        {
-            get { return ColumnCount; }
         }
     }
 }

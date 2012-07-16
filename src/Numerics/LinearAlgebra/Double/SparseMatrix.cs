@@ -55,8 +55,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             get { return _storage.ValueCount; }
         }
 
+        internal SparseCompressedRowMatrixStorage<double> Raw
+        {
+            get { return _storage; }
+        }
+
         internal SparseMatrix(SparseCompressedRowMatrixStorage<double> storage)
-            : base(storage.RowCount, storage.ColumnCount)
+            : base(storage)
         {
             _storage = storage;
         }
@@ -71,9 +76,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// The number of columns.
         /// </param>
         public SparseMatrix(int rows, int columns)
-            : base(rows, columns)
+            : this(new SparseCompressedRowMatrixStorage<double>(rows, columns, 0d))
         {
-            _storage = new SparseCompressedRowMatrixStorage<double>(rows, columns, 0d);
         }
         
         /// <summary>
@@ -84,9 +88,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public SparseMatrix(int order)
-            : base(order, order)
+            : this(order, order)
         {
-            _storage = new SparseCompressedRowMatrixStorage<double>(order, order, 0d);
         }
 
         /// <summary>
@@ -100,10 +103,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         /// <param name="value">The value which we assign to each element of the matrix.</param>
         public SparseMatrix(int rows, int columns, double value)
-            : base(rows, columns)
+            : this(rows, columns)
         {
-            _storage = new SparseCompressedRowMatrixStorage<double>(rows, columns, 0d);
-
             if (value == 0.0)
             {
                 return;
@@ -142,10 +143,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="array"/> length is less than <paramref name="rows"/> * <paramref name="columns"/>.
         /// </exception>
         public SparseMatrix(int rows, int columns, double[] array)
-            : base(rows, columns)
+            : this(rows, columns)
         {
-            _storage = new SparseCompressedRowMatrixStorage<double>(rows, columns, 0d);
-
             if (rows * columns > array.Length)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentMatrixDimensions);
@@ -165,10 +164,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="array">The 2D array to create this matrix from.</param>
         public SparseMatrix(double[,] array)
-            : base(array.GetLength(0), array.GetLength(1))
+            : this(array.GetLength(0), array.GetLength(1))
         {
-            _storage = new SparseCompressedRowMatrixStorage<double>(array.GetLength(0), array.GetLength(1), 0d);
-
             for (var i = 0; i < _storage.RowCount; i++)
             {
                 for (var j = 0; j < _storage.ColumnCount; j++)
@@ -184,10 +181,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="matrix">The matrix to copy.</param>
         public SparseMatrix(Matrix<double> matrix)
-            : base(matrix.RowCount, matrix.ColumnCount)
+            : this(matrix.RowCount, matrix.ColumnCount)
         {
-            _storage = new SparseCompressedRowMatrixStorage<double>(matrix.RowCount, matrix.ColumnCount, 0d);
-
             var sparseMatrix = matrix as SparseMatrix;
 
             var rows = matrix.RowCount;
@@ -205,7 +200,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                var matrixStorage = sparseMatrix.Storage;
+                var matrixStorage = sparseMatrix.Raw;
                 var valueCount = _storage.ValueCount = matrixStorage.ValueCount;
                 _storage.ColumnIndices = new int[valueCount];
                 _storage.Values = new double[valueCount];
@@ -214,11 +209,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 Buffer.BlockCopy(matrixStorage.ColumnIndices, 0, _storage.ColumnIndices, 0, valueCount * Constants.SizeOfInt);
                 Buffer.BlockCopy(matrixStorage.RowPointers, 0, _storage.RowPointers, 0, rows * Constants.SizeOfInt);
             }
-        }
-
-        internal SparseCompressedRowMatrixStorage<double> Storage
-        {
-            get { return _storage; }
         }
 
         /// <summary>
@@ -699,14 +689,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var sparseTarget = target as SparseMatrix;
             if (sparseTarget != null)
             {
-                _storage.CopyTo(sparseTarget.Storage);
+                _storage.CopyTo(sparseTarget.Raw);
                 return;
             }
 
             var denseTarget = target as DenseMatrix;
             if (denseTarget != null)
             {
-                _storage.CopyTo(denseTarget.Storage);
+                _storage.CopyTo(denseTarget.Raw);
                 return;
             }
 
@@ -748,7 +738,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var valueCount = _storage.ValueCount;
 
             var ret = new SparseMatrix(ColumnCount, RowCount);
-            var retStorage = ret.Storage;
+            var retStorage = ret.Raw;
             retStorage.ColumnIndices = new int[valueCount];
             retStorage.Values = new double[valueCount];
 
@@ -780,7 +770,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public override double FrobeniusNorm()
         {
             var transpose = (SparseMatrix)Transpose();
-            var aat = (this * transpose).Storage;
+            var aat = (this * transpose).Raw;
 
             var norm = 0d;
 
@@ -934,8 +924,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                var resultStorage = resultSparseMatrix.Storage;
-                var lowerStorage = lowerSparseMatrix.Storage;
+                var resultStorage = resultSparseMatrix.Raw;
+                var lowerStorage = lowerSparseMatrix.Raw;
 
                 if (resultStorage.RowCount != RowCount + lowerStorage.RowCount || resultStorage.ColumnCount != ColumnCount + lowerSparseMatrix.ColumnCount)
                 {
@@ -977,7 +967,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public static SparseMatrix Identity(int order)
         {
             var m = new SparseMatrix(order);
-            var mStorage = m.Storage;
+            var mStorage = m.Raw;
 
             mStorage.ValueCount = order;
             mStorage.Values = new double[order];
@@ -1027,7 +1017,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return base.Equals(other);
             }
 
-            var otherStorage = sparseMatrix.Storage;
+            var otherStorage = sparseMatrix.Raw;
             if (_storage.ValueCount != otherStorage.ValueCount)
             {
                 return false;
@@ -1089,7 +1079,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 left = sparseOther;
             }
 
-            var leftStorage = left.Storage;
+            var leftStorage = left.Raw;
             for (var i = 0; i < leftStorage.RowCount; i++)
             {
                 // Get the begin / end index for the current row
@@ -1129,7 +1119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var otherStorage = sparseOther.Storage;
+            var otherStorage = sparseOther.Raw;
 
             if (ReferenceEquals(this, sparseResult))
             {
@@ -1229,7 +1219,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     CopyTo(sparseResult);
                 }
 
-                CommonParallel.For(0, _storage.ValueCount, index => sparseResult.Storage.Values[index] *= scalar);
+                CommonParallel.For(0, _storage.ValueCount, index => sparseResult.Raw.Values[index] *= scalar);
             }
         }
 
@@ -1328,7 +1318,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var values = _storage.Values;
             var valueCount = _storage.ValueCount;
 
-            var otherStorage = otherSparse.Storage;
+            var otherStorage = otherSparse.Raw;
 
             for (var j = 0; j < RowCount; j++)
             {
@@ -1361,7 +1351,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         }
                     }
 
-                    resultSparse.Storage.At(i, j, sum + result.At(i, j));
+                    resultSparse.Raw.At(i, j, sum + result.At(i, j));
                 }
             }
         }
@@ -1457,7 +1447,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 CopyTo(result);
             }
 
-            var resultStorage = sparseResult.Storage;
+            var resultStorage = sparseResult.Raw;
             for (var index = 0; index < resultStorage.Values.Length; index++)
             {
                 resultStorage.Values[index] %= divisor;

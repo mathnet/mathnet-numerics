@@ -54,6 +54,18 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <value>The matrix's data.</value>
         readonly Complex32[] _data;
 
+        internal SparseDiagonalMatrixStorage<Complex32> Raw
+        {
+            get { return _storage; }
+        }
+
+        internal DiagonalMatrix(SparseDiagonalMatrixStorage<Complex32> storage)
+            : base(storage)
+        {
+            _storage = storage;
+            _data = _storage.Data;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DiagonalMatrix"/> class. This matrix is square with a given size.
         /// </summary>
@@ -62,10 +74,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// If <paramref name="order"/> is less than one.
         /// </exception>
         public DiagonalMatrix(int order)
-            : base(order)
+            : this(new SparseDiagonalMatrixStorage<Complex32>(order, order, Complex32.Zero))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(order, order, Complex32.Zero);
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -78,10 +88,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// The number of columns.
         /// </param>
         public DiagonalMatrix(int rows, int columns)
-            : base(rows, columns)
+            : this(new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero);
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -95,11 +103,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </param>
         /// <param name="value">The value which we assign to each diagonal element of the matrix.</param>
         public DiagonalMatrix(int rows, int columns, Complex32 value)
-            : base(rows, columns)
+            : this(rows, columns)
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero);
-            _data = _storage.Data;
-
             for (var i = 0; i < _data.Length; i++)
             {
                 _data[i] = value;
@@ -114,10 +119,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="columns">The number of columns.</param>
         /// <param name="diagonalArray">The one dimensional array which contain diagonal elements.</param>
         public DiagonalMatrix(int rows, int columns, Complex32[] diagonalArray)
-            : base(rows, columns)
+            : this(new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero, diagonalArray))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(rows, columns, Complex32.Zero, diagonalArray);
-            _data = _storage.Data;
         }
 
         /// <summary>
@@ -130,9 +133,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public DiagonalMatrix(Complex32[,] array)
             : this(array.GetLength(0), array.GetLength(1))
         {
-            _storage = new SparseDiagonalMatrixStorage<Complex32>(array.GetLength(0), array.GetLength(1), Complex32.Zero);
-            _data = _storage.Data;
-
             for (var i = 0; i < RowCount; i++)
             {
                 for (var j = 0; j < ColumnCount; j++)
@@ -147,11 +147,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     }
                 }
             }
-        }
-
-        internal SparseDiagonalMatrixStorage<Complex32> Storage
-        {
-            get { return _storage; }
         }
 
         /// <summary>
@@ -811,21 +806,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var diagonalTarget = target as DiagonalMatrix;
             if (diagonalTarget != null)
             {
-                _storage.CopyTo(diagonalTarget.Storage);
+                _storage.CopyTo(diagonalTarget.Raw);
                 return;
             }
 
             var denseTarget = target as DenseMatrix;
             if (denseTarget != null)
             {
-                _storage.CopyTo(denseTarget.Storage);
+                _storage.CopyTo(denseTarget.Raw);
                 return;
             }
 
             var sparseTarget = target as SparseMatrix;
             if (sparseTarget != null)
             {
-                _storage.CopyTo(sparseTarget.Storage);
+                _storage.CopyTo(sparseTarget.Raw);
                 return;
             }
 

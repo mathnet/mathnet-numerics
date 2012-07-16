@@ -24,6 +24,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.LinearAlgebra.Storage;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
     using System.Numerics;
@@ -35,18 +38,55 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     /// </summary>
     internal class UserDefinedMatrix : Matrix
     {
-        /// <summary>
-        /// Values storage
-        /// </summary>
-        private readonly Complex[,] _data;
+        class UserDefinedMatrixStorage : MatrixStorage<Complex>
+        {
+            public readonly Complex[,] Data;
+
+            public UserDefinedMatrixStorage(int rowCount, int columnCount)
+                : base(rowCount, columnCount)
+            {
+                Data = new Complex[rowCount, columnCount];
+            }
+
+            public UserDefinedMatrixStorage(int rowCount, int columnCount, Complex[,] data)
+                : base(rowCount, columnCount)
+            {
+                Data = data;
+            }
+
+            public override Complex At(int row, int column)
+            {
+                return Data[row, column];
+            }
+
+            public override void At(int row, int column, Complex value)
+            {
+                Data[row, column] = value;
+            }
+
+            public override void Clear()
+            {
+                Array.Clear(Data, 0, RowCount * ColumnCount);
+            }
+        }
+
+        readonly UserDefinedMatrixStorage _storage;
+        readonly Complex[,] _data;
+
+        private UserDefinedMatrix(UserDefinedMatrixStorage storage)
+            : base(storage)
+        {
+            _storage = storage;
+            _data = _storage.Data;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDefinedMatrix"/> class. This matrix is square with a given size.
         /// </summary>
         /// <param name="order">the size of the square matrix.</param>
-        public UserDefinedMatrix(int order) : base(order, order)
+        public UserDefinedMatrix(int order)
+            : this(new UserDefinedMatrixStorage(order, order))
         {
-            _data = new Complex[order, order];
         }
 
         /// <summary>
@@ -54,18 +94,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// </summary>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The number of columns.</param>
-        public UserDefinedMatrix(int rows, int columns) : base(rows, columns)
+        public UserDefinedMatrix(int rows, int columns)
+            : this(new UserDefinedMatrixStorage(rows, columns))
         {
-            _data = new Complex[rows, columns];
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDefinedMatrix"/> class from a 2D array. 
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
-        public UserDefinedMatrix(Complex[,] data) : base(data.GetLength(0), data.GetLength(1))
+        public UserDefinedMatrix(Complex[,] data)
+            : this(new UserDefinedMatrixStorage(data.GetLength(0), data.GetLength(1), (Complex[,]) data.Clone()))
         {
-            _data = (Complex[,])data.Clone();
         }
 
         /// <summary>

@@ -31,6 +31,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using Distributions;
     using Generic;
     using Properties;
+    using Storage;
 
     /// <summary>
     /// <c>Complex</c> version of the <see cref="Matrix{T}"/> class.
@@ -47,18 +48,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="columns">
         /// The number of columns.
         /// </param>
-        protected Matrix(int rows, int columns) : base(rows, columns)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Matrix class.
-        /// </summary>
-        /// <param name="order">
-        /// The order of the matrix.
-        /// </param>
-        protected Matrix(int order)
-            : base(order)
+        protected Matrix(MatrixStorage<Complex> storage)
+            : base(storage)
         {
         }
 

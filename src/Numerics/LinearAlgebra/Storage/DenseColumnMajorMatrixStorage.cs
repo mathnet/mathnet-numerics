@@ -1,84 +1,31 @@
 ﻿using System;
 using MathNet.Numerics.Properties;
-using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    internal class DenseColumnMajorMatrixStorage<T> : IMatrixStorage<T>
+    internal class DenseColumnMajorMatrixStorage<T> : MatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
 
-        public readonly int RowCount;
-        public readonly int ColumnCount;
-
         public readonly T[] Data;
 
         internal DenseColumnMajorMatrixStorage(int rows, int columns)
+            : base(rows, columns)
         {
-            RowCount = rows;
-            ColumnCount = columns;
-
             Data = new T[rows * columns];
         }
 
         internal DenseColumnMajorMatrixStorage(int rows, int columns, T[] data)
+            : base(rows, columns)
         {
-            RowCount = rows;
-            ColumnCount = columns;
-
             Data = data;
-        }
-
-        /// <summary>
-        /// Gets or sets the value at the given row and column, with range checking.
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        /// <value>The value to get or set.</value>
-        /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,T)"/>
-        /// to get and set values without range checking.</remarks>
-        public T this[int row, int column]
-        {
-            get
-            {
-                if (row < 0 || row >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
-                return At(row, column);
-            }
-
-            set
-            {
-                if (row < 0 || row >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("row");
-                }
-
-                if (column < 0 || column >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("column");
-                }
-
-                At(row, column, value);
-            }
         }
 
         /// <summary>
         /// Retrieves the requested element without range checking.
         /// </summary>
-        public T At(int row, int column)
+        public override T At(int row, int column)
         {
             return Data[(column * RowCount) + row];
         }
@@ -86,17 +33,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <summary>
         /// Sets the element without range checking.
         /// </summary>
-        public void At(int row, int column, T value)
+        public override void At(int row, int column, T value)
         {
             Data[(column * RowCount) + row] = value;
         }
 
-        public void Clear()
+        public override void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
         }
 
-        public void CopyTo(IMatrixStorage<T> target, bool skipClearing = false)
+        public void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
@@ -178,16 +125,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 //Buffer.BlockCopy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
                 Array.Copy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount);
             }
-        }
-
-        int IMatrixStorage<T>.RowCount
-        {
-            get { return RowCount; }
-        }
-
-        int IMatrixStorage<T>.ColumnCount
-        {
-            get { return ColumnCount; }
         }
     }
 }
