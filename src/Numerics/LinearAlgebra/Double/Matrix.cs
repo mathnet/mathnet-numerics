@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra.Storage;
+
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
     using System;
@@ -40,24 +42,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Initializes a new instance of the Matrix class.
         /// </summary>
-        /// <param name="rows">
-        /// The number of rows.
-        /// </param>
-        /// <param name="columns">
-        /// The number of columns.
-        /// </param>
-        protected Matrix(int rows, int columns) : base(rows, columns)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Matrix class.
-        /// </summary>
-        /// <param name="order">
-        /// The order of the matrix.
-        /// </param>
-        protected Matrix(int order)
-            : base(order)
+        protected Matrix(MatrixStorage<double> storage)
+            : base(storage)
         {
         }
 

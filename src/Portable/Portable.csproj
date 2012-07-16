@@ -894,8 +894,8 @@
     <Compile Include="..\Numerics\LinearAlgebra\Storage\DenseColumnMajorMatrixStorage.cs">
       <Link>LinearAlgebra\Storage\DenseColumnMajorMatrixStorage.cs</Link>
     </Compile>
-    <Compile Include="..\Numerics\LinearAlgebra\Storage\IMatrixStorage.cs">
-      <Link>LinearAlgebra\Storage\IMatrixStorage.cs</Link>
+    <Compile Include="..\Numerics\LinearAlgebra\Storage\MatrixStorage.cs">
+      <Link>LinearAlgebra\Storage\MatrixStorage.cs</Link>
     </Compile>
     <Compile Include="..\Numerics\LinearAlgebra\Storage\SparseCompressedRowMatrixStorage.cs">
       <Link>LinearAlgebra\Storage\SparseCompressedRowMatrixStorage.cs</Link>
