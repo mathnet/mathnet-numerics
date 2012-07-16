@@ -1,9 +1,10 @@
 ﻿using System;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    internal class DenseColumnMajorMatrixStorage<T>
+    internal class DenseColumnMajorMatrixStorage<T> : IMatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
@@ -95,6 +96,42 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(Data, 0, Data.Length);
         }
 
+        public void CopyTo(IMatrixStorage<T> target, bool skipClearing = false)
+        {
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                CopyTo(denseTarget);
+                return;
+            }
+
+            // FALL BACK
+
+            if (ReferenceEquals(this, target))
+            {
+                return;
+            }
+
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            for (int j = 0, offset = 0; j < ColumnCount; j++, offset += RowCount)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    target.At(i, j, Data[i + offset]);
+                }
+            }
+        }
+
         public void CopyTo(DenseColumnMajorMatrixStorage<T> target)
         {
             if (ReferenceEquals(this, target))
@@ -141,6 +178,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 //Buffer.BlockCopy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
                 Array.Copy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount);
             }
+        }
+
+        int IMatrixStorage<T>.RowCount
+        {
+            get { return RowCount; }
+        }
+
+        int IMatrixStorage<T>.ColumnCount
+        {
+            get { return ColumnCount; }
         }
     }
 }
