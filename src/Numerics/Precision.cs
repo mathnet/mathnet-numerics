@@ -1254,7 +1254,7 @@ namespace MathNet.Numerics
                 return a == b;
             }
 
-            if (Math.Abs(a) < _doubleMachinePrecision || Math.Abs(b) < _doubleMachinePrecision)
+            if (Math.Abs(a) < _singleMachinePrecision || Math.Abs(b) < _singleMachinePrecision)
             {
                 return AlmostEqualWithAbsoluteDecimalPlaces(a, b, decimalPlaces);
             }
