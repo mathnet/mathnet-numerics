@@ -55,6 +55,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             get { return _storage.ValueCount; }
         }
 
+        internal SparseMatrix(SparseCompressedRowMatrixStorage<double> storage)
+            : base(storage.RowCount, storage.ColumnCount)
+        {
+            _storage = storage;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class.
         /// </summary>

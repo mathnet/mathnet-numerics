@@ -121,43 +121,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount)
         {
-            if (rowCount < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
-            }
-
-            if (columnCount < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
-            }
-
-            // Verify Source
-
-            if (sourceRowIndex >= RowCount || sourceRowIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("sourceRowIndex");
-            }
-
-            if (sourceColumnIndex >= ColumnCount || sourceColumnIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("sourceColumnIndex");
-            }
-
-            var sourceRowMax = sourceRowIndex + rowCount;
-            var sourceColumnMax = sourceColumnIndex + columnCount;
-
-            if (sourceRowMax > RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowCount");
-            }
-
-            if (sourceColumnMax > ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnCount");
-            }
-
-            // Verify Target
-
             if (target == null)
             {
                 throw new ArgumentNullException("target");
@@ -168,32 +131,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new NotSupportedException();
             }
 
-            if (targetRowIndex >= target.RowCount || targetRowIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("targetRowIndex");
-            }
+            ArgumentValidation.CopySubMatrixTo(RowCount, ColumnCount,
+                target.RowCount, target.ColumnCount,
+                sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount);
 
-            if (targetColumnIndex >= target.ColumnCount || targetColumnIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("targetColumnIndex");
-            }
-
-            var targetRowMax = targetRowIndex + rowCount;
-            var targetColumnMax = targetColumnIndex + columnCount;
-
-            if (targetRowMax > target.RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowCount");
-            }
-
-            if (targetColumnMax > target.ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnCount");
-            }
-
-            // Copy
-
-            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnMax; j++, jj++)
+            for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
             {
                 //Buffer.BlockCopy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount * System.Runtime.InteropServices.Marshal.SizeOf(typeof(T)));
                 Array.Copy(Data, j*RowCount + sourceRowIndex, target.Data, jj*target.RowCount + targetRowIndex, rowCount);

@@ -56,6 +56,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             get { return _storage.ValueCount; }
         }
 
+        internal SparseMatrix(SparseCompressedRowMatrixStorage<Complex> storage)
+            : base(storage.RowCount, storage.ColumnCount)
+        {
+            _storage = storage;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SparseMatrix"/> class.
         /// </summary>

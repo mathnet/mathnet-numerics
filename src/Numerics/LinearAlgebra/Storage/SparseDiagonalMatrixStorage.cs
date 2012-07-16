@@ -174,5 +174,113 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.Data[i*(target.RowCount + 1)] = Data[i];
             }
         }
+
+        public void CopySubMatrixTo(DenseColumnMajorMatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            ArgumentValidation.CopySubMatrixTo(RowCount, ColumnCount,
+                target.RowCount, target.ColumnCount,
+                sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount);
+
+            if (!skipClearing)
+            {
+                target.Clear();
+            }
+
+            if (sourceRowIndex > sourceColumnIndex && sourceColumnIndex + columnCount > sourceRowIndex)
+            {
+                // column by column, but skip resulting zero columns at the beginning
+
+                int columnInit = sourceRowIndex - sourceColumnIndex;
+                int offset = (columnInit + targetColumnIndex) * target.RowCount + targetRowIndex;
+                int step = target.RowCount + 1;
+                int end = Math.Min(columnCount - columnInit, rowCount) + sourceRowIndex;
+
+                for (int i = sourceRowIndex, j = offset; i < end; i++, j += step)
+                {
+                    target.Data[j] = Data[i];
+                }
+            }
+            else if (sourceRowIndex < sourceColumnIndex && sourceRowIndex + rowCount > sourceColumnIndex)
+            {
+                // row by row, but skip resulting zero rows at the beginning
+
+                int rowInit = sourceColumnIndex - sourceRowIndex;
+                int offset = targetColumnIndex*target.RowCount + rowInit + targetRowIndex;
+                int step = target.RowCount + 1;
+                int end = Math.Min(columnCount, rowCount - rowInit) + sourceColumnIndex;
+
+                for (int i = sourceColumnIndex, j = offset; i < end; i++, j += step)
+                {
+                    target.Data[j] = Data[i];
+                }
+            }
+            else
+            {
+                int offset = targetColumnIndex*target.RowCount + targetRowIndex;
+                int step = target.RowCount + 1;
+                var end = Math.Min(columnCount, rowCount) + sourceRowIndex;
+
+                for (int i = sourceRowIndex, j = offset; i < end; i++, j += step)
+                {
+                    target.Data[j] = Data[i];
+                }
+            }
+        }
+
+        public void CopySubMatrixTo(SparseCompressedRowMatrixStorage<T> target,
+            int sourceRowIndex, int targetRowIndex, int rowCount,
+            int sourceColumnIndex, int targetColumnIndex, int columnCount,
+            bool skipClearing = false)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            ArgumentValidation.CopySubMatrixTo(RowCount, ColumnCount,
+                target.RowCount, target.ColumnCount,
+                sourceRowIndex, targetRowIndex, rowCount,
+                sourceColumnIndex, targetColumnIndex, columnCount);
+
+            if (!skipClearing)
+            {
+                target.Clear();
+            }
+
+            if (sourceRowIndex > sourceColumnIndex && sourceColumnIndex + columnCount > sourceRowIndex)
+            {
+                // column by column, but skip resulting zero columns at the beginning
+                int columnInit = sourceRowIndex - sourceColumnIndex;
+                for (var i = 0; i < Math.Min(columnCount - columnInit, rowCount); i++)
+                {
+                    target.At(i + targetRowIndex, columnInit + i + targetColumnIndex, Data[sourceRowIndex + i]);
+                }
+            }
+            else if (sourceRowIndex < sourceColumnIndex && sourceRowIndex + rowCount > sourceColumnIndex)
+            {
+                // row by row, but skip resulting zero rows at the beginning
+                int rowInit = sourceColumnIndex - sourceRowIndex;
+                for (var i = 0; i < Math.Min(columnCount, rowCount - rowInit); i++)
+                {
+                    target.At(rowInit + i + targetRowIndex, i + targetColumnIndex, Data[sourceColumnIndex + i]);
+                }
+            }
+            else
+            {
+                for (var i = 0; i < Math.Min(columnCount, rowCount); i++)
+                {
+                    target.At(i + targetRowIndex, i + targetColumnIndex, Data[sourceRowIndex + i]);
+                }
+            }
+        }
     }
 }
