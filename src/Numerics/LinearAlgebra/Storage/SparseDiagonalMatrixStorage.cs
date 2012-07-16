@@ -3,7 +3,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    internal class SparseDiagonalMatrixStorage<T>
+    internal class SparseDiagonalMatrixStorage<T> : IMatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
@@ -103,6 +103,53 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
+        }
+
+        public void CopyTo(IMatrixStorage<T> target, bool skipClearing = false)
+        {
+            var diagonalTarget = target as SparseDiagonalMatrixStorage<T>;
+            if (diagonalTarget != null)
+            {
+                CopyTo(diagonalTarget);
+                return;
+            }
+
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                CopyTo(denseTarget, skipClearing);
+                return;
+            }
+
+            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
+            if (sparseTarget != null)
+            {
+                CopyTo(sparseTarget, skipClearing);
+                return;
+            }
+
+            // FALL BACK
+
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            if (!skipClearing)
+            {
+                target.Clear();
+            }
+
+            for (int i = 0; i < Data.Length; i++)
+            {
+                target.At(i, i, Data[i]);
+            }
         }
 
         public void CopyTo(SparseDiagonalMatrixStorage<T> target)
@@ -281,6 +328,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     target.At(i + targetRowIndex, i + targetColumnIndex, Data[sourceRowIndex + i]);
                 }
             }
+        }
+
+        int IMatrixStorage<T>.RowCount
+        {
+            get { return RowCount; }
+        }
+
+        int IMatrixStorage<T>.ColumnCount
+        {
+            get { return ColumnCount; }
         }
     }
 }

@@ -332,6 +332,7 @@
     <Compile Include="LinearAlgebra\Generic\Vector.cs" />
     <Compile Include="LinearAlgebra\Single\Vector.cs" />
     <Compile Include="LinearAlgebra\Storage\DenseColumnMajorMatrixStorage.cs" />
+    <Compile Include="LinearAlgebra\Storage\IMatrixStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\SparseCompressedRowMatrixStorage.cs" />
     <Compile Include="LinearAlgebra\Storage\SparseDiagonalMatrixStorage.cs" />
     <Compile Include="Permutation.cs" />

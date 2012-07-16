@@ -3,7 +3,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
-    internal class SparseCompressedRowMatrixStorage<T>
+    internal class SparseCompressedRowMatrixStorage<T> : IMatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
@@ -266,6 +266,54 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return delta;
         }
 
+        public void CopyTo(IMatrixStorage<T> target, bool skipClearing = false)
+        {
+            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
+            if (sparseTarget != null)
+            {
+                CopyTo(sparseTarget);
+                return;
+            }
+
+            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
+            if (denseTarget != null)
+            {
+                CopyTo(denseTarget, skipClearing);
+                return;
+            }
+
+            // FALL BACK
+
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            if (!skipClearing)
+            {
+                target.Clear();
+            }
+
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = row < RowPointers.Length - 1 ? RowPointers[row + 1] : ValueCount;
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        target.At(row, ColumnIndices[j], Values[j]);
+                    }
+                }
+            }
+        }
+
         public void CopyTo(SparseCompressedRowMatrixStorage<T> target)
         {
             if (ReferenceEquals(this, target))
@@ -326,6 +374,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     }
                 }
             }
+        }
+
+        int IMatrixStorage<T>.RowCount
+        {
+            get { return RowCount; }
+        }
+
+        int IMatrixStorage<T>.ColumnCount
+        {
+            get { return ColumnCount; }
         }
     }
 }
