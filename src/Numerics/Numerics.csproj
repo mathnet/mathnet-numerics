@@ -122,7 +122,7 @@
     <Compile Include="Distributions\Multivariate\InverseWishart.cs" />
     <Compile Include="Distributions\Multivariate\MatrixNormal.cs" />
     <Compile Include="Distributions\Multivariate\Wishart.cs" />
-    <Compile Include="LinearAlgebra\Storage\ArgumentValidation.cs" />
+    <Compile Include="LinearAlgebra\Storage\MatrixStorage.Validation.cs" />
     <Compile Include="LinearAlgebra\Complex32\ExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Complex32\Factorization\Cholesky.cs" />
     <Compile Include="LinearAlgebra\Complex32\DenseMatrix.cs" />

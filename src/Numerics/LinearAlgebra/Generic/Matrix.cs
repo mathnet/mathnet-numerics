@@ -24,8 +24,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Storage;
-
 namespace MathNet.Numerics.LinearAlgebra.Generic
 {
     using System;
@@ -35,6 +33,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
     using Factorization;
     using Numerics;
     using Properties;
+    using Storage;
     using Threading;
 
     /// <summary>
@@ -154,7 +153,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         /// <summary>
-        /// Gets or sets the value at the given row and column.
+        /// Gets or sets the value at the given row and column, with range checking.
         /// </summary>
         /// <param name="row">
         /// The row of the element.
@@ -165,19 +164,10 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <value>The value to get or set.</value>
         /// <remarks>This method is ranged checked. <see cref="At(int,int)"/> and <see cref="At(int,int,T)"/>
         /// to get and set values without range checking.</remarks>
-        public virtual T this[int row, int column]
+        public T this[int row, int column]
         {
-            get
-            {
-                RangeCheck(row, column);
-                return At(row, column);
-            }
-
-            set
-            {
-                RangeCheck(row, column);
-                At(row, column, value);
-            }
+            get { return Storage[row, column]; }
+            set { Storage[row, column] = value; }
         }
 
         /// <summary>
@@ -192,10 +182,13 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <returns>
         /// The requested element.
         /// </returns>
-        public abstract T At(int row, int column);
+        public T At(int row, int column)
+        {
+            return Storage.At(row, column);
+        }
 
         /// <summary>
-        /// Sets the value of the given element.
+        /// Sets the value of the given element without range checking.
         /// </summary>
         /// <param name="row">
         /// The row of the element.
@@ -206,7 +199,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="value">
         /// The value to set the element to.
         /// </param>
-        public abstract void At(int row, int column, T value);
+        public void At(int row, int column, T value)
+        {
+            Storage.At(row, column, value);
+        }
+
+        /// <summary>
+        /// Sets all values to zero.
+        /// </summary>
+        public void Clear()
+        {
+            Storage.Clear();
+        }
 
         /// <summary>
         /// Creates a clone of this instance.
@@ -1412,28 +1416,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
         #endregion
 
-        /// <summary>
-        /// Checks the range of the requested row, column. 
-        /// </summary>
-        /// <param name="row">
-        /// The row of the element.
-        /// </param>
-        /// <param name="column">
-        /// The column of the element.
-        /// </param>
-        private void RangeCheck(int row, int column)
-        {
-            if (row < 0 || row >= RowCount)
-            {
-                throw new ArgumentOutOfRangeException("row");
-            }
-
-            if (column < 0 || column >= ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("column");
-            }
-        }
-
         #region System.Object overrides
 
         /// <summary>
@@ -1474,20 +1456,6 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         }
 
         #endregion
-
-        /// <summary>
-        /// Sets all values to zero.
-        /// </summary>
-        public virtual void Clear()
-        {
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    At(i, j, default(T));
-                }
-            }
-        }
 
         /// <summary>
         /// Returns the transpose of this matrix.

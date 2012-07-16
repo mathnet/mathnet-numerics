@@ -180,8 +180,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException("target");
             }
 
-            ArgumentValidation.CopySubMatrixTo(RowCount, ColumnCount,
-                target.RowCount, target.ColumnCount,
+            ValidateSubMatrixRange(target,
                 sourceRowIndex, targetRowIndex, rowCount,
                 sourceColumnIndex, targetColumnIndex, columnCount);
 
@@ -241,8 +240,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException("target");
             }
 
-            ArgumentValidation.CopySubMatrixTo(RowCount, ColumnCount,
-                target.RowCount, target.ColumnCount,
+            ValidateSubMatrixRange(target,
                 sourceRowIndex, targetRowIndex, rowCount,
                 sourceColumnIndex, targetColumnIndex, columnCount);
 
