@@ -725,44 +725,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         #endregion
 
         /// <summary>
-        /// Copies the elements of this matrix to the given matrix.
-        /// </summary>
-        /// <param name="target">
-        /// The matrix to copy values into.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// If target is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If this and the target matrix do not have the same dimensions..
-        /// </exception>
-        public override void CopyTo(Matrix<Complex32> target)
-        {
-            var diagonalTarget = target as DiagonalMatrix;
-            if (diagonalTarget != null)
-            {
-                _storage.CopyTo(diagonalTarget.Raw);
-                return;
-            }
-
-            var denseTarget = target as DenseMatrix;
-            if (denseTarget != null)
-            {
-                _storage.CopyTo(denseTarget.Raw);
-                return;
-            }
-
-            var sparseTarget = target as SparseMatrix;
-            if (sparseTarget != null)
-            {
-                _storage.CopyTo(sparseTarget.Raw);
-                return;
-            }
-
-            base.CopyTo(target);
-        }
-
-        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>        
         /// <returns>The transpose of this matrix.</returns>

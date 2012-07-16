@@ -53,7 +53,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(Data, 0, Data.Length);
         }
 
-        public void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
+        /// <remarks>Parameters assumed to be validated already.</remarks>
+        public override void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
         {
             var diagonalTarget = target as SparseDiagonalMatrixStorage<T>;
             if (diagonalTarget != null)
@@ -77,17 +78,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             // FALL BACK
-
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
-            }
 
             if (!skipClearing)
             {

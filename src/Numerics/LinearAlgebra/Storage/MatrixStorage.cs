@@ -1,5 +1,6 @@
 ﻿using System;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
@@ -84,6 +85,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 for (var j = 0; j < ColumnCount; j++)
                 {
                     At(i, j, default(T));
+                }
+            }
+        }
+
+        /// <remarks>Parameters assumed to be validated already.</remarks>
+        public virtual void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
+        {
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < RowCount; i++)
+                {
+                    target.At(i, j, At(i, j));
                 }
             }
         }

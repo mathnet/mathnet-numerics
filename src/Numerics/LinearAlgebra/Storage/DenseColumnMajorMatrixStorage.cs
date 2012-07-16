@@ -43,7 +43,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Array.Clear(Data, 0, Data.Length);
         }
 
-        public void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
+        /// <remarks>Parameters assumed to be validated already.</remarks>
+        public override void CopyTo(MatrixStorage<T> target, bool skipClearing = false)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
@@ -54,22 +55,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             // FALL BACK
 
-            if (ReferenceEquals(this, target))
-            {
-                return;
-            }
-
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-
-            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
-            {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
-            }
-
             for (int j = 0, offset = 0; j < ColumnCount; j++, offset += RowCount)
             {
                 for (int i = 0; i < RowCount; i++)
@@ -78,6 +63,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
         }
+
 
         public void CopyTo(DenseColumnMajorMatrixStorage<T> target)
         {
