@@ -1168,68 +1168,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// is not positive.</exception>
         public override Matrix<double> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            if (rowIndex >= RowCount || rowIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
+            // TODO: if rowIndex == columnIndex, use a diagonal matrix instead of a sparse one
 
-            if (columnIndex >= ColumnCount || columnIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
-            if (rowCount < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
-            }
-
-            if (columnCount < 1)
-            {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
-            }
-
-            var colMax = columnIndex + columnCount;
-            var rowMax = rowIndex + rowCount;
-
-            if (rowMax > RowCount)
-            {
-                throw new ArgumentOutOfRangeException("rowCount");
-            }
-
-            if (colMax > ColumnCount)
-            {
-                throw new ArgumentOutOfRangeException("columnCount");
-            }
-
-            var result = new SparseMatrix(rowCount, columnCount);
-
-            if (rowIndex > columnIndex && columnIndex + columnCount > rowIndex)
-            {
-                int columnInit = rowIndex - columnIndex;
-                int end = Math.Min(columnCount, rowCount + columnInit);
-                for (var i = 0; columnInit + i < end; i++)
-                {
-                    result[i, columnInit + i] = _data[rowIndex + i];
-                }
-            }
-            else if (rowIndex < columnIndex && rowIndex + rowCount > columnIndex)
-            {
-                int rowInit = columnIndex - rowIndex;
-                int end = Math.Min(columnCount + rowInit, rowCount);
-                for (var i = 0; rowInit + i < end; i++)
-                {
-                    result[rowInit + i, i] = _data[columnIndex + i];
-                }
-            }
-            else
-            {
-                for (var i = 0; i < Math.Min(columnCount, rowCount); i++)
-                {
-                    result[i, i] = _data[rowIndex + i];
-                }
-            }
-
-            return result;
+            var storage = new SparseCompressedRowMatrixStorage<double>(rowCount, columnCount, 0d);
+            _storage.CopySubMatrixTo(storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, true);
+            return new SparseMatrix(storage);
         }
 
         /// <summary>
