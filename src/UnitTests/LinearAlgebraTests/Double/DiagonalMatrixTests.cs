@@ -665,5 +665,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var subM3 = diagMatrix.SubMatrix(0, 3, 1, 2);
             Assert.IsTrue(subM3.Equals(new DenseMatrix(3, 2, new[] { 0d, 2d, 0d, 0d, 0d, 3d })));
         }
+
+        [Test]
+        public void DiagonalDenseMatrixMultiplication_IssueCP5706()
+        {
+            Matrix<double> diagonal = DiagonalMatrix.Identity(3);
+            Matrix<double> dense = new DenseMatrix(new double[,] { { 1, 2, 3 }, { 1, 2, 3 }, { 1, 2, 3 } });
+            var test = diagonal * dense;
+            var test2 = dense * diagonal;
+        }
     }
 }
