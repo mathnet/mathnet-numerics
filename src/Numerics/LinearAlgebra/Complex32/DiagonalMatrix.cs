@@ -612,13 +612,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw DimensionsDontMatch<ArgumentException>(this, other);
             }
 
-            var m = other as DiagonalMatrix;
-            if (m == null)
-            {
-                return base.Multiply(other);
-            }
-
-            var result = (DiagonalMatrix)CreateMatrix(RowCount, other.ColumnCount);
+            var result = other.CreateMatrix(RowCount, other.ColumnCount);
             Multiply(other, result);
             return result;
         }
@@ -793,7 +787,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw DimensionsDontMatch<ArgumentException>(this, otherDiagonal);
             }
 
-            var result = (DiagonalMatrix)CreateMatrix(RowCount, other.RowCount);
+            var result = other.CreateMatrix(RowCount, other.RowCount);
             TransposeAndMultiply(other, result);
             return result;
         }
