@@ -718,9 +718,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
-                var ar = matrix.Column(j);
-                var dot = ar * x;
-                Assert.AreEqual(dot, y[j]);
+                AssertHelpers.AlmostEqual(matrix.Column(j) * x, y[j], 6);
             }
         }
 
@@ -737,9 +735,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
-                var ar = matrix.Column(j);
-                var dot = ar * x;
-                Assert.AreEqual(dot, y[j]);
+                AssertHelpers.AlmostEqual(matrix.Column(j) * x, y[j], 6);
             }
         }
 
@@ -759,9 +755,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             y = new DenseVector(new[] { 1.0f, 2.0f, 3.0f });
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
-                var ar = matrix.Column(j);
-                var dot = ar * y;
-                Assert.AreEqual(dot, x[j]);
+                AssertHelpers.AlmostEqual(matrix.Column(j) * y, x[j], 6);
             }
         }
 
