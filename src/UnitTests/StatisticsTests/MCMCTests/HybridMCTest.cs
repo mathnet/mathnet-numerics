@@ -133,29 +133,18 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 
         /// <summary>
         /// Test the sampler using  a bivariate normal distribution with randomly selected mean and standard deviation.
-        /// It is a statistical test and may not pass all the time. 
+        /// It is a statistical test and may not pass all the time. Note that Sdv and rho have to be between 0 and 1.
         /// </summary>
-        [Test]
-        public void SampleTest()
+        [TestCase(new double[2]{0.8,0.2}, new double[2]{3.2,-4.6}, 0.77,1000)]
+        [TestCase(new double[2] { 0.5, 0.1 }, new double[2] { -2.2, -1.3 }, 0.29, 1000)]
+        [TestCase(new double[2] { 0.45, 0.78 }, new double[2] { 1.34, -3.3 }, 0.58, 1000)]
+        public void SampleTest(double[] Sdv, double[] Mean, double rho, int seed)
         {
-
-            //Variances and Means
-            double[] Sdv = new double[2];
-            double[] Mean = new double[2];
-            for (int i = 0; i < 2; i++)
-            {
-                Sdv[i] = RandomVar();
-                Mean[i] = 5 * rnd.NextDouble();
-
-            }
-
-            //Cross Variance
-            double rho = 1.0 - RandomVar();
 
             DensityLn<double[]> pdfLn = new DensityLn<double[]>(x => LogDen(x, Sdv, Mean, rho));
 
 
-            HybridMC Hybrid = new HybridMC(new double[2] { 0, 0 }, pdfLn, 10, 0.1, 1000);
+            HybridMC Hybrid = new HybridMC(new double[2] { 0, 0 }, pdfLn, 10, 0.1, 1000,new double[2]{1,1},new System.Random(seed));
 
             Hybrid.BurnInterval = 0;
 
@@ -192,18 +181,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         }
 
         #region Helper Methods
-        /// <summary>
-        /// Generator for standard deviations and means used in SampleTest.
-        /// </summary>
-        /// <returns>A random number between 0.1 and 1.</returns>
-        private double RandomVar()
-        {
-            double Var = 0;
-            while (Var <= 0.1)
-            { Var = rnd.NextDouble(); }
-            return Var;
-        }
-
+       
         /// <summary>
         /// The log density of the bivariate normal distribution used in SampleTest.
         /// </summary>

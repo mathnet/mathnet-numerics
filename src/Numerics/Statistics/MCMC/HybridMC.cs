@@ -115,7 +115,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval) :
-            this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Count()], new DiffMethod(HybridMC.Grad))
+            this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Count()], new System.Random(), new DiffMethod(HybridMC.Grad))
         {
             for (int i = 0; i < Length; i++)
             { mpSdv[i] = 1; }
@@ -137,16 +137,15 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// the components of the momentum.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv) :
-            this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, new DiffMethod(HybridMC.Grad))
+            this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, new System.Random())
         { }
-
 
         /// <summary>
         /// Constructs a new Hybrid Monte Carlo sampler for a multivariate probability distribution. 
-        /// The components of the momentum will be sampled from a normal distribution with standard deviations
-        /// given by pSdv using the default <see cref="System.Random"/> random 
-        /// number generator.  This constructor will set both the burn interval and the method used for 
-        /// numerical differentiation.
+        /// The components of the momentum will be sampled from a normal distribution with standard deviation
+        /// specified by pSdv using the a random number generator provided by the user. 
+        /// A three point estimation will be used for differentiation. 
+        /// This constructor will set the burn interval.
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
@@ -155,11 +154,33 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <param name="pSdv">The standard deviations of the normal distributions that are used to sample 
         /// the components of the momentum.</param>
+        /// <param name="randomSource">Random number generator used for sampling the momentum.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
+        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, System.Random randomSource) :
+            this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, pSdv, randomSource, new DiffMethod(HybridMC.Grad))
+        { }
+
+
+
+        /// <summary>
+        /// Constructs a new Hybrid Monte Carlo sampler for a multivariate probability distribution. 
+        /// The components of the momentum will be sampled from a normal distribution with standard deviations
+        /// given by pSdv. This constructor will set the burn interval, the method used for 
+        /// numerical differentiation and the random number generator.
+        /// </summary>
+        /// <param name="x0">The initial sample.</param>
+        /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
+        /// <param name="frogLeapSteps">Number frogleap simulation steps.</param>
+        /// <param name="stepSize">Size of the frogleap simulation steps.</param>
+        /// <param name="burnInterval">The number of iterations in between returning samples.</param>
+        /// <param name="pSdv">The standard deviations of the normal distributions that are used to sample 
+        /// the components of the momentum.</param>
+        /// <param name="randomSource">Random number generator used for sampling the momentum.</param>
         /// <param name="diff">The method used for numerical differentiation.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         /// <exception cref="ArgumentOutOfRangeException">When the length of pSdv is not the same as x0.</exception>
-        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, DiffMethod diff)
-            : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, diff)
+        public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, System.Random randomSource, DiffMethod diff)
+            : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff)
         {
             Length = x0.Count();
             MomentumStdDev = pSdv;
@@ -169,6 +190,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
             Burn(BurnInterval);
 
         }
+
+
 
         #endregion
 

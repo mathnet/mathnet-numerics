@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
 {
     using Distributions;
     using Properties;
-    
+
     /// <summary>
     /// The Hybrid (also called Hamiltonian) Monte Carlo produces samples from distribition P using a set  
     /// of Hamiltonian equations to guide the sampling process. It uses the negative of the log density as 
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         protected T mCurrent;
 
 
-         /// <summary>
+        /// <summary>
         /// The number of burn iterations between two samples.
         /// </summary>
         protected int mBurnInterval;
@@ -105,8 +105,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
 
             set
             {
-                 mBurnInterval = SetNonNegative(value); 
-                
+                mBurnInterval = SetNonNegative(value);
+
             }
         }
 
@@ -119,7 +119,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
             get { return mfrogLeapSteps; }
 
             set
-            {    mfrogLeapSteps = SetPositive(value); 
+            {
+                mfrogLeapSteps = SetPositive(value);
             }
         }
 
@@ -128,10 +129,11 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">When step size is negative or zero.</exception>
         public double StepSize
-        { get { return mstepSize; }
+        {
+            get { return mstepSize; }
             set
             {
-                 mstepSize = SetPositive(value); 
+                mstepSize = SetPositive(value);
             }
         }
 
@@ -147,18 +149,19 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="frogLeapSteps">Number frogleap simulation steps.</param>
         /// <param name="stepSize">Size of the frogleap simulation steps.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
+        /// <param name="randomSource">Random number generator used for sampling the momentum.</param>
         /// <param name="diff">The method used for differentiation.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         /// <exception cref="ArgumentNullException">When either x0, pdfLnP or diff is null.</exception>
-        public HybridMCGeneric(T x0, DensityLn<T> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, DiffMethod diff)
+        public HybridMCGeneric(T x0, DensityLn<T> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, System.Random randomSource, DiffMethod diff)
         {
-            Energy = new DensityLn<T>(x=>-pdfLnP(x));
+            Energy = new DensityLn<T>(x => -pdfLnP(x));
             FrogLeapSteps = frogLeapSteps;
             StepSize = stepSize;
             BurnInterval = burnInterval;
-            mCurrent = x0;            
+            mCurrent = x0;
             Diff = diff;
-
+            RandomSource = randomSource;
         }
 
         #endregion
@@ -256,7 +259,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="factor">Scalar factor multiplying by the second vector/scalar.</param>
         /// <param name="second">Second vector/scalar.</param>
         abstract protected void DoAdd(ref T first, double factor, T second);
-        
+
         /// <summary>
         /// Multiplying the second vector/scalar by factor and then subtract it from 
         /// the first vector/scalar.
@@ -285,7 +288,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             DoAdd(ref mNew, mstepSize, p);
             gNew = Diff(Energy, mNew);
             DoSubtract(ref p, mstepSize / 2, gNew);
-        
+
         }
 
         /// <summary>
@@ -339,7 +342,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutofRangeException">Throws when value is negative or zero.</exception>
         protected int SetPositive(int value)
         {
-            if (value <=0)
+            if (value <= 0)
             {
                 throw new ArgumentOutOfRangeException(Resources.ArgumentNotNegative);
             }

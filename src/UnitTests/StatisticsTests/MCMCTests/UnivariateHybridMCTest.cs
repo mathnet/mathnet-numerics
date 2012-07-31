@@ -55,10 +55,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         /// </summary>
         private Normal normal = new Normal(0.0, 1.0);
 
-        /// <summary>
-        ///Random number generator to be used in the test.
-        /// </summary>
-        private MersenneTwister rnd = new MersenneTwister();
 
         /// <summary>
         /// Testing the constructor to make sure that RandomSource is 
@@ -130,19 +126,18 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
         /// Test the sampler using normal distribution with randomly selected mean and standard deviation.
         /// It is a statistical test and may not pass all the time. 
         /// </summary>
-        [Test]
-        public void SampleTest()
+        [TestCase(-4.987, 3.3, 1000)]
+        [TestCase(3.987, 1.2, 1000)]
+        [TestCase(-2.987, 4.3, 1000)]
+        public void SampleTest(double Mean, double Sdv, int seed)
         {
-            double Mean = 5 * rnd.NextDouble();
-            double Sdv = 5 * rnd.NextDouble();
 
             Normal dis = new Normal(Mean, Sdv);
-            UnivariateHybridMC Hybrid = new UnivariateHybridMC(0, dis.DensityLn, 10, 0.1, 1000);
+            UnivariateHybridMC Hybrid = new UnivariateHybridMC(0, dis.DensityLn, 10, 0.1, 1000, 1, new System.Random(seed));
             Hybrid.BurnInterval = 0;
-
             double[] Sample = Hybrid.Sample(10000);
 
-            double Effective = MCMCDiagnostics.EffectiveSize(Sample,x=>x);
+            double Effective = MCMCDiagnostics.EffectiveSize(Sample, x => x);
 
             DescriptiveStatistics Stats = new DescriptiveStatistics(Sample);
 
@@ -155,7 +150,6 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 
             //Approximating chi-square with normal distribution. (Degree of freedom is large)
             double DeviationConvergence = 3 * Math.Sqrt(2) / Math.Sqrt(Effective);
-
             Assert.AreEqual(DeviationRation, 1, DeviationConvergence, "Standard Deivation");
         }
     }
