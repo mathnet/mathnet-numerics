@@ -623,17 +623,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             var values = _storage.Values;
             var hashNum = Math.Min(_storage.ValueCount, 25);
-            long hash = 0;
-            for (var i = 0; i < hashNum; i++)
+            int hash = 17;
+            unchecked
             {
-#if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(values[i].Magnitude);
-#else
-                hash ^= BitConverter.DoubleToInt64Bits(values[i].Magnitude);
-#endif
+                for (var i = 0; i < hashNum; i++)
+                {
+                    hash = hash*31 + values[i].GetHashCode();
+                }
             }
-
-            return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
+            return hash;
         }
 
         /// <summary>

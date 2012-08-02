@@ -197,6 +197,7 @@
     <Compile Include="LinearAlgebraTests\Complex32\MatrixLoader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex32\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\MatrixTests.Arithmetic.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -344,6 +345,7 @@
     <Compile Include="LinearAlgebraTests\Complex\MatrixLoader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Complex\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex\MatrixTests.Arithmetic.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -427,6 +429,7 @@
     <Compile Include="LinearAlgebraTests\Complex\VectorTests.Norm.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Double\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseMatrixTests.cs">
       <SubType>Code</SubType>
@@ -573,6 +576,7 @@
     <Compile Include="LinearAlgebraTests\Double\VectorTests.Norm.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -637,6 +641,7 @@
     <Compile Include="LinearAlgebraTests\Single\MatrixLoader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\Single\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Single\MatrixTests.Arithmetic.cs">
       <SubType>Code</SubType>
     </Compile>
