@@ -220,17 +220,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public override int GetHashCode()
         {
             var hashNum = Math.Min(_data.Length, 25);
-            long hash = 0;
-            for (var i = 0; i < hashNum; i++)
+            int hash = 17;
+            unchecked
             {
-#if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(_data[i].GetHashCode());
-#else
-                hash ^= BitConverter.DoubleToInt64Bits(_data[i].GetHashCode());
-#endif
+                for (var i = 0; i < hashNum; i++)
+                {
+                    hash = hash*31 + _data[i].GetHashCode();
+                }
             }
-
-            return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
+            return hash;
         }
 
         #region Elementary operations

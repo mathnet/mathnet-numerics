@@ -1430,21 +1430,18 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// </returns>
         public override int GetHashCode()
         {
-            var hashNum = Math.Min(RowCount * ColumnCount, 25);
-            long hash = 0;
-            for (var i = 0; i < hashNum; i++)
+            var hashNum = Math.Min(RowCount*ColumnCount, 25);
+            int hash = 17;
+            unchecked
             {
-                var col = i % ColumnCount;
-                var row = (i - col) / RowCount;
-
-#if PORTABLE
-                hash ^= Precision.DoubleToInt64Bits(this[row, col].GetHashCode());
-#else
-                hash ^= BitConverter.DoubleToInt64Bits(this[row, col].GetHashCode());
-#endif
+                for (var i = 0; i < hashNum; i++)
+                {
+                    var col = i%ColumnCount;
+                    var row = (i - col)/RowCount;
+                    hash = hash*31 + this[row, col].GetHashCode();
+                }
             }
-
-            return BitConverter.ToInt32(BitConverter.GetBytes(hash), 4);
+            return hash;
         }
 
         #endregion
