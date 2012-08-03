@@ -126,16 +126,25 @@
         }
 
         [Theory, Timeout(200)]
-        public void CanGetRow(Matrix<T> matrix, [Values(0, 1, 1000)]int rowIndex)
+        public void CanGetRow(Matrix<T> matrix)
         {
-            var actualRow = Math.Min(rowIndex, matrix.RowCount - 1);
-            var row = matrix.Row(actualRow);
-            Assert.That(row.Count, Is.EqualTo(matrix.ColumnCount));
+            // First Row
+            var firstrow = matrix.Row(0);
+            Assert.That(firstrow.Count, Is.EqualTo(matrix.ColumnCount));
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
-                Assert.AreEqual(matrix[actualRow, j], row[j]);
+                Assert.AreEqual(matrix[0, j], firstrow[j]);
             }
 
+            // Last Row
+            var lastrow = matrix.Row(matrix.RowCount - 1);
+            Assert.That(lastrow.Count, Is.EqualTo(matrix.ColumnCount));
+            for (var j = 0; j < matrix.ColumnCount; j++)
+            {
+                Assert.AreEqual(matrix[matrix.RowCount - 1, j], lastrow[j]);
+            }
+
+            // Invalid Rows
             Assert.That(() => { matrix.Row(-1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => { matrix.Row(matrix.RowCount); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
@@ -155,5 +164,58 @@
             Assert.That(() => matrix.Row(-1, row), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.Row(matrix.RowCount, row), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
+
+        [Theory, Timeout(200)]
+        public virtual void CanGetRowWithRange(Matrix<T> matrix)
+        {
+            // First Row, Columns 0..1
+            var firstrow = matrix.Row(0, 0, 2);
+            Assert.That(firstrow.Count, Is.EqualTo(2));
+            for (var j = 0; j < 2; j++)
+            {
+                Assert.AreEqual(matrix[0, j], firstrow[j]);
+            }
+
+            // Second Row, Full Columns
+            var secondrow = matrix.Row(1, 0, matrix.ColumnCount);
+            Assert.That(secondrow.Count, Is.EqualTo(matrix.ColumnCount));
+            for (var j = 0; j < matrix.ColumnCount; j++)
+            {
+                Assert.AreEqual(matrix[1, j], secondrow[j]);
+            }
+
+            // Last Row, Columns 1
+            var lastrow = matrix.Row(matrix.RowCount - 1, 1, 1);
+            Assert.That(lastrow.Count, Is.EqualTo(1));
+            for (var j = 0; j < 1; j++)
+            {
+                Assert.AreEqual(matrix[matrix.RowCount - 1, j + 1], lastrow[j]);
+            }
+
+            // Invalid Rows
+            Assert.That(() => { matrix.Row(-1, 0, 2); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Row(matrix.RowCount, 0, 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Row(0, -1, 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Row(0, 1, 0); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Row(0, 0, matrix.ColumnCount + 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetRowWithRangeIntoResult(Matrix<T> matrix)
+        {
+            var row = CreateVector(matrix.ColumnCount - 1);
+            matrix.Row(0, 1, matrix.ColumnCount - 1, row);
+
+            for (var j = 0; j < matrix.ColumnCount - 1; j++)
+            {
+                Assert.AreEqual(matrix[0, j + 1], row[j]);
+            }
+
+            Assert.That(() => matrix.Row(0, 0, matrix.ColumnCount - 1, null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.Row(-1, 0, matrix.ColumnCount - 1, row), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(matrix.RowCount, 0, matrix.ColumnCount - 1, row), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(0, 0, matrix.ColumnCount, row), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
     }
 }

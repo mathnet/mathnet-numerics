@@ -66,14 +66,14 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <param name="size">
         /// The size of the <strong>Vector</strong> to construct.
         /// </param>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="ArgumentOutOfRangeException">
         /// If <paramref name="size"/> is less than one.
         /// </exception>
         protected Vector(int size)
         {
             if (size < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "size");
+                throw new ArgumentOutOfRangeException("size", Resources.ArgumentMustBePositive);
             }
 
             Count = size;
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <summary>Gets or sets the value at the given <paramref name="index"/>.</summary>
         /// <param name="index">The index of the value to get or set.</param>
         /// <returns>The value of the vector at the given <paramref name="index"/>.</returns> 
-        /// <exception cref="IndexOutOfRangeException">If <paramref name="index"/> is negative or 
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="index"/> is negative or 
         /// greater than the size of the vector.</exception>
         public virtual T this[int index]
         {
