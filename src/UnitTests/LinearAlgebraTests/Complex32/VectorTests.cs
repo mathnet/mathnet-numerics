@@ -202,13 +202,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         }
 
         /// <summary>
-        /// <c>CreateVector</c> throws <c>ArgumentException</c> if size is not positive.
+        /// <c>CreateVector</c> throws <c>ArgumentOutOfRangeException</c> if size is not positive.
         /// </summary>
         [Test]
-        public void SizeIsNotPositiveThrowsArgumentException()
+        public void SizeIsNotPositiveThrowsArgumentOutOfRangeException()
         {
-            Assert.Throws<ArgumentException>(() => CreateVector(-1));
-            Assert.Throws<ArgumentException>(() => CreateVector(0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => CreateVector(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => CreateVector(0));
         }
 
         /// <summary>

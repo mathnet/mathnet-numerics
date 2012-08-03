@@ -217,5 +217,96 @@
             Assert.That(() => matrix.Row(0, 0, matrix.ColumnCount, row), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
+        [Theory, Timeout(200)]
+        public void CanGetColumn(Matrix<T> matrix)
+        {
+            // First Column
+            var firstcol = matrix.Column(0);
+            Assert.That(firstcol.Count, Is.EqualTo(matrix.RowCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                Assert.AreEqual(matrix[i, 0], firstcol[i]);
+            }
+
+            // Last Column
+            var lastcol = matrix.Column(matrix.ColumnCount - 1);
+            Assert.That(lastcol.Count, Is.EqualTo(matrix.RowCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                Assert.AreEqual(matrix[i, matrix.ColumnCount - 1], lastcol[i]);
+            }
+
+            // Invalid Columns
+            Assert.That(() => { matrix.Column(-1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Column(matrix.ColumnCount); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetColumnIntoResult(Matrix<T> matrix)
+        {
+            var col = CreateVector(matrix.RowCount);
+            matrix.Column(0, col);
+
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                Assert.AreEqual(matrix[i, 0], col[i]);
+            }
+
+            Assert.That(() => matrix.Column(0, null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.Column(-1, col), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(matrix.ColumnCount, col), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Theory, Timeout(200)]
+        public virtual void CanGetColumnWithRange(Matrix<T> matrix)
+        {
+            // First Column, Rows 0..1
+            var firstcol = matrix.Column(0, 0, 2);
+            Assert.That(firstcol.Count, Is.EqualTo(2));
+            for (var i = 0; i < 2; i++)
+            {
+                Assert.AreEqual(matrix[i, 0], firstcol[i]);
+            }
+
+            // Second Column, Full Rows
+            var secondcol = matrix.Column(1, 0, matrix.RowCount);
+            Assert.That(secondcol.Count, Is.EqualTo(matrix.RowCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                Assert.AreEqual(matrix[i, 1], secondcol[i]);
+            }
+
+            // Last Column, Rows 1
+            var lastcol = matrix.Column(matrix.ColumnCount - 1, 1, 1);
+            Assert.That(lastcol.Count, Is.EqualTo(1));
+            for (var i = 0; i < 1; i++)
+            {
+                Assert.AreEqual(matrix[i + 1, matrix.ColumnCount - 1], lastcol[i]);
+            }
+
+            // Invalid Rows
+            Assert.That(() => { matrix.Column(-1, 0, 2); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Column(matrix.ColumnCount, 0, 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Column(0, -1, 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Column(0, 1, 0); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => { matrix.Column(0, 0, matrix.RowCount + 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetColumnWithRangeIntoResult(Matrix<T> matrix)
+        {
+            var col = CreateVector(matrix.RowCount - 1);
+            matrix.Column(0, 1, matrix.RowCount - 1, col);
+
+            for (var i = 0; i < matrix.RowCount - 1; i++)
+            {
+                Assert.AreEqual(matrix[i + 1, 0], col[i]);
+            }
+
+            Assert.That(() => matrix.Column(0, 0, matrix.RowCount - 1, null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.Column(-1, 0, matrix.RowCount - 1, col), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(matrix.ColumnCount, 0, matrix.ColumnCount - 1, col), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(0, 0, matrix.RowCount, col), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        }
     }
 }
