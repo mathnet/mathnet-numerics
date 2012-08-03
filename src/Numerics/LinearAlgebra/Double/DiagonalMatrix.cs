@@ -741,7 +741,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of rows.</exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> + <paramref name="length"/>  
         /// is greater than or equal to the number of rows.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
         public override void Column(int columnIndex, int rowIndex, int length, Vector<double> result)
         {
@@ -767,12 +767,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (length < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
+                throw new ArgumentOutOfRangeException("length", Resources.ArgumentMustBePositive);
             }
 
             if (result.Count < length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+                throw new ArgumentOutOfRangeException("result", Resources.ArgumentVectorsSameLength);
             }
 
             // Clear the result and copy the diagonal entry.
@@ -797,7 +797,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// or greater than or equal to the number of rows.</exception>        
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> + <paramref name="length"/>  
         /// is greater than or equal to the number of rows.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="length"/> is not positive.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is not positive.</exception>
         /// <exception cref="ArgumentOutOfRangeException">If <strong>result.Count &lt; length</strong>.</exception>
         public override void Row(int rowIndex, int columnIndex, int length, Vector<double> result)
         {
@@ -823,12 +823,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (length < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "length");
+                throw new ArgumentOutOfRangeException("length", Resources.ArgumentMustBePositive);
             }
 
             if (result.Count < length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+                throw new ArgumentOutOfRangeException("result", Resources.ArgumentVectorsSameLength);
             }
 
             // Clear the result and copy the diagonal entry.

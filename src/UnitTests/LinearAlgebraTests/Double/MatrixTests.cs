@@ -36,40 +36,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     public abstract partial class MatrixTests : MatrixLoader
     {
         /// <summary>
-        /// Can get a row at specific start position and length of a matrix into a vector.
-        /// </summary>
-        /// <param name="rowIndex">Row index.</param>
-        /// <param name="start">Column start.</param>
-        /// <param name="length">Row length.</param>
-        /// <param name="name">Matrix name.</param>
-        [TestCase(0, 0, 1, "Singular3x3")]
-        [TestCase(1, 1, 2, "Singular3x3")]
-        [TestCase(2, 0, 3, "Singular3x3")]
-        [TestCase(2, 0, 3, "Square3x3")]
-        public void CanGetRowWithRange(int rowIndex, int start, int length, string name)
-        {
-            var matrix = TestMatrices[name];
-            var row = matrix.Row(rowIndex, start, length);
-
-            Assert.AreEqual(length, row.Count);
-            for (var j = start; j < start + length; j++)
-            {
-                Assert.AreEqual(matrix[rowIndex, j], row[j - start]);
-            }
-        }
-
-        /// <summary>
-        /// Get a row of a matrix at specific start position and zero length throws <c>ArgumentException</c>.
-        /// </summary>
-        [Test]
-        public void GetRowWithRangeIntoResultWhenLengthIsZeroThrowsArgumentException()
-        {
-            var matrix = TestMatrices["Singular3x3"];
-            var result = CreateVector(matrix.ColumnCount);
-            Assert.Throws<ArgumentException>(() => matrix.Row(0, 0, 0, result));
-        }
-
-        /// <summary>
         /// Get a row at specific start position and length of a matrix into a too small vector throws <c>ArgumentException</c>.
         /// </summary>
         [Test]
