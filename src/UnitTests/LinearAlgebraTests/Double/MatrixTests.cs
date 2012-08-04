@@ -26,8 +26,6 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using System;
-    using LinearAlgebra.Generic;
     using NUnit.Framework;
 
     /// <summary>
@@ -57,70 +55,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j], transpose[j, i]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Can convert a matrix to a multidimensional array.
-        /// </summary>
-        [Test]
-        public void CanToArray()
-        {
-            foreach (var data in TestMatrices.Values)
-            {
-                var array = data.ToArray();
-                Assert.AreEqual(data.RowCount, array.GetLength(0));
-                Assert.AreEqual(data.ColumnCount, array.GetLength(1));
-
-                for (var i = 0; i < data.RowCount; i++)
-                {
-                    for (var j = 0; j < data.ColumnCount; j++)
-                    {
-                        Assert.AreEqual(data[i, j], array[i, j]);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Can convert a matrix to a column-wise array.
-        /// </summary>
-        [Test]
-        public void CanToColumnWiseArray()
-        {
-            foreach (var data in TestMatrices.Values)
-            {
-                var array = data.ToColumnWiseArray();
-                Assert.AreEqual(data.RowCount * data.ColumnCount, array.Length);
-
-                for (var i = 0; i < data.RowCount; i++)
-                {
-                    for (var j = 0; j < data.ColumnCount; j++)
-                    {
-                        Assert.AreEqual(data[i, j], array[(j * data.RowCount) + i]);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Can convert a matrix to a row-wise array.
-        /// </summary>
-        [Test]
-        public void CanToRowWiseArray()
-        {
-            foreach (var data in TestMatrices.Values)
-            {
-                var array = data.ToRowWiseArray();
-                Assert.AreEqual(data.RowCount * data.ColumnCount, array.Length);
-
-                for (var i = 0; i < data.RowCount; i++)
-                {
-                    for (var j = 0; j < data.ColumnCount; j++)
-                    {
-                        Assert.AreEqual(data[i, j], array[(i * data.ColumnCount) + j]);
-                    }
                 }
             }
         }
@@ -189,71 +123,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Test whether the index enumerator returns the correct values.
-        /// </summary>
-        [Test]
-        public virtual void CanUseIndexedEnumerator()
-        {
-            var matrix = TestMatrices["Singular3x3"];
-            using (var enumerator = matrix.IndexedEnumerator().GetEnumerator())
-            {
-                enumerator.MoveNext();
-                var item = enumerator.Current;
-                Assert.AreEqual(0, item.Item1);
-                Assert.AreEqual(0, item.Item2);
-                Assert.AreEqual(1.0, item.Item3);
-
-                enumerator.MoveNext();
-                item = enumerator.Current;
-                Assert.AreEqual(0, item.Item1);
-                Assert.AreEqual(1, item.Item2);
-                Assert.AreEqual(1.0, item.Item3);
-
-                enumerator.MoveNext();
-                item = enumerator.Current;
-                Assert.AreEqual(0, item.Item1);
-                Assert.AreEqual(2, item.Item2);
-                Assert.AreEqual(2.0, item.Item3);
-
-                enumerator.MoveNext();
-                item = enumerator.Current;
-                Assert.AreEqual(1, item.Item1);
-                Assert.AreEqual(0, item.Item2);
-                Assert.AreEqual(1.0, item.Item3);
-
-                enumerator.MoveNext();
-                item = enumerator.Current;
-                Assert.AreEqual(1, item.Item1);
-                Assert.AreEqual(1, item.Item2);
-                Assert.AreEqual(1.0, item.Item3);
-
-                enumerator.MoveNext();
-                item = enumerator.Current;
-                Assert.AreEqual(1, item.Item1);
-                Assert.AreEqual(2, item.Item2);
-                Assert.AreEqual(2.0, item.Item3);
-
-                enumerator.MoveNext();
-                item = enumerator.Current;
-                Assert.AreEqual(2, item.Item1);
-                Assert.AreEqual(0, item.Item2);
-                Assert.AreEqual(1.0, item.Item3);
-
-                enumerator.MoveNext();
-                item = enumerator.Current;
-                Assert.AreEqual(2, item.Item1);
-                Assert.AreEqual(1, item.Item2);
-                Assert.AreEqual(1.0, item.Item3);
-
-                enumerator.MoveNext();
-                item = enumerator.Current;
-                Assert.AreEqual(2, item.Item1);
-                Assert.AreEqual(2, item.Item2);
-                Assert.AreEqual(2.0, item.Item3);
-            }
-        }
-
-        /// <summary>
         /// Can check if a matrix is symmetric.
         /// </summary>
         [Test]
@@ -264,72 +133,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             matrix = TestMatrices["Square3x3"];
             Assert.IsFalse(matrix.IsSymmetric);
-        }
-
-        /// <summary>
-        /// Test whether we can create a matrix from a list of column vectors.
-        /// </summary>
-        [Test]
-        public virtual void CanCreateMatrixFromColumns()
-        {
-            var column1 = CreateVector(new[] { 1.0 });
-            var column2 = CreateVector(new[] { 1.0, 2.0, 3.0, 4.0 });
-            var column3 = CreateVector(new[] { 1.0, 2.0 });
-            var columnVectors = new System.Collections.Generic.List<Vector<double>>
-                                {
-                                    column1,
-                                    column2,
-                                    column3
-                                };
-            var matrix = Matrix<double>.CreateFromColumns(columnVectors);
-
-            Assert.AreEqual(matrix.RowCount, 4);
-            Assert.AreEqual(matrix.ColumnCount, 3);
-            Assert.AreEqual(1.0, matrix[0, 0]);
-            Assert.AreEqual(0.0, matrix[1, 0]);
-            Assert.AreEqual(0.0, matrix[2, 0]);
-            Assert.AreEqual(0.0, matrix[3, 0]);
-            Assert.AreEqual(1.0, matrix[0, 1]);
-            Assert.AreEqual(2.0, matrix[1, 1]);
-            Assert.AreEqual(3.0, matrix[2, 1]);
-            Assert.AreEqual(4.0, matrix[3, 1]);
-            Assert.AreEqual(1.0, matrix[0, 2]);
-            Assert.AreEqual(2.0, matrix[1, 2]);
-            Assert.AreEqual(0.0, matrix[2, 2]);
-            Assert.AreEqual(0.0, matrix[3, 2]);
-        }
-
-        /// <summary>
-        /// Test whether we can create a matrix from a list of row vectors.
-        /// </summary>
-        [Test]
-        public virtual void CanCreateMatrixFromRows()
-        {
-            var row1 = CreateVector(new[] { 1.0 });
-            var row2 = CreateVector(new[] { 1.0, 2.0, 3.0, 4.0 });
-            var row3 = CreateVector(new[] { 1.0, 2.0 });
-            var rowVectors = new System.Collections.Generic.List<Vector<double>>
-                                {
-                                    row1,
-                                    row2,
-                                    row3
-                                };
-            var matrix = Matrix<double>.CreateFromRows(rowVectors);
-
-            Assert.AreEqual(matrix.RowCount, 3);
-            Assert.AreEqual(matrix.ColumnCount, 4);
-            Assert.AreEqual(1.0, matrix[0, 0]);
-            Assert.AreEqual(0.0, matrix[0, 1]);
-            Assert.AreEqual(0.0, matrix[0, 2]);
-            Assert.AreEqual(0.0, matrix[0, 3]);
-            Assert.AreEqual(1.0, matrix[1, 0]);
-            Assert.AreEqual(2.0, matrix[1, 1]);
-            Assert.AreEqual(3.0, matrix[1, 2]);
-            Assert.AreEqual(4.0, matrix[1, 3]);
-            Assert.AreEqual(1.0, matrix[2, 0]);
-            Assert.AreEqual(2.0, matrix[2, 1]);
-            Assert.AreEqual(0.0, matrix[2, 2]);
-            Assert.AreEqual(0.0, matrix[2, 3]);
         }
     }
 }
