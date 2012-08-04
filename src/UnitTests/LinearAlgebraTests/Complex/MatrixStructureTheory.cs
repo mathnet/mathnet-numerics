@@ -46,5 +46,10 @@
         {
             return new DenseVector(size);
         }
+
+        protected override Complex Zero
+        {
+            get { return Complex.Zero; }
+        }
     }
 }

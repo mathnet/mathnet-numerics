@@ -46,5 +46,10 @@
         {
             return new DenseVector(size);
         }
+
+        protected override Complex32 Zero
+        {
+            get { return Complex32.Zero; }
+        }
     }
 }
