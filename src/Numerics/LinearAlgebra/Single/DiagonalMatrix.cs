@@ -1059,7 +1059,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// of columns.</item>
         /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
-        /// <exception cref="ArgumentException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
         public override Matrix<float> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
@@ -1158,14 +1158,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             for (var i = 0; i < rowIndex; i++)
             {
-                result.SetRow(i, Row(i));
+                result.At(i, i, At(i, i));
             }
 
             result.SetRow(rowIndex, row);
 
-            for (var i = rowIndex + 1; i < RowCount; i++)
+            for (var i = rowIndex + 1; i < result.RowCount; i++)
             {
-                result.SetRow(i, Row(i - 1));
+                result.At(i, i - 1, At(i - 1, i - 1));
             }
 
             return result;

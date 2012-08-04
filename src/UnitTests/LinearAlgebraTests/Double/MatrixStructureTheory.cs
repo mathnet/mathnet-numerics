@@ -1,4 +1,8 @@
-﻿namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
+﻿using System.Linq;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Random;
+
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     using LinearAlgebra.Double;
     using LinearAlgebra.Generic;
@@ -36,6 +40,12 @@
             return new DenseMatrix(rows, columns);
         }
 
+        protected override Matrix<double> CreateDense(int rows, int columns, int seed)
+        {
+            var dist = new Normal {RandomSource = new MersenneTwister(seed)};
+            return new DenseMatrix(rows, columns, dist.Samples().Take(rows*columns).ToArray());
+        }
+
         protected override Matrix<double> CreateSparse(int rows, int columns)
         {
             return new SparseMatrix(rows, columns);
@@ -44,6 +54,12 @@
         protected override Vector<double> CreateVector(int size)
         {
             return new DenseVector(size);
+        }
+
+        protected override Vector<double> CreateVector(int size, int seed)
+        {
+            var dist = new Normal {RandomSource = new MersenneTwister(seed)};
+            return new DenseVector(dist.Samples().Take(size).ToArray());
         }
 
         protected override double Zero

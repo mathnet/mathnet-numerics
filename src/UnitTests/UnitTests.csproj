@@ -576,7 +576,9 @@
     <Compile Include="LinearAlgebraTests\Double\VectorTests.Norm.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Access.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.cs" />
+    <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Reform.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseMatrixTests.cs">
       <SubType>Code</SubType>
     </Compile>

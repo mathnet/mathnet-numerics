@@ -388,7 +388,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// of columns.</item>
         /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
-        /// <exception cref="ArgumentException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
         public override Matrix<double> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
@@ -404,12 +404,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (rowCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
+                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
             }
 
             if (columnCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
+                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
             }
 
             var colMax = columnIndex + columnCount;
