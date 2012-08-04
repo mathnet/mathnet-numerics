@@ -281,22 +281,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         }
 
         /// <summary>
-        /// Can permute matrix rows.
-        /// </summary>
-        /// <param name="name">Matrix name.</param>
-        public override void CanPermuteMatrixRows(string name)
-        {
-        }
-
-        /// <summary>
-        /// Can permute matrix columns.
-        /// </summary>
-        /// <param name="name">Matrix name.</param>
-        public override void CanPermuteMatrixColumns(string name)
-        {
-        }
-
-        /// <summary>
         /// Can pointwise divide matrices into a result matrix.
         /// </summary>
         public override void CanPointwiseDivideIntoResult()

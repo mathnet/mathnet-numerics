@@ -126,60 +126,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         }
 
         /// <summary>
-        /// Can permute matrix rows.
-        /// </summary>
-        /// <param name="name">Matrix name.</param>
-        [TestCase("Singular3x3")]
-        [TestCase("Square3x3")]
-        [TestCase("Tall3x2")]
-        public virtual void CanPermuteMatrixRows(string name)
-        {
-            var matrix = CreateMatrix(TestData2D[name]);
-            var matrixp = CreateMatrix(TestData2D[name]);
-
-            var permutation = new Permutation(new[] { 2, 0, 1 });
-            matrixp.PermuteRows(permutation);
-
-            Assert.AreNotSame(matrix, matrixp);
-            Assert.AreEqual(matrix.RowCount, matrixp.RowCount);
-            Assert.AreEqual(matrix.ColumnCount, matrixp.ColumnCount);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrix[i, j], matrixp[permutation[i], j]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Can permute matrix columns.
-        /// </summary>
-        /// <param name="name">Matrix name.</param>
-        [TestCase("Singular3x3")]
-        [TestCase("Square3x3")]
-        [TestCase("Wide2x3")]
-        public virtual void CanPermuteMatrixColumns(string name)
-        {
-            var matrix = CreateMatrix(TestData2D[name]);
-            var matrixp = CreateMatrix(TestData2D[name]);
-
-            var permutation = new Permutation(new[] { 2, 0, 1 });
-            matrixp.PermuteColumns(permutation);
-
-            Assert.AreNotSame(matrix, matrixp);
-            Assert.AreEqual(matrix.RowCount, matrixp.RowCount);
-            Assert.AreEqual(matrix.ColumnCount, matrixp.ColumnCount);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    Assert.AreEqual(matrix[i, j], matrixp[i, permutation[j]]);
-                }
-            }
-        }
-
-        /// <summary>
         /// Can append matrices.
         /// </summary>
         [Test]
