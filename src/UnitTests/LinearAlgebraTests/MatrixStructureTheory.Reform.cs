@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Generic;
 using NUnit.Framework;
 
@@ -6,6 +7,64 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
     partial class MatrixStructureTheory<T>
     {
+        [Theory, Timeout(200)]
+        public void CanPermuteRows(Matrix<T> matrix)
+        {
+            var m = matrix.Clone();
+            var rnd = new System.Random(0);
+            var permutation = new Permutation(Enumerable.Range(0, matrix.RowCount).OrderBy(i => rnd.Next()).ToArray());
+
+            try
+            {
+                m.PermuteRows(permutation);
+            }
+            catch(InvalidOperationException)
+            {
+                Assert.Ignore("Matrix type {0} does not support permutations", matrix.GetType().FullName);
+            }
+
+            Assert.That(m, Is.Not.SameAs(matrix));
+            Assert.That(m.RowCount, Is.EqualTo(matrix.RowCount));
+            Assert.That(m.ColumnCount, Is.EqualTo(matrix.ColumnCount));
+            var inverse = permutation.Inverse();
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(matrix[inverse[i], j]));
+                }
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanPermuteColumns(Matrix<T> matrix)
+        {
+            var m = matrix.Clone();
+            var rnd = new System.Random(0);
+            var permutation = new Permutation(Enumerable.Range(0, matrix.ColumnCount).OrderBy(i => rnd.Next()).ToArray());
+
+            try
+            {
+                m.PermuteColumns(permutation);
+            }
+            catch (InvalidOperationException)
+            {
+                Assert.Ignore("Matrix type {0} does not support permutations", matrix.GetType().FullName);
+            }
+
+            Assert.That(m, Is.Not.SameAs(matrix));
+            Assert.That(m.RowCount, Is.EqualTo(matrix.RowCount));
+            Assert.That(m.ColumnCount, Is.EqualTo(matrix.ColumnCount));
+            var inverse = permutation.Inverse();
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(matrix[i, inverse[j]]));
+                }
+            }
+        }
+
         [Theory, Timeout(200)]
         public void CanInsertRow(Matrix<T> matrix)
         {
