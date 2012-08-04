@@ -1372,7 +1372,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             // Copy the lower matrix into the result matrix.
-            CommonParallel.For(0, lower.RowCount, i => CommonParallel.For(0, lower.ColumnCount, j => result.At(i + RowCount, j + ColumnCount, lower.At(i, j))));
+            result.SetSubMatrix(RowCount, lower.RowCount, ColumnCount, lower.ColumnCount, lower);
         }
 
         /// <summary>

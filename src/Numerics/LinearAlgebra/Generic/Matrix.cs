@@ -1577,21 +1577,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    result.At(i, j, At(i, j));
-                }
-            }
-
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < right.ColumnCount; j++)
-                {
-                    result.At(i, j + ColumnCount, right.At(i, j));
-                }
-            }
+            result.SetSubMatrix(0, RowCount, 0, ColumnCount, this);
+            result.SetSubMatrix(0, right.RowCount, ColumnCount, right.ColumnCount, right);
         }
 
         /// <summary>
@@ -1647,21 +1634,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    result.At(i, j, At(i, j));
-                }
-            }
-
-            for (var i = 0; i < lower.RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    result.At(i + RowCount, j, lower.At(i, j));
-                }
-            }
+            result.SetSubMatrix(0, RowCount, 0, ColumnCount, this);
+            result.SetSubMatrix(RowCount, lower.RowCount, 0, lower.ColumnCount, lower);
         }
 
         /// <summary>
@@ -1709,21 +1683,8 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    result.At(i, j, At(i, j));
-                }
-            }
-
-            for (var i = 0; i < lower.RowCount; i++)
-            {
-                for (var j = 0; j < lower.ColumnCount; j++)
-                {
-                    result.At(i + RowCount, j + ColumnCount, lower.At(i, j));
-                }
-            }
+            result.SetSubMatrix(0, RowCount, 0, ColumnCount, this);
+            result.SetSubMatrix(RowCount, lower.RowCount, ColumnCount, lower.ColumnCount, lower);
         }
 
         /// <summary>Calculates the L1 norm.</summary>
