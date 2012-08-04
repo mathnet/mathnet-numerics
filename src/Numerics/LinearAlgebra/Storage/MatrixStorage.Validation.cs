@@ -25,12 +25,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rowCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
+                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
             }
 
             if (columnCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
+                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
             }
 
             // Verify Source

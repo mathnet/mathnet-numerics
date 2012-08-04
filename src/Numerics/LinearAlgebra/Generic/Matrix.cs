@@ -611,7 +611,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// of columns.</item>
         /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>        
-        /// <exception cref="ArgumentException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
         public virtual Matrix<T> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
@@ -627,12 +627,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (rowCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
+                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
             }
 
             if (columnCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
+                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
             }
 
             var colMax = columnIndex + columnCount;
@@ -1109,7 +1109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
         /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception> 
         /// <exception cref="ArgumentNullException">If <paramref name="subMatrix"/> is <see langword="null" /></exception>
         /// <item>the size of <paramref name="subMatrix"/> is not at least <paramref name="rowCount"/> x <paramref name="columnCount"/>.</item>
-        /// <exception cref="ArgumentException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
         /// is not positive.</exception>
         public virtual void SetSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount, Matrix<T> subMatrix)
         {
@@ -1125,12 +1125,12 @@ namespace MathNet.Numerics.LinearAlgebra.Generic
 
             if (rowCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "rowCount");
+                throw new ArgumentOutOfRangeException("rowCount", Resources.ArgumentMustBePositive);
             }
 
             if (columnCount < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "columnCount");
+                throw new ArgumentOutOfRangeException("columnCount", Resources.ArgumentMustBePositive);
             }
 
             if (subMatrix == null)

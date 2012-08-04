@@ -320,30 +320,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         }
 
         /// <summary>
-        /// Can set a submatrix.
-        /// </summary>
-        /// <param name="rowStart">The row to start copying to.</param>
-        /// <param name="rowLength">The number of rows to copy.</param>
-        /// <param name="colStart">The column to start copying to.</param>
-        /// <param name="colLength">The number of columns to copy.</param>
-        public override void CanSetSubMatrix(int rowStart, int rowLength, int colStart, int colLength)
-        {
-            try
-            {
-                // Pass all invoke to base
-                base.CanSetSubMatrix(rowStart, rowLength, colStart, colLength);
-            }
-            catch (AggregateException ex)
-            {
-                // Supress only IndexOutOfRangeException exceptions due to Diagonal matrix nature
-                if (ex.InnerExceptions.Any(innerException => !(innerException is IndexOutOfRangeException)))
-                {
-                    throw;
-                }
-            }
-        }
-
-        /// <summary>
         /// Can compute Frobenius norm.
         /// </summary>
         public override void CanComputeFrobeniusNorm()
@@ -514,44 +490,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         {
             var matrix = TestMatrices["Square3x3"];
             Assert.IsTrue(matrix.IsSymmetric);
-        }
-
-        /// <summary>
-        /// Can get a sub-matrix.
-        /// </summary>
-        [Test]
-        public override void CanGetASubMatrix()
-        {
-            var matrix = CreateMatrix(10, 10);
-            for (var row = 0; row < matrix.RowCount; row++)
-            {
-                for (var column = 0; column < matrix.ColumnCount; column++)
-                {
-                    if (row == column)
-                    {
-                        matrix[row, column] = 1.0f;
-                    }
-                }
-            }
-
-            var submatrix = matrix.SubMatrix(8, 2, 0, 2);
-            Assert.AreEqual(2, submatrix.RowCount);
-            Assert.AreEqual(2, submatrix.ColumnCount);
-
-            for (var row = 0; row < submatrix.RowCount; row++)
-            {
-                for (var column = 0; column < submatrix.ColumnCount; column++)
-                {
-                    if (row == column)
-                    {
-                        Assert.AreEqual(1.0f, submatrix[row, column]);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(0.0f, submatrix[row, column]);
-                    }
-                }
-            }
         }
     }
 }

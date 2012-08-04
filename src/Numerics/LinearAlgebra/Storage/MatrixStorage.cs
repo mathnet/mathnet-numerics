@@ -1,6 +1,5 @@
 ﻿using System;
 using MathNet.Numerics.Properties;
-using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {

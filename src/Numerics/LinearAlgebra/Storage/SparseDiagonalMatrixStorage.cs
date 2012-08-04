@@ -239,7 +239,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.Clear();
             }
 
-            if (sourceRowIndex > sourceColumnIndex && sourceColumnIndex + columnCount > sourceRowIndex)
+            if (sourceRowIndex == sourceColumnIndex)
+            {
+                for (var i = 0; i < Math.Min(columnCount, rowCount); i++)
+                {
+                    target.At(i + targetRowIndex, i + targetColumnIndex, Data[sourceRowIndex + i]);
+                }
+            }
+            else if (sourceRowIndex > sourceColumnIndex && sourceColumnIndex + columnCount > sourceRowIndex)
             {
                 // column by column, but skip resulting zero columns at the beginning
                 int columnInit = sourceRowIndex - sourceColumnIndex;
@@ -257,13 +264,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     target.At(rowInit + i + targetRowIndex, i + targetColumnIndex, Data[sourceColumnIndex + i]);
                 }
             }
-            else
-            {
-                for (var i = 0; i < Math.Min(columnCount, rowCount); i++)
-                {
-                    target.At(i + targetRowIndex, i + targetColumnIndex, Data[sourceRowIndex + i]);
-                }
-            }
+
+            // else: all zero, nop
         }
     }
 }
