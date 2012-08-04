@@ -11,6 +11,7 @@
         protected abstract Matrix<T> CreateDense(int rows, int columns);
         protected abstract Matrix<T> CreateSparse(int rows, int columns);
         protected abstract Vector<T> CreateVector(int size);
+        protected abstract T Zero { get; }
 
         [Theory, Timeout(200)]
         public void IsEqualToItself(Matrix<T> matrix)
@@ -43,9 +44,9 @@
         {
             Assert.That(matrix, Is.Not.EqualTo(2));
             Assert.IsFalse(matrix.Equals(2));
-            Assert.IsFalse(matrix.Equals((object)2));
-            Assert.IsFalse(((object)matrix).Equals(2));
-            Assert.IsFalse(matrix == (object)2);
+            Assert.IsFalse(matrix.Equals((object) 2));
+            Assert.IsFalse(((object) matrix).Equals(2));
+            Assert.IsFalse(matrix == (object) 2);
         }
 
         [Theory, Timeout(200)]
@@ -116,14 +117,16 @@
         [Theory, Timeout(200)]
         public void CanGetFieldsByIndex(Matrix<T> matrix)
         {
-            Assert.That(() => { var x = matrix[0, 0]; }, Throws.Nothing);
-            Assert.That(() => { var x = matrix[0, matrix.ColumnCount - 1]; }, Throws.Nothing);
-            Assert.That(() => { var x = matrix[matrix.RowCount - 1, 0]; }, Throws.Nothing);
+            Assert.That(() => matrix[0, 0], Throws.Nothing);
+            Assert.That(() => matrix[0, matrix.ColumnCount - 1], Throws.Nothing);
+            Assert.That(() => matrix[matrix.RowCount - 1, 0], Throws.Nothing);
 
-            Assert.That(() => { var x = matrix[-1, 1]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { var x = matrix[1, -1]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { var x = matrix[0, matrix.ColumnCount]; }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix[-1, 1], Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix[1, -1], Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix[0, matrix.ColumnCount], Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
+
+        #region Row & Column Access
 
         [Theory, Timeout(200)]
         public void CanGetRow(Matrix<T> matrix)
@@ -145,8 +148,8 @@
             }
 
             // Invalid Rows
-            Assert.That(() => { matrix.Row(-1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Row(matrix.RowCount); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(-1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(matrix.RowCount), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory, Timeout(200)]
@@ -193,11 +196,11 @@
             }
 
             // Invalid Rows
-            Assert.That(() => { matrix.Row(-1, 0, 2); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Row(matrix.RowCount, 0, 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Row(0, -1, 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Row(0, 1, 0); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Row(0, 0, matrix.ColumnCount + 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(-1, 0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(matrix.RowCount, 0, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(0, -1, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(0, 1, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Row(0, 0, matrix.ColumnCount + 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory, Timeout(200)]
@@ -237,8 +240,8 @@
             }
 
             // Invalid Columns
-            Assert.That(() => { matrix.Column(-1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Column(matrix.ColumnCount); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(-1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(matrix.ColumnCount), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory, Timeout(200)]
@@ -285,11 +288,11 @@
             }
 
             // Invalid Rows
-            Assert.That(() => { matrix.Column(-1, 0, 2); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Column(matrix.ColumnCount, 0, 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Column(0, -1, 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Column(0, 1, 0); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => { matrix.Column(0, 0, matrix.RowCount + 1); }, Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(-1, 0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(matrix.ColumnCount, 0, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(0, -1, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(0, 1, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.Column(0, 0, matrix.RowCount + 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory, Timeout(200)]
@@ -308,5 +311,360 @@
             Assert.That(() => matrix.Column(matrix.ColumnCount, 0, matrix.ColumnCount - 1, col), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.Column(0, 0, matrix.RowCount, col), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
+
+        [Theory, Timeout(200)]
+        public void CanSetRow(Matrix<T> matrix)
+        {
+            // First Row
+            var m = matrix.Clone();
+            m.SetRow(0, CreateVector(matrix.ColumnCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(i == 0 ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Last Row
+            m = matrix.Clone();
+            m.SetRow(matrix.RowCount - 1, CreateVector(matrix.ColumnCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(i == matrix.RowCount - 1 ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Invalid Rows
+            Assert.That(() => matrix.SetRow(0, default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.SetRow(-1, CreateVector(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetRow(matrix.RowCount, CreateVector(matrix.ColumnCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetRow(0, CreateVector(matrix.ColumnCount - 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetRow(0, CreateVector(matrix.ColumnCount + 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanSetRowArray(Matrix<T> matrix)
+        {
+            // First Row
+            var m = matrix.Clone();
+            m.SetRow(0, CreateVector(matrix.ColumnCount).ToArray());
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(i == 0 ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Last Row
+            m = matrix.Clone();
+            m.SetRow(matrix.RowCount - 1, new T[matrix.ColumnCount]);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(i == matrix.RowCount - 1 ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Invalid Rows
+            Assert.That(() => matrix.SetRow(0, default(T[])), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.SetRow(-1, new T[matrix.ColumnCount]), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetRow(matrix.RowCount, new T[matrix.ColumnCount]), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetRow(0, new T[matrix.ColumnCount - 1]), Throws.ArgumentException);
+            Assert.That(() => matrix.SetRow(0, new T[matrix.ColumnCount + 1]), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanSetColumn(Matrix<T> matrix)
+        {
+            // First Column
+            var m = matrix.Clone();
+            m.SetColumn(0, CreateVector(matrix.RowCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(j == 0 ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Last Column
+            m = matrix.Clone();
+            m.SetColumn(matrix.ColumnCount - 1, CreateVector(matrix.RowCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(j == matrix.ColumnCount - 1 ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Invalid Rows
+            Assert.That(() => matrix.SetColumn(0, default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.SetColumn(-1, CreateVector(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetColumn(matrix.ColumnCount, CreateVector(matrix.RowCount)), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetColumn(0, CreateVector(matrix.RowCount - 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetColumn(0, CreateVector(matrix.RowCount + 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanSetColumnArray(Matrix<T> matrix)
+        {
+            // First Column
+            var m = matrix.Clone();
+            m.SetColumn(0, CreateVector(matrix.RowCount).ToArray());
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(j == 0 ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Last Column
+            m = matrix.Clone();
+            m.SetColumn(matrix.ColumnCount - 1, new T[matrix.RowCount]);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(j == matrix.ColumnCount - 1 ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Invalid Rows
+            Assert.That(() => matrix.SetColumn(0, default(T[])), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.SetColumn(-1, new T[matrix.RowCount]), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetColumn(matrix.ColumnCount, new T[matrix.RowCount]), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => matrix.SetColumn(0, new T[matrix.RowCount - 1]), Throws.ArgumentException);
+            Assert.That(() => matrix.SetColumn(0, new T[matrix.RowCount + 1]), Throws.ArgumentException);
+        }
+
+        #endregion
+
+        #region Triangle Access
+
+        [Theory, Timeout(200)]
+        public void CanGetUpperTriangle(Matrix<T> matrix)
+        {
+            var upper = matrix.UpperTriangle();
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(upper[i, j], Is.EqualTo(i <= j ? matrix[i, j] : Zero));
+                }
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetUpperTriangleIntoResult(Matrix<T> matrix)
+        {
+            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            matrix.UpperTriangle(dense);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(dense[i, j], Is.EqualTo(i <= j ? matrix[i, j] : Zero));
+                }
+            }
+
+            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            matrix.UpperTriangle(sparse);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(sparse[i, j], Is.EqualTo(i <= j ? matrix[i, j] : Zero));
+                }
+            }
+
+            Assert.That(() => matrix.UpperTriangle(null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.UpperTriangle(CreateSparse(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.UpperTriangle(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetLowerTriangle(Matrix<T> matrix)
+        {
+            var upper = matrix.LowerTriangle();
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(upper[i, j], Is.EqualTo(i >= j ? matrix[i, j] : Zero));
+                }
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetLowerTriangleIntoResult(Matrix<T> matrix)
+        {
+            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            matrix.LowerTriangle(dense);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(dense[i, j], Is.EqualTo(i >= j ? matrix[i, j] : Zero));
+                }
+            }
+
+            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            matrix.LowerTriangle(sparse);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(sparse[i, j], Is.EqualTo(i >= j ? matrix[i, j] : Zero));
+                }
+            }
+
+            Assert.That(() => matrix.LowerTriangle(null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.LowerTriangle(CreateSparse(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.LowerTriangle(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetStrictlyUpperTriangle(Matrix<T> matrix)
+        {
+            var upper = matrix.StrictlyUpperTriangle();
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(upper[i, j], Is.EqualTo(i < j ? matrix[i, j] : Zero));
+                }
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetStrictlyUpperTriangleIntoResult(Matrix<T> matrix)
+        {
+            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            matrix.StrictlyUpperTriangle(dense);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(dense[i, j], Is.EqualTo(i < j ? matrix[i, j] : Zero));
+                }
+            }
+
+            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            matrix.StrictlyUpperTriangle(sparse);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(sparse[i, j], Is.EqualTo(i < j ? matrix[i, j] : Zero));
+                }
+            }
+
+            Assert.That(() => matrix.StrictlyUpperTriangle(null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.StrictlyUpperTriangle(CreateSparse(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.StrictlyUpperTriangle(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetStrictlyLowerTriangle(Matrix<T> matrix)
+        {
+            var upper = matrix.StrictlyLowerTriangle();
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(upper[i, j], Is.EqualTo(i > j ? matrix[i, j] : Zero));
+                }
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanGetStrictlyLowerTriangleIntoResult(Matrix<T> matrix)
+        {
+            var dense = CreateDense(matrix.RowCount, matrix.ColumnCount);
+            matrix.StrictlyLowerTriangle(dense);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(dense[i, j], Is.EqualTo(i > j ? matrix[i, j] : Zero));
+                }
+            }
+
+            var sparse = CreateSparse(matrix.RowCount, matrix.ColumnCount);
+            matrix.StrictlyLowerTriangle(sparse);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(sparse[i, j], Is.EqualTo(i > j ? matrix[i, j] : Zero));
+                }
+            }
+
+            Assert.That(() => matrix.StrictlyLowerTriangle(null), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.StrictlyLowerTriangle(CreateSparse(matrix.RowCount + 1, matrix.ColumnCount)), Throws.ArgumentException);
+            Assert.That(() => matrix.StrictlyLowerTriangle(CreateDense(matrix.RowCount, matrix.ColumnCount + 1)), Throws.ArgumentException);
+        }
+
+        #endregion
+
+        #region Diagonal Access
+
+        [Theory, Timeout(200)]
+        public void CanGetDiagonal(Matrix<T> matrix)
+        {
+            var diag = matrix.Diagonal();
+            Assert.That(diag.Count, Is.EqualTo(Math.Min(matrix.RowCount, matrix.ColumnCount)));
+            for (var i = 0; i < Math.Min(matrix.RowCount, matrix.ColumnCount); i++)
+            {
+                Assert.That(diag[i], Is.EqualTo(matrix[i, i]));
+            }
+        }
+
+        [Theory, Timeout(200)]
+        public void CanSetDiagonal(Matrix<T> matrix)
+        {
+            var m = matrix.Clone();
+            m.SetDiagonal(CreateVector(Math.Min(matrix.RowCount, matrix.ColumnCount)));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(i == j ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Invalid
+            Assert.That(() => matrix.SetDiagonal(default(Vector<T>)), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.SetDiagonal(CreateVector(Math.Min(matrix.RowCount, matrix.ColumnCount) - 1)), Throws.ArgumentException);
+            Assert.That(() => matrix.SetDiagonal(CreateVector(Math.Min(matrix.RowCount, matrix.ColumnCount) + 1)), Throws.ArgumentException);
+        }
+
+        [Theory, Timeout(200)]
+        public void CanSetDiagonalArray(Matrix<T> matrix)
+        {
+            var m = matrix.Clone();
+            m.SetDiagonal(new T[Math.Min(matrix.RowCount, matrix.ColumnCount)]);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(m[i, j], Is.EqualTo(i == j ? Zero : matrix[i, j]));
+                }
+            }
+
+            // Invalid
+            Assert.That(() => matrix.SetDiagonal(default(T[])), Throws.InstanceOf<ArgumentNullException>());
+            Assert.That(() => matrix.SetDiagonal(new T[Math.Min(matrix.RowCount, matrix.ColumnCount) - 1]), Throws.ArgumentException);
+            Assert.That(() => matrix.SetDiagonal(new T[Math.Min(matrix.RowCount, matrix.ColumnCount) + 1]), Throws.ArgumentException);
+        }
+
+        #endregion
     }
 }

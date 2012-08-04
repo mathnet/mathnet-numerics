@@ -45,5 +45,10 @@
         {
             return new DenseVector(size);
         }
+
+        protected override double Zero
+        {
+            get { return 0d; }
+        }
     }
 }
